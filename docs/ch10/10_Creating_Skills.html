@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="10장 · 스킬 만들기와 수정 - Claude Code와 멀티 에이전트 하네스 입문 핸드북">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>10장 · 스킬 만들기와 수정</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index.html" class="nav-home">← 핸드북 홈</a>
+  <div class="nav-title">10장 · 스킬 만들기와 수정</div>
+  <a href="#skill-revisited">스킬이란 다시 생각하기</a>
+  <a href="#file-format">스킬 파일 형식</a>
+  <a href="#frontmatter">프론트매터 작성</a>
+  <a href="#body-content">본문 작성</a>
+  <a href="#lifecycle-manager">skill-lifecycle-manager 활용</a>
+  <a href="#skill-creator">skill-creator 플러그인</a>
+  <a href="#register">등록과 배포</a>
+  <a href="#practice">실습: 나만의 커스텀 스킬 만들기</a>
+  <div class="nav-section">다른 장</div>
+  <a href="../ch09/09_Creating_Agents.html">9장 · 에이전트 만들기와 수정</a>
+  <a href="../ch11/11_Building_Agent_Team.html">11장 · 나만의 에이전트 팀 구성하기</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">10장</div>
+  <h1>스킬 만들기와 수정</h1>
+  <p class="lead">이 장에서는 스킬 파일의 구조를 배우고, skill-lifecycle-manager와 skill-creator를 활용하여 나만의 커스텀 스킬을 만들고 등록하는 전체 과정을 실습합니다.</p>
+  <div class="keypoints">
+    <div class="kp-title">이 장에서 다루는 것</div>
+    <ul>
+      <li>스킬 파일 형식과 구조</li>
+      <li>YAML 프론트매터 필드 의미</li>
+      <li>본문 작성 패턴 (Overview, When to Use, Steps, Outputs, Examples)</li>
+      <li>skill-lifecycle-manager 활용법 (6-step)</li>
+      <li>skill-creator (ZCode 플러그인) 활용법</li>
+      <li>실습: 간단한 커스텀 스킬 작성</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: 스킬이란 다시 생각하기                                 -->
+  <!-- ============================================================ -->
+  <h2 id="skill-revisited">스킬이란 다시 생각하기</h2>
+
+  <h3>4장에서 배운 내용 복습</h3>
+
+  <p>4장 '멀티 에이전트 하네스 개념'에서 스킬(Skill)에 대해 처음 알아보았습니다. 스킬은 <strong>"에이전트가 수행할 수 있는 재사용 가능한 워크플로우"</strong>라고 배웠습니다. 스킬은 이름, 설명, 트리거, 단계의 네 가지 요소로 구성되며, 특정 키워드나 상황에 의해 자동으로 활성화됩니다.</p>
+
+  <p>복습해 보면, 스킬의 핵심 요소는 다음 네 가지였습니다.</p>
+
+  <ul>
+    <li><strong>이름(Name)</strong> — 스킬을 식별하는 고유 이름 (예: <code>research</code>, <code>html-build</code>, <code>pdf-export</code>)</li>
+    <li><strong>설명(Description)</strong> — 이 스킬이 무엇을 하는지, 어떤 단계를 거치는지에 대한 상세 설명</li>
+    <li><strong>트리거(Trigger)</strong> — 스킬이 자동으로 활성화되는 조건 (키워드, 명령어 패턴, 파이프라인 단계)</li>
+    <li><strong>단계(Steps)</strong> — 스킬이 실행하는 구체적인 절차 (순서대로 정의)</li>
+  </ul>
+
+  <h3>스킬 vs 에이전트 (다시 한 번)</h3>
+
+  <p>9장에서 에이전트 만들기를 배우셨습니다. 이제 스킬 만들기를 배우기 전에, 두 개념의 차이를 다시 한 번 확실히 정리해 봅시다.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>에이전트 (Agent)</h4>
+      <ul>
+        <li><strong>"누가"</strong> 작업을 수행하는가</li>
+        <li>역할, 권한, 도구를 가진 AI 어시스턴트</li>
+        <li>비유: <strong>요리사 (직원)</strong></li>
+        <li>파일 위치: <code>agents/&lt;name&gt;.md</code></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>스킬 (Skill)</h4>
+      <ul>
+        <li><strong>"무엇을"</strong> 수행하는가</li>
+        <li>재사용 가능한 워크플로우 절차</li>
+        <li>비유: <strong>요리 레시피</strong></li>
+        <li>파일 위치: <code>skills/&lt;name&gt;/SKILL.md</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>초보자 비유:</strong> 스킬은 '요리 레시피'입니다. 에이전트(요리사)가 이 레시피를 따라 요리(작업)를 수행합니다. 한 요리사는 여러 레시피를 가질 수 있고, 같은 레시피를 여러 요리사가 공유할 수도 있습니다. 레시피가 명확하면 어떤 요리사가 요리해도 결과가 일관됩니다.
+  </div>
+
+  <h3>스킬의 Ownership 레이어</h3>
+
+  <p>스킬은 에이전트와 달리 <strong>독립적으로 존재</strong>합니다. 스킬은 세 가지 레이어에 정의될 수 있으며, 각 레이어는 다른 범위와 영향력을 가집니다.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>L0 — 워크스페이스 (Workspace)</h4>
+      <ul>
+        <li>위치: <code>skills/&lt;name&gt;/SKILL.md</code></li>
+        <li>범위: 모든 프로젝트에서 사용 가능</li>
+        <li>우선순위: 가장 높음 (1순위)</li>
+        <li>예: <code>sync</code>, <code>security-scan</code></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>L1 — 템플릿 (Template)</h4>
+      <ul>
+        <li>위치: <code>templates/common/skills/</code></li>
+        <li>범위: 해당 템플릿에서 파생된 프로젝트</li>
+        <li>우선순위: L0 다음 (2순위)</li>
+        <li>예: 템플릿 공통 검증 스킬</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>L2 — 프로젝트 (Project)</h4>
+      <ul>
+        <li>위치: <code>.claude/skills/</code> 또는 <code>.gemini/skills/</code></li>
+        <li>범위: 해당 프로젝트만</li>
+        <li>우선순위: 가장 낮음 (3순위)</li>
+        <li>예: 프로젝트 전용 훅</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>핵심 규칙</h4>
+      <ul>
+        <li>같은 스킬이 여러 위치에 있으면 1순위를 사용</li>
+        <li>L0 스킬은 전역적으로 공유됨</li>
+        <li>L2 스킬은 프로젝트 전용</li>
+        <li>중복 정의는 피하는 것이 원칙</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>왜 직접 만들어야 하는가?</h3>
+
+  <p>시스템에는 이미 다양한 스킬이 준비되어 있습니다. 하지만 프로젝트의 요구사항이 다양해질수록, <strong>기존 스킬로 커버되지 않는 워크플로우</strong>가 생깁니다. 예를 들어:</p>
+
+  <ul>
+    <li><strong>문서 품질 검토</strong> — 생성된 문서의 일관성과 완성도를 검토하는 스킬</li>
+    <li><strong>자동 배포</strong> — 완성된 산출물을 특정 서버에 자동 배포하는 스킬</li>
+    <li><strong>맞춤형 보고서 생성</strong> — 프로젝트별 맞춤 형식의 보고서를 만드는 스킬</li>
+    <li><strong>정기 상태 점검</strong> — 프로젝트의 전체 상태를 주기적으로 점검하는 스킬</li>
+  </ul>
+
+  <p>이런 워크플로우가 필요할 때, <strong>나만의 커스텀 스킬을 만들어서 시스템에 추가</strong>할 수 있습니다. 스킬은 하나의 마크다운 파일이므로, 몇 가지 규칙만 지키면 누구나 만들 수 있습니다.</p>
+
+  <div class="note">
+    스킬은 에이전트와 달리 독립적으로 존재합니다. 여러 에이전트가 같은 스킬을 참조할 수 있습니다. 예를 들어 <code>sync</code> 스킬은 PM 에이전트가 주로 사용하지만, 필요하다면 다른 에이전트도 참조할 수 있습니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: 스킬 파일 형식                                        -->
+  <!-- ============================================================ -->
+  <h2 id="file-format">스킬 파일 형식</h2>
+
+  <h3>파일 위치</h3>
+
+  <p>스킬 파일은 프로젝트 루트의 <code>skills/</code> 디렉토리에 저장됩니다. 에이전트와 달리, 스킬은 <strong>자신만의 폴더</strong>를 가집니다. 폴더 이름이 곧 스킬 이름이 되며, 그 안에 <code>SKILL.md</code> 파일이 들어갑니다.</p>
+
+    
+    <div class="code-block">
+<pre><code>skills/
+├── sync/
+│   └── SKILL.md              # 동기화 스킬
+├── security-scan/
+│   └── SKILL.md              # 보안 검사 스킬
+├── meeting-facilitation/
+│   └── SKILL.md              # 회의 진행 스킬
+├── research/
+│   └── SKILL.md              # 리서치 스킬
+└── my-reviewer/              # ★ 우리가 만들 스킬
+    └── SKILL.md</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+
+  <h3>파일 구조: 프론트매터 + 본문</h3>
+
+  <p>SKILL.md 파일은 두 부분으로 구성됩니다. 파일 상단에 <strong>YAML 프론트매터(메타데이터)</strong>가 오고, 그 아래에 <strong>마크다운 본문(실행 지침)</strong>이 옵니다. YAML 프론트매터는 <code>---</code> 세 개로 시작하고 끝나는 블록 안에 작성됩니다.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 640 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="스킬 파일 구조 다이어그램">
+      <!-- 파일 외곽 -->
+      <rect x="40" y="10" width="560" height="400" rx="14" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="320" y="38" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--accent)">skills/&lt;name&gt;/SKILL.md</text>
+
+      <!-- 프론트매터 영역 -->
+      <rect x="65" y="52" width="510" height="140" rx="10" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="85" y="76" font-size="13" font-weight="bold" style="fill:var(--accent-purple)">YAML 프론트매터 (메타데이터)</text>
+
+      <!-- --- 구분선 -->
+      <text x="85" y="96" font-size="12" font-family="monospace" style="fill:var(--text-dim)">---</text>
+      <text x="85" y="114" font-size="11" font-family="monospace" style="fill:var(--text)">name: my-reviewer</text>
+      <text x="85" y="130" font-size="11" font-family="monospace" style="fill:var(--text)">status: active</text>
+      <text x="85" y="146" font-size="11" font-family="monospace" style="fill:var(--text)">owner: pm</text>
+      <text x="85" y="162" font-size="11" font-family="monospace" style="fill:var(--text)">metadata:</text>
+      <text x="85" y="178" font-size="11" font-family="monospace" style="fill:var(--text)">  type: quality</text>
+      <text x="85" y="190" font-size="12" font-family="monospace" style="fill:var(--text-dim)">---</text>
+
+      <!-- 구분선 화살표 -->
+      <line x1="320" y1="196" x2="320" y2="220" stroke="var(--accent-amber)" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="340" y="213" font-size="10" style="fill:var(--accent-amber)">구분선 아래부터 본문</text>
+
+      <!-- 본문 영역 -->
+      <rect x="65" y="224" width="510" height="172" rx="10" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="85" y="248" font-size="13" font-weight="bold" style="fill:var(--accent-green)">마크다운 본문 (실행 지침)</text>
+
+      <!-- 본문 섹션들 -->
+      <rect x="85" y="260" width="220" height="26" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="195" y="278" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">## Overview</text>
+
+      <rect x="315" y="260" width="240" height="26" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="435" y="278" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">## When to Use</text>
+
+      <rect x="85" y="294" width="220" height="26" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="195" y="312" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">## Steps</text>
+
+      <rect x="315" y="294" width="240" height="26" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="435" y="312" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">## Expected Outputs</text>
+
+      <rect x="85" y="328" width="220" height="26" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="195" y="346" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">## Examples</text>
+
+      <rect x="315" y="328" width="240" height="26" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="435" y="346" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">## Notes (선택)</text>
+
+      <!-- 하단 라벨 -->
+      <rect x="120" y="370" width="400" height="28" rx="7" fill="var(--bg-note)" stroke="var(--border)" stroke-width="1"/>
+      <text x="320" y="389" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">프론트매터 = 스킬 식별 정보 / 본문 = 에이전트가 따를 실행 절차</text>
+    </svg>
+  </div>
+
+  <p>이 구조의 핵심은 다음과 같습니다.</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>YAML 프론트매터</strong> — <code>---</code> 구분선 사이에 스킬의 식별 정보(이름, 상태, 설명, 소유자, 버전, 메타데이터)를 작성합니다. 이 정보는 시스템이 스킬을 인식하고 관리하는 데 사용됩니다.
+      </li>
+      <li>
+        <strong>마크다운 본문</strong> — 프론트매터 아래에 에이전트가 따라야 할 실행 절차를 마크다운 형식으로 작성합니다. Overview(개요), When to Use(사용 조건), Steps(실행 단계), Expected Outputs(기대 산출물), Examples(사용 예시) 등의 섹션으로 구성하는 것이 권장됩니다.
+      </li>
+    </ol>
+  </div>
+
+  <div class="note">
+    스킬은 에이전트와 달리 독립적으로 존재합니다. 여러 에이전트가 같은 스킬을 참조할 수 있습니다. 예를 들어 <code>security-scan</code> 스킬은 PM 에이전트가 호출할 수도 있고, 전문 에이전트가 직접 참조할 수도 있습니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: 프론트매터 작성                                        -->
+  <!-- ============================================================ -->
+  <h2 id="frontmatter">프론트매터 작성</h2>
+
+  <h3>필수 필드와 선택 필드</h3>
+
+  <p>YAML 프론트매터에는 스킬을 식별하고 관리하기 위한 여러 필드가 있습니다. 필수 필드와 선택 필드로 나뉩니다.</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+    <thead>
+      <tr>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">필드</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">필수 여부</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">설명</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">예시</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">name</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);"><strong style="color:var(--accent-green);">필수</strong></td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">스킬의 고유 이름</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">my-reviewer</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">status</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);"><strong style="color:var(--accent-green);">필수</strong></td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">active / draft / deprecated</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">active</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">description</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);"><strong style="color:var(--accent-green);">필수</strong></td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">스킬의 상세 설명 (PM이 디스패치할 때 참조)</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:12px;">"Reviews document quality..."</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">owner</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);"><strong style="color:var(--accent-green);">필수</strong></td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">유지 책임자 (에이전트 또는 역할)</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">pm</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">version</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);"><strong style="color:var(--accent-green);">필수</strong></td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">버전 번호 (시맨틱 버전 권장)</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">"1.0.0"</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">metadata.type</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">선택</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">automation / quality / lifecycle</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">quality</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;font-family:monospace;font-size:12px;">metadata.triggers</td>
+        <td style="padding:8px 12px;">선택</td>
+        <td style="padding:8px 12px;">자동 활성화 트리거 키워드 목록</td>
+        <td style="padding:8px 12px;font-size:12px;">["review document", "check quality"]</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>필드 상세 설명</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>name</strong> — 스킬의 고유 식별자입니다. 폴더 이름과 일치해야 합니다. <code>skills/my-reviewer/SKILL.md</code>라면 name은 <code>my-reviewer</code>가 됩니다. 케밥 케이스(kebab-case)를 사용하는 것이 좋습니다.
+      </li>
+      <li>
+        <strong>status</strong> — 스킬의 현재 상태입니다. <code>active</code>(사용 중), <code>draft</code>(작성 중), <code>deprecated</code>(사용 중단) 중 하나입니다. 새 스킬을 처음 만들 때는 <code>draft</code>로 시작하고, 검증 완료 후 <code>active</code>로 변경하는 것이 좋습니다.
+      </li>
+      <li>
+        <strong>description</strong> — 스킬의 상세 설명입니다. PM이 어떤 스킬을 디스패치할지 결정할 때 이 설명을 참고하므로, <strong>명확하고 구체적으로</strong> 작성해야 합니다. "무엇을 하는지"뿐만 아니라 "어떤 단계를 거치는지"도 포함하면 좋습니다.
+      </li>
+      <li>
+        <strong>owner</strong> — 이 스킬을 유지 관리할 책임이 있는 에이전트 또는 역할입니다. 예를 들어 PM이 관리하는 스킬이라면 <code>pm</code>을, 자동화 관련 스킬이라면 <code>automation-engineer</code>를 지정합니다.
+      </li>
+      <li>
+        <strong>version</strong> — 스킬의 버전 번호입니다. 시맨틱 버전(Semantic Versioning) 형식(<code>MAJOR.MINOR.PATCH</code>)을 권장합니다. 예: <code>"1.0.0"</code>, <code>"1.1.0"</code>, <code>"2.0.0"</code>.
+      </li>
+      <li>
+        <strong>metadata.type</strong> — 스킬의 분류입니다. <code>automation</code>(자동화), <code>quality</code>(품질 관리), <code>lifecycle</code>(생애주기 관리) 중 하나를 선택합니다. 이 값은 스킬 목록을 필터링하거나 정리할 때 유용합니다.
+      </li>
+      <li>
+        <strong>metadata.triggers</strong> — 스킬이 자동으로 활성화되는 트리거 키워드 목록입니다. 사용자가 이 키워드를 포함한 요청을 하면, PM이 해당 스킬을 매칭하여 디스패치합니다. 트리거는 구체적일수록 정확하게 매칭됩니다.
+      </li>
+    </ol>
+  </div>
+
+  <h3>예시 프론트매터</h3>
+
+  <p>다음은 실제로 사용할 수 있는 프론트매터 예시입니다.</p>
+
+    
+    <div class="code-block">
+<pre><code>---
+name: my-reviewer
+status: active
+description: Reviews document quality and provides structured feedback. Checks readability, consistency, and completeness of markdown documents.
+owner: pm
+version: "1.0.0"
+metadata:
+  type: quality
+  triggers:
+    - "review document"
+    - "check quality"
+    - "quality review"
+---</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+
+  <div class="tip-box">
+    <strong>초보자 팁:</strong> description은 PM이 스킬을 선택할 때 참고하므로, "문서의 가독성, 일관성, 완성도를 검토하고 구조화된 피드백을 제공합니다"처럼 구체적으로 작성하세요. 짧고 모호한 설명(예: "문서를 검토함")보다 길고 구체적인 설명이 좋습니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: 본문 작성                                             -->
+  <!-- ============================================================ -->
+  <h2 id="body-content">본문 작성</h2>
+
+  <h3>본문 구조 권장 패턴</h3>
+
+  <p>프론트매터 아래의 마크다운 본문은 에이전트가 실제로 따라야 할 <strong>실행 절차서</strong>입니다. 본문은 다음 다섯 가지 섹션으로 구성하는 것이 권장됩니다.</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Overview (개요)</strong> — 스킬의 목적과 범위를 한두 문단으로 설명합니다. "이 스킬은 무엇을 위한 것인가?", "어떤 범위까지 다루는가?"를 명확히 합니다.
+      </li>
+      <li>
+        <strong>When to Use (사용 조건)</strong> — 이 스킬이 언제 활성화되어야 하는지 트리거 조건을 설명합니다. 어떤 상황, 어떤 요청, 어떤 파일 상태에서 실행되는지 구체적으로 적습니다.
+      </li>
+      <li>
+        <strong>Steps (실행 단계)</strong> — 에이전트가 따라야 할 상세한 절차를 번호가 매겨진 순서로 작성합니다. 각 단계는 명확하고 모호하지 않아야 합니다. "파일을 읽고 → 검토하고 → 결과를 작성하라"식으로 구체적으로 지시합니다.
+      </li>
+      <li>
+        <strong>Expected Outputs (기대 산출물)</strong> — 스킬 실행 완료 후 어떤 파일이나 결과물이 생성되어야 하는지 명시합니다. 파일 이름, 경로, 형식을 포함하면 다음 에이전트가 결과를 활용하기 쉽습니다.
+      </li>
+      <li>
+        <strong>Examples (사용 예시)</strong> — 실제 사용 시나리오를 예시로 보여줍니다. 사용자가 어떤 요청을 하면 이 스킬이 어떻게 실행되는지 구체적인 예를 듭니다.
+      </li>
+    </ol>
+  </div>
+
+  <h3>각 섹션의 작성 팁</h3>
+
+  <p><strong>Overview</strong> 섹션에서는 스킬의 존재 이유를 설명합니다. 독자(또는 에이전트)가 "이 스킬을 왜 사용하는가?"를 이해할 수 있도록 작성하세요.</p>
+
+    
+    <div class="code-block">
+<pre><code>## Overview
+
+이 스킬은 마크다운 문서의 품질을 종합적으로 검토합니다.
+가독성, 일관성, 완성도 세 가지 관점에서 문서를 평가하고,
+구조화된 피드백을 제공합니다.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+
+  <p><strong>When to Use</strong> 섹션에서는 명확한 트리거 조건을 제시합니다.</p>
+
+    
+    <div class="code-block">
+<pre><code>## When to Use
+
+사용자가 다음과 같은 요청을 할 때 활성화됩니다:
+- "문서를 검토해 줘"
+- "문서 품질을 확인해 줘"
+- "품질 리뷰를 해 줘"
+
+또한 다른 에이전트가 문서 완성 후 품질 검토가 필요할 때
+PM이 자동으로 디스패치할 수 있습니다.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+
+  <p><strong>Steps</strong> 섹션은 가장 중요한 부분입니다. 에이전트가 따라야 할 절차를 명확하게 작성하세요.</p>
+
+    
+    <div class="code-block">
+<pre><code>## Steps
+
+1. **대상 파일 확인** — 검토할 문서 파일의 경로를 확인합니다.
+2. **문서 읽기** — 대상 파일을 읽고 내용을 분석합니다.
+3. **가독성 검토** — 문장 길이, 단락 구성, 제목 계층을 검토합니다.
+4. **일관성 검토** — 용어 사용, 서식 스타일, 날짜 형식을 검토합니다.
+5. **완성도 검토** — 누락된 섹션, 불완전한 문장을 확인합니다.
+6. **피드백 작성** — 검토 결과를 구조화된 형식으로 정리합니다.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+
+  <p><strong>Expected Outputs</strong> 섹션에서는 산출물을 명시합니다.</p>
+
+    
+    <div class="code-block">
+<pre><code>## Expected Outputs
+
+- 검토 보고서 (stdout 또는 파일 출력)
+- 문제 목록 (항목별 심각도: 경고/수정 권장/오류)
+- 개선 제안 목록</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+
+  <p><strong>Examples</strong> 섹션에서는 구체적인 사용 예시를 보여줍니다.</p>
+
+    
+    <div class="code-block">
+<pre><code>## Examples
+
+**예시 1:** 사용자가 "이 문서를 검토해 줘"라고 요청
+→ 대상 문서를 읽고, 5가지 항목을 점검한 뒤,
+  구조화된 피드백을 제공합니다.
+
+**예시 2:** PM이 핸드북 작성 완료 후 자동 디스패치
+→ 완성된 HTML 파일의 마크다운 소스를 검토하고,
+  저자 가이드라인 준수 여부를 보고합니다.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+
+  <div class="tip-box">
+    <strong>Steps 섹션은 에이전트가 따라야 할 '절차서'입니다.</strong> 명확하고 순서대로 작성하세요. 모호한 지시("문서를 잘 검토하라")보다 구체적인 지시("파일의 모든 h2 섹션을 순서대로 읽고, 각 섹션에 본문이 있는지 확인하라")가 좋습니다. 에이전트는 지시에 충실하게 따르므로, 지시가 정확할수록 결과물의 품질이 높아집니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: skill-lifecycle-manager 활용                         -->
+  <!-- ============================================================ -->
+  <h2 id="lifecycle-manager">skill-lifecycle-manager 활용</h2>
+
+  <h3>skill-lifecycle-manager란?</h3>
+
+  <p><code>skill-lifecycle-manager</code>는 스킬의 생성, 검증, 유지 관리를 안내하는 <strong>관리 스킬</strong>입니다. 9장에서 배운 <code>agent-lifecycle-manager</code>의 스킬 버전이라고 생각하시면 됩니다. 새로운 스킬을 만들 때 이 스킬의 지침을 따르면, 누락 없이 올바른 구조로 스킬을 작성할 수 있습니다.</p>
+
+  <p>이 스킬의 핵심 역할은 다음과 같습니다.</p>
+
+  <ul>
+    <li>새 스킬 생성 시 필요한 단계를 안내</li>
+    <li>프론트매터 필드의 올바른 작성 확인</li>
+    <li>시스템 등록(AGENTS.md, VERSION_MANIFEST.md) 절차 안내</li>
+    <li>검증 스크립트 실행 지침 제공</li>
+  </ul>
+
+  <h3>6-step 프로세스</h3>
+
+  <p><code>skill-lifecycle-manager</code>는 스킬 생성을 6단계로 안내합니다. 각 단계를 순서대로 따르면 완성도 높은 스킬을 만들 수 있습니다.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="스킬 생애주기 6-step 다이어그램">
+      <!-- 타이틀 -->
+      <text x="330" y="28" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--accent-purple)">skill-lifecycle-manager 6-Step 프로세스</text>
+
+      <!-- Step 1 -->
+      <rect x="30" y="48" width="175" height="58" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="32" y="65" font-size="11" font-weight="bold" style="fill:var(--accent)">Step 1</text>
+      <text x="117" y="82" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">디렉토리 생성</text>
+      <text x="117" y="98" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">skills/&lt;name&gt;/</text>
+
+      <!-- 화살표 1→2 -->
+      <line x1="205" y1="77" x2="240" y2="77" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSlm)"/>
+
+      <!-- Step 2 -->
+      <rect x="245" y="48" width="175" height="58" rx="10" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="247" y="65" font-size="11" font-weight="bold" style="fill:var(--accent-green)">Step 2</text>
+      <text x="332" y="82" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">프론트매터 작성</text>
+      <text x="332" y="98" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">YAML 메타데이터</text>
+
+      <!-- 화살표 2→3 -->
+      <line x1="420" y1="77" x2="455" y2="77" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSlm)"/>
+
+      <!-- Step 3 -->
+      <rect x="460" y="48" width="175" height="58" rx="10" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="462" y="65" font-size="11" font-weight="bold" style="fill:var(--accent-amber)">Step 3</text>
+      <text x="547" y="82" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">본문 작성</text>
+      <text x="547" y="98" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">실행 절차서</text>
+
+      <!-- 화살표 3→4 (아래로) -->
+      <path d="M547,106 L547,132 L547,132" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSlm)"/>
+
+      <!-- Step 4 -->
+      <rect x="460" y="140" width="175" height="58" rx="10" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="462" y="157" font-size="11" font-weight="bold" style="fill:var(--accent-purple)">Step 4</text>
+      <text x="547" y="174" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">시스템 등록</text>
+      <text x="547" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">AGENTS.md + VERSION_MANIFEST</text>
+
+      <!-- 화살표 4→5 (왼쪽으로) -->
+      <line x1="460" y1="169" x2="425" y2="169" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSlm)"/>
+
+      <!-- Step 5 -->
+      <rect x="245" y="140" width="175" height="58" rx="10" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="247" y="157" font-size="11" font-weight="bold" style="fill:var(--accent)">Step 5</text>
+      <text x="332" y="174" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">검증 스크립트 실행</text>
+      <text x="332" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">skill-lifecycle-audit.ts</text>
+
+      <!-- 화살표 5→6 (왼쪽으로) -->
+      <line x1="245" y1="169" x2="210" y2="169" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSlm)"/>
+
+      <!-- Step 6 -->
+      <rect x="30" y="140" width="175" height="58" rx="10" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="32" y="157" font-size="11" font-weight="bold" style="fill:var(--accent-green)">Step 6</text>
+      <text x="117" y="174" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">활성화 테스트</text>
+      <text x="117" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">실제 요청으로 테스트</text>
+
+      <!-- 하단 상세 설명 -->
+      <rect x="30" y="220" width="605" height="210" rx="10" fill="var(--bg-note)" stroke="var(--border)" stroke-width="1"/>
+      <text x="50" y="244" font-size="12" font-weight="bold" style="fill:var(--text)">각 단계의 상세 내용:</text>
+
+      <text x="50" y="266" font-size="11" style="fill:var(--accent)">Step 1:</text>
+      <text x="100" y="266" font-size="11" style="fill:var(--text)">skills/&lt;name&gt;/ 디렉토리를 생성합니다. 이름은 케밥 케이스를 사용합니다.</text>
+
+      <text x="50" y="290" font-size="11" style="fill:var(--accent-green)">Step 2:</text>
+      <text x="100" y="290" font-size="11" style="fill:var(--text)">SKILL.md 파일의 YAML 프론트매터를 작성합니다. name, status, description, owner, version을 필수로 입력합니다.</text>
+
+      <text x="50" y="314" font-size="11" style="fill:var(--accent-amber)">Step 3:</text>
+      <text x="100" y="314" font-size="11" style="fill:var(--text)">Overview, When to Use, Steps, Expected Outputs, Examples 섹션을 순서대로 작성합니다.</text>
+
+      <text x="50" y="338" font-size="11" style="fill:var(--accent-purple)">Step 4:</text>
+      <text x="100" y="338" font-size="11" style="fill:var(--text)">AGENTS.md Skills 테이블과 docs/VERSION_MANIFEST.md에 스킬을 등록합니다.</text>
+
+      <text x="50" y="362" font-size="11" style="fill:var(--accent)">Step 5:</text>
+      <text x="100" y="362" font-size="11" style="fill:var(--text)">bun scripts/skill-lifecycle-audit.ts를 실행하여 프론트매터와 구조를 검증합니다.</text>
+
+      <text x="50" y="386" font-size="11" style="fill:var(--accent-green)">Step 6:</text>
+      <text x="100" y="386" font-size="11" style="fill:var(--text)">PM을 통해 실제 요청으로 스킬이 정상 작동하는지 확인합니다. 트리거 키워드로 테스트합니다.</text>
+
+      <text x="50" y="416" font-size="10" style="fill:var(--text-dim)">검증 실패 시 Step 2~3으로 돌아가 수정 → 재검증 반복. 모든 단계 통과 후 status를 draft에서 active로 변경합니다.</text>
+
+      <defs>
+        <marker id="arrowSlm" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>각 단계 상세 안내</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>스킬 디렉토리 생성</strong> — <code>skills/&lt;name&gt;/</code> 폴더를 만듭니다. 이름은 케밥 케이스(소문자 + 하이픈)를 사용합니다. 예: <code>skills/my-reviewer/</code>. 그 안에 빈 <code>SKILL.md</code> 파일을 생성합니다.
+      </li>
+      <li>
+        <strong>프론트매터 작성</strong> — 앞서 배운 필수 필드(name, status, description, owner, version)와 선택 필드(metadata.type, metadata.triggers)를 작성합니다. 처음에는 status를 <code>draft</code>로 설정합니다.
+      </li>
+      <li>
+        <strong>본문 작성</strong> — Overview, When to Use, Steps, Expected Outputs, Examples 섹션을 작성합니다. Steps 섹션은 특히 명확하게, 번호가 매겨진 순서로 작성하세요.
+      </li>
+      <li>
+        <strong>시스템 등록</strong> — AGENTS.md의 Skills 테이블(§6)에 스킬을 추가하고, <code>docs/VERSION_MANIFEST.md</code>에 버전 정보를 기록합니다. 이 단계를 거쳐야 시스템이 스킬을 인식합니다.
+      </li>
+      <li>
+        <strong>검증</strong> — <code>bun scripts/skill-lifecycle-audit.ts</code> 스크립트를 실행하여 프론트매터 필드 누락, 파일 구조 오류, 필수 섹션 누락 등을 자동으로 검사합니다. 오류가 있으면 수정 후 재검증합니다.
+      </li>
+      <li>
+        <strong>활성화 테스트</strong> — PM을 통해 실제 요청으로 스킬을 테스트합니다. 예를 들어 "문서 품질을 검토해 줘"라고 요청하여 스킬이 정상적으로 트리거되고 실행되는지 확인합니다. 모든 테스트를 통과하면 status를 <code>active</code>로 변경합니다.
+      </li>
+    </ol>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: skill-creator 플러그인                                -->
+  <!-- ============================================================ -->
+  <h2 id="skill-creator">skill-creator 플러그인</h2>
+
+  <h3>skill-creator란?</h3>
+
+  <p><code>skill-creator</code>는 ZCode 플러그인으로 제공되는 <strong>고급 스킬 작성 도구</strong>입니다. 수동으로 SKILL.md 파일을 작성하는 것 외에도, 이 플러그인을 활용하면 더 효율적으로 스킬을 만들고 개선할 수 있습니다.</p>
+
+  <h3>주요 기능</h3>
+
+  <p><code>skill-creator</code>는 다음 기능을 제공합니다.</p>
+
+  <ul>
+    <li><strong>스킬 생성</strong> — 대화형 안내를 통해 새로운 SKILL.md를 처음부터 작성합니다. 프론트매터 필드를 하나씩 물어보고, 본문 섹션의 구조를 제안합니다.</li>
+    <li><strong>스킬 수정</strong> — 기존 스킬의 내용을 개선합니다. 트리거를 더 구체적으로 만들거나, Steps 섹션을 더 명확하게 다듬을 수 있습니다.</li>
+    <li><strong>트리거 개선</strong> — 스킬의 트리거 키워드를 분석하고, 더 정확하게 매칭되도록 개선안을 제안합니다.</li>
+  </ul>
+
+  <h3>테스트 주도 반복 작성</h3>
+
+  <p><code>skill-creator</code>의 가장 강력한 기능은 <strong>테스트 주도 반복 작성(Test-Driven Iterative Authoring)</strong>입니다. 이 방식은 다음과 같이 진행됩니다.</p>
+
+  <div class="flow-box">
+    <div class="step">1. <strong>스킬 초안 작성</strong> — skill-creator가 대화형으로 프론트매터와 본문의 초안을 생성합니다.</div>
+    <div class="step">2. <strong>트리거 테스트</strong> — 초안을 바탕으로, 사용자가 의도한 키워드로 스킬이 정상 매칭되는지 테스트합니다.</div>
+    <div class="step">3. <strong>결과 분석</strong> — 매칭 결과를 확인하고, false positive(의도치 않은 매칭)나 false negative(매칭 누락)가 있는지 분석합니다.</div>
+    <div class="step">4. <strong>트리거 수정</strong> — 분석 결과를 바탕으로 트리거 키워드나 description을 수정합니다.</div>
+    <div class="step">5. <strong>재테스트</strong> — 수정된 버전으로 다시 테스트합니다. 만족할 때까지 2~5단계를 반복합니다.</div>
+  </div>
+
+  <h3>Claude Code CLI 환경에서 사용</h3>
+
+  <p><code>skill-creator</code>는 Claude Code CLI 환경에서 ZCode 플러그인으로 동작합니다. Claude Desktop App 환경에서는 직접 파일을 편집하는 방식으로 대체할 수 있습니다.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Claude Code CLI 환경</h4>
+      <ul>
+        <li>skill-creator 플러그인 사용 가능</li>
+        <li>대화형 스킬 생성/수정</li>
+        <li>트리거 테스트 자동화</li>
+        <li>반복 작성 워크플로우 지원</li>
+        <li>별첨 B 참조</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Claude Desktop App 환경</h4>
+      <ul>
+        <li>직접 파일 편집으로 대체</li>
+        <li>이 장에서 배운 수동 방식 사용</li>
+        <li>PM을 통해 테스트</li>
+        <li>수동 검증 스크립트 실행</li>
+        <li>초보자에게 권장</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note">
+    skill-creator는 Claude Code CLI 환경에서 사용하는 고급 도구입니다. Claude Desktop App에서는 직접 파일 편집으로 대체할 수 있습니다. 이 장에서 배운 수동 방식(프론트매터 + 본문 직접 작성)은 두 환경 모두에서 사용할 수 있는 기본 방법입니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: 등록과 배포                                           -->
+  <!-- ============================================================ -->
+  <h2 id="register">등록과 배포</h2>
+
+  <h3>등록 위치</h3>
+
+  <p>스킬 작성이 완료되면, 시스템이 스킬을 인식할 수 있도록 <strong>두 곳에 등록</strong>해야 합니다. 이 단계를 생략하면 PM이 스킬을 찾지 못해 디스패치하지 않습니다.</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>AGENTS.md Skills 테이블 (§6)</strong> — 워크스페이스 루트의 AGENTS.md 파일에 있는 Skills 테이블에 스킬 이름, 파일 위치, 버전, 상태를 추가합니다. 이 테이블은 스킬의 레지스트리 역할을 합니다.
+      </li>
+      <li>
+        <strong>docs/VERSION_MANIFEST.md</strong> — 스킬의 버전 정보와 상태를 기록합니다. 버전 변경 이력을 추적하고, 어떤 스킬이 활성 상태인지 한눈에 파악할 수 있습니다. VERSION_MANIFEST.md는 스킬 버전의 <strong>SSOT(Single Source of Truth)</strong>입니다.
+      </li>
+    </ol>
+  </div>
+
+  <h3>AGENTS.md 등록 예시</h3>
+
+  <p>AGENTS.md의 Skills 테이블에 다음과 같이 추가합니다.</p>
+
+    
+    <div class="code-block">
+<pre><code>| my-reviewer | `skills/my-reviewer/SKILL.md` | quality | Checks readability, consistency, completeness | active | 1.0.0 |</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+
+  <h3>VERSION_MANIFEST.md 등록 예시</h3>
+
+    
+    <div class="code-block">
+<pre><code>- **name:** my-reviewer
+  **path:** skills/my-reviewer/SKILL.md
+  **version:** 1.0.0
+  **status:** active
+  **owner:** pm
+  **type:** quality</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+
+  <h3>배포: sync-skills.ts</h3>
+
+  <p>L0(워크스페이스) 스킬은 <code>sync-skills.ts</code> 스크립트를 통해 모든 템플릿(L1)과 프로젝트(L2)에 동기화할 수 있습니다. 이 스크립트를 실행하면 워크스페이스의 스킬이 모든 하위 프로젝트에 복제됩니다.</p>
+
+    
+    <div class="code-block">
+<pre><code># 스킬 동기화 스크립트 실행
+bun scripts/sync-skills.ts</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+
+  <div class="note">
+    L0(워크스페이스) 스킬은 모든 프로젝트에서 사용할 수 있습니다. 반면 L2(프로젝트) 스킬은 해당 프로젝트에서만 사용됩니다. 처음 스킬을 만들 때는 L0에 등록하여 모든 프로젝트에서 활용할 수 있도록 하는 것이 좋습니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 8: 실습                                                -->
+  <!-- ============================================================ -->
+  <h2 id="practice">실습: 나만의 커스텀 스킬 만들기</h2>
+
+  <h3>실습 목표</h3>
+
+  <p>이번 실습에서는 <strong>"문서 검토 스킬(my-reviewer)"</strong>을 직접 만들어 봅니다. 앞서 배운 프론트매터 작성, 본문 작성, 시스템 등록, 검증의 전체 과정을 직접 체험합니다.</p>
+
+  <h3>실습 단계</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Claude Desktop App에서 프로젝트 열기</strong> — Claude Desktop App을 실행하고, 작업 중인 프로젝트를 엽니다. 프로젝트 루트에 <code>skills/</code> 폴더가 있는지 확인합니다.
+      </li>
+      <li>
+        <strong>디렉토리 생성</strong> — <code>skills/my-reviewer/</code> 폴더를 만들고, 그 안에 <code>SKILL.md</code> 파일을 생성합니다.
+      </li>
+      <li>
+        <strong>프론트매터 작성</strong> — SKILL.md 파일 상단에 YAML 프론트매터를 작성합니다. 아래 예시를 참고하세요.
+      </li>
+      <li>
+        <strong>본문 작성</strong> — 프론트매터 아래에 Overview, When to Use, Steps, Expected Outputs, Examples 섹션을 작성합니다.
+      </li>
+      <li>
+        <strong>AGENTS.md에 등록</strong> — AGENTS.md의 Skills 테이블에 <code>my-reviewer</code> 스킬을 추가합니다.
+      </li>
+      <li>
+        <strong>검증 스크립트 실행</strong> — <code>bun scripts/skill-lifecycle-audit.ts</code>를 실행하여 스킬 구조를 검증합니다. 오류가 있으면 수정하세요.
+      </li>
+      <li>
+        <strong>PM을 통해 테스트</strong> — Claude에게 "문서 품질을 검토해 줘"라고 요청하여 스킬이 정상 작동하는지 확인합니다.
+      </li>
+    </ol>
+  </div>
+
+  <h3>전체 파일 내용 예시</h3>
+
+  <p>다음은 완성된 <code>skills/my-reviewer/SKILL.md</code>의 전체 내용입니다. 이 예시를 그대로 사용하거나, 필요에 맞게 수정하여 활용하세요.</p>
+
+    
+    <div class="code-block">
+<pre><code>---
+name: my-reviewer
+status: active
+description: >
+  Reviews document quality and provides structured feedback.
+  Checks readability, consistency, and completeness of
+  markdown documents. Outputs a structured review report
+  with severity levels and improvement suggestions.
+owner: pm
+version: "1.0.0"
+metadata:
+  type: quality
+  triggers:
+    - "review document"
+    - "check quality"
+    - "quality review"
+    - "문서 검토"
+    - "품질 확인"
+---
+
+## Overview
+
+This skill performs a comprehensive quality review of
+markdown documents. It evaluates documents from three
+perspectives: readability, consistency, and completeness,
+then provides structured feedback with actionable suggestions.
+
+Scope: markdown (.md) files in the project workspace.
+
+## When to Use
+
+Activate this skill when:
+- The user requests a document review
+- A document has been newly created or significantly revised
+- PM dispatches quality review as part of a pipeline gate
+- The user asks to "check quality" or "review document"
+
+## Steps
+
+1. **Identify target file** — Confirm the file path of the
+   document to review. If not specified, ask the user.
+2. **Read the document** — Load the full content of the
+   target file.
+3. **Readability check** — Evaluate sentence length,
+   paragraph structure, heading hierarchy, and overall
+   flow. Flag sections that are hard to follow.
+4. **Consistency check** — Verify terminology usage, format
+   style, date format, heading capitalization, and list
+   formatting across the entire document.
+5. **Completeness check** — Identify missing sections,
+   incomplete sentences, broken references, and unresolved
+   TODO markers.
+6. **Generate review report** — Compile findings into a
+   structured report with severity levels:
+   - INFO: minor suggestions
+   - WARNING: recommended improvements
+   - ERROR: issues that must be fixed
+
+## Expected Outputs
+
+- Structured review report (stdout)
+- Issue count by severity (INFO / WARNING / ERROR)
+- Prioritized improvement suggestions
+
+## Examples
+
+**Example 1:** User says "review document"
+→ Read the specified file, run all 3 checks,
+  output a structured review report.
+
+**Example 2:** PM dispatches after handbook chapter
+  completion
+→ Review the chapter HTML source, check authoring
+  guideline compliance, report findings.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+
+  <div class="tip-box">
+    <strong>스킬 완성 후 PM에게 "문서 품질을 검토해 줘"라고 요청해서 스킬이 정상 작동하는지 확인하세요.</strong> 만약 스킬이 트리거되지 않는다면, 프론트매터의 triggers 필드에 해당 키워드가 포함되어 있는지, AGENTS.md에 스킬이 등록되어 있는지 확인하세요. 트리거 매칭은 정확한 키워드 일치에 가까울수록 더 잘 동작합니다.
+  </div>
+
+  <h3>검증 체크리스트</h3>
+
+  <p>스킬 작성 완료 후, 다음 체크리스트로 최종 확인하세요.</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+    <thead>
+      <tr>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">확인 항목</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">확인 내용</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">파일 위치</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);"><code>skills/my-reviewer/SKILL.md</code>에 파일이 있나요?</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">필수 필드</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">name, status, description, owner, version이 모두 작성되었나요?</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">본문 섹션</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Overview, When to Use, Steps, Expected Outputs, Examples가 있나요?</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">AGENTS.md 등록</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Skills 테이블에 스킬이 추가되었나요?</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">VERSION_MANIFEST</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">버전 정보가 기록되었나요?</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;">동작 테스트</td>
+        <td style="padding:8px 12px;">트리거 키워드로 정상 작동하나요?</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="keypoints">
+    <div class="kp-title">이 장의 요약</div>
+    <ul>
+      <li><strong>스킬</strong>은 에이전트가 수행하는 재사용 가능한 워크플로우입니다. 에이전트가 "누구"라면 스킬은 "무엇을 하는지"를 정의합니다.</li>
+      <li><strong>SKILL.md</strong>는 YAML 프론트매터(메타데이터)와 마크다운 본문(실행 지침) 두 부분으로 구성됩니다.</li>
+      <li><strong>프론트매터 필드</strong>에는 name, status, description, owner, version이 필수이며, metadata.type과 metadata.triggers가 선택입니다.</li>
+      <li><strong>본문</strong>은 Overview, When to Use, Steps, Expected Outputs, Examples 섹션으로 구성하는 것이 권장됩니다.</li>
+      <li><strong>skill-lifecycle-manager</strong>는 디렉토리 생성 → 프론트매터 → 본문 → 등록 → 검증 → 테스트의 6-step 프로세스를 안내합니다.</li>
+      <li><strong>skill-creator</strong>는 Claude Code CLI 환경에서 테스트 주도 반복 작성을 지원하는 고급 도구입니다.</li>
+      <li><strong>등록</strong>은 AGENTS.md Skills 테이블과 VERSION_MANIFEST.md 두 곳에 해야 합니다.</li>
+    </ul>
+  </div>
+
+  <div class="tip-box">
+    <strong>다음 장 예고:</strong> 11장에서는 여기서 만든 에이전트와 스킬을 조합하여 <strong>나만의 에이전트 팀</strong>을 구성하는 방법을 배웁니다. 팀의 목적을 정의하고, 필요한 에이전트와 스킬을 조합하며, 팀의 워크플로우를 설계하는 전체 과정을 실습합니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER NAVIGATION                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch09/09_Creating_Agents.html" class="prev">
+      <div class="dir">← 이전 장</div>
+      <div class="ttl">9장 · 에이전트 만들기와 수정</div>
+    </a>
+    <a href="../ch11/11_Building_Agent_Team.html" class="next" style="margin-left:auto;">
+      <div class="dir">다음 장 →</div>
+      <div class="ttl">11장 · 나만의 에이전트 팀 구성하기</div>
+    </a>
+  </div>
+  <footer>
+    Claude Desktop App / ai-workspace-standards 기반 입문 핸드북<br>
+    참고: <a href="https://claude.ai" target="_blank">Claude</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    본 핸드북의 콘텐츠는 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> 라이선스에 따라 이용할 수 있습니다.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script>
+function copyCode(btn) {
+  const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = '완료!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+</script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

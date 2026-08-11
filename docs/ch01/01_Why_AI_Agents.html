@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="1장 · 왜 AI 에이전트 팀인가? - Claude Code와 멀티 에이전트 하네스 입문 핸드북">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1장 · 왜 AI 에이전트 팀인가?</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+
+<nav>
+  <a href="../index.html" class="nav-home">← 핸드북 홈</a>
+  <div class="nav-title">1장 · 왜 AI 에이전트 팀인가?</div>
+  <a href="#ai-trends">AI의 급격한 발전</a>
+  <a href="#single-vs-multi">단일 AI vs 에이전트 팀</a>
+  <a href="#what-is-harness">하네스란 무엇인가</a>
+  <a href="#expected-benefits">기대 효과</a>
+  <a href="#handbook-roadmap">이 핸드북의 로드맵</a>
+  <div class="nav-section">다른 장</div>
+  <a href="../ch02/02_Claude_Desktop_App.html">2장 · Claude Desktop App 시작하기</a>
+  <a href="../ch04/04_Harness_Concepts.html">4장 · 멀티 에이전트 하네스 개념</a>
+</nav>
+
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">1장</div>
+  <h1>왜 AI 에이전트 팀인가?</h1>
+  <p class="lead">AI가 일상과 업무를 바꾸고 있습니다. 하지만 단일 AI로는 복잡한 문제를 해결하기 어렵습니다. 여러 AI 에이전트가 각자의 역할을 가지고 협력하면 어떤 일이 일어날까요? 이 장에서는 AI 에이전트 팀이 왜 필요한지, 하네스가 무엇인지 알아봅니다.</p>
+
+  <div class="keypoints">
+    <div class="kp-title">이 장에서 다루는 것</div>
+    <ul>
+      <li>AI의 최근 발전 트렌드와 업무 활용 현황</li>
+      <li>단일 AI와 다중 에이전트 팀의 차이</li>
+      <li>하네스(Harness)의 개념과 역할</li>
+      <li>에이전트 팀을 활용할 때의 기대 효과</li>
+      <li>이 핸드북의 전체 로드맵</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: AI의 급격한 발전                                    -->
+  <!-- ============================================================ -->
+  <h2 id="ai-trends">AI의 급격한 발전</h2>
+
+  <h3>2023년 이후, AI의 폭발적 성장</h3>
+
+  <p>2022년 말 ChatGPT가 공개되면서 인공지능은 연구소 안의 실험적 기술에서 일상 속 실용 도구로 자리 잡았습니다. 2023년에는 Anthropic의 Claude, Google의 Gemini, Meta의 Llama 등 강력한 AI 모델이 잇따라 출시되었습니다. 2024년에는 Claude 3.5와 GPT-4o가 등장하며 추론 능력과 다국어 처리 능력이 비약적으로 향상되었습니다. 2025년에서 2026년에 이르러서는 Claude Code, Gemini CLI, Cursor와 같은 <strong>AI 코딩 도구</strong>가 개발자뿐만 아니라 일반 사용자에게도 널리 보급되었습니다.</p>
+
+  <p>이러한 변화의 핵심은 단순한 "대화형 AI"를 넘어, AI가 <strong>직접 행동하는 에이전트(Agent)</strong>로 진화하고 있다는 점입니다. 과거의 AI는 질문에 답변하는 것에 그쳤지만, 이제는 파일을 만들고, 코드를 작성하고, 웹에서 정보를 수집하고, 여러 단계의 작업을 스스로 수행할 수 있게 되었습니다.</p>
+
+  <h3>AI가 바꾸고 있는 업무 영역</h3>
+
+  <p>현재 AI는 다음과 같은 업무 영역에서 이미 활발히 활용되고 있습니다.</p>
+
+  <ul>
+    <li><strong>문서 작성</strong> — 보고서, 기획서, 이메일 초안, 블로그 글을 빠르게 작성하고 수정할 수 있습니다. AI가 초안을 만들고, 사용자가 검토하여 수정하는 방식이 일반화되었습니다.</li>
+    <li><strong>코딩 및 개발</strong> — Claude Code, GitHub Copilot 등의 도구를 활용하면 코딩 초보자도 간단한 프로그램을 만들 수 있고, 숙련된 개발자는 반복 작업을 자동화하여 생산성을 크게 높일 수 있습니다.</li>
+    <li><strong>데이터 분석</strong> — 대량의 데이터에서 핵심 인사이트를 추출하고, 차트와 그래프로 시각화하는 작업을 AI가 수행할 수 있습니다.</li>
+    <li><strong>프레젠테이션 제작</strong> — 주제를 입력하면 AI가 슬라이드 구성, 내용 작성, 디자인 적용까지 자동으로 수행하는 시스템도 등장했습니다.</li>
+    <li><strong>연구 및 조사</strong> — 웹 검색과 문서 요약을 통해 특정 주제에 대한 조사를 몇 분 만에 완료할 수 있습니다.</li>
+  </ul>
+
+  <h3>초보자가 AI를 배워야 하는 이유</h3>
+
+  <p>AI 도구는 더 이상 "기술 전문가만 사용하는 것"이 아닙니다. 문서 작성자, 기획자, 교사, 학생, 프리랜서 — 직무와 무관하게 AI 활용 능력은 이제 필수 스킬이 되었습니다. 특히 다중 AI 에이전트를 조율하는 기술은 단순히 "AI를 쓰는 것"을 넘어, <strong>"AI를 팀처럼 운영하는 것"</strong>에 해당합니다. 이는 업무 효율을 극적으로 높이는 핵심 역량입니다.</p>
+
+  <div class="tip-box">
+    <strong>팁:</strong> AI 도구는 코딩 지식이 없어도 사용할 수 있습니다. Claude Desktop App 같은 도구는 자연어(한국어나 영어)로 지시하면 동작하므로, 컴퓨터 프로그래밍 경험이 없는 분도 충분히 활용할 수 있습니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: 단일 AI vs 에이전트 팀                              -->
+  <!-- ============================================================ -->
+  <h2 id="single-vs-multi">단일 AI vs 에이전트 팀</h2>
+
+  <p>AI를 사용할 때 가장 먼저 마주하는 질문입니다. <em>"하나의 AI로 충분하지 않을까?"</em> 답부터 말씀드리면, 간단한 작업이라면 하나의 AI로도 충분합니다. 하지만 복잡한 프로젝트 — 예를 들어 시장 조사부터 프레젠테이션까지 전체 과정을 자동화하려면 — 여러 AI가 역할을 나누어 협력하는 <strong>에이전트 팀(Agent Team)</strong> 방식이 훨씬 효과적입니다.</p>
+
+  <h3>비교 다이어그램</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="단일 AI와 에이전트 팀 비교 다이어그램">
+      <!-- ===== LEFT: 단일 AI ===== -->
+      <rect x="10" y="20" width="200" height="280" rx="12" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="110" y="52" text-anchor="middle" font-size="16" font-weight="bold" style="fill:var(--text)">단일 AI</text>
+
+      <!-- 사용자 -->
+      <rect x="55" y="72" width="110" height="40" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="110" y="97" text-anchor="middle" font-size="13" style="fill:var(--text)">사용자</text>
+
+      <!-- 화살표 -->
+      <line x1="110" y1="112" x2="110" y2="142" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSingle)"/>
+
+      <!-- 단일 AI 박스 -->
+      <rect x="25" y="148" width="170" height="60" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="110" y="174" text-anchor="middle" font-size="12" style="fill:var(--text)">모든 것을</text>
+      <text x="110" y="194" text-anchor="middle" font-size="12" style="fill:var(--text)">하나의 AI가 처리</text>
+
+      <!-- 화살표 -->
+      <line x1="110" y1="208" x2="110" y2="238" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSingle)"/>
+
+      <!-- 결과물 -->
+      <rect x="55" y="244" width="110" height="40" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="110" y="269" text-anchor="middle" font-size="13" style="fill:var(--text)">결과물</text>
+
+      <!-- ===== RIGHT: 에이전트 팀 ===== -->
+      <rect x="430" y="20" width="220" height="280" rx="12" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="540" y="52" text-anchor="middle" font-size="16" font-weight="bold" style="fill:var(--text)">에이전트 팀</text>
+
+      <!-- 사용자 -->
+      <rect x="485" y="72" width="110" height="40" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="540" y="97" text-anchor="middle" font-size="13" style="fill:var(--text)">사용자</text>
+
+      <!-- 화살표 -->
+      <line x1="540" y1="112" x2="540" y2="142" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowTeam)"/>
+
+      <!-- PM 오케스트레이터 -->
+      <rect x="455" y="148" width="170" height="36" rx="8" fill="var(--accent-purple)" stroke="none" opacity="0.85"/>
+      <text x="540" y="171" text-anchor="middle" font-size="11" font-weight="bold" style="fill:#fff">PM 오케스트레이터</text>
+
+      <!-- PM에서 전문가들로 가는 선들 -->
+      <line x1="470" y1="184" x2="455" y2="212" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowTeam)"/>
+      <line x1="540" y1="184" x2="540" y2="212" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowTeam)"/>
+      <line x1="610" y1="184" x2="625" y2="212" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowTeam)"/>
+
+      <!-- 전문 에이전트들 -->
+      <rect x="455" y="218" width="55" height="36" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="482" y="240" text-anchor="middle" font-size="9" style="fill:var(--text)">리서치</text>
+
+      <rect x="518" y="218" width="55" height="36" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="545" y="240" text-anchor="middle" font-size="9" style="fill:var(--text)">디자인</text>
+
+      <rect x="581" y="218" width="55" height="36" rx="6" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="608" y="240" text-anchor="middle" font-size="9" style="fill:var(--text)">코딩</text>
+
+      <!-- 전문가에서 결과물로 -->
+      <line x1="482" y1="254" x2="520" y2="272" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowTeam)"/>
+      <line x1="545" y1="254" x2="540" y2="272" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowTeam)"/>
+      <line x1="608" y1="254" x2="560" y2="272" stroke="var(--accent)" stroke-width="1.2" marker-end="url(#arrowTeam)"/>
+
+      <!-- 결과물 -->
+      <rect x="485" y="278" width="110" height="16" rx="4" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="540" y="290" text-anchor="middle" font-size="10" style="fill:var(--text)">통합 결과물</text>
+
+      <!-- VS 표시 -->
+      <text x="325" y="168" text-anchor="middle" font-size="28" font-weight="bold" style="fill:var(--text-dim)">vs</text>
+
+      <!-- Arrowhead definitions -->
+      <defs>
+        <marker id="arrowSingle" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowTeam" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-purple)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>단일 AI의 한계</h3>
+
+  <p>단일 AI는 하나의 모델이 모든 작업을 처리합니다. 간단한 질문에 답하거나 짧은 글을 쓰는 데는 적합하지만, 복잡한 프로젝트에서는 다음과 같은 한계가 나타납니다.</p>
+
+  <ul>
+    <li><strong>맥락 윈도우(Context Window)의 한계</strong> — AI는 한 번에 처리할 수 있는 정보량에 제한이 있습니다. 긴 문서 여러 개와 대량의 데이터를 동시에 다루면 초기 정보를 잊어버리거나 혼동할 수 있습니다. 이를 <em>맥락 윈도우</em>라고 부릅니다.</li>
+    <li><strong>전문성 부족</strong> — 하나의 AI가 리서치, 디자인, 코딩, 문서 검토까지 모든 분야를 높은 수준으로 수행하기 어렵습니다. 전문가 역할을 나누면 각 분야에서 더 깊은 전문성을 발휘할 수 있습니다.</li>
+    <li><strong>동시 작업 불가</strong> — 단일 AI는 한 번에 하나의 작업만 수행합니다. 리서치를 끝내야 디자인을 시작할 수 있는 식입니다. 실제 업무 환경에서는 여러 작업이 동시에 진행되는 것이 보통입니다.</li>
+    <li><strong>품질 관리 어려움</strong> — 스스로 작성한 결과물을 스스로 검토하는 구조이므로, 편향이나 오류를 놓치기 쉽습니다. 별도의 "검토자" 역할이 있으면 품질이 크게 향상됩니다.</li>
+  </ul>
+
+  <h3>에이전트 팀의 장점</h3>
+
+  <p>여러 AI 에이전트가 각자의 전문 역할을 가지고 협력하면 이러한 한계를 극복할 수 있습니다.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>단일 AI</h4>
+      <ul>
+        <li>모든 작업을 하나의 모델이 처리</li>
+        <li>처리할 수 있는 정보량에 제한</li>
+        <li>순차적으로 작업 진행</li>
+        <li>자체 검토만 가능</li>
+        <li>단순 작업에 적합</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>에이전트 팀</h4>
+      <ul>
+        <li>역할별 전문 에이전트가 분담</li>
+        <li>각 에이전트가 독립적 맥락 보유</li>
+        <li>여러 에이전트가 병렬 처리</li>
+        <li>전담 검토 에이전트가 품질 관리</li>
+        <li>복잡한 프로젝트에 적합</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>에이전트 팀의 핵심 아이디어는 <strong>인간의 조직 구조를 AI 세계에 그대로 옮긴 것</strong>입니다. 회사에 기획팀, 디자인팀, 개발팀, QA팀이 나뉘어 있는 것처럼, AI 에이전트들도 역할을 분담하여 더 좋은 결과를 만들어냅니다.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: 하네스란 무엇인가                                   -->
+  <!-- ============================================================ -->
+  <h2 id="what-is-harness">하네스란 무엇인가</h2>
+
+  <p>여러 AI 에이전트를 "팀"처럼 움직이게 하려면, 각자에게 어떤 역할을 맡기고 어떤 순서로 작업하게 할지 정해야 합니다. 이때 필요한 것이 바로 <strong>하네스(Harness)</strong>입니다.</p>
+
+  <h3>하네스의 정의</h3>
+
+  <p>하네스(Harness)는 여러 AI 에이전트를 제어하고 조율하는 체계(system)를 의미합니다. 쉽게 말해, AI 에이전트들이 협력하여 프로젝트를 수행할 때 따르는 <strong>규칙, 순서, 역할 정의의 집합</strong>입니다.</p>
+
+  <h3>말 굴레(Harness)에서 유래한 비유</h3>
+
+  <p>하네스라는 단어의 원래 의미는 <strong>말 등에 씌우는 굴레 장구</strong>입니다. 말 한 마리가 마차를 끌 때, 말이 제 방향대로 달리지 않고 목적지까지 안전하게 도달하도록 길잡이 역할을 하는 것이 바로 하네스입니다.</p>
+
+  <p>AI 세계에서도 마찬가지입니다. 여러 AI 에이전트가 각자 판단대로 움직이면 혼란이 발생합니다. 하네스가 각 에이전트에게 "너는 이 역할을 맡아", "이 작업이 끝나면 저 에이전트에게 결과를 전달해"라는 지침을 제공합니다. 말 굴레가 말을 안전한 방향으로 이끄는 것처럼, AI 하네스는 에이전트들을 <strong>조화롭고 생산적으로</strong> 이끕니다.</p>
+
+  <h3>하네스의 구조</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="하네스의 구조 다이어그램">
+      <!-- 사용자 -->
+      <rect x="265" y="10" width="130" height="44" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="330" y="37" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">사용자</text>
+
+      <!-- 사용자 → PM -->
+      <line x1="330" y1="54" x2="330" y2="84" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowHarness)"/>
+      <text x="345" y="74" font-size="11" style="fill:var(--text-dim)">지시</text>
+
+      <!-- PM 에이전트 -->
+      <rect x="235" y="90" width="190" height="48" rx="10" fill="var(--accent-purple)" stroke="none" opacity="0.85"/>
+      <text x="330" y="119" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#fff">PM 에이전트</text>
+
+      <!-- PM → 전문가들 -->
+      <line x1="270" y1="138" x2="120" y2="178" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+      <line x1="330" y1="138" x2="330" y2="178" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowAmber)"/>
+      <line x1="390" y1="138" x2="540" y2="178" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowAccent)"/>
+
+      <text x="180" y="164" font-size="10" style="fill:var(--text-dim)">역할 분담</text>
+      <text x="340" y="164" font-size="10" style="fill:var(--text-dim)">역할 분담</text>
+      <text x="460" y="164" font-size="10" style="fill:var(--text-dim)">역할 분담</text>
+
+      <!-- 전문 에이전트 A -->
+      <rect x="40" y="184" width="160" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="120" y="211" text-anchor="middle" font-size="12" style="fill:var(--text)">전문 에이전트 A</text>
+
+      <!-- 전문 에이전트 B -->
+      <rect x="250" y="184" width="160" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="330" y="211" text-anchor="middle" font-size="12" style="fill:var(--text)">전문 에이전트 B</text>
+
+      <!-- 전문 에이전트 C -->
+      <rect x="460" y="184" width="160" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="540" y="211" text-anchor="middle" font-size="12" style="fill:var(--text)">전문 에이전트 C</text>
+
+      <!-- 전문가들 → 결과물 -->
+      <line x1="120" y1="228" x2="280" y2="258" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowGreen)"/>
+      <line x1="330" y1="228" x2="330" y2="258" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowAmber)"/>
+      <line x1="540" y1="228" x2="380" y2="258" stroke="var(--accent)" stroke-width="1.2" marker-end="url(#arrowAccent)"/>
+
+      <text x="186" y="250" font-size="10" style="fill:var(--text-dim)">산출물</text>
+      <text x="340" y="250" font-size="10" style="fill:var(--text-dim)">산출물</text>
+      <text x="470" y="250" font-size="10" style="fill:var(--text-dim)">산출물</text>
+
+      <!-- 결과물 -->
+      <rect x="235" y="264" width="190" height="28" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="330" y="283" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">최종 결과물</text>
+
+      <defs>
+        <marker id="arrowHarness" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-green)"/>
+        </marker>
+        <marker id="arrowAmber" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-amber)"/>
+        </marker>
+        <marker id="arrowAccent" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>하네스의 3가지 핵심 기능</h3>
+
+  <p>하네스는 다음 세 가지 핵심 기능을 통해 에이전트 팀의 작동을 보장합니다.</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>오케스트레이션(Orchestration)</strong> — 전체 작업의 흐름을 관리합니다. 어떤 에이전트를 먼저 가동할지, 병렬로 실행할지, 순차적으로 진행할지 결정합니다. 오케스트레이터(주로 PM 에이전트)가 지휘자 역할을 합니다.
+      </li>
+      <li>
+        <strong>핸드오프 계약(Handoff Contract)</strong> — 에이전트 간에 작업 결과를 전달하는 방식과 형식을 정의합니다. A 에이전트가 끝낸 파일을 B 에이전트가 어떤 경로에서 읽고, 어떤 형식으로 출력할지 미리 약속해 두면 오류가 줄어듭니다.
+      </li>
+      <li>
+        <strong>품질 관리(Quality Gate)</strong> — 각 단계가 끝날 때마다 결과물이 기준을 충족하는지 검사합니다. 품질 관리 전담 에이전트가 별도로 검토하여 오류를 잡아내고, 기준에 미달하면 수정을 요청합니다.
+      </li>
+    </ol>
+  </div>
+
+  <div class="note">
+    하네스는 AI 에이전트에게 '무엇을 해야 할지'와 '어떻게 협력할지'를 알려주는 일종의 '규칙책'입니다. 실물 하네스가 말의 움직임을 가이드하는 것처럼, AI 하네스는 에이전트들의 행동을 조율하여 프로젝트를 성공적으로 완수하도록 돕습니다.
+  </div>
+
+  <p>이 핸드북에서 다루는 <strong>co-deck</strong>는 Claude Desktop App 환경에서 동작하는 멀티 에이전트 하네스의 실제 구현체입니다. 11단계(Stage)의 파이프라인으로 구성되어 있으며, 리서치부터 프레젠테이션 PDF 출력까지 전체 과정을 자동화합니다.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: 기대 효과                                          -->
+  <!-- ============================================================ -->
+  <h2 id="expected-benefits">기대 효과</h2>
+
+  <p>AI 에이전트 팀을 활용하면 구체적으로 어떤 이점이 있을까요? 다음은 실제 활용 사례와 기대 효과입니다.</p>
+
+  <h3>시간 단축</h3>
+
+  <p>가장 직관적인 효과는 <strong>작업 시간의 극적인 단축</strong>입니다. 예를 들어, 50페이지 분량의 시장 조사 보고서를 전통적인 방식으로 작성하면 리서치, 분석, 기획, 작성, 디자인까지 <strong>약 8시간</strong>이 걸릴 수 있습니다. 하지만 에이전트 팀을 활용하면 리서치 에이전트가 웹에서 자료를 수집하는 동안, 디자인 에이전트가 템플릿을 준비하고, 스토리라인 에이전트가 구조를 잡는 식으로 <strong>병렬 작업</strong>이 가능합니다. 그结果, 전체 과정이 <strong>약 45분</strong> 내외로 단축될 수 있습니다.</p>
+
+  <p>물론 이는 사용자가 AI의 초안을 검토하고 수정하는 시간을 포함하지 않은 순수 AI 생성 시간입니다. 하지만 리서치에 걸리는 시간, 초안 작성에 걸리는 시간, 디자인 적용에 걸리는 시간을 각각 줄일 수 있다는 점은 분명합니다.</p>
+
+  <h3>품질 향상</h3>
+
+  <p>에이전트 팀은 전문 역할을 분담하므로, 각 분야에서 <strong>전문가 수준의 결과물</strong>을 기대할 수 있습니다. 리서치 전문가 에이전트는 정보 검색과 팩트체크에 집중하고, 디자인 전문가 에이전트는 시각적 일관성을 관리하고, 품질 관리 전담 에이전트가 오류를 검출합니다. 이처럼 <strong>제작자와 검토자가 분리</strong>되는 구조는 인간 조직에서도 품질 향상의 기본 원칙입니다.</p>
+
+  <h3>재사용성</h3>
+
+  <p>한 번 구성한 에이전트 팀은 다른 프로젝트에서도 <strong>재사용</strong>할 수 있습니다. 예를 들어 "시장 조사 보고서"를 위한 에이전트 팀 구성을 만들어 두면, 다음번에 다른 주제의 보고서를 작성할 때도 동일한 구조를 그대로 활용할 수 있습니다. 핸드북 작성, 프레젠테이션 제작, 코드 리뷰 등 다양한 용도에 맞게 에이전트 팀을 <strong>템플릿화</strong>하여 저장해 두면, 새 프로젝트를 시작할 때마다 처음부터 구성할 필요가 없습니다.</p>
+
+  <h3>작업 흐름</h3>
+
+  <p>에이전트 팀을 활용한 전형적인 작업 흐름은 다음과 같습니다.</p>
+
+  <div class="flow-box">
+    <div class="step">1. <strong>주제 입력</strong> — 사용자가 프로젝트 주제, 대상 청중, 요구 사항을 입력합니다.</div>
+    <div class="step">2. <strong>에이전트 팀 자동 가동</strong> — PM 에이전트가 주제를 분석하고, 적합한 전문 에이전트들을 순차적 또는 병렬로 배치합니다.</div>
+    <div class="step">3. <strong>산출물 생성</strong> — 각 전문 에이전트가 자신의 역할을 수행하고, 품질 관리 에이전트가 결과를 검토합니다.</div>
+    <div class="step">4. <strong>최종 결과물 제공</strong> — 모든 단계가 완료되면 통합된 최종 산출물(보고서, 프레젠테이션, 핸드북 등)이 생성됩니다.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: 이 핸드북의 로드맵                                  -->
+  <!-- ============================================================ -->
+  <h2 id="handbook-roadmap">이 핸드북의 로드맵</h2>
+
+  <p>이 핸드북은 AI 에이전트 팀의 기초 개념부터 실전 활용까지, 단계적으로 안내합니다. 전체 구성은 4개 파트(Part)로 나뉘어 있습니다.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="핸드북 로드맵 다이어그램">
+      <!-- Part 1 -->
+      <rect x="20" y="50" width="140" height="100" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="90" y="78" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">Part 1</text>
+      <text x="90" y="98" text-anchor="middle" font-size="11" style="fill:var(--text)">기초 개념</text>
+      <text x="90" y="116" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">1~5장</text>
+      <text x="90" y="134" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Claude App, 에이전트,</text>
+      <text x="90" y="148" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">하네스 개념</text>
+
+      <!-- 화살표 1→2 -->
+      <line x1="160" y1="100" x2="190" y2="100" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowRoad)"/>
+
+      <!-- Part 2 -->
+      <rect x="196" y="50" width="140" height="100" rx="10" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="266" y="78" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">Part 2</text>
+      <text x="266" y="98" text-anchor="middle" font-size="11" style="fill:var(--text)">실습</text>
+      <text x="266" y="116" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">6~8장</text>
+      <text x="266" y="134" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">에이전트 파일 작성,</text>
+      <text x="266" y="148" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">간단한 프로젝트 실행</text>
+
+      <!-- 화살표 2→3 -->
+      <line x1="336" y1="100" x2="366" y2="100" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowGreenRoad)"/>
+
+      <!-- Part 3 -->
+      <rect x="372" y="50" width="140" height="100" rx="10" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="442" y="78" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">Part 3</text>
+      <text x="442" y="98" text-anchor="middle" font-size="11" style="fill:var(--text)">창작</text>
+      <text x="442" y="116" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">9~11장</text>
+      <text x="442" y="134" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">슬라이드 덱 제작,</text>
+      <text x="442" y="148" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">프레젠테이션 자동화</text>
+
+      <!-- 화살표 3→4 -->
+      <line x1="512" y1="100" x2="542" y2="100" stroke="var(--accent-purple)" stroke-width="2" marker-end="url(#arrowPurpleRoad)"/>
+
+      <!-- Part 4 -->
+      <rect x="548" y="50" width="100" height="100" rx="10" fill="var(--bg-success)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="598" y="78" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">Part 4</text>
+      <text x="598" y="98" text-anchor="middle" font-size="11" style="fill:var(--text)">자동화</text>
+      <text x="598" y="116" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">12~13장</text>
+      <text x="598" y="134" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">운영, 배포,</text>
+      <text x="598" y="148" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">마무리</text>
+
+      <!-- Progress bar background -->
+      <rect x="20" y="170" width="628" height="6" rx="3" fill="var(--border)"/>
+      <!-- Progress bar fill -->
+      <rect x="20" y="170" width="50" height="6" rx="3" fill="var(--accent)"/>
+
+      <text x="20" y="190" font-size="10" style="fill:var(--text-dim)">지금 여기</text>
+
+      <defs>
+        <marker id="arrowRoad" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowGreenRoad" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
+        </marker>
+        <marker id="arrowPurpleRoad" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-purple)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>각 Part의 내용</h3>
+
+  <ul>
+    <li><strong>Part 1 — 기초 개념 (1~5장)</strong>: Claude Desktop App 설치부터 AI 에이전트의 개념, 하네스의 구조까지 기반 지식을 다집니다. AI 도구를 처음 접하는 분도 이해할 수 있도록 모든 용어를 친절하게 설명합니다.</li>
+    <li><strong>Part 2 — 실습 (6~8장)</strong>: 직접 에이전트 정의 파일을 작성하고, 간단한 프로젝트를 실행해 봅니다. 이론에서 실천으로 나아가는 단계입니다.</li>
+    <li><strong>Part 3 — 창작 (9~11장)</strong>: 슬라이드 프레젠테이션을 완전 자동으로 제작하는 파이프라인을 경험합니다. 실제 co-deck 11단계 워크플로우를 단계별로 따라 합니다.</li>
+    <li><strong>Part 4 — 자동화와 마무리 (12~13장)</strong>: 에이전트 팀 운영 팁, 문제 해결 방법, 그리고 앞으로의 학습 방향을 정리합니다.</li>
+  </ul>
+
+  <div class="keypoints">
+    <div class="kp-title">이 핸드북을 마치면 할 수 있게 되는 것</div>
+    <ul>
+      <li>Claude Desktop App에서 AI 에이전트를 정의하고 실행할 수 있다</li>
+      <li>여러 AI 에이전트가 협력하는 하네스의 원리를 이해할 수 있다</li>
+      <li>에이전트 정의 파일(agent.md)을 직접 작성할 수 있다</li>
+      <li>프레젠테이션 제작 파이프라인을 단계별로 실행할 수 있다</li>
+      <li>자신만의 에이전트 팀을 구성하여 프로젝트에 적용할 수 있다</li>
+    </ul>
+  </div>
+
+  <div class="note">
+    이 핸드북은 Claude Desktop App과 <strong>ai-workspace-standards</strong> 프로젝트의 구조를 기반으로 작성되었습니다. 실습 예제로 사용되는 co-deck 하네스는 GitHub에서 공개되어 있으며, 누구나 무료로 활용할 수 있습니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER NAVIGATION                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../index.html" class="prev">
+      <div class="dir">← 핸드북 홈</div>
+      <div class="ttl">목차</div>
+    </a>
+    <a href="../ch02/02_Claude_Desktop_App.html" class="next" style="margin-left:auto;">
+      <div class="dir">다음 장 →</div>
+      <div class="ttl">2장 · Claude Desktop App 시작하기</div>
+    </a>
+  </div>
+
+  <footer>
+    Claude Desktop App / ai-workspace-standards 기반 입문 핸드북<br>
+    참고: <a href="https://claude.ai" target="_blank">Claude</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    본 핸드북의 콘텐츠는 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> 라이선스에 따라 이용할 수 있습니다.
+  </footer>
+ </article>
+</main>
+</div>
+
+<script src="../assets/inpage-search.js" defer></script>
+<script>
+function copyCode(btn) {
+  const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = '완료!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+</script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

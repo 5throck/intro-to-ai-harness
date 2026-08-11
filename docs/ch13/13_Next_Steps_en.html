@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Ch 13 · Next Steps - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 13 &middot; Next Steps</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_en.html" class="nav-home">&larr; Handbook Home</a>
+  <div class="nav-title">Ch 13 &middot; Next Steps</div>
+  <a href="#roadmap">Learning Roadmap</a>
+  <a href="#community">Community</a>
+  <a href="#resources">Additional Learning Resources</a>
+  <a href="#scenarios">Application Scenarios</a>
+  <a href="#faq">Frequently Asked Questions (FAQ)</a>
+  <a href="#closing">Closing</a>
+  <div class="nav-section">Other Chapters</div>
+  <a href="../ch12/12_Workflows_Automation_en.html">Ch 12 &middot; Understanding Workflows &amp; Automation</a>
+  <a href="../appendix/A_Remote_Access_en.html">Appendix A &middot; Remote Access Setup</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">Chapter 13</div>
+  <h1>Next Steps</h1>
+  <p class="lead">Wrapping up the handbook with a learning roadmap, community links, additional resources, application scenarios, and FAQ.</p>
+  <div class="keypoints">
+    <div class="kp-title">What This Chapter Covers</div>
+    <ul>
+      <li>Learning roadmap (beginner &rarr; intermediate &rarr; advanced)</li>
+      <li>Community participation</li>
+      <li>Additional learning resources</li>
+      <li>Application scenarios across domains</li>
+      <li>Frequently asked questions</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: Learning Roadmap                                   -->
+  <!-- ============================================================ -->
+  <h2 id="roadmap">1. Learning Roadmap</h2>
+
+  <p>Congratulations on completing all 13 chapters of this handbook. You now understand the fundamentals of Claude Desktop App, Claude Code, multi-agent harnesses, and how to build and manage your own AI agent teams. But this is just the beginning. In this section, we lay out a structured learning roadmap to help you continue growing your skills from beginner to advanced.</p>
+
+  <h3>Where You Are Now &mdash; Beginner (Completed)</h3>
+
+  <p>You have already covered the beginner track. Here is what you accomplished:</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Chapters 1 &ndash; 13 + Appendices</h4>
+      <ul>
+        <li>Understood why AI agent teams matter</li>
+        <li>Set up Claude Desktop App and Claude Code</li>
+        <li>Learned harness concepts and architecture</li>
+        <li>Created agent prompts and context files</li>
+        <li>Wrote agent definition files (.md)</li>
+        <li>Built your own agent team</li>
+        <li>Explored workflows and automation</li>
+        <li>Reviewed practice projects and next steps</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Skills Gained</h4>
+      <ul>
+        <li>Navigate Claude Desktop App confidently</li>
+        <li>Use Claude Code CLI for coding tasks</li>
+        <li>Understand agent roles and dispatch rules</li>
+        <li>Read and write agent definition files</li>
+        <li>Use context files (CLAUDE.md, AGENTS.md)</li>
+        <li>Run basic multi-agent workflows</li>
+        <li>Apply /sync and Git fundamentals</li>
+        <li>Understand hooks and CI/CD concepts</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Intermediate Path</h3>
+
+  <p>Once you feel comfortable with the basics, challenge yourself with these intermediate goals:</p>
+
+  <ol class="step-list">
+    <li><strong>Customize Agent Prompts</strong> &mdash; Go beyond the default agent definitions. Write detailed, domain-specific system prompts that make your agents more effective for your particular use case (e.g., legal document review, financial analysis, educational content creation).</li>
+    <li><strong>Build Domain-Specific Teams</strong> &mdash; Create agent teams tailored to your industry. For example, a consulting team might include a research agent, a data-analysis agent, a slide-deck builder, and a QA reviewer &mdash; all configured for consulting deliverables.</li>
+    <li><strong>Implement Custom Hooks</strong> &mdash; Add pre-commit hooks, file-watching hooks, or event-driven automations that trigger agent workflows automatically when certain conditions are met (e.g., a new file is created, a pull request is opened).</li>
+    <li><strong>Contribute to Open-Source Projects</strong> &mdash; Find an open-source AI workspace or harness project on GitHub. Start with small contributions: fixing documentation, improving error messages, or adding a new agent definition. This is one of the fastest ways to deepen your understanding.</li>
+    <li><strong>Explore Model Diversity</strong> &mdash; Experiment with different AI models (Claude, Gemini, GPT, local models via Ollama or LM Studio). Understand each model&rsquo;s strengths and weaknesses, and learn when to use which model for which task.</li>
+  </ol>
+
+  <h3>Advanced Challenges</h3>
+
+  <p>For those who want to push the boundaries of what is possible with AI agent systems:</p>
+
+  <ol class="step-list">
+    <li><strong>Design a Multi-Model Orchestration Layer</strong> &mdash; Build a system that automatically routes tasks to the best model based on task type, complexity, cost, and latency requirements. This involves understanding model benchmarks, implementing routing logic, and monitoring performance.</li>
+    <li><strong>Create a Vertical-Specific Harness</strong> &mdash; Design and build an entirely new harness architecture optimized for a specific industry (healthcare, legal, education, finance). This includes defining new agent roles, custom workflows, domain-specific validation rules, and compliance checks.</li>
+    <li><strong>Implement Safety and Governance Controls</strong> &mdash; Add output filtering, permission boundaries, audit logging, and human-in-the-loop approval gates to your agent workflows. This is critical for production deployments where AI agents handle sensitive data or make business decisions.</li>
+    <li><strong>Build Agent Performance Metrics</strong> &mdash; Develop a measurement framework that tracks agent accuracy, throughput, cost efficiency, and user satisfaction over time. Use this data to continuously tune and improve your agent team&rsquo;s performance.</li>
+  </ol>
+
+  <!-- INLINE SVG: Learning Roadmap Diagram -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Learning roadmap diagram showing beginner, intermediate, and advanced paths">
+      <defs>
+        <marker id="roadArrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+
+      <!-- Background -->
+      <rect x="0" y="0" width="660" height="320" rx="8" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
+
+      <!-- Title -->
+      <text x="330" y="30" text-anchor="middle" style="color:var(--text);font-size:16px;font-weight:700;">Learning Roadmap</text>
+
+      <!-- Beginner Level -->
+      <rect x="30" y="55" width="180" height="70" rx="6" fill="var(--accent-green)" fill-opacity="0.15" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="120" y="78" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:700;">Beginner</text>
+      <text x="120" y="96" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">Chapters 1 &ndash; 13</text>
+      <text x="120" y="112" text-anchor="middle" style="color:var(--accent-green);font-size:11px;font-weight:600;">&#10003; Completed</text>
+
+      <!-- Arrow 1 -->
+      <line x1="210" y1="90" x2="238" y2="90" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#roadArrow)"/>
+
+      <!-- Intermediate Level -->
+      <rect x="240" y="55" width="180" height="70" rx="6" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="330" y="78" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:700;">Intermediate</text>
+      <text x="330" y="96" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">Customize &amp; Build Teams</text>
+      <text x="330" y="112" text-anchor="middle" style="color:var(--accent);font-size:11px;font-weight:600;">5 Goals</text>
+
+      <!-- Arrow 2 -->
+      <line x1="420" y1="90" x2="448" y2="90" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#roadArrow)"/>
+
+      <!-- Advanced Level -->
+      <rect x="450" y="55" width="180" height="70" rx="6" fill="var(--accent-purple)" fill-opacity="0.12" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="540" y="78" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:700;">Advanced</text>
+      <text x="540" y="96" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">Orchestrate &amp; Scale</text>
+      <text x="540" y="112" text-anchor="middle" style="color:var(--accent-purple);font-size:11px;font-weight:600;">4 Challenges</text>
+
+      <!-- Intermediate detail items -->
+      <g style="font-size:11px;">
+        <rect x="40" y="150" width="280" height="28" rx="4" fill="var(--bg)"/>
+        <circle cx="56" cy="164" r="6" fill="var(--accent-green)" fill-opacity="0.6"/>
+        <text x="56" y="167" text-anchor="middle" style="color:var(--text-inverse);font-size:9px;font-weight:700;">1</text>
+        <text x="72" y="168" style="color:var(--text);">Customize Agent Prompts</text>
+
+        <rect x="340" y="150" width="280" height="28" rx="4" fill="var(--bg)"/>
+        <circle cx="356" cy="164" r="6" fill="var(--accent-green)" fill-opacity="0.6"/>
+        <text x="356" y="167" text-anchor="middle" style="color:var(--text-inverse);font-size:9px;font-weight:700;">2</text>
+        <text x="372" y="168" style="color:var(--text);">Build Domain-Specific Teams</text>
+
+        <rect x="40" y="186" width="280" height="28" rx="4" fill="var(--bg)"/>
+        <circle cx="56" cy="200" r="6" fill="var(--accent-green)" fill-opacity="0.6"/>
+        <text x="56" y="203" text-anchor="middle" style="color:var(--text-inverse);font-size:9px;font-weight:700;">3</text>
+        <text x="72" y="204" style="color:var(--text);">Implement Custom Hooks</text>
+
+        <rect x="340" y="186" width="280" height="28" rx="4" fill="var(--bg)"/>
+        <circle cx="356" cy="200" r="6" fill="var(--accent-green)" fill-opacity="0.6"/>
+        <text x="356" y="203" text-anchor="middle" style="color:var(--text-inverse);font-size:9px;font-weight:700;">4</text>
+        <text x="372" y="204" style="color:var(--text);">Contribute to Open Source</text>
+
+        <rect x="40" y="222" width="280" height="28" rx="4" fill="var(--bg)"/>
+        <circle cx="56" cy="236" r="6" fill="var(--accent-green)" fill-opacity="0.6"/>
+        <text x="56" y="239" text-anchor="middle" style="color:var(--text-inverse);font-size:9px;font-weight:700;">5</text>
+        <text x="72" y="240" style="color:var(--text);">Explore Model Diversity</text>
+      </g>
+
+      <!-- Advanced detail items -->
+      <g style="font-size:11px;">
+        <rect x="40" y="262" width="280" height="28" rx="4" fill="var(--bg)"/>
+        <circle cx="56" cy="276" r="6" fill="var(--accent-purple)" fill-opacity="0.6"/>
+        <text x="56" y="279" text-anchor="middle" style="color:var(--text-inverse);font-size:9px;font-weight:700;">1</text>
+        <text x="72" y="280" style="color:var(--text);">Multi-Model Orchestration Layer</text>
+
+        <rect x="340" y="262" width="280" height="28" rx="4" fill="var(--bg)"/>
+        <circle cx="356" cy="276" r="6" fill="var(--accent-purple)" fill-opacity="0.6"/>
+        <text x="356" y="279" text-anchor="middle" style="color:var(--text-inverse);font-size:9px;font-weight:700;">2</text>
+        <text x="372" y="280" style="color:var(--text);">Vertical-Specific Harness Design</text>
+
+        <rect x="40" y="296" width="280" height="22" rx="4" fill="var(--bg)"/>
+        <circle cx="56" cy="307" r="6" fill="var(--accent-purple)" fill-opacity="0.6"/>
+        <text x="56" y="310" text-anchor="middle" style="color:var(--text-inverse);font-size:9px;font-weight:700;">3</text>
+        <text x="72" y="311" style="color:var(--text);">Safety &amp; Governance Controls</text>
+
+        <rect x="340" y="296" width="280" height="22" rx="4" fill="var(--bg)"/>
+        <circle cx="356" cy="307" r="6" fill="var(--accent-purple)" fill-opacity="0.6"/>
+        <text x="356" y="310" text-anchor="middle" style="color:var(--text-inverse);font-size:9px;font-weight:700;">4</text>
+        <text x="372" y="311" style="color:var(--text);">Agent Performance Metrics</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="note">
+    <strong>Note:</strong> The roadmap above is a guide, not a strict timeline. Everyone learns at a different pace. Focus on mastering each level before moving to the next, and revisit earlier topics whenever you need a refresher.
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: Community                                          -->
+  <!-- ============================================================ -->
+  <h2 id="community">2. Community</h2>
+
+  <p>Learning is better together. The AI agent ecosystem is growing rapidly, and joining a community can accelerate your progress, expose you to new ideas, and connect you with people who share your interests. Here are the key communities to explore:</p>
+
+  <h3>GitHub &mdash; Open-Source Collaboration</h3>
+
+  <p>The primary hub for AI agent harness development is GitHub. Here you will find repositories with source code, agent definitions, documentation, and discussion forums.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+        <th>URL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>ai-workspace-standards</strong></td>
+        <td>The workspace standards project that defines agent architecture, harness conventions, and governance patterns</td>
+        <td><a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">github.com/5throck/ai-workspace-standards</a></td>
+      </tr>
+      <tr>
+        <td><strong>Claude Code</strong></td>
+        <td>Anthropic&rsquo;s official Claude Code CLI &mdash; issues, discussions, and feature requests</td>
+        <td><a href="https://github.com/anthropics/claude-code" target="_blank" rel="noopener noreferrer">github.com/anthropics/claude-code</a></td>
+      </tr>
+      <tr>
+        <td><strong>Anthropic</strong></td>
+        <td>Official Anthropic GitHub organization &mdash; research papers, SDKs, and tools</td>
+        <td><a href="https://github.com/anthropics" target="_blank" rel="noopener noreferrer">github.com/anthropics</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Official Claude Community</h3>
+
+  <p>Anthropic maintains official channels where you can connect with other Claude users, ask questions, and share your experiences:</p>
+
+  <ul>
+    <li><strong>Claude.ai</strong> &mdash; The main Claude web interface. Sign in to access Claude conversations, library, and project workspace.</li>
+    <li><strong>Anthropic Blog</strong> &mdash; Regular updates on Claude model improvements, safety research, and product announcements. A great way to stay current with the latest developments.</li>
+    <li><strong>Anthropic Discord / Community Forums</strong> &mdash; Join the conversation with other developers and AI enthusiasts. Share your projects, ask for help, and learn from real-world use cases.</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>Tip &mdash; Asking Good Questions:</strong> When asking for help in a community forum, include the following information to get the best response:
+    <ol>
+      <li>What you are trying to accomplish (your goal)</li>
+      <li>What you have already tried (your approach)</li>
+      <li>What went wrong (error messages or unexpected behavior)</li>
+      <li>Your environment (OS, Claude version, Node/Bun version)</li>
+    </ol>
+    A well-structured question often gets answered within hours, while a vague one may go unanswered for days.
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: Additional Learning Resources                      -->
+  <!-- ============================================================ -->
+  <h2 id="resources">3. Additional Learning Resources</h2>
+
+  <p>This section collects official documentation, recommended books and courses, and YouTube channels to support your continued learning beyond this handbook.</p>
+
+  <h3>Official Documentation</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tool / Platform</th>
+        <th>What It Covers</th>
+        <th>Link</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Claude Desktop App</strong></td>
+        <td>Installation, settings, conversation management, Projects, Artifacts, and keyboard shortcuts</td>
+        <td><a href="https://claude.ai" target="_blank" rel="noopener noreferrer">claude.ai</a></td>
+      </tr>
+      <tr>
+        <td><strong>Claude Code CLI</strong></td>
+        <td>CLI installation, slash commands, context files (CLAUDE.md), hooks, and agent configuration</td>
+        <td><a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer">Anthropic Docs &ndash; Claude Code</a></td>
+      </tr>
+      <tr>
+        <td><strong>GitHub</strong></td>
+        <td>Repositories, pull requests, issues, GitHub Actions, and collaboration workflows</td>
+        <td><a href="https://docs.github.com" target="_blank" rel="noopener noreferrer">docs.github.com</a></td>
+      </tr>
+      <tr>
+        <td><strong>Bun</strong></td>
+        <td>JavaScript runtime, package manager, test runner, and scripting &mdash; fast alternative to Node.js</td>
+        <td><a href="https://bun.sh/docs" target="_blank" rel="noopener noreferrer">bun.sh/docs</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Recommended Books and Courses</h3>
+
+  <ul>
+    <li><strong>&ldquo;Designing Machine Learning Systems&rdquo;</strong> by Chip Huyen &mdash; An excellent introduction to designing production ML systems, with principles that apply to AI agent architectures.</li>
+    <li><strong>&ldquo;Building LLM Apps&rdquo;</strong> by Valentina Alto (online course) &mdash; Covers the practical aspects of building applications powered by large language models, including prompting patterns and RAG.</li>
+    <li><strong>Anthropic&rsquo;s Prompt Engineering Guide</strong> (free, online) &mdash; The official guide from Anthropic on how to write effective prompts for Claude. Essential reading for anyone building agent prompts.</li>
+    <li><strong>&ldquo;AI Safety and Governance&rdquo;</strong> (various authors) &mdash; As AI agents become more autonomous, understanding safety, alignment, and governance becomes critical. Explore resources from the Partnership on AI and Anthropic&rsquo;s safety research.</li>
+  </ul>
+
+  <h3>Recommended YouTube Channels</h3>
+
+  <ul>
+    <li><strong>Anthropic (Official)</strong> &mdash; Talks, product demos, and research presentations from the Claude team.</li>
+    <li><strong>Two Minute Papers</strong> &mdash; Quick, accessible explanations of the latest AI research breakthroughs.</li>
+    <li><strong>Fireship</strong> &mdash; Short, high-energy videos on developer tools, AI, and web technologies.</li>
+    <li><strong>Matt Wolfe</strong> &mdash; Weekly roundup of AI news, tools, and practical demonstrations.</li>
+  </ul>
+
+  <div class="note">
+    <strong>Note:</strong> Official documentation is always the most reliable and up-to-date source. AI tools evolve rapidly &mdash; features change, new capabilities appear, and old ones get deprecated. Whenever you encounter a discrepancy between this handbook and the official docs, trust the official docs.
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: Application Scenarios                              -->
+  <!-- ============================================================ -->
+  <h2 id="scenarios">4. Application Scenarios</h2>
+
+  <p>The multi-agent harness approach is not limited to any one industry. In this section, we explore how agent teams can be applied across five different domains. For each domain, we outline a sample agent composition and explain how the agents would work together to deliver value.</p>
+
+  <h3>Education &mdash; Course Content Production</h3>
+
+  <p>Educators and instructional designers can use agent teams to produce entire courses efficiently:</p>
+
+  <ul>
+    <li><strong>Research Agent</strong> &mdash; Gathers authoritative sources, academic papers, and curriculum standards for the topic.</li>
+    <li><strong>Content Writer Agent</strong> &mdash; Drafts lesson plans, slide content, and handouts based on the research.</li>
+    <li><strong>Diagram Agent</strong> &mdash; Generates concept diagrams, flowcharts, and data visualizations for lectures.</li>
+    <li><strong>QA Review Agent</strong> &mdash; Checks factual accuracy, readability level, and pedagogical soundness of all materials.</li>
+  </ul>
+
+  <h3>Consulting &mdash; Client Deliverable Assembly</h3>
+
+  <p>Consulting firms can accelerate report and presentation production:</p>
+
+  <ul>
+    <li><strong>Data Analysis Agent</strong> &mdash; Processes spreadsheets, extracts key metrics, and generates summary tables.</li>
+    <li><strong>Slide Builder Agent</strong> &mdash; Creates structured slide decks from analyzed data and storyline outlines.</li>
+    <li><strong>Proofreader Agent</strong> &mdash; Reviews all client-facing documents for consistency, grammar, and brand compliance.</li>
+    <li><strong>Project Manager Agent</strong> &mdash; Orchestrates the workflow, tracks deadlines, and ensures quality gates are met.</li>
+  </ul>
+
+  <h3>Research &mdash; Literature Review and Analysis</h3>
+
+  <p>Academic and industry researchers can streamline their literature review process:</p>
+
+  <ul>
+    <li><strong>Source Collection Agent</strong> &mdash; Searches academic databases, arXiv, and web sources for relevant papers.</li>
+    <li><strong>Source Verification Agent</strong> &mdash; Validates the credibility, recency, and accessibility of collected sources.</li>
+    <li><strong>Synthesis Agent</strong> &mdash; Identifies themes, contradictions, and gaps across the literature.</li>
+    <li><strong>Writing Agent</strong> &mdash; Drafts literature review sections, annotated bibliographies, and research summaries.</li>
+  </ul>
+
+  <h3>Marketing &mdash; Content Campaign Production</h3>
+
+  <p>Marketing teams can scale their content production pipeline:</p>
+
+  <ul>
+    <li><strong>Trend Research Agent</strong> &mdash; Monitors industry news, social media trends, and competitor content strategies.</li>
+    <li><strong>Copywriting Agent</strong> &mdash; Writes blog posts, social media captions, email newsletters, and ad copy.</li>
+    <li><strong>Visual Asset Agent</strong> &mdash; Curates and generates images, infographics, and visual assets for campaigns.</li>
+    <li><strong>Scheduling Agent</strong> &mdash; Plans content calendars and ensures consistent publishing cadence.</li>
+  </ul>
+
+  <h3>Legal &mdash; Contract and Document Review</h3>
+
+  <p>Legal teams can enhance their document review and analysis workflow:</p>
+
+  <ul>
+    <li><strong>Document Parser Agent</strong> &mdash; Extracts key clauses, obligations, and terms from contracts and legal documents.</li>
+    <li><strong>Risk Analysis Agent</strong> &mdash; Identifies potential risks, unusual clauses, and compliance concerns.</li>
+    <li><strong>Comparison Agent</strong> &mdash; Compares different versions of a document or benchmarks against standard templates.</li>
+    <li><strong>Summary Agent</strong> &mdash; Produces plain-language summaries of complex legal documents for non-legal stakeholders.</li>
+  </ul>
+
+  <!-- INLINE SVG: Application Scenarios Diagram -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Application scenarios diagram showing five domains with their agent compositions">
+      <defs>
+        <marker id="scenArrow" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto">
+          <path d="M0,0 L6,2.5 L0,5 Z" fill="var(--text-dim)"/>
+        </marker>
+      </defs>
+
+      <!-- Background -->
+      <rect x="0" y="0" width="660" height="380" rx="8" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
+
+      <!-- Title -->
+      <text x="330" y="28" text-anchor="middle" style="color:var(--text);font-size:15px;font-weight:700;">Application Scenarios &mdash; Agent Teams by Domain</text>
+
+      <!-- Center Hub -->
+      <circle cx="330" cy="190" r="36" fill="var(--accent)" fill-opacity="0.12" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="330" y="186" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:700;">Multi-Agent</text>
+      <text x="330" y="200" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:700;">Harness</text>
+
+      <!-- Education (top-left) -->
+      <rect x="20" y="55" width="120" height="80" rx="6" fill="var(--badge-green-bg)" stroke="var(--badge-green-border)" stroke-width="1"/>
+      <text x="80" y="76" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:700;">Education</text>
+      <text x="80" y="92" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Research</text>
+      <text x="80" y="104" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Writer</text>
+      <text x="80" y="116" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Diagram</text>
+      <text x="80" y="128" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">QA Review</text>
+      <line x1="140" y1="115" x2="294" y2="175" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#scenArrow)"/>
+
+      <!-- Consulting (top-right) -->
+      <rect x="520" y="55" width="120" height="80" rx="6" fill="var(--badge-blue-bg)" stroke="var(--badge-blue-border)" stroke-width="1"/>
+      <text x="580" y="76" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:700;">Consulting</text>
+      <text x="580" y="92" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Data Analysis</text>
+      <text x="580" y="104" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Slide Builder</text>
+      <text x="580" y="116" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Proofreader</text>
+      <text x="580" y="128" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">PM Agent</text>
+      <line x1="520" y1="115" x2="366" y2="175" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#scenArrow)"/>
+
+      <!-- Research (left) -->
+      <rect x="20" y="230" width="120" height="80" rx="6" fill="var(--badge-purple-bg)" stroke="var(--badge-purple-border)" stroke-width="1"/>
+      <text x="80" y="251" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:700;">Research</text>
+      <text x="80" y="267" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Source Collection</text>
+      <text x="80" y="279" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Verification</text>
+      <text x="80" y="291" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Synthesis</text>
+      <text x="80" y="303" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Writing</text>
+      <line x1="140" y1="260" x2="294" y2="205" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#scenArrow)"/>
+
+      <!-- Marketing (bottom-center) -->
+      <rect x="270" y="300" width="120" height="70" rx="6" fill="var(--badge-amber-bg)" stroke="var(--badge-amber-border)" stroke-width="1"/>
+      <text x="330" y="321" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:700;">Marketing</text>
+      <text x="330" y="337" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Trend Research</text>
+      <text x="330" y="349" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Copywriting</text>
+      <text x="330" y="361" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Visual Asset</text>
+      <line x1="330" y1="300" x2="330" y2="226" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#scenArrow)"/>
+
+      <!-- Legal (right) -->
+      <rect x="520" y="230" width="120" height="80" rx="6" fill="var(--badge-red-bg)" stroke="var(--badge-red-border)" stroke-width="1"/>
+      <text x="580" y="251" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:700;">Legal</text>
+      <text x="580" y="267" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Document Parser</text>
+      <text x="580" y="279" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Risk Analysis</text>
+      <text x="580" y="291" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Comparison</text>
+      <text x="580" y="303" text-anchor="middle" style="color:var(--text-dim);font-size:9px;">Summary</text>
+      <line x1="520" y1="260" x2="366" y2="205" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#scenArrow)"/>
+    </svg>
+  </div>
+
+  <div class="tip-box">
+    <strong>Tip &mdash; Start with Your Domain:</strong> The most effective way to learn agent orchestration is to apply it to a real problem in your own field. Pick one scenario from the list above that is closest to your work, and try building a small agent team for it. Start with two agents and grow from there. Even a minimal setup will teach you valuable lessons about agent communication, task delegation, and quality control.
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: FAQ                                                -->
+  <!-- ============================================================ -->
+  <h2 id="faq">5. Frequently Asked Questions (FAQ)</h2>
+
+  <p>This section answers the most common questions from readers who are just getting started with Claude, Claude Code, and multi-agent harnesses. If your question is not answered here, check the official documentation or ask in the community forums.</p>
+
+  <div class="flow-box">
+    <h3 id="faq-1">Q1: Can I use Claude Code without Claude Desktop App?</h3>
+    <p><strong>Yes.</strong> Claude Code is a standalone CLI tool. You install it separately via npm or Bun (<code>npm install -g @anthropic-ai/claude-code</code>). Claude Desktop App is a graphical interface for conversations, while Claude Code is a terminal-based tool designed for coding and project workflows. They complement each other but neither is required to use the other.</p>
+  </div>
+
+  <div class="flow-box">
+    <h3 id="faq-2">Q2: Is Claude free to use?</h3>
+    <p><strong>It depends on the plan.</strong> Claude offers a free tier with limited usage. For heavier use, Claude Pro and Claude Max plans provide higher message limits and access to more powerful models. Claude Code usage is billed separately based on your API usage or subscription plan. Check the official pricing page at <a href="https://claude.ai/pricing" target="_blank" rel="noopener noreferrer">claude.ai/pricing</a> for the latest information.</p>
+  </div>
+
+  <div class="flow-box">
+    <h3 id="faq-3">Q3: Does Claude support Korean language?</h3>
+    <p><strong>Yes.</strong> Claude supports Korean for both input and output. You can write prompts in Korean and receive responses in Korean. However, for best results with technical content, Claude Code prompts and agent definition files are typically written in English, as technical terminology and code conventions are primarily English-based. Many bilingual users write agent definitions in English but communicate with Claude in Korean.</p>
+  </div>
+
+  <div class="flow-box">
+    <h3 id="faq-4">Q4: Can I use other AI models besides Claude?</h3>
+    <p><strong>Yes.</strong> The multi-agent harness architecture is model-agnostic in principle. While this handbook focuses on Claude, the same patterns apply to other models such as Gemini (Google), GPT-4 (OpenAI), and open-source models via Ollama or LM Studio. Some harness implementations support multiple models simultaneously, allowing you to route different tasks to different models based on cost, capability, or latency requirements. Check your specific harness documentation for multi-model support.</p>
+  </div>
+
+  <div class="flow-box">
+    <h3 id="faq-5">Q5: How many agents can I run at once?</h3>
+    <p><strong>There is no hard limit</strong> imposed by the harness itself. The practical limit depends on your hardware resources (CPU, memory, network bandwidth) and your subscription plan&rsquo;s concurrent request limits. In practice, most workflows use 3 to 8 agents. Starting with a small team (2&ndash;4 agents) is recommended &mdash; you can always add more as your understanding grows.</p>
+  </div>
+
+  <div class="flow-box">
+    <h3 id="faq-6">Q6: Can I use Claude Code offline?</h3>
+    <p><strong>No.</strong> Claude Code requires an internet connection because all AI inference happens on Anthropic&rsquo;s servers. Your code and project files stay on your local machine, but every prompt you send is transmitted to Claude&rsquo;s API and the response comes back over the network. If you need offline AI capabilities, consider running local models with tools like Ollama or LM Studio, though these models will be smaller and less capable than Claude.</p>
+  </div>
+
+  <div class="flow-box">
+    <h3 id="faq-7">Q7: Can I use Claude on mobile devices?</h3>
+    <p><strong>The Claude mobile app</strong> is available for both iOS and Android for conversational use. However, Claude Code (the CLI tool) requires a desktop or server environment with a terminal. You can use Claude Code on a remote server accessed via SSH from your mobile device using a terminal app, but this is not a typical setup and may be impractical for extended coding sessions.</p>
+  </div>
+
+  <div class="flow-box">
+    <h3 id="faq-8">Q8: Is it safe to share project files with Claude?</h3>
+    <p><strong>Anthropic has strict data usage policies.</strong> Your conversations and uploaded files are not used to train Claude models. However, you should still exercise caution:</p>
+    <ul>
+      <li>Never share API keys, passwords, or secrets in your prompts.</li>
+      <li>Use <code>.gitignore</code> or <code>.claudeignore</code> to exclude sensitive files.</li>
+      <li>Review your project&rsquo;s context files to ensure they do not expose confidential information.</li>
+      <li>If your organization has strict data governance policies, consult your IT or security team before using Claude with proprietary code.</li>
+    </ul>
+  </div>
+
+  <div class="flow-box">
+    <h3 id="faq-9">Q9: Can I share my agent team setup with others?</h3>
+    <p><strong>Yes, and it is encouraged.</strong> Agent definition files (<code>.md</code> files in your <code>agents/</code> directory) are plain text and can be shared through Git repositories, file sharing, or documentation. The <code>ai-workspace-standards</code> project on GitHub provides a common format that makes it easy to share agent configurations between teams and even across organizations.</p>
+  </div>
+
+  <div class="flow-box">
+    <h3 id="faq-10">Q10: How do I actually apply this in my daily work?</h3>
+    <p><strong>Start small and iterate.</strong> Here is a practical approach:</p>
+    <ol>
+      <li><strong>Identify one repetitive task</strong> in your workflow that you do regularly (e.g., writing weekly reports, analyzing spreadsheets, reviewing documents).</li>
+      <li><strong>Create a simple agent</strong> with a focused prompt to handle that task.</li>
+      <li><strong>Test it on real work</strong> for a week. Note what works and what needs improvement.</li>
+      <li><strong>Refine the prompt</strong> based on your experience. Add examples, constraints, and quality criteria.</li>
+      <li><strong>Add a second agent</strong> to handle a related task (e.g., a reviewer that checks the first agent&rsquo;s output).</li>
+      <li><strong>Gradually expand</strong> your team as you gain confidence and discover new automation opportunities.</li>
+    </ol>
+    <p>Most successful AI agent adopters did not start with a complex multi-agent system. They started with one agent solving one problem, and grew from there.</p>
+  </div>
+
+  <div class="flow-box">
+    <h3 id="faq-11">Q11: What if Claude gives a wrong answer?</h3>
+    <p><strong>AI models can make mistakes.</strong> This is sometimes called &ldquo;hallucination.&rdquo; Claude is designed to be helpful and honest, but it can still produce incorrect or incomplete information. Here is how to mitigate this:</p>
+    <ul>
+      <li>Always verify factual claims, especially for critical decisions (medical, legal, financial).</li>
+      <li>Provide Claude with accurate context and source material to work from.</li>
+      <li>Use the source-verifier agent (covered in Chapter 8) to validate URLs and references.</li>
+      <li>Implement human-in-the-loop review gates for important outputs.</li>
+      <li>Think of Claude as a capable assistant, not an infallible oracle. The final decision and responsibility always rests with you.</li>
+    </ul>
+  </div>
+
+  <div class="warn">
+    <strong>Important:</strong> Claude is a tool to assist your work, not a replacement for professional judgment. For any decisions involving health, safety, legal compliance, or significant financial impact, always consult qualified professionals and verify AI-generated outputs independently.
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: Closing                                            -->
+  <!-- ============================================================ -->
+  <h2 id="closing">6. Closing</h2>
+
+  <p>Congratulations on completing <strong>Introduction to Claude Code and Multi-Agent Harness</strong>. You have come a long way from understanding why AI agent teams matter to actually building and managing your own agent teams.</p>
+
+  <h3>What You Accomplished</h3>
+
+  <p>Let us recap the key skills and knowledge you gained across all 13 chapters:</p>
+
+  <div class="keypoints">
+    <div class="kp-title">Your Journey Summary</div>
+    <ul>
+      <li><strong>Chapters 1&ndash;3:</strong> Understood AI trends, set up Claude Desktop App, and mastered the Claude Code CLI</li>
+      <li><strong>Chapters 4&ndash;6:</strong> Learned harness architecture, agent roles, and context file conventions</li>
+      <li><strong>Chapters 7&ndash;9:</strong> Built agent prompts, defined agent files, and explored source verification</li>
+      <li><strong>Chapters 10&ndash;11:</strong> Gained hands-on practice and built your own agent team</li>
+      <li><strong>Chapters 12&ndash;13:</strong> Mastered workflows, automation, and mapped out your continued learning path</li>
+    </ul>
+  </div>
+
+  <h3>The Road Ahead</h3>
+
+  <p>The AI landscape is evolving at an extraordinary pace. New models, new tools, and new patterns emerge monthly. The skills you built in this handbook &mdash; understanding agent roles, writing effective prompts, orchestrating multi-agent workflows, and implementing automation &mdash; form a durable foundation that will serve you well regardless of which specific tools you use in the future.</p>
+
+  <p>We encourage you to revisit this handbook whenever you need a refresher. The concepts here are not fleeting trends; they are fundamental principles of working with AI agent systems.</p>
+
+  <h3>What Comes Next</h3>
+
+  <p>The team behind this handbook is already working on the next volume, which will cover advanced topics including:</p>
+
+  <ul>
+    <li>Building production-grade agent systems with error handling and retry logic</li>
+    <li>Multi-model orchestration for cost optimization</li>
+    <li>Building domain-specific harnesses from scratch</li>
+    <li>Real-world case studies from different industries</li>
+    <li>Performance measurement and continuous improvement frameworks</li>
+  </ul>
+
+  <p>Stay tuned by watching the <a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">ai-workspace-standards</a> repository for updates.</p>
+
+  <h3>Thank You</h3>
+
+  <p>Thank you for investing your time in learning these skills. The future of work is increasingly collaborative &mdash; not just between humans, but between humans and AI agents. By completing this handbook, you have positioned yourself at the forefront of this transformation.</p>
+
+  <p>We would love to hear about your experience. Feel free to share your feedback, report issues, or suggest improvements through the GitHub repository. Your input helps us make the next edition even better.</p>
+
+  <p>Welcome to the world of AI agent orchestration. The best is yet to come.</p>
+
+
+  <!-- ============================================================ -->
+  <!-- Chapter Navigation                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch12/12_Workflows_Automation_en.html" class="prev">
+      <div class="dir">&larr; Previous Chapter</div>
+      <div class="ttl">Ch 12 &middot; Understanding Workflows &amp; Automation</div>
+    </a>
+    <a href="../appendix/A_Remote_Access_en.html" class="next" style="margin-left:auto;">
+      <div class="dir">Appendix A &rarr;</div>
+      <div class="ttl">Remote Access Setup</div>
+    </a>
+  </div>
+  <footer>
+    Introductory handbook based on Claude Desktop App / ai-workspace-standards<br>
+    References: <a href="https://claude.ai" target="_blank">Claude</a> &middot;
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a>.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script>
+function copyCode(btn) {
+  const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = 'Done!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+</script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

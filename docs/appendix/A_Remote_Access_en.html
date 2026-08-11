@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Appendix A &middot; Remote Access Setup - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appendix A &middot; Remote Access Setup</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_en.html" class="nav-home">&larr; Handbook Home</a>
+  <div class="nav-title">Appendix A &middot; Remote Access Setup</div>
+  <a href="#why-remote">Why Remote Access</a>
+  <a href="#tailscale">Tailscale VPN Setup</a>
+  <a href="#nomachine">NoMachine Setup</a>
+  <a href="#windows-rdp">Windows RDP Setup</a>
+  <a href="#comparison">Comparison &amp; Selection Guide</a>
+  <a href="#troubleshooting">Troubleshooting</a>
+  <div class="nav-section">Other Chapters</div>
+  <a href="../ch13/13_Next_Steps_en.html">Ch 13 &middot; Next Steps</a>
+  <a href="B_Claude_Code_CLI_en.html">Appendix B &middot; Claude Code CLI Guide</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">Appendix A</div>
+  <h1>Remote Access Setup</h1>
+  <p class="lead">This appendix covers three methods for accessing your AI development environment remotely &mdash; Tailscale VPN, NoMachine, and Windows RDP.</p>
+  <div class="keypoints">
+    <div class="kp-title">What This Appendix Covers</div>
+    <ul>
+      <li>Why remote access is needed</li>
+      <li>Tailscale VPN setup</li>
+      <li>NoMachine setup</li>
+      <li>Windows RDP setup</li>
+      <li>Comparison and selection guide</li>
+      <li>Troubleshooting</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: Why Remote Access                                  -->
+  <!-- ============================================================ -->
+  <h2 id="why-remote">Why Remote Access?</h2>
+
+  <p>AI development environments require significant computing power &mdash; fast CPUs, ample RAM, and dedicated GPUs. For most people, the most powerful computer sits on a desk at home or in the office. But sometimes you need to work from elsewhere: a laptop at a coffee shop, a tablet while traveling, or a workstation in another room.</p>
+
+  <p>Remote access lets you <strong>connect to your powerful desktop from any device</strong>, so you can run Claude Code, manage projects, and let AI agents work &mdash; all without being physically present at the machine.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Remote access concept diagram" style="width:100%;height:auto;">
+      <defs>
+        <marker id="arrowRemote" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowGreen" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-green)"/>
+        </marker>
+      </defs>
+
+      <!-- Cloud / Network -->
+      <ellipse cx="300" cy="50" rx="90" ry="28" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="300" y="46" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">Internet / VPN</text>
+      <text x="300" y="62" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">(Encrypted Tunnel)</text>
+
+      <!-- Left side: Your Device -->
+      <rect x="30" y="160" width="160" height="80" rx="10" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="110" y="192" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">Your Device</text>
+      <text x="110" y="212" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Laptop / Tablet / Phone</text>
+
+      <!-- Right side: AI Dev Desktop -->
+      <rect x="410" y="160" width="160" height="80" rx="10" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="490" y="188" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">AI Dev Desktop</text>
+      <text x="490" y="206" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Claude Code + Agents</text>
+      <text x="490" y="222" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">High-spec Machine</text>
+
+      <!-- Arrow: Your Device -> Cloud -->
+      <line x1="160" y1="170" x2="220" y2="75" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowGreen)" stroke-dasharray="5,3"/>
+
+      <!-- Arrow: Cloud -> AI Desktop -->
+      <line x1="380" y1="75" x2="440" y2="170" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowRemote)" stroke-dasharray="5,3"/>
+
+      <!-- Labels on arrows -->
+      <text x="155" y="120" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Connect</text>
+      <text x="420" y="120" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Access</text>
+
+      <!-- Bottom note -->
+      <text x="300" y="285" text-anchor="middle" font-size="10" font-style="italic" style="fill:var(--text);font-family:var(--font-family);">Work from anywhere as if you were sitting at your desk</text>
+    </svg>
+  </div>
+
+  <div class="tip-box">
+    You do not need to set up all three methods covered in this appendix. Choose the one that best fits your situation &mdash; the <a href="#comparison">Comparison &amp; Selection Guide</a> at the end will help you decide.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: Tailscale VPN Setup                                -->
+  <!-- ============================================================ -->
+  <h2 id="tailscale">Tailscale VPN Setup</h2>
+
+  <p><strong>Tailscale</strong> is a mesh VPN service built on WireGuard, a modern, high-performance VPN protocol. It creates a secure, private network between your devices &mdash; even behind routers and firewalls &mdash; without requiring complex network configuration.</p>
+
+  <h3>What is Tailscale?</h3>
+
+  <p>Think of Tailscale as a <strong>private network that connects your devices over the internet</strong>. Once installed on both your laptop and your desktop, you can access the desktop as if it were on the same local network. No port forwarding, no static IP addresses, and no router configuration required.</p>
+
+  <div class="flow-box">
+    <strong>How Tailscale works</strong>: Each device you install Tailscale on joins a virtual private network. Every device gets its own Tailscale IP address. Devices can reach each other directly using these IPs, regardless of their physical location.
+  </div>
+
+  <div class="step-list">
+    <div class="step">
+      <span class="step-label">Create a Tailscale account</span>
+      &mdash; Visit <a href="https://tailscale.com/signup" target="_blank" rel="noopener noreferrer">tailscale.com/signup</a> and sign up using your Google, Microsoft, GitHub, or email account. The free plan supports up to <strong>100 devices</strong>, which is more than enough for personal use.
+    </div>
+    <div class="step">
+      <span class="step-label">Install Tailscale on your AI Dev Desktop</span>
+      &mdash; Download and install Tailscale from the <a href="https://tailscale.com/download" target="_blank" rel="noopener noreferrer">download page</a>.
+      <div class="platform-block claude">
+        <div class="platform-block-title">Windows</div>
+        <p>Download the Windows installer and run it. Tailscale will appear in the system tray after installation.</p>
+      </div>
+      <div class="platform-block claude">
+        <div class="platform-block-title">MacOS</div>
+        <p>Download the MacOS app or install via Homebrew: <code>brew install --cask tailscale</code></p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Log in to Tailscale on the desktop</span>
+      &mdash; Open Tailscale and click <strong>"Log in"</strong>. A browser window will open &mdash; authorize the device using the account you created in Step 1. After authorization, Tailscale will display your device's Tailscale IP address (e.g., <code>100.x.x.x</code>).
+    </div>
+    <div class="step">
+      <span class="step-label">Install Tailscale on your remote device</span>
+      &mdash; Repeat the installation on your laptop, tablet, or phone. Tailscale supports Windows, MacOS, Linux, iOS, and Android.
+    </div>
+    <div class="step">
+      <span class="step-label">Log in on the remote device</span>
+      &mdash; Use the same account to log in on the remote device. Both devices will now appear in your Tailscale admin console at <a href="https://login.tailscale.com/admin/machines" target="_blank" rel="noopener noreferrer">login.tailscale.com</a>.
+    </div>
+    <div class="step">
+      <span class="step-label">Verify connectivity</span>
+      &mdash; On your remote device, open a terminal or command prompt and ping the desktop using its Tailscale IP.
+      <div class="code-block">
+<pre><code>ping 100.x.x.x</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+</div>
+      Replace <code>100.x.x.x</code> with your desktop's Tailscale IP. If you receive replies, the VPN connection is working.
+    </div>
+  </div>
+
+  <div class="tip-box">
+    Tailscale's free plan is generous &mdash; it supports up to 100 devices, subnet routing, and MagicDNS (automatic name resolution). You do not need to pay anything to use Tailscale for personal remote access. Visit <a href="https://tailscale.com/pricing" target="_blank" rel="noopener noreferrer">tailscale.com/pricing</a> for plan details.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: NoMachine Setup                                   -->
+  <!-- ============================================================ -->
+  <h2 id="nomachine">NoMachine Setup</h2>
+
+  <p><strong>NoMachine</strong> is a free remote desktop application that provides a full graphical desktop experience. Unlike Tailscale (which creates a network tunnel), NoMachine gives you a complete visual remote desktop session &mdash; you see the exact same screen, windows, and applications as if you were sitting in front of the machine.</p>
+
+  <h3>What is NoMachine?</h3>
+
+  <p>NoMachine uses the NX protocol to deliver high-performance remote desktop sessions. It is known for being <strong>fast, responsive, and easy to set up</strong>. Both the sending (host) and receiving (client) sides need NoMachine installed.</p>
+
+  <div class="flow-box">
+    <strong>When to use NoMachine</strong>: When you need a full visual desktop experience &mdash; for example, running Claude Desktop App GUI, managing multiple windows, or using applications that require a display.
+  </div>
+
+  <div class="step-list">
+    <div class="step">
+      <span class="step-label">Download NoMachine on the host (AI Dev Desktop)</span>
+      &mdash; Visit <a href="https://www.nomachine.com/download" target="_blank" rel="noopener noreferrer">nomachine.com/download</a> and download the version for your operating system.
+      <div class="platform-block claude">
+        <div class="platform-block-title">Windows</div>
+        <p>Download <strong>NoMachine for Windows</strong> and run the installer. Accept the default settings.</p>
+      </div>
+      <div class="platform-block claude">
+        <div class="platform-block-title">MacOS</div>
+        <p>Download <strong>NoMachine for macOS</strong> and drag it to your Applications folder.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Install and configure the host</span>
+      &mdash; After installation, NoMachine starts automatically as a service. Open the NoMachine application and go to <strong>Settings &rarr; Server &rarr; Security</strong>. Make sure <strong>"Allow connections from other computers"</strong> is enabled.
+    </div>
+    <div class="step">
+      <span class="step-label">Note the host's IP address</span>
+      &mdash; In the NoMachine main window, you will see the local IP address of the host machine (e.g., <code>192.168.1.100</code>). If you are connecting over the internet, you will need the <strong>public IP address</strong> or use Tailscale's IP address instead.
+    </div>
+    <div class="step">
+      <span class="step-label">Download NoMachine on the client (your device)</span>
+      &mdash; On the device you will use to connect remotely, download and install NoMachine from the same download page. NoMachine client software is available for Windows, MacOS, Linux, iOS, and Android.
+    </div>
+    <div class="step">
+      <span class="step-label">Connect to the host</span>
+      &mdash; Open NoMachine on the client device. Click <strong>"New connection"</strong> and enter the host's IP address. If you are using Tailscale, enter the Tailscale IP (e.g., <code>100.x.x.x</code>). Click <strong>"Connect"</strong> and enter the host machine's username and password when prompted.
+    </div>
+    <div class="step">
+      <span class="step-label">Adjust display settings</span>
+      &mdash; Once connected, you can adjust the quality and resolution from the NoMachine menu. For slow connections, reduce the resolution or enable <strong>"Low bandwidth mode"</strong> in the session settings.
+    </div>
+  </div>
+
+  <div class="tip-box">
+    If your internet connection is unstable, NoMachine can become laggy. In that case, try reducing the display resolution in session settings or consider using <a href="#tailscale">Tailscale</a> combined with command-line access (SSH or Claude Code CLI) instead of a full graphical session.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: Windows RDP Setup                                 -->
+  <!-- ============================================================ -->
+  <h2 id="windows-rdp">Windows RDP Setup</h2>
+
+  <p><strong>Remote Desktop Protocol (RDP)</strong> is built into Windows Professional, Enterprise, and Education editions. It allows you to connect to a Windows computer remotely using the built-in Remote Desktop Connection tool &mdash; no additional software required on the client side.</p>
+
+  <h3>What is Windows RDP?</h3>
+
+  <p>Windows RDP is Microsoft's proprietary remote desktop protocol. It provides a full graphical remote session and is <strong>built directly into Windows</strong>, so you do not need to install third-party software on the host machine. The client side (the device you connect from) can be Windows, Mac, iOS, or Android using the free Microsoft Remote Desktop app.</p>
+
+  <div class="warn">
+    Windows <strong>Home edition does NOT support RDP hosting</strong>. You need Windows Professional, Enterprise, or Education to act as an RDP host. If you have Windows Home, use <a href="#nomachine">NoMachine</a> instead.
+  </div>
+
+  <div class="step-list">
+    <div class="step">
+      <span class="step-label">Enable Remote Desktop on the host</span>
+      &mdash; On the AI Dev Desktop (Windows), press <code>Win + S</code>, type <strong>"Remote Desktop Settings"</strong>, and press Enter. Toggle <strong>"Enable Remote Desktop"</strong> to <strong>On</strong>. Windows may prompt you to confirm &mdash; click <strong>Confirm</strong>.
+    </div>
+    <div class="step">
+      <span class="step-label">Configure Windows Firewall</span>
+      &mdash; When you enable Remote Desktop, Windows automatically creates a firewall rule to allow RDP connections on port <strong>3389</strong>. Verify this by opening <strong>Windows Defender Firewall &rarr; Allow an app or feature through Windows Defender Firewall</strong> and confirming that <strong>Remote Desktop</strong> is checked.
+    </div>
+    <div class="step">
+      <span class="step-label">Set up port forwarding on your router (for internet access)</span>
+      &mdash; To connect from outside your local network, you need to forward port <strong>3389</strong> on your router to the host machine's local IP.
+      <ol style="margin-top:8px;">
+        <li>Log in to your router's admin panel (usually <code>192.168.1.1</code> or <code>192.168.0.1</code>).</li>
+        <li>Find the <strong>Port Forwarding</strong> (or <strong>NAT</strong>) section.</li>
+        <li>Create a new rule: External port <strong>3389</strong>, Internal port <strong>3389</strong>, Internal IP address = your desktop's local IP (e.g., <code>192.168.1.100</code>), Protocol = <strong>TCP</strong>.</li>
+        <li>Save and apply the rule.</li>
+      </ol>
+    </div>
+    <div class="step">
+      <span class="step-label">Find the host's public IP address</span>
+      &mdash; On the host machine, visit <a href="https://whatismyipaddress.com" target="_blank" rel="noopener noreferrer">whatismyipaddress.com</a> or search <strong>"What is my IP"</strong> in a browser. Note this address &mdash; you will use it to connect from the client.
+    </div>
+    <div class="step">
+      <span class="step-label">Connect from the client device</span>
+      &mdash; On your remote device, open the Remote Desktop Connection tool.
+      <div class="platform-block claude">
+        <div class="platform-block-title">Windows Client</div>
+        <p>Press <code>Win + R</code>, type <code>mstsc</code>, and press Enter. Enter the host's public IP address and click <strong>Connect</strong>.</p>
+      </div>
+      <div class="platform-block claude">
+        <div class="platform-block-title">Mac / iOS / Android</div>
+        <p>Download the free <strong>Microsoft Remote Desktop</strong> app from the App Store or Google Play. Add a new connection with the host's public IP address.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn">
+    <strong>Security exposure warning</strong>: Exposing RDP directly to the internet is risky. Automated bots constantly scan for open RDP ports. To reduce risk: (1) use a <strong>strong, unique password</strong> for the host Windows account, (2) enable <strong>Network Level Authentication (NLA)</strong> in Remote Desktop settings, and (3) consider using <a href="#tailscale">Tailscale VPN</a> instead of port forwarding so RDP is only accessible within your private network.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: Comparison & Selection Guide                        -->
+  <!-- ============================================================ -->
+  <h2 id="comparison">Comparison &amp; Selection Guide</h2>
+
+  <p>Each remote access method has its strengths and weaknesses. Use this comparison to find the best option for your situation.</p>
+
+  <div class="compare-grid" style="grid-template-columns:1fr 1fr 1fr;">
+    <div class="compare-col">
+      <h4>Tailscale VPN</h4>
+      <ul>
+        <li>Encrypted mesh VPN (WireGuard)</li>
+        <li>No port forwarding required</li>
+        <li>Works behind NAT / firewalls</li>
+        <li>Free for up to 100 devices</li>
+        <li>Command-line access</li>
+        <li>Best for CLI / SSH workflows</li>
+        <li>Minimal bandwidth overhead</li>
+      </ul>
+    </div>
+    <div class="compare-col">
+      <h4>NoMachine</h4>
+      <ul>
+        <li>Full graphical remote desktop</li>
+        <li>High performance (NX protocol)</li>
+        <li>Free for personal use</li>
+        <li>Cross-platform (Win/Mac/Linux)</li>
+        <li>Easy installation</li>
+        <li>Best for GUI workflows</li>
+        <li>Adjustable quality settings</li>
+      </ul>
+    </div>
+    <div class="compare-col">
+      <h4>Windows RDP</h4>
+      <ul>
+        <li>Built into Windows Pro+</li>
+        <li>No extra host software</li>
+        <li>Full desktop experience</li>
+        <li>Requires port forwarding for internet</li>
+        <li>Security risk if exposed directly</li>
+        <li>Best for pure Windows environments</li>
+        <li>Microsoft Remote Desktop client</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Recommended Combinations</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Scenario</th>
+        <th>Recommended Setup</th>
+        <th>Why</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Command-line only (Claude Code CLI, SSH, terminal)</td>
+        <td><strong>Tailscale alone</strong></td>
+        <td>Lightweight, secure, no GUI overhead</td>
+      </tr>
+      <tr>
+        <td>Need Claude Desktop App GUI remotely</td>
+        <td><strong>Tailscale + NoMachine</strong></td>
+        <td>Tailscale provides the secure tunnel; NoMachine provides the graphical session</td>
+      </tr>
+      <tr>
+        <td>Windows-only environment, no third-party software</td>
+        <td><strong>Windows RDP</strong></td>
+        <td>Built-in, no extra installation on the host</td>
+      </tr>
+      <tr>
+        <td>Windows Pro + want maximum security</td>
+        <td><strong>Tailscale + Windows RDP</strong></td>
+        <td>Tailscale replaces port forwarding; RDP stays within the private VPN network</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box">
+    <strong>For beginners</strong>: The easiest combination to start with is <strong>Tailscale + NoMachine</strong>. Install Tailscale on both machines to create a secure network, then use NoMachine for a full graphical remote desktop session. This combination works on both Windows and MacOS, does not require any router configuration, and keeps your connection secure.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: Troubleshooting                                    -->
+  <!-- ============================================================ -->
+  <h2 id="troubleshooting">Troubleshooting</h2>
+
+  <p>Here are solutions to the most common remote access issues.</p>
+
+  <div class="step-list">
+    <div class="step">
+      <span class="step-label">Cannot connect to the host machine</span>
+      &mdash; First, verify that the host machine is powered on and connected to the internet. Then check the following:
+      <ul style="margin-top:8px;margin-left:20px;">
+        <li><strong>Tailscale</strong>: Both devices must show as online in the Tailscale admin console. Try restarting the Tailscale service.</li>
+        <li><strong>NoMachine</strong>: Verify that NoMachine is running on the host and that "Allow connections" is enabled in Server settings.</li>
+        <li><strong>RDP</strong>: Confirm Remote Desktop is enabled in Windows Settings and that port 3389 is not blocked by your router or ISP.</li>
+      </ul>
+    </div>
+    <div class="step">
+      <span class="step-label">Connection is very slow or laggy</span>
+      &mdash; Remote desktop performance depends on your internet connection speed. Try these fixes:
+      <ul style="margin-top:8px;margin-left:20px;">
+        <li>Reduce display resolution in the remote desktop client settings.</li>
+        <li>Close unnecessary applications on the host machine to free up resources.</li>
+        <li>In NoMachine, enable "Low bandwidth mode" or reduce the display quality in session settings.</li>
+        <li>If using RDP, adjust the display settings in the connection options (lower color depth, disable wallpaper, disable font smoothing).</li>
+        <li>Connect via Tailscale (local VPN path) instead of going through port forwarding over the public internet.</li>
+      </ul>
+    </div>
+    <div class="step">
+      <span class="step-label">Authentication or login fails</span>
+      &mdash; If you cannot log in:
+      <ul style="margin-top:8px;margin-left:20px;">
+        <li>Double-check your username and password. For Windows RDP, you must use the Windows account credentials on the host machine.</li>
+        <li>For Tailscale, make sure both devices are logged into the same Tailscale account.</li>
+        <li>For NoMachine, check that you are entering the host machine's OS username and password (not a NoMachine-specific password, unless you configured one).</li>
+        <li>If you recently changed your password on the host, the remote client may cache old credentials. Clear saved passwords and try again.</li>
+      </ul>
+    </div>
+    <div class="step">
+      <span class="step-label">Audio or clipboard not working in remote session</span>
+      &mdash; These features are commonly affected:
+      <ul style="margin-top:8px;margin-left:20px;">
+        <li><strong>Audio</strong>: In NoMachine, go to Settings &rarr; Audio and ensure "Audio playback" and "Audio recording" are enabled. In RDP, check "Record from this computer" in the Local Resources tab of the connection options.</li>
+        <li><strong>Clipboard</strong>: Both NoMachine and RDP support clipboard sharing, but it must be enabled in the session settings. In NoMachine, check the "Copy and paste" option in the input settings panel.</li>
+      </ul>
+    </div>
+    <div class="step">
+      <span class="step-label">Tailscale devices show as offline</span>
+      &mdash; If a device appears offline in the Tailscale admin console but you know it is running:
+      <ul style="margin-top:8px;margin-left:20px;">
+        <li>Check that the Tailscale service is running. On Windows, look for the Tailscale icon in the system tray. On MacOS, check the menu bar icon.</li>
+        <li>Try restarting the Tailscale service. On Windows: open Services, find "Tailscale," right-click, and select Restart. On MacOS: quit and reopen the Tailscale app.</li>
+        <li>Verify that the device has internet access (Tailscale cannot function without an internet connection).</li>
+        <li>If using a corporate or school network, the firewall may block WireGuard traffic. Contact your network administrator or try a different network.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Still stuck?</strong> If none of the above solutions resolve your issue, check the official documentation for each tool: <a href="https://tailscale.com/kb" target="_blank" rel="noopener noreferrer">Tailscale Knowledge Base</a>, <a href="https://www.nomachine.com/support" target="_blank" rel="noopener noreferrer">NoMachine Support</a>, or <a href="https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/" target="_blank" rel="noopener noreferrer">Microsoft RDP Documentation</a>.
+  </div>
+
+  <!-- Chapter Navigation -->
+  <div class="chapter-nav">
+    <a href="../ch13/13_Next_Steps_en.html" class="prev">
+      <div class="dir">&larr; Chapter 13</div>
+      <div class="ttl">Next Steps</div>
+    </a>
+    <a href="B_Claude_Code_CLI_en.html" class="next" style="margin-left:auto;">
+      <div class="dir">Appendix B &rarr;</div>
+      <div class="ttl">Claude Code CLI Guide</div>
+    </a>
+  </div>
+  <footer>
+    Introductory handbook based on Claude Desktop App / ai-workspace-standards<br>
+    References: <a href="https://claude.ai" target="_blank">Claude</a> &middot;
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a>.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script>
+function copyCode(btn) {
+  const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = 'Done!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+</script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

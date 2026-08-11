@@ -1,0 +1,69 @@
+# ─────────────────────────────────────────────────────────────────────
+#  보안 — 비밀정보는 절대 커밋/푸시하지 않는다 (저장소가 비공개여도 마찬가지)
+# ─────────────────────────────────────────────────────────────────────
+
+# 환경변수 / 자격증명
+.env
+.env.*
+*.env
+!.env.example
+.envrc
+secrets.*
+*.secret
+*.secrets
+credentials*
+*credentials*
+.netrc
+.htpasswd
+
+# 키 / 인증서 / 토큰
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+*.crt
+*.cer
+id_rsa*
+id_ed25519*
+*.ppk
+*_token
+*.token
+*token*.json
+service-account*.json
+gha-creds-*.json
+*-key.json
+
+# 클라우드/프로바이더 자격증명
+.aws/
+.gcloud/
+.azure/
+.npmrc
+.pypirc
+*.tfvars
+.terraform/
+
+# 로컬 설정/캐시 (공개 불필요)
+.vscode/
+.idea/
+node_modules/
+__pycache__/
+*.log
+.playwright-mcp/
+
+# Obsidian vault metadata
+.obsidian/
+
+# 세션별 로컬 계획 파일 — GitHub 동기화 대상 아님
+.zcode/plans/
+
+# GitHub Actions 워크플로우 — 새로 생기는 파일은 동기화 대상에서 제외(기존 추적 파일은 유지)
+.github/workflows/
+
+# macOS
+.DS_Store
+
+# Claude memory files — auto-generated, not for publishing
+CLAUDE.md
+**/CLAUDE.md

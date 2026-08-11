@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Lecture Guide · Introduction to Claude Code and Multi-Agent Harness — prerequisites, time allocation, chapter notes, comprehension questions">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lecture Guide · Claude Code &amp; Multi-Agent Harness</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+  <style>
+    tr.schedule-total td { font-weight: 700; background: var(--bg2); }
+    h3 { margin: 28px 0 10px; }
+    #agenda p { font-size: 14px; color: var(--text-dim); margin: 8px 0; }
+    footer {
+      margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border);
+      color: var(--text-dim); font-size: 12px; line-height: 1.9;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+<nav>
+  <a href="../index_en.html" class="nav-home">← Handbook Home</a>
+  <div class="nav-title">Lecture Guide</div>
+  <a href="#prereq">Consolidated Prerequisites Checklist</a>
+  <a href="#agenda">Full Time Allocation Table</a>
+  <a href="#per-section">Chapter-by-Chapter Instructor Notes</a>
+  <a href="#recap">Chapter Comprehension Questions</a>
+  <div class="nav-section">Instructor Materials</div>
+  <a href="00_Course_Overview_en.html">Course Overview</a>
+</nav>
+
+<main>
+ <article class="reading">
+  <h1>Lecture Guide</h1>
+  <p class="lead">Materials for instructors teaching this handbook (Chapters 1–13 + Appendices A/B/C).</p>
+
+  <div class="note">This document is an instructor-only operational reference, not part of the handbook body. It does not need to be shared with learners.</div>
+  <div class="warn">Before finalizing, re-read the full text and check for <strong>typos, awkward phrasing, and chapter/section number mismatches</strong>. AI-generated drafts may contain errors or unnatural wording.</div>
+
+  <h2 id="prereq">Consolidated Prerequisites Checklist</h2>
+  <p>This brings together items scattered across the setup documents (see <a href="../ch03/03_Setup_Guide_en.html">Chapter 3 · Setting Up Your Lab</a>) so you can verify everything before the course begins. Notify participants of this list <strong>at least a day before</strong> class so on-site setup issues don't waste time.</p>
+  <div class="chk">☐ Active Claude Pro subscription (a subscription account, not an API key)</div>
+  <div class="chk">☐ A Claude.ai account created and login verified</div>
+  <div class="chk">☐ macOS or Windows 10/11 environment (Linux users use Claude Code CLI from Appendix B)</div>
+  <div class="chk">☐ At least 2GB of free disk space and a stable internet connection</div>
+  <div class="chk">☐ Claude Desktop App installed (detailed in Ch 2; installing in advance makes class smoother)</div>
+  <div class="chk">☐ The <code>C:\git\project\setup</code> pre-installation script folder ready (recommended)</div>
+  <div class="chk">☐ (For Ch 6–8 labs) ai-workspace-standards clone: <code>git clone https://github.com/5throck/ai-workspace-standards.git</code></div>
+  <div class="warn">For the Ch 11 team-builder exercise, ask participants to think about their own work domain (e.g., marketing, education, research) in advance — this greatly shortens the interview. Notify participants to prepare "one recurring task of their own."</div>
+
+  <h2 id="agenda">Full Time Allocation Table</h2>
+  <p>Timing includes hands-on time for participants to type (or copy-paste) commands. Breaks are separate.</p>
+  <div class="table-schedule">
+  <table>
+    <thead><tr><th>Section</th><th>Content</th><th>Format</th><th>Time</th></tr></thead>
+    <tbody>
+      <tr><td>Intro</td><td>Course objectives, full roadmap, prerequisite check</td><td>Lecture</td><td>10m</td></tr>
+      <tr><td>Ch 1</td><td>AI trends, single AI vs agent teams, harness concept, expected outcomes</td><td>Lecture + Check</td><td>25m</td></tr>
+      <tr><td>Ch 2</td><td>Claude Desktop App install, subscription plan, first conversation, projects, artifacts</td><td>Hands-on</td><td>30m</td></tr>
+      <tr><td>Ch 3</td><td>Prerequisite checklist, OS-specific setup scripts, installation verification</td><td>Hands-on</td><td>30m</td></tr>
+      <tr><td>Ch 4</td><td>Agents, skills, workflows, PM orchestration, 3-Tier, PM Gateway, dispatch flow</td><td>Lecture + Check</td><td>40m</td></tr>
+      <tr><td>Ch 5</td><td>ai-workspace-standards structure, AGENTS.md/CLAUDE.md roles, variant concept</td><td>Lecture</td><td>30m</td></tr>
+      <tr><td>Ch 6</td><td>co-consult market analysis lab, 7-phase workflow, deliverables check</td><td>Hands-on</td><td>40m</td></tr>
+      <tr><td>Ch 7</td><td>co-deck mini deck lab, 11-stage pipeline, gate approval</td><td>Hands-on</td><td>40m</td></tr>
+      <tr><td>Ch 8</td><td>co-consult + co-deck integrated pipeline, result sharing</td><td>Hands-on + Share</td><td>30m</td></tr>
+      <tr><td>Ch 9</td><td>Agent file format, frontmatter, agent-lifecycle-manager, create a specialist agent</td><td>Hands-on</td><td>35m</td></tr>
+      <tr><td>Ch 10</td><td>Skill file format, triggers, skill-lifecycle-manager + skill-creator, create a custom skill</td><td>Hands-on</td><td>35m</td></tr>
+      <tr><td>Ch 11</td><td>team-builder 5-step, agent team proposal for your domain</td><td>Hands-on</td><td>30m</td></tr>
+      <tr><td>Ch 12</td><td>/sync, Git/GitHub PR, hooks, CI/CD, dev-sync.ts</td><td>Lecture</td><td>25m</td></tr>
+      <tr><td>Ch 13</td><td>Learning roadmap, community, application scenarios, FAQ, full review</td><td>Discussion</td><td>20m</td></tr>
+      <tr class="schedule-total"><td colspan="3">One-day total</td><td>about 6h 40m (excl. breaks)</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note">With two breaks (10–15 min each), the total is <strong>about 7 hours</strong>. Direct participants to Appendices A/B/C for self-study after the course as needed.</div>
+
+  <h2 id="per-section">Chapter-by-Chapter Instructor Notes</h2>
+
+  <h3>Ch 1: Why AI Agent Teams? (Introduction)</h3>
+  <p>This chapter establishes motivation for "why multiple AIs should work as a team" before the technical concepts in Ch 4. Use the single AI vs agent team comparison table to make the difference tangible, and introduce the harness concept lightly as a "framework for moving AI teams."</p>
+  <p>The expected-outcomes section is a preview of what participants will experience in the Ch 6–8 labs. Convey the "feel" here and defer technical detail to Ch 4.</p>
+  <span class="badge badge-do">Participant activity</span> Ask for a show of hands: "When using AI solo, have you ever wished several AIs would split the work?" This builds curiosity that carries into Ch 4.
+
+  <h3>Ch 2: Getting Started with Claude Desktop App</h3>
+  <p>This is the handbook's default tool, so the most important thing is that participants <strong>actually install it and start their first conversation</strong>. Participants who already installed it can focus on the subscription comparison and project creation lab.</p>
+  <p>Linux users have no desktop app, so point them to Appendix B (Claude Code CLI). Do not cover the CLI itself in this chapter.</p>
+  <span class="badge badge-do">Participant activity</span> Have participants create an "AI Learning" project and enter this Custom Instruction: "Answer in Korean. Explain simply for beginners." They will keep using this project throughout the handbook.
+
+  <h3>Ch 3: Setting Up Your Lab</h3>
+  <p>Check the prerequisite checklist first, run the OS-specific setup scripts, then verify installation. Since macOS/Windows/Linux are all covered, demonstrate once on your own OS and let others follow the matching script.</p>
+  <p>Make sure the verification step (<code>bun setup-common.ts</code>) passes. Saving time here makes the Ch 6–8 labs go smoothly.</p>
+
+  <h3>Ch 4: Multi-Agent Harness Concepts</h3>
+  <p>This chapter is the reference point for all terms used later (agents, skills, workflows, PM, 3-Tier, PM Gateway), so it's worth slowing down. Analogies like "agent = an employee with a role, skill = a reusable procedure manual" work well on a whiteboard.</p>
+  <span class="badge badge-do">Participant activity</span> Show the dispatch-flow SVG, then have participants talk to a neighbor for one minute about "how would PM orchestration apply to our team's work?"
+
+  <h3>Ch 5: Exploring ai-workspace-standards</h3>
+  <p>Convey the L0→L1→L2 hierarchy and the variant concept. For beginners, the analogy "a template system that stamps out projects from a standard repository" works well. Use a table to clarify the different roles of AGENTS.md and CLAUDE.md.</p>
+
+  <h3>Ch 6: co-consult — AI Consulting in Practice (core afternoon lab)</h3>
+  <p>This chapter is dedicated to using an existing variant. Participants run a market analysis project by talking with the PM agent. Emphasize how each phase of the 7-phase workflow progresses automatically and how Gates 2 and 5 request user approval.</p>
+  <p>Have them confirm that deliverables (<code>deliverables/reports/</code>) are actually generated, and reinforce: "The AI didn't do this alone — agents divided roles and collaborated."</p>
+  <span class="badge badge-do">Participant activity</span> Let participants pick one of the four team-composition scenarios (Quick Assessment, Standard, Complex Transformation, Specialized Expert) and talk with the PM agent about it.
+
+  <h3>Ch 7: co-deck — AI Presentation in Practice</h3>
+  <p>Build a mini presentation with the 11-stage pipeline: theme/style selection, Gate 2 and 5 approvals, and HTML+PDF deliverables. Unlike Ch 6, a clear "presentation" output appears, which participants find satisfying.</p>
+  <span class="badge badge-do">Participant activity</span> Have participants screen-share one finished slide so they can compare and feel how theme/style choices affect the result.
+
+  <h3>Ch 8: Combined co-consult + co-deck Pipeline</h3>
+  <p>An integration lab that passes the Ch 6 report into the Ch 7 input. Show the full flow — "topic in → finished deck in 30–45 minutes" — and have participants compare the agent compositions of the two systems.</p>
+  <span class="badge badge-do">Participant activity</span> Let participants feed their Ch 6 report directly into co-deck in Ch 7 to experience the value of integration first-hand.
+
+  <h3>Ch 9: Creating &amp; Modifying Agents</h3>
+  <p>Cover the agent file format (frontmatter, role definition, Tier) and use agent-lifecycle-manager to write, register, and validate a simple specialist agent. For beginners, the analogy "résumé (frontmatter) + job manual (body)" works well.</p>
+  <span class="badge badge-do">Participant activity</span> Have participants register the <code>agents/my-analyst.md</code> they created in the lab into AGENTS.md and validate it with <code>bun scripts/agent-lifecycle-audit.ts</code>.
+
+  <h3>Ch 10: Creating &amp; Modifying Skills</h3>
+  <p>Cover the skill file format (frontmatter, triggers, steps) and use skill-lifecycle-manager + skill-creator to write and test a custom skill. Use the "cook's recipe" analogy for the relationship between agents and skills.</p>
+  <span class="badge badge-do">Participant activity</span> Have participants register the <code>skills/my-reviewer/SKILL.md</code> they created in the lab and invoke it to verify it works.
+
+  <h3>Ch 11: Building Your Own Agent Team</h3>
+  <p>Cover team-builder's AI-layer 5-step workflow (requirements interview → benchmarking → current team diagnosis → proposal generation → approval) and the script layer (<code>bun scripts/team-builder.ts</code>).</p>
+  <p>If participants decide their domain in advance, the interview goes fast. Have them review the proposal and complete approval (MANDATORY GATE).</p>
+  <span class="badge badge-do">Participant activity</span> Have participants get a custom agent team proposal for their domain (marketing, education, research, etc.) and complete the approval step.
+
+  <h3>Ch 12: Understanding Workflows &amp; Automation</h3>
+  <p>Explain /sync, Git/GitHub PR automation, hooks, CI/CD basics, and how dev-sync.ts works. Start beginners with the analogy "automation = delegating repetitive work to a system."</p>
+  <p>Keep this concept-focused rather than a hands-on lab, and point CLI-savvy participants to Appendix B for deeper material.</p>
+
+  <h3>Ch 13: Next Steps + Wrap-Up</h3>
+  <p>Wrap up with the learning roadmap, community, application scenarios, and FAQ. Review the whole day and connect everything built in Ch 1–12 (projects, lab deliverables, agents, skills, team proposal).</p>
+  <span class="badge badge-do">Participant activity</span> Have participants present the team proposal from Ch 11 and ask, "Do you want to actually build this team next?" to reinforce motivation for continued learning.
+
+  <h2 id="recap">Chapter Comprehension Questions</h2>
+  <p>Ask the following questions at the end of each chapter to check understanding. The goal is not getting the right answer — it's having participants explain in their own words.</p>
+
+  <div class="quiz">
+    <div class="quiz-title">Ch 1 Comprehension Check</div>
+    <ol>
+      <li>What is the biggest difference between a single AI and a multi-agent team? (context, role, parallelism)</li>
+      <li>How would you define a "harness"?</li>
+      <li>What becomes possible when multiple AIs collaborate?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">Ch 2 Comprehension Check</div>
+    <ol>
+      <li>What is the difference between Claude Desktop App and the Claude.ai web version?</li>
+      <li>Why is the Projects feature useful?</li>
+      <li>What can you build with Artifacts?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">Ch 3 Comprehension Check</div>
+    <ol>
+      <li>Did you run the setup script for your OS?</li>
+      <li>What command verifies that the installation succeeded?</li>
+      <li>Why should pre-installation be done in advance?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">Ch 4 Comprehension Check</div>
+    <ol>
+      <li>Explain the difference between agents, skills, and workflows in one sentence each.</li>
+      <li>What role does the PM (Project Manager) agent play?</li>
+      <li>Why is the 3-Tier strategy (High/Medium/Low) needed?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">Ch 5 Comprehension Check</div>
+    <ol>
+      <li>What role does each of AGENTS.md and CLAUDE.md play?</li>
+      <li>What is the L0→L1→L2 hierarchy?</li>
+      <li>What is a variant?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">Ch 6 Comprehension Check</div>
+    <ol>
+      <li>What are Gates 2 and 5 in co-consult's 7-phase workflow?</li>
+      <li>What is the difference between the four team-composition scenarios?</li>
+      <li>Where are the deliverables stored?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">Ch 7 Comprehension Check</div>
+    <ol>
+      <li>In co-deck's 11-stage pipeline, at which stage do you choose theme/style?</li>
+      <li>What do Gate 2 (content) and Gate 5 (sample PDF) each approve?</li>
+      <li>How are the HTML and PDF deliverables produced?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">Ch 8 Comprehension Check</div>
+    <ol>
+      <li>How do you pass a co-consult report into co-deck as input?</li>
+      <li>Why are the agent compositions of the two systems different?</li>
+      <li>Describe the full flow of the integrated pipeline.</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">Ch 9 Comprehension Check</div>
+    <ol>
+      <li>What goes into an agent file's frontmatter?</li>
+      <li>What does Tier (High/Medium/Low) determine?</li>
+      <li>What are the 5 steps of agent-lifecycle-manager?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">Ch 10 Comprehension Check</div>
+    <ol>
+      <li>What role does a skill file's metadata.triggers play?</li>
+      <li>What is the relationship between agents and skills?</li>
+      <li>What are the 6 steps of skill-lifecycle-manager?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">Ch 11 Comprehension Check</div>
+    <ol>
+      <li>Recite the 5 steps of team-builder's AI layer in order.</li>
+      <li>Why is proposal approval a MANDATORY GATE?</li>
+      <li>What does the script layer (<code>bun scripts/team-builder.ts</code>) do?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">Ch 12 Comprehension Check</div>
+    <ol>
+      <li>What does the /sync command handle in one go?</li>
+      <li>Why do you need a PR (Pull Request) in Git/GitHub?</li>
+      <li>What is a hook?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">Ch 13 Comprehension Check</div>
+    <ol>
+      <li>Summarize what you built today (project, deliverables, agents, skills, team proposal) in one sentence each.</li>
+      <li>What will you learn next?</li>
+      <li>What will you apply to your own work first?</li>
+    </ol>
+  </div>
+
+  <footer>
+    Claude Desktop App / ai-workspace-standards-based introductory handbook (as of Aug 2026) · Korean educational material<br>
+    Official resources: <a href="https://claude.ai" target="_blank">Claude</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    The content of this handbook is available under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (Attribution-NonCommercial-ShareAlike 4.0 International)</a> license.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Claude Code와 멀티 에이전트 하네스 입문 - 11장: 나만의 에이전트 팀 구성하기">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>11장 · 나만의 에이전트 팀 구성하기</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index.html" class="nav-home">&larr; 핸드북 홈</a>
+  <div class="nav-title">11장 &middot; 나만의 에이전트 팀 구성하기</div>
+  <a href="#team-why">왜 에이전트 팀이 필요한가?</a>
+  <a href="#team-builder-intro">team-builder 스킬 소개</a>
+  <a href="#five-steps">AI 레이어 5-step</a>
+  <a href="#proposal">제안서 형식</a>
+  <a href="#script-layer">스크립트 레이어</a>
+  <a href="#patterns">기존 팀 구성 패턴</a>
+  <a href="#practice">실습</a>
+  <div class="nav-section">다른 장</div>
+  <a href="../ch10/10_Creating_Skills.html">10장 &middot; 스킬 만들기와 수정</a>
+  <a href="../ch12/12_Workflows_Automation.html">12장 &middot; 워크플로우와 자동화</a>
+</nav>
+<main>
+<article class="reading">
+  <div class="chapter-eyebrow">11장</div>
+  <h1>나만의 에이전트 팀 구성하기</h1>
+  <p class="lead">지금까지 에이전트를 만들고(9장), 스킬을 작성하고(10장), 하네스의 전체 구조를 이해했습니다(3~4장). 이 장에서는 이 모든 요소를 하나로 묶어 <strong>나만의 에이전트 팀</strong>을 구성하는 방법을 배웁니다. team-builder 스킬이 어떻게 요구사항을 수집하고, 벤치마킹하고, 제안서를 생성하는지 단계별로 살펴보고, 직접 Claude에게 팀 구성을 요청해 보겠습니다.</p>
+  <div class="keypoints">
+    <h3>이 장에서 배울 것</h3>
+    <ul>
+      <li>에이전트 팀 구성이 필요한 이유</li>
+      <li>team-builder 스킬의 AI 레이어와 스크립트 레이어</li>
+      <li>5-step 워크플로우: 인터뷰 &rarr; 벤치마킹 &rarr; 진단 &rarr; 제안 &rarr; 승인</li>
+      <li>실습: 나만의 커스텀 에이전트 팀 만들기</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: 왜 에이전트 팀이 필요한가?                              -->
+  <!-- ============================================================ -->
+  <h2 id="team-why">왜 에이전트 팀이 필요한가?</h2>
+
+  <h3>실무 시나리오</h3>
+
+  <p>AI 에이전트는 다양한 분야에서 활용됩니다. 각 분야의 특성에 맞게 에이전트를 조합하면 훨씬 더 강력한 시스템을 만들 수 있습니다. 몇 가지 실무 시나리오를 살펴보겠습니다.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>마케팅 팀</h4>
+      <ul>
+        <li>시장 조사, 콘텐츠 기획, 디자인, 검토</li>
+        <li>브랜드 가이드라인 준수</li>
+        <li>캠페인 성과 분석</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>연구소</h4>
+      <ul>
+        <li>문헌 검색, 데이터 분석, 논문 초안 작성</li>
+        <li>출처 검증과 인용 관리</li>
+        <li>동료 검토(peer review)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>교육 기관</h4>
+      <ul>
+        <li>강의 자료 제작, 시험 문항 출제, 학습 분석</li>
+        <li>교육 과정 설계</li>
+        <li>학생 피드백 수집과 분석</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>소프트웨어 개발</h4>
+      <ul>
+        <li>코드 작성, 테스트, 코드 리뷰</li>
+        <li>문서화와 배포 자동화</li>
+        <li>보안 검사와 품질 관리</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>단일 AI의 한계</h3>
+
+  <p>단일 AI 어시스턴트로도 많은 작업을 할 수 있습니다. 하지만 복잡한 프로젝트에서는 <strong>단일 AI의 한계</strong>가 명확하게 드러납니다.</p>
+
+  <ul>
+    <li><strong>역할 분리의 어려움</strong> &mdash; 한 AI가 기획, 작성, 검토를 모두 수행하면 각 역할의 품질이 떨어집니다. &ldquo;내 글을 내가 검토&rdquo;하는 것은 편향될 수 있습니다.</li>
+    <li><strong>전문성 부족</strong> &mdash; 보안 검사, 문서 품질 검토, 성과 분석 등 각 분야의 전문 지식이 필요한 작업은 전문 에이전트가 더 잘 수행합니다.</li>
+    <li><strong>확장성</strong> &mdash; 프로젝트가 커지면 단일 AI는 작업을 순차적으로 처리해야 하므로 시간이 오래 걸립니다. 팀 구성은 병렬 처리를 가능하게 합니다.</li>
+  </ul>
+
+  <h3>에이전트 팀의 이점</h3>
+
+  <p>여러 전문 에이전트가 협력하면 다음과 같은 이점을 얻을 수 있습니다.</p>
+
+  <ul>
+    <li><strong>역할 분담</strong> &mdash; 각 에이전트가 자신의 전문 분야에만 집중하므로 결과물의 품질이 높아집니다.</li>
+    <li><strong>품질 게이트</strong> &mdash; 작성 에이전트와 검토 에이전트가 분리되어 있으므로, 객관적인 품질 검토가 가능합니다.</li>
+    <li><strong>재사용성</strong> &mdash; 스킬은 여러 에이전트가 공유할 수 있으므로, 중복 작업을 줄이고 일관된 결과를 얻을 수 있습니다.</li>
+    <li><strong>병렬 처리</strong> &mdash; 독립적인 작업은 동시에 실행할 수 있어 전체 프로젝트 시간이 단축됩니다.</li>
+  </ul>
+
+  <!-- 인라인 SVG: 단일 AI vs 에이전트 팀 비교 -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="단일 AI vs 에이전트 팀 비교 다이어그램">
+      <defs>
+        <marker id="arrowCmp1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowCmp2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
+        </marker>
+      </defs>
+
+      <!-- 왼쪽: 단일 AI -->
+      <rect x="20" y="20" width="300" height="320" rx="14" fill="var(--bg-note)" stroke="var(--border)" stroke-width="2"/>
+      <text x="170" y="50" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">단일 AI</text>
+
+      <!-- 단일 AI 상자 -->
+      <rect x="100" y="72" width="140" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="170" y="102" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">AI 어시스턴트</text>
+
+      <!-- 작업들 -->
+      <rect x="50" y="150" width="80" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="90" y="173" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">기획</text>
+      <line x1="170" y1="122" x2="90" y2="150" stroke="var(--text-dim)" stroke-width="1.5"/>
+
+      <rect x="150" y="150" width="80" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="190" y="173" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">작성</text>
+      <line x1="170" y1="122" x2="190" y2="150" stroke="var(--text-dim)" stroke-width="1.5"/>
+
+      <rect x="250" y="150" width="60" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="280" y="173" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">검토</text>
+      <line x1="170" y1="122" x2="280" y2="150" stroke="var(--text-dim)" stroke-width="1.5"/>
+
+      <!-- 문제점 -->
+      <text x="170" y="210" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--accent-amber);font-family:var(--font-family);">문제점</text>
+      <text x="170" y="230" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">모든 작업을 하나가 담당</text>
+      <text x="170" y="248" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">자가 검토로 편향 발생</text>
+      <text x="170" y="266" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">순차 처리로 시간 증가</text>
+
+      <!-- 병목 표시 -->
+      <rect x="100" y="286" width="140" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="170" y="309" text-anchor="middle" font-size="10" style="fill:var(--accent-amber);font-family:var(--font-family);">병목 지점</text>
+
+      <!-- 오른쪽: 에이전트 팀 -->
+      <rect x="360" y="20" width="300" height="320" rx="14" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="510" y="50" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">에이전트 팀</text>
+
+      <!-- PM -->
+      <rect x="460" y="68" width="100" height="40" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="510" y="93" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">PM (오케스트레이터)</text>
+
+      <!-- 전문 에이전트들 -->
+      <rect x="378" y="130" width="70" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="413" y="155" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">연구원</text>
+      <line x1="490" y1="108" x2="413" y2="130" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowCmp2)"/>
+
+      <rect x="458" y="130" width="70" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="493" y="155" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">작성자</text>
+      <line x1="510" y1="108" x2="493" y2="130" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowCmp2)"/>
+
+      <rect x="538" y="130" width="70" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="573" y="155" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">검토자</text>
+      <line x1="530" y1="108" x2="573" y2="130" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowCmp2)"/>
+
+      <!-- 협업 화살표 -->
+      <line x1="448" y1="150" x2="458" y2="150" stroke="var(--accent-green)" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="528" y1="150" x2="538" y2="150" stroke="var(--accent-green)" stroke-width="1" stroke-dasharray="3,2"/>
+
+      <!-- 장점 -->
+      <text x="510" y="200" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--accent-green);font-family:var(--font-family);">장점</text>
+      <text x="510" y="220" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">역할 분담으로 전문성 확보</text>
+      <text x="510" y="238" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">독립 검토로 객관성 유지</text>
+      <text x="510" y="256" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">병렬 처리로 속도 향상</text>
+
+      <!-- 결과 -->
+      <rect x="430" y="280" width="160" height="42" rx="10" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="510" y="305" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--accent-green);font-family:var(--font-family);">높은 품질 산출물</text>
+      <line x1="510" y1="170" x2="510" y2="280" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowCmp2)"/>
+    </svg>
+  </div>
+
+  <div class="tip-box">
+    <strong>비유:</strong> 단일 AI는 &ldquo;만능 요리사&rdquo;와 같습니다. 한 사람이 재료 준비, 요리, 플레이팅, 맛 평가를 모두 하면 품질에 한계가 있습니다. 에이전트 팀은 각자 전문 분야를 담당하는 &ldquo;요리 팀&rdquo;입니다. 팀장(PM)이 조율하고, 각 요리사가 자신의 역할에 집중하며, 평가자가 객관적으로 품질을 검토합니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: team-builder 스킬 소개                               -->
+  <!-- ============================================================ -->
+  <h2 id="team-builder-intro">team-builder 스킬 소개</h2>
+
+  <h3>team-builder란?</h3>
+
+  <p><code>team-builder</code>는 프로젝트의 목적과 요구사항에 맞는 <strong>맞춤형 에이전트 팀을 구성</strong>하는 스킬입니다. 사용자와의 인터뷰로 요구사항을 수집하고, 웹 검색으로 업계 벤치마크를 참고하며, 기존 팀의 상태를 진단한 뒤 최적의 팀 구성을 제안합니다.</p>
+
+  <p>이 스킬은 <strong>두 개의 레이어</strong>로 구성됩니다.</p>
+
+  <ul>
+    <li><strong>AI 레이어 (Steps 1~5)</strong> &mdash; Claude(AI)가 직접 수행하는 단계입니다. 요구사항 인터뷰, 벤치마킹, 진단, 제안서 생성, 사용자 승인 게이트를 포함합니다.</li>
+    <li><strong>스크립트 레이어 (Steps 6~14)</strong> &mdash; 사용자가 승인한 제안서 JSON을 기반으로 <code>bun scripts/team-builder.ts</code> 스크립트가 자동으로 에이전트 파일을 생성하고 시스템에 등록합니다.</li>
+  </ul>
+
+  <div class="warning-box">
+    <strong>중요:</strong> 스크립트 레이어는 사용자가 Step 5에서 <strong>명시적으로 승인</strong>한 경우에만 실행됩니다. AI 레이어는 제안만 하고, 실제 파일 생성은 스크립트가 담당합니다. 이 두 레이어의 분리는 안전 장치 역할을 합니다.
+  </div>
+
+  <h3>기존 시스템의 4가지 팀 구성 패턴</h3>
+
+  <p>co-consult 시스템에는 이미 검증된 4가지 팀 구성 패턴이 존재합니다. team-builder는 이 패턴들을 참고하여 새로운 팀을 제안합니다.</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Quick Assessment</strong> &mdash; 3개 에이전트로 구성된 가벼운 평가 팀. 소규모 프로젝트나 빠른 진단에 적합합니다.</li>
+      <li><strong>Standard</strong> &mdash; 5개 에이전트로 구성된 표준 팀. 대부분의 일반적인 프로젝트에 적합합니다.</li>
+      <li><strong>Complex Transformation</strong> &mdash; 8개 에이전트로 구성된 대규모 팀. 복잡한 조직 변화나 대형 프로젝트에 적합합니다.</li>
+      <li><strong>Specialized Expert</strong> &mdash; 4개 에이전트로 구성된 전문가 팀. 특정 분야의 심층 분석에 적합합니다.</li>
+    </ol>
+  </div>
+
+  <!-- 인라인 SVG: team-builder 레이어 구조도 -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="team-builder 레이어 구조도">
+      <defs>
+        <marker id="arrowLyr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+
+      <!-- 타이틀 -->
+      <text x="340" y="28" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--accent-purple);font-family:var(--font-family);">team-builder 2-레이어 구조</text>
+
+      <!-- AI 레이어 -->
+      <rect x="30" y="50" width="620" height="120" rx="12" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="50" y="74" font-size="13" font-weight="bold" style="fill:var(--accent-purple);font-family:var(--font-family);">AI 레이어 (Claude가 직접 수행)</text>
+
+      <rect x="50" y="90" width="100" height="60" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="100" y="113" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--accent);font-family:var(--font-family);">Step 1</text>
+      <text x="100" y="128" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">요구사항 인터뷰</text>
+
+      <rect x="162" y="90" width="100" height="60" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="212" y="113" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--accent-green);font-family:var(--font-family);">Step 2</text>
+      <text x="212" y="128" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">벤치마킹</text>
+
+      <rect x="274" y="90" width="100" height="60" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="324" y="113" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--accent-amber);font-family:var(--font-family);">Step 3</text>
+      <text x="324" y="128" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">현재 팀 진단</text>
+
+      <rect x="386" y="90" width="100" height="60" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="436" y="113" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--accent-purple);font-family:var(--font-family);">Step 4</text>
+      <text x="436" y="128" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">제안서 생성</text>
+
+      <rect x="498" y="90" width="130" height="60" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="563" y="113" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--accent);font-family:var(--font-family);">Step 5</text>
+      <text x="563" y="128" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">사용자 승인 게이트</text>
+
+      <!-- 화살표 -->
+      <line x1="150" y1="120" x2="162" y2="120" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowLyr)"/>
+      <line x1="262" y1="120" x2="274" y2="120" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowLyr)"/>
+      <line x1="374" y1="120" x2="386" y2="120" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowLyr)"/>
+      <line x1="486" y1="120" x2="498" y2="120" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowLyr)"/>
+
+      <!-- 승인 게이트 표시 -->
+      <rect x="490" y="86" width="6" height="68" rx="3" fill="var(--accent-amber)"/>
+
+      <!-- 하단 스크립트 레이어 -->
+      <rect x="30" y="200" width="620" height="100" rx="12" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="50" y="224" font-size="13" font-weight="bold" style="fill:var(--accent-green);font-family:var(--font-family);">스크립트 레이어 (bun scripts/team-builder.ts)</text>
+
+      <rect x="50" y="240" width="110" height="42" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="105" y="265" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">에이전트 파일 생성</text>
+
+      <rect x="172" y="240" width="110" height="42" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="227" y="265" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">AGENTS.md 등록</text>
+
+      <rect x="294" y="240" width="110" height="42" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="349" y="265" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">스킬 설치</text>
+
+      <rect x="416" y="240" width="110" height="42" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="471" y="265" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">워크플로우 설정</text>
+
+      <rect x="538" y="240" width="90" height="42" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="583" y="265" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">검증</text>
+
+      <!-- 두 레이어 연결 화살표 -->
+      <line x1="340" y1="170" x2="340" y2="200" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowLyr)"/>
+      <text x="360" y="190" font-size="10" font-weight="bold" style="fill:var(--accent-amber);font-family:var(--font-family);">승인 후 실행</text>
+    </svg>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: AI 레이어 5-step 워크플로우                            -->
+  <!-- ============================================================ -->
+  <h2 id="five-steps">AI 레이어 5-step 워크플로우</h2>
+
+  <p>AI 레이어는 다음 5단계로 진행됩니다. 각 단계를 순서대로 따라가며, Claude가 사용자와 대화하면서 최적의 팀 구성을 제안합니다.</p>
+
+  <h3>Step 1: 요구사항 인터뷰</h3>
+
+  <p>첫 번째 단계에서 Claude는 사용자에게 <strong>6개의 필수 질문</strong>을 합니다. 이 질문들에 대한 답변이 팀 구성의 기준이 됩니다.</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+    <thead>
+      <tr>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">질문</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">목적</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">예시 답변</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">도메인/목적</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">팀의 활동 분야 파악</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">디지털 마케팅 대행사</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">팀 규모</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">에이전트 수 계획</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">4~6개 에이전트</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">주요 업무</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">필요한 전문 역할 식별</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">콘텐츠 제작, SEO, 분석</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">기술 스택</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">필요한 스킬과 도구 확인</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Google Analytics, WordPress</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">협업 방식</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">에이전트 간 핸드오프 설계</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">순차 파이프라인</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;">성과 지표</td>
+        <td style="padding:8px 12px;">품질 게이트 기준 설정</td>
+        <td style="padding:8px 12px;">전환율, 콘텐츠 품질 점수</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    6개 질문에 모두 답변해야 Step 2로 진행할 수 있습니다. Claude는 답변을 요약하여 사용자에게 확인을 요청합니다. 이 단계에서 요구사항을 명확히 정의하는 것이 전체 팀 구성의 품질을 결정합니다.
+  </div>
+
+  <h3>Step 2: 벤치마킹</h3>
+
+  <p>요구사항이 확인되면, Claude는 <strong>웹 검색</strong>을 통해 업계의 표준 팀 구성을 조사합니다. 최소 2개 이상의 권위 있는 출처(McKinsey, BCG, Gartner, Forrester 등)를 참고하며, 각 참조 팀 구성의 적합도를 1~5점 척도로 평가합니다.</p>
+
+  <ul>
+    <li>출처의 신뢰성 검증 (최근 5년 이내, 공식 도메인)</li>
+    <li>참조 팀의 역할, 계층 구조, 강점/약점 분석</li>
+    <li>사용자 요구사항과의 적합도 점수 계산</li>
+  </ul>
+
+  <h3>Step 3: 현재 팀 진단</h3>
+
+  <p>벤치마킹 결과를 바탕으로, Claude는 <strong>기존 팀의 상태를 진단</strong>합니다. 현재 프로젝트에 이미 존재하는 에이전트, 스킬, 종속성을 파악하여 불필요한 중복을 피하고 기존 자산을 최대한 활용합니다.</p>
+
+  <ul>
+    <li><strong>에이전트 인벤토리</strong> &mdash; 기존 <code>agents/*.md</code> 파일의 목록과 상태</li>
+    <li><strong>스킬 인벤토리</strong> &mdash; 기존 <code>skills/*/SKILL.md</code> 파일의 목록과 소유자</li>
+    <li><strong>종속성 맵</strong> &mdash; 에이전트 간 핸드오프 관계, 스킬 소유 관계</li>
+    <li><strong>스킬 이전 계획</strong> &mdash; 삭제되는 에이전트의 스킬을 다른 에이전트에 이전하는 계획</li>
+  </ul>
+
+  <h3>Step 4: 제안서 생성</h3>
+
+  <p>진단 결과와 벤치마킹을 종합하여, Claude는 <strong>구조화된 제안서</strong>를 생성합니다. 제안서에는 팀 비교표, 에이전트 변경 내역, 스킬 변경 계획, 워크플로우 설계, 벤치마킹 근거가 포함됩니다.</p>
+
+  <h3>Step 5: 사용자 승인 (MANDATORY GATE)</h3>
+
+  <p>제안서가 완성되면 Claude는 사용자에게 전체 제안서를 보여주고 <strong>명시적인 승인</strong>을 요청합니다. 이 단계는 <strong>필수 게이트(Mandatory Gate)</strong>이므로, 사용자가 &ldquo;approve&rdquo;라고 명시적으로 답변하기 전까지 다음 단계로 진행되지 않습니다.</p>
+
+  <div class="warning-box">
+    <strong>승인 게이트 규칙:</strong> Claude는 제안서를 보여준 뒤 &ldquo;승인&rdquo;, &ldquo;수정&rdquo;, &ldquo;취소&rdquo; 중 하나를 선택하도록 안내합니다. 사용자가 &ldquo;approve&rdquo;라고 하면 제안서를 JSON 파일로 저장하고, 사용자가 <code>bun scripts/team-builder.ts</code>를 실행하도록 안내합니다. Claude가 스크립트를 직접 실행하지는 않습니다.
+  </div>
+
+  <!-- 인라인 SVG: 5-step 워크플로우 다이어그램 -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="5-step 워크플로우 다이어그램">
+      <defs>
+        <marker id="arrowFs" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+
+      <text x="340" y="28" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--accent);font-family:var(--font-family);">AI 레이어 5-Step 워크플로우</text>
+
+      <!-- Step 1 -->
+      <rect x="30" y="50" width="200" height="70" rx="12" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="50" y="74" font-size="11" font-weight="bold" style="fill:var(--accent);font-family:var(--font-family);">Step 1</text>
+      <text x="130" y="94" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">요구사항 인터뷰</text>
+      <text x="130" y="112" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">6개 필수 질문 수집</text>
+
+      <!-- 화살표 1→2 -->
+      <line x1="230" y1="85" x2="262" y2="85" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowFs)"/>
+
+      <!-- Step 2 -->
+      <rect x="265" y="50" width="180" height="70" rx="12" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="285" y="74" font-size="11" font-weight="bold" style="fill:var(--accent-green);font-family:var(--font-family);">Step 2</text>
+      <text x="355" y="94" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">벤치마킹</text>
+      <text x="355" y="112" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">웹 검색으로 업계 참고</text>
+
+      <!-- 화살표 2→3 -->
+      <path d="M355,120 L355,145 L200,145 L200,170" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowFs)"/>
+
+      <!-- Step 3 -->
+      <rect x="80" y="173" width="240" height="70" rx="12" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="100" y="197" font-size="11" font-weight="bold" style="fill:var(--accent-amber);font-family:var(--font-family);">Step 3</text>
+      <text x="200" y="217" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">현재 팀 진단</text>
+      <text x="200" y="235" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">에이전트/스킬/종속성 분석</text>
+
+      <!-- 화살표 3→4 -->
+      <line x1="320" y1="208" x2="352" y2="208" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowFs)"/>
+
+      <!-- Step 4 -->
+      <rect x="355" y="173" width="240" height="70" rx="12" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="375" y="197" font-size="11" font-weight="bold" style="fill:var(--accent-purple);font-family:var(--font-family);">Step 4</text>
+      <text x="475" y="217" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">제안서 생성</text>
+      <text x="475" y="235" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">에이전트/스킬/워크플로우 설계</text>
+
+      <!-- 화살표 4→5 -->
+      <path d="M475,243 L475,278 L340,278 L340,300" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowFs)"/>
+
+      <!-- Step 5 (승인 게이트) -->
+      <rect x="170" y="303" width="340" height="80" rx="12" fill="var(--bg-success)" stroke="var(--accent)" stroke-width="3"/>
+      <rect x="170" y="303" width="340" height="80" rx="12" fill="none" stroke="var(--accent-amber)" stroke-width="3" stroke-dasharray="8,4"/>
+      <text x="190" y="330" font-size="11" font-weight="bold" style="fill:var(--accent);font-family:var(--font-family);">Step 5 &mdash; MANDATORY GATE</text>
+      <text x="340" y="352" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">사용자 승인</text>
+      <text x="340" y="372" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">"approve" / "수정 요청" / "cancel"</text>
+
+      <!-- 하단 설명 -->
+      <text x="340" y="408" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">승인 시 제안서 JSON을 memory/에 저장 &rarr; 사용자가 bun scripts/team-builder.ts 실행</text>
+    </svg>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: 제안서 형식                                          -->
+  <!-- ============================================================ -->
+  <h2 id="proposal">제안서 형식</h2>
+
+  <h3>제안서 JSON 구조</h3>
+
+  <p>team-builder가 생성하는 제안서는 <strong>JSON 형식</strong>으로 저장됩니다. 이 JSON은 스크립트 레이어(<code>bun scripts/team-builder.ts</code>)의 입력으로 사용됩니다. 제안서의 주요 필드는 다음과 같습니다.</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+    <thead>
+      <tr>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">필드</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">설명</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">teamName</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">팀의 이름</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">benchmarkSources</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">벤치마킹에 참고한 출처 URL 목록</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">agentsToCreate[]</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">새로 생성할 에이전트 목록 (이름, 역할, 티어, 스킬 등)</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">agentsToConvert[]</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">기존 에이전트를 다른 역할로 전환하는 목록</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">agentsToDelete[]</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">삭제할 에이전트와 이전할 스킬 목록</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">skillsToCreate[]</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">새로 만들 스킬 목록</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">skillsToReassign[]</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">다른 에이전트로 이전할 스킬 목록</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">workflowPhases[]</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">팀의 파이프라인 단계 정의</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;">changeHistoryEntry</td>
+        <td style="padding:8px 12px;">변경 이력에 기록할 요약</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>제안서 JSON 예시</h3>
+
+  <p>다음은 제안서 JSON의 축약된 예시입니다.</p>
+
+  <div class="code-block">
+<pre><code>{
+  "version": "1.0.0",
+  "timestamp": "2026-08-10T14:30:00Z",
+  "teamName": "digital-marketing",
+  "benchmarkSources": [
+    "https://www.mckinsey.com/.../marketing-operations"
+  ],
+  "changes": {
+    "agentsToCreate": [
+      {
+        "name": "content-strategist",
+        "formalName": "Content Strategist",
+        "tier": { "claude": "medium" },
+        "description": "Plans and outlines content strategy",
+        "phases": ["1", "2"],
+        "requiredSkills": ["research", "seo-analysis"],
+        "rationale": "벤치마킹: 콘텐츠 전략 역할 필수"
+      }
+    ],
+    "agentsToDelete": [],
+    "skillsToCreate": [
+      {
+        "name": "seo-analysis",
+        "owner": "content-strategist",
+        "description": "Performs SEO keyword and trend analysis"
+      }
+    ],
+    "workflowPhases": [
+      { "phase": 0, "name": "Initiation", "lead": "pm" },
+      { "phase": 1, "name": "Research", "lead": "content-strategist" }
+    ]
+  },
+  "approvedBy": "user",
+  "approvedAt": "2026-08-10T15:00:00Z"
+}</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+
+  <div class="tip-box">
+    <strong>초보자 팁:</strong> 제안서 JSON은 Claude가 자동으로 생성하므로, 사용자가 직접 JSON을 작성할 필요는 없습니다. Claude가 보여주는 제안서 내용(에이전트 이름, 역할, 스킬 등)을 검토하고, 수정이 필요하면 요청하세요. 내용에 동의하면 &ldquo;approve&rdquo;라고 답변하면 됩니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: 스크립트 레이어                                      -->
+  <!-- ============================================================ -->
+  <h2 id="script-layer">스크립트 레이어</h2>
+
+  <h3>제안서 JSON에서 실제 파일로</h3>
+
+  <p>사용자가 Step 5에서 제안서를 승인하면, Claude는 제안서를 JSON 파일로 저장합니다(<code>memory/team-builder-proposal-YYYY-MM-DD.json</code>). 이후 사용자가 <code>bun scripts/team-builder.ts</code> 스크립트를 실행하면, 스크립트가 JSON을 읽어 <strong>자동으로 다음 작업</strong>을 수행합니다.</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>에이전트 파일 생성</strong> &mdash; <code>agentsToCreate</code> 목록에 있는 각 에이전트의 <code>agents/&lt;name&gt;.md</code> 파일을 생성합니다. 프론트매터(이름, 티어, 역할, 스킬)와 본문이 포함됩니다.
+      </li>
+      <li>
+        <strong>에이전트 전환</strong> &mdash; <code>agentsToConvert</code> 목록의 에이전트 파일 이름을 변경하고, 역할과 스킬을 업데이트합니다.
+      </li>
+      <li>
+        <strong>에이전트 삭제</strong> &mdash; <code>agentsToDelete</code> 목록의 에이전트 파일을 삭제하기 전에, 해당 에이전트가 소유한 스킬을 새 소유자에게 이전합니다.
+      </li>
+      <li>
+        <strong>AGENTS.md 등록</strong> &mdash; 생성된 에이전트를 AGENTS.md의 에이전트 로스터 테이블과 서브에이전트 디스패치 테이블에 등록합니다.
+      </li>
+      <li>
+        <strong>스킬 설치</strong> &mdash; <code>skillsToCreate</code> 목록의 스킬 디렉토리와 SKILL.md 파일을 생성하고, VERSION_MANIFEST.md에 등록합니다.
+      </li>
+      <li>
+        <strong>워크플로우 설정</strong> &mdash; <code>workflowPhases</code>를 기반으로 파이프라인 단계와 에이전트 디스패치 순서를 정의합니다.
+      </li>
+      <li>
+        <strong>검증</strong> &mdash; 모든 파일이 올바르게 생성되었는지 검증 스크립트를 실행합니다.
+      </li>
+    </ol>
+  </div>
+
+    
+    <div class="code-block">
+<pre><code># 스크립트 레이어 실행 명령어
+bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+
+  <!-- 인라인 SVG: AI 레이어 → 스크립트 레이어 흐름도 -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI 레이어에서 스크립트 레이어로의 흐름도">
+      <defs>
+        <marker id="arrowSl" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+
+      <!-- AI 레이어 결과 -->
+      <rect x="20" y="30" width="280" height="200" rx="12" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="40" y="56" font-size="13" font-weight="bold" style="fill:var(--accent-purple);font-family:var(--font-family);">AI 레이어 (완료)</text>
+
+      <rect x="40" y="72" width="240" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="160" y="92" text-anchor="middle" font-size="11" style="fill:var(--text);font-family:var(--font-family);">요구사항 수집 + 벤치마킹 + 진단</text>
+      <text x="160" y="108" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">Claude가 대화하며 수행</text>
+
+      <rect x="40" y="128" width="240" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="160" y="148" text-anchor="middle" font-size="11" style="fill:var(--text);font-family:var(--font-family);">제안서 JSON 생성</text>
+      <text x="160" y="164" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">memory/team-builder-proposal-YYYY-MM-DD.json</text>
+
+      <rect x="40" y="184" width="240" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="160" y="207" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--accent-amber);font-family:var(--font-family);">사용자 승인 ("approve")</text>
+
+      <!-- 화살표 -->
+      <line x1="300" y1="150" x2="340" y2="150" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSl)"/>
+      <text x="320" y="140" text-anchor="middle" font-size="9" style="fill:var(--text-dim);font-family:var(--font-family);">JSON</text>
+
+      <!-- 스크립트 레이어 -->
+      <rect x="345" y="30" width="310" height="200" rx="12" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="365" y="56" font-size="13" font-weight="bold" style="fill:var(--accent-green);font-family:var(--font-family);">스크립트 레이어</text>
+
+      <rect x="365" y="72" width="270" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="500" y="93" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">bun scripts/team-builder.ts</text>
+
+      <rect x="365" y="114" width="125" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="427" y="135" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">에이전트 파일 생성</text>
+
+      <rect x="500" y="114" width="135" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="567" y="135" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">AGENTS.md 등록</text>
+
+      <rect x="365" y="154" width="125" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="427" y="175" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">스킬 설치</text>
+
+      <rect x="500" y="154" width="135" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="567" y="175" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">워크플로우 설정</text>
+
+      <rect x="365" y="194" width="270" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="500" y="213" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--accent-green);font-family:var(--font-family);">검증 완료 &rarr; 팀 구성 완료</text>
+
+      <!-- 스크립트 내부 화살표들 -->
+      <line x1="500" y1="88" x2="500" y2="114" stroke="var(--accent-green)" stroke-width="1" marker-end="url(#arrowSl)"/>
+      <line x1="365" y1="130" x2="365" y2="114" stroke="var(--accent-green)" stroke-width="1"/>
+      <line x1="500" y1="146" x2="500" y2="154" stroke="var(--accent-green)" stroke-width="1"/>
+      <line x1="365" y1="186" x2="365" y2="194" stroke="var(--accent-green)" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <div class="note">
+    스크립트 레이어는 Claude가 아닌 <strong>TypeScript 스크립트</strong>가 실행합니다. 이렇게 AI와 스크립트의 역할을 분리하면, AI가 제안만 하고 실제 파일 조작은 검증된 스크립트가 담당하므로 안전성이 높아집니다. 사용자는 언제든 제안서를 수정하거나, 스크립트 실행 전에 JSON 내용을 확인할 수 있습니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: 기존 팀 구성 패턴 참고                                 -->
+  <!-- ============================================================ -->
+  <h2 id="patterns">기존 팀 구성 패턴 참고</h2>
+
+  <p>co-consult 시스템에는 이미 검증된 4가지 팀 구성 패턴이 있습니다. 새로운 팀을 구성할 때 이 패턴들을 참고하면 빠르게 시작할 수 있습니다.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Quick Assessment</h4>
+      <ul>
+        <li><strong>에이전트 수:</strong> 3개</li>
+        <li><strong>특징:</strong> 가벼운 평가 팀</li>
+        <li><strong>적합한 경우:</strong> 소규모 프로젝트, 빠른 진단</li>
+        <li><strong>구성:</strong> PM + 2개 전문 에이전트</li>
+        <li><strong>장점:</strong> 구성이 간단하고 빠르게 시작 가능</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Standard</h4>
+      <ul>
+        <li><strong>에이전트 수:</strong> 5개</li>
+        <li><strong>특징:</strong> 표준 다기능 팀</li>
+        <li><strong>적합한 경우:</strong> 대부분의 일반적인 프로젝트</li>
+        <li><strong>구성:</strong> PM + 4개 전문 에이전트</li>
+        <li><strong>장점:</strong> 역할 분담이 명확하고 확장성 좋음</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Complex Transformation</h4>
+      <ul>
+        <li><strong>에이전트 수:</strong> 8개</li>
+        <li><strong>특징:</strong> 대규모 복합 팀</li>
+        <li><strong>적합한 경우:</strong> 조직 변화, 대형 프로젝트</li>
+        <li><strong>구성:</strong> PM + 7개 전문 에이전트</li>
+        <li><strong>장점:</strong> 복잡한 작업을 단계별로 체계적으로 처리</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Specialized Expert</h4>
+      <ul>
+        <li><strong>에이전트 수:</strong> 4개</li>
+        <li><strong>특징:</strong> 전문가 심층 팀</li>
+        <li><strong>적합한 경우:</strong> 특정 분야의 심층 분석</li>
+        <li><strong>구성:</strong> PM + 3개 전문 에이전트</li>
+        <li><strong>장점:</strong> 특정 분야에 깊이 있는 전문성 제공</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>패턴 선택 가이드:</strong> 처음 팀을 구성한다면 <strong>Standard(5 에이전트)</strong> 패턴을 시작점으로 삼는 것을 권장합니다. 이 패턴은 PM, 연구원, 작성자, 검토자, 자동화 담당자의 기본 구조를 제공하며, 필요에 따라 에이전트를 추가하거나 제거하여 커스터마이징할 수 있습니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: 실습                                                 -->
+  <!-- ============================================================ -->
+  <h2 id="practice">실습: 나만의 에이전트 팀 만들기</h2>
+
+  <h3>실습 목표</h3>
+
+  <p>이번 실습에서는 Claude Desktop App에서 <code>/team-builder</code> 명령을 사용하여 <strong>나만의 커스텀 에이전트 팀</strong>을 구성해 봅니다. 관심 분야를 선택하고, 요구사항을 준비하여 Claude에게 팀 구성을 요청해 보세요.</p>
+
+  <h3>실습 단계</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>관심 분야 선택</strong> &mdash; 자신이 관심 있는 분야를 하나 선택하세요. 예: 교육 콘텐츠 제작, 소프트웨어 개발, 마케팅 캠페인, 연구 프로젝트 등. 분야에 따라 필요한 에이전트와 스킬이 달라집니다.
+      </li>
+      <li>
+        <strong>요구사항 준비</strong> &mdash; Step 1의 6개 질문에 대한 답변을 미리 준비해 두세요. 도메인, 팀 규모, 주요 업무, 기술 스택, 협업 방식, 성과 지표를 생각해 두면 Claude와의 대화가 더 효율적입니다.
+      </li>
+      <li>
+        <strong>Claude에 팀 구성 요청</strong> &mdash; Claude Desktop App에서 아래 예시 프롬프트와 비슷한 내용으로 Claude에게 팀 구성을 요청하세요. Claude가 team-builder 스킬을 활성화하여 5-step 워크플로우를 시작합니다.
+      </li>
+      <li>
+        <strong>제안서 검토</strong> &mdash; Claude가 생성한 제안서를 꼼꼼히 검토하세요. 에이전트 이름, 역할, 티어, 스킬, 워크플로우가 내 요구사항에 맞는지 확인합니다. 수정이 필요한 부분이 있으면 Claude에게 알려주세요.
+      </li>
+      <li>
+        <strong>승인</strong> &mdash; 제안서 내용에 동의하면 &ldquo;approve&rdquo;라고 답변하세요. Claude가 제안서를 JSON 파일로 저장합니다.
+      </li>
+      <li>
+        <strong>결과 확인</strong> &mdash; Claude의 안내에 따라 <code>bun scripts/team-builder.ts</code>를 실행하고, 생성된 에이전트 파일과 AGENTS.md 업데이트를 확인하세요.
+      </li>
+    </ol>
+  </div>
+
+  <h3>예시 프롬프트</h3>
+
+  <div class="prompt-box">
+    <strong>Claude에게 보낼 메시지 예시:</strong>
+    <div class="code-block">
+<pre><code>/team-builder
+
+저는 교육 콘텐츠 제작을 위한 에이전트 팀을 구성하고 싶습니다.
+
+1. 도메인: 온라인 교육 콘텐츠 제작
+2. 팀 규모: 4~5개 에이전트
+3. 주요 업무: 강의 자료 기획, 슬라이드 제작, 퀴즈 출제, 품질 검토
+4. 기술 스택: Markdown, HTML,Claude Code
+5. 협업 방식: 순차 파이프라인 (기획→작성→검토→완성)
+6. 성과 지표: 완성도, 일관성, 학습 목표 달성률</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+  </div>
+
+  <div class="tip-box">
+    <strong>실습 팁:</strong> 처음에는 Standard(5 에이전트) 패턴으로 시작하고, 팀 구성에 익숙해진 후 필요에 따라 에이전트를 추가하거나 제거해 보세요. team-builder는 기존 에이전트를 최대한 재활용하므로, 이미 만들어 둔 에이전트가 있다면 삭제나 전환 없이 유지될 수 있습니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 8: 요약                                                 -->
+  <!-- ============================================================ -->
+  <h2 id="summary">요약</h2>
+
+  <div class="keypoints">
+    <h3>이 장의 핵심 정리</h3>
+    <ul>
+      <li><strong>에이전트 팀</strong>은 여러 전문 에이전트가 협력하는 시스템입니다. 단일 AI의 한계(역할 분리 부족, 편향, 순차 처리)를 극복하고, 높은 품질의 산출물을 생산할 수 있습니다.</li>
+      <li><strong>team-builder</strong> 스킬은 AI 레이어(Clude가 수행)와 스크립트 레이어(자동 스크립트가 수행)의 두 레이어로 구성됩니다. 안전을 위해 사용자 승인 없이는 파일이 생성되지 않습니다.</li>
+      <li><strong>5-step 워크플로우:</strong> 요구사항 인터뷰(6개 필수 질문) &rarr; 벤치마킹(웹 검색) &rarr; 현재 팀 진단(에이전트/스킬/종속성) &rarr; 제안서 생성(JSON) &rarr; 사용자 승인(필수 게이트).</li>
+      <li><strong>제안서 JSON</strong>은 생성/전환/삭제할 에이전트, 생성할 스킬, 워크플로우 단계 등의 정보를 담습니다. Claude가 자동으로 생성하므로 사용자가 직접 작성할 필요는 없습니다.</li>
+      <li><strong>스크립트 레이어</strong>는 <code>bun scripts/team-builder.ts</code>가 제안서 JSON을 읽어 에이전트 파일 생성, AGENTS.md 등록, 스킬 설치, 워크플로우 설정, 검증을 자동 수행합니다.</li>
+      <li><strong>기존 패턴</strong>(Quick Assessment, Standard, Complex Transformation, Specialized Expert)을 참고하면 새 팀 구성의 좋은 출발점이 됩니다.</li>
+    </ul>
+  </div>
+
+  <div class="tip-box">
+    <strong>다음 장 예고:</strong> 12장에서는 에이전트 팀이 <strong>어떻게 협업하고 자동화되는지</strong>를 배웁니다. 에이전트 간 핸드오프 체인, 파이프라인 워크플로우, 병렬/순차 실행 패턴을 이해하고, 실제로 팀이 프로젝트를 수행하는 과정을 시뮬레이션해 보겠습니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER NAVIGATION                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch10/10_Creating_Skills.html" class="prev">
+      <div class="dir">&larr; 이전 장</div>
+      <div class="ttl">10장 &middot; 스킬 만들기와 수정</div>
+    </a>
+    <a href="../ch12/12_Workflows_Automation.html" class="next" style="margin-left:auto;">
+      <div class="dir">다음 장 &rarr;</div>
+      <div class="ttl">12장 &middot; 워크플로우와 자동화 이해</div>
+    </a>
+  </div>
+  <footer>
+    <p>Claude Code와 멀티 에이전트 하네스 입문 &middot; 11장 &middot; 나만의 에이전트 팀 구성하기</p>
+  </footer>
+</article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script>
+function copyCode(btn) {
+  const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = '완료!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+</script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

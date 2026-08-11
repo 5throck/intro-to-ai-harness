@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="2장 · Claude Desktop App 시작하기 - Claude Code와 멀티 에이전트 하네스 입문 핸드북">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2장 · Claude Desktop App 시작하기</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index.html" class="nav-home">&larr; 핸드북 홈</a>
+  <div class="nav-title">2장 &middot; Claude Desktop App 시작하기</div>
+  <a href="#what-is-claude-desktop">Claude Desktop App이란</a>
+  <a href="#install">설치 방법</a>
+  <a href="#subscription">구독 플랜</a>
+  <a href="#first-conversation">첫 대화 시작하기</a>
+  <a href="#projects">프로젝트 기능</a>
+  <a href="#artifacts">Artifacts</a>
+  <a href="#tips">초보자 팁</a>
+  <div class="nav-section">다른 장</div>
+  <a href="../ch01/01_Why_AI_Agents.html">1장 &middot; 왜 AI 에이전트 팀인가?</a>
+  <a href="../ch03/03_Setup_Guide.html">3장 &middot; 실습 환경 구축</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">2장</div>
+  <h1>Claude Desktop App 시작하기</h1>
+  <p class="lead">이 핸드북의 기본 도구인 Claude Desktop App을 설치하고 사용법을 익힙니다. Claude Desktop App은 터미널 명령어 없이, 마우스 클릭만으로 AI와 대화할 수 있는 가장 쉬운 방법입니다.</p>
+  <div class="keypoints">
+    <div class="kp-title">이 장에서 다루는 것</div>
+    <ul>
+      <li>Claude Desktop App의 특징과 장점</li>
+      <li>MacOS, Windows, Linux별 설치 방법</li>
+      <li>구독 플랜 선택 가이드</li>
+      <li>첫 대화, 프로젝트, Artifacts 기능 체험</li>
+      <li>초보자를 위한 실용 팁</li>
+    </ul>
+  </div>
+
+  <!-- ================================================================
+       SECTION 1: Claude Desktop App이란
+       ================================================================ -->
+  <h2 id="what-is-claude-desktop">Claude Desktop App이란</h2>
+
+  <p>Claude Desktop App은 Anthropic(앤스로픽)이 개발한 <strong>데스크톱용 AI 어시스턴트</strong>입니다. 웹 브라우저를 열 필요 없이, 컴퓨터 화면에서 바로 Claude AI와 대화할 수 있는 프로그램입니다. 마치 메신저 앱을 사용하듯 채팅창에 질문을 입력하면 Claude가 답변을 줍니다.</p>
+
+  <h3>Claude.ai 웹 버전과의 차이</h3>
+
+  <p>Claude는 웹 브라우저에서도 사용할 수 있습니다(<code>claude.ai</code>). Claude Desktop App은 웹 버전보다 몇 가지 중요한 장점이 있습니다:</p>
+
+  <ul>
+    <li><strong>로컬 파일 접근</strong> &mdash; 컴퓨터에 저장된 파일을 Claude가 직접 읽고 분석할 수 있습니다. 예를 들어 PDF 문서, 코드 파일, 텍스트 파일을 드래그 앤 드롭으로 넘기면 Claude가 내용을 이해하고 답변해 줍니다.</li>
+    <li><strong>프로젝트 기능</strong> &mdash; 관련된 대화들을 하나의 프로젝트로 묶어 관리할 수 있습니다. 특정 주제에 맞춘 설정을 프로젝트마다 다르게 지정할 수도 있습니다.</li>
+    <li><strong>안정성과 속도</strong> &mdash; 별도 앱으로 실행되므로 브라우저 탭 관리가 필요 없고, 인터넷 연결이 조금 불안정해도 대화 내용이 잘 유지됩니다.</li>
+    <li><strong>단축키 지원</strong> &mdash; 키보드 단축키로 빠르게 새 대화를 시작하거나, 이전 대화를 불러올 수 있습니다.</li>
+  </ul>
+
+  <h3>Claude Code CLI와의 차이</h3>
+
+  <p><strong>Claude Code CLI</strong>는 터미널(명령어 창)에서 사용하는 Claude 도구입니다. 프로그래머가 코드를 작성하고 수정할 때 직접 파일을 조작할 수 있는 강력한 기능을 제공합니다. 하지만 <strong>명령어를 입력해야 하므로 초보자에게는 진입 장벽</strong>이 높을 수 있습니다.</p>
+
+  <div class="note">
+    Claude Code CLI는 이 핸드북의 <strong>별첨 B</strong>에서 자세히 다룹니다. CLI(Command Line Interface)란 마우스 대신 키보드 명령어로 프로그램을 조작하는 방식을 말합니다. 터미널 창(Windows의 PowerShell, MacOS의 Terminal 등)에서 <code>claude</code> 명령어로 실행합니다.
+  </div>
+
+  <!-- INLINE SVG: 3 Claude Tools Comparison Diagram -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg viewBox="0 0 660 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <!-- Title -->
+      <text x="330" y="30" text-anchor="middle" style="fill:var(--text);font-size:16px;font-weight:700;">Claude 도구 3종 비교</text>
+
+      <!-- Box 1: Claude Desktop App (highlighted as main tool) -->
+      <rect x="20" y="55" width="195" height="240" rx="12" style="fill:var(--bg-success);stroke:var(--accent-green);stroke-width:2.5;"/>
+      <rect x="60" y="70" width="115" height="28" rx="14" style="fill:var(--accent-green);"/>
+      <text x="117" y="89" text-anchor="middle" style="fill:var(--text-inverse);font-size:11px;font-weight:700;">이 핸드북 기본</text>
+      <!-- Monitor icon -->
+      <rect x="85" y="115" width="64" height="44" rx="4" style="fill:none;stroke:var(--accent-green);stroke-width:2;"/>
+      <rect x="95" y="121" width="44" height="32" rx="2" style="fill:var(--accent-green);opacity:0.15;"/>
+      <line x1="117" y1="159" x2="117" y2="172" style="stroke:var(--accent-green);stroke-width:2;"/>
+      <line x1="100" y1="172" x2="134" y2="172" style="stroke:var(--accent-green);stroke-width:2;"/>
+      <text x="117" y="195" text-anchor="middle" style="fill:var(--text);font-size:13px;font-weight:700;">Claude Desktop App</text>
+      <text x="117" y="215" text-anchor="middle" style="fill:var(--text-dim);font-size:11px;">데스크톱 앱</text>
+      <text x="117" y="235" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">GUI (그래픽 인터페이스)</text>
+      <text x="117" y="255" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">마우스 클릭으로 사용</text>
+      <text x="117" y="275" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">초보자 추천</text>
+
+      <!-- Box 2: Claude.ai -->
+      <rect x="232" y="55" width="195" height="240" rx="12" style="fill:var(--bg2);stroke:var(--border);stroke-width:1.5;"/>
+      <!-- Browser icon -->
+      <rect x="297" y="115" width="64" height="44" rx="4" style="fill:none;stroke:var(--text-dim);stroke-width:1.5;"/>
+      <rect x="301" y="119" width="56" height="10" rx="2" style="fill:var(--bg3);stroke:var(--text-dim);stroke-width:0.8;"/>
+      <circle cx="305" cy="124" r="2" style="fill:var(--accent-red);"/>
+      <circle cx="312" cy="124" r="2" style="fill:var(--accent-amber);"/>
+      <circle cx="319" cy="124" r="2" style="fill:var(--accent-green);"/>
+      <text x="329" y="195" text-anchor="middle" style="fill:var(--text);font-size:13px;font-weight:700;">Claude.ai</text>
+      <text x="329" y="215" text-anchor="middle" style="fill:var(--text-dim);font-size:11px;">웹 버전</text>
+      <text x="329" y="235" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">브라우저에서 접속</text>
+      <text x="329" y="255" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">설치 불필요</text>
+      <text x="329" y="275" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">가볍게 사용</text>
+
+      <!-- Box 3: Claude Code CLI -->
+      <rect x="444" y="55" width="195" height="240" rx="12" style="fill:var(--bg2);stroke:var(--border);stroke-width:1.5;"/>
+      <rect x="509" y="70" width="115" height="28" rx="14" style="fill:var(--bg3);"/>
+      <text x="566" y="89" text-anchor="middle" style="fill:var(--text-dim);font-size:11px;font-weight:700;">별첨 B 참조</text>
+      <!-- Terminal icon -->
+      <rect x="509" y="115" width="64" height="44" rx="4" style="fill:none;stroke:var(--text-dim);stroke-width:1.5;"/>
+      <text x="521" y="135" style="fill:var(--accent-green);font-size:9px;font-family:monospace;">$ claude</text>
+      <text x="521" y="149" style="fill:var(--text-dim);font-size:9px;font-family:monospace;">_</text>
+      <text x="541" y="195" text-anchor="middle" style="fill:var(--text);font-size:13px;font-weight:700;">Claude Code CLI</text>
+      <text x="541" y="215" text-anchor="middle" style="fill:var(--text-dim);font-size:11px;">터미널 도구</text>
+      <text x="541" y="235" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">명령어 기반</text>
+      <text x="541" y="255" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">파일 직접 조작</text>
+      <text x="541" y="275" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">고급 사용자용</text>
+    </svg>
+  </div>
+
+  <p>이 핸드북에서는 <strong>Claude Desktop App을 기본 도구</strong>로 사용합니다. 초보자도 쉽게 시작할 수 있고, Claude의 핵심 기능을 모두 경험할 수 있기 때문입니다. 고급 사용자가 되면 Claude Code CLI(별첨 B)로 넘어가면 됩니다.</p>
+
+  <!-- ================================================================
+       SECTION 2: 설치 방법
+       ================================================================ -->
+  <h2 id="install">설치 방법</h2>
+
+  <p>Claude Desktop App은 <strong>MacOS, Windows, Linux</strong> 세 가지 운영체제를 모두 지원합니다. 사용 중인 컴퓨터의 운영체제에 맞는 설치 방법을 따르세요.</p>
+
+  <h3>시스템 요구사항</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>항목</th>
+        <th>최소 사양</th>
+        <th>권장 사양</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>운영체제</td>
+        <td>macOS 12+, Windows 10 64비트, Ubuntu 20.04+</td>
+        <td>macOS 14+, Windows 11, Ubuntu 22.04+</td>
+      </tr>
+      <tr>
+        <td>RAM (메모리)</td>
+        <td>4GB</td>
+        <td>8GB 이상</td>
+      </tr>
+      <tr>
+        <td>디스크 공간</td>
+        <td>500MB</td>
+        <td>1GB 이상</td>
+      </tr>
+      <tr>
+        <td>인터넷</td>
+        <td>필수 (Claude는 클라우드에서 동작합니다)</td>
+        <td>안정적인宽带 연결</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box">
+    Claude Desktop App을 사용하려면 <strong>Claude Pro 또는 Max 구독</strong>이 필요합니다. 무료 플랜(Free tier)으로는 Claude.ai 웹 버전만 사용할 수 있고, Desktop App은 로그인이 제한됩니다. 구독 방법은 아래 "구독 플랜" 섹션을 참조하세요.
+  </div>
+
+  <!-- MacOS -->
+  <div class="platform-block claude">
+    <div class="platform-block-title">MacOS 설치</div>
+    <p>MacOS에서는 두 가지 방법으로 Claude Desktop App을 설치할 수 있습니다.</p>
+    <h4>방법 1: App Store에서 설치 (권장)</h4>
+    <ol>
+      <li>Mac의 <strong>App Store</strong> 앱을 엽니다.</li>
+      <li>검색창에 <code>Claude</code>를 입력합니다.</li>
+      <li><strong>"Anthropic Claude"</strong> 앱을 찾아 <strong>다운로드</strong> 버튼을 누릅니다.</li>
+      <li>설치가 완료되면 응용 프로그램 폴더에서 Claude를 실행합니다.</li>
+    </ol>
+    <h4>방법 2: 웹사이트에서 다운로드</h4>
+    <ol>
+      <li>브라우저에서 <a href="https://claude.ai/download" target="_blank" rel="noopener noreferrer">claude.ai/download</a>에 접속합니다.</li>
+      <li><strong>"Download for Mac"</strong> 버튼을 클릭합니다.</li>
+      <li>다운로드된 <code>.dmg</code> 파일을 열고, Claude 아이콘을 응용 프로그램 폴더로 드래그합니다.</li>
+      <li>처음 실행 시 "이 응용 프로그램을 열 수 없습니다" 메시지가 나오면, <strong>시스템 환경설정 &gt; 보안 및 개인정보</strong>에서 "열기"를 누르세요.</li>
+    </ol>
+  </div>
+
+  <!-- Windows -->
+  <div class="platform-block claude">
+    <div class="platform-block-title">Windows 설치</div>
+    <p>Windows에서도 두 가지 방법으로 설치할 수 있습니다.</p>
+    <h4>방법 1: 웹사이트에서 다운로드 (권장)</h4>
+    <ol>
+      <li>브라우저에서 <a href="https://claude.ai/download" target="_blank" rel="noopener noreferrer">claude.ai/download</a>에 접속합니다.</li>
+      <li><strong>"Download for Windows"</strong> 버튼을 클릭합니다.</li>
+      <li>다운로드된 <code>.exe</code> 설치 파일을 실행합니다.</li>
+      <li>설치 마법사 안내에 따라 <strong>"Next"</strong>를 눌러 설치를 완료합니다.</li>
+      <li>바탕화면에 생성된 Claude 바로가기를 더블클릭하여 실행합니다.</li>
+    </ol>
+    <h4>방법 2: winget (Windows 패키지 관리자) 사용</h4>
+    <p>명령어 창(PowerShell)에서 다음 명령어를 입력하면 설치할 수 있습니다:</p>
+    <div class="code-block">
+<pre><code>winget install Anthropic.Claude</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+    <p>winget은 Windows에 내장된 패키지 관리자로, 명령어 한 줄로 프로그램을 설치/업데이트할 수 있는 도구입니다.</p>
+  </div>
+
+  <!-- Linux -->
+  <div class="platform-block claude">
+    <div class="platform-block-title">Linux 설치</div>
+    <p>Linux 환경에서는 패키지 형식에 따라 두 가지 설치 방법이 있습니다.</p>
+    <h4>방법 1: .deb 패키지 (Debian / Ubuntu)</h4>
+    <div class="code-block">
+<pre><code># 1. 다운로드 페이지에서 .deb 파일을 다운로드합니다
+# claude.ai/download 에서 Claude-linux.deb 를 받습니다
+
+# 2. 터미널에서 설치합니다
+sudo dpkg -i Claude-linux.deb
+
+# 3. 의존성 문제가 발생하면 아래 명령어로 해결합니다
+sudo apt-get install -f</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+    <h4>방법 2: .tar.gz 아카이브 (기타 Linux)</h4>
+    <div class="code-block">
+<pre><code># 1. 다운로드 페이지에서 .tar.gz 파일을 받습니다
+# claude.ai/download 에서 Claude-linux.tar.gz 를 받습니다
+
+# 2. 압축을 해제합니다
+tar xzf Claude-linux.tar.gz
+
+# 3. Claude 바이너리를 실행합니다
+./claude</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+    <div class="note">
+      Linux의 <code>.tar.gz</code> 방식은 Claude 바이너리를 원하는 위치에 수동으로 배치합니다. <code>/opt/claude</code>와 같은 디렉토리에 두고 PATH에 추가하면 터미널 어디서든 실행할 수 있습니다.
+    </div>
+  </div>======================
+       SECTION 3: 구독 플랜
+       ================================================================ -->
+  <h2 id="subscription">구독 플랜</h2>
+
+  <p>Claude Desktop App을 사용하려면 유료 구독 플랜이 필요합니다. Anthropic은 두 가지 유료 플랜을 제공합니다.</p>
+
+  <div class="compare-grid">
+    <div class="compare-col">
+      <h4>Claude Pro</h4>
+      <p style="font-size:var(--font-size-small);color:var(--text-dim);margin-bottom:12px;">$20 / 월</p>
+      <ul>
+        <li>Claude Desktop App 사용 가능</li>
+        <li>Claude 3.5 Sonnet 기본 모델</li>
+        <li>하루 5배 더 많은 대화량 (무료 대비)</li>
+        <li>프로젝트 기능 사용 가능</li>
+        <li>Artifacts 기능 사용 가능</li>
+        <li>파일 업로드 가능</li>
+      </ul>
+    </div>
+    <div class="compare-col">
+      <h4>Claude Max</h4>
+      <p style="font-size:var(--font-size-small);color:var(--text-dim);margin-bottom:12px;">$100 / 월 또는 $200 / 월</p>
+      <ul>
+        <li>Claude Desktop App 사용 가능</li>
+        <li>최신 모델 우선 접근</li>
+        <li>Pro보다 훨씬 더 많은 대화량</li>
+        <li>$200 플랜: Claude Opus 모델 접근</li>
+        <li>프로젝트 기능 (더 많은 프로젝트)</li>
+        <li>Artifacts 기능</li>
+        <li>우선 고객 지원</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>어떤 플랜을 선택해야 할까요?</h3>
+
+  <p>이 핸드북을 따라 실습하려면 <strong>Claude Pro($20/월)</strong>로 충분합니다. Claude Pro는 Claude Desktop App의 모든 핵심 기능을 제공하며, 초보자가 Claude를 배우고 실습하기에 적합한 수준의 대화량을 지원합니다.</p>
+
+  <div class="tip-box">
+    처음 시작하시는 분은 <strong>Claude Pro로 먼저 체험</strong>해 보세요. 사용량이 많아져 Pro로 부족하다고 느낄 때 Max로 업그레이드하면 됩니다. 구독은 언제든 변경 가능합니다.
+  </div>
+
+  <h3>구독 시작 방법</h3>
+
+  <ol>
+    <li><a href="https://claude.ai" target="_blank" rel="noopener noreferrer">claude.ai</a>에 접속하여 Anthropic 계정을 만듭니다 (Google 또는 Apple 계정으로도 가입 가능).</li>
+    <li>로그인 후 화면 왼쪽 하단의 <strong>프로필 아이콘</strong>을 클릭합니다.</li>
+    <li><strong>"Upgrade to Pro"</strong> 또는 <strong>"Upgrade to Max"</strong> 버튼을 클릭합니다.</li>
+    <li>결제 정보를 입력하고 구독을 완료합니다.</li>
+  </ol>
+
+  <div class="note">
+    구독 관리는 <a href="https://claude.ai/subscribe" target="_blank" rel="noopener noreferrer">claude.ai/subscribe</a>에서 할 수 있습니다. 플랜 변경, 결제 수단 변경, 구독 취소 모두 이 페이지에서 처리할 수 있습니다.
+  </div>
+
+  <!-- ================================================================
+       SECTION 4: 첫 대화 시작하기
+       ================================================================ -->
+  <h2 id="first-conversation">첫 대화 시작하기</h2>
+
+  <p>Claude Desktop App을 설치하고 구독을 완료했다면, 이제 Claude와 대화를 시작해 보겠습니다.</p>
+
+  <h3>Claude Desktop App 실행</h3>
+
+  <p>데스크톱이나 응용 프로그램 폴더에서 <strong>Claude 아이콘</strong>을 클릭하여 앱을 실행합니다. 처음 실행하면 Anthropic 계정으로 로그인하라는 화면이 나옵니다. 이 핸드북의 1장에서 만든 계정(또는 새로 만든 계정)으로 로그인하세요.</p>
+
+  <!-- INLINE SVG: Claude Desktop App Screen Layout Diagram -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg viewBox="0 0 640 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <!-- Title -->
+      <text x="320" y="28" text-anchor="middle" style="fill:var(--text);font-size:15px;font-weight:700;">Claude Desktop App 화면 구조</text>
+
+      <!-- Window frame -->
+      <rect x="30" y="45" width="580" height="280" rx="8" style="fill:var(--bg);stroke:var(--border);stroke-width:1.5;"/>
+
+      <!-- Title bar -->
+      <rect x="30" y="45" width="580" height="30" rx="8" style="fill:var(--bg3);"/>
+      <rect x="30" y="60" width="580" height="15" style="fill:var(--bg3);"/>
+      <circle cx="52" cy="60" r="5" style="fill:var(--accent-red);"/>
+      <circle cx="70" cy="60" r="5" style="fill:var(--accent-amber);"/>
+      <circle cx="88" cy="60" r="5" style="fill:var(--accent-green);"/>
+      <text x="320" y="64" text-anchor="middle" style="fill:var(--text-dim);font-size:11px;font-weight:600;">Claude</text>
+
+      <!-- Sidebar -->
+      <rect x="30" y="75" width="120" height="250" style="fill:var(--bg2);stroke:var(--border);stroke-width:0.5;"/>
+      <text x="90" y="100" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;font-weight:600;">대화 목록</text>
+      <rect x="42" y="115" width="96" height="20" rx="4" style="fill:var(--accent);opacity:0.15;stroke:var(--accent);stroke-width:0.5;"/>
+      <text x="90" y="129" text-anchor="middle" style="fill:var(--accent);font-size:9px;">새 대화 1</text>
+      <rect x="42" y="142" width="96" height="20" rx="4" style="fill:var(--bg3);"/>
+      <text x="90" y="156" text-anchor="middle" style="fill:var(--text-dim);font-size:9px;">대화 2</text>
+      <rect x="42" y="169" width="96" height="20" rx="4" style="fill:var(--bg3);"/>
+      <text x="90" y="183" text-anchor="middle" style="fill:var(--text-dim);font-size:9px;">대화 3</text>
+      <!-- New chat button -->
+      <rect x="42" y="288" width="96" height="22" rx="4" style="fill:var(--accent);"/>
+      <text x="90" y="303" text-anchor="middle" style="fill:var(--text-inverse);font-size:9px;font-weight:600;">+ 새 대화</text>
+
+      <!-- Main chat area -->
+      <text x="340" y="105" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;font-weight:600;">채팅 영역</text>
+
+      <!-- User message bubble -->
+      <rect x="170" y="120" width="280" height="36" rx="8" style="fill:var(--accent);opacity:0.12;"/>
+      <text x="184" y="135" style="fill:var(--text);font-size:10px;">안녕하세요, AI 에이전트 팀이 뭔지</text>
+      <text x="184" y="148" style="fill:var(--text);font-size:10px;">쉽게 설명해주세요</text>
+
+      <!-- Claude response bubble -->
+      <rect x="170" y="170" width="340" height="80" rx="8" style="fill:var(--bg2);stroke:var(--border);stroke-width:0.5;"/>
+      <text x="184" y="188" style="fill:var(--text);font-size:10px;font-weight:600;">Claude:</text>
+      <text x="184" y="204" style="fill:var(--text-dim);font-size:10px;">AI 에이전트 팀은 여러 AI가 각자의 역할을</text>
+      <text x="184" y="218" style="fill:var(--text-dim);font-size:10px;">나누어 협력하는 시스템입니다. 예를 들어</text>
+      <text x="184" y="232" style="fill:var(--text-dim);font-size:10px;">한 AI는 조사를, 다른 AI는 글쓰기를 담당...</text>
+
+      <!-- Artifacts panel (right side) -->
+      <rect x="520" y="75" width="90" height="250" style="fill:var(--bg2);stroke:var(--border);stroke-width:0.5;"/>
+      <text x="565" y="100" text-anchor="middle" style="fill:var(--text-dim);font-size:9px;font-weight:600;">Artifacts</text>
+      <rect x="530" y="112" width="70" height="50" rx="4" style="fill:var(--bg);stroke:var(--accent-green);stroke-width:0.5;"/>
+      <text x="565" y="135" text-anchor="middle" style="fill:var(--accent-green);font-size:8px;">코드</text>
+      <rect x="530" y="170" width="70" height="50" rx="4" style="fill:var(--bg);stroke:var(--accent);stroke-width:0.5;"/>
+      <text x="565" y="193" text-anchor="middle" style="fill:var(--accent);font-size:8px;">문서</text>
+
+      <!-- Input box -->
+      <rect x="155" y="270" width="350" height="40" rx="10" style="fill:var(--bg2);stroke:var(--border);stroke-width:1.5;"/>
+      <text x="175" y="294" style="fill:var(--text-dim);font-size:10px;">메시지를 입력하세요...</text>
+      <!-- Send button -->
+      <circle cx="488" cy="290" r="12" style="fill:var(--accent);"/>
+      <text x="488" y="294" text-anchor="middle" style="fill:var(--text-inverse);font-size:12px;font-weight:700;">&#8594;</text>
+
+      <!-- Labels -->
+      <text x="90" y="332" text-anchor="middle" style="fill:var(--text-dim);font-size:9px;">사이드바</text>
+      <text x="340" y="332" text-anchor="middle" style="fill:var(--text-dim);font-size:9px;">채팅 영역 + 입력 박스</text>
+      <text x="565" y="332" text-anchor="middle" style="fill:var(--text-dim);font-size:9px;">Artifacts 패널</text>
+    </svg>
+  </div>
+
+  <h3>화면 구성 요소</h3>
+
+  <p>위 다이어그램에서 볼 수 있듯, Claude Desktop App의 화면은 크게 세 부분으로 나뉩니다:</p>
+
+  <ul>
+    <li><strong>사이드바 (왼쪽)</strong> &mdash; 이전 대화 목록이 표시됩니다. 특정 대화를 클릭하면 해당 대화를 이어서 계속할 수 있습니다. 하단의 <strong>"+ 새 대화"</strong> 버튼으로 새로운 대화를 시작합니다.</li>
+    <li><strong>채팅 영역 (가운데)</strong> &mdash; Claude와의 대화가 표시됩니다. 내가 보낸 메시지와 Claude의 답변이 순서대로 나타납니다.</li>
+    <li><strong>Artifacts 패널 (오른쪽)</strong> &mdash; Claude가 생성한 코드, 문서, 다이어그램 등을 별도로 볼 수 있는 패널입니다. (자세한 내용은 "Artifacts" 섹션 참조)</li>
+  </ul>
+
+  <h3>첫 메시지 보내기</h3>
+
+  <p>채팅 영역 하단에 있는 <strong>텍스트 입력 박스</strong>에 메시지를 입력하고 Enter 키(또는 전송 버튼)를 누르면 Claude가 답변합니다. 다음 예시를 그대로 입력해 보세요:</p>
+
+  <div class="prompt-box">
+    <div>아래 메시지를 Claude에게 보내 보세요:</div>
+    <div class="prompt-text">안녕하세요, 저는 AI를 처음 배우는 초보자입니다. AI 에이전트 팀이 뭔지 쉽게 설명해주세요</div>
+  </div>
+
+  <p>Claude는 AI 에이전트 팀이 무엇인지 초보자도 이해할 수 있는 쉬운 언어로 설명해 줄 것입니다. 답변을 읽고, 궁금한 점이 있으면 추가 질문을 해 보세요. 예를 들어:</p>
+
+  <ul>
+    <li>"그러면 AI 에이전트 팀은 회사의 부서와 비슷한 건가요?"</li>
+    <li>"초보자도 AI 에이전트 팀을 만들 수 있나요?"</li>
+    <li>"이 핸드북에서 뭘 배울 수 있나요?"</li>
+  </ul>
+
+  <p>Claude와의 대화는 <strong>이전 대화의 맥락을 기억</strong>합니다. 따라서 follow-up 질문을 할 때 이전 내용을 반복할 필요가 없습니다. 마치 사람과 대화하듯 자연스럽게 이어가면 됩니다.</p>
+
+  <!-- ================================================================
+       SECTION 5: 프로젝트 기능
+       ================================================================ -->
+  <h2 id="projects">프로젝트 기능</h2>
+
+  <h3>프로젝트란?</h3>
+
+  <p><strong>프로젝트(Project)</strong>는 Claude Desktop App에서 관련된 대화들을 하나로 묶어 관리하는 기능입니다. 일반적인 대화는 Claude가 이전 대화 내용을 어느 정도까지만 기억하지만, 프로젝트를 사용하면 해당 프로젝트의 모든 대화가 하나의 <strong>컨텍스트</strong>(맥락)로 유지 관리됩니다.</p>
+
+  <p>예를 들어, "AI 학습"이라는 주제로 Claude와 대화하면서 여러 날에 걸쳐 질문하고 답변을 받을 때, 매번 새 대화를 시작하면 이전에 배운 내용을 Claude가 잊어버릴 수 있습니다. 하지만 프로젝트에 넣어두면 Claude가 해당 프로젝트의 모든 대화를 참고하여 일관된 답변을 줍니다.</p>
+
+  <h3>프로젝트의 핵심 기능</h3>
+
+  <ul>
+    <li><strong>프로젝트 지식 (Project Knowledge)</strong> &mdash; 프로젝트에 관련 파일(PDF, 코드, 텍스트)을 첨부하면 Claude가 해당 파일의 내용을 기반으로 답변합니다. 예를 들어 강의 자료 PDF를 첨부하면 Claude가 그 자료를 읽고 질문에 답할 수 있습니다.</li>
+    <li><strong>사용자 지정 안내 (Custom Instructions)</strong> &mdash; 프로젝트마다 Claude에게 지시사항을 설정할 수 있습니다. 예: "항상 한국어로 대답해주세요", "초보자에게 맞춰 설명해주세요", "답변은 3문장 이내로 짧게 해주세요".</li>
+    <li><strong>대화 그룹화</strong> &mdash; 한 프로젝트 안에서 여러 대화를 만들 수 있고, 각 대화는 프로젝트의 컨텍스트를 공유합니다.</li>
+  </ul>
+
+  <h3>실습: "AI 학습" 프로젝트 만들기</h3>
+
+  <div class="step-list">
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">프로젝트 생성</div>
+        Claude Desktop App의 사이드바 상단에서 <strong>"+ 새 대화"</strong> 버튼 옆의 아이콘을 클릭하고, <strong>"Create Project"</strong>를 선택합니다.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">프로젝트 이름 설정</div>
+        프로젝트 이름을 <strong>"AI 학습"</strong>으로 입력합니다. 설명란에 "AI 에이전트 팀과 Claude 사용법을 배우는 프로젝트"라고 적어도 됩니다.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">사용자 지정 안내 입력</div>
+        Custom Instructions 영역에 다음과 같이 입력합니다:
+        <div class="code-block" style="margin-top:8px;">
+<pre><code>한국어로 대답해주세요.
+초보자를 위한 쉬운 설명을 부탁드립니다.
+모르는 용어가 나오면 꼭 설명해주세요.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">프로젝트에 파일 추가 (선택)</div>
+        이 핸드북의 앞부분(PDF 등)을 다운로드했다면, <strong>"Add files"</strong> 버튼을 눌러 프로젝트에 추가할 수 있습니다. 파일을 추가하면 Claude가 해당 파일의 내용을 참고합니다.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">첫 대화 시작</div>
+        프로젝트 내에서 새 대화를 시작하고 다음 메시지를 보내 보세요:
+        <div class="code-block" style="margin-top:8px;">
+<pre><code>이 프로젝트에서 Claude Desktop App과
+AI 에이전트 팀에 대해 배우고 싶습니다.
+어떤 것부터 배우는 게 좋을까요?</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+        <p>이렇게 프로젝트를 만들어두면, 이후 장들에서 배우는 질문들을 모두 이 프로젝트 안에서 계속할 수 있습니다. Claude는 이전 대화를 기반으로 더 깊이 있는 답변을 제공할 것입니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SECTION 6: Artifacts
+       ================================================================ -->
+  <h2 id="artifacts">Artifacts</h2>
+
+  <h3>Artifacts란?</h3>
+
+  <p><strong>Artifacts(아티팩트)</strong>는 Claude가 대화 중에 생성한 <strong>코드, 문서, 시각화 자료</strong> 등을 대화창 밖의 별도 패널에서 보여주는 기능입니다. 일반적인 대화에서 Claude가 코드를 작성하면 대화창 안에 텍스트로 표시되지만, Artifacts를 사용하면 <strong>독립된 패널에서 코드를 보고 직접 실행해 볼 수 있습니다.</strong></p>
+
+  <p>예를 들어, Claude에게 "간단한 계산기 웹페이지를 만들어달라"고 요청하면 Claude가 HTML, CSS, JavaScript 코드를 작성합니다. Artifacts가 활성화되면 이 코드가:</p>
+
+  <ul>
+    <li>대화창 옆의 <strong>Artifacts 패널</strong>에 표시됩니다</li>
+    <li><strong>코드 미리보기</strong>를 통해 웹페이지가 실제로 어떻게 보이는지 확인할 수 있습니다</li>
+    <li>코드를 <strong>복사</strong>하여 파일로 저장할 수 있습니다</li>
+  </ul>
+
+  <h3>Artifacts 사용해 보기</h3>
+
+  <p>Claude에게 다음과 같이 요청해 보세요:</p>
+
+  <div class="prompt-box">
+    <div>Artifacts 기능을 체험해 보려면 아래 메시지를 보내세요:</div>
+    <div class="prompt-text">간단한 계산기 웹페이지를 만들어주세요. 더하기, 빼기, 곱하기, 나누기 기능이 있으면 됩니다.</div>
+  </div>
+
+  <p>Claude가 코드를 작성하면 화면 오른쪽에 Artifacts 패널이 열리고, 계산기 웹페이지의 <strong>실시간 미리보기</strong>가 표시됩니다. 미리보기 화면에서 실제로 버튼을 눌러 계산을 해 볼 수 있습니다.</p>
+
+  <h3>Artifacts에서 할 수 있는 것</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>유형</th>
+        <th>설명</th>
+        <th>예시</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>코드 (Code)</td>
+        <td>HTML, CSS, JavaScript, Python 등 프로그래밍 코드</td>
+        <td>웹페이지, 계산기, 애니메이션</td>
+      </tr>
+      <tr>
+        <td>문서 (Document)</td>
+        <td>구조화된 텍스트 문서 (Markdown 형식)</td>
+        <td>요약문, 분석 보고서, 체크리스트</td>
+      </tr>
+      <tr>
+        <td>React 컴포넌트</td>
+        <td>인터랙티브 UI 요소 (React로 작성)</td>
+        <td>차트, 퀴즈, 인터랙티브 폼</td>
+      </tr>
+      <tr>
+        <td>SVG 시각화</td>
+        <td>벡터 그래픽 다이어그램</td>
+        <td>흐름도, 구조도, 차트</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box">
+    Artifacts에서 생성된 코드는 바로 실행해 볼 수 있어 코딩을 배울 때 매우 유용합니다. Claude에게 "이 코드에서 이 부분은 뭔가요?"라고 물어보면, 코드의 각 부분이 어떤 역할을 하는지 자세히 설명해 줍니다. 코드를 수정해 달라고 요청하면 Claude가 즉시 수정하고 미리보기에 반영됩니다.
+  </div>
+
+  <!-- ================================================================
+       SECTION 7: 초보자 팁
+       ================================================================ -->
+  <h2 id="tips">초보자 팁</h2>
+
+  <p>Claude Desktop App을 더 효과적으로 사용하기 위한 실용적인 팁들을 소개합니다.</p>
+
+  <h3>좋은 프롬프트 작성법</h3>
+
+  <p><strong>프롬프트(Prompt)</strong>란 Claude에게 보내는 메시지, 즉 질문이나 요청을 말합니다. 좋은 프롬프트를 작성하면 Claude의 답변 품질이 크게 향상됩니다.</p>
+
+  <div class="compare-grid">
+    <div class="compare-col">
+      <h4>아쉬운 프롬프트</h4>
+      <ul>
+        <li>"AI에 대해 알려줘"</li>
+        <li>"코드 짜줘"</li>
+        <li>"이거 어떻게 해?"</li>
+      </ul>
+    </div>
+    <div class="compare-col">
+      <h4>좋은 프롬프트</h4>
+      <ul>
+        <li>"AI 에이전트 팀이란 무엇인지, 초보자도 이해할 수 있게 3문장으로 설명해줘"</li>
+        <li>"Python으로 간단한 할 일 목록(to-do list) 프로그램을 작성해줘. 추가, 삭제, 목록 보기 기능이 필요해"</li>
+        <li>"Claude Desktop App에서 프로젝트를 만드는 방법을 단계별로 알려줘"</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>좋은 프롬프트의 핵심은 <strong>구체적이고 명확하게</strong> 요청하는 것입니다:</p>
+
+  <ul>
+    <li><strong>배경 설명</strong> &mdash; "저는 초보자입니다", "프로그래밍 경험이 없습니다"처럼 본인의 수준을 알려주세요</li>
+    <li><strong>명확한 목표</strong> &mdash; 어떤 결과를 원하는지 구체적으로 말씀하세요</li>
+    <li><strong>형식 지정</strong> &mdash; "3문장으로", "단계별로", "테이블 형식으로"처럼 원하는 답변 형태를 알려주세요</li>
+    <li><strong>예시 제공</strong> &mdash; 원하는 결과의 예시를 보여주면 Claude가 더 정확히 이해합니다</li>
+  </ul>
+
+  <h3>대화를 나누어서 하기</h3>
+
+  <p>복잡한 요청은 한 번에 모두 물어보기보다 <strong>단계별로 나누어</strong> 질문하세요. Claude와의 대화는 이전 맥락을 기억하므로, 작은 단위로 나누어도 전체 맥락이 유지됩니다.</p>
+
+  <div class="flow-box">
+    <strong>예시: AI 에이전트 팀을 배울 때</strong><br>
+    1차: "AI 에이전트 팀이 뭔지 간단히 설명해줘"<br>
+    2차: "그럼 에이전트 하나가 담당하는 역할은 어떤 것들이 있어?"<br>
+    3차: "초보자도 에이전트 팀을 구성할 수 있어? 어떻게 시작하면 돼?"<br>
+    4차: "Claude Desktop App으로 에이전트 팀을 구성하는 예시를 보여줘"
+  </div>
+
+  <h3>한국어 설정</h3>
+
+  <p>Claude는 한국어를 포함한 다양한 언어를 지원합니다. 대화 초반에 다음과 같이 설정해 두면 Claude가 항상 한국어로 답변합니다:</p>
+
+  <div class="prompt-box">
+    <div>대화 시작 시 아래와 같이 설정해 두세요:</div>
+    <div class="prompt-text">앞으로 모든 대화는 한국어로 대답해주세요.</div>
+  </div>
+
+  <p>또는 프로젝트의 Custom Instructions에 "한국어로 대답해주세요"를 적어두면(앞서 "프로젝트 기능" 섹션에서 설명) 매번 말할 필요가 없습니다.</p>
+
+  <h3>Claude Code CLI로 넘어가기</h3>
+
+  <p>Claude Desktop App에 익숙해지고, 터미널 환경에서 더 강력한 기능이 필요해지면 <strong>Claude Code CLI</strong>를 사용해 보세요. Claude Code CLI는 Claude가 직접 파일을 생성, 수정, 실행할 수 있어 프로그래밍 작업에 훨씬 효율적입니다.</p>
+
+  <div class="note">
+    Claude Code CLI의 설치와 사용법은 이 핸드북의 <strong>별첨 B</strong>를 참조하세요. Claude Desktop App으로 기본기를 충분히 익힌 후 별첨 B를 읽어보시는 것을 권장합니다.
+  </div>
+
+  <h3>로컬 모델 저비용 백엔드</h3>
+
+  <p>Claude Pro 구독 외에도, <strong>로컬 컴퓨터에서 실행되는 AI 모델</strong>을 사용하면 인터넷 요금 없이도 AI를 활용할 수 있습니다. Ollama, LM Studio 같은 도구를 사용하면 컴퓨터에 직접 AI 모델을 설치하여 Claude처럼 대화할 수 있습니다.</p>
+
+  <div class="note">
+    로컬 모델 백엔드의 설치와 활용법은 이 핸드북의 <strong>별첨 C</strong>를 참조하세요. Claude Desktop App과 로컬 모델을 함께 사용하면 비용을 절감하면서도 강력한 AI 환경을 구축할 수 있습니다.
+  </div>
+
+  <h3>기타 유용한 팁</h3>
+
+  <ul>
+    <li><strong>대화 내보내기</strong> &mdash; 중요한 대화는 Claude Desktop App의 메뉴에서 내보내기(Export) 기능으로 텍스트 파일로 저장할 수 있습니다. 학습 노트로 활용하세요.</li>
+    <li><strong>단축키</strong> &mdash; <code>Ctrl+N</code>(Windows) 또는 <code>Cmd+N</code>(MacOS)로 새 대화를 시작할 수 있습니다. <code>Ctrl+Shift+N</code>으로 새 프로젝트를 만들 수 있습니다.</li>
+    <li><strong>답변 재생성</strong> &mdash; Claude의 답변이 마음에 들지 않으면 답변 하단의 <strong>"Regenerate"</strong> 버튼을 눌러 다른 답변을 받을 수 있습니다.</li>
+    <li><strong>대화 분기</strong> &mdash; 특정 답변에서 <strong>"Edit message"</strong>를 사용해 내 질문을 수정하면, Claude가 수정된 질문에 맞춰 새로운 답변 분기를 만듭니다. 이렇게 하면 하나의 대화에서 여러 방향으로 탐색할 수 있습니다.</li>
+  </ul>
+
+  <div class="tip-box">
+    Claude에게 "내가 방금 한 질문이나 요청이 모호했다면, 어떻게 고치면 좋을지 알려줘"라고 물어보세요. Claude가 스스로 어떤 정보가 더 필요한지, 어떻게 질문을 다듬으면 좋을지 조언해 줍니다. 이것만으로도 프롬프트 작성 실력이 크게 향상됩니다.
+  </div>
+
+  <!-- ================================================================
+       CHAPTER NAVIGATION
+       ================================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch01/01_Why_AI_Agents.html" class="prev">
+      <div class="dir">&larr; 이전 장</div>
+      <div class="ttl">1장 &middot; 왜 AI 에이전트 팀인가?</div>
+    </a>
+    <a href="../ch03/03_Setup_Guide.html" class="next" style="margin-left:auto;">
+      <div class="dir">다음 장 &rarr;</div>
+      <div class="ttl">3장 &middot; 실습 환경 구축</div>
+    </a>
+  </div>
+  <footer>
+    Claude Desktop App / ai-workspace-standards 기반 입문 핸드북<br>
+    참고: <a href="https://claude.ai" target="_blank">Claude</a> &middot;
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    본 핸드북의 콘텐츠는 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> 라이선스에 따라 이용할 수 있습니다.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script>
+function copyCode(btn) {
+  const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = '완료!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+</script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

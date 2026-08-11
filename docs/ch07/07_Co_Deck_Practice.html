@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="7장 · co-deck: AI 프레젠테이션 실습 - Claude Code와 멀티 에이전트 하네스 입문 핸드북">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7장 · co-deck: AI 프레젠테이션 실습</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index.html" class="nav-home">← 핸드북 홈</a>
+  <div class="nav-title">7장 · co-deck: AI 프레젠테이션 실습</div>
+  <a href="#what-is-codeck">co-deck란</a>
+  <a href="#architecture">시스템 아키텍처</a>
+  <a href="#11-stages">11-Stage 파이프라인</a>
+  <a href="#theme-style">Theme와 Style</a>
+  <a href="#gates">Gate 승인</a>
+  <a href="#how-to-talk">PM에게 말하는 법</a>
+  <a href="#practice">실습: 미니 발표자료 만들기</a>
+  <a href="#outputs">산출물 확인</a>
+  <div class="nav-section">다른 장</div>
+  <a href="../ch06/06_Co_Consult_Practice.html">6장 · co-consult: AI 컨설팅 실습</a>
+  <a href="../ch08/08_Integrated_Pipeline.html">8장 · co-consult + co-deck 통합 파이프라인</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">7장</div>
+  <h1>co-deck: AI 프레젠테이션 실습</h1>
+  <p class="lead">co-deck는 AI 에이전트 팀이 프레젠테이션(강의 자료, 발표 슬라이드)을 제작하는 시스템입니다. 이 장에서는 co-deck의 11-Stage 파이프라인을 이해하고, 실제로 미니 발표자료를 만들어봅니다.</p>
+  <div class="keypoints">
+    <div class="kp-title">이 장에서 다루는 것</div>
+    <ul>
+      <li>co-deck 시스템 소개와 아키텍처</li>
+      <li>11-Stage 파이프라인 이해</li>
+      <li>Theme와 Style 선택</li>
+      <li>Gate 승인 (Gate 2: 내용, Gate 5: 샘플 PDF)</li>
+      <li>실습: 미니 발표자료 만들기</li>
+      <li>HTML과 PDF 산출물 확인</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: co-deck란                                          -->
+  <!-- ============================================================ -->
+  <h2 id="what-is-codeck">co-deck란</h2>
+
+  <h3>정의</h3>
+
+  <p>co-deck는 <strong>AI 에이전트 팀이 프레젠테이션을 제작하는 시스템</strong>입니다. 5장에서 살펴본 ai-workspace-standards의 variant 중 하나로, 다중 AI 에이전트가 협력하여 강의 자료, 회의 발표, 강연 슬라이드 등 고품질 프레젠테이션을 자동으로 생성합니다.</p>
+
+  <p>GitHub 저장소: <a href="https://github.com/5throck/co-deck" target="_blank" rel="noopener noreferrer">github.com/5throck/co-deck</a></p>
+
+  <h3>어떤 산출물을 만드는가?</h3>
+
+  <p>co-deck는 두 가지 형태의 산출물을 생성합니다.</p>
+
+  <ul>
+    <li><strong>단일 파일 HTML 슬라이드 데크</strong> — 모든 슬라이드, 이미지, 스타일이 하나의 HTML 파일에 포함된 자족형 웹 프레젠테이션입니다. 브라우저에서 바로 열어 발표할 수 있으며, 반응형과 인터랙티브 기능을 지원합니다.</li>
+    <li><strong>PDF</strong> — 인쇄용 및 배포용 PDF 파일입니다. 레이아웃, 폰트, 색상이 보존되어 공유와 보관에 적합합니다.</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>초보자 비유:</strong> co-deck는 가상의 "프레젠테이션 제작사"입니다. PM(프로젝트 매니저)이 클라이언트(사용자)와 미팅하고, 전문가 에이전트들이 각 단계(조사, 기획, 디자인, 제작)를 수행합니다. 실제 디자인 에이전시에서 기획자가 디자이너, 일러스트레이터, 개발자를 이끄는 것과 비슷한 구조입니다.
+  </div>
+
+  <h3>co-consult와의 차이</h3>
+
+  <p>6장에서 배운 co-consult가 전략 분석과 보고서 작성에 특화되어 있다면, co-deck는 <strong>프레젠테이션 슬라이드 제작</strong>에 특화되어 있습니다. 두 시스템 모두 ai-workspace-standards를 기반으로 하지만, 목적과 에이전트 구성이 다릅니다.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>co-deck</h4>
+      <ul>
+        <li>프레젠테이션 슬라이드 제작</li>
+        <li>research, storyline, html-build, pdf-export 등</li>
+        <li>11-Stage 파이프라인</li>
+        <li>산출물: HTML 슬라이드 + PDF</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-consult</h4>
+      <ul>
+        <li>전략 컨설팅 분석 및 보고서</li>
+        <li>research, data-analyst, market-analyst, strategy 등</li>
+        <li>7-Phase 파이프라인</li>
+        <li>산출물: 분석 보고서 HTML + PDF</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: 시스템 아키텍처                                    -->
+  <!-- ============================================================ -->
+  <h2 id="architecture">시스템 아키텍처</h2>
+
+  <h3>에이전트 구성</h3>
+
+  <p>co-deck는 <strong>PM 에이전트 1명과 10개 전문 에이전트</strong>로 구성됩니다. PM이 중심에서 전체 프로젝트를 조율하고, 전문 에이전트들이 각자의 영역에서 작업을 수행합니다.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-deck 에이전트 구성 다이어그램">
+      <!-- 배경 -->
+      <rect x="0" y="0" width="680" height="540" rx="12" fill="var(--bg2)"/>
+
+      <!-- PM (중앙) -->
+      <circle cx="340" cy="270" r="56" fill="var(--accent)" opacity="0.15"/>
+      <circle cx="340" cy="270" r="56" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <text x="340" y="264" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text)">PM</text>
+      <text x="340" y="282" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Project Manager</text>
+
+      <!-- 연결선 - 상단 -->
+      <line x1="340" y1="214" x2="160" y2="90" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="340" y1="214" x2="340" y2="60" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="340" y1="214" x2="520" y2="90" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+
+      <!-- 연결선 - 좌우 -->
+      <line x1="284" y1="270" x2="140" y2="190" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="270" x2="140" y2="270" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="270" x2="140" y2="350" stroke="var(--accent-purple)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="270" x2="540" y2="190" stroke="var(--accent-purple)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="270" x2="540" y2="270" stroke="var(--accent-purple)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="270" x2="540" y2="350" stroke="var(--accent-red)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+
+      <!-- 연결선 - 하단 -->
+      <line x1="340" y1="326" x2="160" y2="440" stroke="var(--accent-red)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="340" y1="326" x2="340" y2="460" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="340" y1="326" x2="520" y2="440" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+
+      <!-- 상단 열: Stage 0-1 영역 -->
+      <rect x="85" y="56" width="150" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="160" y="79" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">research</text>
+
+      <rect x="280" y="26" width="120" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="340" y="49" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">source-verifier</text>
+
+      <rect x="445" y="56" width="150" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="520" y="79" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">storyline</text>
+
+      <!-- 좌측 열: Stage 3-5 영역 -->
+      <rect x="35" y="168" width="150" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="110" y="191" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">design</text>
+
+      <rect x="35" y="248" width="150" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="110" y="271" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">image-curator</text>
+
+      <rect x="35" y="328" width="150" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="110" y="351" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">diagram-specialist</text>
+
+      <!-- 우측 열: Stage 5-11 영역 -->
+      <rect x="475" y="168" width="170" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="560" y="191" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">html-build</text>
+
+      <rect x="475" y="248" width="170" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="560" y="271" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">measure</text>
+
+      <rect x="475" y="328" width="170" height="36" rx="8" fill="var(--bg-warn)" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="560" y="351" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">pdf-export</text>
+
+      <!-- 하단 열: 지원 에이전트 -->
+      <rect x="85" y="418" width="150" height="36" rx="8" fill="var(--bg-warn)" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="160" y="441" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">version</text>
+
+      <rect x="280" y="440" width="120" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="340" y="463" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">사용자</text>
+
+      <rect x="445" y="418" width="150" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="520" y="441" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">auditor</text>
+
+      <!-- 범례 -->
+      <rect x="120" y="500" width="12" height="12" rx="2" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="138" y="510" font-size="9" style="fill:var(--text-dim)">리서치</text>
+      <rect x="200" y="500" width="12" height="12" rx="2" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="218" y="510" font-size="9" style="fill:var(--text-dim)">기획/디자인</text>
+      <rect x="310" y="500" width="12" height="12" rx="2" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="328" y="510" font-size="9" style="fill:var(--text-dim)">제작/측정</text>
+      <rect x="410" y="500" width="12" height="12" rx="2" fill="var(--bg-warn)" stroke="var(--accent-red)" stroke-width="1.5"/>
+      <text x="428" y="510" font-size="9" style="fill:var(--text-dim)">출력/지원</text>
+      <rect x="500" y="500" width="12" height="12" rx="2" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="518" y="510" font-size="9" style="fill:var(--text-dim)">사용자/품질</text>
+    </svg>
+  </div>
+
+  <h3>전문 에이전트 역할</h3>
+
+  <p>각 전문 에이전트의 역할을 요약하면 다음과 같습니다.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>에이전트</th>
+        <th>역할</th>
+        <th>설명</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>research</code></td>
+        <td>리서치 전문가</td>
+        <td>웹에서 주제와 관련된 자료, 통계, 출처를 수집하여 <code>research_notes.md</code>에 정리합니다</td>
+      </tr>
+      <tr>
+        <td><code>source-verifier</code></td>
+        <td>소스 검증자</td>
+        <td>수집된 출처의 URL 접근성과 내용 일치 여부를 검증하고 Trust Score를 산출합니다 (선택적)</td>
+      </tr>
+      <tr>
+        <td><code>storyline</code></td>
+        <td>스토리라이너</td>
+        <td>리서치 결과를 바탕으로 슬라이드의 전체 구조와 내러티브를 설계합니다. <code>storyline.md</code>와 <code>slide_deck.md</code>를 생성합니다</td>
+      </tr>
+      <tr>
+        <td><code>design</code></td>
+        <td>디자이너</td>
+        <td>색상, 폰트, 레이아웃 등 시각적 스타일을 결정하고 <code>design_spec.md</code>에 정리합니다</td>
+      </tr>
+      <tr>
+        <td><code>image-curator</code></td>
+        <td>이미지 큐레이터</td>
+        <td>Pixabay, Unsplash, Pexels에서 상업용 이미지를 검색하고 다운로드합니다 (선택적)</td>
+      </tr>
+      <tr>
+        <td><code>diagram-specialist</code></td>
+        <td>다이어그램 전문가</td>
+        <td>개념 다이어그램과 데이터 차트를 SVG 형식으로 생성합니다 (선택적)</td>
+      </tr>
+      <tr>
+        <td><code>html-build</code></td>
+        <td>HTML 빌더</td>
+        <td><code>slide_deck.md</code>와 <code>design_spec.md</code>를 바탕으로 단일 파일 HTML 슬라이드 데크를 생성합니다</td>
+      </tr>
+      <tr>
+        <td><code>measure</code></td>
+        <td>레이아웃 측정기</td>
+        <td>HTML 슬라이드의 픽셀 좌표, 폰트, 색상을 측정하여 PDF 생성에 필요한 레이아웃 정보를 수집합니다</td>
+      </tr>
+      <tr>
+        <td><code>pdf-export</code></td>
+        <td>PDF 익스포터</td>
+        <td>5장 샘플 PDF와 전체 PDF를 생성합니다. Gate 5에서 사용자 승인이 필요합니다</td>
+      </tr>
+      <tr>
+        <td><code>version</code></td>
+        <td>버전 관리자</td>
+        <td>파일 수정 전 자동 백업을 수행합니다. 이전 버전으로 복원도 가능합니다</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    PM 에이전트는 위 전문 에이전트를 직접 실행하지 않습니다. PM은 사용자의 요청을 분석하고, 각 전문 에이전트에게 작업을 지시(디스패치)하는 오케스트레이터 역할만 수행합니다. 4장의 PM Gateway 섹션을 참조하세요.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: 11-Stage 파이프라인                                -->
+  <!-- ============================================================ -->
+  <h2 id="11-stages">11-Stage 파이프라인</h2>
+
+  <p>co-deck는 <strong>11개의 Stage</strong>로 구성된 파이프라인을 따라 프레젠테이션을 제작합니다. 각 Stage에서 특정 에이전트가 담당하며, 정해진 산출물을 출력합니다. Stage 사이에는 <strong>Gate</strong>라는 승인 지점이 있어 사용자가 중간에 내용을 검토하고 방향을 수정할 수 있습니다.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 700 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-deck 11-Stage 파이프라인 흐름도">
+      <!-- 배경 -->
+      <rect x="0" y="0" width="700" height="460" rx="12" fill="var(--bg2)"/>
+
+      <!-- 화살표 마커 정의 -->
+      <defs>
+        <marker id="arrowhead2" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+          <polygon points="0 0, 6 2, 0 4" style="fill:var(--text-dim)"/>
+        </marker>
+        <marker id="arrow-red" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+          <polygon points="0 0, 6 2, 0 4" style="fill:var(--accent-red)"/>
+        </marker>
+      </defs>
+
+      <!-- Stage 0: Config -->
+      <rect x="10" y="30" width="76" height="88" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="48" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">Stage 0</text>
+      <text x="48" y="66" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Config</text>
+      <text x="48" y="82" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">프로젝트</text>
+      <text x="48" y="94" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">설정</text>
+      <text x="48" y="112" text-anchor="middle" font-size="7" style="fill:var(--accent)">PM</text>
+
+      <!-- 화살표 0→1 -->
+      <path d="M88 74 L100 74" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+      <!-- Stage 1: Research -->
+      <rect x="102" y="30" width="76" height="88" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="140" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">Stage 1</text>
+      <text x="140" y="66" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Research</text>
+      <text x="140" y="82" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">리서치</text>
+      <text x="140" y="112" text-anchor="middle" font-size="7" style="fill:var(--accent-green)">research</text>
+
+      <!-- 화살표 1→1.5 -->
+      <path d="M180 74 L192 74" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+      <!-- Stage 1.5: Source Verifier (선택적) -->
+      <rect x="194" y="30" width="70" height="88" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="229" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">1.5</text>
+      <text x="229" y="66" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Source</text>
+      <text x="229" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Verify</text>
+      <text x="229" y="112" text-anchor="middle" font-size="7" style="fill:var(--accent-amber)">(선택적)</text>
+
+      <!-- 화살표 1.5→2-3 -->
+      <path d="M266 74 L278 74" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+      <!-- Stage 2-3: Content -->
+      <rect x="280" y="30" width="76" height="88" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="318" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">Stage</text>
+      <text x="318" y="62" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">2-3</text>
+      <text x="318" y="78" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Content</text>
+      <text x="318" y="94" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">스토리라인</text>
+      <text x="318" y="112" text-anchor="middle" font-size="7" style="fill:var(--accent-amber)">storyline</text>
+
+      <!-- Gate 2 표시 -->
+      <rect x="354" y="58" width="24" height="32" rx="4" fill="var(--accent-red)" opacity="0.15" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="366" y="72" text-anchor="middle" font-size="7" font-weight="bold" style="fill:var(--accent-red)">GATE</text>
+      <text x="366" y="83" text-anchor="middle" font-size="6" font-weight="bold" style="fill:var(--accent-red)">2</text>
+
+      <!-- 화살표 2-3→4 (Gate 통과) -->
+      <path d="M380 74 L392 74" stroke="var(--accent-red)" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+      <!-- Stage 4: Design -->
+      <rect x="394" y="30" width="70" height="88" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="429" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">Stage 4</text>
+      <text x="429" y="66" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Design</text>
+      <text x="429" y="82" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">디자인</text>
+      <text x="429" y="112" text-anchor="middle" font-size="7" style="fill:var(--accent-purple)">design</text>
+
+      <!-- 화살표 4→3.5 -->
+      <path d="M466 74 L478 74" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+      <!-- Stage 3.5: Image + Diagram (병렬, 선택적) -->
+      <rect x="480" y="30" width="70" height="88" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="515" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">3.5</text>
+      <text x="515" y="66" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Image</text>
+      <text x="515" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">+ Diagram</text>
+      <text x="515" y="112" text-anchor="middle" font-size="7" style="fill:var(--accent-amber)">(병렬)</text>
+
+      <!-- 화살표 3.5→5-8 -->
+      <path d="M552 74 L564 74" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+      <!-- Stage 5-8: HTML Build -->
+      <rect x="566" y="30" width="76" height="88" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="604" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">Stage</text>
+      <text x="604" y="62" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">5-8</text>
+      <text x="604" y="78" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">HTML</text>
+      <text x="604" y="94" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Build</text>
+      <text x="604" y="112" text-anchor="middle" font-size="7" style="fill:var(--accent-purple)">html-build</text>
+
+      <!-- 2열: Stage 9-10, 11 -->
+      <!-- 화살표 5-8→9-10 (아래로) -->
+      <path d="M604 120 L604 140" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+      <!-- Stage 9-10: Layout Measure -->
+      <rect x="566" y="142" width="76" height="68" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="604" y="162" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">Stage</text>
+      <text x="604" y="174" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">9-10</text>
+      <text x="604" y="190" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Measure</text>
+      <text x="604" y="204" text-anchor="middle" font-size="7" style="fill:var(--accent-purple)">measure</text>
+
+      <!-- 화살표 9-10→11 -->
+      <path d="M604 212 L604 232" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+      <!-- Stage 11: PDF Export -->
+      <rect x="566" y="234" width="76" height="68" rx="8" fill="var(--bg-warn)" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="604" y="254" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">Stage 11</text>
+      <text x="604" y="270" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">PDF</text>
+      <text x="604" y="286" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Export</text>
+      <text x="604" y="298" text-anchor="middle" font-size="7" style="fill:var(--accent-red)">pdf-export</text>
+
+      <!-- Gate 5 표시 -->
+      <rect x="644" y="255" width="24" height="26" rx="4" fill="var(--accent-red)" opacity="0.15" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="656" y="268" text-anchor="middle" font-size="7" font-weight="bold" style="fill:var(--accent-red)">GATE</text>
+      <text x="656" y="278" text-anchor="middle" font-size="6" font-weight="bold" style="fill:var(--accent-red)">5</text>
+
+      <!-- 하단: Stage별 상세 설명 박스 -->
+      <rect x="10" y="150" width="548" height="300" rx="8" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+      <text x="284" y="172" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Stage별 상세 설명</text>
+
+      <!-- Stage 0 -->
+      <text x="24" y="196" font-size="9" font-weight="bold" style="fill:var(--accent-green)">Stage 0 — Config</text>
+      <text x="24" y="210" font-size="9" style="fill:var(--text-dim)">PM이 사용자와 미팅하여 프로젝트를 설정합니다. 주제, 대상, 언어,</text>
+      <text x="24" y="222" font-size="9" style="fill:var(--text-dim)">Theme, Style을 결정하고 lecture-profile.md와 project_state.json을 생성합니다.</text>
+
+      <!-- Stage 1 -->
+      <text x="24" y="244" font-size="9" font-weight="bold" style="fill:var(--accent-green)">Stage 1 — Research</text>
+      <text x="24" y="258" font-size="9" style="fill:var(--text-dim)">research 에이전트가 웹 검색을 수행하여 research_notes.md를 작성합니다.</text>
+      <text x="24" y="270" font-size="9" style="fill:var(--text-dim)">한국어와 영어 출처를 모두 수집하며, 슬라이드 제작의 정보 기반이 됩니다.</text>
+
+      <!-- Stage 1.5 -->
+      <text x="24" y="292" font-size="9" font-weight="bold" style="fill:var(--accent-amber)">Stage 1.5 — Source Verifier (선택적)</text>
+      <text x="24" y="306" font-size="9" style="fill:var(--text-dim)">source-verifier가 출처의 URL 접근성과 내용 일치 여부를 검증합니다.</text>
+      <text x="24" y="318" font-size="9" style="fill:var(--text-dim)">Trust Score를 산출하며, 70% 미만이면 프로젝트가 일시 중단됩니다.</text>
+
+      <!-- Stage 2-3 -->
+      <text x="24" y="340" font-size="9" font-weight="bold" style="fill:var(--accent-amber)">Stage 2-3 — Content</text>
+      <text x="24" y="354" font-size="9" style="fill:var(--text-dim)">storyline 에이전트가 리서치 결과를 바탕으로 슬라이드 구조를 설계합니다.</text>
+      <text x="24" y="366" font-size="9" style="fill:var(--text-dim)">storyline.md(전체 내러티브)와 slide_deck.md(슬라이드별 내용)를 생성합니다.</text>
+      <text x="24" y="378" font-size="9" style="fill:var(--text-dim)">여기서 Gate 2 승인이 필요합니다 — 슬라이드 내용을 확인한 후 진행합니다.</text>
+
+      <!-- Stage 4 -->
+      <text x="24" y="400" font-size="9" font-weight="bold" style="fill:var(--accent-purple)">Stage 4 — Design</text>
+      <text x="24" y="414" font-size="9" style="fill:var(--text-dim)">design 에이전트가 색상 팔레트, 폰트, 레이아웃을 결정하여 design_spec.md를 생성합니다.</text>
+
+      <!-- Stage 3.5 -->
+      <text x="280" y="196" font-size="9" font-weight="bold" style="fill:var(--accent-amber)">Stage 3.5 — Image + Diagram (선택적, 병렬)</text>
+      <text x="280" y="210" font-size="9" style="fill:var(--text-dim)">image-curator와 diagram-specialist가 병렬로 실행됩니다.</text>
+      <text x="280" y="222" font-size="9" style="fill:var(--text-dim)">이미지를 검색/다운로드하고, SVG 다이어그램과 차트를 생성합니다.</text>
+
+      <!-- Stage 5-8 -->
+      <text x="280" y="244" font-size="9" font-weight="bold" style="fill:var(--accent-purple)">Stage 5-8 — HTML Build</text>
+      <text x="280" y="258" font-size="9" style="fill:var(--text-dim)">html-build 에이전트가 slide_deck.md와 design_spec.md를 바탕으로</text>
+      <text x="280" y="270" font-size="9" style="fill:var(--text-dim)">단일 파일 HTML 슬라이드 데크(lecture_v1.html)를 생성합니다.</text>
+
+      <!-- Stage 9-10 -->
+      <text x="280" y="292" font-size="9" font-weight="bold" style="fill:var(--accent-purple)">Stage 9-10 — Layout Measure</text>
+      <text x="280" y="306" font-size="9" style="fill:var(--text-dim)">measure 에이전트가 HTML 슬라이드의 픽셀 좌표, 폰트, 색상을 측정합니다.</text>
+      <text x="280" y="318" font-size="9" style="fill:var(--text-dim)">측정 결과는 PDF 생성에 사용됩니다.</text>
+
+      <!-- Stage 11 -->
+      <text x="280" y="340" font-size="9" font-weight="bold" style="fill:var(--accent-red)">Stage 11 — PDF Export</text>
+      <text x="280" y="354" font-size="9" style="fill:var(--text-dim)">pdf-export 에이전트가 먼저 5장 샘플 PDF를 생성합니다.</text>
+      <text x="280" y="366" font-size="9" style="fill:var(--text-dim)">Gate 5 승인 후 전체 PDF를 생성합니다.</text>
+
+      <!-- version 표시 -->
+      <text x="280" y="396" font-size="9" font-weight="bold" style="fill:var(--text-dim)">version 에이전트</text>
+      <text x="380" y="396" font-size="9" style="fill:var(--text-dim)">— 모든 Stage에서 파일 수정 전 자동 백업을 수행합니다 (크로스커팅).</text>
+
+      <!-- 하단 범례 -->
+      <rect x="10" y="440" width="12" height="12" rx="2" fill="none" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="28" y="450" font-size="8" style="fill:var(--text-dim)">실선 = 필수 Stage</text>
+      <rect x="140" y="440" width="12" height="12" rx="2" fill="none" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,2"/>
+      <text x="158" y="450" font-size="8" style="fill:var(--text-dim)">점선 = 선택적 Stage</text>
+      <rect x="280" y="440" width="12" height="12" rx="2" fill="var(--accent-red)" opacity="0.15" stroke="var(--accent-red)" stroke-width="1.5"/>
+      <text x="298" y="450" font-size="8" style="fill:var(--text-dim)">GATE = 사용자 승인 필요</text>
+    </svg>
+  </div>
+
+  <div class="note">
+    Stage 1.5, 3.5, 4는 <strong>선택적/자동 단계</strong>입니다. 사용자는 <strong>Gate 2 (내용 승인)</strong>와 <strong>Gate 5 (샘플 PDF 승인)</strong>에서만 승인합니다. 나머지 Stage는 PM이 에이전트를 자동으로 디스패치하여 진행합니다.
+  </div>
+
+  <h3>Stage별 핵심 산출물</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Stage 0 — Config (프로젝트 설정)</strong><br>
+        PM이 사용자와 미팅하여 프로젝트의 주제, 대상 청중, 언어, Theme, Style을 확정합니다. 이 단계에서 <code>lecture-profile.md</code>와 <code>project_state.json</code>이 생성됩니다.
+      </li>
+      <li>
+        <strong>Stage 1 — Research (리서치)</strong><br>
+        <code>research</code> 에이전트가 웹 검색을 통해 관련 자료, 통계, 출처를 수집합니다. 산출물은 <code>research_notes.md</code>로, 전체 슬라이드 제작의 정보 기반이 됩니다.
+      </li>
+      <li>
+        <strong>Stage 1.5 — Source Verifier (소스 검증, 선택적)</strong><br>
+        <code>source-verifier</code> 에이전트가 수집된 출처의 URL 접근성과 내용 일치 여부를 검증합니다. Trust Score를 산출하며, 70% 미만이면 프로젝트가 일시 중단됩니다.
+      </li>
+      <li>
+        <strong>Stage 2-3 — Content (스토리라인 + 슬라이드 데크)</strong><br>
+        <code>storyline</code> 에이전트가 리서치 결과를 바탕으로 슬라이드의 전체 구조( <code>storyline.md</code>)와 슬라이드별 내용(<code>slide_deck.md</code>)을 설계합니다. <strong>Gate 2</strong>에서 사용자가 슬라이드 내용을 승인합니다.
+      </li>
+      <li>
+        <strong>Stage 4 — Design (디자인 스펙)</strong><br>
+        <code>design</code> 에이전트가 색상 팔레트, 폰트, 레이아웃 등 시각적 스타일을 결정하고 <code>design_spec.md</code>에 정리합니다.
+      </li>
+      <li>
+        <strong>Stage 3.5 — Image Curation + Diagram Generation (병렬)</strong><br>
+        <code>image-curator</code>와 <code>diagram-specialist</code>가 병렬로 실행됩니다. 슬라이드에 사용할 이미지를 검색/다운로드하고, SVG 다이어그램과 차트를 생성합니다.
+      </li>
+      <li>
+        <strong>Stage 5-8 — HTML Build (HTML 슬라이드 생성)</strong><br>
+        <code>html-build</code> 에이전트가 <code>slide_deck.md</code>와 <code>design_spec.md</code>를 바탕으로 단일 파일 HTML 슬라이드 데크(<code>lecture_v1.html</code>)를 생성합니다.
+      </li>
+      <li>
+        <strong>Stage 9-10 — Layout Measure (레이아웃 측정)</strong><br>
+        <code>measure</code> 에이전트가 HTML 슬라이드의 픽셀 좌표, 폰트, 색상을 측정하여 PDF 생성에 필요한 레이아웃 정보를 수집합니다.
+      </li>
+      <li>
+        <strong>Stage 11 — PDF Export (PDF 생성)</strong><br>
+        <code>pdf-export</code> 에이전트가 5장 샘플 PDF를 먼저 생성합니다. <strong>Gate 5</strong>에서 사용자가 샘플 PDF를 확인하고 승인하면 전체 PDF가 생성됩니다.
+      </li>
+    </ol>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: Theme와 Style                                     -->
+  <!-- ============================================================ -->
+  <h2 id="theme-style">Theme와 Style</h2>
+
+  <p>co-deck는 <strong>Theme</strong>와 <strong>Style</strong>이라는 두 가지 개념으로 프레젠테이션의 외관을 제어합니다. 이 둘은 독립적으로 선택할 수 있지만, 서로 호환되는 조합이 정해져 있습니다.</p>
+
+  <h3>Theme — HTML 렌더링 구조</h3>
+
+  <p>Theme은 슬라이드의 <strong>HTML 렌더링 구조</strong>를 결정합니다. 레이아웃 방식, 네비게이션 구조, 슬라이드 전환 효과, TOC(목차) 표시 방식 등이 Theme에 따라 다릅니다.</p>
+
+  <p>사용 가능한 Theme은 다음과 같습니다.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Theme</th>
+        <th>파라다임</th>
+        <th>특징</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>pitch</code></td>
+        <td>ppt-engine</td>
+        <td>전통적인 PPT 스타일. 하단 푸터 바, 이전/다음 버튼, TOC 서랍</td>
+      </tr>
+      <tr>
+        <td><code>pitch-enhanced</code></td>
+        <td>ppt-presenter</td>
+        <td>고급 PPT 스타일. 트랜지션 선택, 스크립트 토글, 타이머, TTS 지원</td>
+      </tr>
+      <tr>
+        <td><code>outline</code></td>
+        <td>outline</td>
+        <td>개요 형태. TOC 서랍 + 하단 바, 다양한 슬라이드 유형 지원</td>
+      </tr>
+      <tr>
+        <td><code>vertical</code></td>
+        <td>vertical-scroll</td>
+        <td>세로 스크롤. 스티키 상단 바, 자동 진행, 진행률 바</td>
+      </tr>
+      <tr>
+        <td><code>zen</code></td>
+        <td>zen</td>
+        <td>심플한 스타일. TOC 서랍 + 하단 바, 트랜지션 선택</td>
+      </tr>
+      <tr>
+        <td><code>outlook</code></td>
+        <td>horizontal-scroll</td>
+        <td>가로 스크롤. TOC 오버레이 패널, 자동 재생 지원</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Style — CSS 변수 셋</h3>
+
+  <p>Style은 슬라이드의 <strong>CSS 변수 셋</strong>을 결정합니다. 색상 팔레트, 폰트, 여백, 배경색 등 시각적 스타일이 Style에 따라 다릅니다.</p>
+
+  <p>사용 가능한 Style은 다음과 같습니다.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Style</th>
+        <th>특징</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>classic</code></td>
+        <td>깔끔한 라이트 스타일. 밝은 배경, 어두운 텍스트. 가장 널리 호환됨</td>
+      </tr>
+      <tr>
+        <td><code>minimal</code></td>
+        <td>미니멀 스타일. 최소한의 장식, 콘텐츠에 집중</td>
+      </tr>
+      <tr>
+        <td><code>premium-dark</code></td>
+        <td>프리미엄 다크 스타일. 어두운 배경, 밝은 텍스트, 세련된 느낌</td>
+      </tr>
+      <tr>
+        <td><code>academic</code></td>
+        <td>학술 스타일. 교육용 프레젠테이션에 적합</td>
+      </tr>
+      <tr>
+        <td><code>visual-heavy</code></td>
+        <td>비주얼 중심 스타일. 이미지가 많은 프레젠테이션에 적합</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Theme x Style 호환성</h3>
+
+  <p>모든 Theme과 Style이 호환되는 것은 아닙니다. <code>THEMES.md</code>에 정의된 호환성 매트릭스를 따라야 합니다. PM은 Stage 0에서 호환성을 자동으로 확인합니다.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Theme (구조)</h4>
+      <ul>
+        <li>HTML 렌더링 구조를 결정</li>
+        <li>레이아웃 방식 (PPT, 세로, 가로 등)</li>
+        <li>네비게이션 구조</li>
+        <li>슬라이드 전환 효과</li>
+        <li>TOC 표시 방식</li>
+        <li>파일: template.html, theme.json, theme.css</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Style (외관)</h4>
+      <ul>
+        <li>CSS 변수 셋을 결정</li>
+        <li>색상 팔레트 (밝음/어두움)</li>
+        <li>폰트 패밀리와 크기</li>
+        <li>여백과 간격</li>
+        <li>배경색과 텍스트 색상</li>
+        <li>파일: style.css</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>처음에는 기본 조합을 사용해보세요.</strong> <code>pitch-enhanced</code> Theme + <code>classic</code> Style은 대부분의 프레젠테이션에 잘 맞는 안정적인 조합입니다. 익숙해진 후에 다른 Theme과 Style을 시도해보세요.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: Gate 승인                                          -->
+  <!-- ============================================================ -->
+  <h2 id="gates">Gate 승인</h2>
+
+  <p>co-deck의 파이프라인에는 <strong>Gate</strong>라는 승인 지점이 있습니다. Gate는 사용자가 중간에 산출물을 검토하고 방향을 수정할 수 있는 "체크포인트"입니다. 모든 Gate를 통과해야 다음 Stage로 진행합니다.</p>
+
+  <h3>필수 Gate</h3>
+
+  <p>다음 두 Gate는 <strong>필수</strong>이며, 사용자의 명시적인 승인이 필요합니다.</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Gate 2 (필수) — 슬라이드 내용 승인</strong><br>
+        Stage 2-3이 완료되면 <code>storyline.md</code>와 <code>slide_deck.md</code>가 생성됩니다. PM이 다음과 같이 승인을 요청합니다.
+        <div class="prompt-box">
+          <code>"⚠️ 승인하면 디자인과 HTML 제작이 시작됩니다. 승인하시겠습니까?"</code>
+        </div>
+        이때 슬라이드의 전체 구조와 각 슬라이드의 내용, 이미지 계획, 다이어그램 계획을 확인할 수 있습니다. 수정이 필요하면 이 시점에서 방향을 조정하세요.
+      </li>
+      <li>
+        <strong>Gate 5 (필수) — 샘플 PDF 승인</strong><br>
+        Stage 11에서 <code>pdf-export</code> 에이전트가 먼저 5장짜리 <code>sample_5slides.pdf</code>를 생성합니다. PM이 다음과 같이 승인을 요청합니다.
+        <div class="prompt-box">
+          <code>"레이아웃과 폰트를 확인하세요. 전체 PDF를 생성하시겠습니까?"</code>
+        </div>
+        샘플 PDF에서 폰트 렌더링, 레이아웃 배치, 색상 표현 등을 확인합니다. 문제가 있으면 수정을 요청하세요.
+      </li>
+    </ol>
+  </div>
+
+  <h3>선택적 Gate</h3>
+
+  <p>다음 Gate는 <strong>선택적</strong>이며, PM이 자동으로 진행하거나 리뷰 후 진행합니다.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Gate</th>
+        <th>시점</th>
+        <th>검토 내용</th>
+        <th>진행 방식</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gate 1.5</td>
+        <td>Stage 1.5 완료 후</td>
+        <td>source-verification.md의 Trust Score</td>
+        <td>Trust Score를 출력하고 70% 이상이면 자동 진행</td>
+      </tr>
+      <tr>
+        <td>Gate 3</td>
+        <td>Stage 4 완료 후</td>
+        <td>design_spec.md의 테마/스타일 요약</td>
+        <td>요약을 출력하고 자동 진행</td>
+      </tr>
+      <tr>
+        <td>Gate 4</td>
+        <td>Stage 5-8 완료 후</td>
+        <td>HTML 슬라이드 데크 파일</td>
+        <td>파일 정보를 출력하고 자동 진행</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Gate 통과 조건</h3>
+
+  <ul>
+    <li><strong>Gate 2:</strong> 사용자가 슬라이드 내용(구조, 각 슬라이드 텍스트, 이미지/다이어그램 계획)을 확인하고 명시적으로 "승인"합니다. 수정 요청이 있으면 해당 부분을 수정한 후 다시 승인을 받습니다.</li>
+    <li><strong>Gate 5:</strong> 사용자가 샘플 PDF의 레이아웃(폰트, 여백, 색상, 배치)을 확인하고 명시적으로 "승인"합니다. 레이아웃 문제가 있으면 수정 후 다시 승인을 받습니다.</li>
+    <li><strong>Gate 1.5:</strong> Trust Score가 70% 이상이면 자동 통과. 70% 미만이면 프로젝트가 중단되고, PM이 사용자에게 알립니다.</li>
+  </ul>
+
+  <div class="warn">
+    <strong>주의:</strong> Gate 2에서 승인하면 대규모 작업(디자인, 이미지 검색, HTML 제작, PDF 생성)이 시작됩니다. 슬라이드 내용을 꼭 꼼꼼하게 확인하세요. Gate 2 이후에 내용을 수정하면 해당 단계부터 다시 실행해야 할 수 있습니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: PM에게 말하는 법                                   -->
+  <!-- ============================================================ -->
+  <h2 id="how-to-talk">PM에게 말하는 법</h2>
+
+  <p>co-deck를 사용하려면 Claude Desktop App에서 co-deck 프로젝트를 열고 PM 에이전트에게 요청을 보내야 합니다. 효과적인 요청은 프레젠테이션의 품질을 크게 높입니다.</p>
+
+  <h3>요청의 5가지 핵심 요소</h3>
+
+  <p>좋은 요청에는 다음 다섯 가지가 포함되어 있습니다.</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>주제 (Topic)</strong> — 무엇에 대한 프레젠테이션인가?</li>
+      <li><strong>대상 (Audience)</strong> — 누구를 위한 프레젠테이션인가?</li>
+      <li><strong>수준 (Level)</strong> — 초보자 수준인가, 전문가 수준인가?</li>
+      <li><strong>분량 (Volume)</strong> — 몇 장의 슬라이드가 필요한가?</li>
+      <li><strong>언어 (Language)</strong> — 한국어인가, 영어인가, 혹은 둘 다인가?</li>
+    </ol>
+  </div>
+
+  <h3>요청 예시</h3>
+
+  <div class="prompt-box">
+    <strong>예시 1: 대학 강의 자료</strong><br>
+    <code>"인공지능 개론 강의 자료를 만들어줘. 대학생 수준, 20장 정도. 한국어."</code>
+  </div>
+
+  <div class="prompt-box">
+    <strong>예시 2: 회사 실적 발표</strong><br>
+    <code>"우리 회사의 Q3 실적 발표 자료를 만들어줘. 투자자 대상. 15장 정도. 한국어."</code>
+  </div>
+
+  <div class="prompt-box">
+    <strong>예시 3: 기술 세미나</strong><br>
+    <code>"클라우드 아키텍처 기초 세미나 자료를 만들어줘. IT 부서 신입사원 대상, 10장 정도. 영어."</code>
+  </div>
+
+  <div class="prompt-box">
+    <strong>예시 4: 간단한 미니 발표</strong><br>
+    <code>"머신러닝의 5가지 핵심 개념에 대한 미니 발표 자료를 만들어줘. 5장. 초보자 대상. 한국어."</code>
+  </div>
+
+  <h3>좋은 요청 vs 아쉬운 요청</h3>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>좋은 요청</h4>
+      <ul>
+        <li>주제가 명확함: "인공지능 개론"</li>
+        <li>대상이 구체적임: "대학생"</li>
+        <li>수준이 명시됨: "입문 수준"</li>
+        <li>분량이 있음: "20장 정도"</li>
+        <li>언어가 명시됨: "한국어"</li>
+        <li>PM이 바로 에이전트를 디스패치 가능</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>아쉬운 요청</h4>
+      <ul>
+        <li>주제가 모호함: "뭐 좀 만들어줘"</li>
+        <li>대상이 없음: 누구에게 발표하는지 불명확</li>
+        <li>수준 불명확: 전문가용인지 초보자용인지 모름</li>
+        <li>분량이 없음: 5장인지 50장인지 알 수 없음</li>
+        <li>언어가 없음: 한국어인지 영어인지 지정 안 됨</li>
+        <li>PM이 사용자에게 추가 질문을 해야 함</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>처음에는 간단한 주제로 시작해보세요.</strong> "머신러닝 기초 개념, 5장, 초보자 대상, 한국어" 정도의 간단한 요청으로 co-deck의 동작 방식을 익히는 것을 추천합니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: 실습: 미니 발표자료 만들기                          -->
+  <!-- ============================================================ -->
+  <h2 id="practice">실습: 미니 발표자료 만들기</h2>
+
+  <p>이 실습에서는 co-deck를 사용하여 5장짜리 미니 발표자료를 만들어봅니다. 주제는 "머신러닝의 5가지 핵심 개념"으로, 초보자를 대상으로 한 간단한 발표자료입니다.</p>
+
+  <h3>실습 목표</h3>
+
+  <ul>
+    <li>co-deck 저장소를 클론하고 프로젝트를 설정합니다</li>
+    <li>Claude Desktop App에서 PM 에이전트에게 요청을 보냅니다</li>
+    <li>11-Stage 파이프라인의 진행 과정을 관찰합니다</li>
+    <li>Gate 2와 Gate 5 승인 과정을 경험합니다</li>
+    <li>최종 산출물(HTML과 PDF)을 확인합니다</li>
+  </ul>
+
+  <h3>사전 준비</h3>
+
+  <p>3장에서 설치한 도구가 정상 동작하는지 확인하세요.</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Claude Desktop App</strong> — Claude AI 대화가 가능한 상태여야 합니다</li>
+      <li><strong>Git</strong> — 저장소를 클론할 수 있어야 합니다</li>
+      <li><strong>브라우저</strong> — HTML 슬라이드 데크를 열어볼 수 있는 브라우저</li>
+    </ol>
+  </div>
+
+  <h3>실습 단계</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>co-deck 저장소 클론</strong><br>
+        터미널을 열고 다음 명령을 실행합니다.
+        <div class="prompt-box">
+          <code>git clone https://github.com/5throck/co-deck.git</code><br>
+          <code>cd co-deck</code>
+        </div>
+        저장소가 클론되면 <code>co-deck/</code> 디렉토리로 이동합니다.
+      </li>
+      <li>
+        <strong>Claude Desktop App에서 프로젝트 열기</strong><br>
+        Claude Desktop App을 실행하고, <code>co-deck/</code> 폴더를 프로젝트로 엽니다. Claude에게 다음과 같이 말하여 PM을 시작합니다.
+        <div class="prompt-box">
+          <code>"새 프로젝트를 시작할게요."</code>
+        </div>
+        PM이 Stage 0(프로젝트 설정) 단계로 진입하여 주제, 대상, Theme, Style 등을 물어봅니다.
+      </li>
+      <li>
+        <strong>PM에게 요청하기</strong><br>
+        PM의 질문에 답하며 프로젝트를 설정합니다. 다음과 같이 응답해보세요.
+        <div class="prompt-box">
+          <code>"머신러닝의 5가지 핵심 개념에 대한 미니 발표 자료를 만들어줘. 5장. 초보자 대상. 한국어."</code>
+        </div>
+        PM이 요청을 분석하고, lecture-profile.md의 설정 항목(Theme, Style, source_verification 등)을 안내합니다.
+      </li>
+      <li>
+        <strong>Stage 0 설정 (주제, 대상, 언어)</strong><br>
+        PM이 다음 항목들을 확인합니다. 초보자는 기본 설정을 추천합니다.
+        <ul>
+          <li><strong>Rendering theme:</strong> pitch-enhanced (기본값)</li>
+          <li><strong>Visual style:</strong> classic (기본값)</li>
+          <li><strong>Source verification:</strong> true (기본값)</li>
+          <li><strong>Divider mode:</strong> auto (기본값)</li>
+        </ul>
+        모든 설정을 확인하고 PM에게 진행을 지시합니다.
+      </li>
+      <li>
+        <strong>Gate 2 승인 (슬라이드 내용 확인)</strong><br>
+        Stage 1(리서치)과 Stage 2-3(콘텐츠)이 완료되면 PM이 Gate 2에서 승인을 요청합니다. <code>slide_deck.md</code>를 확인하여 다음을 점검하세요.
+        <ul>
+          <li>슬라이드 구조가 논리적인가?</li>
+          <li>각 슬라이드의 내용이 정확한가?</li>
+          <li>커버 슬라이드와 마무리 슬라이드가 적절한가?</li>
+        </ul>
+        확인 후 다음과 같이 응답합니다.
+        <div class="prompt-box">
+          <code>"슬라이드 내용 확인했습니다. 다음 단계로 진행해줘."</code>
+        </div>
+        수정이 필요하면 구체적으로 알려주세요.
+        <div class="prompt-box">
+          <code>"3번 슬라이드의 내용을 조금 더 쉽게 설명해줘."</code>
+        </div>
+      </li>
+      <li>
+        <strong>Gate 5 승인 (샘플 PDF 확인)</strong><br>
+        Stage 11에서 <code>sample_5slides.pdf</code>가 생성되면 PM이 Gate 5에서 승인을 요청합니다. 샘플 PDF에서 다음을 확인하세요.
+        <ul>
+          <li>폰트가 깨지지 않고 정상적으로 표시되는가?</li>
+          <li>레이아웃 배치가 적절한가?</li>
+          <li>색상이 의도한 대로 표현되는가?</li>
+        </ul>
+        확인 후 다음과 같이 응답합니다.
+        <div class="prompt-box">
+          <code>"샘플 PDF 확인했습니다. 전체 PDF를 생성해줘."</code>
+        </div>
+      </li>
+      <li>
+        <strong>최종 산출물 확인</strong><br>
+        모든 Stage가 완료되면 <code>presentations/&lt;project&gt;/</code> 폴더에서 최종 산출물을 확인할 수 있습니다. 구체적인 확인 방법은 다음 섹션에서 설명합니다.
+      </li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>처음에는 5-10장 정도의 짧은 발표자료로 시작하세요.</strong> 분량이 적으면 전체 파이프라인이 빠르게 완료되어 co-deck의 동작 방식을 빠르게 이해할 수 있습니다. 경험이 쌓인 후에 20-30장 이상의 본격적인 강의 자료에 도전해보세요.
+  </div>
+
+  <div class="warn">
+    <strong>주의:</strong> co-deck의 에이전트들은 Claude API를 통해 동작합니다. 실습 중 Claude의 응답 속도가 느려지거나 시간 초과가 발생할 수 있습니다. 복잡한 프레젠테이션(이미지가 많거나 다이어그램이 많은 경우)은 시간이 더 오래 걸릴 수 있으며, 이는 정상적인 동작입니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 8: 산출물 확인                                         -->
+  <!-- ============================================================ -->
+  <h2 id="outputs">산출물 확인</h2>
+
+  <p>co-deck 프로젝트가 완료되면 여러 가지 산출물이 생성됩니다. 이 섹션에서는 각 산출물의 위치와 확인 방법을 설명합니다.</p>
+
+  <h3>산출물 위치</h3>
+
+  <p>모든 산출물은 <code>presentations/&lt;project&gt;/</code> 디렉토리에 저장됩니다. 프로젝트 루트에서 다음 경로로 접근할 수 있습니다.</p>
+
+  <div class="prompt-box">
+    <code>co-deck/presentations/&lt;project-name&gt;/</code>
+  </div>
+
+  <h3>주요 산출물</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>파일</th>
+        <th>설명</th>
+        <th>생성 Stage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>lecture-profile.md</code></td>
+        <td>프로젝트 설정 파일 (주제, 대상, Theme, Style 등)</td>
+        <td>Stage 0</td>
+      </tr>
+      <tr>
+        <td><code>project_state.json</code></td>
+        <td>프로젝트 진행 상태 (각 Stage의 완료 여부, Gate 승인 상태)</td>
+        <td>Stage 0+</td>
+      </tr>
+      <tr>
+        <td><code>research_notes.md</code></td>
+        <td>웹 검색으로 수집한 자료, 통계, 출처의 정리</td>
+        <td>Stage 1</td>
+      </tr>
+      <tr>
+        <td><code>source-verification.md</code></td>
+        <td>출처 신뢰성 검증 결과와 Trust Score (선택적)</td>
+        <td>Stage 1.5</td>
+      </tr>
+      <tr>
+        <td><code>storyline.md</code></td>
+        <td>슬라이드의 전체 구조와 내러티브 설계</td>
+        <td>Stage 2-3</td>
+      </tr>
+      <tr>
+        <td><code>slide_deck.md</code></td>
+        <td>슬라이드별 내용 (제목, 텍스트, 이미지 계획, 다이어그램 계획)</td>
+        <td>Stage 2-3</td>
+      </tr>
+      <tr>
+        <td><code>design_spec.md</code></td>
+        <td>디자인 스펙 (색상, 폰트, 레이아웃 CSS 변수)</td>
+        <td>Stage 4</td>
+      </tr>
+      <tr>
+        <td><code>image-manifest.json</code></td>
+        <td>다운로드된 이미지 목록과 메타데이터 (선택적)</td>
+        <td>Stage 3.5</td>
+      </tr>
+      <tr>
+        <td><code>diagram-manifest.json</code></td>
+        <td>생성된 다이어그램 목록과 메타데이터 (선택적)</td>
+        <td>Stage 3.5</td>
+      </tr>
+      <tr>
+        <td><code>lecture_v1.html</code></td>
+        <td>단일 파일 HTML 슬라이드 데크 (인터랙티브, 반응형)</td>
+        <td>Stage 5-8</td>
+      </tr>
+      <tr>
+        <td><code>sample_5slides.pdf</code></td>
+        <td>5장 샘플 PDF (Gate 5 승인용)</td>
+        <td>Stage 11</td>
+      </tr>
+      <tr>
+        <td><code>&lt;project&gt;.pdf</code></td>
+        <td>전체 PDF (Gate 5 승인 후 생성)</td>
+        <td>Stage 11</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>HTML 슬라이드 데크 특징</h3>
+
+  <p><code>lecture_v1.html</code>은 co-deck의 핵심 산출물입니다. 다음과 같은 특징이 있습니다.</p>
+
+  <ul>
+    <li><strong>단일 파일:</strong> 모든 슬라이드, 이미지(인코딩), CSS, JavaScript가 하나의 HTML 파일에 포함되어 있습니다. 파일 하나만 전송하면 어디서든 열어볼 수 있습니다.</li>
+    <li><strong>인터랙티브:</strong> 슬라이드 전환, 키보드 내비게이션, TOC(목차) 서랍, 발표자 모드, TTS(텍스트 음성 변환) 등의 기능을 지원합니다.</li>
+    <li><strong>반응형:</strong> 화면 크기에 따라 자동으로 레이아웃이 조정됩니다. 데스크탑과 모바일 모두에서 사용할 수 있습니다.</li>
+    <li><strong>오프라인 사용:</strong> 웹 연결 없이도 브라우저에서 바로 열어 발표할 수 있습니다.</li>
+  </ul>
+
+  <h3>PDF 특징</h3>
+
+  <p><code>&lt;project&gt;.pdf</code>는 인쇄용 산출물입니다.</p>
+
+  <ul>
+    <li><strong>인쇄용:</strong> 레이아웃, 폰트, 색상이 보존되어 A4 또는 Letter 용지에 인쇄하기 적합합니다.</li>
+    <li><strong>배포용:</strong> 이메일이나 문서 공유 플랫폼을 통해 손쉽게 공유할 수 있습니다.</li>
+    <li><strong>보관용:</strong> 장기 보관이 필요한 경우 PDF 형식이 가장 안정적입니다.</li>
+  </ul>
+
+  <h3>산출물 열어보는 방법</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>프로젝트 폴더 열기</strong><br>
+        터미널에서 프로젝트 폴더로 이동합니다.
+        <div class="prompt-box">
+          <code>cd co-deck/presentations/&lt;project-name&gt;/</code><br>
+          <code>ls</code>
+        </div>
+      </li>
+      <li>
+        <strong>HTML 슬라이드 데크 열기</strong><br>
+        <code>lecture_v1.html</code> 파일을 브라우저에서 엽니다. 슬라이드 전환, TOC, 발표자 모드 등을 체험해보세요.
+        <div class="prompt-box">
+          <code># macOS</code><br>
+          <code>open lecture_v1.html</code><br>
+          <code># Windows</code><br>
+          <code>start lecture_v1.html</code><br>
+          <code># Linux</code><br>
+          <code>xdg-open lecture_v1.html</code>
+        </div>
+      </li>
+      <li>
+        <strong>PDF 열기</strong><br>
+        <code>&lt;project&gt;.pdf</code> 파일을 PDF 뷰어에서 열어 인쇄용 레이아웃을 확인합니다. 폰트, 여백, 색상이 HTML 버전과 일치하는지 비교해보세요.
+      </li>
+      <li>
+        <strong>중간 산출물 확인</strong><br>
+        <code>slide_deck.md</code>를 열어 각 슬라이드의 내용 구조를 확인해보세요. <code>research_notes.md</code>에서는 리서치 에이전트가 수집한 자료를 볼 수 있습니다.
+        <div class="prompt-box">
+          <code>cat slide_deck.md</code><br>
+          <code>cat research_notes.md</code>
+        </div>
+      </li>
+      <li>
+        <strong>project_state.json 확인</strong><br>
+        프로젝트의 전체 진행 상태를 확인할 수 있습니다. 각 Stage의 완료 여부와 Gate 승인 상태가 기록되어 있습니다.
+        <div class="prompt-box">
+          <code>cat project_state.json</code>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <h3>파일 구조 요약</h3>
+
+  <div class="flow-box">
+    <div class="code-block">
+<pre><code>co-deck/
+├── agents/                        # 에이전트 정의 파일
+│   ├── pm.md
+│   ├── research.md
+│   ├── storyline.md
+│   ├── design.md
+│   ├── html-build.md
+│   ├── pdf-export.md
+│   └── ...
+├── docs/html-themes/               # Theme과 Style 레지스트리
+│   ├── THEMES.md
+│   ├── themes/                    # pitch, pitch-enhanced, outline, vertical, zen, ...
+│   └── styles/                    # classic, minimal, premium-dark, academic, ...
+├── presentations/
+│   └── &lt;project-name&gt;/
+│       ├── lecture-profile.md     # Stage 0: 프로젝트 설정
+│       ├── project_state.json     # 프로젝트 진행 상태
+│       ├── research_notes.md      # Stage 1: 리서치 결과
+│       ├── storyline.md           # Stage 2-3: 슬라이드 구조
+│       ├── slide_deck.md          # Stage 2-3: 슬라이드별 내용
+│       ├── design_spec.md         # Stage 4: 디자인 스펙
+│       ├── assets/
+│       │   ├── images/            # Stage 3.5: 다운로드된 이미지
+│       │   └── diagrams/          # Stage 3.5: 생성된 SVG 다이어그램
+│       ├── lecture_v1.html        # Stage 5-8: HTML 슬라이드 데크
+│       └── &lt;project&gt;.pdf       # Stage 11: 최종 PDF
+├── scripts/co-deck/               # 자동화 스크립트
+└── memory/                        # 세션 기록</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+  </div>
+
+  <div class="note">
+    산출물은 Claude Desktop App의 대화 화면에서도 확인할 수 있습니다. Claude가 생성한 파일의 내용은 대화 중에 미리보기 가능합니다. 또한 <code>project_state.json</code>을 통해 현재 프로젝트가 어느 Stage에 있는지 실시간으로 확인할 수 있습니다.
+  </div>
+
+  <div class="tip-box">
+    <strong>산출물을 활용하는 방법:</strong> 완성된 HTML 슬라이드 데크는 회의나 강의에서 바로 사용할 수 있습니다. PDF는 팀원들과 공유하거나, 강의 자료로 배포하기 적합합니다. co-consult(6장)의 분석 보고서와 함께 사용하면, 분석 내용을 기반으로 한 프레젠테이션을 만들 수도 있습니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER NAVIGATION                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch06/06_Co_Consult_Practice.html" class="prev">
+      <div class="dir">← 이전 장</div>
+      <div class="ttl">6장 · co-consult: AI 컨설팅 실습</div>
+    </a>
+    <a href="../ch08/08_Integrated_Pipeline.html" class="next" style="margin-left:auto;">
+      <div class="dir">다음 장 →</div>
+      <div class="ttl">8장 · co-consult + co-deck 통합 파이프라인</div>
+    </a>
+  </div>
+  <footer>
+    Claude Desktop App / ai-workspace-standards 기반 입문 핸드북<br>
+    참고: <a href="https://claude.ai" target="_blank">Claude</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    본 핸드북의 콘텐츠는 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> 라이선스에 따라 이용할 수 있습니다.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script>
+function copyCode(btn) {
+  const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = '완료!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+</script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="5장 · ai-workspace-standards 살펴보기 - Claude Code와 멀티 에이전트 하네스 입문 핸드북">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5장 · ai-workspace-standards 살펴보기</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index.html" class="nav-home">← 핸드북 홈</a>
+  <div class="nav-title">5장 · ai-workspace-standards 살펴보기</div>
+  <a href="#what-is">ai-workspace-standards란</a>
+  <a href="#directory-structure">디렉토리 구조</a>
+  <a href="#key-files">핵심 파일들</a>
+  <a href="#hierarchy">3-레벨 상속 구조</a>
+  <a href="#variants">variant(변형) 개념</a>
+  <a href="#contracts">공통 컨트랙트</a>
+  <div class="nav-section">다른 장</div>
+  <a href="../ch04/04_Harness_Concepts.html">4장 · 멀티 에이전트 하네스 개념</a>
+  <a href="../ch06/06_Co_Consult_Practice.html">6장 · co-consult: AI 컨설팅 실습</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">5장</div>
+  <h1>ai-workspace-standards 살펴보기</h1>
+  <p class="lead">ai-workspace-standards 저장소의 구조와 핵심 개념을 배웁니다. 3-레벨 상속 구조(L0→L1→L2), variant 개념, 핵심 파일(AGENTS.md, CLAUDE.md, GEMINI.md)의 역할, 그리고 공통 컨트랙트를 이해합니다.</p>
+  <div class="keypoints">
+    <div class="kp-title">이 장에서 다루는 것</div>
+    <ul>
+      <li>ai-workspace-standards 저장소의 구조</li>
+      <li>핵심 파일: AGENTS.md, CLAUDE.md, GEMINI.md의 역할</li>
+      <li>3-레벨 상속 구조 (L0 → L1 → L2)</li>
+      <li>variant(변형) 개념</li>
+      <li>공통 컨트랙트와 템플릿 상속</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: ai-workspace-standards란                          -->
+  <!-- ============================================================ -->
+  <h2 id="what-is">ai-workspace-standards란</h2>
+
+  <h3>정의</h3>
+
+  <p><strong>ai-workspace-standards</strong>는 Claude Code, Gemini CLI 같은 AI 코딩 도구를 활용하여 <em>여러 AI 에이전트가 협력하는 프로젝트</em>를 만들 때 필요한 <strong>오픈소스 표준 템플릿</strong>입니다. GitHub에서 무료로 공개되어 있으며, 누구나 복사해서 자신의 프로젝트에 적용할 수 있습니다.</p>
+
+  <ul>
+    <li><strong>GitHub 저장소</strong>: <code>github.com/5throck/ai-workspace-standards</code></li>
+    <li><strong>라이선스</strong>: 오픈소스 (누구나 자유롭게 사용, 수정, 배포 가능)</li>
+    <li><strong>지원 플랫폼</strong>: Claude Code, Gemini CLI (두 플랫폼 모두 동일한 구조 사용)</li>
+  </ul>
+
+  <h3>왜 표준이 필요한가?</h3>
+
+  <p>프로젝트마다 AI 에이전트를 다르게 정의하고 관리하면 여러 가지 문제가 발생합니다. 표준 템플릿이 필요한 이유는 다음과 같습니다.</p>
+
+  <ul>
+    <li><strong>일관성</strong> — 모든 프로젝트가 같은 구조를 따르면, 새 프로젝트에 합류한 팀원도 즉시 이해할 수 있습니다. 파일 위치, 에이전트 정의 방식, 규칙이 모두 동일하기 때문입니다.</li>
+    <li><strong>재사용성</strong> — 한 번 만든 에이전트나 스킬을 다른 프로젝트에서도 그대로 사용할 수 있습니다. 비슷한 작업을 매번 처음부터 정의할 필요가 없습니다.</li>
+    <li><strong>협업</strong> — 여러 사람이 함께 작업할 때, 공통된 "언어"와 "규칙"이 있으면 소통 오류를 줄이고 효율적으로 협력할 수 있습니다.</li>
+    <li><strong>품질 보장</strong> — 자동 검증 스크립트(audit, validate)가 표준 구조를 기반으로 동작하므로, 규칙 위반을 조기에 발견할 수 있습니다.</li>
+  </ul>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ai-workspace-standards의 역할을 보여주는 다이어그램">
+      <defs>
+        <marker id="arrowStd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+      <!-- 표준 템플릿 (중앙) -->
+      <rect x="200" y="20" width="260" height="56" rx="12" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="330" y="46" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#fff">ai-workspace-standards</text>
+      <text x="330" y="64" text-anchor="middle" font-size="11" style="fill:#fff">(표준 템플릿)</text>
+      <!-- 화살표들 -->
+      <line x1="260" y1="76" x2="120" y2="130" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowStd)"/>
+      <line x1="330" y1="76" x2="330" y2="130" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowStd)"/>
+      <line x1="400" y1="76" x2="540" y2="130" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowStd)"/>
+      <!-- 프로젝트 A -->
+      <rect x="30" y="138" width="180" height="80" rx="10" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="120" y="164" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">프로젝트 A</text>
+      <text x="120" y="184" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">co-consult</text>
+      <text x="120" y="204" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">컨설팅 자동화</text>
+      <!-- 프로젝트 B -->
+      <rect x="240" y="138" width="180" height="80" rx="10" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="330" y="164" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">프로젝트 B</text>
+      <text x="330" y="184" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">co-deck</text>
+      <text x="330" y="204" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">프레젠테이션 자동화</text>
+      <!-- 프로젝트 C -->
+      <rect x="450" y="138" width="180" height="80" rx="10" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="540" y="164" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">프로젝트 C</text>
+      <text x="540" y="184" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">나만의 프로젝트</text>
+      <text x="540" y="204" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">커스텀 variant</text>
+    </svg>
+  </div>
+
+  <h3>초보자 비유: 조직도와 업무 매뉴얼 템플릿</h3>
+
+  <p>ai-workspace-standards를 이해하려면 회사에 비유해 보면 좋습니다. 회사를 설립하려면 <strong>조직도</strong>(누가 무슨 역할을 하는지)와 <strong>업무 매뉴얼</strong>(각자 어떻게 일해야 하는지)이 필요합니다. ai-workspace-standards는 바로 이 조직도와 업무 매뉴얼의 <em>템플릿</em>입니다. 이 템플릿을 복사해서 자기 회사(프로젝트)에 맞게 수정하면, 처음부터 완전한 조직 체계를 갖출 수 있습니다.</p>
+
+  <div class="note">
+    이 핸드북의 실습에서 <strong>co-consult</strong>와 <strong>co-deck</strong>은 모두 ai-workspace-standards를 기반으로 구축되었습니다. 즉, 이 두 프로젝트는 같은 템플릿에서 시작하여 각자의 용도에 맞게 커스터마이징된 것입니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: 디렉토리 구조                                      -->
+  <!-- ============================================================ -->
+  <h2 id="directory-structure">디렉토리 구조</h2>
+
+  <p>ai-workspace-standards 저장소는 규칙적인 디렉토리 구조를 가지고 있습니다. 각 폴더가 명확한 역할을 담당하므로, 구조만 보면 프로젝트가 어떻게 구성되어 있는지 한눈에 파악할 수 있습니다.</p>
+
+  <h3>최상위 디렉토리 개요</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ai-workspace-standards 최상위 디렉토리 트리">
+      <defs>
+        <marker id="arrowTree" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+      <!-- 루트 -->
+      <rect x="220" y="10" width="220" height="38" rx="8" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="330" y="35" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#fff">ai-workspace-standards/</text>
+
+      <!-- 수직 연결선 -->
+      <line x1="330" y1="48" x2="330" y2="68" stroke="var(--accent)" stroke-width="2"/>
+      <!-- 수평 연결선 -->
+      <line x1="50" y1="68" x2="610" y2="68" stroke="var(--border)" stroke-width="1.5"/>
+
+      <!-- agents/ -->
+      <line x1="50" y1="68" x2="50" y2="88" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowTree)"/>
+      <rect x="12" y="92" width="76" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="50" y="113" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">agents/</text>
+      <text x="50" y="140" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">에이전트 정의</text>
+      <text x="50" y="156" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">파일 모음</text>
+
+      <!-- skills/ -->
+      <line x1="160" y1="68" x2="160" y2="88" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowTree)"/>
+      <rect x="122" y="92" width="76" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="160" y="113" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">skills/</text>
+      <text x="160" y="140" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">재사용 가능한</text>
+      <text x="160" y="156" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">스킬 정의</text>
+
+      <!-- scripts/ -->
+      <line x1="270" y1="68" x2="270" y2="88" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowTree)"/>
+      <rect x="230" y="92" width="80" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="270" y="113" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">scripts/</text>
+      <text x="270" y="140" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">자동화</text>
+      <text x="270" y="156" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">TypeScript</text>
+
+      <!-- docs/ -->
+      <line x1="380" y1="68" x2="380" y2="88" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowTree)"/>
+      <rect x="348" y="92" width="64" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="380" y="113" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">docs/</text>
+      <text x="380" y="140" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">문서, 스키마</text>
+      <text x="380" y="156" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">context.md</text>
+
+      <!-- templates/ -->
+      <line x1="490" y1="68" x2="490" y2="88" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowTree)"/>
+      <rect x="440" y="92" width="100" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="490" y="113" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">templates/</text>
+      <text x="490" y="140" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">L1 공통</text>
+      <text x="490" y="156" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">템플릿 폴더</text>
+
+      <!-- presentations/ -->
+      <line x1="610" y1="68" x2="610" y2="88" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowTree)"/>
+      <rect x="546" y="92" width="128" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="610" y="113" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">presentations/</text>
+      <text x="610" y="140" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">프로젝트별</text>
+      <text x="610" y="156" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">작업 공간</text>
+
+      <!-- 하단 설명 레이블 -->
+      <rect x="12" y="185" width="636" height="230" rx="10" fill="none" stroke="var(--border)" stroke-width="1" stroke-dasharray="6,3"/>
+      <text x="330" y="210" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text-dim)">디렉토리 역할 상세</text>
+
+      <!-- agents 설명 -->
+      <rect x="24" y="224" width="196" height="68" rx="6" fill="var(--bg-info)" stroke="none"/>
+      <text x="32" y="244" font-size="11" font-weight="bold" style="fill:var(--accent-dark)">agents/</text>
+      <text x="32" y="260" font-size="10" style="fill:var(--text)">각 에이전트의 역할, 도구 권한,</text>
+      <text x="32" y="274" font-size="10" style="fill:var(--text)">Tier, 파견 트리거를 정의한</text>
+      <text x="32" y="288" font-size="10" style="fill:var(--text)">Markdown 파일들이 모여 있습니다.</text>
+
+      <!-- skills 설명 -->
+      <rect x="232" y="224" width="196" height="68" rx="6" fill="var(--bg-info)" stroke="none"/>
+      <text x="240" y="244" font-size="11" font-weight="bold" style="fill:var(--accent-dark)">skills/</text>
+      <text x="240" y="260" font-size="10" style="fill:var(--text)">재사용 가능한 스킬 정의 파일.</text>
+      <text x="240" y="274" font-size="10" style="fill:var(--text)">각 스킬은 SKILL.md로 정의되며,</text>
+      <text x="240" y="288" font-size="10" style="fill:var(--text)">에이전트가 특정 작업을 수행하는 방법을 기술합니다.</text>
+
+      <!-- scripts 설명 -->
+      <rect x="24" y="304" width="196" height="68" rx="6" fill="var(--bg-info)" stroke="none"/>
+      <text x="32" y="324" font-size="11" font-weight="bold" style="fill:var(--accent-dark)">scripts/</text>
+      <text x="32" y="340" font-size="10" style="fill:var(--text)">TypeScript 자동화 스크립트:</text>
+      <text x="32" y="354" font-size="10" style="fill:var(--text)">audit(검증), validate(유효성 확인),</text>
+      <text x="32" y="368" font-size="10" style="fill:var(--text)">sync(동기화) 등 핵심 도구들.</text>
+
+      <!-- docs 설명 -->
+      <rect x="232" y="304" width="196" height="68" rx="6" fill="var(--bg-info)" stroke="none"/>
+      <text x="240" y="324" font-size="11" font-weight="bold" style="fill:var(--accent-dark)">docs/</text>
+      <text x="240" y="340" font-size="10" style="fill:var(--text)">프로젝트 문서와 스키마.</text>
+      <text x="240" y="354" font-size="10" style="fill:var(--text)">context.md, VERSION_MANIFEST.md,</text>
+      <text x="240" y="368" font-size="10" style="fill:var(--text)">lifecycle 절차 등이 포함됩니다.</text>
+
+      <!-- templates 설명 -->
+      <rect x="440" y="224" width="196" height="68" rx="6" fill="var(--bg-info)" stroke="none"/>
+      <text x="448" y="244" font-size="11" font-weight="bold" style="fill:var(--accent-dark)">templates/</text>
+      <text x="448" y="260" font-size="10" style="fill:var(--text)">L1 공통 템플릿 폴더.</text>
+      <text x="448" y="274" font-size="10" style="fill:var(--text)">.claude/, .gemini/ 디렉토리를 포함하며</text>
+      <text x="448" y="288" font-size="10" style="fill:var(--text)">플랫폼별 설정을 제공합니다.</text>
+
+      <!-- presentations 설명 -->
+      <rect x="440" y="304" width="196" height="68" rx="6" fill="var(--bg-info)" stroke="none"/>
+      <text x="448" y="324" font-size="11" font-weight="bold" style="fill:var(--accent-dark)">presentations/</text>
+      <text x="448" y="340" font-size="10" style="fill:var(--text)">L2 프로젝트 작업 공간.</text>
+      <text x="448" y="354" font-size="10" style="fill:var(--text)">실제 프로젝트(강의, 핸드북)</text>
+      <text x="448" y="368" font-size="10" style="fill:var(--text)">가 이 폴더에 생성됩니다.</text>
+    </svg>
+  </div>
+
+  <h3>memory/ 폴더</h3>
+
+  <p>최상위에는 <code>memory/</code> 폴더도 있습니다. 이 폴더는 AI 세션의 기록, 회의록, 작업 로그 등을 저장하는 곳입니다. PM 에이전트가 각 세션의 진행 상황과 의사결정 기록을 <code>memory/YYYY-MM-DD.md</code> 파일로 남깁니다. 이렇게 하면 이전 세션에서 무엇을 했는지 다음 세션에서도 파악할 수 있습니다.</p>
+
+  <h3>루트 파일들</h3>
+
+  <p>최상위 디렉토리에는 폴더 외에도 중요한 파일들이 있습니다. <code>AGENTS.md</code>(에이전트 레지스트리), <code>CLAUDE.md</code>(Claude Code용 지침), <code>GEMINI.md</code>(Gemini CLI용 지침), <code>CHANGELOG.md</code>(변경 이력)가 모두 프로젝트 루트에 위치합니다. 이 파일들은 이 장의 "핵심 파일들" 섹션에서 자세히 다룹니다.</p>
+
+  <div class="tip-box">
+    <strong>팁:</strong> 실제로 탐색해보고 싶다면 터미널에서 저장소를 클론하세요. <code>git clone https://github.com/5throck/ai-workspace-standards.git</code> 명령으로 내 컴퓨터에 복사한 뒤, 각 폴더와 파일을 직접 열어보면 훨씬 이해가 빠릅니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: 핵심 파일들                                        -->
+  <!-- ============================================================ -->
+  <h2 id="key-files">핵심 파일들</h2>
+
+  <p>ai-workspace-standards의 핵심 파일들은 프로젝트 루트에 위치하며, 각각 명확한 역할을 수행합니다. 이 섹션에서는 가장 중요한 5개 파일을 설명합니다.</p>
+
+  <h3 id="agents-md">AGENTS.md — 에이전트 레지스트리</h3>
+
+  <p><strong>AGENTS.md</strong>는 프로젝트에 속한 모든 AI 에이전트의 정의, 역할, Tier, 파견 트리거를 등록하는 "공식 명부"입니다. 이 파일을 열면 표 형태로 모든 에이전트가 나열되어 있고, 각 에이전트의 세부 정의 파일(<code>agents/pm.md</code>, <code>agents/research.md</code> 등)로 연결되는 링크가 있습니다.</p>
+
+  <p>AGENTS.md에는 다음 정보가 포함됩니다.</p>
+
+  <ul>
+    <li><strong>에이전트 로스터</strong> — 모든 에이전트의 이름, 파일 위치, Tier(우선순위), 역할</li>
+    <li><strong>PM Gateway 워크플로우</strong> — PM이 어떻게 에이전트를 파견하는지에 대한 규칙</li>
+    <li><strong>파견 트리거</strong> — 어떤 상황에서 어떤 에이전트를 호출해야 하는지</li>
+    <li><strong>실행 계획 템플릿</strong> — 작업을 계획할 때 사용하는 표준 형식</li>
+  </ul>
+
+  <p>초보자 비유: <strong>AGENTS.md는 회사의 "직원 명부"입니다.</strong> 직원 명부에는 각 직원의 이름, 직급(Tier), 담당 업무가 적혀 있습니다. 마찬가지로 AGENTS.md에는 각 AI 에이전트의 이름, 등급, 역할이 명확하게 정의되어 있습니다.</p>
+
+  <h3 id="claude-md">CLAUDE.md — Claude Code용 행동 지침</h3>
+
+  <p><strong>CLAUDE.md</strong>는 Claude Code(Anthropic의 AI 코딩 도구)가 프로젝트에서 동작할 때 따라야 할 <strong>행동 지침</strong>입니다. 이 파일에는 Claude가 어떤 에이전트 역할을 수행할 수 있는지, 어떤 도구를 사용할 수 있는지, 어떤 규칙을 지켜야 하는지가 상세하게 기술됩니다.</p>
+
+  <p>CLAUDE.md의 핵심 내용은 다음과 같습니다.</p>
+
+  <ul>
+    <li><strong>에이전트 디스패치 규칙</strong> — PM이 어떤 상황에 어떤 에이전트를 보내는지</li>
+    <li><strong>3-Tier 전략</strong> — High/Medium/Low 모델을 언제 사용하는지</li>
+    <li><strong>게이트 프로토콜</strong> — 사용자 승인이 필요한 단계와 자동 진행 단계</li>
+    <li><strong>도구 사용 권한</strong> — 각 에이전트가 사용할 수 있는 도구의 범위</li>
+  </ul>
+
+  <p>초보자 비유: <strong>CLAUDE.md는 Claude에게 주는 "업무 지시서"입니다.</strong> 직원에게 "이런 작업이 들어오면 이 담당자에게 넘겨라", "이 단계에서는 반드시 관리자 승인을 받아라"라고 적어놓은 메뉴얼과 같습니다.</p>
+
+  <h3 id="gemini-md">GEMINI.md — Gemini CLI용 행동 지침</h3>
+
+  <p><strong>GEMINI.md</strong>는 Gemini CLI(Google의 AI 코딩 도구)용 행동 지침입니다. 내용과 구조는 CLAUDE.md와 <em>동일한 역할</em>을 하며, 단지 Claude Code 대신 Gemini CLI를 사용할 때 적용된다는 점이 다릅니다.</p>
+
+  <p>두 파일이 왜 따로 존재할까요? Claude Code와 Gemini CLI는 각각 다른 회사에서 만든 도구이므로, <strong>모델 이름, 도구 호출 방식, 시스템 프롬프트 형식</strong>이 다릅니다. 하지만 <strong>에이전트 구조, 워크플로우, 게이트 규칙</strong>은 완전히 동일합니다. 따라서 CLAUDE.md와 GEMINI.md는 "같은 규칙, 다른 도구 설정"이라고 이해하면 됩니다.</p>
+
+  <h3>CHANGELOG.md — 변경 이력 기록</h3>
+
+  <p><strong>CHANGELOG.md</strong>는 프로젝트의 모든 변경 사항을 시간순으로 기록하는 파일입니다. 새 에이전트가 추가되거나, 스킬이 수정되거나, 규칙이 변경될 때마다 여기에 기록됩니다. 버전 관리 시스템(Git)의 커밋 로그와 달리, CHANGELOG는 <strong>사용자가 읽을 수 있는 형태</strong>로 변경 내용을 요약합니다.</p>
+
+  <h3>context.md (docs/ 폴더 내) — 심화 설정</h3>
+
+  <p><code>docs/context.md</code>는 프로젝트의 <strong>심화 설정</strong>을 담고 있는 파일입니다. 주요 내용은 다음과 같습니다.</p>
+
+  <ul>
+    <li>L0 → L1 → L2 상속 체인의 구체적 정의</li>
+    <li>에이전트 파일의 frontmatter 스펙</li>
+    <li>라이프사이클 관리 절차</li>
+    <li>거버넌스 문서의 구조</li>
+  </ul>
+
+  <p>이 파일은 "시스템 설정"에 가까우므로, 초보자 단계에서는 내용을 완전히 이해하지 않아도 괜찮습니다. 프로젝트를 운영하면서 점차 깊이 있게 참조하게 됩니다.</p>
+
+  <h3>핵심 파일 비교</h3>
+
+  <div class="compare-grid">
+    <div class="compare-col">
+      <h4>AGENTS.md</h4>
+      <ul>
+        <li><strong>역할</strong>: 에이전트 레지스트리</li>
+        <li><strong>대상</strong>: 모든 에이전트</li>
+        <li><strong>내용</strong>: 에이전트 명부, 역할, Tier, 파견 트리거, 워크플로우</li>
+        <li><strong>비유</strong>: 직원 명부</li>
+        <li><strong>위치</strong>: 프로젝트 루트</li>
+      </ul>
+    </div>
+    <div class="compare-col">
+      <h4>CLAUDE.md / GEMINI.md</h4>
+      <ul>
+        <li><strong>역할</strong>: 플랫폼별 행동 지침</li>
+        <li><strong>대상</strong>: Claude Code / Gemini CLI</li>
+        <li><strong>내용</strong>: 디스패치 규칙, 3-Tier 전략, 게이트 프로토콜, 도구 권한</li>
+        <li><strong>비유</strong>: 업무 지시서</li>
+        <li><strong>위치</strong>: 프로젝트 루트</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: 3-레벨 상속 구조                                  -->
+  <!-- ============================================================ -->
+  <h2 id="hierarchy">3-레벨 상속 구조</h2>
+
+  <p>ai-workspace-standards의 가장 중요한 설계 원리 중 하나가 <strong>3-레벨 상속 구조</strong>입니다. 이 구조는 실제 회사의 조직 체계와 유사합니다. 본사(L0)가 전체적인 규칙을 정하고, 지사(L1)가 본사의 규칙을 상속받아 공통 템플릿으로 제공하며, 각 지점(L2)이 지사의 템플릿을 상속받아 자기만의 특성을 추가합니다.</p>
+
+  <h3>L0 (Workspace Root) — 본사</h3>
+
+  <p><strong>L0</strong>은 워크스페이스의 최상위 레벨입니다. 이곳에는 모든 프로젝트에 공통으로 적용되는 <strong>글로벌 설정</strong>이 있습니다.</p>
+
+  <ul>
+    <li><strong>공통 에이전트</strong> — PM 에이전트 등 모든 프로젝트가 사용하는 기본 에이전트</li>
+    <li><strong>공통 스킬</strong> — 어디서든 재사용 가능한 기본 스킬</li>
+    <li><strong>코어 스크립트</strong> — audit.ts, validate-templates.ts 등 핵심 자동화 도구</li>
+    <li><strong>AGENTS.md</strong> — 글로벌 에이전트 레지스트리</li>
+  </ul>
+
+  <h3>L1 (Common Template) — 지사</h3>
+
+  <p><strong>L1</strong>은 L0을 상속받는 공통 템플릿입니다. 본사의 규칙을 그대로 가져오면서, <strong>플랫폼별 설정</strong>을 추가합니다.</p>
+
+  <ul>
+    <li><code>.claude/</code> 디렉토리 — Claude Code용 설정, 명령어, 스킬</li>
+    <li><code>.gemini/</code> 디렉토리 — Gemini CLI용 설정, 명령어, 스킬</li>
+    <li>플랫폼별 에이전트 설정 (CLAUDE.md, GEMINI.md)</li>
+    <li>L0의 규칙을 상속 (커스텀이 없으면 L0 규칙 그대로 적용)</li>
+  </ul>
+
+  <h3>L2 (Variant Template) — 지점</h3>
+
+  <p><strong>L2</strong>는 L1을 상속받는 프로젝트별 변형(variant)입니다. 지사의 템플릿을 기반으로 <strong>자기만의 특성</strong>을 추가합니다.</p>
+
+  <ul>
+    <li>프로젝트 전용 에이전트 (예: co-deck의 image-curator, pdf-export)</li>
+    <li>프로젝트 전용 스킬 (예: co-deck의 html-build, storyline)</li>
+    <li>프로젝트 설정 (lecture-profile.md, variant.json)</li>
+    <li>L1과 L0의 규칙을 모두 상속 (L2에서 덮어쓰면 L2 규칙이 우선)</li>
+  </ul>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="3-레벨 상속 구조 다이어그램: L0에서 L1, L2로 상속되는 관계">
+      <defs>
+        <marker id="arrowInherit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+      <!-- L0 박스 -->
+      <rect x="30" y="20" width="600" height="80" rx="12" fill="var(--accent-purple)" stroke="var(--accent-purple)" stroke-width="2" opacity="0.15"/>
+      <rect x="30" y="20" width="600" height="80" rx="12" fill="none" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="330" y="46" text-anchor="middle" font-size="16" font-weight="bold" style="fill:var(--text)">L0 — Workspace Root (본사)</text>
+      <text x="330" y="68" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">공통 에이전트 · 공통 스킬 · 코어 스크립트 · AGENTS.md</text>
+      <text x="330" y="88" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">모든 프로젝트에 공통으로 적용되는 글로벌 규칙</text>
+
+      <!-- L0 → L1 화살표 -->
+      <line x1="330" y1="100" x2="330" y2="130" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arrowInherit)"/>
+      <text x="345" y="120" font-size="10" style="fill:var(--accent)">상속</text>
+
+      <!-- L1 박스 -->
+      <rect x="60" y="136" width="540" height="80" rx="12" fill="var(--accent)" stroke="var(--accent)" stroke-width="2" opacity="0.1"/>
+      <rect x="60" y="136" width="540" height="80" rx="12" fill="none" stroke="var(--accent)" stroke-width="2"/>
+      <text x="330" y="162" text-anchor="middle" font-size="16" font-weight="bold" style="fill:var(--text)">L1 — Common Template (지사)</text>
+      <text x="330" y="184" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">.claude/ · .gemini/ · 플랫폼별 설정 · CLAUDE.md · GEMINI.md</text>
+      <text x="330" y="204" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">L0의 규칙을 상속받아 플랫폼별 세부 설정 추가</text>
+
+      <!-- L1 → L2 화살표들 -->
+      <line x1="200" y1="216" x2="150" y2="250" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arrowInherit)"/>
+      <text x="195" y="242" font-size="10" style="fill:var(--accent)">상속</text>
+      <line x1="460" y1="216" x2="510" y2="250" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arrowInherit)"/>
+      <text x="475" y="242" font-size="10" style="fill:var(--accent)">상속</text>
+
+      <!-- L2-A: co-consult -->
+      <rect x="30" y="256" width="240" height="72" rx="12" fill="var(--accent-green)" stroke="var(--accent-green)" stroke-width="2" opacity="0.12"/>
+      <rect x="30" y="256" width="240" height="72" rx="12" fill="none" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="150" y="280" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">L2 — co-consult</text>
+      <text x="150" y="298" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">컨설팅 자동화 variant</text>
+      <text x="150" y="318" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">전용 에이전트 · 스킬 · 설정</text>
+
+      <!-- L2-B: co-deck -->
+      <rect x="390" y="256" width="240" height="72" rx="12" fill="var(--accent-amber)" stroke="var(--accent-amber)" stroke-width="2" opacity="0.12"/>
+      <rect x="390" y="256" width="240" height="72" rx="12" fill="none" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="510" y="280" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">L2 — co-deck</text>
+      <text x="510" y="298" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">프레젠테이션 자동화 variant</text>
+      <text x="510" y="318" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">전용 에이전트 · 스킬 · 설정</text>
+    </svg>
+  </div>
+
+  <h3>상속의 방향과 덮어쓰기</h3>
+
+  <p>상속은 항상 <strong>L0 → L1 → L2</strong> 방향으로 흐릅니다. 자식 레벨이 부모 레벨의 설정을 <em>덮어쓸 수</em> 있지만, 반대 방향으로는 영향을 주지 않습니다. 이것은 객체지향 프로그래밍의 클래스 상속과 같은 원리입니다.</p>
+
+  <ul>
+    <li><strong>L2에서 설정한 규칙</strong>이 L1, L0의 규칙보다 우선합니다.</li>
+    <li><strong>L1에서 설정한 규칙</strong>이 L0의 규칙보다 우선합니다 (단, L2에서 덮어쓰지 않은 경우).</li>
+    <li><strong>L0의 규칙</strong>은 어디에서도 덮어쓰지 않으면 모든 레벨에 적용됩니다.</li>
+  </ul>
+
+  <p>비유하자면, <strong>본사(L0)에서 "모든 지점은 9시에 개점한다"는 규칙</strong>이 있다면, 지사(L1)에서 이를 따르고, 각 지점(L2)에서도 기본적으로 9시에 개점합니다. 하지만 특정 지점(L2)에서 "우리 지점은 10시에 개점한다"고 정하면, 그 지점은 10시에 개점합니다. 본사나 다른 지점에는 영향이 없습니다.</p>
+
+  <div class="note">
+    L0에 있는 것은 <strong>모든 프로젝트에 공통으로 적용</strong>됩니다. 따라서 L0의 코어 스크립트(audit.ts, validate-templates.ts)는 어떤 프로젝트에서든 동일하게 동작합니다. 이것이 표준의 핵심 — <em>한 번 정하면 모든 곳에서 일관되게 적용</em>된다는 것입니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: variant(변형) 개념                                  -->
+  <!-- ============================================================ -->
+  <h2 id="variants">variant(변형) 개념</h2>
+
+  <h3>variant란 무엇인가?</h3>
+
+  <p><strong>variant(변형)</strong>는 ai-workspace-standards의 L0 + L1 템플릿을 기반으로, <em>특정 용도에 맞게 커스터마이징한 프로젝트</em>입니다. 앞서 3-레벨 상속 구조에서 설명한 L2가 바로 variant에 해당합니다.</p>
+
+  <p>모든 variant는 동일한 "뼈대"(L0 + L1)를 공유하지만, 각자의 목적에 따라 다른 에이전트, 스킬, 설정을 추가합니다. 마치 같은 자동차 플랫폼에서 세단, SUV, 스포츠카 등 다양한 변형 모델이 만들어지는 것과 같습니다.</p>
+
+  <h3>variant의 예시</h3>
+
+  <p>현재 ai-workspace-standards 생태계에는 다음과 같은 variant들이 있습니다.</p>
+
+  <ul>
+    <li><strong>co-consult</strong> — AI 컨설팅 실습용 variant. 기업 분석, 전략 수립, 보고서 작성을 자동화하는 에이전트 팀을 제공합니다. 이 핸드북 6장에서 실습합니다.</li>
+    <li><strong>co-deck</strong> — 프레젠테이션 자동화용 variant. 연구 → 스토리라인 → 디자인 → HTML 빌드 → PDF 출력까지 전체 파이프라인을 자동화합니다. 11단계 워크플로우를 제공합니다.</li>
+  </ul>
+
+  <h3>variant.json — variant의 메타데이터</h3>
+
+  <p>각 variant는 <code>variant.json</code> 파일을 통해 자신의 <strong>메타데이터</strong>를 정의합니다. 이 파일에는 다음 정보가 포함됩니다.</p>
+
+  <ul>
+    <li><strong>이름</strong> — variant의 식별자 (예: "co-deck", "co-consult")</li>
+    <li><strong>버전</strong> — variant의 현재 버전 (예: "1.0.0")</li>
+    <li><strong>상태</strong> — draft, beta, stable 등 현재 개발 단계</li>
+    <li><strong>의존성</strong> — 상위 레벨(L0, L1)에 대한 의존 관계</li>
+    <li><strong>설명</strong> — variant의 용도와 특징</li>
+  </ul>
+
+  <p>variant.json은 variant를 설치하고 관리할 때 참조되는 "신분증"과 같은 역할을 합니다. 이 파일이 있어야 시스템이 어떤 variant인지, 어떤 버전인지, 어떤 의존성이 있는지 파악할 수 있습니다.</p>
+
+  <h3>variant의 생애주기</h3>
+
+  <p>variant는 다음과 같은 생애주기를 거칩니다.</p>
+
+  <ul>
+    <li><strong>draft</strong> — 초기 개발 단계. 기본 구조만 갖춘 상태</li>
+    <li><strong>beta</strong> — 테스트 단계. 주요 기능이 구현되었으나 안정성 검증이 필요</li>
+    <li><strong>stable</strong> — 안정 단계. 실제 사용에 적합</li>
+    <li><strong>deprecated</strong> — 사용 중단. 더 이상 유지보수되지 않음</li>
+  </ul>
+
+  <p>이 생애주기는 <code>docs/VERSION_MANIFEST.md</code>에서 중앙 관리됩니다. 새 variant를 만들면 draft로 시작하여, 충분한 테스트를 거친 후 stable로 승격됩니다.</p>
+
+  <div class="tip-box">
+    <strong>팁:</strong> 자기만의 variant를 만들 수도 있습니다! ai-workspace-standards의 템플릿을 복사하고, 필요한 에이전트와 스킬을 추가하면 됩니다. 11장에서 variant 제작 방법을 자세히 다룹니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: 공통 컨트랙트                                      -->
+  <!-- ============================================================ -->
+  <h2 id="contracts">공통 컨트랙트</h2>
+
+  <h3>컨트랙트란 무엇인가?</h3>
+
+  <p><strong>컨트랙트(Contract)</strong>는 에이전트, 스킬, 스크립트가 모두 지켜야 하는 <strong>공통 규칙</strong>입니다. 프로그래밍에서 "인터페이스(Interface)"나 "규약(Protocol)"과 같은 개념으로, 모든 참여자가 동일한 형식과 규칙을 따르도록 강제합니다.</p>
+
+  <p>초보자 비유: 컨트랙트는 <strong>"공통 언어"</strong>입니다. 다국어 사용자가 회의할 때 모두 같은 언어(예: 영어)를 사용하기로 약속하면, 원활하게 소통할 수 있습니다. 마찬가지로, 모든 에이전트가 같은 컨트랙트를 따르면 서로 충돌 없이 협력할 수 있습니다.</p>
+
+  <h3>common-contract.json — 공통 컨트랙트 파일</h3>
+
+  <p><code>common-contract.json</code>은 모든 variant가 준수해야 하는 <strong>공통 스키마와 규칙</strong>을 JSON 형식으로 정의한 파일입니다. 이 파일은 L0(워크스페이스 루트)에 위치하며, 모든 프로젝트에 공통으로 적용됩니다.</p>
+
+  <p>주요 내용은 다음과 같습니다.</p>
+
+  <ul>
+    <li><strong>공통 스키마</strong> — 에이전트 파일, 스킬 파일, 설정 파일의 표준 형식</li>
+    <li><strong>네이밍 규칙</strong> — 파일 이름, 디렉토리 이름, 변수 이름의 표준 규칙</li>
+    <li><strong>버전 관리 규칙</strong> — 버전 번호 체계(semver), 변경 이력 기록 방식</li>
+    <li><strong>프런트매터 스펙</strong> — Markdown 파일의 YAML 헤더 필드 정의</li>
+  </ul>
+
+  <h3>컨트랙트의 3가지 역할</h3>
+
+  <p>컨트랙트는 다음 세 가지 핵심 역할을 수행합니다.</p>
+
+  <ul>
+    <li><strong>일관성 보장</strong> — 모든 프로젝트가 같은 형식을 사용하므로, 한 프로젝트의 파일을 다른 프로젝트에서도 즉시 이해할 수 있습니다. 에이전트 파일이 어디에 있는지, 어떤 필드가 필수인지 알 수 있습니다.</li>
+    <li><strong>호환성 유지</strong> — 새 variant를 만들 때 컨트랙트를 따르기만 하면, 기존 도구(audit, validate)와 자동으로 호환됩니다. 별도의 설정이나 변환 과정이 필요 없습니다.</li>
+    <li><strong>자동 검증 가능</strong> — 컨트랙트가 JSON 스키마로 정의되어 있으므로, 스크립트가 파일을 자동으로 검사하고 규칙 위반을 감지할 수 있습니다. 사람이 일일이 확인하지 않아도 됩니다.</li>
+  </ul>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="컨트랙트의 3가지 역할 다이어그램">
+      <!-- 컨트랙트 중앙 박스 -->
+      <rect x="230" y="10" width="200" height="50" rx="10" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="330" y="40" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#fff">common-contract.json</text>
+
+      <!-- 화살표들 -->
+      <line x1="270" y1="60" x2="110" y2="105" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowStd)"/>
+      <line x1="330" y1="60" x2="330" y2="105" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowStd)"/>
+      <line x1="390" y1="60" x2="550" y2="105" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowStd)"/>
+
+      <!-- 역할 1: 일관성 -->
+      <rect x="18" y="112" width="185" height="72" rx="10" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="110" y="136" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">일관성 보장</text>
+      <text x="110" y="156" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">모든 프로젝트가</text>
+      <text x="110" y="172" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">동일한 형식 사용</text>
+
+      <!-- 역할 2: 호환성 -->
+      <rect x="238" y="112" width="185" height="72" rx="10" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="330" y="136" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">호환성 유지</text>
+      <text x="330" y="156" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">새 variant도 기존</text>
+      <text x="330" y="172" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">도구와 자동 호환</text>
+
+      <!-- 역할 3: 자동 검증 -->
+      <rect x="458" y="112" width="185" height="72" rx="10" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="550" y="136" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">자동 검증 가능</text>
+      <text x="550" y="156" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">스크립트로 규칙 위반</text>
+      <text x="550" y="172" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">자동 감지</text>
+    </svg>
+  </div>
+
+  <h3>컨트랙트 적용 단계</h3>
+
+  <p>새 에이전트나 스킬을 만들 때 컨트랙트를 적용하는 과정은 다음과 같습니다.</p>
+
+  <div class="step-list">
+    <div class="step">
+      <div class="step-content">
+        <span class="step-label">컨트랙트 확인</span>
+        — <code>common-contract.json</code>을 열어, 만들려는 파일 종류(에이전트, 스킬, 스크립트)에 해당하는 스키마를 확인합니다. 필수 필드와 선택 필드가 무엇인지 파악합니다.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <span class="step-label">프런트매터 작성</span>
+        — 파일 상단에 YAML 프런트매터를 작성합니다. 컨트랙트에 정의된 필드(name, tier, phase 등)를 빠짐없이 입력합니다.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <span class="step-label">본문 작성</span>
+        — 컨트랙트의 구조 가이드에 따라 파일 본문을 작성합니다. 네이밍 규칙, 섹션 구조, 필수 설명 등을 준수합니다.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <span class="step-label">자동 검증 실행</span>
+        — <code>bun scripts/audit.ts</code>를 실행하여 컨트랙트 준수 여부를 자동으로 검사합니다. 오류가 있으면 수정 후 다시 검증합니다.
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    컨트랙트는 에이전트 간의 <strong>"공통 언어"</strong>입니다. 모두 같은 규칙을 따르면 원활하게 협업할 수 있습니다. 마치 운전자가 모두 같은 교통법규를 따르면 사고 없이 안전하게 도로를 공유할 수 있는 것과 같습니다. 컨트랙트가 있기 때문에 ai-workspace-standards 생태계의 모든 프로젝트가 서로 호환되고 일관된 방식으로 동작할 수 있습니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER NAVIGATION                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch04/04_Harness_Concepts.html" class="prev">
+      <div class="dir">← 이전 장</div>
+      <div class="ttl">4장 · 멀티 에이전트 하네스 개념</div>
+    </a>
+    <a href="../ch06/06_Co_Consult_Practice.html" class="next" style="margin-left:auto;">
+      <div class="dir">다음 장 →</div>
+      <div class="ttl">6장 · co-consult: AI 컨설팅 실습</div>
+    </a>
+  </div>
+  <footer>
+    Claude Desktop App / ai-workspace-standards 기반 입문 핸드북<br>
+    참고: <a href="https://claude.ai" target="_blank">Claude</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    본 핸드북의 콘텐츠는 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> 라이선스에 따라 이용할 수 있습니다.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script>
+function copyCode(btn) {
+  const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = '완료!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+</script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

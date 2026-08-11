@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="강의 진행 가이드 · Claude Code와 멀티 에이전트 하네스 입문 핸드북 — 사전 준비물, 시간 배분, 장별 강사 노트, 확인 질문">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>강의 진행 가이드 · Claude Code와 멀티 에이전트 하네스</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+  <style>
+    tr.schedule-total td { font-weight: 700; background: var(--bg2); }
+    h3 { margin: 28px 0 10px; }
+    #agenda p { font-size: 14px; color: var(--text-dim); margin: 8px 0; }
+    footer {
+      margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border);
+      color: var(--text-dim); font-size: 12px; line-height: 1.9;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+<nav>
+  <a href="../index.html" class="nav-home">← 핸드북 홈</a>
+  <div class="nav-title">강의 진행 가이드</div>
+  <a href="#prereq">사전 준비물 통합 체크리스트</a>
+  <a href="#agenda">전체 시간 배분표</a>
+  <a href="#per-section">장별 강사 노트</a>
+  <a href="#recap">장별 확인 질문</a>
+  <div class="nav-section">강사용 자료</div>
+  <a href="00_Course_Overview.html">강의 소개</a>
+</nav>
+
+<main>
+ <article class="reading">
+  <h1>강의 진행 가이드</h1>
+  <p class="lead">이 핸드북 전체(1~13장 + 별첨 A/B/C)를 사용해 강의를 진행할 강사를 위한 자료이다.</p>
+
+  <div class="note">이 문서는 핸드북 본문이 아니라 강사 전용 운영 자료이다. 학습자에게는 공유하지 않아도 된다.</div>
+  <div class="warn">탈고 전에 전체 문장을 다시 읽으며 <strong>오탈자, 문맥에 어울리지 않는 표현, 장/절 번호 불일치</strong>가 없는지 반드시 확인하라. AI가 생성한 초안에 오자나 어색한 문맥이 남아 있을 수 있다.</div>
+
+  <h2 id="prereq">사전 준비물 통합 체크리스트</h2>
+  <p>각 장의 setup 문서(<a href="../ch03/03_Setup_Guide.html">3장 · 실습 환경 구축</a>)에 흩어져 있던 항목을 강의 시작 전 한 번에 확인할 수 있도록 모았다. 강의 시작 <strong>최소 하루 전</strong>에 참가자에게 이 목록을 공지해 현장에서 설치 문제로 시간을 낭비하지 않도록 한다.</p>
+  <div class="chk">☐ 활성 상태의 Claude Pro 구독 (API 키가 아니라 구독제 계정)</div>
+  <div class="chk">☐ Claude.ai 계정 생성 및 로그인 확인</div>
+  <div class="chk">☐ MacOS 또는 Windows 10/11 환경 (Linux 사용자는 별첨 B의 Claude Code CLI로 진행)</div>
+  <div class="chk">☐ 최소 2GB 여유 디스크 공간, 안정적인 인터넷 연결</div>
+  <div class="chk">☐ Claude Desktop App 설치 완료 (2장에서 상세 안내, 미리 설치해 오면 더 원활)</div>
+  <div class="chk">☐ <code>C:\git\project\setup</code> 사전 설치 스크립트 폴더 준비 (권장)</div>
+  <div class="chk">☐ (6~8장 실습용) ai-workspace-standards 저장소 클론: <code>git clone https://github.com/5throck/ai-workspace-standards.git</code></div>
+  <div class="warn">11장 team-builder 실습은 자기 업무 도메인(예: 마케팅, 교육, 연구)을 미리 생각해 오게 하면 인터뷰 시간이 크게 단축된다. 참가자에게 "자신의 반복 업무 1개"를 생각해 오도록 사전 공지하라.</div>
+
+  <h2 id="agenda">전체 시간 배분표</h2>
+  <p>모든 절을 꼼꼼히 다루고, 실습은 참가자가 직접 타이핑(또는 복붙)할 시간을 포함해 산정했다. 휴식 시간은 별도이다.</p>
+  <div class="table-schedule">
+  <table>
+    <thead><tr><th>구분</th><th>내용</th><th>형태</th><th>예상 시간</th></tr></thead>
+    <tbody>
+      <tr><td>도입</td><td>강의 목표·전체 로드맵 소개, 사전 준비물 확인</td><td>강의</td><td>10분</td></tr>
+      <tr><td>1장</td><td>AI 트렌드, 단일 AI vs 에이전트 팀 비교, 하네스 개념, 기대 효과</td><td>강의 + 확인질문</td><td>25분</td></tr>
+      <tr><td>2장</td><td>Claude Desktop App 설치, 구독 플랜, 첫 대화, 프로젝트, Artifacts</td><td>실습(참가자 직접)</td><td>30분</td></tr>
+      <tr><td>3장</td><td>사전 체크리스트, OS별 설치 스크립트, 설치 검증</td><td>실습(참가자 직접)</td><td>30분</td></tr>
+      <tr><td>4장</td><td>에이전트·스킬·워크플로우, PM 오케스트레이션, 3-Tier, PM Gateway, 디스패치 흐름</td><td>강의 + 확인질문</td><td>40분</td></tr>
+      <tr><td>5장</td><td>ai-workspace-standards 구조, AGENTS.md/CLAUDE.md 역할, variant 개념</td><td>강의</td><td>30분</td></tr>
+      <tr><td>6장</td><td>co-consult 시장 분석 실습, 7-Phase 워크플로우, 산출물 확인</td><td>실습(참가자 직접)</td><td>40분</td></tr>
+      <tr><td>7장</td><td>co-deck 미니 발표자료 실습, 11-Stage 파이프라인, Gate 승인</td><td>실습(참가자 직접)</td><td>40분</td></tr>
+      <tr><td>8장</td><td>co-consult + co-deck 통합 파이프라인, 결과 공유</td><td>실습 + 공유</td><td>30분</td></tr>
+      <tr><td>9장</td><td>에이전트 파일 형식, frontmatter, agent-lifecycle-manager, 전문 에이전트 작성</td><td>실습(참가자 직접)</td><td>35분</td></tr>
+      <tr><td>10장</td><td>스킬 파일 형식, trigger, skill-lifecycle-manager + skill-creator, 커스텀 스킬 작성</td><td>실습(참가자 직접)</td><td>35분</td></tr>
+      <tr><td>11장</td><td>team-builder 5-step, 자기 분야 에이전트 팀 제안서</td><td>실습(참가자 직접)</td><td>30분</td></tr>
+      <tr><td>12장</td><td>/sync, Git/GitHub PR, Hook, CI/CD, dev-sync.ts</td><td>강의</td><td>25분</td></tr>
+      <tr><td>13장</td><td>학습 로드맵, 커뮤니티, 응용 시나리오, FAQ, 전체 회고</td><td>토론</td><td>20분</td></tr>
+      <tr class="schedule-total"><td colspan="3">하루 합계</td><td>약 6시간 40분 (휴식 제외)</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note">휴식 2회(각 10~15분)를 포함하면 <strong>약 7시간~7시간 10분</strong>이다. 별첨 A/B/C는 강의 후 필요에 따라 학습하도록 안내한다.</div>
+
+  <h2 id="per-section">장별 강사 노트</h2>
+
+  <h3>1장: 왜 AI 에이전트 팀인가? (도입)</h3>
+  <p>이 장은 4장의 기술적 개념에 앞서 "왜 여러 AI가 팀으로 일해야 하는지"라는 동기를 확립하는 도입부다. 단일 AI vs 에이전트 팀 비교표를 보여주며 "혼자 하는 일 vs 팀이 하는 일"의 차이를 체감시키고, 하네스 개념은 "AI 팀을 움직이는 프레임워크"라는 비유로 가볍게 전달한다.</p>
+  <p>기대 효과 섹션은 이후 6~8장 실습에서 체감할 내용의 미리보기다. 여기서는 "느낌"만 전달하고, 기술적 세부 사항은 4장으로 넘긴다.</p>
+  <span class="badge badge-do">참가자 활동</span> "지금까지 AI를 혼자 써본 경험 중, '여러 AI가 나눠서 했으면 좋겠다'고 느낀 순간이 있나요?"를 손을 들어 투표하게 하면 4장으로 이어지는 호기심이 생긴다.
+
+  <h3>2장: Claude Desktop App 시작하기</h3>
+  <p>이 핸드북의 기본 도구이므로, 참가자가 <strong>실제로 설치하고 첫 대화를 시작</strong>하는 것이 가장 중요하다. 설치가 이미 된 참가자는 구독 플랜 비교와 프로젝트 생성 실습에 집중하게 한다.</p>
+  <p>Linux 사용자는 데스크톱 앱이 없으므로, 별첨 B(Claude Code CLI)를 참조하도록 안내한다. 이 장에서는 CLI 자체를 다루지 않는다.</p>
+  <span class="badge badge-do">참가자 활동</span> "AI 학습" 프로젝트를 만들고, Custom Instructions에 "한국어로 대답해주세요. 초보자를 위한 쉬운 설명을 부탁드립니다."를 입력하도록 한다. 이후 전 장에서 이 프로젝트를 계속 사용한다.
+
+  <h3>3장: 실습 환경 구축</h3>
+  <p>사전 체크리스트를 먼저 확인하고, OS별 설치 스크립트를 실행한 뒤 검증까지 마친다. MacOS/Windows/Linux 세 환경을 모두 커버하므로, 강사는 자신의 OS 기준으로 한 번 시연하고 다른 OS 참가자는 스크립트에 맞춰 따라오게 한다.</p>
+  <p>설치 검증(<code>bun setup-common.ts</code>)이 통과했는지 반드시 확인한다. 여기서 시간을 아끼면 6~8장 실습이 순조로워진다.</p>
+
+  <h3>4장: 멀티 에이전트 하네스 개념</h3>
+  <p>이 장은 이후 모든 장에서 쓰는 용어(에이전트, 스킬, 워크플로우, PM, 3-Tier, PM Gateway)의 기준점이므로 속도를 늦춰도 좋다. "에이전트 = 역할을 맡은 직원, 스킬 = 재사용 가능한 작업 절차서" 같은 비유를 화이트보드에 옮겨 그리면서 설명하면 이해도가 올라간다.</p>
+  <span class="badge badge-do">참가자 활동</span> 디스패치 흐름도(SVG)를 보여준 뒤, "우리 팀 업무에 PM 오케스트레이션을 적용한다면?"을 1분씩 옆 사람과 이야기하게 하는 것을 권장한다.
+
+  <h3>5장: ai-workspace-standards 살펴보기</h3>
+  <p>L0→L1→L2 계층 구조와 variant 개념을 전달한다. 초보자에게는 "표준 저장소에서 프로젝트를 찍어내는 템플릿 시스템"이라는 비유가 효과적이다. AGENTS.md와 CLAUDE.md의 역할 차이를 표로 보여주며 정리한다.</p>
+
+  <h3>6장: co-consult — AI 컨설팅 실습 (오후 핵심 실습)</h3>
+  <p>이 실습은 6장 전체가 기존 variant 활용에 할당된다. PM 에이전트와 대화하며 시장 분석 프로젝트를 진행한다. 7-Phase 워크플로우의 각 단계가 어떻게 자동으로 진행되는지, 그리고 Gate 2·5에서 사용자 승인을 요청하는 흐름을 강조한다.</p>
+  <p>산출물(<code>deliverables/reports/</code>)이 실제로 생성되는지 확인하게 한다. "AI가 혼자 다 한 것이 아니라, 역할을 나눠 협력한 결과"라는 점을 환기한다.</p>
+  <span class="badge badge-do">참가자 활동</span> 4가지 팀 구성 시나리오(Quick Assessment, Standard, Complex Transformation, Specialized Expert) 중 하나를 골라 PM과 대화해보게 한다.
+
+  <h3>7장: co-deck — AI 프레젠테이션 실습</h3>
+  <p>11-Stage 파이프라인으로 미니 발표자료를 만든다. theme/style 선택, Gate 2·5 승인, HTML+PDF 산출물 확인까지 진행한다. 6장과 달리 "발표"라는 명확한 산출물이 나오므로 참가자 만족도가 높은 실습이다.</p>
+  <span class="badge badge-do">참가자 활동</span> 완성된 슬라이드 1장을 화면 공유해 서로 비교하게 하면, theme/style 선택이 결과물에 미치는 영향을 체감한다.
+
+  <h3>8장: co-consult + co-deck 통합 파이프라인</h3>
+  <p>6장의 보고서를 7장의 입력으로 넘기는 통합 실습이다. "주제 입력 → 30~45분 후 완성 발표자료"라는 전체 흐름을 보여주며, 두 시스템의 에이전트 구성 차이를 비교하게 한다.</p>
+  <span class="badge badge-do">참가자 활동</span> 6장 실습 보고서를 7장 co-deck 입력으로 직접 넘겨보게 하여 "통합의 가치"를 체감하게 한다.
+
+  <h3>9장: 에이전트 만들기와 수정</h3>
+  <p>에이전트 파일 형식(frontmatter, 역할 정의, Tier)을 다루고, agent-lifecycle-manager로 간단한 전문 에이전트를 작성·등록·검증한다. 초보자에게는 "이력서(프론트매터) + 업무 매뉴얼(본문)"이라는 비유가 효과적이다.</p>
+  <span class="badge badge-do">참가자 활동</span> 실습에서 만든 <code>agents/my-analyst.md</code>를 AGENTS.md에 등록하고 <code>bun scripts/agent-lifecycle-audit.ts</code>로 검증하게 한다.
+
+  <h3>10장: 스킬 만들기와 수정</h3>
+  <p>스킬 파일 형식(프론트매터, trigger, steps)을 다루고, skill-lifecycle-manager + skill-creator로 커스텀 스킬을 작성·테스트한다. "요리사의 레시피"라는 비유로 에이전트와 스킬의 관계를 설명한다.</p>
+  <span class="badge badge-do">참가자 활동</span> 실습에서 만든 <code>skills/my-reviewer/SKILL.md</code>를 등록하고 실제로 호출해 동작을 확인하게 한다.
+
+  <h3>11장: 나만의 에이전트 팀 구성하기</h3>
+  <p>team-builder 스킬의 AI 레이어 5-step(요구사항 인터뷰 → 벤치마킹 → 현재 팀 진단 → 제안서 생성 → 승인)과 스크립트 레이어(<code>bun scripts/team-builder.ts</code>)를 다룬다.</p>
+  <p>참가자가 미리 자기 도메인을 정해 오면 인터뷰가 빠르다. 제안서를 검토하고 승인(MANDATORY GATE)까지 완료하게 한다.</p>
+  <span class="badge badge-do">참가자 활동</span> 자기 관심 분야(마케팅, 교육, 연구 등)에 맞는 커스텀 에이전트 팀 제안서를 받고 승인까지 진행하게 한다.
+
+  <h3>12장: 워크플로우와 자동화 이해</h3>
+  <p>/sync 명령, Git/GitHub PR 자동화, Hook, CI/CD 기초, dev-sync.ts 동작 원리를 설명한다. 초보자에게는 "자동화 = 반복 업무를 시스템에 위임"이라는 비유로 시작한다.</p>
+  <p>실습보다 개념 설명 중심으로 진행하고, CLI에 익숙한 참가자에게는 별첨 B로 심화를 안내한다.</p>
+
+  <h3>13장: 다음 단계 + 마무리</h3>
+  <p>학습 로드맵, 커뮤니티, 응용 시나리오, FAQ로 마무리한다. 하루 전체를 회고하며, 1~12장에서 만든 것(프로젝트, 실습 산출물, 에이전트, 스킬, 팀 제안서)을 연결해 정리한다.</p>
+  <span class="badge badge-do">참가자 활동</span> 11장에서 받은 팀 제안서를 발표하게 하고, "다음에 이 팀을 실제로 만들고 싶은가?"를 물어 다음 학습 의지를 다진다.
+
+  <h2 id="recap">장별 확인 질문</h2>
+  <p>각 장을 마칠 때 아래 질문을 던져 이해도를 확인하라. 정답을 맞히는 것이 목적이 아니라, 참가자가 스스로 설명해보게 하는 것이 목적이다.</p>
+
+  <div class="quiz">
+    <div class="quiz-title">1장 확인 질문</div>
+    <ol>
+      <li>단일 AI와 멀티 에이전트 팀의 가장 큰 차이는 무엇인가요? (컨텍스트·역할·병렬 측면)</li>
+      <li>"하네스(harness)"란 무엇이라고 이해했나요?</li>
+      <li>여러 AI가 협력하면 어떤 일이 가능해지나요?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">2장 확인 질문</div>
+    <ol>
+      <li>Claude Desktop App과 Claude.ai 웹 버전의 차이는 무엇인가요?</li>
+      <li>프로젝트(Project) 기능은 어떤 점에서 유용한가요?</li>
+      <li>Artifacts로 어떤 것을 만들 수 있나요?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">3장 확인 질문</div>
+    <ol>
+      <li>자신의 OS에 맞는 설치 스크립트를 실행했나요?</li>
+      <li>설치가 정상인지 확인하는 명령어는 무엇인가요?</li>
+      <li>사전 설치를 미리 해야 하는 이유는 무엇인가요?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">4장 확인 질문</div>
+    <ol>
+      <li>에이전트, 스킬, 워크플로우의 차이를 각각 한 문장으로 설명해 보세요.</li>
+      <li>PM(Project Manager) 에이전트는 어떤 역할을 하나요?</li>
+      <li>3-Tier 전략(High/Medium/Low)은 왜 필요한가요?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">5장 확인 질문</div>
+    <ol>
+      <li>AGENTS.md와 CLAUDE.md는 각각 어떤 역할을 하나요?</li>
+      <li>L0→L1→L2 계층 구조란 무엇인가요?</li>
+      <li>variant(베리언트)란 무엇인가요?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">6장 확인 질문</div>
+    <ol>
+      <li>co-consult의 7-Phase 워크플로우에서 Gate 2·5는 무엇인가요?</li>
+      <li>4가지 팀 구성 시나리오의 차이는 무엇인가요?</li>
+      <li>산출물은 어디에 저장되나요?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">7장 확인 질문</div>
+    <ol>
+      <li>co-deck의 11-Stage 파이프라인에서 theme/style은 어떤 단계에서 선택하나요?</li>
+      <li>Gate 2(콘텐츠)와 Gate 5(샘플 PDF)는 각각 무엇을 승인하나요?</li>
+      <li>HTML과 PDF 산출물은 어떻게 만들어지나요?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">8장 확인 질문</div>
+    <ol>
+      <li>co-consult 보고서를 co-deck 입력으로 넘기는 방법은 무엇인가요?</li>
+      <li>두 시스템의 에이전트 구성은 왜 다른가요?</li>
+      <li>통합 파이프라인의 전체 흐름을 설명해 보세요.</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">9장 확인 질문</div>
+    <ol>
+      <li>에이전트 파일의 frontmatter에는 무엇이 들어가나요?</li>
+      <li>Tier(High/Medium/Low)는 무엇을 결정하나요?</li>
+      <li>agent-lifecycle-manager는 어떤 5단계로 진행되나요?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">10장 확인 질문</div>
+    <ol>
+      <li>스킬 파일의 metadata.triggers는 어떤 역할을 하나요?</li>
+      <li>에이전트와 스킬의 관계는 무엇인가요?</li>
+      <li>skill-lifecycle-manager는 어떤 6단계로 진행되나요?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">11장 확인 질문</div>
+    <ol>
+      <li>team-builder의 AI 레이어 5-step을 순서대로 말해 보세요.</li>
+      <li>제안서 승인이 왜 MANDATORY GATE인가요?</li>
+      <li>스크립트 레이어(<code>bun scripts/team-builder.ts</code>)는 무엇을 하나요?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">12장 확인 질문</div>
+    <ol>
+      <li>/sync 명령은 무엇을 한 번에 처리하나요?</li>
+      <li>Git/GitHub에서 PR(Pull Request)은 왜 필요한가요?</li>
+      <li>Hook이란 무엇인가요?</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">13장 확인 질문</div>
+    <ol>
+      <li>오늘 만든 것(프로젝트, 산출물, 에이전트, 스킬, 팀 제안서)을 한 문장씩 정리해 보세요.</li>
+      <li>다음에 학습할 내용은 무엇인가요?</li>
+      <li>자기 업무에 가장 먼저 적용해볼 것은 무엇인가요?</li>
+    </ol>
+  </div>
+
+  <footer>
+    Claude Desktop App / ai-workspace-standards 기반 입문 핸드북 (2026-08 기준) · 한국어 교육 자료<br>
+    공식 자료: <a href="https://claude.ai" target="_blank">Claude</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    본 핸드북의 콘텐츠는 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (저작자표시-비영리-동일조건변경허락 4.0 국제)</a> 라이선스에 따라 이용할 수 있습니다.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

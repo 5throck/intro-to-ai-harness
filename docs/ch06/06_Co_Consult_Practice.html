@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="6장 · co-consult: AI 컨설팅 실습 - Claude Code와 멀티 에이전트 하네스 입문 핸드북">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6장 · co-consult: AI 컨설팅 실습</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index.html" class="nav-home">← 핸드북 홈</a>
+  <div class="nav-title">6장 · co-consult: AI 컨설팅 실습</div>
+  <a href="#what-is-coconsult">co-consult란</a>
+  <a href="#architecture">시스템 아키텍처</a>
+  <a href="#phases">7-Phase 워크플로우</a>
+  <a href="#how-to-talk">PM에게 말하는 법</a>
+  <a href="#team-patterns">팀 구성 패턴</a>
+  <a href="#practice">실습: 간단한 시장 분석</a>
+  <a href="#outputs">산출물 확인</a>
+  <div class="nav-section">다른 장</div>
+  <a href="../ch05/05_Workspace_Standards.html">5장 · ai-workspace-standards 살펴보기</a>
+  <a href="../ch07/07_Co_Deck_Practice.html">7장 · co-deck: AI 프레젠테이션 실습</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">6장</div>
+  <h1>co-consult: AI 컨설팅 실습</h1>
+  <p class="lead">co-consult는 AI 에이전트 팀이 컨설팅 프로젝트를 수행하는 시스템입니다. 이 장에서는 co-consult의 구조를 이해하고, Claude Desktop App을 통해 실제로 간단한 시장 분석 프로젝트를 진행해봅니다.</p>
+  <div class="keypoints">
+    <div class="kp-title">이 장에서 다루는 것</div>
+    <ul>
+      <li>co-consult 시스템 소개와 아키텍처</li>
+      <li>7-Phase 워크플로우 이해</li>
+      <li>PM 에이전트에게 요청하는 방법</li>
+      <li>4가지 팀 구성 패턴</li>
+      <li>실습: 간단한 시장 분석 프로젝트</li>
+      <li>산출물 확인 방법</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: co-consult란                                       -->
+  <!-- ============================================================ -->
+  <h2 id="what-is-coconsult">co-consult란</h2>
+
+  <h3>정의</h3>
+
+  <p>co-consult는 <strong>AI 에이전트 팀이 전략 컨설팅 프로젝트를 수행하는 시스템</strong>입니다. 5장에서 살펴본 ai-workspace-standards의 variant 중 하나로, 다중 AI 에이전트가 협력하여 시장 분석, 경쟁사 분석, 진입 전략 수립, 비즈니스 모델 검토 등 전략 컨설팅 업무를 자동화합니다.</p>
+
+  <p>GitHub 저장소: <a href="https://github.com/5throck/co-consult" target="_blank" rel="noopener noreferrer">github.com/5throck/co-consult</a></p>
+
+  <h3>어떤 문제를 해결하는가?</h3>
+
+  <p>전략 컨설팅은 다음과 같은 단계를 거쳐야 합니다. co-consult는 이 전체 과정을 AI 에이전트 팀이 수행합니다.</p>
+
+  <ul>
+    <li><strong>시장 분석</strong> — 시장 규모, 성장률, 트렌드 파악</li>
+    <li><strong>경쟁사 분석</strong> — 주요 경쟁사의 강약점, 시장 점유율 비교</li>
+    <li><strong>진입 전략</strong> — 신규 시장 진출 방법, 타이밍, 채널</li>
+    <li><strong>비즈니스 모델</strong> — 수익 구조, 가치 제안, 핵심 자원 분석</li>
+    <li><strong>기술 동향</strong> — 관련 기술 트렌드와 도입 가능성</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>초보자 비유:</strong> co-consult는 가상의 "컨설팅 회사"입니다. PM(프로젝트 매니저)이 파트너(사용자)와 미팅하여 요구사항을 듣고, 전문가 에이전트들이 각자 맡은 분석을 수행합니다. 실제 컨설팅 펌에서 시니어 컨설턴트가 주니어들을 이끄는 것과 비슷한 구조입니다.
+  </div>
+
+  <h3>co-deck와의 차이</h3>
+
+  <p>co-deck이 프레젠테이션(슬라이드) 제작에 특화되어 있다면, co-consult는 <strong>전략 분석과 보고서 작성</strong>에 특화되어 있습니다. 두 시스템 모두 ai-workspace-standards를 기반으로 하지만, 목적과 에이전트 구성이 다릅니다.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>co-deck</h4>
+      <ul>
+        <li>프레젠테이션 슬라이드 제작</li>
+        <li>research, storyline, html-build, pdf-export 등</li>
+        <li>11-Stage 파이프라인</li>
+        <li>산출물: HTML 슬라이드 + PDF</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-consult</h4>
+      <ul>
+        <li>전략 컨설팅 분석 및 보고서</li>
+        <li>research, data-analyst, market-analyst, strategy 등</li>
+        <li>7-Phase 파이프라인</li>
+        <li>산출물: 분석 보고서 HTML + PDF</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: 시스템 아키텍처                                   -->
+  <!-- ============================================================ -->
+  <h2 id="architecture">시스템 아키텍처</h2>
+
+  <h3>에이전트 구성</h3>
+
+  <p>co-consult는 <strong>PM 에이전트 1명과 11개 전문 에이전트</strong>로 구성됩니다. PM이 중심에서 전체 프로젝트를 조율하고, 전문 에이전트들이 각자의 영역에서 작업을 수행합니다.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-consult 에이전트 구성 다이어그램">
+      <!-- 배경 -->
+      <rect x="0" y="0" width="680" height="480" rx="12" fill="var(--bg2)"/>
+
+      <!-- PM (중앙) -->
+      <circle cx="340" cy="240" r="56" fill="var(--accent)" opacity="0.15"/>
+      <circle cx="340" cy="240" r="56" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <text x="340" y="234" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text)">PM</text>
+      <text x="340" y="252" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Project Manager</text>
+
+      <!-- 연결선 -->
+      <line x1="340" y1="184" x2="340" y2="72" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="240" x2="540" y2="100" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="240" x2="540" y2="180" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="240" x2="540" y2="260" stroke="var(--accent-purple)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="240" x2="540" y2="340" stroke="var(--accent-red)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="340" y1="296" x2="340" y2="420" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="240" x2="140" y2="100" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="240" x2="140" y2="180" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="240" x2="140" y2="260" stroke="var(--accent-purple)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="240" x2="140" y2="340" stroke="var(--accent-red)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="240" x2="540" y2="420" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+
+      <!-- 상단: research -->
+      <rect x="290" y="36" width="100" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="340" y="59" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">research</text>
+
+      <!-- 우측 열 -->
+      <rect x="540" y="78" width="110" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="595" y="101" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">source-verifier</text>
+
+      <rect x="540" y="158" width="110" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="595" y="181" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">data-analyst</text>
+
+      <rect x="540" y="238" width="110" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="595" y="261" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">market-analyst</text>
+
+      <rect x="540" y="318" width="110" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="595" y="341" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">strategy</text>
+
+      <rect x="540" y="398" width="110" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="595" y="421" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">tech-analyst</text>
+
+      <!-- 좌측 열 -->
+      <rect x="30" y="78" width="110" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="85" y="101" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">storyline</text>
+
+      <rect x="30" y="158" width="110" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="85" y="181" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">html-build</text>
+
+      <rect x="30" y="238" width="110" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="85" y="261" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">pdf-export</text>
+
+      <rect x="30" y="318" width="110" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="85" y="341" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">version</text>
+
+      <rect x="30" y="398" width="110" height="36" rx="8" fill="var(--bg-warn)" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="85" y="421" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">auditor</text>
+
+      <!-- 하단: 사용자 -->
+      <rect x="290" y="406" width="100" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="340" y="429" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">사용자</text>
+
+      <!-- 범례 -->
+      <rect x="260" y="460" width="12" height="12" rx="2" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="278" y="470" font-size="9" style="fill:var(--text-dim)">리서치</text>
+      <rect x="330" y="460" width="12" height="12" rx="2" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="348" y="470" font-size="9" style="fill:var(--text-dim)">분석/제작</text>
+      <rect x="410" y="460" width="12" height="12" rx="2" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="428" y="470" font-size="9" style="fill:var(--text-dim)">지원/품질</text>
+    </svg>
+  </div>
+
+  <h3>전문 에이전트 역할</h3>
+
+  <p>각 전문 에이전트의 역할을 요약하면 다음과 같습니다.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>에이전트</th>
+        <th>역할</th>
+        <th>설명</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>research</code></td>
+        <td>리서치 전문가</td>
+        <td>웹에서 관련 자료와 데이터를 수집하여 <code>research_notes.md</code>에 정리합니다</td>
+      </tr>
+      <tr>
+        <td><code>source-verifier</code></td>
+        <td>소스 검증자</td>
+        <td>수집된 출처의 신뢰성을 검증하고 Trust Score를 산출합니다 (선택적)</td>
+      </tr>
+      <tr>
+        <td><code>data-analyst</code></td>
+        <td>데이터 분석가</td>
+        <td>수치 데이터를 분석하고 시각화 자료를 생성합니다</td>
+      </tr>
+      <tr>
+        <td><code>market-analyst</code></td>
+        <td>시장 분석가</td>
+        <td>시장 규모, 성장률, 트렌드 등 시장 환경을 분석합니다</td>
+      </tr>
+      <tr>
+        <td><code>strategy</code></td>
+        <td>전략 컨설턴트</td>
+        <td>분석 결과를 바탕으로 전략 제안과 실행 로드맵을 작성합니다</td>
+      </tr>
+      <tr>
+        <td><code>tech-analyst</code></td>
+        <td>기술 분석가</td>
+        <td>관련 기술 동향과 도입 가능성을 분석합니다</td>
+      </tr>
+      <tr>
+        <td><code>storyline</code></td>
+        <td>스토리라이너</td>
+        <td>보고서의 전체 구조와 내러티브를 설계합니다</td>
+      </tr>
+      <tr>
+        <td><code>html-build</code></td>
+        <td>HTML 빌더</td>
+        <td>분석 내용을 HTML 형식의 보고서로 변환합니다</td>
+      </tr>
+      <tr>
+        <td><code>pdf-export</code></td>
+        <td>PDF 익스포터</td>
+        <td>보고서를 PDF 형식으로 내보냅니다</td>
+      </tr>
+      <tr>
+        <td><code>version</code></td>
+        <td>버전 관리자</td>
+        <td>파일 수정 전 자동 백업을 수행합니다</td>
+      </tr>
+      <tr>
+        <td><code>auditor</code></td>
+        <td>품질 감사자</td>
+        <td>최종 산출물의 품질과 일관성을 검토합니다</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    PM 에이전트는 위 전문 에이전트를 직접 실행하지 않습니다. PM은 사용자의 요청을 분석하고, 각 전문 에이전트에게 작업을 지시(디스패치)하는 오케스트레이터 역할만 수행합니다. 4장의 PM Gateway 섹션을 참조하세요.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: 7-Phase 워크플로우                                  -->
+  <!-- ============================================================ -->
+  <h2 id="phases">7-Phase 워크플로우</h2>
+
+  <p>co-consult는 <strong>7개의 Phase</strong>로 구성된 워크플로우를 따라 컨설팅 프로젝트를 진행합니다. 각 Phase에서 특정 에이전트가 담당하며, 정해진 산출물을 출력합니다.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-consult 7-Phase 파이프라인 다이어그램">
+      <!-- 배경 -->
+      <rect x="0" y="0" width="680" height="320" rx="12" fill="var(--bg2)"/>
+
+      <!-- Phase 0 -->
+      <rect x="16" y="40" width="82" height="100" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="57" y="62" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase 0</text>
+      <text x="57" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">프로젝트</text>
+      <text x="57" y="92" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">시작</text>
+      <text x="57" y="116" text-anchor="middle" font-size="8" style="fill:var(--accent)">PM</text>
+      <text x="57" y="130" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">profile.md</text>
+
+      <!-- 화살표 -->
+      <path d="M100 90 L112 90" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+      <!-- Phase 1 -->
+      <rect x="114" y="40" width="82" height="100" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="155" y="62" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase 1</text>
+      <text x="155" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">리서치</text>
+      <text x="155" y="116" text-anchor="middle" font-size="8" style="fill:var(--accent)">research</text>
+      <text x="155" y="130" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">research_</text>
+      <text x="155" y="139" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">notes.md</text>
+
+      <!-- 화살표 -->
+      <path d="M198 90 L210 90" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+      <!-- Phase 1.5 -->
+      <rect x="212" y="40" width="82" height="100" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="253" y="62" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">1.5</text>
+      <text x="253" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">소스 검증</text>
+      <text x="253" y="116" text-anchor="middle" font-size="8" style="fill:var(--accent-amber)">source-verify</text>
+      <text x="253" y="130" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">(선택적)</text>
+
+      <!-- 화살표 -->
+      <path d="M296 90 L308 90" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+      <!-- Phase 2-3 -->
+      <rect x="310" y="40" width="82" height="100" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="351" y="62" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase 2-3</text>
+      <text x="351" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">분석/전략</text>
+      <text x="351" y="116" text-anchor="middle" font-size="8" style="fill:var(--accent-amber)">analysts</text>
+      <text x="351" y="130" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">storyline.md</text>
+
+      <!-- Gate 2 표시 -->
+      <rect x="390" y="56" width="38" height="20" rx="4" fill="var(--accent-red)" opacity="0.15" stroke="var(--accent-red)" stroke-width="1.5"/>
+      <text x="409" y="70" text-anchor="middle" font-size="7" font-weight="bold" style="fill:var(--accent-red)">GATE</text>
+
+      <!-- 화살표 -->
+      <path d="M394 90 L406 90" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+      <!-- Phase 4 -->
+      <rect x="408" y="40" width="82" height="100" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="449" y="62" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase 4</text>
+      <text x="449" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">보고서 작성</text>
+      <text x="449" y="116" text-anchor="middle" font-size="8" style="fill:var(--accent-purple)">html-build</text>
+      <text x="449" y="130" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">report.html</text>
+
+      <!-- 화살표 -->
+      <path d="M492 90 L504 90" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+      <!-- Phase 5 -->
+      <rect x="506" y="40" width="82" height="100" rx="8" fill="var(--bg-warn)" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="547" y="62" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase 5</text>
+      <text x="547" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">품질 검토</text>
+      <text x="547" y="116" text-anchor="middle" font-size="8" style="fill:var(--accent-red)">auditor</text>
+      <text x="547" y="130" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">QA report</text>
+
+      <!-- Gate 5 표시 -->
+      <rect x="586" y="56" width="38" height="20" rx="4" fill="var(--accent-red)" opacity="0.15" stroke="var(--accent-red)" stroke-width="1.5"/>
+      <text x="605" y="70" text-anchor="middle" font-size="7" font-weight="bold" style="fill:var(--accent-red)">GATE</text>
+
+      <!-- 화살표 -->
+      <path d="M590 90 L602 90" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+      <!-- Phase 6 -->
+      <rect x="604" y="40" width="60" height="100" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="634" y="62" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase 6</text>
+      <text x="634" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">최종화</text>
+      <text x="634" y="116" text-anchor="middle" font-size="8" style="fill:var(--accent-green)">PM</text>
+      <text x="634" y="130" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">PDF export</text>
+
+      <!-- 화살표 정의 -->
+      <defs>
+        <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+          <polygon points="0 0, 6 2, 0 4" style="fill:var(--text-dim)"/>
+        </marker>
+      </defs>
+
+      <!-- 하단 범례 -->
+      <rect x="16" y="170" width="648" height="140" rx="8" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+      <text x="340" y="190" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase별 상세 설명</text>
+
+      <!-- Phase 0 설명 -->
+      <text x="30" y="210" font-size="9" font-weight="bold" style="fill:var(--accent-green)">Phase 0</text>
+      <text x="30" y="224" font-size="9" style="fill:var(--text-dim)">PM이 사용자와 미팅하여 프로젝트</text>
+      <text x="30" y="236" font-size="9" style="fill:var(--text-dim)">주제, 범위, 일정을 확정합니다.</text>
+
+      <!-- Phase 1 설명 -->
+      <text x="30" y="258" font-size="9" font-weight="bold" style="fill:var(--accent-green)">Phase 1</text>
+      <text x="30" y="272" font-size="9" style="fill:var(--text-dim)">research 에이전트가 웹 검색을</text>
+      <text x="30" y="284" font-size="9" style="fill:var(--text-dim)">수행하여 research_notes.md를 작성합니다.</text>
+
+      <!-- Phase 1.5 설명 -->
+      <text x="240" y="210" font-size="9" font-weight="bold" style="fill:var(--accent-amber)">Phase 1.5</text>
+      <text x="240" y="224" font-size="9" style="fill:var(--text-dim)">source-verifier가 출처 신뢰성을</text>
+      <text x="240" y="236" font-size="9" style="fill:var(--text-dim)">검증합니다 (선택적). Trust Score &lt; 70%</text>
+      <text x="240" y="248" font-size="9" style="fill:var(--text-dim)">이면 프로젝트를 중단합니다.</text>
+
+      <!-- Phase 2-3 설명 -->
+      <text x="240" y="270" font-size="9" font-weight="bold" style="fill:var(--accent-amber)">Phase 2-3</text>
+      <text x="240" y="284" font-size="9" style="fill:var(--text-dim)">분석 전문가들이 데이터 분석,</text>
+      <text x="240" y="296" font-size="9" style="fill:var(--text-dim)">시장 분석, 전략 수립을 수행합니다.</text>
+
+      <!-- Phase 4 설명 -->
+      <text x="470" y="210" font-size="9" font-weight="bold" style="fill:var(--accent-purple)">Phase 4</text>
+      <text x="470" y="224" font-size="9" style="fill:var(--text-dim)">html-build가 분석 결과를</text>
+      <text x="470" y="236" font-size="9" style="fill:var(--text-dim)">HTML 보고서로 변환합니다.</text>
+
+      <!-- Phase 5 설명 -->
+      <text x="470" y="258" font-size="9" font-weight="bold" style="fill:var(--accent-red)">Phase 5</text>
+      <text x="470" y="272" font-size="9" style="fill:var(--text-dim)">auditor가 품질 검토를 수행하고</text>
+      <text x="470" y="284" font-size="9" style="fill:var(--text-dim)">문제점을 수정합니다.</text>
+
+      <!-- Phase 6 설명 -->
+      <text x="470" y="300" font-size="9" font-weight="bold" style="fill:var(--accent-green)">Phase 6</text>
+      <text x="530" y="300" font-size="9" style="fill:var(--text-dim)">PDF 최종 출력 및 프로젝트 종료.</text>
+    </svg>
+  </div>
+
+  <h3>Phase별 핵심 산출물</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Phase 0 — 프로젝트 시작</strong><br>
+        PM이 사용자와 미팅하여 프로젝트의 주제, 범위, 대상 시장, 일정을 확정합니다. 이 단계에서 <code>consult-profile.md</code>와 <code>project_state.json</code>이 생성됩니다.
+      </li>
+      <li>
+        <strong>Phase 1 — 리서치</strong><br>
+        <code>research</code> 에이전트가 웹 검색을 통해 관련 자료, 통계, 보고서를 수집합니다. 산출물은 <code>research_notes.md</code>로, 전체 프로젝트의 정보 기반이 됩니다.
+      </li>
+      <li>
+        <strong>Phase 1.5 — 소스 검증 (선택적)</strong><br>
+        <code>source-verifier</code> 에이전트가 수집된 출처의 URL 접근성과 내용 일치 여부를 검증합니다. Trust Score를 산출하며, 70% 미만이면 프로젝트가 일시 중단됩니다.
+      </li>
+      <li>
+        <strong>Phase 2-3 — 분석 및 전략 수립</strong><br>
+        <code>data-analyst</code>, <code>market-analyst</code>, <code>strategy</code>, <code>tech-analyst</code> 등이 리서치 결과를 바탕으로 각 분야의 분석을 수행하고 전략을 제안합니다. <code>storyline</code> 에이전트가 보고서 구조를 설계합니다.
+      </li>
+      <li>
+        <strong>Phase 4 — 보고서 작성</strong><br>
+        <code>html-build</code> 에이전트가 분석 결과를 HTML 형식의 보고서로 변환합니다. 차트, 다이어그램, 표가 포함된 완성된 형태의 보고서가 생성됩니다.
+      </li>
+      <li>
+        <strong>Phase 5 — 품질 검토</strong><br>
+        <code>auditor</code> 에이전트가 보고서의 품질, 일관성, 데이터 정확성을 검토합니다. 문제점이 발견되면 수정 요청을 보냅니다.
+      </li>
+      <li>
+        <strong>Phase 6 — 최종화</strong><br>
+        <code>pdf-export</code> 에이전트가 최종 보고서를 PDF로 변환하여 <code>deliverables/reports/</code>에 저장합니다. 프로젝트 상태를 완료로 업데이트합니다.
+      </li>
+    </ol>
+  </div>
+
+  <div class="note">
+    사용자는 <strong>Phase 0에서 요구사항을 정의</strong>하고, <strong>Gate 2 (Phase 2-3 완료 후)</strong>와 <strong>Gate 5 (Phase 5 완료 후)</strong>에서 승인합니다. 나머지 Phase는 PM이 에이전트를 자동으로 디스패치하여 진행합니다. Gate 승인 없이는 다음 Phase로 넘어가지 않으므로, 중간에 방향 수정이 가능합니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: PM에게 말하는 법                                   -->
+  <!-- ============================================================ -->
+  <h2 id="how-to-talk">PM에게 말하는 법</h2>
+
+  <p>co-consult를 사용하려면 Claude Desktop App에서 co-consult 프로젝트를 열고 PM 에이전트에게 요청을 보내야 합니다. 효과적인 요청은 프로젝트의 품질을 크게 높입니다.</p>
+
+  <h3>요청의 4가지 핵심 요소</h3>
+
+  <p>좋은 요청에는 다음 네 가지가 포함되어 있습니다.</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>목적 (Purpose)</strong> — 무엇을 분석하고 싶은가?</li>
+      <li><strong>범위 (Scope)</strong> — 어느 시장, 어느 영역을 대상으로 하는가?</li>
+      <li><strong>대상 (Target)</strong> — 누구를 위한 분석인가? (우리 회사, 경쟁사 등)</li>
+      <li><strong>일정 (Timeline)</strong> — 언제까지 결과가 필요한가?</li>
+    </ol>
+  </div>
+
+  <h3>요청 예시</h3>
+
+  <div class="prompt-box">
+    <strong>예시 1: 시장 분석</strong><br>
+    <code>"한국의 배달 앱 시장을 분석해줘. 경쟁사 비교와 진입 기회를 중점적으로. 2주 내 완료."</code>
+  </div>
+
+  <div class="prompt-box">
+    <strong>예시 2: 비즈니스 모델 검토</strong><br>
+    <code>"우리 스타트업의 SaaS 비즈니스 모델을 검토해줘. 타겟 시장은 일본 B2B 기업. 가격 전략과 확장 가능성에 대해."</code>
+  </div>
+
+  <div class="prompt-box">
+    <strong>예시 3: 기술 도입 검토</strong><br>
+    <code>"우리 회사에 AI 챗봇을 도입하는 것을 검토해줘. 교육 업계 대상. 비용, 기술 스택, 경쟁사 사례를 포함해줘."</code>
+  </div>
+
+  <h3>좋은 요청 vs 아쉬운 요청</h3>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>좋은 요청</h4>
+      <ul>
+        <li>목적이 명확함: "시장 분석해줘"</li>
+        <li>범위가 구체적임: "한국 배달 앱 시장"</li>
+        <li>중점 영역 명시: "경쟁사 비교와 진입 기회"</li>
+        <li>일정이 있음: "2주 내"</li>
+        <li>PM이 바로 에이전트를 디스패치 가능</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>아쉬운 요청</h4>
+      <ul>
+        <li>목적이 모호함: "뭐 좀 분석해줘"</li>
+        <li>범위가 없음: 시장? 기술? 경쟁사?</li>
+        <li>중점 영역 불명확: "전부 다"</li>
+        <li>일정이 없음: 기한이 정해지지 않음</li>
+        <li>PM이 사용자에게 질문해야 함</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>처음에는 간단한 주제로 시작해보세요.</strong> 복잡한 프로젝트는 경험이 쌓인 후에 도전하세요. "한국 카페 시장의 주요 트렌드를 분석해줘" 정도의 간단한 요청으로 co-consult의 동작 방식을 익히는 것을 추천합니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: 팀 구성 패턴                                      -->
+  <!-- ============================================================ -->
+  <h2 id="team-patterns">팀 구성 패턴</h2>
+
+  <p>co-consult는 프로젝트의 규모와 복잡도에 따라 <strong>4가지 팀 구성 패턴</strong>을 제공합니다. PM이 프로젝트 요구사항을 분석하여 가장 적합한 패턴을 선택합니다.</p>
+
+  <h3>4가지 팀 구성 패턴</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="팀 구성 패턴 다이어그램">
+      <!-- 배경 -->
+      <rect x="0" y="0" width="680" height="400" rx="12" fill="var(--bg2)"/>
+
+      <!-- 패턴 1: Quick Assessment -->
+      <rect x="16" y="16" width="158" height="180" rx="10" fill="var(--bg)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="95" y="40" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--accent-green)">Quick Assessment</text>
+      <text x="95" y="56" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">빠른 평가</text>
+      <circle cx="95" cy="90" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
+      <text x="95" y="95" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
+      <rect x="40" y="120" width="50" height="22" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="65" y="135" text-anchor="middle" font-size="8" style="fill:var(--text)">research</text>
+      <rect x="100" y="120" width="58" height="22" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="129" y="135" text-anchor="middle" font-size="8" style="fill:var(--text)">html-build</text>
+      <text x="95" y="164" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">2-3명 에이전트</text>
+      <text x="95" y="180" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">1-2일 소요</text>
+
+      <!-- 패턴 2: Standard -->
+      <rect x="186" y="16" width="158" height="180" rx="10" fill="var(--bg)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="265" y="40" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--accent)">Standard</text>
+      <text x="265" y="56" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">표준</text>
+      <circle cx="265" cy="90" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
+      <text x="265" y="95" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
+      <rect x="200" y="116" width="50" height="20" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="225" y="130" text-anchor="middle" font-size="7" style="fill:var(--text)">research</text>
+      <rect x="256" y="116" width="76" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="294" y="130" text-anchor="middle" font-size="7" style="fill:var(--text)">market-analyst</text>
+      <rect x="200" y="142" width="56" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="228" y="156" text-anchor="middle" font-size="7" style="fill:var(--text)">strategy</text>
+      <rect x="262" y="142" width="66" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="295" y="156" text-anchor="middle" font-size="7" style="fill:var(--text)">html-build</text>
+      <text x="265" y="178" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">5-6명 에이전트</text>
+      <text x="265" y="194" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">1-2주 소요</text>
+
+      <!-- 패턴 3: Complex Transformation -->
+      <rect x="356" y="16" width="158" height="180" rx="10" fill="var(--bg)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="435" y="40" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--accent-purple)">Complex Transform</text>
+      <text x="435" y="56" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">복잡한 변화</text>
+      <circle cx="435" cy="82" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
+      <text x="435" y="87" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
+      <rect x="372" y="108" width="50" height="18" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="397" y="121" text-anchor="middle" font-size="7" style="fill:var(--text)">research</text>
+      <rect x="428" y="108" width="76" height="18" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="466" y="121" text-anchor="middle" font-size="7" style="fill:var(--text)">source-verifier</text>
+      <rect x="372" y="132" width="58" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="401" y="145" text-anchor="middle" font-size="7" style="fill:var(--text)">data-analyst</text>
+      <rect x="436" y="132" width="66" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="469" y="145" text-anchor="middle" font-size="7" style="fill:var(--text)">market-analyst</text>
+      <rect x="372" y="156" width="56" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="400" y="169" text-anchor="middle" font-size="7" style="fill:var(--text)">strategy</text>
+      <rect x="434" y="156" width="66" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="467" y="169" text-anchor="middle" font-size="7" style="fill:var(--text)">tech-analyst</text>
+      <text x="435" y="192" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">8+명 에이전트</text>
+      <text x="435" y="208" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">2-4주 소요</text>
+
+      <!-- 패턴 4: Specialized Expert -->
+      <rect x="526" y="16" width="138" height="180" rx="10" fill="var(--bg)" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="595" y="40" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--accent-red)">Specialized</text>
+      <text x="595" y="56" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">전문 분야</text>
+      <circle cx="595" cy="90" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
+      <text x="595" y="95" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
+      <rect x="546" y="120" width="46" height="20" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="569" y="134" text-anchor="middle" font-size="7" style="fill:var(--text)">research</text>
+      <rect x="598" y="120" width="52" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="624" y="134" text-anchor="middle" font-size="7" style="fill:var(--text)">analyst</text>
+      <rect x="546" y="146" width="54" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="573" y="160" text-anchor="middle" font-size="7" style="fill:var(--text)">specialist</text>
+      <rect x="606" y="146" width="52" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="632" y="160" text-anchor="middle" font-size="7" style="fill:var(--text)">html-build</text>
+      <text x="595" y="190" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">3-4명 에이전트</text>
+      <text x="595" y="206" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">특정 영역 집중</text>
+
+      <!-- 하단: 난이도 표시 -->
+      <rect x="16" y="220" width="648" height="170" rx="8" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+      <text x="340" y="244" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">패턴 비교</text>
+
+      <!-- 비교 항목 헤더 -->
+      <text x="130" y="268" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text-dim)">Quick</text>
+      <text x="260" y="268" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text-dim)">Standard</text>
+      <text x="410" y="268" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text-dim)">Complex</text>
+      <text x="560" y="268" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text-dim)">Specialized</text>
+
+      <!-- 에이전트 수 -->
+      <text x="32" y="290" font-size="9" style="fill:var(--text-dim)">에이전트:</text>
+      <text x="130" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">2-3명</text>
+      <text x="260" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">5-6명</text>
+      <text x="410" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">8+명</text>
+      <text x="560" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">3-4명</text>
+
+      <!-- 기간 -->
+      <text x="32" y="310" font-size="9" style="fill:var(--text-dim)">기간:</text>
+      <text x="130" y="310" text-anchor="middle" font-size="9" style="fill:var(--text)">1-2일</text>
+      <text x="260" y="310" text-anchor="middle" font-size="9" style="fill:var(--text)">1-2주</text>
+      <text x="410" y="310" text-anchor="middle" font-size="9" style="fill:var(--text)">2-4주</text>
+      <text x="560" y="310" text-anchor="middle" font-size="9" style="fill:var(--text)">영역별 상이</text>
+
+      <!-- 적합한 프로젝트 -->
+      <text x="32" y="332" font-size="9" style="fill:var(--text-dim)">적합:</text>
+      <text x="130" y="332" text-anchor="middle" font-size="8" style="fill:var(--text)">빠른 시장</text>
+      <text x="130" y="344" text-anchor="middle" font-size="8" style="fill:var(--text)">트렌드 확인</text>
+      <text x="260" y="332" text-anchor="middle" font-size="8" style="fill:var(--text)">일반적인 시장</text>
+      <text x="260" y="344" text-anchor="middle" font-size="8" style="fill:var(--text)">분석 프로젝트</text>
+      <text x="410" y="332" text-anchor="middle" font-size="8" style="fill:var(--text)">다각적 전략</text>
+      <text x="410" y="344" text-anchor="middle" font-size="8" style="fill:var(--text)">수립, 대규모</text>
+      <text x="560" y="332" text-anchor="middle" font-size="8" style="fill:var(--text)">특정 기술</text>
+      <text x="560" y="344" text-anchor="middle" font-size="8" style="fill:var(--text)">또는 산업 집중</text>
+
+      <!-- 난이도 표시 -->
+      <text x="32" y="368" font-size="9" style="fill:var(--text-dim)">난이도:</text>
+      <rect x="100" y="356" width="60" height="18" rx="4" fill="var(--badge-green-bg)" stroke="var(--badge-green-border)" stroke-width="1"/>
+      <text x="130" y="369" text-anchor="middle" font-size="8" style="fill:var(--badge-green-fg)">초급 추천</text>
+      <rect x="230" y="356" width="60" height="18" rx="4" fill="var(--badge-blue-bg)" stroke="var(--badge-blue-border)" stroke-width="1"/>
+      <text x="260" y="369" text-anchor="middle" font-size="8" style="fill:var(--badge-blue-fg)">중급</text>
+      <rect x="380" y="356" width="60" height="18" rx="4" fill="var(--badge-red-bg)" stroke="var(--badge-red-border)" stroke-width="1"/>
+      <text x="410" y="369" text-anchor="middle" font-size="8" style="fill:var(--badge-red-fg)">고급</text>
+      <rect x="530" y="356" width="60" height="18" rx="4" fill="var(--badge-amber-bg)" stroke="var(--badge-amber-border)" stroke-width="1"/>
+      <text x="560" y="369" text-anchor="middle" font-size="8" style="fill:var(--badge-amber-fg)">중급</text>
+    </svg>
+  </div>
+
+  <div class="note">
+    <strong>초보자는 Quick Assessment나 Standard 패턴을 추천합니다.</strong> Quick Assessment는 1-2일 안에 결과를 볼 수 있어 co-consult의 동작 방식을 이해하는 데 좋습니다. Standard 패턴으로 진행하면서 점차 복잡한 프로젝트에 도전해보세요.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: 실습: 간단한 시장 분석                             -->
+  <!-- ============================================================ -->
+  <h2 id="practice">실습: 간단한 시장 분석</h2>
+
+  <p>이 실습에서는 co-consult를 사용하여 간단한 시장 분석 프로젝트를 수행해봅니다. Quick Assessment 패턴으로 진행하며, 한국 카페 시장의 주요 트렌드를 분석하는 것을 목표로 합니다.</p>
+
+  <h3>실습 목표</h3>
+
+  <ul>
+    <li>co-consult 저장소를 클론하고 프로젝트를 설정합니다</li>
+    <li>Claude Desktop App에서 PM 에이전트에게 요청을 보냅니다</li>
+    <li>7-Phase 워크플로우의 진행 과정을 관찰합니다</li>
+    <li>Gate 승인 과정을 경험합니다</li>
+    <li>최종 산출물을 확인합니다</li>
+  </ul>
+
+  <h3>사전 준비</h3>
+
+  <p>3장에서 설치한 도구가 정상 동작하는지 확인하세요.</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Claude Desktop App</strong> — Claude AI 대화가 가능한 상태여야 합니다</li>
+      <li><strong>Git</strong> — 저장소를 클론할 수 있어야 합니다</li>
+      <li><strong>텍스트 편집기</strong> — VS Code 등 산출물을 열어볼 수 있는 편집기</li>
+    </ol>
+  </div>
+
+  <h3>실습 단계</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>co-consult 저장소 클론</strong><br>
+        터미널을 열고 다음 명령을 실행합니다.
+        <div class="prompt-box">
+          <code>git clone https://github.com/5throck/co-consult.git</code><br>
+          <code>cd co-consult</code>
+        </div>
+        저장소가 클론되면 <code>co-consult/</code> 디렉토리로 이동합니다.
+      </li>
+      <li>
+        <strong>Claude Desktop App에서 프로젝트 열기</strong><br>
+        Claude Desktop App을 실행하고, <code>co-consult/</code> 폴더를 프로젝트로 엽니다. Claude에게 다음과 같이 말하여 PM을 시작합니다.
+        <div class="prompt-box">
+          <code>"새 프로젝트를 시작할게요."</code>
+        </div>
+        PM이 Stage 0(프로젝트 시작) 단계로 진입하여 주제, 범위, 일정을 물어봅니다.
+      </li>
+      <li>
+        <strong>PM에게 요청하기</strong><br>
+        PM의 질문에 답하며 프로젝트를 설정합니다. 다음과 같이 응답해보세요.
+        <div class="prompt-box">
+          <code>"한국 카페 시장의 주요 트렌드를 분석해줘. 프랜치아이즈 카페와 독립 카페의 비교를 중점적으로. 빠른 평가(Quick Assessment)로 부탁해."</code>
+        </div>
+        PM이 요청을 분석하고, Quick Assessment 패턴에 맞는 에이전트 구성을 안내합니다.
+      </li>
+      <li>
+        <strong>Phase 진행 관찰</strong><br>
+        PM이 자동으로 에이전트를 디스패치합니다. 화면에서 다음과 같은 과정을 관찰할 수 있습니다.
+        <ul>
+          <li><strong>Phase 1:</strong> research 에이전트가 "한국 카페 시장 트렌드"를 검색하며 <code>research_notes.md</code>를 작성합니다</li>
+          <li><strong>Phase 2-3:</strong> market-analyst 에이전트가 시장 데이터를 분석하고, strategy 에이전트가 핵심 인사이트를 도출합니다</li>
+          <li><strong>Phase 4:</strong> html-build 에이전트가 분석 결과를 보고서 HTML로 변환합니다</li>
+          <li><strong>Phase 5:</strong> auditor 에이전트가 보고서 품질을 검토합니다</li>
+        </ul>
+        각 Phase가 완료될 때마다 PM이 진행 상황을 알려줍니다. 이때 <code>project_state.json</code> 파일이 자동으로 업데이트됩니다.
+      </li>
+      <li>
+        <strong>Gate 승인하기</strong><br>
+        워크플로우 중 두 번의 Gate에서 PM이 승인을 요청합니다.
+        <ul>
+          <li><strong>Gate 2 (Phase 2-3 완료 후):</strong> 분석 방향과 인사이트가 적절한지 확인합니다. 수정이 필요하면 이 시점에서 방향을 조정합니다.</li>
+          <li><strong>Gate 5 (Phase 5 완료 후):</strong> 최종 보고서의 품질을 확인하고 PDF 출력을 승인합니다.</li>
+        </ul>
+        Gate에서는 다음과 같이 응답하면 됩니다.
+        <div class="prompt-box">
+          <code>"분석 내용 확인했습니다. 다음 단계로 진행해줘."</code>
+        </div>
+        또는 수정이 필요하면 구체적으로 알려주세요.
+        <div class="prompt-box">
+          <code>"경쟁사 분석 부분에 배민의 배달 카페 데이터도 추가해줘."</code>
+        </div>
+      </li>
+      <li>
+        <strong>산출물 확인</strong><br>
+        모든 Phase가 완료되면 <code>deliverables/reports/</code> 폴더에서 산출물을 확인할 수 있습니다. 구체적인 확인 방법은 다음 섹션에서 설명합니다.
+      </li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>실습 중 오류가 발생하면 3장의 문제 해결 섹션을 참조하세요.</strong> Claude Desktop App의 응답이 없거나, 에이전트 디스패치 오류가 발생하면 Claude를 재시작하거나 프로젝트 폴더를 다시 열어보세요.
+  </div>
+
+  <div class="warn">
+    <strong>주의:</strong> co-consult의 에이전트들은 Claude API를 통해 동작합니다. 실습 중 Claude의 응답 속도가 느려지거나 시간 초과가 발생할 수 있습니다. 복잡한 분석은 시간이 더 오래 걸릴 수 있으며, 이는 정상적인 동작입니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: 산출물 확인                                        -->
+  <!-- ============================================================ -->
+  <h2 id="outputs">산출물 확인</h2>
+
+  <p>co-consult 프로젝트가 완료되면 여러 가지 산출물이 생성됩니다. 이 섹션에서는 각 산출물의 위치와 확인 방법을 설명합니다.</p>
+
+  <h3>산출물 위치</h3>
+
+  <p>모든 산출물은 <code>deliverables/reports/</code> 디렉토리에 저장됩니다. 프로젝트 루트에서 다음 경로로 접근할 수 있습니다.</p>
+
+  <div class="prompt-box">
+    <code>co-consult/deliverables/reports/</code>
+  </div>
+
+  <h3>주요 산출물</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>파일</th>
+        <th>설명</th>
+        <th>생성 Phase</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>research_notes.md</code></td>
+        <td>웹 검색으로 수집한 자료, 통계, 출처의 정리</td>
+        <td>Phase 1</td>
+      </tr>
+      <tr>
+        <td><code>source-verification.md</code></td>
+        <td>출처 신뢰성 검증 결과와 Trust Score (선택적)</td>
+        <td>Phase 1.5</td>
+      </tr>
+      <tr>
+        <td><code>storyline.md</code></td>
+        <td>보고서의 전체 구조와 섹션별 내러티브 설계</td>
+        <td>Phase 2-3</td>
+      </tr>
+      <tr>
+        <td><code>analysis_*.md</code></td>
+        <td>분석 전문가들의 개별 분석 결과</td>
+        <td>Phase 2-3</td>
+      </tr>
+      <tr>
+        <td><code>report.html</code></td>
+        <td>HTML 형식의 최종 분석 보고서</td>
+        <td>Phase 4</td>
+      </tr>
+      <tr>
+        <td><code>report.pdf</code></td>
+        <td>PDF 형식의 최종 분석 보고서</td>
+        <td>Phase 6</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>산출물 확인 방법</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>프로젝트 폴더 열기</strong><br>
+        터미널에서 <code>co-consult/deliverables/reports/</code> 디렉토리로 이동합니다.
+        <div class="prompt-box">
+          <code>cd co-consult/deliverables/reports/</code><br>
+          <code>ls</code>
+        </div>
+      </li>
+      <li>
+        <strong>research_notes.md 확인</strong><br>
+        리서치 결과를 확인합니다. 수집된 출처, 핵심 데이터, 참고 링크가 포함되어 있습니다.
+        <div class="prompt-box">
+          <code>cat research_notes.md</code>
+        </div>
+        또는 VS Code에서 열어보세요.
+      </li>
+      <li>
+        <strong>보고서 HTML 확인</strong><br>
+        <code>report.html</code> 파일을 브라우저에서 열어 완성된 보고서를 확인합니다. 차트, 표, 다이어그램이 포함된 인터랙티브한 형태입니다.
+        <div class="prompt-box">
+          <code>open report.html</code>
+        </div>
+      </li>
+      <li>
+        <strong>PDF 확인</strong><br>
+        <code>report.pdf</code> 파일을 열어 인쇄용 보고서를 확인합니다. 공유나 보관에 적합한 형식입니다.
+      </li>
+      <li>
+        <strong>project_state.json 확인</strong><br>
+        프로젝트의 전체 진행 상태를 확인할 수 있습니다. 각 Phase의 완료 여부와 Gate 승인 상태가 기록되어 있습니다.
+        <div class="prompt-box">
+          <code>cat project_state.json</code>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <h3>파일 구조 요약</h3>
+
+  <div class="flow-box">
+    <div class="code-block">
+<pre><code>co-consult/
+├── agents/                    # 에이전트 정의 파일
+│   ├── pm.md
+│   ├── research.md
+│   ├── market-analyst.md
+│   ├── strategy.md
+│   └── ...
+├── deliverables/
+│   └── reports/
+│       ├── research_notes.md   # Phase 1 산출물
+│       ├── storyline.md        # Phase 2-3 산출물
+│       ├── report.html         # Phase 4 산출물
+│       └── report.pdf          # Phase 6 산출물
+├── project_state.json          # 프로젝트 진행 상태
+├── consult-profile.md          # 프로젝트 설정
+└── memory/                     # 세션 기록
+    └── YYYY-MM-DD.md</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+  </div>
+
+  <div class="note">
+    산출물은 Claude Desktop App의 Artifacts에서도 확인할 수 있습니다. Claude가 생성한 파일이나 다이어그램은 대화 화면에서 직접 미리보기 가능합니다. 또한 <code>project_state.json</code>을 통해 현재 프로젝트가 어느 Phase에 있는지 실시간으로 확인할 수 있습니다.
+  </div>
+
+  <div class="tip-box">
+    <strong>산출물을 활용하는 방법:</strong> 완성된 보고서는 팀원들과 공유하거나, 프레젠테이션의 자료로 활용할 수 있습니다. co-deck(7장)과 함께 사용하면 분석 보고서를 기반으로 한 프레젠테이션을 만들 수 있습니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER NAVIGATION                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch05/05_Workspace_Standards.html" class="prev">
+      <div class="dir">← 이전 장</div>
+      <div class="ttl">5장 · ai-workspace-standards 살펴보기</div>
+    </a>
+    <a href="../ch07/07_Co_Deck_Practice.html" class="next" style="margin-left:auto;">
+      <div class="dir">다음 장 →</div>
+      <div class="ttl">7장 · co-deck: AI 프레젠테이션 실습</div>
+    </a>
+  </div>
+  <footer>
+    Claude Desktop App / ai-workspace-standards 기반 입문 핸드북<br>
+    참고: <a href="https://claude.ai" target="_blank">Claude</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    본 핸드북의 콘텐츠는 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> 라이선스에 따라 이용할 수 있습니다.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script>
+function copyCode(btn) {
+  const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = '완료!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+</script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

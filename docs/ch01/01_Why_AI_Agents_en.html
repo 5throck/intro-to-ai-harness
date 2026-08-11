@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Ch 1 · Why AI Agent Teams? - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 1 · Why AI Agent Teams?</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+
+<nav>
+  <a href="../index_en.html" class="nav-home">&larr; Handbook Home</a>
+  <div class="nav-title">Ch 1 &middot; Why AI Agent Teams?</div>
+  <a href="#ai-trends">Rapid AI Evolution</a>
+  <a href="#single-vs-multi">Single AI vs. Agent Teams</a>
+  <a href="#what-is-harness">What is a Harness?</a>
+  <a href="#expected-benefits">Expected Benefits</a>
+  <a href="#handbook-roadmap">Handbook Roadmap</a>
+  <div class="nav-section">Other Chapters</div>
+  <a href="../ch02/02_Claude_Desktop_App_en.html">Ch 2 &middot; Getting Started with Claude Desktop App</a>
+  <a href="../ch04/04_Harness_Concepts_en.html">Ch 4 &middot; Multi-Agent Harness Concepts</a>
+</nav>
+
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">Chapter 1</div>
+  <h1>Why AI Agent Teams?</h1>
+  <p class="lead">AI is transforming our daily work. But a single AI struggles with complex problems. What happens when multiple AI agents collaborate, each with its own specialty? This chapter explores why agent teams are needed and what a "harness" is.</p>
+
+  <div class="keypoints">
+    <div class="kp-title">What This Chapter Covers</div>
+    <ul>
+      <li>Recent AI development trends and workplace adoption</li>
+      <li>Differences between a single AI and multi-agent teams</li>
+      <li>The concept and role of a Harness</li>
+      <li>Expected benefits of using agent teams</li>
+      <li>Overall roadmap of this handbook</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================
+       Section 1: Rapid AI Evolution
+       ============================================================ -->
+  <h2 id="ai-trends">1. Rapid AI Evolution</h2>
+
+  <p>The years between 2023 and 2026 have been nothing short of revolutionary for artificial intelligence. When OpenAI launched <strong>ChatGPT</strong> in late 2022, it captured worldwide attention almost overnight. By 2023, major technology companies were racing to release their own large language models (LLMs). <strong>Claude</strong> by Anthropic, <strong>Gemini</strong> by Google, and <strong>Copilot</strong> by Microsoft each brought unique strengths to the table. These are not just chatbots -- they are capable of writing documents, analyzing data, generating code, and even reasoning through complex problems step by step.</p>
+
+  <p>What makes this wave different from previous AI hype cycles is <em>accessibility</em>. You no longer need a PhD in machine learning to benefit from AI. Anyone with a web browser or a desktop application can type a question in plain language and receive a detailed, well-structured answer. This has dramatically lowered the barrier to entry for professionals in every industry.</p>
+
+  <h3>AI in the Workplace</h3>
+
+  <p>Across virtually every industry, AI tools are reshaping how people work. Here are some of the most visible changes:</p>
+
+  <ul>
+    <li><strong>Document writing and editing</strong> -- AI can draft emails, reports, proposals, and meeting summaries in seconds, then refine tone and structure based on your feedback.</li>
+    <li><strong>Software development</strong> -- AI assistants like Claude Code and GitHub Copilot can write, review, and debug code, reducing the time developers spend on repetitive tasks by up to 40%.</li>
+    <li><strong>Data analysis</strong> -- AI can process spreadsheets, identify trends, generate charts, and produce executive summaries that would take hours to compile manually.</li>
+    <li><strong>Presentations and visuals</strong> -- Tools powered by AI can generate slide decks, diagrams, and infographics from a simple text description.</li>
+    <li><strong>Research and fact-gathering</strong> -- AI agents can search the web, cross-reference sources, and compile research notes on virtually any topic.</li>
+  </ul>
+
+  <p>The common thread across all these use cases is a dramatic reduction in time spent on routine tasks, freeing professionals to focus on higher-level thinking, creative decisions, and strategic planning.</p>
+
+  <div class="tip-box">
+    AI tools can be used even without coding knowledge. Most modern AI assistants understand natural language instructions. You simply describe what you need in everyday English (or Korean, Japanese, and many other languages), and the AI does the rest. This handbook is designed with that principle in mind -- you do not need to be a programmer to follow along.
+  </div>
+
+  <h3>Why Learn AI Agent Teams Now?</h3>
+
+  <p>The transition from using a single AI chatbot to orchestrating a <em>team</em> of AI agents is already underway. Early adopters -- consultants, researchers, educators, and product teams -- are discovering that multi-agent workflows can produce results that are faster, more thorough, and more reliable than what any single AI can deliver. Learning these patterns now puts you ahead of the curve as the technology matures.</p>
+
+  <p>Think of it this way: ten years ago, knowing how to use a search engine was a competitive advantage. Today it is a baseline skill. In the same way, understanding how to coordinate multiple AI agents will soon become a baseline expectation for knowledge workers. This handbook gives you that skill, starting from zero.</p>
+
+  <!-- ============================================================
+       Section 2: Single AI vs. Agent Teams
+       ============================================================ -->
+  <h2 id="single-vs-multi">2. Single AI vs. Agent Teams</h2>
+
+  <p>Most people interact with AI one conversation at a time. You open Claude, type a question, and get an answer. This is the <strong>single AI</strong> model. It works well for straightforward tasks, but it has real limitations when problems become complex, multi-step, or require different kinds of expertise.</p>
+
+  <p>A <strong>multi-agent team</strong> takes a fundamentally different approach. Instead of one AI doing everything, multiple specialized AI agents work together, each focusing on what it does best. A <em>Project Manager agent</em> breaks the problem down and assigns tasks. A <em>Research agent</em> gathers information. A <em>Design agent</em> handles visual decisions. A <em>Coding agent</em> writes code. Each agent hands off its work to the next, and a quality review checks the final result.</p>
+
+  <p>The diagram below illustrates the difference at a glance:</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram comparing Single AI vs Agent Team approach">
+      <!-- Single AI side -->
+      <text x="160" y="28" text-anchor="middle" style="color:var(--text-dim);font-size:13px;font-weight:600;">Single AI</text>
+      <rect x="50" y="48" width="220" height="80" rx="12" fill="var(--bg-info)" stroke="var(--border)" stroke-width="1.5"/>
+      <text x="160" y="85" text-anchor="middle" style="color:var(--text);font-size:14px;font-weight:600;">One AI</text>
+      <text x="160" y="105" text-anchor="middle" style="color:var(--text-dim);font-size:12px;">Handles everything</text>
+      <!-- Arrow down to output -->
+      <line x1="160" y1="128" x2="160" y2="168" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSingle)"/>
+      <rect x="50" y="172" width="220" height="50" rx="10" fill="var(--bg3)" stroke="var(--border)" stroke-width="1"/>
+      <text x="160" y="202" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Output</text>
+
+      <!-- Divider -->
+      <line x1="340" y1="18" x2="340" y2="320" stroke="var(--border)" stroke-width="1" stroke-dasharray="6,4"/>
+
+      <!-- Agent Team side -->
+      <text x="520" y="28" text-anchor="middle" style="color:var(--text-dim);font-size:13px;font-weight:600;">Agent Team</text>
+
+      <!-- PM Orchestrator -->
+      <rect x="430" y="48" width="180" height="46" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="520" y="76" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:700;">PM Orchestrator</text>
+
+      <!-- Arrow from PM to specialists -->
+      <line x1="520" y1="94" x2="520" y2="118" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowTeam)"/>
+
+      <!-- Three specialist boxes -->
+      <rect x="390" y="122" width="100" height="44" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="440" y="149" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:600;">Research</text>
+
+      <rect x="500" y="122" width="100" height="44" rx="8" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="550" y="149" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:600;">Design</text>
+
+      <rect x="610" y="122" width="56" height="44" rx="8" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="638" y="142" text-anchor="middle" style="color:var(--text);font-size:10px;font-weight:600;">Coding</text>
+      <text x="638" y="155" text-anchor="middle" style="color:var(--text);font-size:10px;font-weight:600;">Specialist</text>
+
+      <!-- Arrows from specialists converge to output -->
+      <line x1="440" y1="166" x2="440" y2="196" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <line x1="550" y1="166" x2="550" y2="196" stroke="var(--accent-purple)" stroke-width="1.2"/>
+      <line x1="638" y1="166" x2="638" y2="196" stroke="var(--accent-amber)" stroke-width="1.2"/>
+      <!-- Converge lines -->
+      <line x1="440" y1="196" x2="520" y2="218" stroke="var(--border)" stroke-width="1.2"/>
+      <line x1="550" y1="196" x2="520" y2="218" stroke="var(--border)" stroke-width="1.2"/>
+      <line x1="638" y1="196" x2="520" y2="218" stroke="var(--border)" stroke-width="1.2" marker-end="url(#arrowTeam)"/>
+
+      <rect x="430" y="222" width="180" height="50" rx="10" fill="var(--bg3)" stroke="var(--border)" stroke-width="1"/>
+      <text x="520" y="252" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Output</text>
+
+      <!-- Annotation -->
+      <text x="520" y="310" text-anchor="middle" style="color:var(--text-dim);font-size:11px;font-style:italic;">Each specialist focuses on its strength</text>
+
+      <!-- Arrow markers -->
+      <defs>
+        <marker id="arrowSingle" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowTeam" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>Limitations of a Single AI</h3>
+
+  <p>Working with a single AI is perfectly fine for quick questions or simple tasks. However, as the complexity of your task grows, several structural limitations become apparent:</p>
+
+  <ul>
+    <li><strong>Context window limits</strong> -- Every AI has a maximum amount of information it can hold in a single conversation (called a <em>context window</em>). When you ask it to research a topic, design a solution, write code, and review the result all in one go, the AI may "forget" earlier parts of the conversation or produce lower-quality output as the context fills up.</li>
+    <li><strong>Lack of deep specialization</strong> -- A single AI is a generalist. It knows a little about a lot of topics. But for tasks that require deep expertise -- such as following a company's brand guidelines precisely, writing production-quality code, or applying domain-specific research methods -- a generalist often falls short of what a specialist can deliver.</li>
+    <li><strong>No parallel processing</strong> -- A single AI works sequentially. If you need research <em>and</em> design <em>and</em> coding, the AI must handle each step one at a time. With an agent team, the research and design agents can work in parallel, cutting total time dramatically.</li>
+    <li><strong>No built-in quality control</strong> -- A single AI checks its own work, which means it can miss errors that a second, independent reviewer would catch. Agent teams naturally support separation between the worker and the reviewer.</li>
+  </ul>
+
+  <h3>Advantages of Agent Teams</h3>
+
+  <p>Multi-agent teams address every one of those limitations. The comparison below summarizes the key differences:</p>
+
+  <div class="compare-grid">
+    <div class="compare-col">
+      <h4>Single AI</h4>
+      <ul>
+        <li>One model handles all tasks</li>
+        <li>Sequential -- one step after another</li>
+        <li>Limited context window per conversation</li>
+        <li>Generalist output (good, not expert)</li>
+        <li>No independent quality review</li>
+        <li>Best for simple, quick tasks</li>
+      </ul>
+    </div>
+    <div class="compare-col">
+      <h4>Agent Team</h4>
+      <ul>
+        <li>Role division -- each agent specializes</li>
+        <li>Parallel processing where possible</li>
+        <li>Each agent gets its own focused context</li>
+        <li>Expert-level output per domain</li>
+        <li>Built-in review and quality gates</li>
+        <li>Ideal for complex, multi-step projects</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>The trade-off is that agent teams require more setup: you need a system that defines each agent's role, sets the rules for handoffs between agents, and enforces quality checkpoints. That system is what we call a <strong>harness</strong>, and it is the subject of the next section.</p>
+
+  <!-- ============================================================
+       Section 3: What is a Harness?
+       ============================================================ -->
+  <h2 id="what-is-harness">3. What is a Harness?</h2>
+
+  <p>In the context of AI agent teams, a <strong>harness</strong> is a system that controls and coordinates multiple AI agents so they can work together efficiently. It defines who does what, in what order, and how the results are passed from one agent to the next. Without a harness, you would have to manually copy-paste output from one AI conversation into another -- tedious, error-prone, and impossible to scale.</p>
+
+  <div class="note">
+    A harness is like a "rulebook" that tells AI agents "what to do" and "how to cooperate." Just as a project manager gives each team member a clear brief, a harness gives each AI agent a clear role, a defined input, and a defined output.
+  </div>
+
+  <h3>The Real-World Analogy</h3>
+
+  <p>The word "harness" comes from the equipment used to hitch horses to a carriage. A single horse can pull a small cart, but if you need to move a heavy load, you need multiple horses working together. The <em>harness</em> is the system of reins, straps, and fittings that distributes the workload, keeps all the horses moving in the same direction, and allows the driver to steer the whole team.</p>
+
+  <p>Multi-agent AI works the same way. Each AI agent is like a horse with a specific strength -- one is fast at research, another excels at design, a third writes clean code. The harness connects them, directs them, and ensures the final output is exactly what you need.</p>
+
+  <h3>How a Harness Works: The Flow</h3>
+
+  <p>The diagram below shows the basic flow of a multi-agent harness in action:</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing User to PM Agent to Specialist Agents to Output flow">
+      <!-- User -->
+      <rect x="20" y="90" width="80" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="60" y="120" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:700;">User</text>
+
+      <!-- Arrow: User -> PM -->
+      <line x1="100" y1="115" x2="148" y2="115" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowH)"/>
+      <text x="124" y="108" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">topic</text>
+
+      <!-- PM Agent -->
+      <rect x="150" y="80" width="120" height="70" rx="12" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="210" y="112" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:700;">PM Agent</text>
+      <text x="210" y="130" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">Orchestrator</text>
+
+      <!-- Arrow: PM -> Specialist A -->
+      <line x1="270" y1="100" x2="340" y2="55" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+      <!-- Arrow: PM -> Specialist B -->
+      <line x1="270" y1="115" x2="340" y2="115" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+      <!-- Arrow: PM -> Specialist C -->
+      <line x1="270" y1="130" x2="340" y2="175" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowAmber)"/>
+
+      <!-- Specialist A -->
+      <rect x="342" y="30" width="120" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="402" y="60" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Specialist A</text>
+
+      <!-- Specialist B -->
+      <rect x="342" y="90" width="120" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="402" y="120" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Specialist B</text>
+
+      <!-- Specialist C -->
+      <rect x="342" y="150" width="120" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="402" y="180" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Specialist C</text>
+
+      <!-- Arrows from specialists to output -->
+      <line x1="462" y1="55" x2="540" y2="95" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <line x1="462" y1="115" x2="540" y2="115" stroke="var(--accent-purple)" stroke-width="1.2"/>
+      <line x1="462" y1="175" x2="540" y2="135" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowH)"/>
+
+      <!-- Output -->
+      <rect x="542" y="85" width="130" height="60" rx="12" fill="var(--bg3)" stroke="var(--border)" stroke-width="1.5"/>
+      <text x="607" y="120" text-anchor="middle" style="color:var(--text);font-size:14px;font-weight:700;">Output</text>
+
+      <!-- Labels -->
+      <text x="607" y="175" text-anchor="middle" style="color:var(--text-dim);font-size:10px;font-style:italic;">Research + Design + Code = Complete deliverable</text>
+
+      <!-- Arrow markers -->
+      <defs>
+        <marker id="arrowH" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-green)"/>
+        </marker>
+        <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-purple)"/>
+        </marker>
+        <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-amber)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>Three Core Functions of a Harness</h3>
+
+  <p>A well-designed harness provides three essential capabilities that transform a collection of individual AI agents into a coherent, reliable production system:</p>
+
+  <div class="step-list">
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Orchestration</div>
+        <p>The harness determines which agent runs, in what order, and with what inputs. Think of it as the conductor of an orchestra -- it does not play any instrument itself, but it makes sure every musician performs at the right time and in the right sequence. The orchestrator agent (often called the PM Agent) receives the user's request, decomposes it into tasks, and dispatches each task to the appropriate specialist.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Handoff Contracts</div>
+        <p>When one agent finishes its work, the harness defines exactly how that output is passed to the next agent. This is called a <em>handoff contract</em>. It specifies the file format, the data structure, and any validation rules that must be met before the next agent can begin. Without handoff contracts, agents would receive data in unpredictable formats and produce inconsistent results.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Quality Control</div>
+        <p>The harness includes checkpoints (called <em>gates</em>) where work is reviewed before the process continues. For example, after the research agent produces its findings, a gate might verify that all sources are accessible and trustworthy. After the design agent creates a visual spec, another gate checks that colors and fonts are consistent. This systematic review catches errors early, before they propagate to later stages.</p>
+      </div>
+    </div>
+  </div>
+
+  <p>Together, these three functions turn ad-hoc AI usage into a <strong>repeatable, scalable workflow</strong> -- one that you can reuse across projects with confidence in the output quality.</p>
+
+  <!-- ============================================================
+       Section 4: Expected Benefits
+       ============================================================ -->
+  <h2 id="expected-benefits">4. Expected Benefits</h2>
+
+  <p>Using a multi-agent harness is not just a theoretical improvement. It delivers concrete, measurable benefits that change how teams and individuals approach their work. Let us walk through the three most significant advantages.</p>
+
+  <h3>Time Savings</h3>
+
+  <p>The most immediate benefit is speed. When tasks that used to require hours of manual effort are handled by specialized agents working in parallel, the time savings can be dramatic.</p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-num">8 hrs</div>
+      <div class="stat-label">Manual market research report<br>(search, compile, write, format)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">45 min</div>
+      <div class="stat-label">Same report with agent team<br>(research + writing + review)</div>
+    </div>
+  </div>
+
+  <p>The reason is straightforward: agents can work on different parts of the task simultaneously, and each agent operates much faster than a human on the subtask it specializes in. The orchestrator handles the logistics of combining their outputs, which takes a fraction of the time a human project manager would spend on coordination.</p>
+
+  <h3>Quality Improvement</h3>
+
+  <p>Specialization is not just about speed -- it is also about quality. When a single AI tries to do everything, it produces "good enough" output across the board. When a specialist AI focuses on one domain, it produces <em>expert-level</em> output in that domain. The quality gates in the harness add another layer of assurance by catching mistakes before they reach you.</p>
+
+  <p>For example, a research specialist can be given specific instructions on how to evaluate source credibility. A design specialist can be constrained to use only colors from your company's brand palette. A code specialist can be instructed to follow your team's coding standards. Each constraint would be too detailed to include in a single AI prompt, but becomes natural and effective when each specialist has its own focused instructions.</p>
+
+  <h3>Reusability</h3>
+
+  <p>Perhaps the most underrated benefit is reusability. Once you have built an agent team for one type of project -- say, creating presentation decks -- you can reuse that same team for the next presentation with only minor adjustments. The harness, the agent definitions, and the quality gates are all <em>portable</em>. You invest once, and benefit across many projects.</p>
+
+  <p>This is analogous to creating a template. The first time you set up a harness, there is a learning curve. But the second, third, and tenth times, you simply provide the new topic and let the agent team handle the rest. Over time, the cumulative time savings become enormous.</p>
+
+  <div class="flow-box">
+    <strong>End-to-End Agent Workflow:</strong> You provide a topic input &rarr; the PM Agent breaks it down &rarr; specialist agents activate in parallel &rarr; each agent produces its deliverable &rarr; quality gates validate each stage &rarr; final output is assembled and delivered. The entire process runs automatically once you press start.
+  </div>
+
+  <!-- ============================================================
+       Section 5: Handbook Roadmap
+       ============================================================ -->
+  <h2 id="handbook-roadmap">5. Handbook Roadmap</h2>
+
+  <p>This handbook is organized into four progressive parts, each building on the one before. By the end, you will have gone from understanding the basic concepts to creating and running your own multi-agent harness.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Roadmap diagram showing four parts of the handbook">
+      <!-- Part 1 -->
+      <rect x="20" y="60" width="145" height="90" rx="12" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="92" y="92" text-anchor="middle" style="color:var(--accent-green);font-size:12px;font-weight:700;">PART 1</text>
+      <text x="92" y="112" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Fundamentals</text>
+      <text x="92" y="130" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">Ch 1 &ndash; 5</text>
+
+      <!-- Arrow 1->2 -->
+      <line x1="165" y1="105" x2="195" y2="105" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowR)"/>
+
+      <!-- Part 2 -->
+      <rect x="197" y="60" width="145" height="90" rx="12" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="270" y="92" text-anchor="middle" style="color:var(--accent);font-size:12px;font-weight:700;">PART 2</text>
+      <text x="270" y="112" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Practice</text>
+      <text x="270" y="130" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">Ch 6 &ndash; 8</text>
+
+      <!-- Arrow 2->3 -->
+      <line x1="342" y1="105" x2="372" y2="105" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowR)"/>
+
+      <!-- Part 3 -->
+      <rect x="374" y="60" width="145" height="90" rx="12" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="446" y="92" text-anchor="middle" style="color:var(--accent-purple);font-size:12px;font-weight:700;">PART 3</text>
+      <text x="446" y="112" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Creation</text>
+      <text x="446" y="130" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">Ch 9 &ndash; 11</text>
+
+      <!-- Arrow 3->4 -->
+      <line x1="519" y1="105" x2="549" y2="105" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowR)"/>
+
+      <!-- Part 4 -->
+      <rect x="551" y="60" width="130" height="90" rx="12" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="616" y="92" text-anchor="middle" style="color:var(--accent-amber);font-size:12px;font-weight:700;">PART 4</text>
+      <text x="616" y="112" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Automation</text>
+      <text x="616" y="130" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">Ch 12 &ndash; 13</text>
+
+      <!-- Arrow marker -->
+      <defs>
+        <marker id="arrowR" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>Part 1: Fundamentals (Chapters 1 -- 5)</h3>
+  <p>This is where you are now. Part 1 covers the foundational concepts: what AI agent teams are, how to use the Claude Desktop App, the anatomy of a harness, and the key terminology you will encounter throughout the rest of the handbook. By the end of Part 1, you will have a solid mental model of how multi-agent systems work and why they matter.</p>
+
+  <h3>Part 2: Practice (Chapters 6 -- 8)</h3>
+  <p>Part 2 shifts from theory to hands-on exercises. You will run an existing multi-agent harness step by step, observe how the agents communicate, and experiment with simple modifications. These chapters are designed to build confidence through direct experience. You will see a real agent team in action and learn how to read its output.</p>
+
+  <h3>Part 3: Creation (Chapters 9 -- 11)</h3>
+  <p>In Part 3, you will build your own multi-agent harness from scratch. Starting with designing the agent roles, defining handoff contracts, and implementing quality gates, you will construct a complete workflow that produces a tangible deliverable (such as a presentation deck or research report). This is the core skill-building section of the handbook.</p>
+
+  <h3>Part 4: Automation and Wrap-Up (Chapters 12 -- 13)</h3>
+  <p>The final part focuses on taking your harness to the next level. You will learn how to automate recurring workflows, customize agent behavior for specific use cases, and integrate your harness into your daily routine. The handbook closes with a summary of best practices and a look at where AI agent technology is heading.</p>
+
+  <h3>What You Will Be Able to Do</h3>
+
+  <div class="keypoints">
+    <div class="kp-title">What You'll Be Able to Do After This Handbook</div>
+    <ul>
+      <li>Explain the difference between single-AI and multi-agent approaches to colleagues</li>
+      <li>Install and configure Claude Desktop App for multi-agent workflows</li>
+      <li>Read and understand a harness configuration file (AGENTS.md, agent definitions)</li>
+      <li>Run an existing multi-agent harness and interpret its output</li>
+      <li>Design and build a simple multi-agent harness for your own project</li>
+      <li>Apply quality gates and handoff contracts to ensure reliable output</li>
+      <li>Reuse and customize agent teams across multiple projects</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================
+       Chapter Navigation
+       ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../index_en.html" class="prev">
+      <div class="dir">&larr; Handbook Home</div>
+      <div class="ttl">Table of Contents</div>
+    </a>
+    <a href="../ch02/02_Claude_Desktop_App_en.html" class="next" style="margin-left:auto;">
+      <div class="dir">Next Chapter &rarr;</div>
+      <div class="ttl">Ch 2 &middot; Getting Started with Claude Desktop App</div>
+    </a>
+  </div>
+
+  <footer>
+    Introductory handbook based on Claude Desktop App / ai-workspace-standards<br>
+    References: <a href="https://claude.ai" target="_blank">Claude</a> &middot;
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a>.
+  </footer>
+ </article>
+</main>
+</div>
+
+<script src="../assets/inpage-search.js" defer></script>
+<script>
+function copyCode(btn) {
+  const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = 'Done!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+</script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

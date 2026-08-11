@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Ch 5 &middot; Exploring ai-workspace-standards - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 5 &middot; Exploring ai-workspace-standards</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_en.html" class="nav-home">&larr; Handbook Home</a>
+  <div class="nav-title">Ch 5 &middot; Exploring ai-workspace-standards</div>
+  <a href="#what-is">What is ai-workspace-standards</a>
+  <a href="#directory-structure">Directory Structure</a>
+  <a href="#key-files">Key Files</a>
+  <a href="#hierarchy">3-Level Inheritance Hierarchy</a>
+  <a href="#variants">Variant Concept</a>
+  <a href="#contracts">Common Contracts</a>
+  <div class="nav-section">Other Chapters</div>
+  <a href="../ch04/04_Harness_Concepts_en.html">Ch 4 &middot; Multi-Agent Harness Concepts</a>
+  <a href="../ch06/06_Co_Consult_Practice_en.html">Ch 6 &middot; co-consult: AI Consulting in Practice</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">Chapter 5</div>
+  <h1>Exploring ai-workspace-standards</h1>
+  <p class="lead">Learn the structure and core concepts of the ai-workspace-standards repository: 3-level inheritance hierarchy (L0&rarr;L1&rarr;L2), the variant concept, key files (AGENTS.md, CLAUDE.md, GEMINI.md), and common contracts. This chapter gives you a guided tour of the workspace that underpins every multi-agent project.</p>
+  <div class="keypoints">
+    <div class="kp-title">What This Chapter Covers</div>
+    <ul>
+      <li>ai-workspace-standards repository structure</li>
+      <li>Key files: AGENTS.md, CLAUDE.md, GEMINI.md</li>
+      <li>3-level inheritance hierarchy (L0 &rarr; L1 &rarr; L2)</li>
+      <li>Variant concept</li>
+      <li>Common contracts and template inheritance</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: What is ai-workspace-standards                       -->
+  <!-- ============================================================ -->
+  <h2 id="what-is">What is ai-workspace-standards</h2>
+
+  <p>In the previous chapter we explored the conceptual building blocks of a multi-agent harness &mdash; agents, skills, the PM Gateway, and handoff contracts. Now it is time to look at the <em>actual codebase</em> that puts all those ideas into practice. That codebase is called <strong>ai-workspace-standards</strong>.</p>
+
+  <h3>Definition</h3>
+
+  <p><strong>ai-workspace-standards</strong> is an open-source GitHub repository that defines a standardized workspace structure for multi-agent AI projects. It provides a shared set of conventions, file layouts, agent definitions, skill templates, and automation scripts that any AI-assisted project can adopt. Think of it as the <em>foundational blueprint</em> that makes agent teamwork possible.</p>
+
+  <p>The repository is hosted at <a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">github.com/5throck/ai-workspace-standards</a> and is maintained as a living standard that evolves alongside AI tooling capabilities.</p>
+
+  <h3>Why Standards Matter</h3>
+
+  <p>You might wonder: why do we need a "standard" workspace at all? Can't each project just organize its files however it wants?</p>
+
+  <p>The answer comes down to <em>interoperability</em>. When multiple AI agents need to collaborate on the same project, they must all agree on where files live, what format they use, and what conventions to follow. Without a shared standard, every project would invent its own structure, and agents trained for one project could not work on another. Standards make it possible to:</p>
+
+  <ul>
+    <li><strong>Reuse agents across projects</strong> &mdash; A research agent written for one project can work on any project that follows the same layout conventions.</li>
+    <li><strong>Share skills as plugins</strong> &mdash; Skills are packaged as portable instruction sets that any workspace can load, just like browser extensions.</li>
+    <li><strong>Automate quality checks</strong> &mdash; Audit scripts can validate any workspace that follows the standard structure, catching errors before they propagate.</li>
+    <li><strong>Onboard new team members quickly</strong> &mdash; Whether human or AI, anyone joining the project immediately knows where to find what they need.</li>
+  </ul>
+
+  <h3>The Org Chart Analogy</h3>
+
+  <p>Think of ai-workspace-standards as an <strong>"org chart and employee manual template"</strong> for a company. When you start a new business, you do not invent the concept of "departments" from scratch &mdash; you adopt a standard structure (HR, Finance, Engineering, Marketing) and customize it to your needs. In the same way, ai-workspace-standards provides a proven organizational template for AI projects:</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Company Org Chart</h4>
+      <ul>
+        <li><strong>Departments</strong> &rarr; <code>agents/</code>, <code>skills/</code>, <code>scripts/</code></li>
+        <li><strong>Employee handbooks</strong> &rarr; <code>CLAUDE.md</code>, <code>GEMINI.md</code></li>
+        <li><strong>Company policies</strong> &rarr; <code>AGENTS.md</code></li>
+        <li><strong>Project files</strong> &rarr; <code>presentations/</code>, <code>docs/</code></li>
+        <li><strong>Meeting minutes</strong> &rarr; <code>memory/</code></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>ai-workspace-standards</h4>
+      <ul>
+        <li><strong>Directories</strong> give each function its own workspace</li>
+        <li><strong>Agent files</strong> define each AI's role and permissions</li>
+        <li><strong>Governance files</strong> enforce consistency across the project</li>
+        <li><strong>Output directories</strong> store the project's deliverables</li>
+        <li><strong>Session logs</strong> record every decision and change</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>co-consult and co-deck are built on top of this standard.</strong> Every variant project &mdash; whether it produces slide decks (co-deck), consulting analyses (co-consult), or something else entirely &mdash; inherits its base structure from ai-workspace-standards. The variant adds its own specialized agents, skills, and scripts on top of the common foundation, just as a franchise restaurant adds its own menu items to a standard kitchen layout.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: Directory Structure                                 -->
+  <!-- ============================================================ -->
+  <h2 id="directory-structure">Directory Structure</h2>
+
+  <p>Let us take a tour of the top-level directories in a typical ai-workspace-standards workspace. Each directory has a clear purpose, and understanding this layout is the first step to navigating any project built on the standard.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Directory tree diagram showing top-level folders in ai-workspace-standards">
+      <!-- Root node -->
+      <rect x="240" y="10" width="200" height="36" rx="8" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="340" y="33" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#fff">ai-workspace-standards/</text>
+
+      <!-- Vertical line from root -->
+      <line x1="260" y1="46" x2="260" y2="400" stroke="var(--border)" stroke-width="1.5"/>
+
+      <!-- Branch 1: agents/ -->
+      <line x1="260" y1="70" x2="310" y2="70" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="56" width="140" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="380" y="75" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">agents/</text>
+      <text x="480" y="75" font-size="10" style="fill:var(--text-dim)">Agent role definitions (*.md)</text>
+
+      <!-- Branch 2: skills/ -->
+      <line x1="260" y1="116" x2="310" y2="116" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="102" width="140" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="380" y="121" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">skills/</text>
+      <text x="480" y="121" font-size="10" style="fill:var(--text-dim)">Reusable workflow recipes (SKILL.md)</text>
+
+      <!-- Branch 3: scripts/ -->
+      <line x1="260" y1="162" x2="310" y2="162" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="148" width="140" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="380" y="167" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">scripts/</text>
+      <text x="480" y="167" font-size="10" style="fill:var(--text-dim)">Automation scripts (TypeScript)</text>
+
+      <!-- Branch 4: docs/ -->
+      <line x1="260" y1="208" x2="310" y2="208" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="194" width="140" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="380" y="213" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">docs/</text>
+      <text x="480" y="213" font-size="10" style="fill:var(--text-dim)">Context files, ADRs, guides</text>
+
+      <!-- Branch 5: templates/ -->
+      <line x1="260" y1="254" x2="310" y2="254" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="240" width="140" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="380" y="259" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">templates/</text>
+      <text x="480" y="259" font-size="10" style="fill:var(--text-dim)">Common template (L1 base)</text>
+
+      <!-- Branch 6: presentations/ -->
+      <line x1="260" y1="300" x2="310" y2="300" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="286" width="180" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="400" y="305" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">presentations/</text>
+      <text x="520" y="305" font-size="10" style="fill:var(--text-dim)">Project workspaces</text>
+
+      <!-- Branch 7: memory/ -->
+      <line x1="260" y1="346" x2="310" y2="346" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="332" width="140" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="380" y="351" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">memory/</text>
+      <text x="480" y="351" font-size="10" style="fill:var(--text-dim)">Session logs, meeting notes</text>
+
+      <!-- Branch 8: config files -->
+      <line x1="260" y1="392" x2="310" y2="392" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="378" width="140" height="28" rx="6" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="380" y="397" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Config files</text>
+      <text x="480" y="397" font-size="10" style="fill:var(--text-dim)">CLAUDE.md, GEMINI.md, AGENTS.md</text>
+
+      <!-- Horizontal connector dots -->
+      <circle cx="260" cy="70" r="3" fill="var(--accent-green)"/>
+      <circle cx="260" cy="116" r="3" fill="var(--accent)"/>
+      <circle cx="260" cy="162" r="3" fill="var(--accent-amber)"/>
+      <circle cx="260" cy="208" r="3" fill="var(--accent-purple)"/>
+      <circle cx="260" cy="254" r="3" fill="var(--accent)"/>
+      <circle cx="260" cy="300" r="3" fill="var(--accent-green)"/>
+      <circle cx="260" cy="346" r="3" fill="var(--accent-amber)"/>
+      <circle cx="260" cy="392" r="3" fill="var(--accent-purple)"/>
+    </svg>
+  </div>
+
+  <h3>Directory Overview</h3>
+
+  <p>Here is a brief description of each directory and what it contains.</p>
+
+  <ul>
+    <li><strong><code>agents/</code></strong> &mdash; Contains one markdown file per agent (for example, <code>research.md</code>, <code>design.md</code>, <code>pm.md</code>). Each file defines the agent's role, tier, phases, triggers, tool permissions, and detailed instructions. This is where the "employee profiles" live.</li>
+    <li><strong><code>skills/</code></strong> &mdash; Contains subdirectories, each with a <code>SKILL.md</code> file that defines a reusable workflow recipe. Skills can be loaded by any agent that needs them. Think of this as the company recipe book collection.</li>
+    <li><strong><code>scripts/</code></strong> &mdash; Automation scripts written in TypeScript (executed via <code>bun</code>). Includes audit tools, sync pipelines, validation checks, and other utilities that keep the workspace healthy.</li>
+    <li><strong><code>docs/</code></strong> &mdash; Documentation and context files. Includes <code>context.md</code> (the project's identity card), Architecture Decision Records (ADRs), user guides, and design specifications.</li>
+    <li><strong><code>templates/</code></strong> &mdash; The common template that serves as the L1 base layer (see the hierarchy section below). Contains shared agent definitions, skill templates, and configuration that all variant projects inherit.</li>
+    <li><strong><code>presentations/</code></strong> &mdash; In variant projects like co-deck, this is where individual project workspaces live. Each presentation gets its own subdirectory (for example, <code>presentations/climate-change/</code>) containing its lecture profile, research notes, slide deck, and output files.</li>
+    <li><strong><code>memory/</code></strong> &mdash; Session logs, meeting transcripts, and daily development notes. Every AI session writes a summary here, creating an audit trail of decisions and changes.</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>Tip:</strong> The <code>agents/</code> and <code>skills/</code> directories are the heart of the workspace. When you want to understand how a project works, start by reading the agent files in <code>agents/</code> &mdash; they tell you exactly what each AI does, when it is activated, and what it produces.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: Key Files                                           -->
+  <!-- ============================================================ -->
+  <h2 id="key-files">Key Files</h2>
+
+  <p>Among the many files in an ai-workspace-standards workspace, a few stand out as especially important. These are the governance files that every AI agent and every human collaborator must respect.</p>
+
+  <h3>The Big Three</h3>
+
+  <p>Three files form the backbone of workspace governance: <strong>AGENTS.md</strong>, <strong>CLAUDE.md</strong>, and <strong>GEMINI.md</strong>. Each serves a distinct audience, but together they create a unified set of rules.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>AGENTS.md</h4>
+      <ul>
+        <li><strong>Audience:</strong> All AI platforms (Claude, Gemini, and others)</li>
+        <li><strong>Role:</strong> The master registry &mdash; lists every agent, its tier, phases, dispatch triggers, and the PM Gateway rules</li>
+        <li><strong>Analogy:</strong> The company's org chart posted in the lobby &mdash; everyone can see who does what</li>
+        <li><strong>Key content:</strong> Agent roster, PM Gateway policy, execution plan templates, 3-Tier strategy, lifecycle management rules</li>
+        <li><strong>Loaded by:</strong> Claude Code automatically loads this file at the start of every session</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>CLAUDE.md</h4>
+      <ul>
+        <li><strong>Audience:</strong> Claude Code (Anthropic's AI coding agent)</li>
+        <li><strong>Role:</strong> Claude-specific behavioral instructions &mdash; how Claude should behave in this workspace</li>
+        <li><strong>Analogy:</strong> The Claude employee handbook &mdash; Claude reads this on its first day and follows it throughout</li>
+        <li><strong>Key content:</strong> Platform-specific dispatch rules, model tier mappings, Claude-specific tool permissions, workflow triggers</li>
+        <li><strong>Loaded by:</strong> Claude Code automatically at session start</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>GEMINI.md</h4>
+      <ul>
+        <li><strong>Audience:</strong> Gemini CLI / Antigravity (Google's AI coding agent)</li>
+        <li><strong>Role:</strong> Gemini-specific behavioral instructions &mdash; how Gemini should behave in this workspace</li>
+        <li><strong>Analogy:</strong> The Gemini employee handbook &mdash; Gemini reads this on its first day and follows it throughout</li>
+        <li><strong>Key content:</strong> Platform-specific dispatch rules, model tier mappings, Gemini-specific tool permissions, workflow triggers</li>
+        <li><strong>Loaded by:</strong> Gemini CLI automatically at session start</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>How the Three Files Work Together</h3>
+
+  <p>The key insight is that <strong>AGENTS.md contains the shared rules</strong> that apply to all platforms, while <strong>CLAUDE.md and GEMINI.md add platform-specific details</strong> on top. This separation means the core governance lives in one place, and platform differences are isolated to their respective files.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Relationship diagram showing AGENTS.md, CLAUDE.md, and GEMINI.md">
+      <!-- AGENTS.md at top -->
+      <rect x="230" y="10" width="200" height="48" rx="10" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="330" y="30" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#fff">AGENTS.md</text>
+      <text x="330" y="48" text-anchor="middle" font-size="10" style="fill:#fff">(Shared rules &mdash; all platforms)</text>
+
+      <!-- Arrows down -->
+      <line x1="280" y1="58" x2="165" y2="108" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowKf1)"/>
+      <line x1="380" y1="58" x2="495" y2="108" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowKf2)"/>
+
+      <!-- Inheritance labels -->
+      <text x="210" y="78" font-size="10" font-style="italic" style="fill:var(--text-dim)">extends</text>
+      <text x="435" y="78" font-size="10" font-style="italic" style="fill:var(--text-dim)">extends</text>
+
+      <!-- CLAUDE.md -->
+      <rect x="50" y="114" width="220" height="56" rx="10" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="160" y="137" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">CLAUDE.md</text>
+      <text x="160" y="157" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Claude Code instructions</text>
+
+      <!-- GEMINI.md -->
+      <rect x="390" y="114" width="220" height="56" rx="10" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="500" y="137" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">GEMINI.md</text>
+      <text x="500" y="157" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Gemini CLI instructions</text>
+
+      <!-- Platform agents -->
+      <line x1="160" y1="170" x2="160" y2="200" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowKf1)"/>
+      <rect x="60" y="206" width="200" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="160" y="229" text-anchor="middle" font-size="11" style="fill:var(--text)">Claude Code (Anthropic)</text>
+
+      <line x1="500" y1="170" x2="500" y2="200" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowKf2)"/>
+      <rect x="400" y="206" width="200" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="500" y="229" text-anchor="middle" font-size="11" style="fill:var(--text)">Gemini CLI (Google)</text>
+
+      <defs>
+        <marker id="arrowKf1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowKf2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>Other Important Files</h3>
+
+  <p>Beyond the big three, several other files play critical roles in the workspace.</p>
+
+  <ul>
+    <li><strong><code>context.md</code></strong> &mdash; The project's identity card. Declares the project type, status, architecture, key files, and documentation standards. It is marked as immutable after project creation &mdash; all project-specific changes go into a separate variant context file instead. Think of it as the company's certificate of incorporation.</li>
+    <li><strong><code>CHANGELOG.md</code></strong> &mdash; A human-readable record of all changes made to the project, organized by version number. Every modification to agents, skills, scripts, or governance files is logged here so that team members can track what changed and why.</li>
+    <li><strong><code>variant.json</code></strong> &mdash; The variant's metadata file. Declares the variant name, type, status, version, which agents and skills it includes, and how it inherits from the common template. We will explore this in detail in the Variants section.</li>
+    <li><strong><code>memory/MEMORY.md</code></strong> &mdash; An index of all session logs. Each working session produces a dated log file (for example, <code>memory/2026-08-10.md</code>) with a summary of what was accomplished, what changed, what decisions were made, and what issues remain open.</li>
+  </ul>
+
+  <div class="note">
+    <strong>File Analogy Summary:</strong> If the workspace were a city, <code>AGENTS.md</code> would be the city charter (the founding document everyone follows), <code>CLAUDE.md</code> and <code>GEMINI.md</code> would be department-specific rulebooks, <code>context.md</code> would be the city's registration certificate, <code>CHANGELOG.md</code> would be the public record of city council decisions, and <code>memory/</code> would be the city archive where every meeting's minutes are stored.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: 3-Level Inheritance Hierarchy                      -->
+  <!-- ============================================================ -->
+  <h2 id="hierarchy">3-Level Inheritance Hierarchy</h2>
+
+  <p>One of the most powerful design decisions in ai-workspace-standards is the <strong>3-level inheritance hierarchy</strong>. This system allows a single set of shared standards to propagate from a global level down to individual projects, with each level able to customize and extend what it inherits.</p>
+
+  <h3>The Three Levels</h3>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>L0 &mdash; Workspace Root</h4>
+      <ul>
+        <li><strong>What:</strong> The top-level ai-workspace-standards repository itself</li>
+        <li><strong>Contains:</strong> Shared agents, skills, scripts, docs, and governance files that apply to <em>all</em> projects</li>
+        <li><strong>Scope:</strong> Universal &mdash; every L1 and L2 project inherits from L0</li>
+        <li><strong>Analogy:</strong> The corporate headquarters that sets policies for all branch offices</li>
+        <li><strong>Examples:</strong> The PM agent definition, audit scripts, lifecycle management skills</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>L1 &mdash; Common Template</h4>
+      <ul>
+        <li><strong>What:</strong> A shared template inside <code>templates/common/</code></li>
+        <li><strong>Contains:</strong> Platform-specific configurations (Claude and Gemini settings), standardized directory layouts, and base agent/skill templates</li>
+        <li><strong>Scope:</strong> Shared across all variant types &mdash; every L2 project inherits from L1</li>
+        <li><strong>Analogy:</strong> A regional office that adapts headquarters' policies for its local context</li>
+        <li><strong>Examples:</strong> <code>.claude/</code> settings, <code>.gemini/</code> settings, shared agent templates</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>L2 &mdash; Variant Project</h4>
+      <ul>
+        <li><strong>What:</strong> A specific project built on the standard (for example, co-deck, co-consult)</li>
+        <li><strong>Contains:</strong> Variant-specific agents, skills, scripts, configuration, and project workspaces</li>
+        <li><strong>Scope:</strong> Unique to this variant &mdash; adds specialized capabilities on top of what L0 and L1 provide</li>
+        <li><strong>Analogy:</strong> A specialized branch office with its own custom team and workflow</li>
+        <li><strong>Examples:</strong> co-deck's 11-stage pipeline agents, PDF export scripts, theme system</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Inheritance Direction</h3>
+
+  <p>The inheritance flows <strong>downward</strong>: L0 &rarr; L1 &rarr; L2. Each lower level <em>extends</em> the level above it. An L2 variant project automatically gets all the shared agents, skills, scripts, and governance rules from L0 and L1, and then adds its own specialized components on top.</p>
+
+  <p>This means that a bug fix or improvement at L0 (for example, updating the PM agent's orchestration logic) automatically benefits every L1 template and every L2 variant that inherits from it &mdash; without any manual copying or duplication.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="3-level inheritance hierarchy diagram showing L0, L1, and L2">
+      <!-- L0 -->
+      <rect x="200" y="10" width="260" height="60" rx="12" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="330" y="35" text-anchor="middle" font-size="15" font-weight="bold" style="fill:#fff">L0 &mdash; Workspace Root</text>
+      <text x="330" y="55" text-anchor="middle" font-size="11" style="fill:#fff">ai-workspace-standards (shared)</text>
+
+      <!-- Arrow L0 to L1 -->
+      <line x1="330" y1="70" x2="330" y2="106" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowH1)"/>
+      <text x="355" y="92" font-size="10" font-style="italic" style="fill:var(--text-dim)">inherits</text>
+
+      <!-- L1 -->
+      <rect x="200" y="112" width="260" height="60" rx="12" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="330" y="137" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text)">L1 &mdash; Common Template</text>
+      <text x="330" y="157" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">templates/common/ (platform configs)</text>
+
+      <!-- Arrow L1 to L2 -->
+      <line x1="230" y1="172" x2="140" y2="218" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowH2)"/>
+      <line x1="330" y1="172" x2="330" y2="218" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowH3)"/>
+      <line x1="430" y1="172" x2="520" y2="218" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowH1)"/>
+
+      <text x="170" y="192" font-size="10" font-style="italic" style="fill:var(--text-dim)">inherits</text>
+      <text x="348" y="198" font-size="10" font-style="italic" style="fill:var(--text-dim)">inherits</text>
+      <text x="490" y="192" font-size="10" font-style="italic" style="fill:var(--text-dim)">inherits</text>
+
+      <!-- L2: co-deck -->
+      <rect x="40" y="224" width="200" height="60" rx="12" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="140" y="249" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">L2 &mdash; co-deck</text>
+      <text x="140" y="269" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Lecture presentation variant</text>
+
+      <!-- L2: co-consult -->
+      <rect x="230" y="224" width="200" height="60" rx="12" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="330" y="249" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">L2 &mdash; co-consult</text>
+      <text x="330" y="269" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Consulting analysis variant</text>
+
+      <!-- L2: your project -->
+      <rect x="420" y="224" width="200" height="60" rx="12" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="520" y="249" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">L2 &mdash; Your Project</text>
+      <text x="520" y="269" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Custom variant (future)</text>
+
+      <!-- Legend -->
+      <rect x="40" y="300" width="10" height="10" rx="2" fill="var(--accent-purple)"/>
+      <text x="56" y="309" font-size="10" style="fill:var(--text-dim)">Shared (all projects)</text>
+
+      <rect x="200" y="300" width="10" height="10" rx="2" fill="none" stroke="var(--accent)" stroke-dasharray="3,2"/>
+      <text x="216" y="309" font-size="10" style="fill:var(--text-dim)">Extensible (customizable)</text>
+
+      <defs>
+        <marker id="arrowH1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowH2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
+        </marker>
+        <marker id="arrowH3" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-amber)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>What Each Level Owns</h3>
+
+  <p>Each level in the hierarchy has clear ownership boundaries, preventing conflicts and confusion.</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>L0 owns:</strong> Core agent definitions (PM, version), shared skills (lifecycle managers, audit tools), common scripts (<code>audit.ts</code>, <code>dev-sync.ts</code>), and governance files (<code>AGENTS.md</code>). Changes here affect <em>every</em> project in the workspace.
+      </li>
+      <li>
+        <strong>L1 owns:</strong> Platform-specific configurations (Claude Code settings in <code>.claude/</code>, Gemini CLI settings in <code>.gemini/</code>), directory structure templates, and base agent templates that L2 variants can customize. Changes here affect <em>all variants of a given type</em>.
+      </li>
+      <li>
+        <strong>L2 owns:</strong> Variant-specific agents (for example, co-deck's <code>pdf-export</code> agent), variant-specific skills, custom scripts, and project-level configuration (<code>variant.json</code>). Changes here affect <em>only this variant</em>.
+      </li>
+    </ol>
+  </div>
+
+  <h3>The Sync Pipeline</h3>
+
+  <p>Because L2 projects inherit from L0 and L1, there needs to be a mechanism to propagate updates downward. This is handled by the <strong>sync pipeline</strong> (also called the L0&rarr;L1 publish pipeline). When a change is made at L0 or L1, the sync pipeline automatically pushes those changes to all downstream projects, ensuring that every variant stays up to date with the latest standards.</p>
+
+  <p>The sync pipeline is triggered by the <code>scripts/dev-sync.ts</code> script and runs as part of the standard workflow. It can also be triggered manually when needed.</p>
+
+  <div class="note">
+    <strong>L0 applies to all projects.</strong> This is the key design principle: improvements made at the workspace root level benefit every project, every variant, and every platform automatically. If a new security check is added to the audit script at L0, every L2 variant gains that security check the next time the sync pipeline runs &mdash; no manual intervention required.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: Variant Concept                                     -->
+  <!-- ============================================================ -->
+  <h2 id="variants">Variant Concept</h2>
+
+  <p>Now that we understand the 3-level hierarchy, let us focus on the most interesting level: <strong>L2 variants</strong>. A variant is a specialized project built on top of the shared workspace standard, tailored to a specific use case.</p>
+
+  <h3>What is a Variant?</h3>
+
+  <p>A <strong>variant</strong> is an L2 project that inherits the common workspace structure from L0 and L1 and adds its own specialized agents, skills, scripts, and workflows. Each variant targets a specific type of work &mdash; presentation production, consulting analysis, data processing, or anything else you can imagine.</p>
+
+  <p>Variants are what make ai-workspace-standards practical. The standard provides the foundation; variants provide the specialization. Without variants, the standard would be a generic framework with no real-world application. Without the standard, variants would be isolated projects with incompatible structures.</p>
+
+  <h3>Variant Examples</h3>
+
+  <p>Let us look at two real variants to understand how this works in practice.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>co-deck</h4>
+      <ul>
+        <li><strong>Type:</strong> Lecture and presentation material production</li>
+        <li><strong>Pipeline:</strong> 11-stage workflow from research to print-ready PDF</li>
+        <li><strong>Agents:</strong> 11 specialized agents (PM + 10 specialists: research, source-verifier, storyline, design, image-curator, diagram-specialist, html-build, measure, pdf-export, version)</li>
+        <li><strong>Output:</strong> HTML slide decks and PDF presentations</li>
+        <li><strong>Unique features:</strong> Theme system (5 HTML themes), style system, image curation pipeline, SVG diagram generation, PDF layout measurement</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-consult</h4>
+      <ul>
+        <li><strong>Type:</strong> Consulting analysis and advisory output</li>
+        <li><strong>Pipeline:</strong> Research-driven analysis workflow for business consulting</li>
+        <li><strong>Agents:</strong> Specialized consulting agents adapted from the common set</li>
+        <li><strong>Output:</strong> Consulting reports, analysis documents, advisory materials</li>
+        <li><strong>Unique features:</strong> Industry-specific research profiles, MECE logic frameworks, structured problem-solving workflows</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>Despite their different purposes, both variants share the same foundation: the PM orchestration pattern, the 3-Tier strategy, the PM Gateway, the handoff contract system, and the directory layout. This shared foundation is what makes them interoperable and maintainable.</p>
+
+  <h3>variant.json &mdash; The Variant Identity Card</h3>
+
+  <p>Every variant has a <code>variant.json</code> file at its project root that declares its identity and configuration. This file is the variant's "passport" &mdash; it tells the system what this variant is, what it includes, and how it relates to the common template.</p>
+
+  <p>Here are the key fields in <code>variant.json</code>.</p>
+
+  <ul>
+    <li><strong><code>name</code></strong> &mdash; The variant's identifier (for example, <code>"co-deck"</code> or <code>"co-consult"</code>).</li>
+    <li><strong><code>description</code></strong> &mdash; A human-readable summary of what the variant does.</li>
+    <li><strong><code>variant_type</code></strong> &mdash; The category of work this variant handles (for example, <code>"lecture"</code> for presentation production).</li>
+    <li><strong><code>status</code></strong> &mdash; The lifecycle status: <code>"draft"</code>, <code>"beta"</code>, or <code>"stable"</code>.</li>
+    <li><strong><code>version</code></strong> &mdash; The current version number following semantic versioning (major.minor.patch).</li>
+    <li><strong><code>inherits_common</code></strong> &mdash; The path to the common template this variant inherits from (typically <code>"templates/common"</code>).</li>
+    <li><strong><code>agents</code></strong> &mdash; A list of agents this variant includes, with their file paths.</li>
+    <li><strong><code>skills</code></strong> &mdash; A list of skills available in this variant.</li>
+    <li><strong><code>lifecycle</code></strong> &mdash; Metadata about the variant's lifecycle transitions (when it was created, when it was promoted to beta, etc.).</li>
+  </ul>
+
+  <div class="code-block">
+<pre><code>{
+  "name": "co-deck",
+  "description": "Lecture and presentation material production variant",
+  "variant_type": "lecture",
+  "status": "beta",
+  "version": "0.2.0",
+  "inherits_common": "templates/common",
+  "agents": [
+    { "name": "pm",              "file": "agents/pm.md" },
+    { "name": "research",         "file": "agents/research.md" },
+    { "name": "storyline",       "file": "agents/storyline.md" },
+    { "name": "html-build",      "file": "agents/html-build.md" }
+  ]
+}</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+</div>
+
+  <h3>Variant Lifecycle</h3>
+
+  <p>Variants go through a defined lifecycle, tracked in <code>variant.json</code> under the <code>lifecycle</code> field.</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Draft</strong> &mdash; The variant is under initial development. Structure and agents are being defined. Not yet ready for use.</li>
+      <li><strong>Beta</strong> &mdash; The variant is functional but may have rough edges. Early adopters can try it and provide feedback. This is where co-deck currently stands.</li>
+      <li><strong>Stable</strong> &mdash; The variant has been thoroughly tested and is ready for production use. Breaking changes require a major version bump.</li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>Thinking about creating your own variant?</strong> Chapter 11 of this handbook covers the process of designing and building a custom variant from scratch. You will learn how to define your own agents, skills, and workflow pipeline, and how to register your variant so it inherits all the benefits of the shared workspace standard.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: Common Contracts                                    -->
+  <!-- ============================================================ -->
+  <h2 id="contracts">Common Contracts</h2>
+
+  <p>The final piece of the ai-workspace-standards architecture is the concept of <strong>common contracts</strong>. These are shared agreements that ensure all projects, variants, and agents speak the same language.</p>
+
+  <h3>What Are Common Contracts?</h3>
+
+  <p>A <strong>common contract</strong> is a formal specification that defines how different parts of the workspace interact with each other. Just as a legal contract specifies the obligations between two parties, a common contract specifies the data formats, file locations, naming conventions, and communication protocols that agents and projects must follow.</p>
+
+  <p>Common contracts are defined in a file called <code>common-contract.json</code> and serve three key roles.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>1. Data Format Contract</h4>
+      <ul>
+        <li>Defines the structure and fields of key data files (research notes, slide decks, design specs, image manifests)</li>
+        <li>Ensures every agent produces output in a format the next agent can consume</li>
+        <li>Example: <code>research_notes.md</code> must include a Sources section, a Key Facts section, and a Credibility Notes section</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>2. Directory Layout Contract</h4>
+      <ul>
+        <li>Defines where each type of file lives within the workspace</li>
+        <li>Ensures agents can find their input files without guessing</li>
+        <li>Example: Research notes must be at <code>presentations/&lt;project&gt;/research_notes.md</code></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>3. Naming Convention Contract</h4>
+      <ul>
+        <li>Defines how files, agents, skills, and variants should be named</li>
+        <li>Ensures consistency across the entire workspace ecosystem</li>
+        <li>Example: Agent files use lowercase-with-hyphens (<code>source-verifier.md</code>), skills use the same pattern</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>How Contracts Are Applied</h3>
+
+  <p>Contracts are not just documentation &mdash; they are enforced. Here is how the contract system works in practice.</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Contract definition</strong> &mdash; The contract is written in <code>common-contract.json</code> at the L0 level. This file specifies the schemas, layouts, and naming rules that all projects must follow.
+      </li>
+      <li>
+        <strong>Template inheritance</strong> &mdash; When an L1 common template is created, it copies the contract from L0. L2 variants inherit the contract through L1. Every project in the workspace shares the same contract foundation.
+      </li>
+      <li>
+        <strong>Variant extension</strong> &mdash; L2 variants may add their own contract extensions for variant-specific files (for example, co-deck adds contracts for slide deck files, theme files, and PDF layout specs). These extensions are defined in the variant's own context file.
+      </li>
+      <li>
+        <strong>Validation enforcement</strong> &mdash; The <code>scripts/audit.ts</code> script automatically checks every project against the contracts it inherits. If a file violates the contract (wrong format, wrong location, wrong name), the audit reports it as an error that must be fixed before the project can proceed.
+      </li>
+    </ol>
+  </div>
+
+  <h3>Contracts and Handoff Contracts</h3>
+
+  <p>You may recall from Chapter 4 that <strong>handoff contracts</strong> define how one agent passes its output to the next. Common contracts are the <em>broader system</em> that handoff contracts operate within. Think of it this way:</p>
+
+  <ul>
+    <li><strong>Common contracts</strong> define the <em>overall language</em> everyone speaks (file formats, directory layout, naming conventions)</li>
+    <li><strong>Handoff contracts</strong> define the <em>specific conversations</em> between pairs of agents (Agent A produces file X, Agent B reads file X)</li>
+  </ul>
+
+  <p>Common contracts make handoff contracts possible. If every agent agrees on the common contract (where files live and what format they use), then defining a handoff contract between two agents is straightforward &mdash; you only need to specify which file to pass.</p>
+
+  <div class="note">
+    <strong>Analogy &mdash; A Common Language:</strong> Imagine an international summit where delegates from many countries meet to collaborate. The <em>common contract</em> is the agreement to use English as the working language, follow parliamentary procedure, and use standardized document formats. With those ground rules in place, any two delegates (agents) can have a focused conversation (handoff contract) about their specific topic. Without the common language, every pair of delegates would need to invent their own communication protocol from scratch &mdash; inefficient and error-prone.
+  </div>
+
+  <h3>Contract Benefits</h3>
+
+  <p>The contract system provides several concrete benefits for AI agent collaboration.</p>
+
+  <ul>
+    <li><strong>Zero configuration handoff.</strong> When Agent A finishes and Agent B starts, Agent B already knows where to find Agent A's output because the directory layout contract specifies the exact path.</li>
+    <li><strong>Automatic error detection.</strong> The audit script catches contract violations before they cause runtime failures. If an agent writes a file to the wrong location or in the wrong format, the audit flags it immediately.</li>
+    <li><strong>Cross-project portability.</strong> An agent that follows the common contract can work in any variant project without modification. The research agent from co-deck could, in principle, be dropped into co-consult and work correctly because both variants share the same contracts.</li>
+    <li><strong>Version-controlled evolution.</strong> When the common contract needs to change (for example, adding a new required field to the slide deck format), the change is made at L0, propagated through the sync pipeline, and enforced by the audit script across all projects.</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>Key Takeaway:</strong> The combination of a 3-level inheritance hierarchy, the variant concept, and common contracts is what makes ai-workspace-standards a true <em>platform</em> rather than just a collection of files. The hierarchy provides structure, variants provide specialization, and contracts provide interoperability. Together, they enable any number of specialized AI projects to share a common foundation while remaining independently customizable.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER NAVIGATION                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch04/04_Harness_Concepts_en.html" class="prev">
+      <div class="dir">&larr; Previous Chapter</div>
+      <div class="ttl">Ch 4 &middot; Multi-Agent Harness Concepts</div>
+    </a>
+    <a href="../ch06/06_Co_Consult_Practice_en.html" class="next" style="margin-left:auto;">
+      <div class="dir">Next Chapter &rarr;</div>
+      <div class="ttl">Ch 6 &middot; co-consult: AI Consulting in Practice</div>
+    </a>
+  </div>
+  <footer>
+    Introductory handbook based on Claude Desktop App / ai-workspace-standards<br>
+    References: <a href="https://claude.ai" target="_blank">Claude</a> &middot;
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a>.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script>
+function copyCode(btn) {
+  const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = 'Done!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+</script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

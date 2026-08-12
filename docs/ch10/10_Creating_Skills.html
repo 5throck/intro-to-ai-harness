@@ -91,7 +91,7 @@
 
   <h3>스킬의 Ownership 레이어</h3>
 
-  <p>스킬은 에이전트와 달리 <strong>독립적으로 존재</strong>합니다. 스킬은 세 가지 레이어에 정의될 수 있으며, 각 레이어는 다른 범위와 영향력을 가집니다.</p>
+  <p>스킬은 에이전트와 달리 <strong>독립적으로 존재</strong>합니다. 스킬은 여러 레이어에 정의될 수 있으며, 각 레이어는 다른 범위와 영향력을 가집니다.</p>
 
   <div class="compare-grid">
     <div class="col">
@@ -104,7 +104,7 @@
       </ul>
     </div>
     <div class="col">
-      <h4>L1 — 템플릿 (Template)</h4>
+      <h4>L1 — 공통 템플릿 (Common Template)</h4>
       <ul>
         <li>위치: <code>templates/common/skills/</code></li>
         <li>범위: 해당 템플릿에서 파생된 프로젝트</li>
@@ -116,20 +116,32 @@
 
   <div class="compare-grid">
     <div class="col">
-      <h4>L2 — 프로젝트 (Project)</h4>
+      <h4>L2 — variant 템플릿 (Variant Template)</h4>
+      <ul>
+        <li>위치: <code>templates/co-*/skills/</code></li>
+        <li>범위: 해당 variant에서 스캐폴딩된 모든 프로젝트</li>
+        <li>우선순위: L1 다음 (3순위)</li>
+        <li>예: co-deck 전용 스킬</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>L3 — 프로젝트 (Project)</h4>
       <ul>
         <li>위치: <code>.claude/skills/</code> 또는 <code>.gemini/skills/</code></li>
         <li>범위: 해당 프로젝트만</li>
-        <li>우선순위: 가장 낮음 (3순위)</li>
+        <li>우선순위: 가장 낮음 (4순위)</li>
         <li>예: 프로젝트 전용 훅</li>
       </ul>
     </div>
+  </div>
+
+  <div class="compare-grid">
     <div class="col">
       <h4>핵심 규칙</h4>
       <ul>
         <li>같은 스킬이 여러 위치에 있으면 1순위를 사용</li>
         <li>L0 스킬은 전역적으로 공유됨</li>
-        <li>L2 스킬은 프로젝트 전용</li>
+        <li>L2 스킬은 variant 전용, L3 스킬은 프로젝트 전용</li>
         <li>중복 정의는 피하는 것이 원칙</li>
       </ul>
     </div>

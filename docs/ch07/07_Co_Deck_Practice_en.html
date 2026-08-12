@@ -612,56 +612,114 @@
   <!-- ============================================================ -->
   <h2 id="practice">Practice: Create a Mini Presentation</h2>
 
-  <p>Now let us walk through creating a small presentation from scratch. This exercise uses a simple topic so you can focus on learning the workflow rather than worrying about content complexity.</p>
+  <p>In this exercise, you will use co-deck to build a 5-slide mini presentation. The topic is "5 Core Concepts of Machine Learning" &mdash; a simple presentation aimed at beginners.</p>
 
-  <div class="tip-box">
-    <strong>Start small!</strong> For your first co-deck presentation, choose a topic you already know well and aim for 5&ndash;10 slides. This keeps the pipeline fast and lets you iterate quickly. Once you are comfortable with the workflow, you can tackle larger projects.
+  <h3>Practice Objectives</h3>
+
+  <ul>
+    <li>Clone the co-deck repository and set up the project</li>
+    <li>Send a request to the PM Agent from Claude Desktop App</li>
+    <li>Observe the 11-Stage pipeline in action</li>
+    <li>Experience the Gate 2 and Gate 5 approval process</li>
+    <li>Review the final outputs (HTML and PDF)</li>
+  </ul>
+
+  <h3>Prerequisites</h3>
+
+  <p>Make sure the tools you installed in Chapter 3 are working correctly.</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Claude Desktop App</strong> &mdash; must be able to hold a conversation with Claude</li>
+      <li><strong>Git</strong> &mdash; must be able to clone repositories</li>
+      <li><strong>Browser</strong> &mdash; a browser that can open the HTML slide deck</li>
+    </ol>
   </div>
 
   <h3>Step-by-Step Walkthrough</h3>
 
   <div class="step-list">
     <ol>
-      <li class="step">
-        <strong>Open Claude Code (or Gemini CLI) in the co-deck workspace.</strong>
-        Navigate to the co-deck project directory and start a new session. The PM Agent loads automatically from <code>AGENTS.md</code>.
+      <li>
+        <strong>Clone the co-deck repository</strong><br>
+        Open a terminal and run the following commands.
+        <div class="prompt-box">
+          <code>git clone https://github.com/5throck/co-deck.git</code><br>
+          <code>cd co-deck</code>
+          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+        </div>
+        Once the repository is cloned, move into the <code>co-deck/</code> directory.
       </li>
-      <li class="step">
-        <strong>Request a new presentation.</strong>
-        Tell the PM: "Create a presentation about <strong>the water cycle</strong> for <strong>middle school students</strong>. Keep it to <strong>8 slides</strong>." The PM will enter Stage 0 and begin configuring your project.
+      <li>
+        <strong>Open the project in Claude Desktop App</strong><br>
+        Launch Claude Desktop App and open the <code>co-deck/</code> folder as a project. Start the PM by telling Claude the following.
+        <div class="prompt-box">
+          <code>"Let's start a new project."</code>
+        </div>
+        The PM enters Stage 0 (project configuration) and asks about the topic, audience, theme, and style.
       </li>
-      <li class="step">
-        <strong>Answer Stage 0 configuration questions.</strong>
-        The PM will ask you to confirm:
+      <li>
+        <strong>Talk to the PM</strong><br>
+        Answer the PM's questions to configure the project. Try responding like this.
+        <div class="prompt-box">
+          <code>"Create a mini presentation about the 5 core concepts of machine learning. 5 slides. For beginners. In English."</code>
+        </div>
+        The PM analyzes your request and walks you through the configuration fields in <code>lecture-profile.md</code> (theme, style, source_verification, etc.).
+      </li>
+      <li>
+        <strong>Stage 0 configuration (topic, audience, language)</strong><br>
+        The PM confirms the following items. Beginners should stick with the defaults.
         <ul>
-          <li><strong>Theme:</strong> Choose <code>outline</code> (recommended for beginners)</li>
-          <li><strong>Style:</strong> Choose <code>classic</code> (clean and professional)</li>
-          <li><strong>Source verification:</strong> Say yes (it runs automatically)</li>
-          <li><strong>Divider mode:</strong> Accept <code>auto</code> (recommended)</li>
-          <li><strong>Background image:</strong> Say no (keep it simple)</li>
+          <li><strong>Rendering theme:</strong> pitch-enhanced (default)</li>
+          <li><strong>Visual style:</strong> classic (default)</li>
+          <li><strong>Source verification:</strong> true (default)</li>
+          <li><strong>Divider mode:</strong> auto (default)</li>
         </ul>
+        Confirm all the settings and tell the PM to proceed.
       </li>
-      <li class="step">
-        <strong>Wait for the research and content stages.</strong>
-        The PM will dispatch research (Stage 1), source-verifier (Stage 1.5), and storyline (Stage 2&ndash;3) automatically. This may take a few minutes as the agents gather sources and compose your slide content.
+      <li>
+        <strong>Approve Gate 2 (review slide content)</strong><br>
+        Once Stage 1 (research) and Stage 2&ndash;3 (content) finish, the PM asks for your approval at Gate 2. Review <code>slide_deck.md</code> and check the following.
+        <ul>
+          <li>Is the slide structure logical?</li>
+          <li>Is the content of each slide accurate?</li>
+          <li>Are the cover slide and closing slide appropriate?</li>
+        </ul>
+        After reviewing, respond like this.
+        <div class="prompt-box">
+          <code>"I've reviewed the slide content. Please proceed to the next stage."</code>
+        </div>
+        If changes are needed, be specific.
+        <div class="prompt-box">
+          <code>"Please explain slide 3's content in simpler terms."</code>
+        </div>
       </li>
-      <li class="step">
-        <strong>Review content at Gate 2 (Mandatory).</strong>
-        The PM will present <code>storyline.md</code> and <code>slide_deck.md</code> for your approval. Read through the slide titles, bullet points, and overall structure. If something looks off, request changes before approving.
+      <li>
+        <strong>Approve Gate 5 (review the sample PDF)</strong><br>
+        Once Stage 11 produces <code>sample_5slides.pdf</code>, the PM asks for your approval at Gate 5. In the sample PDF, check the following.
+        <ul>
+          <li>Do the fonts render correctly without breaking?</li>
+          <li>Is the layout well arranged?</li>
+          <li>Do the colors appear as intended?</li>
+        </ul>
+        After reviewing, respond like this.
+        <div class="prompt-box">
+          <code>"I've reviewed the sample PDF. Please generate the full PDF."</code>
+        </div>
       </li>
-      <li class="step">
-        <strong>Approve Gate 2 and wait for the build stages.</strong>
-        After approval, the PM dispatches design (Stage 4), image-curator + diagram-specialist (Stage 3.5), html-build (Stage 5&ndash;8), and pdf-export (Stage 11) in sequence. The sample PDF will be generated for Gate 5 review.
-      </li>
-      <li class="step">
-        <strong>Review the sample PDF at Gate 5 (Mandatory).</strong>
-        Open the sample PDF and check the layout, fonts, colors, and spacing. If everything looks good, approve the full PDF generation. If not, request adjustments.
+      <li>
+        <strong>Review the final outputs</strong><br>
+        Once every stage is complete, you can find the final outputs in the <code>presentations/&lt;project&gt;/</code> folder. The next section explains exactly how to review them.
       </li>
     </ol>
   </div>
 
-  <div class="note">
-    <strong>What to expect:</strong> A typical 8-slide presentation takes about 5&ndash;10 minutes from start to finish, depending on your topic's complexity and how many images/diagrams are needed. The longest stages are research (web searches) and HTML build (assembling the final file).
+  <div class="tip-box">
+    <strong>Start with a short 5&ndash;10 slide presentation.</strong> A smaller deck lets the whole pipeline finish quickly so you can get a feel for how co-deck works. Once you are comfortable, try a full-scale 20&ndash;30+ slide lecture deck.
+  </div>
+
+  <div class="warn">
+    <strong>Note:</strong> co-deck's agents run through the Claude API. Claude's responses may slow down or time out during the exercise. Presentations with many images or diagrams can take longer &mdash; this is expected behavior.
   </div>
 
   <!-- ============================================================ -->
@@ -674,6 +732,11 @@
   <h3>Output Locations</h3>
 
   <p>All outputs for your presentation are stored under <code>presentations/&lt;project-name&gt;/</code>. Here is the directory layout you will see after a complete pipeline run.</p>
+
+  <div class="prompt-box">
+    <code>co-deck/presentations/&lt;project-name&gt;/</code>
+    <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+  </div>
 
   <table>
     <thead>
@@ -757,6 +820,42 @@
     <strong>Pro tip:</strong> The HTML slide deck is the primary deliverable. It is self-contained (no server required), supports interactive features like presenter mode and TTS narration, and works offline. The PDF is best for printing or sharing with people who prefer a static document. Use both: present from the HTML, distribute the PDF.
   </div>
 
+  <h3>File Structure Summary</h3>
+
+  <div class="flow-box">
+    <div class="code-block">
+<pre><code>co-deck/
+├── agents/                        # Agent definition files
+│   ├── pm.md
+│   ├── research.md
+│   ├── storyline.md
+│   ├── design.md
+│   ├── html-build.md
+│   ├── pdf-export.md
+│   └── ...
+├── docs/html-themes/               # Theme and style registry
+│   ├── THEMES.md
+│   ├── themes/                    # pitch, pitch-enhanced, outline, vertical, zen, ...
+│   └── styles/                    # classic, minimal, premium-dark, academic, ...
+├── presentations/
+│   └── &lt;project-name&gt;/
+│       ├── lecture-profile.md     # Stage 0: project configuration
+│       ├── project_state.json     # Pipeline progress tracker
+│       ├── research_notes.md      # Stage 1: research findings
+│       ├── storyline.md           # Stage 2-3: slide structure
+│       ├── slide_deck.md          # Stage 2-3: per-slide content
+│       ├── design_spec.md         # Stage 4: design spec
+│       ├── assets/
+│       │   ├── images/            # Stage 3.5: downloaded images
+│       │   └── diagrams/          # Stage 3.5: generated SVG diagrams
+│       ├── lecture_v1.html        # Stage 5-8: HTML slide deck
+│       └── &lt;project&gt;.pdf       # Stage 11: final PDF
+├── scripts/co-deck/               # Automation scripts
+└── memory/                        # Session records</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+</div>
+  </div>
+
   <div class="note">
     <strong>What's next?</strong> In Chapter 8, we will combine the <strong>co-consult</strong> (from Chapter 6) and <strong>co-deck</strong> pipelines into a single integrated workflow &mdash; first producing a consulting analysis, then turning the key findings into a polished presentation. This is where the full power of the multi-agent ecosystem shines.
   </div>
@@ -788,6 +887,16 @@
 function copyCode(btn) {
   const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
   navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = 'Done!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+function copyPromptBox(btn) {
+  const box = btn.parentElement;
+  const codes = box.querySelectorAll(':scope > code');
+  const text = Array.from(codes).map(c => c.textContent).join('\n');
+  navigator.clipboard.writeText(text).then(() => {
     btn.textContent = 'Done!';
     btn.classList.add('copied');
     setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);

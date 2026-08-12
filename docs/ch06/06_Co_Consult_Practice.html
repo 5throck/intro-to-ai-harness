@@ -666,6 +666,7 @@
         <div class="prompt-box">
           <code>git clone https://github.com/5throck/co-consult.git</code><br>
           <code>cd co-consult</code>
+          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">복사</button>
         </div>
         저장소가 클론되면 <code>co-consult/</code> 디렉토리로 이동합니다.
       </li>
@@ -740,6 +741,7 @@
 
   <div class="prompt-box">
     <code>co-consult/deliverables/reports/</code>
+    <button type="button" class="copy-btn" onclick="copyPromptBox(this)">복사</button>
   </div>
 
   <h3>주요 산출물</h3>
@@ -796,6 +798,7 @@
         <div class="prompt-box">
           <code>cd co-consult/deliverables/reports/</code><br>
           <code>ls</code>
+          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">복사</button>
         </div>
       </li>
       <li>
@@ -803,6 +806,7 @@
         리서치 결과를 확인합니다. 수집된 출처, 핵심 데이터, 참고 링크가 포함되어 있습니다.
         <div class="prompt-box">
           <code>cat research_notes.md</code>
+          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">복사</button>
         </div>
         또는 VS Code에서 열어보세요.
       </li>
@@ -811,6 +815,7 @@
         <code>report.html</code> 파일을 브라우저에서 열어 완성된 보고서를 확인합니다. 차트, 표, 다이어그램이 포함된 인터랙티브한 형태입니다.
         <div class="prompt-box">
           <code>open report.html</code>
+          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">복사</button>
         </div>
       </li>
       <li>
@@ -822,6 +827,7 @@
         프로젝트의 전체 진행 상태를 확인할 수 있습니다. 각 Phase의 완료 여부와 Gate 승인 상태가 기록되어 있습니다.
         <div class="prompt-box">
           <code>cat project_state.json</code>
+          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">복사</button>
         </div>
       </li>
     </ol>
@@ -887,6 +893,16 @@
 function copyCode(btn) {
   const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
   navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = '완료!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+function copyPromptBox(btn) {
+  const box = btn.parentElement;
+  const codes = box.querySelectorAll(':scope > code');
+  const text = Array.from(codes).map(c => c.textContent).join('\n');
+  navigator.clipboard.writeText(text).then(() => {
     btn.textContent = '완료!';
     btn.classList.add('copied');
     setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 1500);

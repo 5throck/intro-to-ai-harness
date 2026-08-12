@@ -16,7 +16,7 @@
   <a href="#what-is">What is ai-workspace-standards</a>
   <a href="#directory-structure">Directory Structure</a>
   <a href="#key-files">Key Files</a>
-  <a href="#hierarchy">3-Level Inheritance Hierarchy</a>
+  <a href="#hierarchy">4-Level Layer Structure</a>
   <a href="#variants">Variant Concept</a>
   <a href="#contracts">Common Contracts</a>
   <div class="nav-section">Other Chapters</div>
@@ -27,13 +27,13 @@
  <article class="reading">
   <div class="chapter-eyebrow">Chapter 5</div>
   <h1>Exploring ai-workspace-standards</h1>
-  <p class="lead">Learn the structure and core concepts of the ai-workspace-standards repository: 3-level inheritance hierarchy (L0&rarr;L1&rarr;L2), the variant concept, key files (AGENTS.md, CLAUDE.md, GEMINI.md), and common contracts. This chapter gives you a guided tour of the workspace that underpins every multi-agent project.</p>
+  <p class="lead">Learn the structure and core concepts of the ai-workspace-standards repository: 4-level layer structure (L0&rarr;L1&rarr;L2&rarr;L3), the variant concept, key files (AGENTS.md, CLAUDE.md, GEMINI.md), and common contracts. This chapter gives you a guided tour of the workspace that underpins every multi-agent project.</p>
   <div class="keypoints">
     <div class="kp-title">What This Chapter Covers</div>
     <ul>
       <li>ai-workspace-standards repository structure</li>
       <li>Key files: AGENTS.md, CLAUDE.md, GEMINI.md</li>
-      <li>3-level inheritance hierarchy (L0 &rarr; L1 &rarr; L2)</li>
+      <li>4-level layer structure (L0 &rarr; L1 &rarr; L2 &rarr; L3)</li>
       <li>Variant concept</li>
       <li>Common contracts and template inheritance</li>
     </ul>
@@ -140,13 +140,13 @@
       <line x1="260" y1="254" x2="310" y2="254" stroke="var(--border)" stroke-width="1.5"/>
       <rect x="310" y="240" width="140" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
       <text x="380" y="259" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">templates/</text>
-      <text x="480" y="259" font-size="10" style="fill:var(--text-dim)">Common template (L1 base)</text>
+      <text x="480" y="259" font-size="10" style="fill:var(--text-dim)">L1 common + L2 variant templates</text>
 
       <!-- Branch 6: presentations/ -->
       <line x1="260" y1="300" x2="310" y2="300" stroke="var(--border)" stroke-width="1.5"/>
       <rect x="310" y="286" width="180" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
       <text x="400" y="305" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">presentations/</text>
-      <text x="520" y="305" font-size="10" style="fill:var(--text-dim)">Project workspaces</text>
+      <text x="520" y="305" font-size="10" style="fill:var(--text-dim)">L3 project workspaces</text>
 
       <!-- Branch 7: memory/ -->
       <line x1="260" y1="346" x2="310" y2="346" stroke="var(--border)" stroke-width="1.5"/>
@@ -299,140 +299,178 @@
   </div>
 
   <!-- ============================================================ -->
-  <!-- SECTION 4: 3-Level Inheritance Hierarchy                      -->
+  <!-- SECTION 4: 4-Level Layer Structure                              -->
   <!-- ============================================================ -->
-  <h2 id="hierarchy">3-Level Inheritance Hierarchy</h2>
+  <h2 id="hierarchy">4-Level Layer Structure</h2>
 
-  <p>One of the most powerful design decisions in ai-workspace-standards is the <strong>3-level inheritance hierarchy</strong>. This system allows a single set of shared standards to propagate from a global level down to individual projects, with each level able to customize and extend what it inherits.</p>
+  <p>One of the most powerful design decisions in ai-workspace-standards is the <strong>4-level layer structure</strong>. This is a hierarchical system where resources flow from the original source (L0) through common infrastructure (L1), variant templates (L2), and into actual projects (L3).</p>
 
-  <h3>The Three Levels</h3>
-
-  <div class="compare-grid">
-    <div class="col">
-      <h4>L0 &mdash; Workspace Root</h4>
-      <ul>
-        <li><strong>What:</strong> The top-level ai-workspace-standards repository itself</li>
-        <li><strong>Contains:</strong> Shared agents, skills, scripts, docs, and governance files that apply to <em>all</em> projects</li>
-        <li><strong>Scope:</strong> Universal &mdash; every L1 and L2 project inherits from L0</li>
-        <li><strong>Analogy:</strong> The corporate headquarters that sets policies for all branch offices</li>
-        <li><strong>Examples:</strong> The PM agent definition, audit scripts, lifecycle management skills</li>
-      </ul>
-    </div>
-    <div class="col">
-      <h4>L1 &mdash; Common Template</h4>
-      <ul>
-        <li><strong>What:</strong> A shared template inside <code>templates/common/</code></li>
-        <li><strong>Contains:</strong> Platform-specific configurations (Claude and Gemini settings), standardized directory layouts, and base agent/skill templates</li>
-        <li><strong>Scope:</strong> Shared across all variant types &mdash; every L2 project inherits from L1</li>
-        <li><strong>Analogy:</strong> A regional office that adapts headquarters' policies for its local context</li>
-        <li><strong>Examples:</strong> <code>.claude/</code> settings, <code>.gemini/</code> settings, shared agent templates</li>
-      </ul>
-    </div>
-    <div class="col">
-      <h4>L2 &mdash; Variant Project</h4>
-      <ul>
-        <li><strong>What:</strong> A specific project built on the standard (for example, co-deck, co-consult)</li>
-        <li><strong>Contains:</strong> Variant-specific agents, skills, scripts, configuration, and project workspaces</li>
-        <li><strong>Scope:</strong> Unique to this variant &mdash; adds specialized capabilities on top of what L0 and L1 provide</li>
-        <li><strong>Analogy:</strong> A specialized branch office with its own custom team and workflow</li>
-        <li><strong>Examples:</strong> co-deck's 11-stage pipeline agents, PDF export scripts, theme system</li>
-      </ul>
-    </div>
+  <div class="tip-box">
+    <strong>Distribution Path vs Layer Structure</strong><br>
+    "L0 &rarr; L1 &rarr; L2" describes the <strong>distribution path</strong>: the direction in which original source code is delivered to L1 and L2.<br>
+    "L1 &rarr; L2 &rarr; L3" describes the <strong>layer structure</strong>: a static hierarchy where each layer serves as the foundation for the layer below it.
   </div>
 
-  <h3>Inheritance Direction</h3>
+  <h3>L0 Source (Workspace Root) &mdash; Original Source</h3>
 
-  <p>The inheritance flows <strong>downward</strong>: L0 &rarr; L1 &rarr; L2. Each lower level <em>extends</em> the level above it. An L2 variant project automatically gets all the shared agents, skills, scripts, and governance rules from L0 and L1, and then adds its own specialized components on top.</p>
+  <p><strong>L0 Source</strong> is the workspace root directory itself. It is the <strong>only place where edits are made</strong>, and the starting point from which changes propagate to all other layers.</p>
 
-  <p>This means that a bug fix or improvement at L0 (for example, updating the PM agent's orchestration logic) automatically benefits every L1 template and every L2 variant that inherits from it &mdash; without any manual copying or duplication.</p>
+  <ul>
+    <li><strong>Common agents</strong> &mdash; The PM agent and other foundational agents used by every project</li>
+    <li><strong>Common skills</strong> &mdash; Reusable workflow recipes available everywhere</li>
+    <li><strong>Core scripts</strong> &mdash; audit.ts, validate-templates.ts, and other essential automation tools</li>
+    <li><strong>AGENTS.md</strong> &mdash; The global agent registry</li>
+  </ul>
+
+  <h3>L1 (Common Template) &mdash; Common Infrastructure Layer</h3>
+
+  <p><strong>L1</strong> is the common infrastructure layer located at <code>templates/common/</code>. Built from content distributed by L0 Source, it provides <strong>templates shared by all variants</strong>, including platform-specific configurations and standardized directory structures.</p>
+
+  <ul>
+    <li><code>.claude/</code> directory &mdash; Claude Code settings, commands, and skills</li>
+    <li><code>.gemini/</code> directory &mdash; Gemini CLI settings, commands, and skills</li>
+    <li>Platform-specific agent configurations (CLAUDE.md, GEMINI.md)</li>
+    <li>Common agent templates, common skills, and scripts</li>
+    <li><code>propagation-map.json</code> &mdash; Defines L0&rarr;L1 distribution rules</li>
+  </ul>
+
+  <p class="text-dim"><em>Note: L1 is never edited directly. Changes are distributed automatically from L0 Source via <code>bun run propagate:apply</code>.</em></p>
+
+  <h3>L2 (Variant Template) &mdash; Variant Template Layer</h3>
+
+  <p><strong>L2</strong> is the variant template layer located at <code>templates/co-*/</code>. Each variant (co-deck, co-consult, etc.) is a template built on L1 that adds <strong>its own agents, skills, and configuration</strong>.</p>
+
+  <ul>
+    <li>Variant-specific agents (for example, co-deck's image-curator, pdf-export)</li>
+    <li>Variant-specific skills (for example, co-deck's html-build, storyline)</li>
+    <li>Variant configuration (variant.json, PM agent YAML overrides)</li>
+    <li>Inherits the L1 common template (<code>variant.json</code>'s <code>inherits_common: "templates/common"</code>)</li>
+  </ul>
+
+  <p>There are currently 9 variant templates: co-consult, co-deck, co-design, co-develop, co-export, co-game, co-news, co-security, and co-work.</p>
+
+  <h3>L3 (Project) &mdash; Actual Project Layer</h3>
+
+  <p><strong>L3</strong> is the actual project layer located at <code>Projects/*/</code>. Each L3 project is <strong>scaffolded</strong> from an L2 variant template. Projects operate independently and support local customization.</p>
+
+  <ul>
+    <li><code>docs/context.md</code> &mdash; The project's deep configuration (immutable after project creation)</li>
+    <li>Project-specific agents, skills, and scripts</li>
+    <li>variant.json &mdash; Metadata copied from L2</li>
+    <li>The space where actual work output is produced</li>
+  </ul>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 660 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="3-level inheritance hierarchy diagram showing L0, L1, and L2">
-      <!-- L0 -->
-      <rect x="200" y="10" width="260" height="60" rx="12" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
-      <text x="330" y="35" text-anchor="middle" font-size="15" font-weight="bold" style="fill:#fff">L0 &mdash; Workspace Root</text>
-      <text x="330" y="55" text-anchor="middle" font-size="11" style="fill:#fff">ai-workspace-standards (shared)</text>
-
-      <!-- Arrow L0 to L1 -->
-      <line x1="330" y1="70" x2="330" y2="106" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowH1)"/>
-      <text x="355" y="92" font-size="10" font-style="italic" style="fill:var(--text-dim)">inherits</text>
-
-      <!-- L1 -->
-      <rect x="200" y="112" width="260" height="60" rx="12" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="330" y="137" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text)">L1 &mdash; Common Template</text>
-      <text x="330" y="157" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">templates/common/ (platform configs)</text>
-
-      <!-- Arrow L1 to L2 -->
-      <line x1="230" y1="172" x2="140" y2="218" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowH2)"/>
-      <line x1="330" y1="172" x2="330" y2="218" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowH3)"/>
-      <line x1="430" y1="172" x2="520" y2="218" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowH1)"/>
-
-      <text x="170" y="192" font-size="10" font-style="italic" style="fill:var(--text-dim)">inherits</text>
-      <text x="348" y="198" font-size="10" font-style="italic" style="fill:var(--text-dim)">inherits</text>
-      <text x="490" y="192" font-size="10" font-style="italic" style="fill:var(--text-dim)">inherits</text>
-
-      <!-- L2: co-deck -->
-      <rect x="40" y="224" width="200" height="60" rx="12" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="140" y="249" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">L2 &mdash; co-deck</text>
-      <text x="140" y="269" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Lecture presentation variant</text>
-
-      <!-- L2: co-consult -->
-      <rect x="230" y="224" width="200" height="60" rx="12" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
-      <text x="330" y="249" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">L2 &mdash; co-consult</text>
-      <text x="330" y="269" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Consulting analysis variant</text>
-
-      <!-- L2: your project -->
-      <rect x="420" y="224" width="200" height="60" rx="12" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6,3"/>
-      <text x="520" y="249" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">L2 &mdash; Your Project</text>
-      <text x="520" y="269" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Custom variant (future)</text>
-
-      <!-- Legend -->
-      <rect x="40" y="300" width="10" height="10" rx="2" fill="var(--accent-purple)"/>
-      <text x="56" y="309" font-size="10" style="fill:var(--text-dim)">Shared (all projects)</text>
-
-      <rect x="200" y="300" width="10" height="10" rx="2" fill="none" stroke="var(--accent)" stroke-dasharray="3,2"/>
-      <text x="216" y="309" font-size="10" style="fill:var(--text-dim)">Extensible (customizable)</text>
-
+    <svg width="100%" viewBox="0 0 660 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="4-level layer structure diagram showing L0 through L3 distribution and scaffolding relationships">
       <defs>
-        <marker id="arrowH1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
-        </marker>
-        <marker id="arrowH2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
-        </marker>
-        <marker id="arrowH3" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-amber)"/>
+        <marker id="arrowInherit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--accent)"/>
         </marker>
       </defs>
+      <!-- L0 box -->
+      <rect x="30" y="10" width="600" height="70" rx="12" fill="var(--accent-purple)" stroke="var(--accent-purple)" stroke-width="2" opacity="0.15"/>
+      <rect x="30" y="10" width="600" height="70" rx="12" fill="none" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="330" y="35" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text)">L0 Source &mdash; Workspace Root</text>
+      <text x="330" y="53" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">Common agents &middot; Common skills &middot; Core scripts &middot; AGENTS.md</text>
+      <text x="330" y="70" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Original source for all layers (only edit location)</text>
+
+      <!-- L0 → L1 arrow -->
+      <line x1="330" y1="80" x2="330" y2="108" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arrowInherit)"/>
+      <text x="345" y="98" font-size="10" style="fill:var(--accent)">Distribute</text>
+
+      <!-- L1 box -->
+      <rect x="60" y="114" width="540" height="70" rx="12" fill="var(--accent)" stroke="var(--accent)" stroke-width="2" opacity="0.1"/>
+      <rect x="60" y="114" width="540" height="70" rx="12" fill="none" stroke="var(--accent)" stroke-width="2"/>
+      <text x="330" y="139" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text)">L1 &mdash; Common Template (templates/common/)</text>
+      <text x="330" y="157" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">.claude/ &middot; .gemini/ &middot; Platform configs &middot; Common agent/skill templates</text>
+      <text x="330" y="174" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Shared infrastructure for all variants (never edit directly)</text>
+
+      <!-- L1 → L2 arrows -->
+      <line x1="200" y1="184" x2="150" y2="218" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arrowInherit)"/>
+      <text x="195" y="208" font-size="10" style="fill:var(--accent)">Inherit</text>
+      <line x1="330" y1="184" x2="330" y2="218" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arrowInherit)"/>
+      <text x="345" y="208" font-size="10" style="fill:var(--accent)">Inherit</text>
+      <line x1="460" y1="184" x2="510" y2="218" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arrowInherit)"/>
+      <text x="475" y="208" font-size="10" style="fill:var(--accent)">Inherit</text>
+
+      <!-- L2-A: co-consult -->
+      <rect x="30" y="224" width="190" height="62" rx="12" fill="var(--accent-green)" stroke="var(--accent-green)" stroke-width="2" opacity="0.12"/>
+      <rect x="30" y="224" width="190" height="62" rx="12" fill="none" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="125" y="248" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">L2 &mdash; co-consult</text>
+      <text x="125" y="266" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Consulting automation variant template</text>
+      <text x="125" y="280" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Dedicated agents &middot; skills</text>
+
+      <!-- L2-B: co-deck -->
+      <rect x="235" y="224" width="190" height="62" rx="12" fill="var(--accent-amber)" stroke="var(--accent-amber)" stroke-width="2" opacity="0.12"/>
+      <rect x="235" y="224" width="190" height="62" rx="12" fill="none" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="330" y="248" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">L2 &mdash; co-deck</text>
+      <text x="330" y="266" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Presentation automation variant template</text>
+      <text x="330" y="280" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Dedicated agents &middot; skills</text>
+
+      <!-- L2-C: other variants -->
+      <rect x="440" y="224" width="190" height="62" rx="12" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6,3"/>
+      <rect x="440" y="224" width="190" height="62" rx="12" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="535" y="248" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">L2 &mdash; Other variants...</text>
+      <text x="535" y="266" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">co-develop, co-game</text>
+      <text x="535" y="280" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">co-design, co-work, etc.</text>
+
+      <!-- L2 → L3 arrows -->
+      <line x1="125" y1="286" x2="125" y2="330" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowInherit)"/>
+      <text x="140" y="314" font-size="10" style="fill:var(--accent-green)">Scaffold</text>
+      <line x1="330" y1="286" x2="330" y2="330" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowInherit)"/>
+      <text x="345" y="314" font-size="10" style="fill:var(--accent-amber)">Scaffold</text>
+
+      <!-- L3-A: co-consult project -->
+      <rect x="30" y="336" width="190" height="62" rx="12" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="125" y="360" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">L3 &mdash; co-consult</text>
+      <text x="125" y="378" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Projects/co-consult/</text>
+      <text x="125" y="392" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Actual project (independent)</text>
+
+      <!-- L3-B: co-deck project -->
+      <rect x="235" y="336" width="190" height="62" rx="12" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="330" y="360" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">L3 &mdash; co-deck</text>
+      <text x="330" y="378" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Projects/co-deck/</text>
+      <text x="330" y="392" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Actual project (independent)</text>
+
+      <!-- L3-C: custom project -->
+      <rect x="440" y="336" width="190" height="62" rx="12" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="535" y="360" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">L3 &mdash; Your Project</text>
+      <text x="535" y="378" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Projects/*/</text>
+      <text x="535" y="392" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Custom project (future)</text>
+
+      <!-- Legend -->
+      <rect x="30" y="420" width="630" height="80" rx="8" fill="none" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,2"/>
+      <text x="345" y="442" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text-dim)">Summary</text>
+      <text x="50" y="462" font-size="10" style="fill:var(--text-dim)">L0 (Source): Workspace root &mdash; only edit location</text>
+      <text x="50" y="478" font-size="10" style="fill:var(--text-dim)">L1 (Common): templates/common/ &mdash; shared by all variants</text>
+      <text x="370" y="462" font-size="10" style="fill:var(--text-dim)">L2 (Variant): templates/co-*/ &mdash; purpose-specific templates</text>
+      <text x="370" y="478" font-size="10" style="fill:var(--text-dim)">L3 (Project): Projects/*/ &mdash; scaffolded actual projects</text>
+      <text x="50" y="494" font-size="10" style="fill:var(--accent)">Distribution path: L0 &rarr; L1 &rarr; L2&emsp;|&emsp;Layer structure: L1 &rarr; L2 &rarr; L3</text>
     </svg>
   </div>
 
-  <h3>What Each Level Owns</h3>
+  <h3>Distribution Path and Layer Structure</h3>
 
-  <p>Each level in the hierarchy has clear ownership boundaries, preventing conflicts and confusion.</p>
+  <p>It is important to distinguish two directions in this system.</p>
 
-  <div class="step-list">
-    <ol>
-      <li>
-        <strong>L0 owns:</strong> Core agent definitions (PM, version), shared skills (lifecycle managers, audit tools), common scripts (<code>audit.ts</code>, <code>dev-sync.ts</code>), and governance files (<code>AGENTS.md</code>). Changes here affect <em>every</em> project in the workspace.
-      </li>
-      <li>
-        <strong>L1 owns:</strong> Platform-specific configurations (Claude Code settings in <code>.claude/</code>, Gemini CLI settings in <code>.gemini/</code>), directory structure templates, and base agent templates that L2 variants can customize. Changes here affect <em>all variants of a given type</em>.
-      </li>
-      <li>
-        <strong>L2 owns:</strong> Variant-specific agents (for example, co-deck's <code>pdf-export</code> agent), variant-specific skills, custom scripts, and project-level configuration (<code>variant.json</code>). Changes here affect <em>only this variant</em>.
-      </li>
-    </ol>
-  </div>
+  <ul>
+    <li><strong>Distribution path (L0 &rarr; L1 &rarr; L2)</strong>: Changes from the original source (L0) are delivered via <code>propagate:apply</code> to the L1 common template and then to each L2 variant template. This is the direction <em>code flows</em>.</li>
+    <li><strong>Layer structure (L1 &rarr; L2 &rarr; L3)</strong>: A static hierarchical relationship where each layer builds on the template of the layer above it. L3 projects are scaffolded from L2 variant templates, and L2 inherits the L1 common template.</li>
+  </ul>
 
-  <h3>The Sync Pipeline</h3>
+  <h3>Override Rules</h3>
 
-  <p>Because L2 projects inherit from L0 and L1, there needs to be a mechanism to propagate updates downward. This is handled by the <strong>sync pipeline</strong> (also called the L0&rarr;L1 publish pipeline). When a change is made at L0 or L1, the sync pipeline automatically pushes those changes to all downstream projects, ensuring that every variant stays up to date with the latest standards.</p>
+  <p>A lower layer can <em>override</em> settings from a higher layer, but changes never propagate in the reverse direction. This follows the same principle as class inheritance in object-oriented programming.</p>
 
-  <p>The sync pipeline is triggered by the <code>scripts/dev-sync.ts</code> script and runs as part of the standard workflow. It can also be triggered manually when needed.</p>
+  <ul>
+    <li><strong>Rules set at L3</strong> take priority over rules from L2, L1, and L0.</li>
+    <li><strong>Rules set at L2</strong> take priority over rules from L1 and L0 (unless overridden by L3).</li>
+    <li><strong>Rules set at L1</strong> take priority over rules from L0 (unless overridden by L2 or L3).</li>
+    <li><strong>Rules from L0</strong> apply to all layers when nowhere else overridden.</li>
+  </ul>
 
   <div class="note">
-    <strong>L0 applies to all projects.</strong> This is the key design principle: improvements made at the workspace root level benefit every project, every variant, and every platform automatically. If a new security check is added to the audit script at L0, every L2 variant gains that security check the next time the sync pipeline runs &mdash; no manual intervention required.
+    Everything at L0 Source is <strong>common to all projects</strong>. That means core scripts like audit.ts and validate-templates.ts work identically in every project. When you fix something at L0, the change propagates through the distribution path to L1 and L2, and ultimately reaches every L3 project. This is the core promise of the standard &mdash; <em>define once, apply consistently everywhere</em>.
   </div>
 
   <!-- ============================================================ -->
@@ -440,11 +478,9 @@
   <!-- ============================================================ -->
   <h2 id="variants">Variant Concept</h2>
 
-  <p>Now that we understand the 3-level hierarchy, let us focus on the most interesting level: <strong>L2 variants</strong>. A variant is a specialized project built on top of the shared workspace standard, tailored to a specific use case.</p>
-
   <h3>What is a Variant?</h3>
 
-  <p>A <strong>variant</strong> is an L2 project that inherits the common workspace structure from L0 and L1 and adds its own specialized agents, skills, scripts, and workflows. Each variant targets a specific type of work &mdash; presentation production, consulting analysis, data processing, or anything else you can imagine.</p>
+  <p>A <strong>variant</strong> is a template customized for a specific purpose, built on the L0 + L1 foundation. As explained in the 4-level layer structure section, <strong>L2</strong> is the variant template layer, and <strong>L3</strong> is the actual project scaffolded from an L2 template.</p>
 
   <p>Variants are what make ai-workspace-standards practical. The standard provides the foundation; variants provide the specialization. Without variants, the standard would be a generic framework with no real-world application. Without the standard, variants would be isolated projects with incompatible structures.</p>
 
@@ -617,7 +653,7 @@
   </ul>
 
   <div class="tip-box">
-    <strong>Key Takeaway:</strong> The combination of a 3-level inheritance hierarchy, the variant concept, and common contracts is what makes ai-workspace-standards a true <em>platform</em> rather than just a collection of files. The hierarchy provides structure, variants provide specialization, and contracts provide interoperability. Together, they enable any number of specialized AI projects to share a common foundation while remaining independently customizable.
+    <strong>Key Takeaway:</strong> The combination of a 4-level layer structure, the variant concept, and common contracts is what makes ai-workspace-standards a true <em>platform</em> rather than just a collection of files. The layer structure provides organization (L0&rarr;L1&rarr;L2 distribution path, L1&rarr;L2&rarr;L3 static hierarchy), variants provide specialization, and contracts provide interoperability. Together, they enable any number of specialized AI projects to share a common foundation while remaining independently customizable.
   </div>
 
   <!-- ============================================================ -->

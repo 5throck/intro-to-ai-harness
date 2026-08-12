@@ -76,7 +76,7 @@
 
   <p>A chef (agent) uses different recipes (skills) depending on what dish the customer ordered. The chef&rsquo;s identity does not change, but the recipe tells them exactly how to prepare each dish. The <code>html-build</code> agent always builds HTML slides, but the <code>html-build</code> skill tells it precisely how to read the slide deck file, apply the theme, and produce the output.</p>
 
-  <h3>Ownership Layers (L0 / L1 / L2)</h3>
+  <h3>Ownership Layers (L0 / L1 / L2 / L3)</h3>
 
   <p>Skills live at different layers of the workspace hierarchy, and understanding which layer you are editing is critical:</p>
 
@@ -84,13 +84,14 @@
     <ol>
       <li><strong>L0 &mdash; Workspace Root</strong> (<code>skills/</code>): The Single Source of Truth. All skill development happens here. When you create or edit a skill, this is the layer you modify.</li>
       <li><strong>L1 &mdash; Common Template</strong> (<code>templates/common/skills/</code>): A snapshot published from L0 via <code>bun run propagate:apply</code>. You <em>never</em> edit L1 directly &mdash; changes flow downward from L0.</li>
-      <li><strong>L2 &mdash; Project Level</strong> (<code>&lt;project&gt;/skills/</code>): A project-specific snapshot created from L1 at project initialization time. Local customizations can be added here without affecting other projects.</li>
+      <li><strong>L2 &mdash; Variant Template</strong> (<code>templates/co-*/skills/</code>): Variant-specific skills defined in the L2 template layer. Each variant (co-deck, co-consult, etc.) can include skills that are shared across all projects scaffolded from that variant.</li>
+      <li><strong>L3 &mdash; Project Level</strong> (<code>Projects/&lt;name&gt;/skills/</code>): A project-specific layer created when an L3 project is scaffolded from an L2 variant template. Local customizations can be added here without affecting other projects or the variant template.</li>
     </ol>
   </div>
 
   <div class="tip-box">
     <strong>The &ldquo;Recipe&rdquo; Analogy</strong><br>
-    If the agent is a chef, then the skill is a recipe card in the kitchen&rsquo;s recipe binder. The binder is the L0 workspace (the master copy). Cookbooks printed for each restaurant chain are L1 templates. Notes scribbled in the margin of one restaurant&rsquo;s copy are L2 project overrides. You always write new recipes at the master binder (L0), then distribute copies.
+    If the agent is a chef, then the skill is a recipe card in the kitchen&rsquo;s recipe binder. The binder is the L0 workspace (the master copy). Cookbooks printed for each restaurant chain are L1 templates. Recipe variations added for a specific cuisine (e.g., Italian, Japanese) are L2 variant skills. Notes scribbled in the margin of one restaurant&rsquo;s copy are L3 project overrides. You always write new recipes at the master binder (L0), then distribute copies.
   </div>
 
 

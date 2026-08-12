@@ -525,6 +525,24 @@
     <li><strong>설명</strong> — variant의 용도와 특징</li>
   </ul>
 
+  <div class="code-block">
+<pre><code>{
+  "name": "co-deck",
+  "description": "프레젠테이션·강의 자료 제작 variant",
+  "variant_type": "lecture",
+  "status": "beta",
+  "version": "0.2.0",
+  "inherits_common": "templates/common",
+  "agents": [
+    { "name": "pm",              "file": "agents/pm.md" },
+    { "name": "research",         "file": "agents/research.md" },
+    { "name": "storyline",       "file": "agents/storyline.md" },
+    { "name": "html-build",      "file": "agents/html-build.md" }
+  ]
+}</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+
   <p>variant.json은 variant를 설치하고 관리할 때 참조되는 "신분증"과 같은 역할을 합니다. 이 파일이 있어야 시스템이 어떤 variant인지, 어떤 버전인지, 어떤 의존성이 있는지 파악할 수 있습니다.</p>
 
   <h3>variant의 생애주기</h3>

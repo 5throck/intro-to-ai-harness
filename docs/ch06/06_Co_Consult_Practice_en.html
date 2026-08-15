@@ -15,7 +15,7 @@
   <div class="nav-title">Ch 6 &middot; co-consult: AI Consulting in Practice</div>
   <a href="#what-is-coconsult">What is co-consult</a>
   <a href="#architecture">System Architecture</a>
-  <a href="#phases">7-Phase Workflow</a>
+  <a href="#phases">How the PM Dispatches Specialists</a>
   <a href="#how-to-talk">How to Talk to the PM</a>
   <a href="#team-patterns">Team Composition Patterns</a>
   <a href="#practice">Practice: Simple Market Analysis</a>
@@ -33,7 +33,7 @@
     <div class="kp-title">What This Chapter Covers</div>
     <ul>
       <li>co-consult system introduction and architecture</li>
-      <li>7-Phase workflow</li>
+      <li>How the PM dispatches specialists (no fixed pipeline)</li>
       <li>How to make requests to the PM agent</li>
       <li>4 team composition patterns</li>
       <li>Practice: simple market analysis project</li>
@@ -86,8 +86,8 @@
       <h4>co-consult</h4>
       <ul>
         <li>Strategic consulting analysis and reports</li>
-        <li>research, data-analyst, market-analyst, strategy, etc.</li>
-        <li>7-Phase pipeline</li>
+        <li>strategy-analyst, industry-expert, sme, communications-lead, etc.</li>
+        <li>PM-dispatched, no fixed pipeline</li>
         <li>Output: Analysis report HTML + PDF</li>
       </ul>
     </div>
@@ -100,7 +100,7 @@
 
   <h3>Agent Composition</h3>
 
-  <p>co-consult consists of <strong>one PM agent and 11 specialist agents</strong>. The PM sits at the center, orchestrating the entire project, while specialist agents carry out work in their respective domains.</p>
+  <p>co-consult consists of <strong>one PM agent (the Engagement Leader) and 10 specialist agents</strong>. The PM sits at the center, orchestrating the entire engagement, while specialist agents carry out work in their respective domains.</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
     <svg width="100%" viewBox="0 0 680 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-consult agent composition diagram">
@@ -111,7 +111,7 @@
       <circle cx="340" cy="240" r="56" fill="var(--accent)" opacity="0.15"/>
       <circle cx="340" cy="240" r="56" fill="none" stroke="var(--accent)" stroke-width="3"/>
       <text x="340" y="234" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text)">PM</text>
-      <text x="340" y="252" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Project Manager</text>
+      <text x="340" y="252" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Engagement Leader</text>
 
       <!-- Connection lines -->
       <line x1="340" y1="184" x2="340" y2="72" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
@@ -126,41 +126,38 @@
       <line x1="284" y1="240" x2="140" y2="340" stroke="var(--accent-red)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
       <line x1="396" y1="240" x2="540" y2="420" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
 
-      <!-- Top: research -->
-      <rect x="290" y="36" width="100" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="340" y="59" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">research</text>
+      <!-- Top: strategy-analyst -->
+      <rect x="280" y="36" width="120" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="340" y="59" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">strategy-analyst</text>
 
       <!-- Right column -->
-      <rect x="540" y="78" width="110" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="595" y="101" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">source-verifier</text>
+      <rect x="540" y="78" width="120" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="600" y="101" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">industry-expert</text>
 
-      <rect x="540" y="158" width="110" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
-      <text x="595" y="181" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">data-analyst</text>
+      <rect x="540" y="158" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="600" y="181" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">sme</text>
 
-      <rect x="540" y="238" width="110" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
-      <text x="595" y="261" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">market-analyst</text>
+      <rect x="540" y="238" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="600" y="261" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">data-analyst</text>
 
-      <rect x="540" y="318" width="110" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
-      <text x="595" y="341" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">strategy</text>
+      <rect x="540" y="318" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="600" y="341" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">communications-lead</text>
 
-      <rect x="540" y="398" width="110" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
-      <text x="595" y="421" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">tech-analyst</text>
+      <rect x="540" y="398" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="600" y="421" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">solutions-architect</text>
 
       <!-- Left column -->
-      <rect x="30" y="78" width="110" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
-      <text x="85" y="101" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">storyline</text>
+      <rect x="20" y="78" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="80" y="101" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">change-mgmt-partner</text>
 
-      <rect x="30" y="158" width="110" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
-      <text x="85" y="181" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">html-build</text>
+      <rect x="20" y="158" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="80" y="181" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">workstream-lead</text>
 
-      <rect x="30" y="238" width="110" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
-      <text x="85" y="261" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">pdf-export</text>
+      <rect x="20" y="238" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="80" y="261" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">delivery-manager</text>
 
-      <rect x="30" y="318" width="110" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="85" y="341" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">version</text>
-
-      <rect x="30" y="398" width="110" height="36" rx="8" fill="var(--bg-warn)" stroke="var(--accent-red)" stroke-width="2"/>
-      <text x="85" y="421" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">auditor</text>
+      <rect x="20" y="318" width="120" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="80" y="341" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">technology-specialist</text>
 
       <!-- Bottom: User -->
       <rect x="290" y="406" width="100" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
@@ -168,17 +165,17 @@
 
       <!-- Legend -->
       <rect x="260" y="460" width="12" height="12" rx="2" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="278" y="470" font-size="9" style="fill:var(--text-dim)">Research</text>
-      <rect x="330" y="460" width="12" height="12" rx="2" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="348" y="470" font-size="9" style="fill:var(--text-dim)">Analysis / Build</text>
-      <rect x="410" y="460" width="12" height="12" rx="2" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="428" y="470" font-size="9" style="fill:var(--text-dim)">Support / QA</text>
+      <text x="278" y="470" font-size="9" style="fill:var(--text-dim)">Research / Insight</text>
+      <rect x="380" y="460" width="12" height="12" rx="2" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="398" y="470" font-size="9" style="fill:var(--text-dim)">Analysis / Design</text>
+      <rect x="500" y="460" width="12" height="12" rx="2" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="518" y="470" font-size="9" style="fill:var(--text-dim)">Delivery / Support</text>
     </svg>
   </div>
 
   <h3>Specialist Agent Roles</h3>
 
-  <p>Here is a summary of each specialist agent's role.</p>
+  <p>Here is a summary of each specialist agent's role. Unlike a fixed pipeline, any of these can be dispatched at any point in the engagement, as needed.</p>
 
   <table>
     <thead>
@@ -190,160 +187,115 @@
     </thead>
     <tbody>
       <tr>
-        <td><code>research</code></td>
-        <td>Research Specialist</td>
-        <td>Collects related materials and data from the web and organizes them into <code>research_notes.md</code></td>
+        <td><code>change-management-partner</code></td>
+        <td>Change Management Partner</td>
+        <td>Organizational transformation, culture strategy, and stakeholder alignment</td>
       </tr>
       <tr>
-        <td><code>source-verifier</code></td>
-        <td>Source Verifier</td>
-        <td>Validates the credibility of collected sources and calculates a Trust Score (optional)</td>
+        <td><code>strategy-analyst</code></td>
+        <td>Strategy Analyst</td>
+        <td>Market analysis, competitive research, and financial modeling</td>
+      </tr>
+      <tr>
+        <td><code>industry-expert</code></td>
+        <td>Industry Expert</td>
+        <td>Industry-specific insights, competitive dynamics, and the regulatory landscape</td>
+      </tr>
+      <tr>
+        <td><code>sme</code></td>
+        <td>Subject Matter Expert</td>
+        <td>Functional expertise such as HR, Finance, Operations, or Marketing</td>
+      </tr>
+      <tr>
+        <td><code>communications-lead</code></td>
+        <td>Communications Lead</td>
+        <td>Client communications, presentations, and strategic narratives</td>
+      </tr>
+      <tr>
+        <td><code>solutions-architect</code></td>
+        <td>Solutions Architect</td>
+        <td>Technical solution design, system architecture, and implementation roadmaps</td>
+      </tr>
+      <tr>
+        <td><code>workstream-lead</code></td>
+        <td>Workstream Lead</td>
+        <td>Workstream management, team coordination, and progress tracking</td>
+      </tr>
+      <tr>
+        <td><code>delivery-manager</code></td>
+        <td>Delivery Manager</td>
+        <td>Project delivery, operations coordination, and resource allocation</td>
+      </tr>
+      <tr>
+        <td><code>technology-specialist</code></td>
+        <td>Technology Specialist</td>
+        <td>Collaboration platforms, workflow automation, and digital transformation</td>
       </tr>
       <tr>
         <td><code>data-analyst</code></td>
         <td>Data Analyst</td>
-        <td>Analyzes numerical data and generates visualization materials</td>
-      </tr>
-      <tr>
-        <td><code>market-analyst</code></td>
-        <td>Market Analyst</td>
-        <td>Analyzes the market environment including market size, growth rate, and trends</td>
-      </tr>
-      <tr>
-        <td><code>strategy</code></td>
-        <td>Strategy Consultant</td>
-        <td>Develops strategic recommendations and an execution roadmap based on analysis results</td>
-      </tr>
-      <tr>
-        <td><code>tech-analyst</code></td>
-        <td>Technology Analyst</td>
-        <td>Analyzes related technology trends and adoption feasibility</td>
-      </tr>
-      <tr>
-        <td><code>storyline</code></td>
-        <td>Storyliner</td>
-        <td>Designs the overall structure and narrative of the report</td>
-      </tr>
-      <tr>
-        <td><code>html-build</code></td>
-        <td>HTML Builder</td>
-        <td>Converts analysis content into an HTML-format report</td>
-      </tr>
-      <tr>
-        <td><code>pdf-export</code></td>
-        <td>PDF Exporter</td>
-        <td>Exports the report to PDF format</td>
-      </tr>
-      <tr>
-        <td><code>version</code></td>
-        <td>Version Manager</td>
-        <td>Performs automatic backups before file modifications</td>
-      </tr>
-      <tr>
-        <td><code>auditor</code></td>
-        <td>Quality Auditor</td>
-        <td>Reviews the quality and consistency of the final deliverable</td>
+        <td>Statistical analysis, data modeling, and visualization</td>
       </tr>
     </tbody>
   </table>
 
   <div class="note">
-    The PM agent does <strong>not</strong> execute the work of the specialist agents directly. The PM only plays the role of an orchestrator &mdash; it analyzes the user's request and dispatches tasks to the appropriate specialist agents. See the PM Gateway section in Chapter 4 for details.
+    The PM agent does <strong>not</strong> execute the work of the specialist agents directly. The PM only plays the role of an orchestrator &mdash; it analyzes the user's request and dispatches tasks to the appropriate specialist agents, as the engagement requires. See the PM Gateway section in Chapter 4 for details.
   </div>
 
   <!-- ============================================================ -->
-  <!-- SECTION 3: 7-Phase Workflow                                     -->
+  <!-- SECTION 3: How the PM Dispatches Specialists                     -->
   <!-- ============================================================ -->
-  <h2 id="phases">7-Phase Workflow</h2>
+  <h2 id="phases">How the PM Dispatches Specialists</h2>
 
-  <p>co-consult follows a workflow composed of <strong>7 Phases</strong> to complete a consulting project. Each Phase is handled by a specific agent and produces defined deliverables.</p>
+  <p>Unlike co-deck's fixed 11-stage pipeline, co-consult has <strong>no fixed phase sequence</strong>. The PM (Engagement Leader) analyzes your request, decides which specialists are needed, and dispatches them directly &mdash; activating more as the engagement's questions and deliverables require, rather than marching through numbered phases and gates.</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-consult 7-Phase pipeline diagram">
+    <svg width="100%" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-consult PM dispatch diagram">
       <!-- Background -->
-      <rect x="0" y="0" width="680" height="320" rx="12" fill="var(--bg2)"/>
+      <rect x="0" y="0" width="680" height="260" rx="12" fill="var(--bg2)"/>
 
-      <!-- Phase 0 -->
-      <rect x="16" y="40" width="82" height="100" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="57" y="62" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase 0</text>
-      <text x="57" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Project</text>
-      <text x="57" y="92" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Kickoff</text>
-      <text x="57" y="116" text-anchor="middle" font-size="8" style="fill:var(--accent)">PM</text>
-      <text x="57" y="130" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">profile.md</text>
+      <!-- User -->
+      <rect x="16" y="92" width="90" height="60" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="61" y="118" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">User</text>
+      <text x="61" y="134" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">request</text>
 
       <!-- Arrow -->
-      <path d="M100 90 L112 90" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead)"/>
+      <path d="M108 122 L128 122" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-      <!-- Phase 1 -->
-      <rect x="114" y="40" width="82" height="100" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="155" y="62" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase 1</text>
-      <text x="155" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Research</text>
-      <text x="155" y="116" text-anchor="middle" font-size="8" style="fill:var(--accent)">research</text>
-      <text x="155" y="130" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">research_</text>
-      <text x="155" y="139" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">notes.md</text>
+      <!-- PM -->
+      <rect x="130" y="82" width="110" height="80" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2.5"/>
+      <text x="185" y="112" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">PM</text>
+      <text x="185" y="128" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">Engagement</text>
+      <text x="185" y="140" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">Leader</text>
 
-      <!-- Arrow -->
-      <path d="M198 90 L210 90" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead)"/>
+      <!-- Arrows to specialists -->
+      <path d="M242 100 L300 50" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+      <path d="M242 118 L300 118" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+      <path d="M242 136 L300 186" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
 
-      <!-- Phase 1.5 -->
-      <rect x="212" y="40" width="82" height="100" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="6,3"/>
-      <text x="253" y="62" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">1.5</text>
-      <text x="253" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Source</text>
-      <text x="253" y="92" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Verification</text>
-      <text x="253" y="116" text-anchor="middle" font-size="8" style="fill:var(--accent-amber)">source-verify</text>
-      <text x="253" y="130" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">(optional)</text>
+      <!-- Specialist boxes (dispatched as needed) -->
+      <rect x="302" y="26" width="140" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="372" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">strategy-analyst</text>
 
-      <!-- Arrow -->
-      <path d="M296 90 L308 90" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead)"/>
+      <rect x="302" y="98" width="140" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="372" y="122" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">industry-expert</text>
 
-      <!-- Phase 2-3 -->
-      <rect x="310" y="40" width="82" height="100" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
-      <text x="351" y="62" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase 2-3</text>
-      <text x="351" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Analysis /</text>
-      <text x="351" y="92" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Strategy</text>
-      <text x="351" y="116" text-anchor="middle" font-size="8" style="fill:var(--accent-amber)">analysts</text>
-      <text x="351" y="130" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">storyline.md</text>
+      <rect x="302" y="166" width="140" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="372" y="190" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">communications-lead</text>
 
-      <!-- Gate 2 marker -->
-      <rect x="390" y="56" width="38" height="20" rx="4" fill="var(--accent-red)" opacity="0.15" stroke="var(--accent-red)" stroke-width="1.5"/>
-      <text x="409" y="70" text-anchor="middle" font-size="7" font-weight="bold" style="fill:var(--accent-red)">GATE</text>
+      <text x="372" y="222" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">...other specialists, dispatched only if needed</text>
 
-      <!-- Arrow -->
-      <path d="M394 90 L406 90" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead)"/>
+      <!-- Arrows to deliverable -->
+      <path d="M444 46 L494 100" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+      <path d="M444 118 L494 118" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+      <path d="M444 186 L494 136" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
 
-      <!-- Phase 4 -->
-      <rect x="408" y="40" width="82" height="100" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
-      <text x="449" y="62" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase 4</text>
-      <text x="449" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Report</text>
-      <text x="449" y="92" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Writing</text>
-      <text x="449" y="116" text-anchor="middle" font-size="8" style="fill:var(--accent-purple)">html-build</text>
-      <text x="449" y="130" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">report.html</text>
-
-      <!-- Arrow -->
-      <path d="M492 90 L504 90" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead)"/>
-
-      <!-- Phase 5 -->
-      <rect x="506" y="40" width="82" height="100" rx="8" fill="var(--bg-warn)" stroke="var(--accent-red)" stroke-width="2"/>
-      <text x="547" y="62" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase 5</text>
-      <text x="547" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Quality</text>
-      <text x="547" y="92" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Review</text>
-      <text x="547" y="116" text-anchor="middle" font-size="8" style="fill:var(--accent-red)">auditor</text>
-      <text x="547" y="130" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">QA report</text>
-
-      <!-- Gate 5 marker -->
-      <rect x="586" y="56" width="38" height="20" rx="4" fill="var(--accent-red)" opacity="0.15" stroke="var(--accent-red)" stroke-width="1.5"/>
-      <text x="605" y="70" text-anchor="middle" font-size="7" font-weight="bold" style="fill:var(--accent-red)">GATE</text>
-
-      <!-- Arrow -->
-      <path d="M590 90 L602 90" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead)"/>
-
-      <!-- Phase 6 -->
-      <rect x="604" y="40" width="60" height="100" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="634" y="62" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase 6</text>
-      <text x="634" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Final</text>
-      <text x="634" y="92" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">ization</text>
-      <text x="634" y="116" text-anchor="middle" font-size="8" style="fill:var(--accent-green)">PM</text>
-      <text x="634" y="130" text-anchor="middle" font-size="7" style="fill:var(--text-dim)">PDF export</text>
+      <!-- Deliverable -->
+      <rect x="496" y="82" width="160" height="80" rx="10" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2.5"/>
+      <text x="576" y="112" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Deliverables</text>
+      <text x="576" y="128" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">findings, report</text>
+      <text x="576" y="140" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">reviewed by PM</text>
 
       <!-- Arrowhead definition -->
       <defs>
@@ -351,85 +303,34 @@
           <polygon points="0 0, 6 2, 0 4" style="fill:var(--text-dim)"/>
         </marker>
       </defs>
-
-      <!-- Bottom legend area -->
-      <rect x="16" y="170" width="648" height="140" rx="8" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
-      <text x="340" y="190" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase Details</text>
-
-      <!-- Phase 0 description -->
-      <text x="30" y="210" font-size="9" font-weight="bold" style="fill:var(--accent-green)">Phase 0</text>
-      <text x="30" y="224" font-size="9" style="fill:var(--text-dim)">PM meets with the user to finalize</text>
-      <text x="30" y="236" font-size="9" style="fill:var(--text-dim)">the project topic, scope, and timeline.</text>
-
-      <!-- Phase 1 description -->
-      <text x="30" y="258" font-size="9" font-weight="bold" style="fill:var(--accent-green)">Phase 1</text>
-      <text x="30" y="272" font-size="9" style="fill:var(--text-dim)">research agent performs web searches</text>
-      <text x="30" y="284" font-size="9" style="fill:var(--text-dim)">and produces research_notes.md.</text>
-
-      <!-- Phase 1.5 description -->
-      <text x="240" y="210" font-size="9" font-weight="bold" style="fill:var(--accent-amber)">Phase 1.5</text>
-      <text x="240" y="224" font-size="9" style="fill:var(--text-dim)">source-verifier validates source</text>
-      <text x="240" y="236" font-size="9" style="fill:var(--text-dim)">credibility (optional). Trust Score &lt; 70%</text>
-      <text x="240" y="248" font-size="9" style="fill:var(--text-dim)">halts the project.</text>
-
-      <!-- Phase 2-3 description -->
-      <text x="240" y="270" font-size="9" font-weight="bold" style="fill:var(--accent-amber)">Phase 2-3</text>
-      <text x="240" y="284" font-size="9" style="fill:var(--text-dim)">Analysis specialists perform data analysis,</text>
-      <text x="240" y="296" font-size="9" style="fill:var(--text-dim)">market analysis, and strategy development.</text>
-
-      <!-- Phase 4 description -->
-      <text x="470" y="210" font-size="9" font-weight="bold" style="fill:var(--accent-purple)">Phase 4</text>
-      <text x="470" y="224" font-size="9" style="fill:var(--text-dim)">html-build converts analysis results</text>
-      <text x="470" y="236" font-size="9" style="fill:var(--text-dim)">into an HTML report.</text>
-
-      <!-- Phase 5 description -->
-      <text x="470" y="258" font-size="9" font-weight="bold" style="fill:var(--accent-red)">Phase 5</text>
-      <text x="470" y="272" font-size="9" style="fill:var(--text-dim)">auditor reviews quality and</text>
-      <text x="470" y="284" font-size="9" style="fill:var(--text-dim)">requests fixes for issues found.</text>
-
-      <!-- Phase 6 description -->
-      <text x="470" y="300" font-size="9" font-weight="bold" style="fill:var(--accent-green)">Phase 6</text>
-      <text x="530" y="300" font-size="9" style="fill:var(--text-dim)">Final PDF export and project close.</text>
     </svg>
   </div>
 
-  <h3>Key Deliverables by Phase</h3>
+  <h3>How an Engagement Actually Proceeds</h3>
 
   <div class="step-list">
     <ol>
       <li>
-        <strong>Phase 0 &mdash; Project Kickoff</strong><br>
-        PM meets with the user to finalize the project's topic, scope, target market, and timeline. In this step, <code>consult-profile.md</code> and <code>project_state.json</code> are created.
+        <strong>Kickoff</strong><br>
+        The PM talks with you to understand the topic, scope, target audience, and timeline. There is no separate "Phase 0" file format &mdash; the PM simply captures this context and decides which specialists the engagement calls for.
       </li>
       <li>
-        <strong>Phase 1 &mdash; Research</strong><br>
-        The <code>research</code> agent performs web searches to collect related materials, statistics, and reports. The output is <code>research_notes.md</code>, which serves as the information foundation for the entire project.
+        <strong>Dispatch specialists as questions arise</strong><br>
+        The PM activates whichever specialists are relevant &mdash; for example <code>strategy-analyst</code> for market and competitive research, <code>industry-expert</code> for sector-specific context, or <code>sme</code> for a functional deep dive. There is no required order; the PM may dispatch several in parallel or bring in more mid-engagement if a gap appears.
       </li>
       <li>
-        <strong>Phase 1.5 &mdash; Source Verification (Optional)</strong><br>
-        The <code>source-verifier</code> agent validates the accessibility and content accuracy of collected source URLs. It calculates a Trust Score; if the score is below 70%, the project is temporarily halted.
+        <strong>Synthesis and reporting</strong><br>
+        Once enough analysis is in hand, the PM typically brings in <code>communications-lead</code> to shape the narrative and produce client-ready materials, and <code>solutions-architect</code> or <code>workstream-lead</code> if the engagement calls for an implementation plan.
       </li>
       <li>
-        <strong>Phase 2-3 &mdash; Analysis and Strategy Development</strong><br>
-        <code>data-analyst</code>, <code>market-analyst</code>, <code>strategy</code>, <code>tech-analyst</code>, and others perform analysis in their respective domains and propose strategies based on the research results. The <code>storyline</code> agent designs the report structure.
-      </li>
-      <li>
-        <strong>Phase 4 &mdash; Report Writing</strong><br>
-        The <code>html-build</code> agent converts analysis results into an HTML-format report. The completed report includes charts, diagrams, and tables.
-      </li>
-      <li>
-        <strong>Phase 5 &mdash; Quality Review</strong><br>
-        The <code>auditor</code> agent reviews the report's quality, consistency, and data accuracy. If issues are found, it sends fix requests.
-      </li>
-      <li>
-        <strong>Phase 6 &mdash; Finalization</strong><br>
-        The <code>pdf-export</code> agent converts the final report to PDF and saves it in <code>deliverables/reports/</code>. The project status is updated to completed.
+        <strong>Delivery and wrap-up</strong><br>
+        For larger engagements, <code>delivery-manager</code> and <code>workstream-lead</code> coordinate execution and track progress. The PM concludes the engagement once it determines, together with you, that the deliverables are complete.
       </li>
     </ol>
   </div>
 
   <div class="note">
-    You <strong>define requirements at Phase 0</strong> and provide approval at <strong>Gate 2 (after Phase 2-3)</strong> and <strong>Gate 5 (after Phase 5)</strong>. The remaining Phases proceed automatically as the PM dispatches agents. The workflow does not advance past a Gate without your approval, so you can adjust direction mid-project.
+    You <strong>define requirements at kickoff</strong> and review deliverables whenever the PM checks in with you. Because there is no fixed pipeline, checkpoints happen naturally at whatever points the PM judges useful &mdash; e.g., after a first round of research, or before finalizing a report &mdash; rather than at hardcoded numbered gates. You can redirect the engagement at any of these checkpoints.
   </div>
 
   <!-- ============================================================ -->
@@ -521,11 +422,9 @@
       <text x="95" y="56" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Rapid evaluation</text>
       <circle cx="95" cy="90" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
       <text x="95" y="95" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
-      <rect x="40" y="120" width="50" height="22" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="65" y="135" text-anchor="middle" font-size="8" style="fill:var(--text)">research</text>
-      <rect x="100" y="120" width="58" height="22" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="129" y="135" text-anchor="middle" font-size="8" style="fill:var(--text)">html-build</text>
-      <text x="95" y="164" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">2-3 agents</text>
+      <rect x="30" y="120" width="130" height="22" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="95" y="135" text-anchor="middle" font-size="8" style="fill:var(--text)">strategy-analyst</text>
+      <text x="95" y="164" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">1-2 agents</text>
       <text x="95" y="180" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">1-2 days</text>
 
       <!-- Pattern 2: Standard -->
@@ -534,15 +433,13 @@
       <text x="265" y="56" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Standard scope</text>
       <circle cx="265" cy="90" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
       <text x="265" y="95" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
-      <rect x="200" y="116" width="50" height="20" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="225" y="130" text-anchor="middle" font-size="7" style="fill:var(--text)">research</text>
-      <rect x="256" y="116" width="76" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="294" y="130" text-anchor="middle" font-size="7" style="fill:var(--text)">market-analyst</text>
-      <rect x="200" y="142" width="56" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="228" y="156" text-anchor="middle" font-size="7" style="fill:var(--text)">strategy</text>
-      <rect x="262" y="142" width="66" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
-      <text x="295" y="156" text-anchor="middle" font-size="7" style="fill:var(--text)">html-build</text>
-      <text x="265" y="178" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">5-6 agents</text>
+      <rect x="200" y="116" width="70" height="20" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="235" y="130" text-anchor="middle" font-size="7" style="fill:var(--text)">strategy-analyst</text>
+      <rect x="272" y="116" width="60" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="302" y="130" text-anchor="middle" font-size="7" style="fill:var(--text)">industry-expert</text>
+      <rect x="200" y="142" width="60" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="230" y="156" text-anchor="middle" font-size="7" style="fill:var(--text)">comms-lead</text>
+      <text x="265" y="178" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">3-4 agents</text>
       <text x="265" y="194" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">1-2 weeks</text>
 
       <!-- Pattern 3: Complex Transformation -->
@@ -551,19 +448,19 @@
       <text x="435" y="56" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Multi-faceted change</text>
       <circle cx="435" cy="82" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
       <text x="435" y="87" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
-      <rect x="372" y="108" width="50" height="18" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="397" y="121" text-anchor="middle" font-size="7" style="fill:var(--text)">research</text>
-      <rect x="428" y="108" width="76" height="18" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="466" y="121" text-anchor="middle" font-size="7" style="fill:var(--text)">source-verifier</text>
+      <rect x="372" y="108" width="66" height="18" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="405" y="121" text-anchor="middle" font-size="7" style="fill:var(--text)">change-mgmt</text>
+      <rect x="440" y="108" width="64" height="18" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="472" y="121" text-anchor="middle" font-size="7" style="fill:var(--text)">workstream-lead</text>
       <rect x="372" y="132" width="58" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="401" y="145" text-anchor="middle" font-size="7" style="fill:var(--text)">data-analyst</text>
+      <text x="401" y="145" text-anchor="middle" font-size="7" style="fill:var(--text)">delivery-mgr</text>
       <rect x="436" y="132" width="66" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="469" y="145" text-anchor="middle" font-size="7" style="fill:var(--text)">market-analyst</text>
+      <text x="469" y="145" text-anchor="middle" font-size="7" style="fill:var(--text)">strategy-analyst</text>
       <rect x="372" y="156" width="56" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="400" y="169" text-anchor="middle" font-size="7" style="fill:var(--text)">strategy</text>
+      <text x="400" y="169" text-anchor="middle" font-size="7" style="fill:var(--text)">sme</text>
       <rect x="434" y="156" width="66" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="467" y="169" text-anchor="middle" font-size="7" style="fill:var(--text)">tech-analyst</text>
-      <text x="435" y="192" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">8+ agents</text>
+      <text x="467" y="169" text-anchor="middle" font-size="7" style="fill:var(--text)">comms-lead</text>
+      <text x="435" y="192" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">6-8 agents</text>
       <text x="435" y="208" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">2-4 weeks</text>
 
       <!-- Pattern 4: Specialized Expert -->
@@ -573,14 +470,10 @@
       <circle cx="595" cy="90" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
       <text x="595" y="95" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
       <rect x="546" y="120" width="46" height="20" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="569" y="134" text-anchor="middle" font-size="7" style="fill:var(--text)">research</text>
+      <text x="569" y="134" text-anchor="middle" font-size="7" style="fill:var(--text)">sme</text>
       <rect x="598" y="120" width="52" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="624" y="134" text-anchor="middle" font-size="7" style="fill:var(--text)">analyst</text>
-      <rect x="546" y="146" width="54" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="573" y="160" text-anchor="middle" font-size="7" style="fill:var(--text)">specialist</text>
-      <rect x="606" y="146" width="52" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
-      <text x="632" y="160" text-anchor="middle" font-size="7" style="fill:var(--text)">html-build</text>
-      <text x="595" y="190" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">3-4 agents</text>
+      <text x="624" y="134" text-anchor="middle" font-size="7" style="fill:var(--text)">tech-spec</text>
+      <text x="595" y="190" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">2-3 agents</text>
       <text x="595" y="206" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Focused on one area</text>
 
       <!-- Bottom: Comparison area -->
@@ -595,10 +488,10 @@
 
       <!-- Agent count -->
       <text x="32" y="290" font-size="9" style="fill:var(--text-dim)">Agents:</text>
-      <text x="130" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">2-3</text>
-      <text x="260" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">5-6</text>
-      <text x="410" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">8+</text>
-      <text x="560" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">3-4</text>
+      <text x="130" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">1-2</text>
+      <text x="260" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">3-4</text>
+      <text x="410" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">6-8</text>
+      <text x="560" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">2-3</text>
 
       <!-- Duration -->
       <text x="32" y="310" font-size="9" style="fill:var(--text-dim)">Duration:</text>
@@ -647,8 +540,8 @@
   <ul>
     <li>Clone the co-consult repository and set up the project</li>
     <li>Send a request to the PM agent in Claude Desktop App</li>
-    <li>Observe the 7-Phase workflow in action</li>
-    <li>Experience the Gate approval process</li>
+    <li>Observe the PM dispatching specialists as needed</li>
+    <li>Review progress and give feedback along the way</li>
     <li>Review the final deliverables</li>
   </ul>
 
@@ -686,36 +579,35 @@
           <code>"I'd like to start a new project."</code>
           <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
         </div>
-        The PM enters Stage 0 (Project Kickoff) and asks about the topic, scope, and timeline.
+        The PM starts the kickoff conversation and asks about the topic, scope, and timeline.
       </li>
       <li>
         <strong>Make your request to the PM</strong><br>
-        Answer the PM's questions to configure the project. Try responding like this.
+        Answer the PM's questions to configure the engagement. Try responding like this.
         <div class="prompt-box">
-          <code>"Analyze the key trends in the South Korean coffee shop market. Focus on the comparison between franchise cafes and independent cafes. Use the Quick Assessment pattern."</code>
+          <code>"Analyze the key trends in the South Korean coffee shop market. Focus on the comparison between franchise cafes and independent cafes. Keep it a quick assessment."</code>
           <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
         </div>
-        The PM analyzes your request and guides you through the agent composition for the Quick Assessment pattern.
+        The PM analyzes your request and decides which specialists to dispatch for a Quick Assessment-sized engagement.
       </li>
       <li>
-        <strong>Observe the Phase progression</strong><br>
-        The PM automatically dispatches agents. You will see the following process on screen.
+        <strong>Observe the specialist dispatch</strong><br>
+        The PM dispatches specialists directly &mdash; there is no fixed phase sequence. You will typically see something like the following.
         <ul>
-          <li><strong>Phase 1:</strong> The research agent searches for "South Korean coffee shop market trends" and writes <code>research_notes.md</code></li>
-          <li><strong>Phase 2-3:</strong> The market-analyst agent analyzes market data, and the strategy agent extracts key insights</li>
-          <li><strong>Phase 4:</strong> The html-build agent converts the analysis results into an HTML report</li>
-          <li><strong>Phase 5:</strong> The auditor agent reviews the report quality</li>
+          <li>The <code>strategy-analyst</code> agent researches "South Korean coffee shop market trends" and produces a findings document with market size, growth, and competitive notes</li>
+          <li>If the request calls for it, the PM also brings in <code>industry-expert</code> for sector-specific context</li>
+          <li>The <code>communications-lead</code> agent shapes the findings into a client-ready report</li>
         </ul>
-        The PM reports progress each time a Phase completes. The <code>project_state.json</code> file is automatically updated throughout.
+        The PM reports progress as each specialist finishes its piece. The <code>project_state.json</code> file is automatically updated throughout.
       </li>
       <li>
-        <strong>Approve at Gates</strong><br>
-        During the workflow, the PM requests your approval at two Gates.
+        <strong>Review progress and give feedback</strong><br>
+        Since there is no fixed pipeline, the PM checks in with you whenever it judges there's something worth reviewing &mdash; typically after the first round of analysis, and again before finalizing the report.
         <ul>
-          <li><strong>Gate 2 (after Phase 2-3):</strong> Verify that the analysis direction and insights are appropriate. If adjustments are needed, this is the point to change course.</li>
-          <li><strong>Gate 5 (after Phase 5):</strong> Review the quality of the final report and approve the PDF export.</li>
+          <li><strong>After analysis:</strong> Verify that the analysis direction and insights are appropriate. If adjustments are needed, this is the point to change course.</li>
+          <li><strong>Before finalizing:</strong> Review the quality of the final report and approve turning it into a finished deliverable.</li>
         </ul>
-        At a Gate, you can respond like this.
+        At a checkpoint, you can respond like this.
         <div class="prompt-box">
           <code>"I've reviewed the analysis. Please proceed to the next step."</code>
           <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
@@ -728,7 +620,7 @@
       </li>
       <li>
         <strong>Check the deliverables</strong><br>
-        Once all Phases are complete, you can find the deliverables in the <code>deliverables/reports/</code> folder. The specific steps for reviewing them are covered in the next section.
+        Once the PM determines the engagement's deliverables are complete, you can find them in the <code>deliverables/reports/</code> folder. The specific steps for reviewing them are covered in the next section.
       </li>
     </ol>
   </div>
@@ -764,39 +656,34 @@
       <tr>
         <th>File</th>
         <th>Description</th>
-        <th>Created in</th>
+        <th>Produced by</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><code>research_notes.md</code></td>
-        <td>Materials, statistics, and sources collected via web search</td>
-        <td>Phase 1</td>
-      </tr>
-      <tr>
-        <td><code>source-verification.md</code></td>
-        <td>Source credibility verification results and Trust Score (optional)</td>
-        <td>Phase 1.5</td>
-      </tr>
-      <tr>
-        <td><code>storyline.md</code></td>
-        <td>Overall report structure and section-level narrative design</td>
-        <td>Phase 2-3</td>
+        <td><code>findings_*.md</code></td>
+        <td>Research findings, market/competitive data, and sources collected during analysis</td>
+        <td><code>strategy-analyst</code> / <code>industry-expert</code></td>
       </tr>
       <tr>
         <td><code>analysis_*.md</code></td>
-        <td>Individual analysis results from specialist agents</td>
-        <td>Phase 2-3</td>
+        <td>Individual analysis results from other specialist agents involved (e.g. <code>sme</code>, <code>data-analyst</code>)</td>
+        <td>relevant specialist</td>
+      </tr>
+      <tr>
+        <td><code>narrative_framework.md</code></td>
+        <td>Overall report structure and section-level narrative design</td>
+        <td><code>communications-lead</code></td>
       </tr>
       <tr>
         <td><code>report.html</code></td>
         <td>Final analysis report in HTML format</td>
-        <td>Phase 4</td>
+        <td><code>communications-lead</code></td>
       </tr>
       <tr>
         <td><code>report.pdf</code></td>
         <td>Final analysis report in PDF format</td>
-        <td>Phase 6</td>
+        <td>PM (finalization)</td>
       </tr>
     </tbody>
   </table>
@@ -815,10 +702,10 @@
         </div>
       </li>
       <li>
-        <strong>Review research_notes.md</strong><br>
+        <strong>Review the findings document</strong><br>
         Check the research results. It contains collected sources, key data points, and reference links.
         <div class="prompt-box">
-          <code>cat research_notes.md</code>
+          <code>cat findings_market.md</code>
           <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
         </div>
         Or open it in VS Code.
@@ -837,7 +724,7 @@
       </li>
       <li>
         <strong>Check project_state.json</strong><br>
-        You can view the overall project progress. It records whether each Phase is completed and whether each Gate has been approved.
+        You can view the overall project progress. It records which specialists have been dispatched, what they've produced, and whether the PM has checked in with you at each review point.
         <div class="prompt-box">
           <code>cat project_state.json</code>
           <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
@@ -853,16 +740,16 @@
 <pre><code>co-consult/
   agents/                    # Agent definition files
     pm.md
-    research.md
-    market-analyst.md
-    strategy.md
+    strategy-analyst.md
+    industry-expert.md
+    communications-lead.md
     ...
   deliverables/
     reports/
-      research_notes.md   # Phase 1 deliverable
-      storyline.md        # Phase 2-3 deliverable
-      report.html         # Phase 4 deliverable
-      report.pdf          # Phase 6 deliverable
+      findings_market.md    # strategy-analyst / industry-expert output
+      narrative_framework.md # communications-lead output
+      report.html            # communications-lead output
+      report.pdf              # PM finalization
   project_state.json        # Project progress status
   consult-profile.md        # Project settings
   memory/                   # Session logs

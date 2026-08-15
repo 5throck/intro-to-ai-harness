@@ -37,7 +37,7 @@
       <li>YAML frontmatter field meanings</li>
       <li>Body content patterns (Overview, When to Use, Steps, Outputs, Examples)</li>
       <li>skill-lifecycle-manager usage (6-step)</li>
-      <li>skill-creator (ZCode plugin) overview</li>
+      <li>skill-creator (Claude Code plugin) overview</li>
       <li>Practice: create a simple custom skill</li>
     </ul>
   </div>
@@ -475,7 +475,7 @@ report with categorized findings and actionable fix suggestions.</code></pre>
   <!-- ============================================================ -->
   <h2 id="skill-creator">skill-creator Plugin</h2>
 
-  <p>In addition to the manual process described above, ZCode provides a <strong>skill-creator</strong> plugin that can assist with creating and iterating on skill files. This plugin is available in the ZCode CLI plugin marketplace.</p>
+  <p>In addition to the manual process described above, Claude Code provides a <strong>skill-creator</strong> plugin that can assist with creating and iterating on skill files. This plugin is available in the Claude Code CLI plugin marketplace.</p>
 
   <h3>What skill-creator Does</h3>
 
@@ -503,7 +503,7 @@ report with categorized findings and actionable fix suggestions.</code></pre>
 
   <div class="note">
     <strong>Claude Desktop App Alternative</strong><br>
-    If you are using Claude Desktop App without ZCode, you can achieve the same workflow by asking Claude directly: &ldquo;Create a skill that reviews markdown documents for formatting issues.&rdquo; Claude will draft the <code>SKILL.md</code> file for you. You can then manually register and validate it using the skill-lifecycle-manager steps described in the previous section. The key difference is that the ZCode plugin automates the iteration cycle; with Claude Desktop App, you manage the test-refine cycle manually.
+    If you are using Claude Desktop App without the Claude Code CLI plugin marketplace, you can achieve the same workflow by asking Claude directly: &ldquo;Create a skill that reviews markdown documents for formatting issues.&rdquo; Claude will draft the <code>SKILL.md</code> file for you. You can then manually register and validate it using the skill-lifecycle-manager steps described in the previous section. The key difference is that the skill-creator plugin automates the iteration cycle; with Claude Desktop App, you manage the test-refine cycle manually.
   </div>
 
 
@@ -699,7 +699,7 @@ report with categorized findings and actionable fix suggestions.
       <li>Frontmatter requires: name, status, description, owner, version, metadata.type, metadata.triggers</li>
       <li>Body sections: Overview, When to Use, Steps, Expected Outputs, Examples</li>
       <li>skill-lifecycle-manager provides a 6-step creation and validation process</li>
-      <li>skill-creator (ZCode plugin) assists with test-driven iterative authoring</li>
+      <li>skill-creator (Claude Code plugin) assists with test-driven iterative authoring</li>
       <li>Register skills in AGENTS.md and docs/context.md, then deploy with <code>bun scripts/sync-skills.ts</code></li>
       <li>Always test activation with a real trigger phrase after validation passes</li>
       <li>Start with <code>status: draft</code>, promote to <code>active</code> after the skill behaves consistently</li>

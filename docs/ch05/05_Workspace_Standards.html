@@ -59,9 +59,9 @@
   <p>프로젝트마다 AI 에이전트를 다르게 정의하고 관리하면 여러 가지 문제가 발생합니다. 표준 템플릿이 필요한 이유는 다음과 같습니다.</p>
 
   <ul>
-    <li><strong>일관성</strong> — 모든 프로젝트가 같은 구조를 따르면, 새 프로젝트에 합류한 팀원도 즉시 이해할 수 있습니다. 파일 위치, 에이전트 정의 방식, 규칙이 모두 동일하기 때문입니다.</li>
+    <li>일관성 — 모든 프로젝트가 같은 구조를 따르면, 새 프로젝트에 합류한 팀원도 즉시 이해할 수 있습니다. 파일 위치, 에이전트 정의 방식, 규칙이 모두 동일하기 때문입니다.</li>
     <li><strong>재사용성</strong> — 한 번 만든 에이전트나 스킬을 다른 프로젝트에서도 그대로 사용할 수 있습니다. 비슷한 작업을 매번 처음부터 정의할 필요가 없습니다.</li>
-    <li><strong>협업</strong> — 여러 사람이 함께 작업할 때, 공통된 "언어"와 "규칙"이 있으면 소통 오류를 줄이고 효율적으로 협력할 수 있습니다.</li>
+    <li>협업 — 여러 사람이 함께 작업할 때, 공통된 "언어"와 "규칙"이 있으면 소통 오류를 줄이고 효율적으로 협력할 수 있습니다.</li>
     <li><strong>품질 보장</strong> — 자동 검증 스크립트(audit, validate)가 표준 구조를 기반으로 동작하므로, 규칙 위반을 조기에 발견할 수 있습니다.</li>
   </ul>
 
@@ -100,7 +100,7 @@
 
   <h3>초보자 비유: 조직도와 업무 매뉴얼 템플릿</h3>
 
-  <p>ai-workspace-standards를 이해하려면 회사에 비유해 보면 좋습니다. 회사를 설립하려면 <strong>조직도</strong>(누가 무슨 역할을 하는지)와 <strong>업무 매뉴얼</strong>(각자 어떻게 일해야 하는지)이 필요합니다. ai-workspace-standards는 바로 이 조직도와 업무 매뉴얼의 <em>템플릿</em>입니다. 이 템플릿을 복사해서 자기 회사(프로젝트)에 맞게 수정하면, 처음부터 완전한 조직 체계를 갖출 수 있습니다.</p>
+  <p>ai-workspace-standards를 이해하려면 회사에 비유해 보면 좋습니다. 회사를 설립하려면 조직도(누가 무슨 역할을 하는지)와 <strong>업무 매뉴얼</strong>(각자 어떻게 일해야 하는지)이 필요합니다. ai-workspace-standards는 바로 이 조직도와 업무 매뉴얼의 <em>템플릿</em>입니다. 이 템플릿을 복사해서 자기 회사(프로젝트)에 맞게 수정하면, 처음부터 완전한 조직 체계를 갖출 수 있습니다.</p>
 
   <div class="note">
     이 핸드북의 실습에서 <strong>co-consult</strong>와 <strong>co-deck</strong>은 모두 ai-workspace-standards를 기반으로 구축되었습니다. 즉, 이 두 프로젝트는 같은 템플릿에서 시작하여 각자의 용도에 맞게 커스터마이징된 것입니다.
@@ -299,21 +299,21 @@
     <div class="compare-col">
       <h4>AGENTS.md</h4>
       <ul>
-        <li><strong>역할</strong>: 에이전트 레지스트리</li>
-        <li><strong>대상</strong>: 모든 에이전트</li>
-        <li><strong>내용</strong>: 에이전트 명부, 역할, Tier, 파견 트리거, 워크플로우</li>
-        <li><strong>비유</strong>: 직원 명부</li>
-        <li><strong>위치</strong>: 프로젝트 루트</li>
+        <li>역할: 에이전트 레지스트리</li>
+        <li>대상: 모든 에이전트</li>
+        <li>내용: 에이전트 명부, 역할, Tier, 파견 트리거, 워크플로우</li>
+        <li>비유: 직원 명부</li>
+        <li>위치: 프로젝트 루트</li>
       </ul>
     </div>
     <div class="compare-col">
       <h4>CLAUDE.md / GEMINI.md</h4>
       <ul>
-        <li><strong>역할</strong>: 플랫폼별 행동 지침</li>
-        <li><strong>대상</strong>: Claude Code / Gemini CLI</li>
-        <li><strong>내용</strong>: 디스패치 규칙, 3-Tier 전략, 게이트 프로토콜, 도구 권한</li>
-        <li><strong>비유</strong>: 업무 지시서</li>
-        <li><strong>위치</strong>: 프로젝트 루트</li>
+        <li>역할: 플랫폼별 행동 지침</li>
+        <li>대상: Claude Code / Gemini CLI</li>
+        <li>내용: 디스패치 규칙, 3-Tier 전략, 게이트 프로토콜, 도구 권한</li>
+        <li>비유: 업무 지시서</li>
+        <li>위치: 프로젝트 루트</li>
       </ul>
     </div>
   </div>
@@ -538,11 +538,11 @@
   <p>각 variant는 <code>variant.json</code> 파일을 통해 자신의 <strong>메타데이터</strong>를 정의합니다. 이 파일에는 다음 정보가 포함됩니다.</p>
 
   <ul>
-    <li><strong>이름</strong> — variant의 식별자 (예: "co-deck", "co-consult")</li>
-    <li><strong>버전</strong> — variant의 현재 버전 (예: "1.0.0")</li>
-    <li><strong>상태</strong> — draft, beta, stable 등 현재 개발 단계</li>
-    <li><strong>의존성</strong> — 상위 레벨(L0, L1)에 대한 의존 관계</li>
-    <li><strong>설명</strong> — variant의 용도와 특징</li>
+    <li>이름 — variant의 식별자 (예: "co-deck", "co-consult")</li>
+    <li>버전 — variant의 현재 버전 (예: "1.0.0")</li>
+    <li>상태 — draft, beta, stable 등 현재 개발 단계</li>
+    <li>의존성 — 상위 레벨(L0, L1)에 대한 의존 관계</li>
+    <li>설명 — variant의 용도와 특징</li>
   </ul>
 
   <div class="code-block">

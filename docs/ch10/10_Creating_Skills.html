@@ -613,7 +613,7 @@ PM이 자동으로 디스패치할 수 있습니다.</code></pre>
         <strong>시스템 등록</strong> — AGENTS.md의 Skills 테이블(§6)에 스킬을 추가하고, <code>docs/VERSION_MANIFEST.md</code>에 버전 정보를 기록합니다. 이 단계를 거쳐야 시스템이 스킬을 인식합니다.
       </li>
       <li>
-        <strong>검증</strong> — <code>bun scripts/skill-lifecycle-audit.ts</code> 스크립트를 실행하여 프론트매터 필드 누락, 파일 구조 오류, 필수 섹션 누락 등을 자동으로 검사합니다. 오류가 있으면 수정 후 재검증합니다.
+        검증 — <code>bun scripts/skill-lifecycle-audit.ts</code> 스크립트를 실행하여 프론트매터 필드 누락, 파일 구조 오류, 필수 섹션 누락 등을 자동으로 검사합니다. 오류가 있으면 수정 후 재검증합니다.
       </li>
       <li>
         <strong>활성화 테스트</strong> — PM을 통해 실제 요청으로 스킬을 테스트합니다. 예를 들어 "문서 품질을 검토해 줘"라고 요청하여 스킬이 정상적으로 트리거되고 실행되는지 확인합니다. 모든 테스트를 통과하면 status를 <code>active</code>로 변경합니다.
@@ -907,13 +907,13 @@ Activate this skill when:
   <div class="keypoints">
     <div class="kp-title">이 장의 요약</div>
     <ul>
-      <li><strong>스킬</strong>은 에이전트가 수행하는 재사용 가능한 워크플로우입니다. 에이전트가 "누구"라면 스킬은 "무엇을 하는지"를 정의합니다.</li>
+      <li>스킬은 에이전트가 수행하는 재사용 가능한 워크플로우입니다. 에이전트가 "누구"라면 스킬은 "무엇을 하는지"를 정의합니다.</li>
       <li><strong>SKILL.md</strong>는 YAML 프론트매터(메타데이터)와 마크다운 본문(실행 지침) 두 부분으로 구성됩니다.</li>
       <li><strong>프론트매터 필드</strong>에는 name, status, description, owner, version이 필수이며, metadata.type과 metadata.triggers가 선택입니다.</li>
-      <li><strong>본문</strong>은 Overview, When to Use, Steps, Expected Outputs, Examples 섹션으로 구성하는 것이 권장됩니다.</li>
+      <li>본문은 Overview, When to Use, Steps, Expected Outputs, Examples 섹션으로 구성하는 것이 권장됩니다.</li>
       <li><strong>skill-lifecycle-manager</strong>는 디렉토리 생성 → 프론트매터 → 본문 → 등록 → 검증 → 테스트의 6-step 프로세스를 안내합니다.</li>
       <li><strong>skill-creator</strong>는 Claude Code CLI 환경에서 테스트 주도 반복 작성을 지원하는 고급 도구입니다.</li>
-      <li><strong>등록</strong>은 AGENTS.md Skills 테이블과 VERSION_MANIFEST.md 두 곳에 해야 합니다.</li>
+      <li>등록은 AGENTS.md Skills 테이블과 VERSION_MANIFEST.md 두 곳에 해야 합니다.</li>
     </ul>
   </div>
 

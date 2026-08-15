@@ -558,6 +558,33 @@
 
   <p>이 생애주기는 <code>docs/VERSION_MANIFEST.md</code>에서 중앙 관리됩니다. 새 variant를 만들면 draft로 시작하여, 충분한 테스트를 거친 후 stable로 승격됩니다.</p>
 
+  <h3>variant로부터 새 프로젝트 만들기</h3>
+
+  <p>6장·7장 실습에서는 시간을 아끼기 위해 미리 만들어진 예시 프로젝트(co-consult, co-deck)를 clone해서 사용합니다. 하지만 실제 일상 업무에서는 clone을 하지 않습니다 — 워크스페이스 루트에서 명령어 한 줄로 L2 variant 템플릿으로부터 완전히 새로운 L3 프로젝트를 <strong>스캐폴딩(scaffolding)</strong>합니다.</p>
+
+  <div class="code-block">
+<pre><code>bun scripts/new-project.ts "my-market-report" --variant co-consult</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+</div>
+
+  <p>이 명령은 <code>Projects/my-market-report/</code>를 독립된 새 Git 저장소로 생성하고, co-consult의 에이전트·스킬·설정을 복사한 뒤, 이 프로젝트만의 목표를 채워 넣을 수 있도록 비어 있는 <code>docs/context.md</code> 골격을 렌더링합니다. 전체 문법은 다음과 같습니다.</p>
+
+  <div class="code-block">
+<pre><code>bun scripts/new-project.ts "&lt;프로젝트-이름&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|both] [--version X.Y.Z]</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+</div>
+
+  <ul>
+    <li><strong><code>&lt;프로젝트-이름&gt;</code></strong> — 필수. <code>Projects/</code> 아래 폴더 이름이 됩니다.</li>
+    <li><strong><code>--variant &lt;variant&gt;</code></strong> — 필수. 어떤 L2 템플릿에서 스캐폴딩할지 지정합니다(<code>co-consult</code>, <code>co-deck</code>, <code>co-develop</code> 등).</li>
+    <li><strong><code>--platform</code></strong> — 선택. 어떤 플랫폼 설정(<code>.claude/</code>, <code>.gemini/</code>)을 복사할지 제한합니다. 기본값은 <code>both</code>입니다.</li>
+    <li><strong><code>--version</code></strong> — 선택. 원본 variant의 현재 버전 대신 특정 템플릿 버전을 고정해서 사용합니다.</li>
+  </ul>
+
+  <div class="note">
+    바로 다음에 다룰 <strong>새 variant 만들기</strong>와 혼동하지 마세요. <code>new-project.ts</code>는 항상 실행하게 될 일상적인 명령어로, 이미 존재하는 L2 템플릿으로부터 L3 프로젝트를 스캐폴딩합니다. L2 템플릿 자체를 새로 만드는 것(co-legal, co-hr 같은 완전히 새로운 variant)은 별개의, 훨씬 드물게 쓰이는 작업이며 <code>create-l2-scaffold.ts</code>를 사용합니다 — 11장에서 다룹니다.
+  </div>
+
   <div class="tip-box">
     <strong>팁:</strong> 자기만의 variant를 만들 수도 있습니다! ai-workspace-standards의 템플릿을 복사하고, 필요한 에이전트와 스킬을 추가하면 됩니다. 11장에서 variant 제작 방법을 자세히 다룹니다.
   </div>

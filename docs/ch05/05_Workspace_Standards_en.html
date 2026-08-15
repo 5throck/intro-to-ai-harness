@@ -561,6 +561,33 @@
     </ol>
   </div>
 
+  <h3>Creating a New Project From a Variant</h3>
+
+  <p>The exercises in Chapters 6 and 7 have you clone a pre-built example project (co-consult, co-deck) to save setup time. In real day-to-day use, you don't clone anything &mdash; you <strong>scaffold</strong> a brand-new L3 project directly from an L2 variant template with a single command, run from the workspace root:</p>
+
+  <div class="code-block">
+<pre><code>bun scripts/new-project.ts "my-market-report" --variant co-consult</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+</div>
+
+  <p>This creates <code>Projects/my-market-report/</code> as a fresh, independent Git repository, copying co-consult's agents, skills, and configuration into it and rendering the empty <code>docs/context.md</code> skeleton so you can fill in this specific project's goals. The full syntax is:</p>
+
+  <div class="code-block">
+<pre><code>bun scripts/new-project.ts "&lt;project-name&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|both] [--version X.Y.Z]</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+</div>
+
+  <ul>
+    <li><strong><code>&lt;project-name&gt;</code></strong> &mdash; Required. Becomes the folder name under <code>Projects/</code>.</li>
+    <li><strong><code>--variant &lt;variant&gt;</code></strong> &mdash; Required. Which L2 template to scaffold from (<code>co-consult</code>, <code>co-deck</code>, <code>co-develop</code>, etc.).</li>
+    <li><strong><code>--platform</code></strong> &mdash; Optional. Restrict which platform configs (<code>.claude/</code>, <code>.gemini/</code>) get copied. Defaults to <code>both</code>.</li>
+    <li><strong><code>--version</code></strong> &mdash; Optional. Pin the source variant's template version instead of using its current one.</li>
+  </ul>
+
+  <div class="note">
+    Don't confuse this with <strong>creating a new variant</strong>, covered next. <code>new-project.ts</code> is the everyday command you'll run constantly &mdash; it scaffolds an L3 project from an L2 template that already exists. Building the L2 template itself (a brand-new variant like co-legal or co-hr) is a separate, much rarer workflow using <code>create-l2-scaffold.ts</code>, described in Chapter 11.
+  </div>
+
   <div class="tip-box">
     <strong>Thinking about creating your own variant?</strong> Chapter 11 of this handbook covers the process of designing and building a custom variant from scratch. You will learn how to define your own agents, skills, and workflow pipeline, and how to register your variant so it inherits all the benefits of the shared workspace standard.
   </div>

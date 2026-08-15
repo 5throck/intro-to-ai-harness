@@ -641,20 +641,22 @@
   <div class="step-list">
     <ol>
       <li>
-        <strong>Clone the co-deck repository</strong><br>
-        Open a terminal and run the following commands.
+        <strong>Clone the workspace and scaffold the project</strong><br>
+        If you haven't already cloned the workspace in an earlier chapter, do that first, then scaffold a new project from the co-deck variant using <code>new-project.ts</code>.
         <div class="prompt-box">
-          <code>git clone https://github.com/5throck/co-deck.git</code><br>
-          <code>cd co-deck</code>
+          <code>git clone https://github.com/5throck/ai-workspace-standards.git</code><br>
+          <code>cd ai-workspace-standards</code><br>
+          <code>bun scripts/new-project.ts "co-deck" --variant co-deck</code>
           <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
         </div>
-        Once the repository is cloned, move into the <code>co-deck/</code> directory.
+        This creates <code>Projects/co-deck/</code> as its own independent Git repository, with the co-deck variant's agents, skills, and configuration already copied in.
       </li>
       <li>
         <strong>Open the project in Claude Desktop App</strong><br>
-        Launch Claude Desktop App and open the <code>co-deck/</code> folder as a project. Start the PM by telling Claude the following.
+        Launch Claude Desktop App and open the <code>Projects/co-deck/</code> folder as a project. Start the PM by telling Claude the following.
         <div class="prompt-box">
           <code>"Let's start a new project."</code>
+          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
         </div>
         The PM enters Stage 0 (project configuration) and asks about the topic, audience, theme, and style.
       </li>
@@ -663,6 +665,7 @@
         Answer the PM's questions to configure the project. Try responding like this.
         <div class="prompt-box">
           <code>"Create a mini presentation about the 5 core concepts of machine learning. 5 slides. For beginners. In English."</code>
+          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
         </div>
         The PM analyzes your request and walks you through the configuration fields in <code>lecture-profile.md</code> (theme, style, source_verification, etc.).
       </li>
@@ -734,7 +737,7 @@
   <p>All outputs for your presentation are stored under <code>presentations/&lt;project-name&gt;/</code>. Here is the directory layout you will see after a complete pipeline run.</p>
 
   <div class="prompt-box">
-    <code>co-deck/presentations/&lt;project-name&gt;/</code>
+    <code>Projects/co-deck/presentations/&lt;project-name&gt;/</code>
     <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
   </div>
 

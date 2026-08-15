@@ -50,7 +50,7 @@
 
   <p><strong>co-consult</strong> is a system in which <strong>AI agent teams carry out strategic consulting projects</strong>. As one of the variants of ai-workspace-standards that we explored in Chapter 5, multiple AI agents collaborate to automate consulting tasks such as market analysis, competitive analysis, entry strategy development, and business model review.</p>
 
-  <p>GitHub repository: <a href="https://github.com/5throck/co-consult" target="_blank" rel="noopener noreferrer">github.com/5throck/co-consult</a></p>
+  <p>Location: <code>templates/co-consult/</code> inside <a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">ai-workspace-standards</a> &mdash; scaffold your own copy with <code>bun scripts/new-project.ts "&lt;name&gt;" --variant co-consult</code>.</p>
 
   <h3>What Problem Does It Solve?</h3>
 
@@ -457,16 +457,19 @@
   <div class="prompt-box">
     <strong>Example 1: Market Analysis</strong><br>
     <code>"Analyze the food delivery app market in South Korea. Focus on competitor comparison and entry opportunities. Complete within 2 weeks."</code>
+    <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
   </div>
 
   <div class="prompt-box">
     <strong>Example 2: Business Model Review</strong><br>
     <code>"Review our startup's SaaS business model. Target market is Japanese B2B enterprises. Cover pricing strategy and scalability."</code>
+    <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
   </div>
 
   <div class="prompt-box">
     <strong>Example 3: Technology Adoption Assessment</strong><br>
     <code>"Evaluate introducing an AI chatbot to our company, targeting the education industry. Include cost analysis, technology stack options, and competitor case studies."</code>
+    <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
   </div>
 
   <h3>Good Requests vs. Poor Requests</h3>
@@ -666,20 +669,22 @@
   <div class="step-list">
     <ol>
       <li>
-        <strong>Clone the co-consult repository</strong><br>
-        Open a terminal and run the following commands.
+        <strong>Clone the workspace and scaffold the project</strong><br>
+        If you haven't already cloned the workspace in an earlier chapter, do that first, then scaffold a new project from the co-consult variant using <code>new-project.ts</code>.
         <div class="prompt-box">
-          <code>git clone https://github.com/5throck/co-consult.git</code><br>
-          <code>cd co-consult</code>
+          <code>git clone https://github.com/5throck/ai-workspace-standards.git</code><br>
+          <code>cd ai-workspace-standards</code><br>
+          <code>bun scripts/new-project.ts "co-consult" --variant co-consult</code>
           <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
         </div>
-        Once the repository is cloned, navigate into the <code>co-consult/</code> directory.
+        This creates <code>Projects/co-consult/</code> as its own independent Git repository, with the co-consult variant's agents, skills, and configuration already copied in.
       </li>
       <li>
         <strong>Open the project in Claude Desktop App</strong><br>
-        Launch Claude Desktop App and open the <code>co-consult/</code> folder as the project. Tell Claude the following to start the PM.
+        Launch Claude Desktop App and open the <code>Projects/co-consult/</code> folder as the project. Tell Claude the following to start the PM.
         <div class="prompt-box">
           <code>"I'd like to start a new project."</code>
+          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
         </div>
         The PM enters Stage 0 (Project Kickoff) and asks about the topic, scope, and timeline.
       </li>
@@ -688,6 +693,7 @@
         Answer the PM's questions to configure the project. Try responding like this.
         <div class="prompt-box">
           <code>"Analyze the key trends in the South Korean coffee shop market. Focus on the comparison between franchise cafes and independent cafes. Use the Quick Assessment pattern."</code>
+          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
         </div>
         The PM analyzes your request and guides you through the agent composition for the Quick Assessment pattern.
       </li>
@@ -712,10 +718,12 @@
         At a Gate, you can respond like this.
         <div class="prompt-box">
           <code>"I've reviewed the analysis. Please proceed to the next step."</code>
+          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
         </div>
         Or if revisions are needed, provide specific feedback.
         <div class="prompt-box">
           <code>"Add delivery cafe data from Baemin to the competitive analysis section."</code>
+          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
         </div>
       </li>
       <li>
@@ -745,7 +753,7 @@
   <p>All deliverables are stored in the <code>deliverables/reports/</code> directory. From the project root, access it via the following path.</p>
 
   <div class="prompt-box">
-    <code>co-consult/deliverables/reports/</code>
+    <code>Projects/co-consult/deliverables/reports/</code>
     <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
   </div>
 
@@ -799,9 +807,9 @@
     <ol>
       <li>
         <strong>Open the project folder</strong><br>
-        Navigate to the <code>co-consult/deliverables/reports/</code> directory in your terminal.
+        Navigate to the <code>Projects/co-consult/deliverables/reports/</code> directory in your terminal.
         <div class="prompt-box">
-          <code>cd co-consult/deliverables/reports/</code><br>
+          <code>cd Projects/co-consult/deliverables/reports/</code><br>
           <code>ls</code>
           <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
         </div>

@@ -478,6 +478,26 @@
     <li><strong>레이어 구조 (L1 → L2 → L3)</strong>: 각 레이어가 상위 레이어의 템플릿을 기반으로 구축되는 정적 계층 관계입니다. L3 프로젝트는 L2 variant 템플릿에서 스캐폴딩되며, L2는 L1의 공통 템플릿을 상속받습니다.</li>
   </ul>
 
+  <h3>L2 → L3: 실제로 프로젝트 만들기</h3>
+
+  <p>위 다이어그램의 "스캐폴딩" 화살표는 실제로는 워크스페이스 루트에서 스크립트 하나를 실행하는 것입니다. <code>new-project.ts</code> 스크립트가 선택한 L2 variant 템플릿(<code>templates/co-*/</code>)을 읽어, <code>Projects/&lt;project-name&gt;/</code>에 실제로 동작하는 L3 프로젝트를 생성합니다.</p>
+
+  <div class="code-block">
+<pre><code>bun scripts/new-project.ts "my-project" --variant co-consult</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+</div>
+
+  <p>이 명령을 실행하면 스크립트가 다음을 자동으로 수행합니다.</p>
+
+  <ul>
+    <li><code>templates/co-consult/</code>(L2)의 에이전트, 스킬, 설정을 <code>Projects/my-project/</code>로 복사</li>
+    <li><code>templates/common/</code>(L1)의 공통 인프라도 함께 적용</li>
+    <li><code>variant.json</code>을 프로젝트 루트에 배치하고 프로젝트 이름으로 갱신</li>
+    <li><code>docs/context.md</code> 등 프로젝트별 설정 파일 생성</li>
+  </ul>
+
+  <p><code>--variant</code>에는 co-consult, co-deck을 포함해 현재 존재하는 9개 variant 중 하나를 지정할 수 있습니다. 6장·7장에서 클론하는 <code>github.com/5throck/co-consult</code>, <code>github.com/5throck/co-deck</code> 저장소는 바로 이 명령으로 스캐폴딩된 프로젝트를 별도 공개 저장소로 배포해 둔 결과물입니다.</p>
+
   <h3>덮어쓰기 규칙</h3>
 
   <p>하위 레이어는 상위 레이어의 설정을 <em>덮어쓸 수</em> 있지만, 반대 방향으로는 영향을 주지 않습니다. 이것은 객체지향 프로그래밍의 클래스 상속과 같은 원리입니다.</p>

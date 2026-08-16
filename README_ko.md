@@ -24,7 +24,7 @@ AI 초보자를 위한 한글/영문 이중 언어 핸드북입니다. Claude De
 - **별첨** — 원격 접속 환경 설정, Claude Code CLI 사용법, 저비용 AI 백엔드 연동
 
 ## 🎯 대상 버전
-- Claude Code 2026-07 / Claude Desktop App (최신) / `ai-workspace-standards` main (2026-07)
+- Claude Code 2026-08 / Claude Desktop App (최신) / `ai-workspace-standards` main (2026-08)
 
 ## 📄 라이센스
 - **핸드북 콘텐츠**: [CC BY-NC-SA 4.0](LICENSE) (저작자표시-비영리-동일조건변경허락 4.0 국제)

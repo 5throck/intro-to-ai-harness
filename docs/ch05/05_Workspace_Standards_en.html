@@ -180,9 +180,9 @@
     <li><strong><code>agents/</code></strong> &mdash; Contains one markdown file per agent (for example, <code>research.md</code>, <code>design.md</code>, <code>pm.md</code>). Each file defines the agent's role, tier, phases, triggers, tool permissions, and detailed instructions. This is where the "employee profiles" live.</li>
     <li><strong><code>skills/</code></strong> &mdash; Contains subdirectories, each with a <code>SKILL.md</code> file that defines a reusable workflow recipe. Skills can be loaded by any agent that needs them. Think of this as the company recipe book collection.</li>
     <li><strong><code>scripts/</code></strong> &mdash; Automation scripts written in TypeScript (executed via <code>bun</code>). Includes audit tools, sync pipelines, validation checks, and other utilities that keep the workspace healthy.</li>
-    <li><strong><code>docs/</code></strong> &mdash; Documentation and context files. Includes <code>context.md</code> (the project's identity card), Architecture Decision Records (ADRs), user guides, and design specifications.</li>
+    <li><strong><code>docs/</code></strong> &mdash; Governance documentation and design specifications. Includes Architecture Decision Records (ADRs), user guides, design specifications, VERSION_MANIFEST.md, and lifecycle procedures. <strong>Note:</strong> <code>context.md</code> exists only in L2/L3 projects, not at the workspace root (L0), where <code>AGENTS.md</code> is the SSOT.</li>
     <li><strong><code>templates/</code></strong> &mdash; The common template that serves as the L1 base layer (see the hierarchy section below). Contains shared agent definitions, skill templates, and configuration that all variant projects inherit.</li>
-    <li><strong><code>presentations/</code></strong> &mdash; In variant projects like co-deck, this is where individual project workspaces live. Each presentation gets its own subdirectory (for example, <code>presentations/climate-change/</code>) containing its lecture profile, research notes, slide deck, and output files.</li>
+    <li><strong><code>Projects/</code></strong> &mdash; Individual project workspaces scaffolded from L2 variant templates. Each project is an independent directory (for example, <code>Projects/climate-change/</code>) with its own context, agents, skills, and output files. In variant projects like co-deck, individual presentations live as subdirectories within the project.</li>
     <li><strong><code>memory/</code></strong> &mdash; Session logs, meeting transcripts, and daily development notes. Every AI session writes a summary here, creating an audit trail of decisions and changes.</li>
   </ul>
 
@@ -288,10 +288,10 @@
   <p>Beyond the big three, several other files play critical roles in the workspace.</p>
 
   <ul>
-    <li><strong><code>context.md</code></strong> &mdash; The project's identity card. Declares the project type, status, architecture, key files, and documentation standards. It is marked as immutable after project creation &mdash; all project-specific changes go into a separate variant context file instead. Think of it as the company's certificate of incorporation.</li>
+    <li><strong><code>context.md</code></strong> (L2/L3 only) &mdash; The project's identity card, found only in variant templates and scaffolded projects. Declares the project type, status, architecture, key files, and documentation standards. It is marked as immutable after project creation &mdash; all project-specific changes go into a separate variant context file instead. Think of it as the company's certificate of incorporation. At the workspace root (L0), <code>AGENTS.md</code> serves as the SSOT instead.</li>
     <li><strong><code>CHANGELOG.md</code></strong> &mdash; A human-readable record of all changes made to the project, organized by version number. Every modification to agents, skills, scripts, or governance files is logged here so that team members can track what changed and why.</li>
     <li><strong><code>variant.json</code></strong> &mdash; The variant's metadata file. Declares the variant name, type, status, version, which agents and skills it includes, and how it inherits from the common template. We will explore this in detail in the Variants section.</li>
-    <li><strong><code>memory/MEMORY.md</code></strong> &mdash; An index of all session logs. Each working session produces a dated log file (for example, <code>memory/2026-08-10.md</code>) with a summary of what was accomplished, what changed, what decisions were made, and what issues remain open.</li>
+    <li><strong><code>memory/YYYY-MM-DD.md</code></strong> &mdash; Dated session logs. Each working session produces a dated log file (for example, <code>memory/2026-08-10.md</code>) with a summary of what was accomplished, what changed, what decisions were made, and what issues remain open.</li>
   </ul>
 
   <div class="note">
@@ -347,7 +347,7 @@
     <li>Inherits the L1 common template (<code>variant.json</code>'s <code>inherits_common: "templates/common"</code>)</li>
   </ul>
 
-  <p>There are currently 9 variant templates: co-consult, co-deck, co-design, co-develop, co-export, co-game, co-news, co-security, and co-work.</p>
+  <p>There are currently 10 variant templates: co-abap, co-consult, co-deck, co-design, co-develop, co-export, co-game, co-news, co-security, and co-work.</p>
 
   <h3>L3 (Project) &mdash; Actual Project Layer</h3>
 
@@ -603,7 +603,7 @@
 
   <p>A <strong>common contract</strong> is a formal specification that defines how different parts of the workspace interact with each other. Just as a legal contract specifies the obligations between two parties, a common contract specifies the data formats, file locations, naming conventions, and communication protocols that agents and projects must follow.</p>
 
-  <p>Common contracts are defined in a file called <code>common-contract.json</code> and serve three key roles.</p>
+  <p>Common contracts are defined across the workspace's core governance documents &mdash; <code>CONSTITUTION.md</code>, <code>AGENTS.md</code> (L0 SSOT), and variant-specific <code>docs/context.md</code> (L2/L3) &mdash; and serve three key roles.</p>
 
   <div class="compare-grid">
     <div class="col">
@@ -619,7 +619,7 @@
       <ul>
         <li>Defines where each type of file lives within the workspace</li>
         <li>Ensures agents can find their input files without guessing</li>
-        <li>Example: Research notes must be at <code>presentations/&lt;project&gt;/research_notes.md</code></li>
+        <li>Example: Research notes must be at <code>Projects/&lt;project&gt;/research_notes.md</code></li>
       </ul>
     </div>
     <div class="col">
@@ -639,7 +639,7 @@
   <div class="step-list">
     <ol>
       <li>
-        <strong>Contract definition</strong> &mdash; The contract is written in <code>common-contract.json</code> at the L0 level. This file specifies the schemas, layouts, and naming rules that all projects must follow.
+        <strong>Contract definition</strong> &mdash; Contracts are defined in the workspace's core governance documents: <code>CONSTITUTION.md</code> (shared standards), <code>AGENTS.md</code> (agent registry, SSOT at L0), and <code>docs/context.md</code> (project-specific configuration, L2/L3 only). These documents specify the schemas, layouts, and naming rules that all projects must follow.
       </li>
       <li>
         <strong>Template inheritance</strong> &mdash; When an L1 common template is created, it copies the contract from L0. L2 variants inherit the contract through L1. Every project in the workspace shares the same contract foundation.
@@ -696,9 +696,10 @@
       <div class="ttl">Ch 6 &middot; co-consult: AI Consulting in Practice</div>
     </a>
   </div>
-  <footer>
-    Based on Claude Desktop App / Claude Code 2026-07 / ai-workspace-standards main (2026-08-15) · English Introductory Educational Materials<br>
+   <footer>
+    Based on Claude Code 2026-07 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) · English Educational Materials<br>
     Official Docs: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
     <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
     Handbook content is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (Attribution-NonCommercial-ShareAlike 4.0 International)</a>.
   </footer>

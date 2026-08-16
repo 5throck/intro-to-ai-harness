@@ -1,5 +1,5 @@
 /**
- * dark-mode-toggle.js — Dark mode toggle for the Multi-Agent Harness Handbook
+ * dark-mode-toggle.js — Dark mode toggle for the Intro to AI Harness Handbook
  *
  * 2-layer strategy (CSS has :root light + .dark dark only; no @media block):
  *   1. :root              — CSS variables for light mode (default)

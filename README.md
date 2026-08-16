@@ -24,7 +24,7 @@ A beginner-friendly bilingual handbook (Korean/English) for AI newcomers. Using 
 - **Appendices** — Remote Access Setup, Claude Code CLI Guide, Low-Cost AI Backend Integration
 
 ## 🎯 Target Versions
-- Claude Code 2026-07 / Claude Desktop App (latest) / `ai-workspace-standards` main (2026-07)
+- Claude Code 2026-08 / Claude Desktop App (latest) / `ai-workspace-standards` main (2026-08)
 
 ## 📜 License
 - **Handbook content**: [CC BY-NC-SA 4.0](LICENSE) (Attribution-NonCommercial-ShareAlike 4.0 International)

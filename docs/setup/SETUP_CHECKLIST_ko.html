@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="워크숍 사전 설치 체크리스트 · Claude Code와 멀티 에이전트 하네스 - AI 초보자를 위한 실습 중심 가이드">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>워크숍 사전 설치 체크리스트 · Claude Code와 멀티 에이전트 하네스</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+  <style>
+    /* Page-specific overrides */
+    h2 { color: var(--accent-dark); margin: 40px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); scroll-margin-top: 20px; }
+    .chk-list li.sub { margin-left: 22px; color: var(--text-dim); }
+    .chk-list li.sub::before { content: '—'; color: var(--text-dim); }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+<nav>
+  <a href="../index.html" class="nav-home">← 핸드북 홈</a>
+  <div class="nav-title">사전 설치 체크리스트</div>
+  <a href="#s1">1. 구독 확인</a>
+  <a href="#s2">2. 계정 준비</a>
+  <a href="#s3">3. 시스템 요구사항</a>
+  <a href="#s4">4. Git 사용자 설정</a>
+  <a href="#s5">5. GitHub 인증</a>
+  <a href="#s6">6. 프로젝트 환경 설정</a>
+  <a href="#s7">7. 최종 환경 확인</a>
+  <div class="nav-section">다른 문서</div>
+  <a href="SETUP_ko.html">워크숍 환경 설치 가이드</a>
+  <a href="../ch03/03_Setup_Guide.html">3장 실습 환경 구축</a>
+</nav>
+
+<main>
+ <article class="reading">
+  <h1>워크숍 사전 설치 체크리스트</h1>
+  <p class="subtitle">설치 스크립트를 실행하기 전에 이 체크리스트를 완료하세요. 아래 항목들은 자동화가 불가능하며 직접 처리가 필요하다.</p>
+
+  <h2 id="s1">1. 구독 확인 (최우선)</h2>
+  <p>워크숍 실습에 사용하는 도구들은 유효한 구독이 필요하다.</p>
+  <table>
+    <thead><tr><th>도구</th><th>필요 플랜</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Claude Code CLI</strong> (<code>claude</code>)</td><td>Claude Pro 또는 Max</td></tr>
+      <tr><td><strong>Claude 데스크탑 앱</strong></td><td>Claude Pro 이상</td></tr>
+      <tr><td><strong>Antigravity CLI</strong> (<code>agy</code>)</td><td>Gemini Advanced</td></tr>
+      <tr><td><strong>Antigravity 데스크탑 앱</strong></td><td>Gemini Advanced</td></tr>
+    </tbody>
+  </table>
+  <div class="warn"><strong>API Key 관련</strong>: API Key는 구독 플랜 외부에서 별도 연동이 필요한 경우에만 사용한다. 워크숍 실습은 구독 모델로 충분하며, API Key 발급은 꼭 필요한 경우에만 진행하세요.</div>
+
+  <h2 id="s2">2. 계정 준비</h2>
+  <ul class="chk-list">
+    <li><strong>Google 계정</strong> — Antigravity / Gemini Advanced 사용에 필요</li>
+    <li><strong>GitHub 계정</strong> — <code>gh auth login</code> 및 PR 실습에 필요</li>
+    <li class="sub">계정이 없으면 <a href="https://github.com/signup" target="_blank">github.com/signup</a>에서 미리 가입하세요</li>
+  </ul>
+
+  <h2 id="s3">3. 시스템 요구사항</h2>
+  <ul class="chk-list">
+    <li>OS: Windows 11 (Intel) / macOS Sequoia 15 이상 Apple Silicon (M 시리즈) / Ubuntu 24.04 이상</li>
+    <li>여유 디스크 공간: <strong>5 GB 이상</strong></li>
+    <li>관리자 / sudo 권한 보유</li>
+    <li class="sub"><strong>Windows</strong>: 시작 → "PowerShell" 검색 → 우클릭 → "관리자 권한으로 실행" (또는 <code>Win + X</code> → "터미널(관리자)"), UAC 확인 창에서 "예" 클릭</li>
+    <li class="sub"><strong>macOS / Linux</strong>: 명령어 앞에 <code>sudo</code>를 붙여서 실행</li>
+    <li>안정적인 인터넷 연결 (총 다운로드 용량 약 1–2 GB)</li>
+  </ul>
+
+  <h2 id="s4">4. Git 사용자 설정</h2>
+  <p>git 설치 후 아래 명령어로 사용자 정보를 등록하세요.</p>
+  <div style="position:relative">
+    <pre class="code-block">git config --global user.name  "홍길동"
+git config --global user.email "you@example.com"</pre>
+    <button class="copy-btn" onclick="copyCode(this)">복사</button>
+  </div>
+  <ul class="chk-list">
+    <li><code>git config --global user.name</code> 설정 완료</li>
+    <li><code>git config --global user.email</code> 설정 완료</li>
+  </ul>
+
+  <h2 id="s5">5. GitHub 인증</h2>
+  <div style="position:relative">
+    <pre class="code-block">gh auth login</pre>
+    <button class="copy-btn" onclick="copyCode(this)">복사</button>
+  </div>
+  <p>안내에 따라 브라우저에서 인증을 완료하세요.</p>
+  <ul class="chk-list">
+    <li><code>gh auth status</code> 실행 시 "Logged in" 표시 확인</li>
+  </ul>
+
+  <h2 id="s6">6. 프로젝트 환경 설정 (저장소 클론 후)</h2>
+  <p><strong>co-consult</strong>, <strong>co-deck</strong> 등 실습 variant 사용 시:</p>
+  <div style="position:relative">
+    <pre class="code-block">cp .env.sample .env
+# .env 파일을 열어 필요한 값을 채워 넣으세요</pre>
+    <button class="copy-btn" onclick="copyCode(this)">복사</button>
+  </div>
+  <ul class="chk-list">
+    <li><code>.env.sample</code>에서 <code>.env</code> 파일 생성 완료</li>
+    <li>필요한 API Key / 설정값 입력 완료</li>
+  </ul>
+
+  <p>Python 기반 실습 — <strong>uv</strong> 사용 (필수):</p>
+  <div style="position:relative">
+    <pre class="code-block">uv sync          # pyproject.toml 기반 의존성 설치
+# 또는 requirements.txt를 사용하는 경우:
+uv pip install -r requirements.txt</pre>
+    <button class="copy-btn" onclick="copyCode(this)">복사</button>
+  </div>
+  <ul class="chk-list">
+    <li><code>uv</code> 설치 및 사용 가능 확인 (<code>uv --version</code>)</li>
+    <li><code>uv</code>로 Python 의존성 설치 완료</li>
+  </ul>
+
+  <div class="note"><strong>Docker</strong>는 선택 사항이다. 강사가 별도로 안내하는 경우에만 설치하세요. macOS/Linux는 설치 스크립트에 <code>--docker</code> 플래그, Windows는 <code>-Docker</code> 플래그를 추가한다.
+  <ul class="chk-list" style="margin-top:8px;"><li><em>(선택)</em> Docker 설치 및 데몬 실행 확인</li></ul></div>
+
+  <h2 id="s7">7. 최종 환경 확인 (워크숍 전 반드시 실행)</h2>
+  <p>프로젝트 루트 폴더에서 아래 명령어를 실행하세요.</p>
+  <div style="position:relative">
+    <pre class="code-block">bun upstream/setup-common.ts</pre>
+    <button class="copy-btn" onclick="copyCode(this)">복사</button>
+  </div>
+  <p>출력 표의 모든 항목이 ✅로 표시되면 준비 완료이다.</p>
+
+  <hr>
+  <p style="text-align:center;color:var(--text-dim);font-size:13px;">문의사항은 워크숍 시작 전에 강사에게 연락하세요.</p>
+   <footer>
+    Claude Code 2026-07 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) 기준 · 한국어 교육 자료<br>
+    공식 자료: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a> ·
+    <a href="https://github.com/5throck/setup" target="_blank">설치 스크립트 원본 저장소</a><br>
+    본 핸드북의 콘텐츠는 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (저작자표시-비영리-동일조건변경허락 4.0 국제)</a> 라이선스에 따라 이용할 수 있습니다.
+  </footer>
+ </article>
+</main>
+</div>
+<script>
+function copyCode(btn) {
+  const codes = btn.parentElement.querySelectorAll(':scope > code');
+  let text;
+  if (codes.length > 1) {
+    text = Array.from(codes).map(c => c.textContent).join('\n');
+  } else {
+    const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
+    text = pre.textContent;
+  }
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '완료!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+</script>
+  <script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

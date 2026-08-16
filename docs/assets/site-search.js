@@ -3,71 +3,18 @@
    매뉴얼: h2[id](섹션) + h3(항목, 안에 <code>) / 예시: .scenario-card[id](시나리오)
    결과 선택 시 해당 문서의 정확한 위치로 이동(+ ?q= 로 그 페이지 검색 자동 적용).
 
-   ★ 사용 시 수정할 곳은 아래 DOCS 배열 하나뿐 — 새 문서의 path·title로 교체한다.
-     path 는 docs/ 기준 상대경로, title 은 검색 결과에 표시될 문서명. */
+   ★ 데이터는 search-data.js 에서 전역 SEARCH_DATA 로 제공됩니다.
+     새 문서 추가 시 docs/search-manifest.json 을 수정한 뒤
+     bun run scripts/build-search-index.ts --docs-dir docs 를 실행하세요.
+     이 파일(site-search.js)은 직접 수정할 필요가 없습니다. */
 (function () {
   'use strict';
-  var DOCS = [
-    /* ── Korean ── */
-    { path: 'ch01/01_Why_AI_Agents.html', title: '1장 · 왜 AI 에이전트 팀인가?', lang: 'ko' },
-    { path: 'ch02/02_Claude_Desktop_App.html', title: '2장 · Claude Desktop App 시작하기', lang: 'ko' },
-    { path: 'ch03/03_Setup_Guide.html', title: '3장 · 실습 환경 구축', lang: 'ko' },
-    { path: 'ch04/04_Harness_Concepts.html', title: '4장 · 멀티 에이전트 하네스 개념', lang: 'ko' },
-    { path: 'ch05/05_Workspace_Standards.html', title: '5장 · ai-workspace-standards 살펴보기', lang: 'ko' },
-    { path: 'ch06/06_Co_Consult_Practice.html', title: '6장 · co-consult: AI 컨설팅 실습', lang: 'ko' },
-    { path: 'ch07/07_Co_Deck_Practice.html', title: '7장 · co-deck: AI 프레젠테이션 실습', lang: 'ko' },
-    { path: 'ch08/08_Integrated_Pipeline.html', title: '8장 · co-consult + co-deck 통합 파이프라인', lang: 'ko' },
-    { path: 'ch09/09_Creating_Agents.html', title: '9장 · 에이전트 만들기와 수정', lang: 'ko' },
-    { path: 'ch10/10_Creating_Skills.html', title: '10장 · 스킬 만들기와 수정', lang: 'ko' },
-    { path: 'ch11/11_Building_Agent_Team.html', title: '11장 · 나만의 에이전트 팀 구성하기', lang: 'ko' },
-    { path: 'ch12/12_Workflows_Automation.html', title: '12장 · 워크플로우와 자동화 이해', lang: 'ko' },
-    { path: 'ch13/13_Next_Steps.html', title: '13장 · 다음 단계', lang: 'ko' },
-    { path: 'appendix/A_Remote_Access_ko.html', title: '별첨 A · 원격 접속 환경 설정', lang: 'ko' },
-    { path: 'appendix/B_Claude_Code_CLI_ko.html', title: '별첨 B · Claude Code CLI 사용법', lang: 'ko' },
-    { path: 'appendix/C_Low_Cost_Backends_ko.html', title: '별첨 C · 저비용 AI 백엔드 연동', lang: 'ko' },
-    { path: 'lecture-guide/00_Course_Overview.html', title: '강의 소개', lang: 'ko' },
-    { path: 'lecture-guide/00_Lecture_Guide.html', title: '강의 진행 가이드', lang: 'ko' },
-    /* ── English ── */
-    { path: 'ch01/01_Why_AI_Agents_en.html', title: 'Ch 1 · Why AI Agent Teams?', lang: 'en' },
-    { path: 'ch02/02_Claude_Desktop_App_en.html', title: 'Ch 2 · Getting Started with Claude Desktop App', lang: 'en' },
-    { path: 'ch03/03_Setup_Guide_en.html', title: 'Ch 3 · Setting Up Your Lab', lang: 'en' },
-    { path: 'ch04/04_Harness_Concepts_en.html', title: 'Ch 4 · Multi-Agent Harness Concepts', lang: 'en' },
-    { path: 'ch05/05_Workspace_Standards_en.html', title: 'Ch 5 · Exploring ai-workspace-standards', lang: 'en' },
-    { path: 'ch06/06_Co_Consult_Practice_en.html', title: 'Ch 6 · co-consult: AI Consulting in Practice', lang: 'en' },
-    { path: 'ch07/07_Co_Deck_Practice_en.html', title: 'Ch 7 · co-deck: AI Presentation in Practice', lang: 'en' },
-    { path: 'ch08/08_Integrated_Pipeline_en.html', title: 'Ch 8 · Combined co-consult + co-deck Pipeline', lang: 'en' },
-    { path: 'ch09/09_Creating_Agents_en.html', title: 'Ch 9 · Creating & Modifying Agents', lang: 'en' },
-    { path: 'ch10/10_Creating_Skills_en.html', title: 'Ch 10 · Creating & Modifying Skills', lang: 'en' },
-    { path: 'ch11/11_Building_Agent_Team_en.html', title: 'Ch 11 · Building Your Own Agent Team', lang: 'en' },
-    { path: 'ch12/12_Workflows_Automation_en.html', title: 'Ch 12 · Understanding Workflows & Automation', lang: 'en' },
-    { path: 'ch13/13_Next_Steps_en.html', title: 'Ch 13 · Next Steps', lang: 'en' },
-    { path: 'appendix/A_Remote_Access_en.html', title: 'Appendix A · Remote Access Setup', lang: 'en' },
-    { path: 'appendix/B_Claude_Code_CLI_en.html', title: 'Appendix B · Claude Code CLI Guide', lang: 'en' },
-    { path: 'appendix/C_Low_Cost_Backends_en.html', title: 'Appendix C · Low-Cost AI Backend Integration', lang: 'en' },
-    { path: 'lecture-guide/00_Course_Overview_en.html', title: 'Course Overview · Claude Code & Multi-Agent Harness', lang: 'en' },
-    { path: 'lecture-guide/00_Lecture_Guide_en.html', title: 'Lecture Guide · Claude Code & Multi-Agent Harness', lang: 'en' }
-  ];
-
-  var LABELS = {
-    ko: {
-      placeholder: '핸드북 전체 검색 — 섹션·항목·시나리오…',
-      section: '섹션', scenario: '시나리오', item: '항목',
-      noResult: '결과 없음',
-      hint: function(n){ return n + '개 문서 전체에서 찾아 해당 위치로 이동합니다.'; },
-      building: '색인 준비 중…'
-    },
-    en: {
-      placeholder: 'Search entire handbook — sections, items, scenarios…',
-      section: 'Section', scenario: 'Scenario', item: 'Item',
-      noResult: 'No results',
-      hint: function(n){ return n + ' documents searched. Navigates to exact position.'; },
-      building: 'Building index…'
-    }
-  };
+  var DOCS = SEARCH_DATA.DOCS;
+  var LABELS = SEARCH_DATA.LABELS;
 
   function ready(fn){ if (document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
   function strip(s){ return (s || '').replace(/\s+/g, ' ').trim(); }
-  function escHtml(s){ return s.replace(/[&<>"']/g, function (c){ return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]; }); }
+  function escHtml(s){ return s.replace(/[&<>"']/g, function (c){ return { '&':'&amp;','<':'&gt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]; }); }
 
   ready(function () {
     var pageLang = (document.documentElement.lang || 'ko').split('-')[0];
@@ -127,9 +74,9 @@
             doc: doc, id: el.id,
             heading: ti ? strip(ti.textContent) : el.id,
             section: lv ? strip(lv.textContent) : '',
-            type: el.getAttribute('data-kind') || labels.scenario   // 문제/Q&A 등. 없으면 시나리오(하위호환)
+            type: el.getAttribute('data-kind') || labels.scenario
           });
-        } else { // h3
+        } else {
           var code = el.querySelector('code');
           out.push({
             doc: doc, id: curId,

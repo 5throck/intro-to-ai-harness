@@ -458,8 +458,9 @@
   <p>The verification script in the setup folder checks the installation status of all tools at once.</p>
 
   <div class="code-block">
-<pre><code>cd ~/git/project/setup   # Windows: cd C:\git\project\setup
-bun upstream/setup-common.ts       # Run the installation verification script</code></pre>
+<pre><code>git clone https://github.com/5throck/setup.git
+cd setup
+bun setup-common.ts       # Run the installation verification script</code></pre>
 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
 </div>
 

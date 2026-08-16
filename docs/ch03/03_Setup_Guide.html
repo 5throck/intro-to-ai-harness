@@ -458,8 +458,9 @@
   <p>setup 폴더에 준비된 검증 스크립트를 실행하면 모든 도구의 설치 상태를 한 번에 확인할 수 있습니다.</p>
 
   <div class="code-block">
-<pre><code>cd ~/git/project/setup   # Windows: cd C:\git\project\setup
-bun upstream/setup-common.ts       # 설치 검증 스크립트 실행</code></pre>
+<pre><code>git clone https://github.com/5throck/setup.git
+cd setup
+bun setup-common.ts       # 설치 검증 스크립트 실행</code></pre>
 <button class="copy-btn" onclick="copyCode(this)">복사</button>
 </div>
 

@@ -141,8 +141,12 @@ def check_file(relpath):
     pre_close = len(re.findall(r"</pre>", content))
     if pre_open != pre_close:
         issues.append(f"pre balance {pre_open}/{pre_close}")
-    if pre_open != content.count('class="copy-btn"'):
-        issues.append(f"copy-btn count {pre_open} pre vs {content.count('class=\"copy-btn\"')} btn")
+    # Every <pre> code box must have a copy button. .prompt-box copy buttons
+    # are optional extras (AUTHORING_GUIDELINES §2), so the total may exceed
+    # the <pre> count — but it must never fall below it.
+    copy_btns = content.count('class="copy-btn"')
+    if copy_btns < pre_open:
+        issues.append(f"copy-btn count {copy_btns} btn vs {pre_open} pre — every <pre> needs a copy button")
 
     if "<img" in content:
         issues.append("contains <img> (SVG must be inline)")

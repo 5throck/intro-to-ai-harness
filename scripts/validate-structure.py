@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Validate handbook HTML structure.
 
+DEPRECATED (2026-08-16): superseded by scripts/check-structure.ts (Bun/TypeScript),
+which validates the same checks with dynamic language-pair detection and no Python
+dependency. Keep this file only as a reference; run `bun run check-structure`
+instead. Scheduled for removal once check-structure.ts coverage is verified.
+
 Checks every *.html under docs/ for:
   - <pre> / </pre> balance
   - one .copy-btn per <pre>

@@ -29,6 +29,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS = os.path.join(ROOT, "docs")
 
 PAIRS = [
+    ("index.html", "index_en.html"),
     ("ch01/01_Why_AI_Agents.html", "ch01/01_Why_AI_Agents_en.html"),
     ("ch02/02_Claude_Desktop_App.html", "ch02/02_Claude_Desktop_App_en.html"),
     ("ch03/03_Setup_Guide.html", "ch03/03_Setup_Guide_en.html"),

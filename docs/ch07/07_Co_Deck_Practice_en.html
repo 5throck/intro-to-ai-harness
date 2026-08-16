@@ -647,7 +647,7 @@
           <code>git clone https://github.com/5throck/ai-workspace-standards.git</code><br>
           <code>cd ai-workspace-standards</code><br>
           <code>bun scripts/new-project.ts "co-deck" --variant co-deck</code>
-          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
         </div>
         This creates <code>Projects/co-deck/</code> as its own independent Git repository, with the co-deck variant's agents, skills, and configuration already copied in.
       </li>
@@ -656,7 +656,7 @@
         Launch Claude Desktop App and open the <code>Projects/co-deck/</code> folder as a project. Start the PM by telling Claude the following.
         <div class="prompt-box">
           <code>"Let's start a new project."</code>
-          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
         </div>
         The PM enters Stage 0 (project configuration) and asks about the topic, audience, theme, and style.
       </li>
@@ -665,7 +665,7 @@
         Answer the PM's questions to configure the project. Try responding like this.
         <div class="prompt-box">
           <code>"Create a mini presentation about the 5 core concepts of machine learning. 5 slides. For beginners. In English."</code>
-          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
         </div>
         The PM analyzes your request and walks you through the configuration fields in <code>lecture-profile.md</code> (theme, style, source_verification, etc.).
       </li>
@@ -738,7 +738,7 @@
 
   <div class="prompt-box">
     <code>Projects/co-deck/presentations/&lt;project-name&gt;/</code>
-    <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+    <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
 
   <table>
@@ -888,24 +888,20 @@
 <script src="../assets/inpage-search.js" defer></script>
 <script>
 function copyCode(btn) {
-  const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
-  navigator.clipboard.writeText(pre.textContent).then(() => {
-    btn.textContent = 'Done!';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
-  });
-}
-function copyPromptBox(btn) {
-  const box = btn.parentElement;
-  const codes = box.querySelectorAll(':scope > code');
-  const text = Array.from(codes).map(c => c.textContent).join('\n');
+  const codes = btn.parentElement.querySelectorAll(':scope > code');
+  let text;
+  if (codes.length > 1) {
+    text = Array.from(codes).map(c => c.textContent).join('\n');
+  } else {
+    const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
+    text = pre.textContent;
+  }
   navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = 'Done!';
+    btn.textContent = 'Copied!';
     btn.classList.add('copied');
     setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
   });
-}
-</script>
+}</script>
 <script src="../assets/dark-mode-toggle.js"></script>
 <script src="../assets/lang-switcher.js"></script>
 </body>

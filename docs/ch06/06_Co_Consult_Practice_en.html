@@ -358,19 +358,19 @@
   <div class="prompt-box">
     <strong>Example 1: Market Analysis</strong><br>
     <code>"Analyze the food delivery app market in South Korea. Focus on competitor comparison and entry opportunities. Complete within 2 weeks."</code>
-    <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+    <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
 
   <div class="prompt-box">
     <strong>Example 2: Business Model Review</strong><br>
     <code>"Review our startup's SaaS business model. Target market is Japanese B2B enterprises. Cover pricing strategy and scalability."</code>
-    <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+    <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
 
   <div class="prompt-box">
     <strong>Example 3: Technology Adoption Assessment</strong><br>
     <code>"Evaluate introducing an AI chatbot to our company, targeting the education industry. Include cost analysis, technology stack options, and competitor case studies."</code>
-    <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+    <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
 
   <h3>Good Requests vs. Poor Requests</h3>
@@ -568,7 +568,7 @@
           <code>git clone https://github.com/5throck/ai-workspace-standards.git</code><br>
           <code>cd ai-workspace-standards</code><br>
           <code>bun scripts/new-project.ts "co-consult" --variant co-consult</code>
-          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
         </div>
         This creates <code>Projects/co-consult/</code> as its own independent Git repository, with the co-consult variant's agents, skills, and configuration already copied in.
       </li>
@@ -577,7 +577,7 @@
         Launch Claude Desktop App and open the <code>Projects/co-consult/</code> folder as the project. Tell Claude the following to start the PM.
         <div class="prompt-box">
           <code>"I'd like to start a new project."</code>
-          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
         </div>
         The PM starts the kickoff conversation and asks about the topic, scope, and timeline.
       </li>
@@ -586,7 +586,7 @@
         Answer the PM's questions to configure the engagement. Try responding like this.
         <div class="prompt-box">
           <code>"Analyze the key trends in the South Korean coffee shop market. Focus on the comparison between franchise cafes and independent cafes. Keep it a quick assessment."</code>
-          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
         </div>
         The PM analyzes your request and decides which specialists to dispatch for a Quick Assessment-sized engagement.
       </li>
@@ -610,12 +610,12 @@
         At a checkpoint, you can respond like this.
         <div class="prompt-box">
           <code>"I've reviewed the analysis. Please proceed to the next step."</code>
-          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
         </div>
         Or if revisions are needed, provide specific feedback.
         <div class="prompt-box">
           <code>"Add delivery cafe data from Baemin to the competitive analysis section."</code>
-          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
         </div>
       </li>
       <li>
@@ -646,7 +646,7 @@
 
   <div class="prompt-box">
     <code>Projects/co-consult/deliverables/reports/</code>
-    <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+    <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
 
   <h3>Key Deliverables</h3>
@@ -698,7 +698,7 @@
         <div class="prompt-box">
           <code>cd Projects/co-consult/deliverables/reports/</code><br>
           <code>ls</code>
-          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
         </div>
       </li>
       <li>
@@ -706,7 +706,7 @@
         Check the research results. It contains collected sources, key data points, and reference links.
         <div class="prompt-box">
           <code>cat findings_market.md</code>
-          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
         </div>
         Or open it in VS Code.
       </li>
@@ -715,7 +715,7 @@
         Open the <code>report.html</code> file in a browser to view the completed report. It is an interactive format that includes charts, tables, and diagrams.
         <div class="prompt-box">
           <code>open report.html</code>
-          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
         </div>
       </li>
       <li>
@@ -727,7 +727,7 @@
         You can view the overall project progress. It records which specialists have been dispatched, what they've produced, and whether the PM has checked in with you at each review point.
         <div class="prompt-box">
           <code>cat project_state.json</code>
-          <button type="button" class="copy-btn" onclick="copyPromptBox(this)">Copy</button>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
         </div>
       </li>
     </ol>
@@ -791,24 +791,20 @@
 <script src="../assets/inpage-search.js" defer></script>
 <script>
 function copyCode(btn) {
-  const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
-  navigator.clipboard.writeText(pre.textContent).then(() => {
-    btn.textContent = 'Done!';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
-  });
-}
-function copyPromptBox(btn) {
-  const box = btn.parentElement;
-  const codes = box.querySelectorAll(':scope > code');
-  const text = Array.from(codes).map(c => c.textContent).join('\n');
+  const codes = btn.parentElement.querySelectorAll(':scope > code');
+  let text;
+  if (codes.length > 1) {
+    text = Array.from(codes).map(c => c.textContent).join('\n');
+  } else {
+    const pre = btn.previousElementSibling || btn.parentElement.querySelector('pre');
+    text = pre.textContent;
+  }
   navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = 'Done!';
+    btn.textContent = 'Copied!';
     btn.classList.add('copied');
     setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
   });
-}
-</script>
+}</script>
 <script src="../assets/dark-mode-toggle.js"></script>
 <script src="../assets/lang-switcher.js"></script>
 </body>

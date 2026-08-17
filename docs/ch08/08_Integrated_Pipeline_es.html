@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Cap. 8 · Pipeline combinado co-consult + co-deck - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Cap. 8 · Pipeline combinado co-consult + co-deck</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_es.html" class="nav-home">&larr; Inicio del manual</a>
+  <div class="nav-title">Cap. 8 &middot; Pipeline combinado co-consult + co-deck</div>
+  <a href="#why-integrated">Why Integrate</a>
+  <a href="#handoff-process">Manual Handoff Process</a>
+  <a href="#full-pipeline">Full Pipeline Practice</a>
+  <a href="#agent-differences">Agent Composition Differences</a>
+  <a href="#tips">Success Tips</a>
+  <div class="nav-section">Otros capítulos</div>
+  <a href="../ch07/07_Co_Deck_Practice_es.html">Cap. 7 &middot; co-deck: AI Presentation in Practice</a>
+  <a href="../ch09/09_Creating_Agents_es.html">Cap. 9 &middot; Creación y modificación de agentes</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">Capítulo 8</div>
+  <h1>Pipeline combinado co-consult + co-deck</h1>
+  <p class="lead">Aprende el flujo de trabajo integrado desde el análisis de consultoría hasta la presentación: de la entrada del tema a una presentación terminada en 30-45 minutos usando co-consult y co-deck juntos.</p>
+  <div class="keypoints">
+    <div class="kp-title">Lo que cubre este capítulo</div>
+    <ul>
+      <li>Why integrate co-consult and co-deck</li>
+      <li>Manual handoff method (report &rarr; presentation)</li>
+      <li>Full pipeline practice (topic &rarr; finished deck in 30-45 min)</li>
+      <li>Agent composition differences between the two systems</li>
+      <li>Tips for successful integration</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: Why Integrate                                      -->
+  <!-- ============================================================ -->
+  <h2 id="why-integrated">Why Integrate co-consult and co-deck</h2>
+
+  <p>Los capítulos 6 y 7 te presentaron dos variantes poderosas: <strong>co-consult</strong> para análisis de consultoría y <strong>co-deck</strong> para producción de presentaciones. Cada una es valiosa por sí sola &mdash; pero cuando las combinas, sucede algo notable. Puedes pasar de un tema en bruto a una presentación completamente investigada y con fundamento analítico en aproximadamente <strong>30-45 minutes</strong>.</p>
+
+  <h3>The Natural Workflow</h3>
+
+  <p>En la práctica real de consultoría, hay una progresión natural: primero <em>analyze</em>, luego <em>present</em>. Un consultor no entra a una sala de juntas y comienza a construir diapositivas antes de hacer investigación. En su lugar, el flujo de trabajo se ve así:</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Research &amp; Analyze</strong> &mdash; Recopilar información, identificar hallazgos clave, estructurar el problema y producir un informe analítico.</li>
+      <li><strong>Summarize &amp; Reformat</strong> &mdash; Extraer los puntos más importantes del informe y reorganizarlos en un formato adecuado para diapositivas.</li>
+      <li><strong>Design &amp; Present</strong> &mdash; Convertir el contenido resumido en una presentación visualmente pulida y entregarla como HTML o PDF.</li>
+    </ol>
+  </div>
+
+  <p>Esto es exactamente lo que hace el pipeline combinado. <strong>co-consult</strong> maneja el paso 1 (investigación y análisis con su equipo de especialistas en consultoría), y <strong>co-deck</strong> maneja los pasos 2 y 3 (estructuración de contenido, diseño y generación de la presentación con sus agents de producción).</p>
+
+  <h3>The Report-to-Slides Analogy</h3>
+
+  <p>Piénsalo como escribir un libro y luego crear una charla TED a partir de él. El libro (informe de co-consult) contiene análisis profundo, datos de apoyo y argumentos matizados. La charla TED (presentación de co-deck) destila los mensajes clave en una narrativa visual convincente que la audiencia puede absorber en 20 minutos. Ambos resultados son valiosos y cada uno sirve un propósito diferente &mdash; pero se construyen sobre la misma base intelectual.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>co-consult Resultado</h4>
+      <ul>
+        <li>Detailed analysis report</li>
+        <li>Market landscape and competitive data</li>
+        <li>Problem structured as issue trees (MECE)</li>
+        <li>Strategic recommendations with evidence</li>
+        <li>Audience: analysts, managers, decision-makers</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-deck Resultado</h4>
+      <ul>
+        <li>Visual slide deck (HTML + PDF)</li>
+        <li>Key findings highlighted per slide</li>
+        <li>Narrative flow: problem &rarr; analysis &rarr; solution</li>
+        <li>Designed with theme, images, and diagrams</li>
+        <li>Audience: executives, clients, general audiences</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Integrated Workflow Overview</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Integrated workflow diagram showing co-consult feeding into co-deck">
+      <defs>
+        <marker id="arrowIp1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-amber)"/>
+        </marker>
+        <marker id="arrowIp2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
+        </marker>
+        <marker id="arrowIp3" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+
+      <!-- Tema input -->
+      <rect x="15" y="40" width="100" height="48" rx="10" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="65" y="60" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Tema</text>
+      <text x="65" y="76" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">User input</text>
+
+      <!-- Arrow: Tema → co-consult -->
+      <line x1="115" y1="64" x2="148" y2="64" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowIp3)"/>
+
+      <!-- co-consult box -->
+      <rect x="155" y="15" width="200" height="140" rx="12" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="255" y="38" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">co-consult</text>
+      <text x="255" y="54" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Consulting Analysis</text>
+
+      <!-- co-consult stages -->
+      <rect x="170" y="66" width="80" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1"/>
+      <text x="210" y="82" text-anchor="middle" font-size="9" style="fill:var(--text)">Research</text>
+
+      <rect x="260" y="66" width="80" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1"/>
+      <text x="300" y="82" text-anchor="middle" font-size="9" style="fill:var(--text)">Analysis</text>
+
+      <rect x="170" y="98" width="80" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1"/>
+      <text x="210" y="114" text-anchor="middle" font-size="9" style="fill:var(--text)">Strategy</text>
+
+      <rect x="260" y="98" width="80" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1"/>
+      <text x="300" y="114" text-anchor="middle" font-size="9" style="fill:var(--text)">Report</text>
+
+      <!-- Arrow: co-consult → Handoff -->
+      <line x1="355" y1="85" x2="398" y2="85" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowIp1)"/>
+      <text x="370" y="78" font-size="9" font-style="italic" style="fill:var(--text-dim)">handoff</text>
+
+      <!-- Handoff circle -->
+      <circle cx="430" cy="85" r="28" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4,2"/>
+      <text x="430" y="82" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">Manual</text>
+      <text x="430" y="95" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">Handoff</text>
+
+      <!-- Arrow: Handoff → co-deck -->
+      <line x1="458" y1="85" x2="498" y2="85" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowIp2)"/>
+
+      <!-- co-deck box -->
+      <rect x="505" y="15" width="180" height="140" rx="12" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="595" y="38" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">co-deck</text>
+      <text x="595" y="54" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Presentation</text>
+
+      <!-- co-deck stages -->
+      <rect x="515" y="66" width="70" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="550" y="82" text-anchor="middle" font-size="9" style="fill:var(--text)">Story</text>
+
+      <rect x="600" y="66" width="70" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="635" y="82" text-anchor="middle" font-size="9" style="fill:var(--text)">Design</text>
+
+      <rect x="515" y="98" width="70" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="550" y="114" text-anchor="middle" font-size="9" style="fill:var(--text)">Build</text>
+
+      <rect x="600" y="98" width="70" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="635" y="114" text-anchor="middle" font-size="9" style="fill:var(--text)">PDF</text>
+
+      <!-- Resultado -->
+      <rect x="555" y="185" width="80" height="40" rx="8" fill="var(--accent-green)" stroke="none" opacity="0.9"/>
+      <text x="595" y="202" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">HTML +</text>
+      <text x="595" y="216" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">PDF</text>
+
+      <line x1="595" y1="155" x2="595" y2="183" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowIp2)"/>
+
+      <!-- co-consult output -->
+      <rect x="215" y="185" width="80" height="40" rx="8" fill="var(--accent-amber)" stroke="none" opacity="0.9"/>
+      <text x="255" y="202" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">Analysis</text>
+      <text x="255" y="216" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">Report</text>
+
+      <line x1="255" y1="155" x2="255" y2="183" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowIp1)"/>
+
+      <!-- Timeline bar -->
+      <rect x="15" y="250" width="670" height="32" rx="8" fill="var(--bg-info)" stroke="var(--border)" stroke-width="1"/>
+      <text x="65" y="270" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">0 min</text>
+      <text x="255" y="270" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">~15 min</text>
+      <text x="430" y="270" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">~20 min</text>
+      <text x="595" y="270" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">~40 min</text>
+
+      <!-- Timeline labels -->
+      <text x="160" y="300" text-anchor="middle" font-size="10" style="fill:var(--accent-amber)">co-consult analysis</text>
+      <text x="350" y="300" text-anchor="middle" font-size="10" style="fill:var(--accent)">manual handoff</text>
+      <text x="530" y="300" text-anchor="middle" font-size="10" style="fill:var(--accent-green)">co-deck production</text>
+
+      <!-- Progress markers -->
+      <circle cx="15" cy="266" r="4" fill="var(--accent-purple)"/>
+      <circle cx="255" cy="266" r="4" fill="var(--accent-amber)"/>
+      <circle cx="430" cy="266" r="4" fill="var(--accent)"/>
+      <circle cx="595" cy="266" r="4" fill="var(--accent-green)"/>
+
+      <!-- Timeline connector line -->
+      <line x1="65" y1="266" x2="595" y2="266" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3,3" opacity="0.4"/>
+
+      <text x="350" y="330" text-anchor="middle" font-size="11" font-style="italic" style="fill:var(--text-dim)">Total: approximately 30-45 minutes from topic to finished deck</text>
+    </svg>
+  </div>
+
+  <div class="note"> 
+     <strong>¿Por qué no usar solo co-deck?</strong> co-deck tiene un agent de investigación integrado que funciona bien para temas generales. Sin embargo, co-consult aporta agents de consultoría especializados &mdash; expertos sectoriales, analistas estratégicos, analistas de datos &mdash; que proporcionan un análisis más profundo y estructurado. Cuando tu tema requiere pensamiento estratégico de nivel empresarial (análisis de mercado, posicionamiento competitivo, transformación digital), el análisis de co-consult añade una profundidad que un agent de investigación de propósito general no puede igualar. 
+   </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: Manual Handoff Process                            -->
+  <!-- ============================================================ -->
+  <h2 id="handoff-process">Manual Handoff Process</h2>
+
+  <p>Actualmente, no existe un pipeline automático que conecte la salida de co-consult directamente con la entrada de co-deck. El traspaso entre los dos sistemas es <strong>manual</strong> &mdash; tú, el operador humano, realizas el puente. Esto puede sonar como trabajo extra, pero en realidad es un valioso punto de control de calidad. Repasemos el proceso paso a paso.</p>
+
+  <h3>Cómo se ve el traspaso</h3>
+
+  <p>El traspaso es conceptualmente simple: tomas los hallazgos clave del informe de co-consult y los alimentas en co-deck como punto de partida para la presentación. En la práctica, esto significa resumir las ideas centrales del informe en un formato con el que el agent storyline de co-deck pueda trabajar.</p>
+
+  <div class="step-list">
+    <ol>
+      <li> 
+         <strong>Completa el análisis de co-consult.</strong> Pasa tu tema por el pipeline completo de co-consult (Phases 0-6). Revisa el informe final para asegurarte de que el análisis esté completo, las recomendaciones sean claras y la evidencia esté bien organizada. 
+       </li>
+      <li> 
+         <strong>Copia el contenido del informe.</strong> Abre el informe de salida de co-consult (típicamente en el directorio de salida del proyecto). Selecciona las secciones clave: resumen ejecutivo, hallazgos principales, recomendaciones estratégicas y puntos de datos de apoyo. <em>not</em> necesitas copiar todo el informe &mdash; concéntrate en el contenido que quieres que aparezca en la presentación. 
+       </li>
+      <li> 
+         <strong>Resume en formato listo para diapositivas.</strong> Crea un documento breve de resumen o pega directamente el contenido clave cuando el agent storyline de co-deck solicite la entrada. El objetivo es proporcionar a co-deck suficiente contexto para estructurar las diapositivas sin abrumarlo con prosa del informe en bruto. Apunta a 3-5 puntos por tema de diapositiva. 
+       </li>
+      <li> 
+         <strong>Start a new co-deck project.</strong> Abre Claude Desktop App y navega al workspace de co-deck. Comienza el Stage 0 creando un nuevo perfil de presentación. Cuando se te solicite el tema o las notas de investigación, pega tus hallazgos resumidos de co-consult como contenido inicial. 
+       </li>
+      <li> 
+         <strong>Ejecuta el pipeline de co-deck.</strong> Continúa por el pipeline estándar de 11 etapas (Stages 1-11). El agent storyline usará tu contenido resumido para construir la presentación, el agent de diseño aplicará el tema visual, y los agents de construcción/exportación producirán el HTML y PDF finales. 
+       </li>
+    </ol>
+  </div>
+
+  <div class="tip-box"> 
+     <strong>Consejo &mdash; Alineación de Contenido:</strong> El error más común en el traspaso es volcar todo el informe de co-consult tal cual en co-deck. Recuerda que una presentación no es un documento. Resume cada idea clave en una frase o viñeta clara. Pregúntate: "Si la audiencia solo puede recordar tres cosas de esta diapositiva, ¿cuáles deberían ser?" Ese es el contenido que co-deck necesita. 
+   </div>
+
+  <div class="note"> 
+     <strong>Automatización Futura:</strong> El traspaso manual es un paso temporal. Las versiones futuras del ecosistema ai-workspace-standards planean incluir un handoff contract automatizado que permitiría a co-consult escribir su salida en un formato que co-deck pueda leer directamente. Hasta entonces, el proceso manual te da control total sobre qué contenido llega a la presentación. 
+   </div>
+
+  <h3>Handoff Quality Checklist</h3>
+
+  <p>Antes de iniciar el pipeline de co-deck, repasa esta lista de verificación rápida para asegurarte de que el contenido del traspaso esté listo.</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Mensaje central definido</strong> &mdash; ¿Puedes enunciar el mensaje principal de la presentación en una frase?</li>
+      <li><strong>Hallazgos clave extraídos</strong> &mdash; ¿Has identificado los 3-5 hallazgos más importantes del informe de co-consult?</li>
+      <li><strong>Audiencia considerada</strong> &mdash; ¿Es el contenido apropiado para la audiencia de la presentación (ejecutivos, clientes, estudiantes)?</li>
+      <li><strong>Puntos de datos seleccionados</strong> &mdash; ¿Has elegido los puntos de datos y estadísticas de mayor impacto para incluir?</li>
+      <li><strong>Recomendaciones priorizadas</strong> &mdash; ¿Están claramente identificados los elementos de acción y los próximos pasos?</li>
+    </ol>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: Full Pipeline Practice                              -->
+  <!-- ============================================================ -->
+  <h2 id="full-pipeline">Full Pipeline Practice</h2>
+
+  <p>Repasemos un ejemplo completo de principio a fin. Usaremos un escenario realista: <strong>"Electric Vehicle Market Analysis for a Mid-size Auto Parts Manufacturer."</strong> El objetivo es pasar de este tema a una presentación terminada de 15 diapositivas en aproximadamente 30-45 minutos.</p>
+
+  <h3>Phase A: co-consult Analysis (approximately 15 minutes)</h3>
+
+  <div class="step-list">
+    <ol>
+      <li> 
+         <strong>Inicia co-consult y define el proyecto.</strong><br> 
+         Abre Claude Desktop App en el workspace de co-consult. El agent PM inicializa el proyecto y pregunta sobre el alcance del engagement.<br><br> 
+         <em>Example conversation:</em><br> 
+         <strong>You:</strong> "Necesito un análisis de mercado de la industria de vehículos eléctricos para un fabricante de autopartes de tamaño mediano. Fabrican sistemas de frenado y quieren entender el panorama de la transición a los VE, las amenazas competitivas y las oportunidades estratégicas."<br> 
+         <strong>PM:</strong> "Entendido. Reuniré el equipo de consultoría y comenzaré la investigación." 
+       </li>
+      <li> 
+         <strong>Research and analysis.</strong><br> 
+         co-consult despacha sus agents especializados: el <em>industry-expert</em> recopila datos del mercado de VE, el <em>strategy-analyst</em> evalúa la dinámica competitiva, y el <em>sme</em> (experto en la materia) evalúa las tendencias tecnológicas de los sistemas de frenado.<br><br> 
+         <em>What happens:</em> Cada agent produce hallazgos. El PM los sintetiza en un análisis estructurado con árboles de problemas siguiendo el marco MECE (Mutuamente Exclusivo, Colectivamente Exhaustivo). 
+       </li>
+      <li> 
+         <strong>Revisa el informe de co-consult.</strong><br> 
+         El PM presenta el análisis completado. Revísalo para verificar exactitud y completitud. Las secciones clave deben incluir panorama de mercado, panorama competitivo, evaluación tecnológica y recomendaciones estratégicas.<br><br> 
+         <em>Example output:</em> Un informe con secciones como "Pronóstico de Crecimiento del Mercado de VE", "Top 5 de Competidores en Sistemas de Frenado para VE", "Análisis de Brecha Tecnológica" y "Recomendaciones Estratégicas para [Empresa]". 
+       </li>
+    </ol>
+  </div>
+
+  <h3>Phase B: Handoff (approximately 5 minutes)</h3>
+
+  <div class="step-list">
+    <ol start="4">
+      <li> 
+         <strong>Summarize for slides.</strong><br> 
+         Extrae los puntos clave del informe y organízalos en resúmenes listos para diapositivas. Concéntrate en el resumen ejecutivo, los 3-5 hallazgos más importantes y las principales recomendaciones.<br><br> 
+         <em>Ejemplo de resumen que podrías preparar:</em><br> 
+         <em>Tema:</em> Estrategia de Entrada al Mercado de VE para Fabricante de Autopartes<br> 
+         <em>Key Finding 1:</em> El mercado global de VE proyecta un crecimiento del 22% CAGR hasta 2030<br> 
+         <em>Key Finding 2:</em> La demanda de frenado regenerativo aumentará 3x a medida que se acelere la adopción de VE<br> 
+         <em>Key Finding 3:</em> Dos competidores importantes han anunciado líneas de productos de frenado exclusivos para VE<br> 
+         <em>Recommendation:</em> Invierte en I+D de frenado regenerativo y establece asociaciones con dos OEM de VE<br> 
+       </li>
+    </ol>
+  </div>
+
+  <h3>Phase C: co-deck Production (approximately 20 minutes)</h3>
+
+  <div class="step-list">
+    <ol start="5">
+      <li> 
+         <strong>Inicializa el proyecto de co-deck.</strong><br> 
+         Abre Claude Desktop App en el workspace de co-deck. Crea un nuevo proyecto de presentación. Cuando el PM pregunte por los detalles del tema o la entrada de investigación, pega tus hallazgos resumidos de co-consult.<br><br> 
+         <em>Example conversation:</em><br> 
+         <strong>PM:</strong> "¿Qué tema te gustaría para esta presentación?"<br> 
+         <strong>You:</strong> "Estrategia de Entrada al Mercado de VE para Fabricante de Autopartes. Aquí están los hallazgos clave de nuestro análisis de consultoría: [pegar resumen]. Crea una presentación de 15 diapositivas dirigida al equipo ejecutivo de la empresa." 
+       </li>
+      <li> 
+         <strong>Content creation and design.</strong><br> 
+         co-deck recorre los Stages 1-8: enriquecimiento de investigación, diseño de la storyline, creación de la especificación de diseño, construcción HTML, curación de imágenes y generación de diagramas. En el Gate 2, revisa la estructura de diapositivas propuesta y apruébala.<br><br> 
+         <em>What happens:</em> El agent storyline crea un flujo narrativo (problema &rarr; análisis &rarr; solución). El agent de diseño aplica el tema visual. El agent html-build genera las diapositivas HTML. 
+       </li>
+      <li> 
+         <strong>Export and review.</strong><br> 
+         co-deck recorre los Stages 9-11: medición del diseño y exportación a PDF. En el Gate 5, revisa el PDF de muestra para verificar la calidad del diseño y las fuentes. Aprueba la generación del PDF completo.<br><br> 
+         <em>Result:</em> Una presentación completa de 15 diapositivas en formato HTML y PDF, con tema visual aplicado, y con los puntos de datos clave del análisis de co-consult presentados como diapositivas claras y listas para la audiencia. 
+       </li>
+    </ol>
+  </div>
+
+  <div class="note"> 
+     <strong>About Timing:</strong> La estimación de 30-45 minutos asume que ya estás familiarizado con los flujos de trabajo de co-consult y co-deck (cubiertos en los capítulos 6 y 7). En tu primer intento, permite 45-60 minutos. A medida que ganes experiencia, el traspaso se vuelve más rápido y el tiempo del pipeline disminuye. La mayor parte del tiempo se dedica a esperar a que los agents de IA completen su trabajo &mdash; tu participación activa consiste principalmente en revisar y aprobar en cada gate. 
+   </div>
+
+  <h3>Pipeline Timeline</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pipeline timeline showing estimated times for each phase">
+      <defs>
+        <marker id="arrowPt1" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto">
+          <path d="M0,0 L6,2.5 L0,5 Z" fill="var(--text-dim)"/>
+        </marker>
+      </defs>
+
+      <!-- Timeline axis -->
+      <line x1="40" y1="170" x2="670" y2="170" stroke="var(--text-dim)" stroke-width="1.5"/>
+
+      <!-- Time markers -->
+      <text x="40" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">0</text>
+      <text x="200" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">10</text>
+      <text x="340" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">20</text>
+      <text x="480" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">30</text>
+      <text x="620" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">40</text>
+      <text x="665" y="190" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">min</text>
+
+      <circle cx="40" cy="170" r="3" fill="var(--text-dim)"/>
+      <circle cx="200" cy="170" r="3" fill="var(--text-dim)"/>
+      <circle cx="340" cy="170" r="3" fill="var(--text-dim)"/>
+      <circle cx="480" cy="170" r="3" fill="var(--text-dim)"/>
+      <circle cx="620" cy="170" r="3" fill="var(--text-dim)"/>
+
+      <!-- Phase A: co-consult (0-15 min) -->
+      <rect x="40" y="80" width="200" height="50" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="140" y="100" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase A: co-consult</text>
+      <text x="140" y="118" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Research + Analysis (~15 min)</text>
+      <line x1="140" y1="130" x2="140" y2="165" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowPt1)"/>
+
+      <!-- Phase B: Handoff (15-20 min) -->
+      <rect x="250" y="80" width="90" height="50" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4,2"/>
+      <text x="295" y="100" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Handoff</text>
+      <text x="295" y="118" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">~5 min</text>
+      <line x1="295" y1="130" x2="295" y2="165" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowPt1)"/>
+
+      <!-- Phase C: co-deck (20-40 min) -->
+      <rect x="350" y="80" width="280" height="50" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="490" y="100" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Phase C: co-deck</text>
+      <text x="490" y="118" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Story + Design + Build + PDF (~20 min)</text>
+      <line x1="490" y1="130" x2="490" y2="165" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowPt1)"/>
+
+      <!-- Step labels inside Phase A -->
+      <text x="80" y="60" font-size="9" style="fill:var(--accent-amber)">PM init</text>
+      <text x="140" y="40" font-size="9" style="fill:var(--accent-amber)">Agent research</text>
+      <text x="200" y="60" font-size="9" style="fill:var(--accent-amber)">Report</text>
+
+      <!-- Step labels inside Phase C -->
+      <text x="390" y="60" font-size="9" style="fill:var(--accent-green)">Stage 0-3</text>
+      <text x="480" y="40" font-size="9" style="fill:var(--accent-green)">Stage 4-8</text>
+      <text x="580" y="60" font-size="9" style="fill:var(--accent-green)">Stage 9-11</text>
+
+      <!-- Gate markers -->
+      <rect x="390" y="145" width="42" height="16" rx="3" fill="var(--accent)" opacity="0.2"/>
+      <text x="411" y="156" text-anchor="middle" font-size="8" font-weight="bold" style="fill:var(--accent)">Gate 2</text>
+
+      <rect x="570" y="145" width="42" height="16" rx="3" fill="var(--accent)" opacity="0.2"/>
+      <text x="591" y="156" text-anchor="middle" font-size="8" font-weight="bold" style="fill:var(--accent)">Gate 5</text>
+
+      <text x="350" y="210" text-anchor="middle" font-size="11" font-style="italic" style="fill:var(--text-dim)">Total elapsed time: ~30-45 minutes (first run: ~45-60 min)</text>
+    </svg>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: Agent Composition Differences                        -->
+  <!-- ============================================================ -->
+  <h2 id="agent-differences">Agent Composition Differences</h2>
+
+  <p>Uno de los aspectos más interesantes de comparar co-consult y co-deck es ver cómo cada variante ensambla un <strong>different team of specialists</strong> adaptado a su dominio. Ambas comparten el mismo agent PM y el mismo marco de orquestación, pero los agents especializados son completamente diferentes. Este es el poder de la arquitectura de variantes &mdash; la misma plataforma, diferentes equipos, diferentes resultados.</p>
+
+  <h3>Agent Comparison</h3>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>co-consult Agents</h4>
+      <ul>
+        <li><strong>pm</strong> &mdash; Project Manager (orchestrator)</li>
+        <li><strong>industry-expert</strong> &mdash; Market and competitive insights</li>
+        <li><strong>strategy-analyst</strong> &mdash; Strategic assessment and research</li>
+        <li><strong>sme</strong> &mdash; Functional expertise and solution design</li>
+        <li><strong>data-analyst</strong> &mdash; Statistical analysis and modeling</li>
+        <li><strong>solutions-architect</strong> &mdash; Technical solution design</li>
+        <li><strong>communications-lead</strong> &mdash; Strategic narrative and messaging</li>
+        <li><strong>change-management-partner</strong> &mdash; Organizational transformation</li>
+        <li><strong>workstream-lead</strong> &mdash; Delivery coordination</li>
+        <li><strong>delivery-manager</strong> &mdash; Project delivery operations</li>
+        <li><strong>technology-specialist</strong> &mdash; Digital transformation support</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-deck Agents</h4>
+      <ul>
+        <li><strong>pm</strong> &mdash; Project Manager (orchestrator)</li>
+        <li><strong>research</strong> &mdash; Web research and source collection</li>
+        <li><strong>source-verifier</strong> &mdash; URL validation and trust scoring</li>
+        <li><strong>storyline</strong> &mdash; Narrative design and slide composition</li>
+        <li><strong>design</strong> &mdash; Visual design spec (colors, fonts, layout)</li>
+        <li><strong>image-curator</strong> &mdash; Image search and download</li>
+        <li><strong>diagram-specialist</strong> &mdash; SVG diagram and chart generation</li>
+        <li><strong>html-build</strong> &mdash; HTML slide generation</li>
+        <li><strong>measure</strong> &mdash; Layout measurement for PDF</li>
+        <li><strong>pdf-export</strong> &mdash; PDF generation</li>
+        <li><strong>version</strong> &mdash; File snapshot and restore</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Shared vs. Unique Agents</h3>
+
+  <p>De todos los agents, solo uno es compartido entre las dos variantes: el <strong>PM (Project Manager)</strong>. Todo lo demás es específico del dominio. Esto refleja una decisión de diseño deliberada &mdash; el PM proporciona la columna vertebral de orquestación, mientras que cada variante llena el equipo con especialistas que tienen la experiencia adecuada para ese dominio.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Shared</h4>
+      <ul>
+        <li><strong>pm</strong> &mdash; Orchestration, gate approvals, agent dispatch, quality enforcement</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Domain-Difference Summary</h4>
+      <ul>
+        <li>co-consult agents are <em>thinking-heavy</em>: analysis, strategy, expert judgment</li>
+        <li>co-deck agents are <em>production-heavy</em>: content structuring, visual design, file generation</li>
+        <li>Ninguno de los dos conjuntos es "mejor" &mdash; sirven diferentes etapas del mismo flujo de trabajo general</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note"> 
+     <strong>Contextual Differences:</strong> Incluso el agent PM compartido se comporta de manera diferente en cada variante. En co-consult, el PM ensambla un equipo de consultoría y gestiona un flujo de trabajo de 7 Phases enfocado en la calidad del análisis. En co-deck, el PM gestiona un pipeline de 11 Stages enfocado en hitos de producción y aprobaciones de gates. Las instrucciones de comportamiento del PM se cargan desde el <code>CLAUDE.md</code> o <code>GEMINI.md</code> propio de cada variante, que anulan el comportamiento base compartido con reglas específicas de la variante. 
+   </div>
+
+  <h3>Workflow Comparison</h3>
+
+  <p>Beyond the agents themselves, the two variants use fundamentally different workflow structures.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>co-consult Workflow</h4>
+      <ul>
+        <li>7-Phase workflow (Phases 0-6)</li>
+        <li>Phase 0: Project initiation</li>
+        <li>Phase 1-2: Research and planning</li>
+        <li>Phase 3: Design and solution architecture</li>
+        <li>Phase 4: Execution and delivery</li>
+        <li>Phase 5: Lifecycle finalization</li>
+        <li>Phase 6: Quality assurance</li>
+        <li><strong>Resultado:</strong> Analysis report (Markdown)</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-deck Workflow</h4>
+      <ul>
+        <li>11-Stage pipeline (Stages 0-11)</li>
+        <li>Stage 0: Project configuration</li>
+        <li>Stage 1: Research</li>
+        <li>Stage 1.5: Source verification (optional)</li>
+        <li>Stage 2-3: Content and storyline</li>
+        <li>Stage 4: Design</li>
+        <li>Stage 3.5: Images and diagrams (parallel)</li>
+        <li>Stage 5-8: HTML build</li>
+        <li>Stage 9-10: Layout measurement</li>
+        <li>Stage 11: PDF export</li>
+        <li><strong>Resultado:</strong> HTML slides + PDF</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: Success Tips                                        -->
+  <!-- ============================================================ -->
+  <h2 id="tips">Success Tips</h2>
+
+  <p>Después de ejecutar el pipeline combinado algunas veces, desarrollarás tu propio ritmo. Aquí tienes algunos consejos prácticos que te ayudarán a evitar errores comunes y obtener los mejores resultados de la integración.</p>
+
+  <h3>Tip 1: Run a Pre-Handoff Quality Check</h3>
+
+  <p>Antes de iniciar el traspaso, asegúrate de que el informe de co-consult supere una barra básica de calidad. Un análisis de baja calidad producirá una presentación de baja calidad, sin importar cuán bueno sea co-deck en diseño.</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>¿Es claro el resumen ejecutivo?</strong> &mdash; ¿Puedes resumir todo el informe en 2-3 frases?</li>
+      <li><strong>¿Están los hallazgos respaldados por evidencia?</strong> &mdash; ¿Cada afirmación clave tiene datos de apoyo?</li>
+      <li><strong>¿Son accionables las recomendaciones?</strong> &mdash; ¿Puede la audiencia realmente actuar con base en ellas?</li>
+      <li><strong>Is the structure logical?</strong> &mdash; ¿Fluye el informe naturalmente del problema al análisis y a la solución?</li>
+    </ol>
+  </div>
+
+  <div class="warn"> 
+     <strong>Warning:</strong> No te saltes el paso de revisión de co-consult. Si el análisis tiene errores factuales o lagunas lógicas, esos errores se propagarán a la presentación. Los agents de co-deck representarán fielmente cualquier contenido que les proporciones &mdash; no verifican de forma independiente la exactitud del análisis de consultoría. 
+   </div>
+
+  <h3>Tip 2: Summarize, Do Not Copy-Paste</h3>
+
+  <p>El traspaso no es una operación de copiar y pegar. Un informe de consultoría y una presentación de diapositivas sirven propósitos de comunicación diferentes, y el contenido debe adaptarse.</p>
+
+  <div class="tip-box"> 
+     <strong>The 3-Sentence Rule:</strong> Para cada tema de diapositiva, intenta destilar los hallazgos de co-consult en no más de 3 frases. Cada frase se convierte en una viñeta de la diapositiva. Si no puedes expresar un hallazgo en 3 frases, probablemente necesite dividirse en varias diapositivas o simplificarse. Esta disciplina te obliga a concentrarte en lo que más importa. 
+   </div>
+
+  <p>Aquí tienes un enfoque práctico para el resumen:</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Read the full report section</strong> y resalta la frase clave de cada párrafo.</li>
+      <li><strong>Group related highlights</strong> under slide topic headers (e.g., "Market Overview," "Competitive Landscape," "Technology Trends").</li>
+      <li><strong>Trim to essentials</strong> &mdash; elimina la jerga, los calificativos y las advertencias que funcionan en un informe pero que saturan una diapositiva.</li>
+      <li><strong>Add data callouts</strong> &mdash; anota números específicos, porcentajes o comparaciones que harán que el contenido de la diapositiva sea convincente.</li>
+    </ol>
+  </div>
+
+  <h3>Tip 3: Pre-Select Theme and Style</h3>
+
+  <p>Durante el Stage 0 de co-deck, el PM te pedirá elegir un tema de renderizado y un estilo visual. Tomar estas decisiones <em>before</em> de iniciar el pipeline de co-deck ahorra tiempo y evita idas y vueltas.</p>
+
+  <div class="tip-box">
+    <strong>Quick Decision Framework:</strong>
+    <ul>
+      <li><strong>Business/corporate presentation?</strong> &rarr; Theme: <code>pitch-enhanced</code>, Style: <code>premium-dark</code></li>
+      <li><strong>Educational/lecture content?</strong> &rarr; Theme: <code>outline</code>, Style: <code>academic</code></li>
+      <li><strong>Creative/visual showcase?</strong> &rarr; Theme: <code>zen</code>, Style: <code>visual-heavy</code></li>
+    </ul>
+    Check the full compatibility matrix in <code>docs/html-themes/THEMES.md</code> before confirming your selections.
+  </div>
+
+  <h3>Tip 4: Be Diligent with Gate Approvals</h3>
+
+  <p>Tanto co-consult como co-deck tienen gates obligatorios donde debes aprobar explícitamente antes de que el pipeline avance. Estos gates existen por una razón &mdash; son puntos de control de calidad que detectan problemas temprano.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>co-consult Gates</h4>
+      <ul>
+        <li><strong>Gate: Team Assembly</strong> &mdash; Revisa el equipo de agents propuesto y confirma que coincida con el alcance de tu engagement</li>
+        <li><strong>Gate: Analysis Review</strong> &mdash; Review the completed analysis before finalization</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-deck Gates</h4>
+      <ul>
+        <li><strong>Gate 2 (Mandatory)</strong> &mdash; Review storyline.md and slide_deck.md before design begins</li>
+        <li><strong>Gate 5 (Mandatory)</strong> &mdash; Review the sample PDF before generating the full deck</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn"> 
+     <strong>Do Not Auto-Approve:</strong> Es tentador aprobar rápidamente cada gate para ahorrar tiempo, especialmente en tu segunda o tercera ejecución. Resiste esa tentación. Cada gate es un punto de control donde puedes detectar y corregir problemas antes de que se conviertan en costosos errores posteriores. Dedicar 2 minutos a revisar en el Gate 2 puede ahorrarte 10 minutos de retrabajo después. 
+   </div>
+
+  <h3>Tip 5: Keep the Tema Focused</h3>
+
+  <p>El pipeline combinado funciona mejor cuando el tema es <strong>narrow and specific</strong>. Un tema como "IA en Salud" es demasiado amplio para una presentación de 15 diapositivas que necesita mostrar profundidad de nivel consultoría. Un tema como "Herramientas de Diagnóstico con IA para Departamentos de Radiología" es mucho mejor &mdash; da tanto a los agents de consultoría como a los de presentación un alcance claro dentro del cual trabajar.</p>
+
+  <div class="note"> 
+     <strong>The Goldilocks Zone:</strong> Apunta a un tema que pueda analizarse a fondo en un informe de consultoría de 3-5 páginas y presentarse eficazmente en 12-18 diapositivas. Si te encuentras queriendo 30+ diapositivas, el tema probablemente sea demasiado amplio &mdash; considera dividirlo en dos ejecuciones separadas del pipeline, cada una con su propio tema enfocado. 
+   </div>
+
+  <h3>Summary of Tips</h3>
+
+  <div class="keypoints">
+    <div class="kp-title">Quick Reference</div>
+    <ul>
+      <li><strong>Quality first</strong> &mdash; Review the co-consult report before handoff</li>
+      <li><strong>Summarize</strong> &mdash; Use the 3-Sentence Rule to distill findings</li>
+      <li><strong>Pre-select</strong> &mdash; Choose theme and style before starting co-deck</li>
+      <li><strong>Review gates</strong> &mdash; Toma 2 minutos en cada gate para prevenir 10 minutos de retrabajo</li>
+      <li><strong>Stay focused</strong> &mdash; Narrow topics produce better results than broad ones</li>
+    </ul>
+  </div>
+
+  <div class="tip-box"> 
+     <strong>What Comes Next:</strong> Ahora que has practicado el pipeline combinado completo, estás listo para aprender cómo se construyen los propios agents y skills. El Capítulo 9 cubre la creación y modificación de agents &mdash; los bloques de construcción que hacen funcionar tanto a co-consult como a co-deck. Entender la autoría de agents te dará la capacidad de personalizar ambas variantes para tus necesidades específicas. 
+   </div>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER NAVIGATION                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch07/07_Co_Deck_Practice_es.html" class="prev">
+      <div class="dir">&larr; Capítulo anterior</div>
+      <div class="ttl">Cap. 7 &middot; co-deck: AI Presentation in Practice</div>
+    </a>
+    <a href="../ch09/09_Creating_Agents_es.html" class="next" style="margin-left:auto;">
+      <div class="dir">Siguiente capítulo &rarr;</div>
+      <div class="ttl">Cap. 9 &middot; Creación y modificación de agentes</div>
+    </a>
+  </div>
+   <footer>
+    Basado en Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) · Material educativo en español<br>
+    Recursos oficiales: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    El contenido de este manual está bajo la licencia <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (Atribución-NoComercial-CompartirIgual 4.0 Internacional)</a>.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

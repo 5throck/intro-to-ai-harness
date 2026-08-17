@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Apéndice B · Guía de Claude Code CLI - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Apéndice B · Guía de Claude Code CLI</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_es.html" class="nav-home">&larr; Inicio del manual</a>
+  <div class="nav-title">Apéndice B &middot; Guía de Claude Code CLI</div>
+  <a href="#cli-vs-desktop">CLI vs Desktop App</a>
+  <a href="#install">Installing Claude Code CLI</a>
+  <a href="#basic-usage">Basic Usage</a>
+  <a href="#commands">Key Commands</a>
+  <a href="#project-mode">Project Mode</a>
+  <a href="#tips">Practical Tips</a>
+  <div class="nav-section">Otros capítulos</div>
+  <a href="A_Remote_Access_es.html">Apéndice A &middot; Configuración de acceso remoto</a>
+  <a href="C_Low_Cost_Backends_es.html">Apéndice C &middot; Integración de backends de IA de bajo costo</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">Apéndice B</div>
+  <h1>Guía de Claude Code CLI</h1>
+  <p class="lead">Este apéndice cubre la CLI de Claude Code —instalación, uso básico, comandos clave y modo proyecto. Si bien este manual utiliza principalmente Claude Desktop App, la CLI ofrece capacidades de automatización más potentes.</p>
+  <div class="keypoints">
+    <div class="kp-title">What This Apéndice Covers</div>
+    <ul>
+      <li>CLI vs Desktop App comparison</li>
+      <li>Claude Code CLI installation</li>
+      <li>Basic usage (terminal conversation)</li>
+      <li>Key commands</li>
+      <li>Project mode</li>
+      <li>Practical tips</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================
+       SECTION 1: CLI vs Desktop App
+       ============================================================ -->
+  <h2 id="cli-vs-desktop">CLI vs Desktop App</h2>
+
+  <p>Anthropic proporciona dos formas de interactuar con Claude para el trabajo de desarrollo: la <strong>Claude Desktop App</strong> (una aplicación gráfica que has estado utilizando a lo largo de este manual) y la <strong>Claude Code CLI</strong> (una herramienta de línea de comandos que se ejecuta en tu terminal). Ambas se conectan al mismo modelo Claude, pero cumplen diferentes propósitos.</p>
+
+  <p>La Desktop App es ideal para conversaciones, lluvia de ideas y tareas interactivas. La CLI, por otro lado, está diseñada para <strong>integración directa con tu base de código</strong> —puede leer tus archivos, ejecutar comandos, editar código y ejecutar scripts— todo desde la terminal. Para flujos de trabajo multi-agente harness, la CLI es el motor que impulsa la ejecución del agente.</p>
+
+  <div class="compare-grid">
+    <div class="compare-col">
+      <h4>Claude Desktop App</h4>
+      <ul>
+        <li>Graphical interface (GUI)</li>
+        <li>Conversational chat experience</li>
+        <li>Artifacts for previewing code and documents</li>
+        <li>Best for learning, brainstorming, and exploration</li>
+        <li>No direct file system access</li>
+        <li>Easier for beginners</li>
+      </ul>
+    </div>
+    <div class="compare-col">
+      <h4>Claude Code CLI</h4>
+      <ul>
+        <li>Terminal-based interface</li>
+        <li>Direct file read/write and code editing</li>
+        <li>Runs shell commands and scripts</li>
+        <li>Best for automation, CI/CD, and agent workflows</li>
+        <li>Full access to your local project files</li>
+        <li>More powerful for advanced users</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>¿Cuál debes usar?</strong> Comienza con la Desktop App si eres nuevo en Claude —es la más accesible. Una vez que te sientas cómodo y quieras ejecutar flujos de trabajo multi-agente harness (co-consult, co-deck), la CLI se vuelve esencial. Muchos usuarios terminan usando ambas: la Desktop App para exploración y la CLI para ejecución.
+  </div>
+
+  <div class="note">
+    La Claude Code CLI requiere una <strong>suscripción a Claude Pro o Claude Max</strong>, la misma que la Desktop App. Tu suscripción cubre ambas interfaces. Si puedes usar la Desktop App, puedes usar la CLI.
+  </div>
+
+  <!-- ============================================================
+       SECTION 2: Installing Claude Code CLI
+       ============================================================ -->
+  <h2 id="install">Installing Claude Code CLI</h2>
+
+  <p>La Claude Code CLI se instala mediante <strong>npm</strong> (Node Package Manager). Antes de instalar Claude Code CLI en sí, asegúrate de tener Node.js instalado en tu sistema.</p>
+
+  <div class="step-list">
+    <div class="step">
+      <span class="step-label">Paso 1: Install Node.js</span>
+      &mdash; Claude Code CLI requires Node.js version 18 or later.
+      <div class="platform-block claude">
+        <div class="platform-block-title">Windows</div>
+        <div class="code-block">
+<pre><code>winget install OpenJS.NodeJS.LTS</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+        <p>O descarga el instalador desde <a href="https://nodejs.org" target="_blank" rel="noopener noreferrer">nodejs.org</a>.</p>
+      </div>
+      <div class="platform-block claude">
+        <div class="platform-block-title">macOS</div>
+        <div class="code-block">
+<pre><code>brew install node</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+      </div>
+      <div class="platform-block claude">
+        <div class="platform-block-title">Linux (Ubuntu/Debian)</div>
+        <div class="code-block">
+<pre><code>sudo apt update &amp;&amp; sudo apt install -y nodejs npm</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2: Verify Node.js installation</span>
+      &mdash; Confirm that Node.js and npm are properly installed.
+      <div class="code-block">
+<pre><code>node --version
+npm --version</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+      <p>Expected result: <code>v20.x.x</code> or higher for Node.js, <code>10.x.x</code> or higher for npm.</p>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 3: Install Claude Code CLI</span>
+      &mdash; Install the Claude Code CLI globally using npm.
+      <div class="code-block">
+<pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 4: Verify the installation</span>
+      &mdash; Check that Claude Code CLI is available.
+      <div class="code-block">
+<pre><code>claude --version</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+      <p>Si se muestra un número de versión, la instalación fue exitosa.</p>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 5: Authenticate</span>
+      &mdash; Before using Claude Code CLI for the first time, you must authenticate with your Anthropic account.
+      <div class="code-block">
+<pre><code>claude auth login</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+      <p>Se abrirá una ventana del navegador. Inicia sesión con la misma cuenta de Anthropic que usas para Claude Desktop App. Una vez completada la autenticación, podrás empezar a usar Claude Code CLI.</p>
+    </div>
+  </div>
+
+  <div class="warn"> 
+     En Windows, si ves un error <code>"claude is not recognized"</code> después de la instalación, reinicia tu terminal. Si el problema persiste, verifica que el directorio bin global de npm (generalmente <code>%APPDATA%\npm</code>) esté en la variable de entorno <code>PATH</code> de tu sistema. 
+</div>
+
+  <!-- ============================================================
+       SECTION 3: Basic Usage
+       ============================================================ -->
+  <h2 id="basic-usage">Basic Usage</h2>
+
+  <p>Una vez que Claude Code CLI esté instalado y autenticado, puedes iniciar una conversación directamente en tu terminal. El flujo básico es simple: navega a la carpeta de tu proyecto, inicia Claude y empieza a conversar.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing Claude Code CLI basic usage flow">
+      <defs>
+        <marker id="arrowB1" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowBgreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-green)"/>
+        </marker>
+        <marker id="arrowBpurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-purple)"/>
+        </marker>
+        <marker id="arrowBamber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-amber)"/>
+        </marker>
+      </defs>
+
+      <!-- Paso 1: Terminal -->
+      <rect x="20" y="40" width="130" height="56" rx="10" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="85" y="62" text-anchor="middle" style="color:var(--accent-green);font-size:11px;font-weight:700;">STEP 1</text>
+      <text x="85" y="82" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Open Terminal</text>
+
+      <!-- Arrow 1->2 -->
+      <line x1="150" y1="68" x2="188" y2="68" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowB1)"/>
+
+      <!-- Paso 2: cd -->
+      <rect x="190" y="40" width="130" height="56" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="255" y="62" text-anchor="middle" style="color:var(--accent);font-size:11px;font-weight:700;">STEP 2</text>
+      <text x="255" y="82" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">cd to Project</text>
+
+      <!-- Arrow 2->3 -->
+      <line x1="320" y1="68" x2="358" y2="68" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowB1)"/>
+
+      <!-- Paso 3: claude -->
+      <rect x="360" y="40" width="130" height="56" rx="10" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="425" y="62" text-anchor="middle" style="color:var(--accent-purple);font-size:11px;font-weight:700;">STEP 3</text>
+      <text x="425" y="82" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Run claude</text>
+
+      <!-- Arrow 3->4 -->
+      <line x1="490" y1="68" x2="528" y2="68" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowB1)"/>
+
+      <!-- Paso 4: Chat -->
+      <rect x="530" y="40" width="130" height="56" rx="10" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="595" y="62" text-anchor="middle" style="color:var(--accent-amber);font-size:11px;font-weight:700;">STEP 4</text>
+      <text x="595" y="82" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Chat with Claude</text>
+
+      <!-- Terminal mockup below -->
+      <rect x="40" y="130" width="600" height="190" rx="10" fill="var(--bg3)" stroke="var(--border)" stroke-width="2"/>
+      <!-- Title bar -->
+      <rect x="40" y="130" width="600" height="30" rx="10" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
+      <rect x="40" y="150" width="600" height="10" fill="var(--bg2)"/>
+      <circle cx="62" cy="145" r="5" fill="var(--accent-red)" opacity="0.7"/>
+      <circle cx="78" cy="145" r="5" fill="var(--accent-amber)" opacity="0.7"/>
+      <circle cx="94" cy="145" r="5" fill="var(--accent-green)" opacity="0.7"/>
+      <text x="340" y="149" text-anchor="middle" style="color:var(--text-dim);font-size:11px;font-weight:600;">Terminal &mdash; Claude Code CLI</text>
+
+      <!-- Terminal content -->
+      <rect x="50" y="166" width="580" height="144" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+
+      <!-- Prompt line 1 -->
+      <text x="64" y="190" style="color:var(--accent-green);font-size:12px;font-family:var(--font-mono);">$</text>
+      <text x="80" y="190" style="color:var(--text);font-size:12px;font-family:var(--font-mono);">cd ~/git/project/my-harness</text>
+
+      <!-- Prompt line 2 -->
+      <text x="64" y="212" style="color:var(--accent-green);font-size:12px;font-family:var(--font-mono);">$</text>
+      <text x="80" y="212" style="color:var(--text);font-size:12px;font-family:var(--font-mono);">claude</text>
+
+      <!-- Claude response area -->
+      <text x="64" y="238" style="color:var(--accent-purple);font-size:12px;font-family:var(--font-mono);font-weight:700;">Claude:</text>
+      <text x="120" y="238" style="color:var(--text-dim);font-size:12px;font-family:var(--font-mono);">Welcome! I have access to your project files.</text>
+      <text x="80" y="256" style="color:var(--text-dim);font-size:12px;font-family:var(--font-mono);">How can I help you today?</text>
+
+      <!-- User input line -->
+      <text x="64" y="282" style="color:var(--accent-green);font-size:12px;font-family:var(--font-mono);">&gt;</text>
+      <text x="78" y="282" style="color:var(--text);font-size:12px;font-family:var(--font-mono);">List all agent files in the workspace_</text>
+      <text x="78" y="298" style="color:var(--text);font-size:12px;font-family:var(--font-mono);">standard format</text>
+
+      <!-- Cursor blink -->
+      <rect x="78" y="302" width="7" height="14" fill="var(--accent)" opacity="0.7"/>
+    </svg>
+  </div>
+
+  <h3>Starting a Session</h3>
+
+  <p>Para empezar a usar Claude Code CLI, abre una terminal y sigue estos pasos:</p>
+
+  <div class="step-list">
+    <div class="step">
+      <span class="step-label">Navigate to your project folder</span>
+      &mdash; Use <code>cd</code> to move to the directory containing your project files.
+      <div class="code-block">
+<pre><code>cd ~/git/project/my-harness</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+    </div>
+    <div class="step">
+      <span class="step-label">Launch Claude Code</span>
+      &mdash; Type <code>claude</code> and press Enter.
+      <div class="code-block">
+<pre><code>claude</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+      Claude will load your project context and display a welcome message. You can now type your request in natural language, just like chatting with Claude Desktop App.
+    </div>
+    <div class="step"> 
+       <span class="step-label">Interact with Claude</span> 
+       &mdash; Escribe tu pregunta o instrucción y presiona Enter. Claude puede leer archivos, editar código, ejecutar comandos de terminal y explicar su razonamiento. Cuando Claude necesite permiso para ejecutar un comando o modificar un archivo, te lo preguntará primero. 
+</div>
+    <div class="step"> 
+       <span class="step-label">End the session</span> 
+       &mdash; Escribe <code>/exit</code> o presiona <code>Ctrl+C</code> para terminar la sesión de Claude Code. 
+</div>
+  </div>
+
+  <div class="note"> 
+     Cuando inicias Claude Code CLI en un directorio de proyecto, Claude lee automáticamente la estructura del proyecto y los archivos de configuración (como los directorios <code>CLAUDE.md</code>, <code>AGENTS.md</code> o <code>.claude/</code>). Este contexto ayuda a Claude a entender tu proyecto y seguir las reglas de tu workspace. 
+</div>
+
+  <!-- ============================================================
+       SECTION 4: Key Commands
+       ============================================================ -->
+  <h2 id="commands">Key Commands</h2>
+
+  <p>Claude Code CLI proporciona un conjunto de slash commands que te dan acceso rápido a acciones comunes. Estos comandos se escriben en el prompt de Claude (con el prefijo <code>/</code>).</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Command</th>
+        <th>Descripción</th>
+        <th>Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>/help</code></td>
+        <td>Muestra una lista de todos los comandos disponibles y sus descripciones</td>
+        <td><code>/help</code></td>
+      </tr>
+      <tr>
+        <td><code>/exit</code></td>
+        <td>Termina la sesión actual de Claude Code y vuelve a la terminal</td>
+        <td><code>/exit</code></td>
+      </tr>
+      <tr>
+        <td><code>/clear</code></td>
+        <td>Clear the conversation history within the current session</td>
+        <td><code>/clear</code></td>
+      </tr>
+      <tr>
+        <td><code>/compact</code></td>
+        <td>Resume la conversación hasta el momento para liberar espacio en la ventana de contexto</td>
+        <td><code>/compact</code></td>
+      </tr>
+      <tr>
+        <td><code>/model</code></td>
+        <td>Switch to a different Claude model (e.g., Claude Sonnet, Claude Opus)</td>
+        <td><code>/model claude-sonnet-5</code></td>
+      </tr>
+      <tr>
+        <td><code>/cost</code></td>
+        <td>Muestra el uso de tokens y el costo estimado de la sesión actual</td>
+        <td><code>/cost</code></td>
+      </tr>
+      <tr>
+        <td><code>/config</code></td>
+        <td>View or modify Claude Code configuration settings</td>
+        <td><code>/config</code></td>
+      </tr>
+      <tr>
+        <td><code>/doctor</code></td>
+        <td>Run diagnostics to check Claude Code health and configuration</td>
+        <td><code>/doctor</code></td>
+      </tr>
+      <tr>
+        <td><code>/login</code></td>
+        <td>Re-authenticate with your Anthropic account</td>
+        <td><code>/login</code></td>
+      </tr>
+      <tr>
+        <td><code>/logout</code></td>
+        <td>Cierra sesión en tu cuenta de Anthropic</td>
+        <td><code>/logout</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Common Usage Patterns</h3>
+
+  <p>Más allá de los slash commands, la forma más común de usar Claude Code CLI es mediante instrucciones en lenguaje natural. Aquí tienes algunos patrones típicos:</p>
+
+  <div class="step-list">
+    <div class="step">
+      <span class="step-label">Reading project files</span>
+      &mdash; Ask Claude to read and explain any file in your project.
+      <div class="code-block">
+<pre><code>Read agents/pm.md and explain the PM Agent's role</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+    </div>
+    <div class="step">
+      <span class="step-label">Editing files</span>
+      &mdash; Ask Claude to make changes to your code or configuration files.
+      <div class="code-block">
+<pre><code>Add a new agent entry for "translator" to the AGENTS.md roster table</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+    </div>
+    <div class="step">
+      <span class="step-label">Running commands</span>
+      &mdash; Claude can execute terminal commands on your behalf.
+      <div class="code-block">
+<pre><code>Run bun scripts/audit.ts and show me the results</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+      Claude will ask for your permission before executing any command.
+    </div>
+    <div class="step">
+      <span class="step-label">Debugging</span>
+      &mdash; Paste error messages and ask Claude to diagnose and fix the issue.
+      <div class="code-block">
+<pre><code>I get a "module not found" error when running the audit script.
+  Check the dependencies and suggest a fix.</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+    </div>
+  </div>
+
+  <div class="flow-box">
+    <strong>Modelo de permisos</strong>: Claude Code CLI solicita tu permiso antes de realizar acciones potencialmente destructivas como escribir archivos, ejecutar comandos de shell o hacer solicitudes de red. Puedes otorgar o denegar cada solicitud individualmente. Esto te da control total sobre lo que Claude hace en tu proyecto.
+  </div>
+
+  <!-- ============================================================
+       SECTION 5: Project Mode
+       ============================================================ -->
+  <h2 id="project-mode">Project Mode</h2>
+
+  <p>Cuando lanzas Claude Code CLI dentro de un directorio de proyecto, automáticamente entra en <strong>modo proyecto</strong>. Este es el concepto más importante que los usuarios de harness multi-agente deben comprender.</p>
+
+  <h3>What is Project Mode?</h3>
+
+  <p>En modo proyecto, Claude Code lee los archivos de configuración que definen cómo debe comportarse dentro de tu proyecto. Estos archivos actúan como "instrucciones" que Claude sigue para cada interacción en ese proyecto. Los archivos clave son:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>File</th>
+        <th>Purpose</th>
+        <th>Read by</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>CLAUDE.md</code></td>
+        <td>Main instruction file for Claude &mdash; contains project rules, coding standards, and workflow definitions</td>
+        <td>Claude Code CLI</td>
+      </tr>
+      <tr>
+        <td><code>AGENTS.md</code></td>
+        <td>Registro del ecosistema de agents &mdash; define todos los agents, sus roles, fases y reglas de despacho</td>
+        <td>PM Agent (orchestrator)</td>
+      </tr>
+      <tr>
+        <td><code>agents/*.md</code></td>
+        <td>Individual agent definition files &mdash; each agent's detailed instructions and scope</td>
+        <td>Respective specialist agent</td>
+      </tr>
+      <tr>
+        <td><code>.claude/commands/*.md</code></td>
+        <td>Custom slash commands &mdash; reusable prompt templates you can invoke</td>
+        <td>Claude Code CLI</td>
+      </tr>
+      <tr>
+        <td><code>.claude/skills/*/SKILL.md</code></td>
+        <td>Skill definitions &mdash; specialized capabilities loaded on demand</td>
+        <td>Claude Code CLI</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing Claude Code CLI project mode architecture">
+      <defs>
+        <marker id="arrowP" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowPgreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-green)"/>
+        </marker>
+      </defs>
+
+      <!-- Claude Code CLI box -->
+      <rect x="230" y="20" width="220" height="60" rx="12" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="340" y="45" text-anchor="middle" style="color:var(--accent);font-size:12px;font-weight:700;">CLAUDE CODE CLI</text>
+      <text x="340" y="65" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">Terminal Interface</text>
+
+      <!-- Arrow down -->
+      <line x1="340" y1="80" x2="340" y2="110" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowP)"/>
+
+      <!-- Configuration layer -->
+      <rect x="140" y="112" width="400" height="50" rx="10" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="340" y="133" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Configuration Layer (Auto-loaded on start)</text>
+      <text x="340" y="150" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">CLAUDE.md &middot; AGENTS.md &middot; .claude/</text>
+
+      <!-- Arrow down splits into three -->
+      <line x1="340" y1="162" x2="340" y2="182" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="160" y1="182" x2="520" y2="182" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="160" y1="182" x2="160" y2="202" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowPgreen)"/>
+      <line x1="340" y1="182" x2="340" y2="202" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowP)"/>
+      <line x1="520" y1="182" x2="520" y2="202" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowPgreen)"/>
+
+      <!-- Three project areas -->
+      <rect x="80" y="204" width="160" height="70" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="160" y="228" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Agent Files</text>
+      <text x="160" y="246" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">agents/*.md</text>
+      <text x="160" y="260" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">Roles, phases, scope</text>
+
+      <rect x="260" y="204" width="160" height="70" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="340" y="228" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Source Code</text>
+      <text x="340" y="246" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">scripts/, src/</text>
+      <text x="340" y="260" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">Bun/TypeScript</text>
+
+      <rect x="440" y="204" width="160" height="70" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="520" y="228" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Project Resultado</text>
+      <text x="520" y="246" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">docs/, presentations/</text>
+      <text x="520" y="260" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">Generated deliverables</text>
+    </svg>
+  </div>
+
+  <h3>Why Project Mode Matters for Harness Users</h3>
+
+  <p>Cuando ejecutas un harness multi-agente (como co-consult o co-deck), Claude Code CLI lee los archivos de configuración del proyecto y automáticamente:</p>
+
+  <ul>
+    <li><strong>Carga las definiciones de los agentes</strong> —Sabe qué agentes existen, qué hacen y cuándo despacharlos.</li>
+    <li><strong>Sigue las reglas del flujo de trabajo</strong> —Respeta los portones de fase, las comprobaciones de calidad y los contratos de traspaso definidos en tu configuración.</li>
+    <li><strong>Aplica los estándares de codificación</strong> —Sigue las convenciones de codificación y las reglas de organización de archivos especificadas en tu proyecto.</li>
+    <li><strong>Hace cumplir los permisos</strong> —Entiende qué agentes pueden editar qué archivos, previniendo modificaciones no autorizadas.</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>Idea clave</strong>: El poder de Claude Code CLI proviene de la combinación de la propia CLI y los archivos de configuración del proyecto. Sin los archivos de configuración, Claude Code CLI es un asistente de codificación de propósito general. <em>Con</em> los archivos de configuración, se convierte en un orquestador especializado que sigue automáticamente las reglas y flujos de trabajo de tu equipo.
+  </div>
+
+  <h3>Launching with a Specific Prompt</h3>
+
+  <p>Puedes pasar una instrucción inicial directamente al lanzar Claude Code CLI, lo cual es útil para la automatización y el scripting:</p>
+
+  <div class="code-block">
+<pre><code># Start Claude with an initial prompt
+claude "Run the audit script and report any issues"
+
+# Start Claude in non-interactive mode (for automation)
+claude -p "Generate a summary of all agent definitions"</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+
+  <div class="note">
+    La bandera <code>-p</code> (imprimir) ejecuta Claude en modo no interactivo. Claude procesa la instrucción, genera su respuesta y sale. Esto es especialmente útil para scripting e integración de CI/CD.
+  </div>
+
+  <!-- ============================================================
+       SECTION 6: Practical Tips
+       ============================================================ -->
+  <h2 id="tips">Practical Tips</h2>
+
+  <p>Aquí tienes cinco consejos prácticos para ayudarte a aprovechar al máximo Claude Code CLI, basados en patrones comunes de los usuarios de harness multi-agente.</p>
+
+  <div class="step-list">
+    <div class="step">
+      <span class="step-label">Tip 1: Keep CLAUDE.md Updated</span>
+      &mdash; Tu archivo <code>CLAUDE.md</code> es el conjunto de instrucciones primario de Claude para tu proyecto. Mantenlo actualizado con tus últimos estándares de codificación, reglas de flujo de trabajo y convenciones del proyecto. Un <code>CLAUDE.md</code> desactualizado conduce a un comportamiento inconsistente. Cada vez que cambies tu estructura de proyecto o definiciones de agentes, revisa y actualiza <code>CLAUDE.md</code> en consecuencia.
+    </div>
+    <div class="step">
+      <span class="step-label">Tip 2: Use /compact When Context Fills Up</span>
+      &mdash; Las conversaciones largas consumen la ventana de contexto. Cuando notas que Claude comienza a "olvidar" partes anteriores de la conversación o sus respuestas son menos precisas, escribe <code>/compact</code>. Esto resume el historial de la conversación hasta ahora, liberando espacio para nuevas interacciones sin perder el contexto esencial.
+    </div>
+    <div class="step">
+      <span class="step-label">Tip 3: Grant Permissions Wisely</span>
+      &mdash; Claude Code CLI solicita permiso antes de ejecutar comandos y modificar archivos. Si bien es tentador aprobar siempre, tómate un momento para revisar lo que Claude está a punto de hacer, especialmente para <code>rm</code>, <code>git push</code> u otras operaciones irreversibles. Este hábito previene la pérdida accidental de datos.
+    </div>
+    <div class="step">
+      <span class="step-label">Tip 4: Leverage Non-Interactive Mode for Automation</span>
+      &mdash; Usa <code>claude -p "your prompt"</code> para ejecutar Claude en modo no interactivo dentro de scripts de shell. Esto permite potentes patrones de automatización, como ejecutar comprobaciones de calidad, generar documentación o activar flujos de trabajo del agente como parte de un pipeline de CI/CD. Combina esto con tuberías y redirección de shell para integrar la salida de Claude en tu cadena de herramientas existente.
+    </div>
+    <div class="step">
+      <span class="step-label">Tip 5: Use the /cost Command to Monitor Usage</span>
+      &mdash; Claude Code CLI rastrea el uso de tokens para cada sesión. Escribe <code>/cost</code> en cualquier momento para ver cuántos tokens has consumido y el costo estimado. Esto te ayuda a mantenerte dentro de tus límites de suscripción y comprender qué tipos de tareas consumen más recursos. Si una sesión se está volviendo costosa, considera comenzar una sesión fresca con <code>/clear</code>.
+    </div>
+  </div>
+
+  <div class="flow-box">
+    <strong>Obtener ayuda</strong>: Si tienes problemas con Claude Code CLI, la documentación oficial está en <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer">docs.anthropic.com/en/docs/claude-code</a>. También puedes escribir <code>/help</code> dentro de Claude Code CLI para una referencia rápida de los comandos disponibles, o ejecutar <code>/doctor</code> para diagnosticar problemas comunes de configuración.
+  </div>
+
+  <!-- ============================================================
+       Chapter Navigation
+       ============================================================ -->
+  <div class="chapter-nav">
+    <a href="A_Remote_Access_es.html" class="prev">
+      <div class="dir">&larr; Apéndice A</div>
+      <div class="ttl">Configuración de acceso remoto</div>
+    </a>
+    <a href="C_Low_Cost_Backends_es.html" class="next" style="margin-left:auto;">
+      <div class="dir">Apéndice C &rarr;</div>
+      <div class="ttl">Integración de backends de IA de bajo costo</div>
+    </a>
+  </div>
+   <footer>
+    Basado en Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) · Material educativo en español<br>
+    Recursos oficiales: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    El contenido de este manual está bajo la licencia <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (Atribución-NoComercial-CompartirIgual 4.0 Internacional)</a>.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

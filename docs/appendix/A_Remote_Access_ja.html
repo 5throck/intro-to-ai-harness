@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="付録A &middot; リモートアクセス設定 - Claude Codeとマルチエージェントハーネス入門">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>付録A &middot; リモートアクセス設定</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_ja.html" class="nav-home">&larr; ハンドブック ホーム</a>
+  <div class="nav-title">付録A &middot; リモートアクセス設定</div>
+  <a href="#why-remote">なぜリモートアクセスが必要か</a>
+  <a href="#tailscale">Tailscale VPNの設定</a>
+  <a href="#nomachine">NoMachineの設定</a>
+  <a href="#windows-rdp">Windows RDPの設定</a>
+  <a href="#comparison">比較 &amp; 選択ガイド</a>
+  <a href="#troubleshooting">トラブルシューティング</a>
+  <div class="nav-section">その他の章</div>
+  <a href="../ch13/13_Next_Steps_ja.html">第13章 &middot; 次のステップ</a>
+  <a href="B_Claude_Code_CLI_ja.html">付録B &middot; Claude Code CLIガイド</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">付録A</div>
+  <h1>リモートアクセス設定</h1>
+  <p class="lead">この付録では、AI開発環境にリモートでアクセスする3つの方法 &mdash; Tailscale VPN、NoMachine、Windows RDP &mdash; について説明します。</p>
+  <div class="keypoints">
+    <div class="kp-title">この付録で扱う内容</div>
+    <ul>
+      <li>リモートアクセスが必要な理由</li>
+      <li>Tailscale VPNの設定</li>
+      <li>NoMachineの設定</li>
+      <li>Windows RDPの設定</li>
+      <li>比較と選択ガイド</li>
+      <li>トラブルシューティング</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: Why Remote Access                                  -->
+  <!-- ============================================================ -->
+  <h2 id="why-remote">なぜリモートアクセスが必要か</h2>
+
+  <p>AI開発環境には、高速なCPU、十分なRAM、専用GPUなど、大量の計算能力が必要です。多くの人にとって、最も強力なコンピュータは自宅やオフィスのデスクに置かれています。しかし、外出先から作業する必要がある場合もあります &mdash; カフェのノートPC、旅行中のタブレット、別の部屋のワークステーションなどです。</p>
+
+  <p>リモートアクセスを使えば、<strong>任意のデバイスから強力なデスクトップに接続</strong>できます。物理的にそのマシンの前にいなくても、Claude Codeを実行し、プロジェクトを管理し、AIエージェントに作業させることができます。</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="リモートアクセスの概念図" style="width:100%;height:auto;">
+      <defs>
+        <marker id="arrowRemote" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowGreen" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-green)"/>
+        </marker>
+      </defs>
+
+      <!-- Cloud / Network -->
+      <ellipse cx="300" cy="50" rx="90" ry="28" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="300" y="46" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">インターネット / VPN</text>
+      <text x="300" y="62" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">(暗号化トンネル)</text>
+
+      <!-- Left side: Your Device -->
+      <rect x="30" y="160" width="160" height="80" rx="10" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="110" y="192" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">あなたのデバイス</text>
+      <text x="110" y="212" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">ノートPC / タブレット / スマホ</text>
+
+      <!-- Right side: AI Dev Desktop -->
+      <rect x="410" y="160" width="160" height="80" rx="10" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="490" y="188" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">AI開発デスクトップ</text>
+      <text x="490" y="206" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Claude Code + エージェント</text>
+      <text x="490" y="222" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">高性能マシン</text>
+
+      <!-- Arrow: Your Device -> Cloud -->
+      <line x1="160" y1="170" x2="220" y2="75" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowGreen)" stroke-dasharray="5,3"/>
+
+      <!-- Arrow: Cloud -> AI Desktop -->
+      <line x1="380" y1="75" x2="440" y2="170" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowRemote)" stroke-dasharray="5,3"/>
+
+      <!-- Labels on arrows -->
+      <text x="155" y="120" font-size="10" style="fill:var(--text);font-family:var(--font-family);">接続</text>
+      <text x="420" y="120" font-size="10" style="fill:var(--text);font-family:var(--font-family);">アクセス</text>
+
+      <!-- Bottom note -->
+      <text x="300" y="285" text-anchor="middle" font-size="10" font-style="italic" style="fill:var(--text);font-family:var(--font-family);">デスクの前にいるかのように、どこからでも作業できます</text>
+    </svg>
+  </div>
+
+  <div class="tip-box">
+    この付録で紹介する3つの方法すべてを設定する必要はありません。状況に合ったものを一つ選んでください。最後にある<a href="#comparison">比較 &amp; 選択ガイド</a>が参考になります。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: Tailscale VPN Setup                                -->
+  <!-- ============================================================ -->
+  <h2 id="tailscale">Tailscale VPNの設定</h2>
+
+  <p><strong>Tailscale</strong>は、WireGuardというモダンで高性能なVPNプロトコル上に構築されたメッシュVPNサービスです。ルーターやファイアウォールの背後であっても、複雑なネットワーク設定なしに、デバイス間の安全なプライベートネットワークを作成します。</p>
+
+  <h3>Tailscaleとは？</h3>
+
+  <p>Tailscaleは、<strong>インターネット経由でデバイス同士を接続するプライベートネットワーク</strong>です。ノートPCとデスクトップの両方にインストールするだけで、デスクトップが同じローカルネットワーク上にあるかのようにアクセスできます。ポートフォワーディング、静的IPアドレス、ルーター設定は一切不要です。</p>
+
+  <div class="flow-box">
+    <strong>Tailscaleの仕組み</strong>: Tailscaleをインストールした各デバイスが仮想プライベートネットワークに参加します。各デバイスには独自のTailscale IPアドレスが割り当てられます。デバイスは物理的な場所に関係なく、これらのIPアドレスを使って直接通信できます。
+  </div>
+
+  <div class="step-list">
+    <div class="step">
+      <span class="step-label">Tailscaleアカウントを作成する</span>
+      &mdash; <a href="https://tailscale.com/signup" target="_blank" rel="noopener noreferrer">tailscale.com/signup</a>にアクセスし、Google、Microsoft、GitHub、またはメールアカウントでサインアップします。無料プランは<strong>最大100台のデバイス</strong>をサポートしており、個人利用には十分です。
+    </div>
+    <div class="step">
+      <span class="step-label">AI開発デスクトップにTailscaleをインストールする</span>
+      &mdash; <a href="https://tailscale.com/download" target="_blank" rel="noopener noreferrer">ダウンロードページ</a>からTailscaleをダウンロードしてインストールします。
+      <div class="platform-block claude">
+        <div class="platform-block-title">Windows</div>
+        <p>Windowsインストーラーをダウンロードして実行します。インストール後、Tailscaleがシステムトレイに表示されます。</p>
+      </div>
+      <div class="platform-block claude">
+        <div class="platform-block-title">MacOS</div>
+        <p>MacOSアプリをダウンロードするか、Homebrewでインストールします: <code>brew install --cask tailscale</code></p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">デスクトップでTailscaleにログインする</span>
+      &mdash; Tailscaleを開き、<strong>「Log in」</strong>をクリックします。ブラウザウィンドウが開くので、手順1で作成したアカウントでデバイスを認証します。認証が完了すると、TailscaleにデバイスのTailscale IPアドレス（例: <code>100.x.x.x</code>）が表示されます。
+    </div>
+    <div class="step">
+      <span class="step-label">リモートデバイスにTailscaleをインストールする</span>
+      &mdash; ノートPC、タブレット、またはスマホにも同じようにインストールします。TailscaleはWindows、MacOS、Linux、iOS、Androidをサポートしています。
+    </div>
+    <div class="step">
+      <span class="step-label">リモートデバイスでログインする</span>
+      &mdash; 同じアカウントを使用してリモートデバイスでログインします。両方のデバイスが<a href="https://login.tailscale.com/admin/machines" target="_blank" rel="noopener noreferrer">login.tailscale.com</a>の管理コンソールに表示されます。
+    </div>
+    <div class="step">
+      <span class="step-label">接続を確認する</span>
+      &mdash; リモートデバイスでターミナルまたはコマンドプロンプトを開き、デスクトップのTailscale IPにpingを実行します。
+      <div class="code-block">
+<pre><code>ping 100.x.x.x</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+</div>
+      <code>100.x.x.x</code>をデスクトップのTailscale IPに置き換えてください。応答が返ってくれば、VPN接続は正常に動作しています。
+    </div>
+  </div>
+
+  <div class="tip-box">
+    Tailscaleの無料プランは充実しています &mdash; 最大100台のデバイス、サブネットルーティング、MagicDNS（自動名前解決）をサポートしています。個人用のリモートアクセスにTailscaleを使うのに料金はかかりません。プランの詳細は<a href="https://tailscale.com/pricing" target="_blank" rel="noopener noreferrer">tailscale.com/pricing</a>をご覧ください。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: NoMachine Setup                                   -->
+  <!-- ============================================================ -->
+  <h2 id="nomachine">NoMachineの設定</h2>
+
+  <p><strong>NoMachine</strong>は、フルグラフィカルデスクトップ体験を提供する無料のリモートデスクトップアプリケーションです。Tailscale（ネットワークトンネルを作成する）とは異なり、NoMachineは完全なビジュアルリモートデスクトップセッションを提供します &mdash; まるでマシンの前に座っているかのように、同じ画面、ウィンドウ、アプリケーションが表示されます。</p>
+
+  <h3>NoMachineとは？</h3>
+
+  <p>NoMachineはNXプロトコルを使用して、高性能なリモートデスクトップセッションを配信します。<strong>高速で応答性が高く、設定が簡単</strong>で知られています。送信側（ホスト）と受信側（クライアント）の両方にNoMachineをインストールする必要があります。</p>
+
+  <div class="flow-box">
+    <strong>NoMachineを使うべき場面</strong>: フルグラフィカルデスクトップ体験が必要な場合 &mdash; 例えば、Claude Desktop AppのGUIを実行したり、複数のウィンドウを管理したり、ディスプレイが必要なアプリケーションを使用したりする場合。
+  </div>
+
+  <div class="step-list">
+    <div class="step">
+      <span class="step-label">ホスト（AI開発デスクトップ）にNoMachineをダウンロードする</span>
+      &mdash; <a href="https://www.nomachine.com/download" target="_blank" rel="noopener noreferrer">nomachine.com/download</a>にアクセスし、OSに合ったバージョンをダウンロードします。
+      <div class="platform-block claude">
+        <div class="platform-block-title">Windows</div>
+        <p><strong>NoMachine for Windows</strong>をダウンロードしてインストーラーを実行します。デフォルト設定のまま進めてください。</p>
+      </div>
+      <div class="platform-block claude">
+        <div class="platform-block-title">MacOS</div>
+        <p><strong>NoMachine for macOS</strong>をダウンロードして、Applicationsフォルダにドラッグします。</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">ホストをインストールして設定する</span>
+      &mdash; インストール後、NoMachineは自動的にサービスとして起動します。NoMachineアプリケーションを開き、<strong>Settings &rarr; Server &rarr; Security</strong>に移動します。<strong>「Allow connections from other computers」</strong>が有効になっていることを確認します。
+    </div>
+    <div class="step">
+      <span class="step-label">ホストのIPアドレスを確認する</span>
+      &mdash; NoMachineのメインウィンドウに、ホストマシンのローカルIPアドレス（例: <code>192.168.1.100</code>）が表示されます。インターネット経由で接続する場合は、<strong>パブリックIPアドレス</strong>が必要になるか、代わりにTailscaleのIPアドレスを使用します。
+    </div>
+    <div class="step">
+      <span class="step-label">クライアント（あなたのデバイス）にNoMachineをダウンロードする</span>
+      &mdash; リモート接続に使用するデバイスに、同じダウンロードページからNoMachineをダウンロードしてインストールします。NoMachineのクライアントソフトウェアはWindows、MacOS、Linux、iOS、Androidで利用可能です。
+    </div>
+    <div class="step">
+      <span class="step-label">ホストに接続する</span>
+      &mdash; クライアントデバイスでNoMachineを開きます。<strong>「New connection」</strong>をクリックし、ホストのIPアドレスを入力します。Tailscaleを使用している場合は、Tailscale IP（例: <code>100.x.x.x</code>）を入力します。<strong>「Connect」</strong>をクリックし、プロンプトが表示されたらホストマシンのユーザー名とパスワードを入力します。
+    </div>
+    <div class="step">
+      <span class="step-label">ディスプレイ設定を調整する</span>
+      &mdash; 接続後、NoMachineメニューから画質と解像度を調整できます。回線が遅い場合は、セッション設定で解像度を下げるか、<strong>「Low bandwidth mode」</strong>を有効にしてください。
+    </div>
+  </div>
+
+  <div class="tip-box">
+    インターネット接続が不安定な場合、NoMachineがラグくなることがあります。その場合は、セッション設定でディスプレイ解像度を下げるか、フルグラフィカルセッションの代わりに<a href="#tailscale">Tailscale</a>とコマンドラインアクセス（SSHまたはClaude Code CLI）の組み合わせを検討してください。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: Windows RDP Setup                                 -->
+  <!-- ============================================================ -->
+  <h2 id="windows-rdp">Windows RDPの設定</h2>
+
+  <p><strong>Remote Desktop Protocol（RDP）</strong>は、Windows Professional、Enterprise、Educationエディションに組み込まれています。クライアント側に追加のソフトウェアを必要とせず、内蔵のリモートデスクトップ接続ツールを使用してWindowsコンピュータにリモート接続できます。</p>
+
+  <h3>Windows RDPとは？</h3>
+
+  <p>Windows RDPはMicrosoftの独自リモートデスクトッププロトコルです。フルグラフィカルなリモートセッションを提供し、<strong>Windowsに直接組み込まれている</strong>ため、ホストマシンにサードパーティソフトウェアをインストールする必要はありません。クライアント側（接続元のデバイス）は、無料のMicrosoft Remote Desktopアプリを使用して、Windows、Mac、iOS、Androidから接続できます。</p>
+
+  <div class="warn">
+    Windows <strong>HomeエディションはRDPホストをサポートしていません</strong>。RDPホストとして使用するには、Windows Professional、Enterprise、またはEducationが必要です。Windows Homeをお使いの場合は、代わりに<a href="#nomachine">NoMachine</a>を使用してください。
+  </div>
+
+  <div class="step-list">
+    <div class="step">
+      <span class="step-label">ホストでリモートデスクトップを有効にする</span>
+      &mdash; AI開発デスクトップ（Windows）で <code>Win + S</code>を押し、<strong>「Remote Desktop Settings」</strong>と入力してEnterを押します。<strong>「Enable Remote Desktop」</strong>を<strong>On</strong>に切り替えます。Windowsが確認を求めたら、<strong>「Confirm」</strong>をクリックします。
+    </div>
+    <div class="step">
+      <span class="step-label">Windowsファイアウォールを設定する</span>
+      &mdash; リモートデスクトップを有効にすると、Windowsはポート<strong>3389</strong>でのRDP接続を許可するファイアウォールルールを自動的に作成します。<strong>Windows Defender Firewall &rarr; Allow an app or feature through Windows Defender Firewall</strong>を開き、<strong>Remote Desktop</strong>がチェックされていることを確認します。
+    </div>
+    <div class="step">
+      <span class="step-label">ルーターにポートフォワーディングを設定する（インターネットアクセス用）</span>
+      &mdash; ローカルネットワーク外から接続するには、ルーターでポート<strong>3389</strong>をホストマシンのローカルIPに転送する必要があります。
+      <ol style="margin-top:8px;">
+        <li>ルーターの管理パネルにログインします（通常は <code>192.168.1.1</code> または <code>192.168.0.1</code>）。</li>
+        <li><strong>Port Forwarding</strong>（または<strong>NAT</strong>）セクションを見つけます。</li>
+        <li>新しいルールを作成します: 外部ポート<strong>3389</strong>、内部ポート<strong>3389</strong>、内部IPアドレス = デスクトップのローカルIP（例: <code>192.168.1.100</code>）、プロトコル = <strong>TCP</strong>。</li>
+        <li>ルールを保存して適用します。</li>
+      </ol>
+    </div>
+    <div class="step">
+      <span class="step-label">ホストのパブリックIPアドレスを確認する</span>
+      &mdash; ホストマシンで <a href="https://whatismyipaddress.com" target="_blank" rel="noopener noreferrer">whatismyipaddress.com</a> にアクセスするか、ブラウザで<strong>「What is my IP」</strong>を検索します。このアドレスをメモしておきます &mdash; クライアントからの接続に使用します。
+    </div>
+    <div class="step">
+      <span class="step-label">クライアントデバイスから接続する</span>
+      &mdash; リモートデバイスでリモートデスクトップ接続ツールを開きます。
+      <div class="platform-block claude">
+        <div class="platform-block-title">Windowsクライアント</div>
+        <p><code>Win + R</code>を押し、<code>mstsc</code>と入力してEnterを押します。ホストのパブリックIPアドレスを入力し、<strong>「Connect」</strong>をクリックします。</p>
+      </div>
+      <div class="platform-block claude">
+        <div class="platform-block-title">Mac / iOS / Android</div>
+        <p>App StoreまたはGoogle Playから無料の<strong>Microsoft Remote Desktop</strong>アプリをダウンロードします。ホストのパブリックIPアドレスで新しい接続を追加します。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn">
+    <strong>セキュリティ警告</strong>: RDPをインターネットに直接公開するのは危険です。自動化されたボットが常にオープンなRDPポートをスキャンしています。リスクを軽減するには: (1) ホストWindowsアカウントに<strong>強力で一意のパスワード</strong>を設定する、(2) リモートデスクトップ設定で<strong>Network Level Authentication（NLA）</strong>を有効にする、(3) ポートフォワーディングの代わりに<a href="#tailscale">Tailscale VPN</a>を使用し、RDPをプライベートネットワーク内でのみアクセス可能にする。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: Comparison & Selection Guide                        -->
+  <!-- ============================================================ -->
+  <h2 id="comparison">比較 &amp; 選択ガイド</h2>
+
+  <p>それぞれのリモートアクセス方法には長所と短所があります。この比較を使って、状況に合った最適なオプションを見つけてください。</p>
+
+  <div class="compare-grid" style="grid-template-columns:1fr 1fr 1fr;">
+    <div class="compare-col">
+      <h4>Tailscale VPN</h4>
+      <ul>
+        <li>暗号化メッシュVPN（WireGuard）</li>
+        <li>ポートフォワーディング不要</li>
+        <li>NAT / ファイアウォール越えで動作</li>
+        <li>最大100台まで無料</li>
+        <li>コマンドラインアクセス</li>
+        <li>CLI / SSHワークフローに最適</li>
+        <li>最小限の帯域幅オーバーヘッド</li>
+      </ul>
+    </div>
+    <div class="compare-col">
+      <h4>NoMachine</h4>
+      <ul>
+        <li>フルグラフィカルリモートデスクトップ</li>
+        <li>高性能（NXプロトコル）</li>
+        <li>個人利用は無料</li>
+        <li>クロスプラットフォーム（Win/Mac/Linux）</li>
+        <li>簡単なインストール</li>
+        <li>GUIワークフローに最適</li>
+        <li>画質設定の調整可能</li>
+      </ul>
+    </div>
+    <div class="compare-col">
+      <h4>Windows RDP</h4>
+      <ul>
+        <li>Windows Pro+に組み込み</li>
+        <li>ホスト側の追加ソフトウェア不要</li>
+        <li>フルデスクトップ体験</li>
+        <li>インターネット接続にはポートフォワーディングが必要</li>
+        <li>直接公開時のセキュリティリスク</li>
+        <li>純粋なWindows環境に最適</li>
+        <li>Microsoft Remote Desktopクライアント</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>おすすめの組み合わせ</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>シナリオ</th>
+        <th>おすすめの構成</th>
+        <th>理由</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>コマンドラインのみ（Claude Code CLI、SSH、ターミナル）</td>
+        <td><strong>Tailscale単体</strong></td>
+        <td>軽量、安全、GUIのオーバーヘッドなし</td>
+      </tr>
+      <tr>
+        <td>リモートでClaude Desktop AppのGUIが必要</td>
+        <td><strong>Tailscale + NoMachine</strong></td>
+        <td>Tailscaleが安全なトンネルを提供し、NoMachineがグラフィカルセッションを提供</td>
+      </tr>
+      <tr>
+        <td>Windowsのみの環境、サードパーティソフトウェア不要</td>
+        <td><strong>Windows RDP</strong></td>
+        <td>組み込み機能、ホスト側の追加インストール不要</td>
+      </tr>
+      <tr>
+        <td>Windows Pro + 最大限のセキュリティ</td>
+        <td><strong>Tailscale + Windows RDP</strong></td>
+        <td>Tailscaleがポートフォワーディングを不要にし、RDPはプライベートVPNネットワーク内にとどまる</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box">
+    <strong>初心者の方へ</strong>: 最も簡単に始められる組み合わせは<strong>Tailscale + NoMachine</strong>です。両方のマシンにTailscaleをインストールして安全なネットワークを作成し、NoMachineでフルグラフィカルリモートデスクトップセッションを使用します。この組み合わせはWindowsとMacOSの両方で動作し、ルーターの設定が不要で、接続を安全に保ちます。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: Troubleshooting                                    -->
+  <!-- ============================================================ -->
+  <h2 id="troubleshooting">トラブルシューティング</h2>
+
+  <p>最も一般的なリモートアクセス問題の解決策を以下に示します。</p>
+
+  <div class="step-list">
+    <div class="step">
+      <span class="step-label">ホストマシンに接続できない</span>
+      &mdash; まず、ホストマシンが電源オンでインターネットに接続されていることを確認します。次に以下をチェックしてください:
+      <ul style="margin-top:8px;margin-left:20px;">
+        <li><strong>Tailscale</strong>: 両方のデバイスがTailscale管理コンソールでオンラインとして表示されている必要があります。Tailscaleサービスの再起動を試してください。</li>
+        <li><strong>NoMachine</strong>: ホストでNoMachineが実行されており、Server設定で「Allow connections」が有効になっていることを確認してください。</li>
+        <li><strong>RDP</strong>: Windows設定でリモートデスクトップが有効になっており、ポート3389がルーターまたはISPによってブロックされていないことを確認してください。</li>
+      </ul>
+    </div>
+    <div class="step">
+      <span class="step-label">接続が非常に遅い、またはラグい</span>
+      &mdash; リモートデスクトップのパフォーマンスはインターネット接続速度に依存します。以下の対策を試してください:
+      <ul style="margin-top:8px;margin-left:20px;">
+        <li>リモートデスクトップクライアント設定でディスプレイ解像度を下げる。</li>
+        <li>ホストマシンの不要なアプリケーションを閉じてリソースを解放する。</li>
+        <li>NoMachineでは、セッション設定で「Low bandwidth mode」を有効にするか、ディスプレイ画質を下げる。</li>
+        <li>RDPを使用している場合、接続オプションのディスプレイ設定を調整する（色深度を下げる、壁紙を無効にする、フォントスムージングを無効にする）。</li>
+        <li>ポートフォワーディング経由のパブリックインターネットではなく、Tailscale（ローカルVPNパス）経由で接続する。</li>
+      </ul>
+    </div>
+    <div class="step">
+      <span class="step-label">認証またはログインに失敗する</span>
+      &mdash; ログインできない場合:
+      <ul style="margin-top:8px;margin-left:20px;">
+        <li>ユーザー名とパスワードを再確認してください。Windows RDPの場合、ホストマシンのWindowsアカウントの認証情報を使用する必要があります。</li>
+        <li>Tailscaleの場合、両方のデバイスが同じTailscaleアカウントにログインしていることを確認してください。</li>
+        <li>NoMachineの場合、ホストマシンのOSのユーザー名とパスワードを入力していることを確認してください（設定していなければNoMachine専用のパスワードではありません）。</li>
+        <li>ホストで最近パスワードを変更した場合、リモートクライアントが古い認証情報をキャッシュしている可能性があります。保存されたパスワードをクリアして再試行してください。</li>
+      </ul>
+    </div>
+    <div class="step">
+      <span class="step-label">リモートセッションでオーディオまたはクリップボードが動作しない</span>
+      &mdash; これらの機能はよく影響を受けます:
+      <ul style="margin-top:8px;margin-left:20px;">
+        <li><strong>オーディオ</strong>: NoMachineでは、Settings &rarr; Audioで「Audio playback」と「Audio recording」が有効になっていることを確認します。RDPでは、接続オプションのLocal Resourcesタブで「Record from this computer」をチェックします。</li>
+        <li><strong>クリップボード</strong>: NoMachineとRDPの両方がクリップボード共有をサポートしていますが、セッション設定で有効にする必要があります。NoMachineでは、入力設定パネルの「Copy and paste」オプションを確認してください。</li>
+      </ul>
+    </div>
+    <div class="step">
+      <span class="step-label">Tailscaleデバイスがオフラインと表示される</span>
+      &mdash; デバイスがTailscale管理コンソールでオフラインと表示されるが、実行中であることが分かっている場合:
+      <ul style="margin-top:8px;margin-left:20px;">
+        <li>Tailscaleサービスが実行されていることを確認してください。WindowsではシステムトレイのTailscaleアイコンを確認します。MacOSではメニューバーのアイコンを確認します。</li>
+        <li>Tailscaleサービスの再起動を試してください。Windows: Servicesを開き、「Tailscale」を見つけて右クリックし、Restartを選択します。MacOS: Tailscaleアプリを終了して再起動します。</li>
+        <li>デバイスがインターネットアクセスを持っていることを確認してください（Tailscaleはインターネット接続なしでは機能しません）。</li>
+        <li>企業や学校のネットワークを使用している場合、ファイアウォールがWireGuardトラフィックをブロックしている可能性があります。ネットワーク管理者に連絡するか、別のネットワークを試してください。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>それでも解決しない場合</strong>: 上記の解決策で問題が解決しない場合は、各ツールの公式ドキュメントを確認してください: <a href="https://tailscale.com/kb" target="_blank" rel="noopener noreferrer">Tailscaleナレッジベース</a>、<a href="https://www.nomachine.com/support" target="_blank" rel="noopener noreferrer">NoMachineサポート</a>、または<a href="https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/" target="_blank" rel="noopener noreferrer">Microsoft RDPドキュメント</a>。
+  </div>
+
+  <!-- Chapter Navigation -->
+  <div class="chapter-nav">
+    <a href="../ch13/13_Next_Steps_ja.html" class="prev">
+      <div class="dir">&larr; 第13章</div>
+      <div class="ttl">次のステップ</div>
+    </a>
+    <a href="B_Claude_Code_CLI_ja.html" class="next" style="margin-left:auto;">
+      <div class="dir">付録B &rarr;</div>
+      <div class="ttl">Claude Code CLIガイド</div>
+    </a>
+  </div>
+   <footer>
+    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) 基準 · 日本語教材<br>
+    公式リソース: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    このハンドブックのコンテンツは <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (表示 - 非営利 - 継承 4.0 国際)</a> ライセンスの下で提供されています。
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

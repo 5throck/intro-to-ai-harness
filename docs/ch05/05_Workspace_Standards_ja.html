@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Ch 5 &middot; ai-workspace-standardsを探索する - Claude Codeとマルチエージェントハーネス入門">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Ch 5 &middot; ai-workspace-standardsを探索する</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_ja.html" class="nav-home">&larr; ハンドブック_HOME</a>
+  <div class="nav-title">Ch 5 &middot; ai-workspace-standardsを探索する</div>
+  <a href="#what-is">ai-workspace-standardsとは</a>
+  <a href="#directory-structure">ディレクトリ構造</a>
+  <a href="#key-files">主要ファイル</a>
+  <a href="#hierarchy">4層レイヤー構造</a>
+  <a href="#variants">バリアント概念</a>
+  <a href="#contracts">コモンコントラクト</a>
+  <div class="nav-section">その他の章</div>
+  <a href="../ch04/04_Harness_Concepts_ja.html">Ch 4 &middot; マルチエージェントハーネスの概念</a>
+  <a href="../ch06/06_Co_Consult_Practice_ja.html">Ch 6 &middot; co-consult: AIコンサルティングの実践</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">第5章</div>
+  <h1>ai-workspace-standardsを探索する</h1>
+  <p class="lead">ai-workspace-standardsリポジトリの構造とコア概念を学びます：4層レイヤー構造（L0&rarr;L1&rarr;L2&rarr;L3）、バリアント概念、主要ファイル（AGENTS.md、CLAUDE.md、GEMINI.md）、コモンコントラクト。本章では、すべてのマルチエージェントプロジェクトの基盤となるワークスペースをガイド付きで巡ります。</p>
+  <div class="keypoints">
+    <div class="kp-title">本章の内容</div>
+    <ul>
+      <li>ai-workspace-standardsリポジトリ構造</li>
+      <li>主要ファイル：AGENTS.md、CLAUDE.md、GEMINI.md</li>
+      <li>4層レイヤー構造（L0 &rarr; L1 &rarr; L2 &rarr; L3）</li>
+      <li>バリアント概念</li>
+      <li>コモンコントラクトとテンプレート継承</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: What is ai-workspace-standards                       -->
+  <!-- ============================================================ -->
+  <h2 id="what-is">ai-workspace-standardsとは</h2>
+
+  <p>前章では、マルチエージェントハーネスの概念的構成要素——エージェント、スキル、PM Gateway、引き継ぎコントラクト——について学びました。次は、それらすべてのアイデアを実践に移す<strong>実際のコードベース</strong>を見ていきます。そのコードベースが<strong>ai-workspace-standards</strong>です。</p>
+
+  <h3>定義</h3>
+
+  <p><strong>ai-workspace-standards</strong>は、マルチエージェントAIプロジェクトのための標準化されたワークスペース構造を定義するオープンソースのGitHubリポジトリです。共有の一連の規約、ファイルレイアウト、エージェント定義、スキルテンプレート、自動化スクリプトを提供し、あらゆるAI支援プロジェクトが採用できます。エージェントのチームワークを可能にする<em>基盤ブループリント</em>と考えてください。</p>
+
+  <p>このリポジトリは <a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">github.com/5throck/ai-workspace-standards</a> でホストされており、AIツールの能力と共に進化する「生きた標準」として維持されています。</p>
+
+  <h3>なぜ標準が重要なのか</h3>
+
+  <p>「なぜ標準ワークスペースが必要なのか？各プロジェクトが自由にファイルを整理すればいいのでは？」と思うかもしれません。</p>
+
+  <p>答えは<em>相互運用性</em>にあります。複数のAIエージェントが同じプロジェクトで協力する必要がある場合、すべてのエージェントがファイルの場所、フォーマット、規約について合意している必要があります。共有の標準がないと、各プロジェクトが独自の構造を発明し、あるプロジェクト用に訓練されたエージェントは別のプロジェクトでは動作できなくなります。標準があれば：</p>
+
+  <ul>
+    <li><strong>プロジェクト間でエージェントを再利用</strong> — あるプロジェクト用に作成されたリサーチエージェントは、同じレイアウト規約に従うあらゆるプロジェクトで動作可能。</li>
+    <li><strong>スキルをプラグインとして共有</strong> — スキルはポータブルな手順書としてパッケージ化され、ブラウザの拡張機能のように任意のワークスペースが読み込める。</li>
+    <li><strong>品質チェックを自動化</strong> — 監査スクリプトが標準構造に従うワークスペースを検証し、エラーが拡散する前に検出する。</li>
+    <li><strong>新しいチームメンバーのオンボーディングを迅速に</strong> — 人間であれAIであれ、プロジェクトに参加した直後に必要な情報のありかが分かる。</li>
+  </ul>
+
+  <h3>組織図の例え</h3>
+
+  <p>ai-workspace-standardsを企業の<strong>「組織図と従業員マニュアルテンプレート」</strong>と考えてください。新しい事業を始めるとき、「部門」という概念をゼロから発明するのではなく——標準構造（人事、財務、エンジニアリング、マーケティング）を採用し、それを自分のニーズに合わせてカスタマイズします。同じように、ai-workspace-standardsはAIプロジェクトのための実績のある組織テンプレートを提供します：</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>企業の組織図</h4>
+      <ul>
+        <li><strong>部門</strong> &rarr; <code>agents/</code>、<code>skills/</code>、<code>scripts/</code></li>
+        <li><strong>従業員ハンドブック</strong> &rarr; <code>CLAUDE.md</code>、<code>GEMINI.md</code></li>
+        <li><strong>会社の規程</strong> &rarr; <code>AGENTS.md</code></li>
+        <li><strong>プロジェクトファイル</strong> &rarr; <code>presentations/</code>、<code>docs/</code></li>
+        <li><strong>会議議事録</strong> &rarr; <code>memory/</code></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>ai-workspace-standards</h4>
+      <ul>
+        <li><strong>ディレクトリ</strong>が各機能に専用のワークスペースを提供</li>
+        <li><strong>エージェントファイル</strong>が各AIの役割と権限を定義</li>
+        <li><strong>ガバナンスファイル</strong>がプロジェクト全体の整合性を確保</li>
+        <li><strong>出力ディレクトリ</strong>がプロジェクトの成果物を保管</li>
+        <li><strong>セッションログ</strong>がすべての決定と変更を記録</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>co-consultとco-deckはこの標準の上に構築されています。</strong>すべてのバリアントプロジェクト——スライドデッキ（co-deck）を作るにせよ、コンサルティング分析（co-consult）を作るにせよ、まったく別のものを作るにせよ——は、ai-workspace-standardsから基本構造を継承します。バリアントは共通基盤の上に独自の専門エージェント、スキル、スクリプトを追加します。これは、フランチャイズレストランが標準の厨房レイアウトに独自のメニューを追加するのと同じです。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: Directory Structure                                 -->
+  <!-- ============================================================ -->
+  <h2 id="directory-structure">ディレクトリ構造</h2>
+
+  <p>ai-workspace-standardsワークスペースのトップレベルディレクトリを見ていきましょう。各ディレクトリには明確な目的があり、このレイアウトを理解することが、この標準に基づくプロジェクトをナビゲートする第一歩です。</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ai-workspace-standardsのトップレベルフォルダを示すディレクトリツリー図">
+      <!-- Root node -->
+      <rect x="240" y="10" width="200" height="36" rx="8" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="340" y="33" text-anchor="middle" font-size="13" font-weight="bold" fill="var(--text-inverse)">ai-workspace-standards/</text>
+
+      <!-- Vertical line from root -->
+      <line x1="260" y1="46" x2="260" y2="400" stroke="var(--border)" stroke-width="1.5"/>
+
+      <!-- Branch 1: agents/ -->
+      <line x1="260" y1="70" x2="310" y2="70" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="56" width="140" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="380" y="75" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">agents/</text>
+      <text x="480" y="75" font-size="10" style="fill:var(--text-dim)">エージェント役割定義 (*.md)</text>
+
+      <!-- Branch 2: skills/ -->
+      <line x1="260" y1="116" x2="310" y2="116" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="102" width="140" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="380" y="121" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">skills/</text>
+      <text x="480" y="121" font-size="10" style="fill:var(--text-dim)">再利用可能ワークフローレシピ (SKILL.md)</text>
+
+      <!-- Branch 3: scripts/ -->
+      <line x1="260" y1="162" x2="310" y2="162" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="148" width="140" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="380" y="167" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">scripts/</text>
+      <text x="480" y="167" font-size="10" style="fill:var(--text-dim)">自動化スクリプト (TypeScript)</text>
+
+      <!-- Branch 4: docs/ -->
+      <line x1="260" y1="208" x2="310" y2="208" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="194" width="140" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="380" y="213" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">docs/</text>
+      <text x="480" y="213" font-size="10" style="fill:var(--text-dim)">コンテキストファイル、ADR、ガイド</text>
+
+      <!-- Branch 5: templates/ -->
+      <line x1="260" y1="254" x2="310" y2="254" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="240" width="140" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="380" y="259" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">templates/</text>
+      <text x="480" y="259" font-size="10" style="fill:var(--text-dim)">L1共通 + L2バリアントテンプレート</text>
+
+      <!-- Branch 6: presentations/ -->
+      <line x1="260" y1="300" x2="310" y2="300" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="286" width="180" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="400" y="305" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">presentations/</text>
+      <text x="520" y="305" font-size="10" style="fill:var(--text-dim)">L3プロジェクトワークスペース</text>
+
+      <!-- Branch 7: memory/ -->
+      <line x1="260" y1="346" x2="310" y2="346" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="332" width="140" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="380" y="351" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">memory/</text>
+      <text x="480" y="351" font-size="10" style="fill:var(--text-dim)">セッションログ、会議メモ</text>
+
+      <!-- Branch 8: config files -->
+      <line x1="260" y1="392" x2="310" y2="392" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="310" y="378" width="140" height="28" rx="6" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="380" y="397" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">設定ファイル</text>
+      <text x="480" y="397" font-size="10" style="fill:var(--text-dim)">CLAUDE.md, GEMINI.md, AGENTS.md</text>
+
+      <!-- Horizontal connector dots -->
+      <circle cx="260" cy="70" r="3" fill="var(--accent-green)"/>
+      <circle cx="260" cy="116" r="3" fill="var(--accent)"/>
+      <circle cx="260" cy="162" r="3" fill="var(--accent-amber)"/>
+      <circle cx="260" cy="208" r="3" fill="var(--accent-purple)"/>
+      <circle cx="260" cy="254" r="3" fill="var(--accent)"/>
+      <circle cx="260" cy="300" r="3" fill="var(--accent-green)"/>
+      <circle cx="260" cy="346" r="3" fill="var(--accent-amber)"/>
+      <circle cx="260" cy="392" r="3" fill="var(--accent-purple)"/>
+    </svg>
+  </div>
+
+  <h3>ディレクトリ概要</h3>
+
+  <p>各ディレクトリとその内容の簡単な説明です。</p>
+
+  <ul>
+    <li><strong><code>agents/</code></strong> — 各エージェントごとに1つのMarkdownファイル（例：`research.md`、`design.md`、`pm.md`）を含みます。各ファイルはエージェントの役割、ティア、フェーズ、トリガー、ツール権限、詳細な指示を定義します。ここが「従業員プロファイル」の置き場所です。</li>
+    <li><strong><code>skills/</code></strong> — サブディレクトリを含み、各々に`SKILL.md`ファイルがあって再利用可能なワークフローレシピを定義します。スキルは必要とする任意のエージェントが読み込めます。会社のレシピ集と考えてください。</li>
+    <li><strong><code>scripts/</code></strong> — TypeScriptで書かれた自動化スクリプト（`bun`で実行）。監査ツール、同期パイプライン、検証チェック、その他のユーティリティが含まれます。</li>
+    <li><strong><code>docs/</code></strong> — ガバナンスドキュメントと設計仕様。Architecture Decision Records（ADR）、ユーザーガイド、設計仕様、VERSION_MANIFEST.md、ライフサイクル手順が含まれます。<strong>注：</strong> `context.md`はL2/L3プロジェクトにのみ存在し、ワークスペースルート（L0）にはありません。L0では`AGENTS.md`がSSOTです。</li>
+    <li><strong><code>templates/</code></strong> — L1ベースレイヤーとして機能する共通テンプレート（後述の階層セクション参照）。すべてのバリアントプロジェクトが継承する共有エージェント定義、スキルテンプレート、設定を含みます。</li>
+    <li><strong><code>Projects/</code></strong> — L2バリアントテンプレートからスキャフォールドされた個別プロジェクトワークスペース。各プロジェクトは独立したディレクトリ（例：`Projects/climate-change/`）で、独自のコンテキスト、エージェント、スキル、出力ファイルを持ちます。co-deckのようなバリアントプロジェクトでは、個別のプレゼンテーションがプロジェクト内のサブディレクトリとして配置されます。</li>
+    <li><strong><code>memory/</code></strong> — セッションログ、会議トランスクリプト、日次開発メモ。すべてのAIセッションがここに要約を書き込み、決定と変更の監査証跡を作成します。</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>ヒント：</strong> <code>agents/</code>と<code>skills/</code>ディレクトリがワークスペースの心臓部です。プロジェクトの仕組みを理解したいときは、まず<code>agents/</code>のエージェントファイルを読んでください。各AIが何をするのか、いつ起動するのか、何を生産するのかが正確に分かります。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: Key Files                                           -->
+  <!-- ============================================================ -->
+  <h2 id="key-files">主要ファイル</h2>
+
+  <p>ai-workspace-standardsワークスペースの多くのファイルの中で、いくつかは特に重要です。これらはすべてのAIエージェントとすべての人間の協力者が尊重しなければならないガバナンスファイルです。</p>
+
+  <h3>三つの重要ファイル</h3>
+
+  <p><strong>AGENTS.md</strong>、<strong>CLAUDE.md</strong>、<strong>GEMINI.md</strong>の3つのファイルがワークスペースガバナンスの背骨を形成します。それぞれが異なる対象者に対応しますが、一緒になって統一されたルールセットを作ります。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>AGENTS.md</h4>
+      <ul>
+        <li><strong>対象：</strong> すべてのAIプラットフォーム（Claude、Gemini、その他）</li>
+        <li><strong>役割：</strong> マスターレジストリ——すべてのエージェント、ティア、フェーズ、ディスパッチトリガー、PM Gatewayルールを一覧表示</li>
+        <li><strong>例え：</strong> ロビーに掲示された会社の組織図——誰が何をするか全員が分かる</li>
+        <li><strong>主な内容：</strong> エージェントロスター、PM Gatewayポリシー、実行プランテンプレート、3-Tier戦略、ライフサイクル管理ルール</li>
+        <li><strong>読込：</strong> Claude Codeが各セッション開始時に自動的に読み込み</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>CLAUDE.md</h4>
+      <ul>
+        <li><strong>対象：</strong> Claude Code（AnthropicのAIコーディングエージェント）</li>
+        <li><strong>役割：</strong> Claude専用の動作指示——このワークスペースでClaudeがどう振る舞うべきか</li>
+        <li><strong>例え：</strong> Claudeの従業員ハンドブック——Claudeは初日の朝にこれを読み、最後まで従う</li>
+        <li><strong>主な内容：</strong> プラットフォーム固有のディスパッチルール、モデルティアマッピング、Claude固有のツール権限、ワークフロートリガー</li>
+        <li><strong>読込：</strong> Claude Codeがセッション開始時に自動的に読み込み</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>GEMINI.md</h4>
+      <ul>
+        <li><strong>対象：</strong> Antigravity CLI（GoogleのAIコーディングエージェント）</li>
+        <li><strong>役割：</strong> Antigravity専用の動作指示——このワークスペースでAntigravity CLIがどう振る舞うべきか</li>
+        <li><strong>例え：</strong> Antigravity CLIの従業員ハンドブック——Antigravity CLIは初日の朝にこれを読み、最後まで従う</li>
+        <li><strong>主な内容：</strong> プラットフォーム固有のディスパッチルール、モデルティアマッピング、Antigravity固有のツール権限、ワークフロートリガー</li>
+        <li><strong>読込：</strong> Antigravity CLIがセッション開始時に自動的に読み込み</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>3つのファイルの連携</h3>
+
+  <p>重要なポイントは、<strong>AGENTS.mdがすべてのプラットフォームに適用される共有ルール</strong>を含み、<strong>CLAUDE.mdとGEMINI.mdがその上にプラットフォーム固有の詳細を追加</strong>するということです。この分離により、コアガバナンスが一箇所にあり、プラットフォームの違いがそれぞれのファイルに分離されます。</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AGENTS.md、CLAUDE.md、GEMINI.mdの関係図">
+      <!-- AGENTS.md at top -->
+      <rect x="230" y="10" width="200" height="48" rx="10" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="330" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="var(--text-inverse)">AGENTS.md</text>
+      <text x="330" y="48" text-anchor="middle" font-size="10" fill="var(--text-inverse)">(共有ルール — すべてのプラットフォーム)</text>
+
+      <!-- Arrows down -->
+      <line x1="280" y1="58" x2="165" y2="108" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowKf1)"/>
+      <line x1="380" y1="58" x2="495" y2="108" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowKf2)"/>
+
+      <!-- Inheritance labels -->
+      <text x="210" y="78" font-size="10" font-style="italic" style="fill:var(--text-dim)">継承</text>
+      <text x="435" y="78" font-size="10" font-style="italic" style="fill:var(--text-dim)">継承</text>
+
+      <!-- CLAUDE.md -->
+      <rect x="50" y="114" width="220" height="56" rx="10" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="160" y="137" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">CLAUDE.md</text>
+      <text x="160" y="157" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Claude Code指示</text>
+
+      <!-- GEMINI.md -->
+      <rect x="390" y="114" width="220" height="56" rx="10" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="500" y="137" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">GEMINI.md</text>
+      <text x="500" y="157" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Antigravity CLI指示</text>
+
+      <!-- Platform agents -->
+      <line x1="160" y1="170" x2="160" y2="200" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowKf1)"/>
+      <rect x="60" y="206" width="200" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="160" y="229" text-anchor="middle" font-size="11" style="fill:var(--text)">Claude Code (Anthropic)</text>
+
+      <line x1="500" y1="170" x2="500" y2="200" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowKf2)"/>
+      <rect x="400" y="206" width="200" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="500" y="229" text-anchor="middle" font-size="11" style="fill:var(--text)">Antigravity CLI (Google)</text>
+
+      <defs>
+        <marker id="arrowKf1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowKf2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>その他の重要ファイル</h3>
+
+  <p>三つの重要ファイルのほかにも、いくつかのファイルがワークスペースで重要な役割を果たします。</p>
+
+  <ul>
+    <li><strong><code>context.md</code></strong>（L2/L3のみ）— プロジェクトの身分証明書。バリアントテンプレートとスキャフォールドされたプロジェクトにのみ存在します。プロジェクトタイプ、ステータス、アーキテクチャ、主要ファイル、ドキュメント標準を宣言します。プロジェクト作成後に不変としてマークされ、プロジェクト固有の変更は別のバリアントコンテキストファイルに記録されます。会社の登記証明書と考えてください。ワークスペースルート（L0）では、<code>AGENTS.md</code>が代わりにSSOTとして機能します。</li>
+    <li><strong><code>CHANGELOG.md</code></strong> — プロジェクトに対するすべての変更の人間が読める記録。バージョン番号ごとに整理されます。エージェント、スキル、スクリプト、ガバナンスファイルへのすべての変更がここに記録され、チームメンバーが何が変わり、なぜ変わったかを追跡できます。</li>
+    <li><strong><code>variant.json</code></strong> — バリアントのメタデータファイル。バリアント名、タイプ、ステータス、バージョン、含まれるエージェントとスキル、共通テンプレートからの継承方法を宣言します。バリアントセクションで詳しく説明します。</li>
+    <li><strong><code>memory/YYYY-MM-DD.md</code></strong> — 日付付きセッションログ。各作業セッションが日付付きログファイル（例：`memory/2026-08-10.md`）を生成し、何が達成され、何が変わり、何が決定され、何が未解決かの要約を記録します。</li>
+  </ul>
+
+  <div class="note">
+    <strong>ファイルの例えまとめ：</strong> ワークスペースを都市とするなら、<code>AGENTS.md</code>は都市憲章（全員が従う基本文書）、<code>CLAUDE.md</code>と<code>GEMINI.md</code>は部門別ルールブック、<code>context.md</code>は都市の登記証明書、<code>CHANGELOG.md</code>は市議会の決定公開記録、<code>memory/</code>はすべての会議の議事録が保管される都市アーカイブとなります。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: 4-Level Layer Structure                              -->
+  <!-- ============================================================ -->
+  <h2 id="hierarchy">4層レイヤー構造</h2>
+
+  <p>ai-workspace-standardsの最も強力な設計判断の一つが<strong>4層レイヤー構造</strong>です。これはオリジナルのソース（L0）から共通インフラ（L1）、バリアントテンプレート（L2）、そして実際のプロジェクト（L3）へとリソースが流れる階層システムです。</p>
+
+  <div class="tip-box">
+    <strong>配布パス vs レイヤー構造</strong><br>
+    「L0 &rarr; L1 &rarr; L2」は<strong>配布パス</strong>を記述します：オリジナルソースコードがL1とL2に配信される方向。<br>
+    「L1 &rarr; L2 &rarr; L3」は<strong>レイヤー構造</strong>を記述します：各レイヤーが下のレイヤーの基盤となる静的階層。
+  </div>
+
+  <h3>L0 Source（ワークスペースルート）— オリジナルソース</h3>
+
+  <p><strong>L0 Source</strong>はワークスペースルートディレクトリそのものです。<strong>唯一の編集場所</strong>であり、すべてのレイヤーに変更が伝播する出発点です。</p>
+
+  <ul>
+    <li><strong>共通エージェント</strong> — すべてのプロジェクトで使用されるPMエージェントとその他の基盤エージェント</li>
+    <li><strong>共通スキル</strong> — どこでも利用可能な再利用可能ワークフローレシピ</li>
+    <li><strong>コアスクリプト</strong> — audit.ts、validate-templates.ts、その他の重要な自動化ツール</li>
+    <li><strong>AGENTS.md</strong> — グローバルエージェントレジストリ</li>
+  </ul>
+
+  <h3>L1（共通テンプレート）— 共通インフラレイヤー</h3>
+
+  <p><strong>L1</strong>は<code>templates/common/</code>にある共通インフラレイヤーです。L0 Sourceから配布されたコンテンツから構築され、<strong>すべてのバリアントで共有されるテンプレート</strong>を提供します。プラットフォーム固有の設定と標準化されたディレクトリ構造が含まれます。</p>
+
+  <ul>
+    <li><code>.claude/</code>ディレクトリ — Claude Code設定、コマンド、スキル</li>
+    <li><code>.gemini/</code>ディレクトリ — Antigravity CLI設定、コマンド、スキル</li>
+    <li>プラットフォーム固有のエージェント設定（CLAUDE.md、GEMINI.md）</li>
+    <li>共通エージェントテンプレート、共通スキル、スクリプト</li>
+    <li><code>propagation-map.json</code> — L0&rarr;L1配布ルールを定義</li>
+  </ul>
+
+  <p class="text-dim"><em>注：L1は直接編集しません。変更は<code>bun run propagate:apply</code>でL0 Sourceから自動的に配布されます。</em></p>
+
+  <h3>L2（バリアントテンプレート）— バリアントテンプレートレイヤー</h3>
+
+  <p><strong>L2</strong>は<code>templates/co-*/</code>にあるバリアントテンプレートレイヤーです。各バリアント（co-deck、co-consultなど）はL1上に構築されたテンプレートで、<strong>独自のエージェント、スキル、設定</strong>を追加します。</p>
+
+  <ul>
+    <li>バリアント固有のエージェント（例：co-deckのimage-curator、pdf-export）</li>
+    <li>バリアント固有のスキル（例：co-deckのhtml-build、storyline）</li>
+    <li>バリアント設定（variant.json、PMエージェントYAMLオーバーライド）</li>
+    <li>L1共通テンプレートを継承（`variant.json`の`inherits_common: "templates/common"`）</li>
+  </ul>
+
+  <p>現在10個のバリアントテンプレートがあります：co-abap、co-consult、co-deck、co-design、co-develop、co-export、co-game、co-news、co-security、co-work。</p>
+
+  <h3>L3（プロジェクト）— 実際のプロジェクトレイヤー</h3>
+
+  <p><strong>L3</strong>は<code>Projects/*/</code>にある実際のプロジェクトレイヤーです。各L3プロジェクトはL2バリアントテンプレートから<strong>スキャフォールド</strong>されます。プロジェクトは独立して動作し、ローカルカスタマイズをサポートします。</p>
+
+  <ul>
+    <li><code>docs/context.md</code> — プロジェクトの詳細設定（プロジェクト作成後に不変）</li>
+    <li>プロジェクト固有のエージェント、スキル、スクリプト</li>
+    <li>variant.json — L2からコピーされたメタデータ</li>
+    <li>実際の作業成果物が生成される場所</li>
+  </ul>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="L0からL3までの配布とスキャフォールド関係を示す4層レイヤー構造図">
+      <defs>
+        <marker id="arrowInherit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+      <!-- L0 box -->
+      <rect x="30" y="10" width="600" height="70" rx="12" fill="var(--accent-purple)" stroke="var(--accent-purple)" stroke-width="2" opacity="0.15"/>
+      <rect x="30" y="10" width="600" height="70" rx="12" fill="none" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="330" y="35" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text)">L0 Source — ワークスペースルート</text>
+      <text x="330" y="53" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">共通エージェント &middot; 共通スキル &middot; コアスクリプト &middot; AGENTS.md</text>
+      <text x="330" y="70" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">すべてのレイヤーのオリジナルソース（唯一の編集場所）</text>
+
+      <!-- L0 → L1 arrow -->
+      <line x1="330" y1="80" x2="330" y2="108" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arrowInherit)"/>
+      <text x="345" y="98" font-size="10" style="fill:var(--accent)">配布</text>
+
+      <!-- L1 box -->
+      <rect x="60" y="114" width="540" height="70" rx="12" fill="var(--accent)" stroke="var(--accent)" stroke-width="2" opacity="0.1"/>
+      <rect x="60" y="114" width="540" height="70" rx="12" fill="none" stroke="var(--accent)" stroke-width="2"/>
+      <text x="330" y="139" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text)">L1 — 共通テンプレート (templates/common/)</text>
+      <text x="330" y="157" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">.claude/ &middot; .gemini/ &middot; プラットフォーム設定 &middot; 共通エージェント/スキルテンプレート</text>
+      <text x="330" y="174" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">すべてのバリアントの共有インフラ（直接編集不可）</text>
+
+      <!-- L1 → L2 arrows -->
+      <line x1="200" y1="184" x2="150" y2="218" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arrowInherit)"/>
+      <text x="195" y="208" font-size="10" style="fill:var(--accent)">継承</text>
+      <line x1="330" y1="184" x2="330" y2="218" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arrowInherit)"/>
+      <text x="345" y="208" font-size="10" style="fill:var(--accent)">継承</text>
+      <line x1="460" y1="184" x2="510" y2="218" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arrowInherit)"/>
+      <text x="475" y="208" font-size="10" style="fill:var(--accent)">継承</text>
+
+      <!-- L2-A: co-consult -->
+      <rect x="30" y="224" width="190" height="62" rx="12" fill="var(--accent-green)" stroke="var(--accent-green)" stroke-width="2" opacity="0.12"/>
+      <rect x="30" y="224" width="190" height="62" rx="12" fill="none" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="125" y="248" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">L2 — co-consult</text>
+      <text x="125" y="266" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">コンサルティング自動化バリアントテンプレート</text>
+      <text x="125" y="280" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">専用エージェント &middot; スキル</text>
+
+      <!-- L2-B: co-deck -->
+      <rect x="235" y="224" width="190" height="62" rx="12" fill="var(--accent-amber)" stroke="var(--accent-amber)" stroke-width="2" opacity="0.12"/>
+      <rect x="235" y="224" width="190" height="62" rx="12" fill="none" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="330" y="248" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">L2 — co-deck</text>
+      <text x="330" y="266" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">プレゼンテーション自動化バリアントテンプレート</text>
+      <text x="330" y="280" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">専用エージェント &middot; スキル</text>
+
+      <!-- L2-C: other variants -->
+      <rect x="440" y="224" width="190" height="62" rx="12" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6,3"/>
+      <rect x="440" y="224" width="190" height="62" rx="12" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="535" y="248" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">L2 — その他のバリアント...</text>
+      <text x="535" y="266" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">co-develop, co-game</text>
+      <text x="535" y="280" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">co-design, co-work, etc.</text>
+
+      <!-- L2 → L3 arrows -->
+      <line x1="125" y1="286" x2="125" y2="330" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowInherit)"/>
+      <text x="140" y="314" font-size="10" style="fill:var(--accent-green)">スキャフォールド</text>
+      <line x1="330" y1="286" x2="330" y2="330" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowInherit)"/>
+      <text x="345" y="314" font-size="10" style="fill:var(--accent-amber)">スキャフォールド</text>
+
+      <!-- L3-A: co-consult project -->
+      <rect x="30" y="336" width="190" height="62" rx="12" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="125" y="360" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">L3 — co-consult</text>
+      <text x="125" y="378" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Projects/co-consult/</text>
+      <text x="125" y="392" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">実際のプロジェクト（独立）</text>
+
+      <!-- L3-B: co-deck project -->
+      <rect x="235" y="336" width="190" height="62" rx="12" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="330" y="360" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">L3 — co-deck</text>
+      <text x="330" y="378" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Projects/co-deck/</text>
+      <text x="330" y="392" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">実際のプロジェクト（独立）</text>
+
+      <!-- L3-C: custom project -->
+      <rect x="440" y="336" width="190" height="62" rx="12" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="535" y="360" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">L3 — あなたのプロジェクト</text>
+      <text x="535" y="378" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Projects/*/</text>
+      <text x="535" y="392" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">カスタムプロジェクト（将来）</text>
+
+      <!-- Legend -->
+      <rect x="30" y="420" width="630" height="80" rx="8" fill="none" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,2"/>
+      <text x="345" y="442" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text-dim)">まとめ</text>
+      <text x="50" y="462" font-size="10" style="fill:var(--text-dim)">L0 (Source): ワークスペースルート — 唯一の編集場所</text>
+      <text x="50" y="478" font-size="10" style="fill:var(--text-dim)">L1 (Common): templates/common/ — すべてのバリアントで共有</text>
+      <text x="370" y="462" font-size="10" style="fill:var(--text-dim)">L2 (Variant): templates/co-*/ — 目的別テンプレート</text>
+      <text x="370" y="478" font-size="10" style="fill:var(--text-dim)">L3 (Project): Projects/*/ — スキャフォールドされた実際のプロジェクト</text>
+      <text x="50" y="494" font-size="10" style="fill:var(--accent)">配布パス: L0 &rarr; L1 &rarr; L2&emsp;|&emsp;レイヤー構造: L1 &rarr; L2 &rarr; L3</text>
+    </svg>
+  </div>
+
+  <h3>配布パスとレイヤー構造</h3>
+
+  <p>このシステムの2つの方向を区別することが重要です。</p>
+
+  <ul>
+    <li><strong>配布パス（L0 &rarr; L1 &rarr; L2）</strong>: オリジナルソース（L0）からの変更が<code>propagate:apply</code>経由でL1共通テンプレートに配布され、次に各L2バリアントテンプレートに配布されます。これが<em>コードが流れる方向</em>です。</li>
+    <li><strong>レイヤー構造（L1 &rarr; L2 &rarr; L3）</strong>: 各レイヤーが上位レイヤーのテンプレートの上に構築される静的階層関係。L3プロジェクトはL2バリアントテンプレートからスキャフォールドされ、L2はL1共通テンプレートを継承します。</li>
+  </ul>
+
+  <h3>オーバーライドルール</h3>
+
+  <p>下位レイヤーは上位レイヤーの設定を<em>オーバーライド</em>できますが、変更は逆方向には伝播しません。これはオブジェクト指向プログラミングのクラス継承と同じ原理です。</p>
+
+  <ul>
+    <li><strong>L3で設定されたルール</strong>はL2、L1、L0のルールより優先。</li>
+    <li><strong>L2で設定されたルール</strong>はL1、L0のルールより優先（L3でオーバーライドされない限り）。</li>
+    <li><strong>L1で設定されたルール</strong>はL0のルールより優先（L2またはL3でオーバーライドされない限り）。</li>
+    <li><strong>L0のルール</strong>は他の場所でオーバーライドされない限り、すべてのレイヤーに適用。</li>
+  </ul>
+
+  <div class="note">
+    L0 Sourceのすべてが<strong>すべてのプロジェクトに共通</strong>です。つまり、audit.tsやvalidate-templates.tsのようなコアスクリプトはすべてのプロジェクトで同じように動作します。L0で修正すると、その変更は配布パスを通じてL1とL2に伝播し、最終的にすべてのL3プロジェクトに届きます。これが標準のコアプロミス——<em>一度定義して、どこでも一貫して適用</em>です。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: Variant Concept                                     -->
+  <!-- ============================================================ -->
+  <h2 id="variants">バリアント概念</h2>
+
+  <h3>バリアントとは</h3>
+
+  <p><strong>バリアント</strong>は特定の目的に合わせてカスタマイズされたテンプレートで、L0 + L1の基盤の上に構築されます。4層レイヤー構造のセクションで説明したように、<strong>L2</strong>がバリアントテンプレートレイヤーであり、<strong>L3</strong>はL2テンプレートからスキャフォールドされた実際のプロジェクトです。</p>
+
+  <p>バリアントはai-workspace-standardsを実用的にするものです。標準が基盤を提供し、バリアントが専門性を提供します。バリアントがなければ、標準は実際の用途のない汎用フレームワークになります。標準がなければ、バリアントは互換性のない構造を持つ孤立したプロジェクトになります。</p>
+
+  <h3>バリアントの例</h3>
+
+  <p>これが実際にどのように機能するかを理解するために、2つの実際のバリアントを見てみましょう。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>co-deck</h4>
+      <ul>
+        <li><strong>タイプ：</strong> 講義・プレゼンテーション資料制作</li>
+        <li><strong>パイプライン：</strong> リサーチから印刷用PDFまでの11ステージワークフロー</li>
+        <li><strong>エージェント：</strong> 11の専門エージェント（PM + 10スペシャリスト：research, source-verifier, storyline, design, image-curator, diagram-specialist, html-build, measure, pdf-export, version）</li>
+        <li><strong>出力：</strong> HTMLスライドデッキとPDFプレゼンテーション</li>
+        <li><strong>独自機能：</strong> テーマシステム（5つのHTMLテーマ）、スタイルシステム、画像キュレーションパイプライン、SVG図生成、PDFレイアウト計測</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-consult</h4>
+      <ul>
+        <li><strong>タイプ：</strong> コンサルティング分析・助言出力</li>
+        <li><strong>パイプライン：</strong> ビジネスコンサルティングのためのリサーチ駆動分析ワークフロー</li>
+        <li><strong>エージェント：</strong> 共通セットから適応された専門コンサルティングエージェント</li>
+        <li><strong>出力：</strong> コンサルティングレポート、分析ドキュメント、助言資料</li>
+        <li><strong>独自機能：</strong> 業界固有リサーチプロファイル、MECE論理フレームワーク、構造化問題解決ワークフロー</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>目的が異なっても、両バリアントは同じ基盤を共有します：PMオーケストレーションパターン、3-Tier戦略、PM Gateway、引き継ぎコントラクトシステム、ディレクトリレイアウト。この共有基盤が、相互運用性と保守性を可能にしています。</p>
+
+  <h3>variant.json — バリアントの身分証明書</h3>
+
+  <p>すべてのバリアントにはプロジェクトルートに<code>variant.json</code>ファイルがあり、その身元と設定を宣言します。このファイルはバリアントの「パスポート」——このバリアントが何であるか、何を含み、共通テンプレートとどう関係しているかをシステムに伝えます。</p>
+
+  <p><code>variant.json</code>の主要フィールドは以下の通りです。</p>
+
+  <ul>
+    <li><strong><code>name</code></strong> — バリアントの識別子（例：<code>"co-deck"</code>や<code>"co-consult"</code>）。</li>
+    <li><strong><code>description</code></strong> — バリアントの機能の概要。</li>
+    <li><strong><code>variant_type</code></strong> — このバリアントが扱う作業のカテゴリ（例：<code>"lecture"</code>）。</li>
+    <li><strong><code>status</code></strong> — ライフサイクルステータス：<code>"draft"</code>、<code>"beta"</code>、<code>"stable"</code>。</li>
+    <li><strong><code>version</code></strong> — セマンティックバージョニングに従う現在のバージョン番号。</li>
+    <li><strong><code>inherits_common</code></strong> — 継承する共通テンプレートへのパス（通常<code>"templates/common"</code>）。</li>
+    <li><strong><code>agents</code></strong> — このバリアントに含まれるエージェントのリストとファイルパス。</li>
+    <li><strong><code>skills</code></strong> — このバリアントで利用可能なスキルのリスト。</li>
+    <li><strong><code>lifecycle</code></strong> — バリアントのライフサイクル遷移に関するメタデータ。</li>
+  </ul>
+
+  <div class="code-block">
+<pre><code>{
+  "name": "co-deck",
+  "description": "Lecture and presentation material production variant",
+  "variant_type": "lecture",
+  "status": "beta",
+  "version": "0.2.0",
+  "inherits_common": "templates/common",
+  "agents": [
+    { "name": "pm",              "file": "agents/pm.md" },
+    { "name": "research",         "file": "agents/research.md" },
+    { "name": "storyline",       "file": "agents/storyline.md" },
+    { "name": "html-build",      "file": "agents/html-build.md" }
+  ]
+}</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+</div>
+
+  <h3>バリアントのライフサイクル</h3>
+
+  <p>バリアントは定義されたライフサイクルを経て、<code>variant.json</code>の<code>lifecycle</code>フィールドで追跡されます。</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Draft</strong> — バリアントは初期開発中。構造とエージェントが定義されています。まだ使用可能ではありません。</li>
+      <li><strong>Beta</strong> — バリアントは機能するが、荒い部分がある場合があります。アーリーアダプターが試してフィードバックを提供できます。co-deckは現在この段階にあります。</li>
+      <li><strong>Stable</strong> — バリアントは十分にテストされ、本番使用の準備ができています。破壊的変更にはメジャーバージョンの更新が必要です。</li>
+    </ol>
+  </div>
+
+  <h3>バリアントから新しいプロジェクトを作成する</h3>
+
+  <p>第6章と第7章の演習では、セットアップ時間を節約するために既製のサンプルプロジェクト（co-consult、co-deck）をクローンします。実際の日常業務では、クローンはしません——ワークスペースルートから単一コマンドでL2バリアントテンプレートから新しいL3プロジェクトを<strong>スキャフォールド</strong>します：</p>
+
+  <div class="code-block">
+<pre><code>bun scripts/new-project.ts "my-market-report" --variant co-consult</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+</div>
+
+  <p>これで<code>Projects/my-market-report/</code>が新鮮な独立Gitリポジトリとして作成され、co-consultのエージェント、スキル、設定がコピーされ、空の<code>docs/context.md</code>スケルトンがレンダリングされるので、この特定のプロジェクトの目標を記入できます。完全な構文は：</p>
+
+  <div class="code-block">
+<pre><code>bun scripts/new-project.ts "&lt;project-name&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|both] [--version X.Y.Z]</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+</div>
+
+  <ul>
+    <li><strong><code>&lt;project-name&gt;</code></strong> — 必須。<code>Projects/</code>の下のフォルダ名になります。</li>
+    <li><strong><code>--variant &lt;variant&gt;</code></strong> — 必須。どのL2テンプレートからスキャフォールドするか（<code>co-consult</code>、<code>co-deck</code>、<code>co-develop</code>など）。</li>
+    <li><strong><code>--platform</code></strong> — 任意。コピーするプラットフォーム設定（<code>.claude/</code>、<code>.gemini/</code>）を制限。デフォルトは<code>both</code>。</li>
+    <li><strong><code>--version</code></strong> — 任意。ソースバリアントのテンプレートバージョンを固定。</li>
+  </ul>
+
+  <div class="note">
+    これを<strong>新しいバリアントの作成</strong>と混同しないでください。<code>new-project.ts</code>は日常的に頻繁に実行するコマンド——既存のL2テンプレートからL3プロジェクトをスキャフォールドします。L2テンプレート自体の構築（co-legalやco-hrのような全く新しいバリアント）は別の、はるかに稀なワークフローで、<code>create-l3-scaffold.ts</code>を使用します。第11章で説明します。
+  </div>
+
+  <div class="tip-box">
+    <strong>自分のバリアントを作りたいと考えていますか？</strong> このハンドブックの第11章で、ゼロからカスタムバリアントを設計・構築するプロセスをカバーします。独自のエージェント、スキル、ワークフローパイプラインの定義方法と、バリアントを登録して共有ワークスペース標準のすべての恩恵を継承する方法を学びます。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: Common Contracts                                    -->
+  <!-- ============================================================ -->
+  <h2 id="contracts">コモンコントラクト</h2>
+
+  <p>ai-workspace-standardsアーキテクチャの最後のピースが<strong>コモンコントラクト</strong>の概念です。これは、すべてのプロジェクト、バリアント、エージェントが同じ言語を話すことを保証する共有合意です。</p>
+
+  <h3>コモンコントラクトとは</h3>
+
+  <p><strong>コモンコントラクト</strong>は、ワークスペースの異なる部分が互いにどう相互作用するかを定義する正式な仕様です。法的コントラクトが2者間の義務を指定するのと同様に、コモンコントラクトはエージェントとプロジェクトが従わなければならないデータ形式、ファイルの場所、命名規約、通信プロトコルを指定します。</p>
+
+  <p>コモンコントラクトはワークスペースのコアガバナンスドキュメント——<code>CONSTITUTION.md</code>、<code>AGENTS.md</code>（L0 SSOT）、バリアント固有の<code>docs/context.md</code>（L2/L3）——で定義され、3つの主要な役割を果たします。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>1. データフォーマットコントラクト</h4>
+      <ul>
+        <li>主要データファイル（リサーチノート、スライドデッキ、設計仕様、画像マニフェスト）の構造とフィールドを定義</li>
+        <li>すべてのエージェントが次のエージェントが消費できる形式で出力を生成することを保証</li>
+        <li>例：<code>research_notes.md</code>には出典セクション、主要事実セクション、信頼性ノートセクションを含める必要がある</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>2. ディレクトリレイアウトコントラクト</h4>
+      <ul>
+        <li>各ファイルタイプがワークスペース内のどこに配置されるかを定義</li>
+        <li>エージェントが推測なしで入力ファイルを見つけられることを保証</li>
+        <li>例：リサーチノートは<code>Projects/&lt;project&gt;/research_notes.md</code>に配置する必要がある</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>3. 命名規約コントラクト</h4>
+      <ul>
+        <li>ファイル、エージェント、スキル、バリアントの命名方法を定義</li>
+        <li>ワークスペースエコシステム全体の整合性を保証</li>
+        <li>例：エージェントファイルは小文字＋ハイフン（<code>source-verifier.md</code>）、スキルも同じパターン</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>コントラクトの適用方法</h3>
+
+  <p>コントラクトは単なるドキュメントではありません——強制されます。実際のコントラクトシステムの仕組みは以下の通りです。</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>コントラクト定義</strong> — コントラクトはワークスペースのコアガバナンスドキュメント（<code>CONSTITUTION.md</code>（共通標準）、<code>AGENTS.md</code>（エージェントレジストリ、L0のSSOT）、<code>docs/context.md</code>（プロジェクト固有設定、L2/L3のみ））で定義されます。これらのドキュメントがすべてのプロジェクトが従うべきスキーマ、レイアウト、命名ルールを指定します。
+      </li>
+      <li>
+        <strong>テンプレート継承</strong> — L1共通テンプレートが作成されると、L0からコントラクトがコピーされます。L2バリアントはL1を通じてコントラクトを継承します。ワークスペース内のすべてのプロジェクトが同じコントラクト基盤を共有します。
+      </li>
+      <li>
+        <strong>バリアント拡張</strong> — L2バリアントはバリアント固有ファイルに独自のコントラクト拡張を追加できます（例：co-deckはスライドデッキファイル、テーマファイル、PDFレイアウト仕様のコントラクトを追加）。これらの拡張はバリアント自身のコンテキストファイルで定義されます。
+      </li>
+      <li>
+        <strong>検証強制</strong> — <code>scripts/audit.ts</code>スクリプトが各プロジェクトを継承したコントラクトに対して自動的にチェックします。ファイルがコントラクトに違反している場合（フォーマット、場所、名前が不正）、監査はプロジェクトが進行する前に修正すべきエラーとして報告します。
+      </li>
+    </ol>
+  </div>
+
+  <h3>コントラクトと引き継ぎコントラクト</h3>
+
+  <p>第4章で<strong>引き継ぎコントラクト</strong>が1つのエージェントから次のエージェントへ出力を渡す方法を定義することを覚えているかもしれません。コモンコントラクトは引き継ぎコントラクトが機能する<em>より広いシステム</em>です。次のように考えてください：</p>
+
+  <ul>
+    <li><strong>コモンコントラクト</strong>は全員が話す<em>全体の言語</em>を定義（ファイル形式、ディレクトリレイアウト、命名規約）</li>
+    <li><strong>引き継ぎコントラクト</strong>はエージェントのペア間の<em>具体的な会話</em>を定義（エージェントAがファイルXを生成、エージェントBがファイルXを読む）</li>
+  </ul>
+
+  <p>コモンコントラクトが引き継ぎコントラクトを可能にします。すべてのエージェントがコモンコントラクト（ファイルの場所と形式）に合意していれば、2つのエージェント間の引き継ぎコントラクトを定義するのは簡単——渡すファイルを指定するだけで済みます。</p>
+
+  <div class="note">
+    <strong>例え — 共通言語：</strong> 多くの国の代表者が協力のために集まる国際会議を想像してください。<em>コモンコントラクト</em>は英語を作業言語として使用し、議事手続きに従い、標準化された文書形式を使用するという合意です。その土台があれば、任意の2人の代表者（エージェント）が特定のトピックについて集中した会話（引き継ぎコントラクト）を持てます。共通言語がなければ、すべての代表者ペアが独自の通信プロトコルをゼロから発明する必要があり——非効率でエラーが多発します。
+  </div>
+
+  <h3>コントラクトのメリット</h3>
+
+  <p>コントラクトシステムはAIエージェントのコラボレーションにいくつかの具体的なメリットを提供します。</p>
+
+  <ul>
+    <li><strong>設定不要の引き継ぎ。</strong> エージェントAが終了しエージェントBが開始すると、エージェントBはディレクトリレイアウトコントラクトが正確なパスを指定しているため、エージェントAの出力の場所を既に知っています。</li>
+    <li><strong>自動エラー検出。</strong> 監査スクリプトが実行時エラーを引き起こす前にコントラクト違反を検出します。エージェントがファイルを間違った場所や形式で書き込むと、監査が直ちにフラグを立てます。</li>
+    <li><strong>プロジェクト間のポータビリティ。</strong> コモンコントラクトに従うエージェントは修正なしで任意のバリアントプロジェクトで動作できます。co-deckのリサーチエージェントは原理的にはco-consultにドロップインして正しく動作します。両方のバリアントが同じコントラクトを共有するからです。</li>
+    <li><strong>バージョン管理された進化。</strong> コモンコントラクトを変更する必要がある場合（例：スライドデッキ形式に新しい必須フィールドの追加）、変更はL0で行われ、同期パイプラインを通じて伝播され、すべてのプロジェクトで監査スクリプトによって強制されます。</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>重要ポイント：</strong> 4層レイヤー構造、バリアント概念、コモンコントラクトの組み合わせが、ai-workspace-standardsを単なるファイルの集まりではなく真の<em>プラットフォーム</em>にしています。レイヤー構造が組織を提供し（L0&rarr;L1&rarr;L2配布パス、L1&rarr;L2&rarr;L3静的階層）、バリアントが専門性を提供し、コントラクトが相互運用性を提供します。これらが一緒になって、無数の専門AIプロジェクトが共通基盤を共有しながら独立してカスタマイズ可能であることを実現します。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER NAVIGATION                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch04/04_Harness_Concepts_ja.html" class="prev">
+      <div class="dir">&larr; 前の章</div>
+      <div class="ttl">Ch 4 &middot; マルチエージェントハーネスの概念</div>
+    </a>
+    <a href="../ch06/06_Co_Consult_Practice_ja.html" class="next" style="margin-left:auto;">
+      <div class="dir">次の章 &rarr;</div>
+      <div class="ttl">Ch 6 &middot; co-consult: AIコンサルティングの実践</div>
+    </a>
+  </div>
+   <footer>
+    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) 基準 · 日本語教材<br>
+    公式リソース: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    このハンドブックのコンテンツは <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (表示 - 非営利 - 継承 4.0 国際)</a> ライセンスの下で提供されています。
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

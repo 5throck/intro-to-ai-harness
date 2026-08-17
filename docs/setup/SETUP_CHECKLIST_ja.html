@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="ワークショップ事前インストールチェックリスト · Claude Code & Multi-Agent Harness - AI初心者向け実践ガイド">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>ワークショップ事前インストールチェックリスト · Claude Code &amp; Multi-Agent Harness</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+  <style>
+    /* Page-specific overrides */
+    h2 { color: var(--accent-dark); margin: 40px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); scroll-margin-top: 20px; }
+    .chk-list li.sub { margin-left: 22px; color: var(--text-dim); }
+    .chk-list li.sub::before { content: '—'; color: var(--text-dim); }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+<nav>
+  <a href="../index_ja.html" class="nav-home">← ハンドブック_HOME</a>
+  <div class="nav-title">事前インストールチェックリスト</div>
+  <a href="#s1">1. サブスクリプションの確認</a>
+  <a href="#s2">2. アカウントの準備</a>
+  <a href="#s3">3. システム要件</a>
+  <a href="#s4">4. Gitユーザー設定</a>
+  <a href="#s5">5. GitHub認証</a>
+  <a href="#s6">6. プロジェクト環境設定</a>
+  <a href="#s7">7. 最終環境確認</a>
+  <div class="nav-section">その他のドキュメント</div>
+  <a href="SETUP_ja.html">ワークショップ環境セットアップガイド</a>
+  <a href="../ch03/03_Setup_Guide_ja.html">第3章 セットアップガイド</a>
+</nav>
+
+<main>
+ <article class="reading">
+  <h1>ワークショップ事前インストールチェックリスト</h1>
+  <p class="subtitle">インストールスクリプトを実行する<strong>前に</strong>このチェックリストを完了してください。以下の項目は自動化できず、手動での操作が必要です。</p>
+
+  <h2 id="s1">1. サブスクリプションの確認（最優先）</h2>
+  <p>ワークショップのハンズオンセッションで使用するツールには有効なサブスクリプションが必要です。</p>
+  <table>
+    <thead><tr><th>ツール</th><th>必要プラン</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Claude Code CLI</strong> (<code>claude</code>)</td><td>Claude Pro または Max</td></tr>
+      <tr><td><strong>Claude Desktop App</strong></td><td>Claude Pro 以上</td></tr>
+      <tr><td><strong>Antigravity CLI</strong> (<code>agy</code>)</td><td>Gemini Advanced</td></tr>
+      <tr><td><strong>Antigravity Desktop App</strong></td><td>Gemini Advanced</td></tr>
+    </tbody>
+  </table>
+  <div class="warn"><strong>APIキーについて</strong>: APIキーはサブスクリプションプラン外の外部統合にのみ必要です。ワークショップのハンズオンセッションはサブスクリプションモデルで完全にカバーされているため、本当に必要な場合にのみAPIキーを発行してください。</div>
+
+  <h2 id="s2">2. アカウントの準備</h2>
+  <ul class="chk-list">
+    <li><strong>Googleアカウント</strong> — Antigravity / Gemini Advancedを使用するために必要</li>
+    <li><strong>GitHubアカウント</strong> — <code>gh auth login</code>とPR演習に必要</li>
+    <li class="sub">お持ちでない場合は、事前に <a href="https://github.com/signup" target="_blank">github.com/signup</a> で登録してください</li>
+  </ul>
+
+  <h2 id="s3">3. システム要件</h2>
+  <ul class="chk-list">
+    <li>OS: Windows 11 (Intel) / macOS Sequoia 15以降 Apple Silicon (Mシリーズ) / Ubuntu 24.04以降</li>
+    <li>空きディスク容量: <strong>5 GB以上</strong></li>
+    <li>管理者 / sudo権限</li>
+    <li class="sub"><strong>Windows</strong>: スタート → 「PowerShell」を検索 → 右クリック → 「管理者として実行」（または <code>Win + X</code> → 「Terminal (Admin)」）、UAC確認ダイアログで「はい」をクリック</li>
+    <li class="sub"><strong>macOS / Linux</strong>: コマンドの先頭に<code>sudo</code>を付ける</li>
+    <li>安定したインターネット接続（合計ダウンロードサイズ 約1〜2 GB）</li>
+  </ul>
+
+  <h2 id="s4">4. Gitユーザー設定</h2>
+  <p>Gitをインストールした後、以下のコマンドでユーザー情報を登録します。</p>
+  <div style="position:relative">
+    <pre class="code-block">git config --global user.name  "Jane Doe"
+git config --global user.email "you@example.com"</pre>
+    <button class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+  <ul class="chk-list">
+    <li><code>git config --global user.name</code> を設定済み</li>
+    <li><code>git config --global user.email</code> を設定済み</li>
+  </ul>
+
+  <h2 id="s5">5. GitHub認証</h2>
+  <div style="position:relative">
+    <pre class="code-block">gh auth login</pre>
+    <button class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+  <p>プロンプトに従ってブラウザで認証を完了してください。</p>
+  <ul class="chk-list">
+    <li><code>gh auth status</code>の実行時に「Logged in」が表示されることを確認</li>
+  </ul>
+
+  <h2 id="s6">6. プロジェクト環境設定（リポジトリをクローンした後）</h2>
+  <p><strong>co-consult</strong>または<strong>co-deck</strong>の実践バリアントを使用する場合：</p>
+  <div style="position:relative">
+    <pre class="code-block">cp .env.sample .env
+# .envファイルを開き、必要な値を入力してください</pre>
+    <button class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+  <ul class="chk-list">
+    <li><code>.env</code>を<code>.env.sample</code>から作成</li>
+    <li>必要なAPIキー / 設定値を入力</li>
+  </ul>
+
+  <p>Pythonベースの演習用 — <strong>uv</strong>を使用（必須）：</p>
+  <div style="position:relative">
+    <pre class="code-block">uv sync          # pyproject.tomlに基づく依存関係のインストール
+# または、requirements.txtを使用する場合:
+uv pip install -r requirements.txt</pre>
+    <button class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+  <ul class="chk-list">
+    <li><code>uv</code>がインストールされ利用可能であることを確認（<code>uv --version</code>）</li>
+    <li><code>uv</code>経由でPython依存関係をインストール</li>
+  </ul>
+
+  <div class="note"><strong>Docker</strong>は任意です。講師から明示的に指示された場合のみインストールしてください。macOS/Linuxでは<code>--docker</code>フラグ、Windowsでは<code>-Docker</code>フラグをインストールスクリプトに追加してください。
+  <ul class="chk-list" style="margin-top:8px;"><li><em>(任意)</em> Dockerがインストールされデーモンが実行中であることを確認</li></ul></div>
+
+  <h2 id="s7">7. 最終環境確認（ワークショップ前に必ず実行）</h2>
+  <p>クローンしたsetup/フォルダ内で以下のコマンドを実行してください。（まだクローンしていない場合は、<a href="SETUP_en.html#step0">セットアップガイド ステップ0</a>を参照してください。）</p>
+  <div style="position:relative">
+    <pre class="code-block">bun setup-common.ts</pre>
+    <button class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+  <p>出力テーブルのすべての項目が ✅ になれば準備完了です。</p>
+
+  <hr>
+  <p style="text-align:center;color:var(--text-dim);font-size:13px;">ご不明な点があれば、ワークショップ開始前に講師にお問い合わせください。</p>
+   <footer>
+    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) 基準 · 日本語教材<br>
+    公式リソース: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    このハンドブックのコンテンツは <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (表示 - 非営利 - 継承 4.0 国際)</a> ライセンスの下で提供されています。
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/copy-code.js"></script>
+  <script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

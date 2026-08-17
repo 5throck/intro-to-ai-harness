@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Claude Code & Multi-Agent Harness 入門 - Ch 11: 独自のエージェントチームを構築する">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Ch 11 &middot; 独自のエージェントチームを構築する</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_ja.html" class="nav-home">&larr; ハンドブック ホーム</a>
+  <div class="nav-title">Ch 11 &middot; 独自のエージェントチームを構築する</div>
+  <a href="#team-why">エージェントチームを構築する理由</a>
+  <a href="#team-builder-intro">team-builder スキル</a>
+  <a href="#five-steps">AIレイヤー 5ステップ</a>
+  <a href="#proposal">提案の形式</a>
+  <a href="#script-layer">スクリプトレイヤー</a>
+  <a href="#patterns">既存のパターン</a>
+  <a href="#practice">ハンズオン演習</a>
+  <div class="nav-section">その他の章</div>
+  <a href="../ch10/10_Creating_Skills_ja.html">Ch 10 &middot; スキルの作成と変更</a>
+  <a href="../ch12/12_Workflows_Automation_ja.html">Ch 12 &middot; ワークフローと自動化</a>
+</nav>
+<main>
+<article class="reading">
+  <div class="chapter-eyebrow">第11章</div>
+  <h1>独自のエージェントチームを構築する</h1>
+  <p class="lead">これまで個別のエージェントとスキルの作成方法を学んできました。この章では、複数のエージェントを<strong>協調チーム</strong>に組み合わせる方法を学び、<code>team-builder</code>スキルを使って要件インタビューから完全に登録されたエージェントロスターまでの全プロセスを自動化します。</p>
+  <div class="keypoints">
+    <div class="kp-title">本章で学ぶこと</div>
+    <ul>
+      <li>エージェントチーム編成の重要性</li>
+      <li>team-builderスキル: AIレイヤーとスクリプトレイヤー</li>
+      <li>5ステップワークフロー: インタビュー &rarr; ベンチマーク &rarr; 診断 &rarr; 提案 &rarr; 承認</li>
+      <li>提案JSONの構造とフィールドの意味</li>
+      <li>ハンズオン: 独自のカスタムエージェントチームを構築する</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: Why Build an Agent Team?                           -->
+  <!-- ============================================================ -->
+  <h2 id="team-why">エージェントチームを構築する理由</h2>
+
+  <p>単一のAIアシスタントは強力ですが、現実の仕事はめったに1つの役割に収まりません。マーケティングチームには、戦略家、コピーライター、データアナリスト、デザイナーが協力して作業する必要があります。研究ラボには、文献レビュアー、仮説テスター、レポートライターが必要です。いずれの場合も、<strong>チーム編成</strong> &mdash; 誰が何をどの順序で行うか &mdash; が最終的な出力の品質を決定します。</p>
+
+  <h3>現実のシナリオ</h3>
+
+  <p>専門特化されたエージェントチームが単一のジェネラリストより優れる3つのシナリオを考えてみましょう:</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>マーケティングチーム</h4>
+      <ul>
+        <li><strong>戦略アナリスト</strong> &mdash; 市場調査、競合分析</li>
+        <li><strong>コンテンツライター</strong> &mdash; ブログ記事、広告コピー、ソーシャルメディア</li>
+        <li><strong>データアナリスト</strong> &mdash; キャンペーン指標、A/Bテスト結果</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>研究ラボ</h4>
+      <ul>
+        <li><strong>文献レビュアー</strong> &mdash; 論文検索と総合</li>
+        <li><strong>実験デザイナー</strong> &mdash; 方法論とプロトコル</li>
+        <li><strong>レポートライター</strong> &mdash; 研究成果と出版原稿</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>教育機関</h4>
+      <ul>
+        <li><strong>カリキュラムデザイナー</strong> &mdash; コース構造と学習目標</li>
+        <li><strong>コンテンツ作成者</strong> &mdash; 講義資料と教科書</li>
+        <li><strong>評価作成者</strong> &mdash; 小テスト、試験、ルーブリック</li>
+        <li><strong>QAレビュアー</strong> &mdash; 品質チェックとアクセシビリティコンプライアンス</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>チーム編成のメリット</h4>
+      <ul>
+        <li>各エージェントが<strong>フォーカスされたコンテキスト</strong>を保持 &mdash; 情報過負荷なし</li>
+        <li><strong>関心事項の分離</strong> &mdash; ライターは自分の仕事をレビューしない</li>
+        <li><strong>並列実行</strong> &mdash; 独立したエージェントが同時に実行</li>
+        <li><strong>拡張が容易</strong> &mdash; 他に触れずに新しいスペシャリストを追加</li>
+        <li><strong>一貫した品質</strong> &mdash; 各役割でのスペシャリストの深み</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>単一AIの限界</h3>
+
+  <p>すべてを単一のAIエージェントに頼ると、いくつかの問題に直面します:</p>
+
+  <ul>
+    <li><strong>コンテキスト過負荷</strong> &mdash; 1つのエージェントがすべてのドメイン知識、指示、中間結果を同時に保持する必要があります。</li>
+    <li><strong>関心事項の分離なし</strong> &mdash; 同じエージェントがコードを書き、レビューし、テストするため、品質が低下します。</li>
+    <li><strong>スケールが困難</strong> &mdash; 新しい機能を追加するにはエージェント定義全体を書き直す必要があります。</li>
+    <li><strong>専門化なし</strong> &mdash; ジェネラリストエージェントは、1つのタスクに特化したスペシャリストの深みに及びません。</li>
+  </ul>
+
+  <h3>単一AI vs. エージェントチーム</h3>
+
+  <div class="diagram-frame">
+    <svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;">
+      <!-- 単一AI側 -->
+      <rect x="20" y="30" width="290" height="200" rx="12" fill="var(--bg-info)" stroke="var(--border)" stroke-width="1.5"/>
+      <text x="165" y="58" text-anchor="middle" style="fill:var(--text);font-family:var(--font-family);font-weight:600;font-size:14px;">単一AIエージェント</text>
+      <rect x="60" y="75" width="210" height="36" rx="6" fill="var(--code-bg)" stroke="var(--border)" stroke-width="1"/>
+      <text x="165" y="98" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:12px;">リサーチ + 執筆 + レビュー + テスト</text>
+      <rect x="60" y="125" width="210" height="36" rx="6" fill="var(--code-bg)" stroke="var(--border)" stroke-width="1"/>
+      <text x="165" y="148" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:12px;">すべてのコンテキストが1箇所に</text>
+      <rect x="60" y="175" width="210" height="36" rx="6" fill="var(--code-bg)" stroke="var(--border)" stroke-width="1"/>
+      <text x="165" y="198" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:12px;">拡張困難、壊れやすい</text>
+
+      <!-- 矢印 -->
+      <text x="340" y="135" text-anchor="middle" style="fill:var(--accent);font-family:var(--font-family);font-size:28px;font-weight:700;">&rarr;</text>
+
+      <!-- エージェントチーム側 -->
+      <rect x="370" y="30" width="290" height="200" rx="12" fill="var(--bg-success)" stroke="var(--border)" stroke-width="1.5"/>
+      <text x="515" y="58" text-anchor="middle" style="fill:var(--text);font-family:var(--font-family);font-weight:600;font-size:14px;">エージェントチーム</text>
+      <rect x="385" y="75" width="120" height="30" rx="6" fill="var(--accent)" stroke="none"/>
+      <text x="445" y="95" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">リサーチャー</text>
+      <rect x="520" y="75" width="120" height="30" rx="6" fill="var(--accent-green)" stroke="none"/>
+      <text x="580" y="95" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">ライター</text>
+      <rect x="385" y="115" width="120" height="30" rx="6" fill="var(--accent-purple)" stroke="none"/>
+      <text x="445" y="135" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">レビュアー</text>
+      <rect x="520" y="115" width="120" height="30" rx="6" fill="var(--accent-amber)" stroke="none"/>
+      <text x="580" y="135" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">テスター</text>
+      <!-- 引き継ぎ矢印 -->
+      <line x1="505" y1="90" x2="520" y2="90" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowGray)"/>
+      <line x1="505" y1="130" x2="520" y2="130" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowGray)"/>
+      <line x1="445" y1="105" x2="445" y2="115" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowGray)"/>
+      <line x1="580" y1="105" x2="580" y2="115" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowGray)"/>
+      <text x="515" y="175" text-anchor="middle" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">各役割 = フォーカスされたコンテキスト</text>
+      <text x="515" y="195" text-anchor="middle" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">拡張容易、壊れにくい</text>
+      <defs>
+        <marker id="arrowGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="tip-box">
+    <h4>重要なインサイト</h4>
+    <p>実際の組織と同様に、<strong>エージェントチーム</strong>は各AIに明確な役割、定義されたスキルセット、他のエージェントとの明示的な引き継ぎ関係を割り当てます。この関心事項の分離により、保守・拡張が容易で、より高品質な出力が得られます。</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: Introducing the team-builder Skill                -->
+  <!-- ============================================================ -->
+  <h2 id="team-builder-intro">team-builder スキルの紹介</h2>
+
+  <p><code>team-builder</code>スキルは、新しいエージェントチームの設計とデプロイの全プロセスを自動化します。<strong>2層アーキテクチャ</strong>を採用しています: AI駆動の計画レイヤーと自動化されたスクリプト実行レイヤーです。</p>
+
+  <h3>AIレイヤー + スクリプトレイヤー</h3>
+
+  <ul>
+    <li><strong>AIレイヤー（ステップ1〜5）</strong> &mdash; AIが要件インタビューを実施し、業界のチーム構造とベンチマークし、現在のエージェント設定を診断し、提案を生成して承認を待ちます。</li>
+    <li><strong>スクリプトレイヤー（ステップ6〜14）</strong> &mdash; 提案を承認した後、<code>bun scripts/team-builder.ts</code>がすべての変更を自動的に実行します: エージェントファイルの作成、AGENTS.mdへの登録、スキルのインストール、ガバナンスドキュメントの更新。</li>
+  </ul>
+
+  <div class="note">
+    <strong>重要:</strong> スクリプトレイヤーはステップ5での明示的な承認なしには<em>絶対に実行されません</em>。これは必須の安全ゲートです。AIが技術的にスクリプトを実行できたとしても、ワークフローは<strong>あなた</strong>が自分でターミナルコマンドを実行するように設計されています。
+  </div>
+
+  <h3>なぜ2層なのか?</h3>
+
+  <p>「なぜAIに全部やらせないのか」と思うかもしれません。その答えは<strong>信頼性とアカウンタビリティ</strong>にあります。</p>
+
+  <ul>
+    <li><strong>AIが得意なこと:</strong> 意図の理解、リサーチ、トレードオフの評価、創造的な提案の生成。ステップ1〜4はまさにこれらの強みを活用します。</li>
+    <li><strong>スクリプトが得意なこと:</strong> 決定的なファイル操作: ディレクトリの作成、正確な書式でのファイル書き込み、複数の相互参照ドキュメントの同時更新、毎回一貫した出力の生成。ステップ6〜14にはこの信頼性が必要です。</li>
+    <li><strong>あなたがゲートを提供</strong>するのはステップ5で、情報に基づいた同意なしに変更が行われないことを保証します。これにより、AIが誤ってエージェントを削除したり、引き継ぎチェーンを壊したり、不整合なガバナンスドキュメントを作成したりすることを防ぎます。</li>
+  </ul>
+
+  <h3>既存のシステム: co-consult</h3>
+
+  <p><strong>co-consult</strong>プロジェクトは、コンサルティング・エンゲージメント用に構築されたエージェントチームの実例です。エンゲージメントリーダー、戦略アナリスト、業界エキスパート、ソリューションアーキテクトなど、11人のスペシャリストエージェントが4つの定義済み編成パターンに組織されています:</p>
+
+  <ul>
+    <li><strong>クイック評価</strong> &mdash; 迅速でフォーカスされた評価用に3つのエージェント</li>
+    <li><strong>スタンダード</strong> &mdash; 典型的なコンサルティング・エンゲージメント用に5つのエージェント</li>
+    <li><strong>複雑な変革</strong> &mdash; 大規模な組織変革用に8つのエージェント</li>
+    <li><strong>専門特化</strong> &mdash; 深いドメインの技術的作業用に4つのエージェント</li>
+  </ul>
+
+  <h3>レイヤーアーキテクチャ図</h3>
+
+  <div class="diagram-frame">
+    <svg viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;">
+      <!-- AIレイヤーボックス -->
+      <rect x="20" y="20" width="620" height="120" rx="12" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="40" y="48" style="fill:var(--accent);font-family:var(--font-family);font-weight:700;font-size:14px;">AIレイヤー（スキルレイヤー）</text>
+      <text x="40" y="68" style="fill:var(--text-dim);font-family:var(--font-family);font-size:12px;">team-builder スキル &mdash; ステップ1〜5</text>
+      <!-- ステップボックス -->
+      <rect x="40" y="82" width="100" height="32" rx="6" fill="var(--accent)" stroke="none"/>
+      <text x="90" y="103" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">1. インタビュー</text>
+      <rect x="155" y="82" width="100" height="32" rx="6" fill="var(--accent)" stroke="none"/>
+      <text x="205" y="103" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">2. ベンチマーク</text>
+      <rect x="270" y="82" width="100" height="32" rx="6" fill="var(--accent)" stroke="none"/>
+      <text x="320" y="103" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">3. 診断</text>
+      <rect x="385" y="82" width="100" height="32" rx="6" fill="var(--accent)" stroke="none"/>
+      <text x="435" y="103" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">4. 提案</text>
+      <rect x="500" y="82" width="120" height="32" rx="6" fill="var(--accent-amber)" stroke="none"/>
+      <text x="560" y="103" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">5. 承認</text>
+      <!-- ステップ間の矢印 -->
+      <line x1="140" y1="98" x2="155" y2="98" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowG2)"/>
+      <line x1="255" y1="98" x2="270" y2="98" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowG2)"/>
+      <line x1="370" y1="98" x2="385" y2="98" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowG2)"/>
+      <line x1="485" y1="98" x2="500" y2="98" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowG2)"/>
+
+      <!-- 下向き矢印 -->
+      <line x1="330" y1="140" x2="330" y2="170" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowAcc)"/>
+      <text x="370" y="162" style="fill:var(--accent-amber);font-family:var(--font-family);font-weight:700;font-size:12px;">ユーザーが承認</text>
+
+      <!-- スクリプトレイヤーボックス -->
+      <rect x="20" y="175" width="620" height="105" rx="12" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="40" y="203" style="fill:var(--accent-green);font-family:var(--font-family);font-weight:700;font-size:14px;">スクリプトレイヤー（実行レイヤー）</text>
+      <text x="40" y="223" style="fill:var(--text-dim);font-family:var(--font-family);font-size:12px;">bun scripts/team-builder.ts &mdash; ステップ6〜14</text>
+      <rect x="40" y="235" width="130" height="28" rx="6" fill="var(--accent-green)" stroke="none"/>
+      <text x="105" y="254" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">エージェント作成</text>
+      <rect x="185" y="235" width="130" height="28" rx="6" fill="var(--accent-green)" stroke="none"/>
+      <text x="250" y="254" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">AGENTS.md登録</text>
+      <rect x="330" y="235" width="130" height="28" rx="6" fill="var(--accent-green)" stroke="none"/>
+      <text x="395" y="254" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">スキルインストール</text>
+      <rect x="475" y="235" width="145" height="28" rx="6" fill="var(--accent-green)" stroke="none"/>
+      <text x="548" y="254" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">ガバナンス更新</text>
+
+      <defs>
+        <marker id="arrowG2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)"/>
+        </marker>
+        <marker id="arrowAcc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: AI Layer 5-Step Workflow                            -->
+  <!-- ============================================================ -->
+  <h2 id="five-steps">AIレイヤー 5ステップワークフロー</h2>
+
+  <p>AIレイヤーは、提案されたチームが適切に設計され、現実世界の標準とベンチマークされ、あなたの特定のニーズに合わせて調整されることを保証するため、厳密な5ステッププロセスに従います。各ステップを詳しく見ていきましょう。</p>
+
+  <h3>ステップ1: 要件インタビュー</h3>
+
+  <p>AIは他のことをする前に、<strong>6つの必須質問</strong>をあなたに尋ねます。あなたの回答がチーム設計全体を定義します。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>6つの必須質問</h4>
+      <ol>
+        <li><strong>ドメイン/目的</strong> &mdash; 新しいチームの主なドメインまたは目的は何か？（例: コンサルティング、教育、ソフトウェア開発）</li>
+        <li><strong>チーム規模</strong> &mdash; チームにいくつのエージェントを予定しているか？（3、5、8+）</li>
+        <li><strong>主要タスク</strong> &mdash; このチームはどのような種類のプロジェクトを担当するか？</li>
+        <li><strong>技術スタック</strong> &mdash; チームが使用するツール、プラットフォーム、フレームワークは？</li>
+        <li><strong>協業スタイル</strong> &mdash; 順次引き継ぎ、並列実行、それとも混合？</li>
+        <li><strong>成功指標</strong> &mdash; チームが満たすべき品質や納品基準は？</li>
+      </ol>
+    </div>
+    <div class="col">
+      <h4>6つすべてが重要な理由</h4>
+      <ul>
+        <li><strong>ドメイン</strong>がスペシャリストの役割を決定</li>
+        <li><strong>規模</strong>が予算とティア計画に影響</li>
+        <li><strong>タスク</strong>が必要なスキルを形成</li>
+        <li><strong>技術スタック</strong>がツール設定に反映</li>
+        <li><strong>協業</strong>が引き継ぎチェーンを定義</li>
+        <li><strong>指標</strong>が品質ゲートを設定</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note">
+    AIはあなたの回答を要約して確認を求めます。<strong>確認するまでベンチマークは開始されません。</strong>
+  </div>
+
+  <h3>ステップ2: ベンチマーク</h3>
+
+  <p>AIはウェブ検索を使用して、要件に類似した現実世界のチーム構造を見つけます。McKinsey、BCG、Gartner、Forrester、または査読付き研究などの権威ある情報源を参照します。</p>
+
+  <p>AIは各参照チームについて以下を文書化します:</p>
+
+  <ul>
+    <li>チーム名と情報源</li>
+    <li>役割と責任</li>
+    <li>階層と報告構造</li>
+    <li>典型的なプロジェクトタイプ</li>
+    <li>既知の長所と短所</li>
+    <li>要件に対する適合スコア（基準ごとに1〜5）</li>
+  </ul>
+
+  <p>最高スコアの参照が提案の<strong>設計テンプレート</strong>になります。この証拠に基づくアプローチにより、チームは純粋な想像から設計されるのではなく、実証済みの現実世界の組織パターンに基づいていることが保証されます。</p>
+
+  <div class="tip-box">
+    <h4>情報源の品質が重要</h4>
+    <p>AIは各ベンチマーク情報源を3つの基準で検証します: (1) 過去5年以内に発行、(2) 公式な組織ドメインまたは査読付きジャーナル、(3) 可能な限り一次情報源。情報源がいずれかのチェックに不合格の場合、AIは明示的に記録し、代替を探します。</p>
+  </div>
+
+  <h3>ステップ3: 現在のチーム診断</h3>
+
+  <p>変更を提案する前に、AIは<strong>既存の</strong>エージェントとスキルの状況をマッピングします:</p>
+
+  <ol>
+    <li><strong>エージェントインベントリ</strong> &mdash; すべての<code>agents/*.md</code>ファイルを名前、ティア、フェーズ、スキルとともにリスト化。</li>
+    <li><strong>スキルインベントリ</strong> &mdash; すべての<code>skills/*/SKILL.md</code>ファイルをオーナーとステータスとともにリスト化。</li>
+    <li><strong>依存関係マップ</strong> &mdash; 削除される可能性のある各エージェントについて、所有するスキルと引き継ぎ関係を特定。</li>
+    <li><strong>事前のスキル移譲計画</strong> &mdash; 削除が行われる前に、孤立したスキルを有効な残存または新規エージェントに割り当て。</li>
+  </ol>
+
+  <h3>ステップ4: 提案生成</h3>
+
+  <p>AIは以下を含む構造化された提案を生成します:</p>
+
+  <ul>
+    <li><strong>チーム比較テーブル</strong> &mdash; 現在と提案のエージェントを変更タイプ（作成 / 変換 / 削除 / 保持）とともに</li>
+    <li><strong>エージェント変更の詳細</strong> &mdash; 各変更の名前、ティア、フェーズ、スキル、理由</li>
+    <li><strong>スキル変更計画</strong> &mdash; 新規スキル、変更スキル、スキルオーナーの再割り当て</li>
+    <li><strong>ワークフロー設計</strong> &mdash; フェーズ定義、ディスパッチ順序、引き継ぎチェーン</li>
+    <li><strong>ベンチマーク証拠</strong> &mdash; 使用された情報源と適合理由</li>
+  </ul>
+
+  <h3>ステップ5: ユーザー承認（必須ゲート）</h3>
+
+  <div class="warning-box">
+    <h4>必須停止</h4>
+    <p>これは<strong>ハードゲート</strong>です。AIは完全な提案を提示し、あなたの明示的な返信を待ちます。<em>独自</em>にスクリプト実行に進むことはありません。</p>
+    <ul>
+      <li><strong>「承認」と返信</strong> &mdash; 提案JSONを<code>memory/</code>に保存し、スクリプトの実行を指示</li>
+      <li><strong>変更要求を返信</strong> &mdash; 提案を修正し、レビューに戻る</li>
+      <li><strong>「キャンセル」と返信</strong> &mdash; プロセス全体を停止</li>
+    </ul>
+  </div>
+
+  <h3>5ステップワークフロー図</h3>
+
+  <div class="diagram-frame">
+    <svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;">
+      <!-- ステップ1 -->
+      <rect x="10" y="40" width="115" height="80" rx="10" fill="var(--accent)" stroke="none"/>
+      <text x="68" y="72" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:13px;font-weight:600;">ステップ 1</text>
+      <text x="68" y="92" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">要件</text>
+      <text x="68" y="106" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">インタビュー</text>
+      <!-- ステップ2 -->
+      <rect x="143" y="40" width="115" height="80" rx="10" fill="var(--accent)" stroke="none"/>
+      <text x="200" y="72" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:13px;font-weight:600;">ステップ 2</text>
+      <text x="200" y="92" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">ウェブ</text>
+      <text x="200" y="106" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">ベンチマーク</text>
+      <!-- ステップ3 -->
+      <rect x="276" y="40" width="115" height="80" rx="10" fill="var(--accent)" stroke="none"/>
+      <text x="334" y="72" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:13px;font-weight:600;">ステップ 3</text>
+      <text x="334" y="92" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">現在のチーム</text>
+      <text x="334" y="106" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">診断</text>
+      <!-- ステップ4 -->
+      <rect x="409" y="40" width="115" height="80" rx="10" fill="var(--accent)" stroke="none"/>
+      <text x="467" y="72" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:13px;font-weight:600;">ステップ 4</text>
+      <text x="467" y="92" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">提案</text>
+      <text x="467" y="106" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">生成</text>
+      <!-- ステップ5（ゲート） -->
+      <rect x="542" y="40" width="128" height="80" rx="10" fill="var(--accent-amber)" stroke="var(--accent-amber)" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="606" y="72" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:13px;font-weight:700;">ステップ 5</text>
+      <text x="606" y="92" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">ユーザー承認</text>
+      <text x="606" y="106" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;font-weight:700;">必須</text>
+      <!-- 矢印 -->
+      <line x1="125" y1="80" x2="143" y2="80" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#a3)"/>
+      <line x1="258" y1="80" x2="276" y2="80" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#a3)"/>
+      <line x1="391" y1="80" x2="409" y2="80" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#a3)"/>
+      <line x1="524" y1="80" x2="542" y2="80" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#a3)"/>
+      <!-- ラベル -->
+      <text x="340" y="160" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:12px;">AIレイヤー（スキルレイヤー） &mdash; すべてのステップはteam-builderスキルで駆動</text>
+      <defs>
+        <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: Proposal Format                                     -->
+  <!-- ============================================================ -->
+  <h2 id="proposal">提案の形式</h2>
+
+  <p>ステップ5で、AIは<strong>提案JSON</strong>ファイルを<code>memory/team-builder-proposal-YYYY-MM-DD.json</code>に保存します。このJSONは、スクリプトレイヤー（<code>bun scripts/team-builder.ts</code>）がすべての変更を実行するために読み込む入力です。構造を分解して見てみましょう。</p>
+
+  <h3>トップレベルフィールド</h3>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>メタデータフィールド</h4>
+      <ul>
+        <li><code>version</code> &mdash; スキーマバージョン（例: <code>"1.0.0"</code>）</li>
+        <li><code>timestamp</code> &mdash; 提案の生成日時</li>
+        <li><code>teamName</code> &mdash; 人間が読めるチーム名</li>
+        <li><code>benchmarkSources</code> &mdash; 使用されたURLまたは引用</li>
+        <li><code>changeHistoryEntry</code> &mdash; 1段落の要約</li>
+        <li><code>approvedBy</code> / <code>approvedAt</code> &mdash; 誰がいつ承認したか</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>変更配列（<code>changes</code>内）</h4>
+      <ul>
+        <li><code>agentsToCreate[]</code> &mdash; 追加する新規エージェント</li>
+        <li><code>agentsToConvert[]</code> &mdash; 名前変更/目的変更する既存エージェント</li>
+        <li><code>agentsToDelete[]</code> &mdash; 削除するエージェント</li>
+        <li><code>skillsToCreate[]</code> &mdash; 作成する新規スキル</li>
+        <li><code>skillsToModify[]</code> &mdash; 更新する既存スキル</li>
+        <li><code>skillsToReassign[]</code> &mdash; スキル所有権の移譲</li>
+        <li><code>workflowPhases[]</code> &mdash; フェーズ定義とディスパッチ順序</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>例: エージェント作成エントリ</h3>
+
+  <div class="code-block">
+<pre><code>{
+  "name": "strategy-analyst",
+  "formalName": "Strategy Analyst",
+  "tier": { "claude": "medium" },
+  "color": "blue",
+  "description": "Market analysis and competitive research",
+  "phases": ["1", "2"],
+  "handoffTo": ["communications-lead"],
+  "handoffFrom": ["engagement-leader"],
+  "requiredSkills": ["research", "insight-synthesis"],
+  "rationale": "Benchmarking shows McKinsey teams include a dedicated strategy role"
+}</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+</div>
+
+  <p>各フィールドは第9章で学んだエージェントのフロントマタープロパティに直接マップされます。<code>rationale</code>フィールドは特に重要です &mdash; すべての設計決定をステップ2のベンチマーク証拠にリンクします。</p>
+
+  <h3>ワークフローフェーズエントリ</h3>
+
+  <p><code>workflowPhases</code>配列はエージェントがプロジェクトライフサイクル全体でどのように連携するかを定義します:</p>
+
+  <div class="code-block">
+<pre><code>{
+  "phase": 0,
+  "name": "Project Initiation",
+  "lead": "engagement-leader",
+  "supporting": ["strategy-analyst"]
+}</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+</div>
+
+  <p>各フェーズは<strong>リードエージェント</strong>（オーケストレーター）とオプションの<strong>サポートエージェント</strong>（貢献者）を指定します。この構造は<code>AGENTS.md</code>のディスパッチテーブルに直接対応します。</p>
+
+  <h3>スキル再割り当てエントリ</h3>
+
+  <p>エージェントが削除される場合、そのスキルは残存エージェントに移譲される必要があります。提案は次のように記録します:</p>
+
+  <div class="code-block">
+<pre><code>{
+  "skill": "research",
+  "fromOwner": "old-analyst",
+  "toOwner": "strategy-analyst"
+}</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+</div>
+
+  <p>これにより、エージェント削除時に<strong>スキルが孤立しない</strong>ことが保証されます。ステップ3の事前スキル移譲計画により、削除前にすべてのスキルが有効なオーナーを持つことが保証されます。</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: Script Layer                                       -->
+  <!-- ============================================================ -->
+  <h2 id="script-layer">スクリプトレイヤー</h2>
+
+  <p>提案を承認すると、実行はAIから<strong>TypeScriptスクリプト</strong>に移ります。これは意図的なものです: 複雑なファイル操作（作成、名前変更、削除、ガバナンスドキュメントの更新）は、AI生成よりも決定的なコードで処理する方が信頼性が高くなります。</p>
+
+  <h3>スクリプトの動作</h3>
+
+  <p>ターミナルからスクリプトを実行します:</p>
+
+  <div class="code-block">
+<pre><code>bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code></pre>
+<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+</div>
+
+  <p>スクリプトは提案JSONを読み込み、各ステップでチェックポイントロギングを行いながら<strong>固定された安全な順序</strong>で変更を実行します:</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>ドライラン検証</strong> &mdash; JSONをパースし、すべての必須フィールドをチェック（変更なし）</li>
+      <li><strong>エージェント削除</strong> &mdash; 削除対象のエージェントファイルを削除（スキル移譲後）</li>
+      <li><strong>エージェント変換</strong> &mdash; 既存エージェントの名前変更と目的変更</li>
+      <li><strong>エージェント作成</strong> &mdash; テンプレートから新しい<code>agents/&lt;name&gt;.md</code>ファイルを生成</li>
+      <li><strong>スキル作成</strong> &mdash; 新しい<code>skills/&lt;name&gt;/SKILL.md</code>スタブファイルを生成</li>
+      <li><strong>スキル変更</strong> &mdash; 既存スキルファイルに指定された変更を適用</li>
+      <li><strong>スキル再割り当て</strong> &mdash; スキルフロントマターの<code>owner</code>フィールドを更新</li>
+      <li><strong>AGENTS.mdに登録</strong> &mdash; エージェントロスターとサブエージェントロスターブルに新規エージェントを追加</li>
+      <li><strong>フェーズテーブル更新</strong> &mdash; ディスパッチトリガーとフェーズゲートマッピングを調整</li>
+      <li><strong>変更履歴を記録</strong> &mdash; 要約を<code>memory/YYYY-MM-DD.md</code>に書き込み</li>
+    </ol>
+  </div>
+
+  <h3>AIレイヤー &rarr; スクリプトレイヤーの流れ</h3>
+
+  <div class="diagram-frame">
+    <svg viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;">
+      <!-- 提案JSON -->
+      <rect x="10" y="30" width="200" height="140" rx="10" fill="var(--code-bg)" stroke="var(--border)" stroke-width="1.5"/>
+      <text x="110" y="58" text-anchor="middle" style="fill:var(--text);font-family:var(--font-family);font-weight:600;font-size:13px;">提案JSON</text>
+      <text x="110" y="78" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:11px;">memory/team-builder-</text>
+      <text x="110" y="93" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:11px;">proposal-YYYY-MM-DD.json</text>
+      <rect x="30" y="108" width="160" height="24" rx="4" fill="var(--bg-info)" stroke="var(--border)" stroke-width="1"/>
+      <text x="110" y="125" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:10px;">agents + skills + workflows</text>
+      <rect x="30" y="138" width="160" height="20" rx="4" fill="var(--bg-note)" stroke="var(--border)" stroke-width="1"/>
+      <text x="110" y="153" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:10px;">approvedBy: "user"</text>
+
+      <!-- 矢印 -->
+      <line x1="210" y1="100" x2="280" y2="100" stroke="var(--accent)" stroke-width="2" marker-end="url(#aBlue)"/>
+      <text x="245" y="90" text-anchor="middle" style="fill:var(--accent);font-family:var(--font-family);font-size:11px;font-weight:600;">bun run</text>
+
+      <!-- スクリプトボックス -->
+      <rect x="280" y="30" width="180" height="140" rx="10" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="370" y="58" text-anchor="middle" style="fill:var(--accent-green);font-family:var(--font-family);font-weight:600;font-size:13px;">team-builder.ts</text>
+      <text x="295" y="80" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">1. JSONを検証</text>
+      <text x="295" y="96" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">2. エージェント削除</text>
+      <text x="295" y="112" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">3. エージェント変換</text>
+      <text x="295" y="128" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">4. エージェント作成</text>
+      <text x="295" y="144" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">5. スキルインストール</text>
+      <text x="295" y="160" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">6. ガバナンス更新</text>
+
+      <!-- 出力への矢印 -->
+      <line x1="460" y1="100" x2="510" y2="100" stroke="var(--accent)" stroke-width="2" marker-end="url(#aBlue)"/>
+
+      <!-- 出力 -->
+      <rect x="510" y="30" width="140" height="140" rx="10" fill="var(--bg-note)" stroke="var(--border)" stroke-width="1.5"/>
+      <text x="580" y="55" text-anchor="middle" style="fill:var(--text);font-family:var(--font-family);font-weight:600;font-size:12px;">出力</text>
+      <text x="525" y="78" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">agents/*.md</text>
+      <text x="525" y="96" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">skills/*/SKILL.md</text>
+      <text x="525" y="114" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">AGENTS.md</text>
+      <text x="525" y="132" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">memory/*.md</text>
+      <text x="525" y="150" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">CHANGELOG.md</text>
+
+      <defs>
+        <marker id="aBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="tip-box">
+    <h4>まずはドライラン</h4>
+    <p><code>--dry-run</code>フラグを追加すると、変更を行わずにスクリプトが<em>何を</em>するかをプレビューできます: <code>bun scripts/team-builder.ts proposal.json --dry-run</code>。初回の実際の実行前に強く推奨されます。</p>
+  </div>
+
+  <h3>問題が発生した場合は?</h3>
+
+  <p>スクリプトは各ステップで<strong>チェックポイントロギング</strong>を含みます。途中でエラーが発生した場合（例: ファイルが既に存在する、権限が拒否された）、スクリプトはどのステップで失敗したか、何が既に完了したかを正確に報告します。問題を修正してスクリプトを再実行できます &mdash; 既に正常に完了したステップはスキップされます。</p>
+
+  <div class="warning-box">
+    <h4>実行前にバックアップ</h4>
+    <p>スクリプトは安全に設計されていますが、<code>team-builder.ts</code>を実行する前に現在のプロジェクト状態をGitにコミットすることをお勧めします。予期しないことが起きた場合のクリーンなロールバックポイントになります。</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: Existing Team Composition Patterns                 -->
+  <!-- ============================================================ -->
+  <h2 id="patterns">既存のチーム編成パターン</h2>
+
+  <p>co-consultプロジェクトには<strong>4つの定義済み編成パターン</strong>が付属しており、そのまま使用することもカスタマイズすることもできます。各パターンは異なるエンゲージメントタイプと複雑さレベルに最適化されています。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>クイック評価</h4>
+      <p><strong>エージェント:</strong> 3 &nbsp;|&nbsp; <strong>最適用途:</strong> 迅速でフォーカスされた評価</p>
+      <ul>
+        <li>エンゲージメントリーダー（オーケストレーター）</li>
+        <li>業界エキスパート（ドメイン知識）</li>
+        <li>戦略アナリスト（リサーチと分析）</li>
+      </ul>
+      <p><strong>使用場面:</strong> 1セッション内で迅速な市場スキャン、競合概要、または初期評価が必要な場合。</p>
+    </div>
+    <div class="col">
+      <h4>スタンダード</h4>
+      <p><strong>エージェント:</strong> 5 &nbsp;|&nbsp; <strong>最適用途:</strong> 典型的なコンサルティング・エンゲージメント</p>
+      <ul>
+        <li>エンゲージメントリーダー（オーケストレーター）</li>
+        <li>戦略アナリスト（リサーチ）</li>
+        <li>業界エキスパート（ドメイン）</li>
+        <li>コミュニケーションリード（納品物）</li>
+        <li>デリバリーマネージャー（運用）</li>
+      </ul>
+      <p><strong>使用場面:</strong> リサーチ、納品物作成、プロジェクト調整を必要とするほとんどの標準的なエンゲージメント。</p>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>複雑な変革</h4>
+      <p><strong>エージェント:</strong> 8 &nbsp;|&nbsp; <strong>最適用途:</strong> 大規模な組織変革</p>
+      <ul>
+        <li>エンゲージメントリーダー（オーケストレーター）</li>
+        <li>チェンジマネジメントパートナー（変革）</li>
+        <li>戦略アナリスト（リサーチ）</li>
+        <li>業界エキスパート（ドメイン）</li>
+        <li>ソリューションアーキテクト（技術設計）</li>
+        <li>コミュニケーションリード（納品物）</li>
+        <li>ワークストリームリード（調整）</li>
+        <li>デリバリーマネージャー（運用）</li>
+      </ul>
+      <p><strong>使用場面:</strong> 技術、人、プロセスの変革を伴う多段階の変革プログラム。</p>
+    </div>
+    <div class="col">
+      <h4>専門特化</h4>
+      <p><strong>エージェント:</strong> 4 &nbsp;|&nbsp; <strong>最適用途:</strong> 深いドメインの技術的作業</p>
+      <ul>
+        <li>エンゲージメントリーダー（オーケストレーター）</li>
+        <li>サブジェクトマターエキスパート（機能的深み）</li>
+        <li>テクノロジースペシャリスト（ツールと自動化）</li>
+        <li>データアナリスト（指標とモデリング）</li>
+      </ul>
+      <p><strong>使用場面:</strong> 財務モデリング、HR分析、技術スタック評価などの高度に専門化されたタスク。</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>カスタマイズ:</strong> これら4つのパターンに限定されません。<code>team-builder</code>スキルは独自の要件に基づいてチームをゼロから設計できます。上記のパターンは出発点とベンチマーク参照として機能します。ベンチマークステップ（ステップ2）で、AIはこれらのパターンをあなたの特定のニーズと照らし合わせて評価し、最適な適合またはハイブリッドアプローチを推奨します。
+  </div>
+
+  <h3>パターン選択ガイド</h3>
+
+  <p>状況に応じたパターン選択のクイックガイド:</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>小規模スコープ</h4>
+      <ul>
+        <li>単一のリサーチ質問</li>
+        <li>一回限りの分析タスク</li>
+        <li>厳しい期限（同セッション内）</li>
+        <li>&rarr; <strong>クイック評価</strong></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>中規模スコープ</h4>
+      <ul>
+        <li>数週間のエンゲージメント</li>
+        <li>クライアント納品物が期待される</li>
+        <li>リサーチ + 執筆 + 調整</li>
+        <li>&rarr; <strong>スタンダード</strong></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>大規模スコープ</h4>
+      <ul>
+        <li>多段階プログラム</li>
+        <li>ステークホルダー管理が必要</li>
+        <li>技術 + 人 + プロセス</li>
+        <li>&rarr; <strong>複雑な変革</strong></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>深いドメイン</h4>
+      <ul>
+        <li>高度なデータ分析</li>
+        <li>専門的なツール</li>
+        <li>機能的専門知識が必要</li>
+        <li>&rarr; <strong>専門特化</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: Hands-On Practice                                   -->
+  <!-- ============================================================ -->
+  <h2 id="practice">ハンズオン: 独自のエージェントチームを構築する</h2>
+
+  <p>さあ、すべてを組み合わせましょう。この演習では、Claude Desktop Appで<code>/team-builder</code>コマンドを使用して、選択したドメイン向けのカスタムエージェントチームを設計・デプロイします。</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>ドメインを選択する</strong> &mdash; 実際のプロジェクトまたはユースケースを選んでください: 教育、ソフトウェア開発、コンテンツ制作、法律研究、医療管理、またはその他。チームが何をするかを1文で書き留めます。</li>
+      <li><strong>要件を準備する</strong> &mdash; Claudeを開始する前に6つの必須質問に紙で回答します。これによりインタビューステップがはるかに速くなります:
+        <ul>
+          <li>チームのドメイン/目的</li>
+          <li>予定チーム規模（エージェント数）</li>
+          <li>主要タスクとプロジェクトタイプ</li>
+          <li>技術スタック（ツールとプラットフォーム）</li>
+          <li>協業スタイル（順次、並列、混合）</li>
+          <li>成功指標と品質基準</li>
+        </ul>
+      </li>
+      <li><strong>Claudeにチーム構築を依頼する</strong> &mdash; Claude Desktop Appを開き、team-builderスキルを呼び出します。準備した回答を提供します。Claudeがステップ1〜4を自動的に実行します。</li>
+      <li><strong>提案をレビューする</strong> &mdash; ステップ5で、Claudeが完全な提案を提示します。すべてのセクション: エージェント変更、スキル計画、ワークフローフェーズ、ベンチマーク証拠を読んでください。理由があなたのドメインで意味をなすか確認します。</li>
+      <li><strong>承認または修正</strong> &mdash; 提案が良ければ<strong>「承認」</strong>と返信します。変更が必要なら、何を修正したいかを説明するとClaudeが再生成します。必要な回数だけ反復できます。</li>
+      <li><strong>結果を確認する</strong> &mdash; 承認後、Claudeが提案JSONを保存します。ターミナルからスクリプトを実行します:
+        <code>bun scripts/team-builder.ts memory/team-builder-proposal-YYYY-MM-DD.json</code>
+        新しいエージェントファイル、スキルファイル、更新された<code>AGENTS.md</code>がすべて正しいことを確認します。</li>
+    </ol>
+  </div>
+
+  <h3>プロンプトの例</h3>
+
+  <div class="prompt-box">
+    <div class="code-block">
+<pre><code>/team-builder
+
+I need an agent team for a university course production workflow.
+
+Domain: Higher education &mdash; creating online course materials (lecture slides, 
+handbook chapters, quiz questions, and assessment rubrics)
+
+Team size: 5 agents
+
+Primary tasks: Research topics, write lecture content, generate assessment materials,
+produce HTML output, and review quality.
+
+Tech stack: Markdown, HTML/CSS, Bun/TypeScript scripts
+
+Collaboration style: Sequential with a quality review gate before final output
+
+Success metrics: All content must pass a quality checklist; HTML output must be 
+accessible (WCAG 2.1 AA compliant)</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+</div>
+  </div>
+
+  <div class="tip-box">
+    <h4>ヒント: 小さく始める</h4>
+    <p>初めての場合は、<strong>クイック評価</strong>パターン（3エージェント）から始め、少し変更してみてください。比較するための動作する参照が得られます。完全なサイクルを理解したら、大規模なチームをゼロから設計してみてください。</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 8: Summary                                           -->
+  <!-- ============================================================ -->
+  <h2 id="summary">まとめ</h2>
+
+  <div class="keypoints">
+    <div class="kp-title">重要ポイント</div>
+    <ul>
+      <li><strong>エージェントチーム</strong>は各AIにフォーカスされた役割、明確なスキル、明示的な引き継ぎ関係を割り当て、単一のジェネラリストエージェントより高品質な出力を生成します。</li>
+      <li><code>team-builder</code>スキルは<strong>2層アーキテクチャ</strong>を採用: インテリジェント計画のためのAIレイヤー（ステップ1〜5）と、信頼性の高い自動実行のためのスクリプトレイヤー（ステップ6〜14）。</li>
+      <li>AIレイヤーは厳密な<strong>5ステップワークフロー</strong>に従う: 要件インタビュー &rarr; ベンチマーク &rarr; 現在のチーム診断 &rarr; 提案生成 &rarr; ユーザー承認。</li>
+      <li><strong>ステップ5は必須ゲート</strong> &mdash; スクリプトレイヤーはあなたの明示的な承認なしには実行されません。</li>
+      <li><strong>提案JSON</strong>はAIレイヤーとスクリプトレイヤーの間のコントラクトです。すべてのエージェント変更、スキル計画、ワークフローフェーズ、ベンチマーク証拠が含まれます。</li>
+      <li><code>co-consult</code>プロジェクトは出発点とベンチマーク参照として機能する<strong>4つの定義済みパターン</strong>（クイック評価、スタンダード、複雑な変革、専門特化）を提供します。</li>
+      <li>プロジェクトへの変更をコミットする前に、必ず<code>--dry-run</code>を使用してスクリプト実行をプレビューしてください。</li>
+    </ul>
+  </div>
+
+  <p>次の章では、<strong>ワークフローと自動化</strong>を探ります &mdash; エージェントをチェーンして反復可能で効率的な本番パイプラインにする多段階プロセスの定義方法です。</p>
+
+  <!-- ============================================================ -->
+  <!-- Chapter Navigation                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch10/10_Creating_Skills_ja.html" class="prev">
+      <div class="dir">&larr; 前の章</div>
+      <div class="ttl">Ch 10 &middot; スキルの作成と変更</div>
+    </a>
+    <a href="../ch12/12_Workflows_Automation_ja.html" class="next" style="margin-left:auto;">
+      <div class="dir">次の章 &rarr;</div>
+      <div class="ttl">Ch 12 &middot; ワークフローと自動化</div>
+    </a>
+  </div>
+   <footer>
+    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) 基準 · 日本語教材<br>
+    公式リソース: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    このハンドブックのコンテンツは <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (表示 - 非営利 - 継承 4.0 国際)</a> ライセンスの下で提供されています。
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

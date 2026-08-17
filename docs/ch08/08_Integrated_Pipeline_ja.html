@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Ch 8 · co-consult + co-deck統合パイプライン - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Ch 8 &middot; co-consult + co-deck統合パイプライン</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_ja.html" class="nav-home">&larr; ハンドブックホーム</a>
+  <div class="nav-title">Ch 8 &middot; co-consult + co-deck統合パイプライン</div>
+  <a href="#why-integrated">なぜ統合するのか</a>
+  <a href="#handoff-process">手動引き継ぎプロセス</a>
+  <a href="#full-pipeline">フルパイプライン演習</a>
+  <a href="#agent-differences">エージェント構成の違い</a>
+  <a href="#tips">成功のヒント</a>
+  <div class="nav-section">その他の章</div>
+  <a href="../ch07/07_Co_Deck_Practice_ja.html">Ch 7 &middot; co-deck: AIプレゼンテーションの実践</a>
+  <a href="../ch09/09_Creating_Agents_ja.html">Ch 9 &middot; エージェントの作成と変更</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">第8章</div>
+  <h1>co-consult + co-deck統合パイプライン</h1>
+  <p class="lead">コンサルティング分析からプレゼンテーションまでの統合ワークフローを学びます: co-consultとco-deckの両方を使って、トピック入力から完成したデッキまで約30-45分で作成します。</p>
+  <div class="keypoints">
+    <div class="kp-title">本章の内容</div>
+    <ul>
+      <li>co-consultとco-deckを統合する理由</li>
+      <li>手動引き継ぎ方法（レポート → プレゼンテーション）</li>
+      <li>フルパイプライン演習（トピック → 完成したデッキまで30-45分）</li>
+      <li>2つのシステム間のエージェント構成の違い</li>
+      <li>統合を成功させるためのヒント</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: Why Integrate                                      -->
+  <!-- ============================================================ -->
+  <h2 id="why-integrated">co-consultとco-deckを統合する理由</h2>
+
+  <p>第6章と第7章で、2つの強力なバリアントを紹介しました: コンサルティング分析のための<strong>co-consult</strong>と、プレゼンテーション制作のための<strong>co-deck</strong>です。それぞれ単独でも価値がありますが、組み合わせると驚くべきことが起こります。生のトピックから、十分にリサーチされた分析的に基礎付けられたプレゼンテーションを約<strong>30-45分</strong>で作成できるようになります。</p>
+
+  <h3>自然なワークフロー</h3>
+
+  <p>実際のコンサルティング実務には自然な進行があります: まず<em>分析</em>し、次に<em>提示</em>します。コンサルタントがリサーチを行う前に会議室に入ってスライドを作り始めることはありません。ワークフローは次のようになります。</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>リサーチ &amp; 分析</strong> &mdash; 情報を収集し、主要な発見を特定し、問題を構造化し、分析レポートを作成する。</li>
+      <li><strong>要約 &amp; 再フォーマット</strong> &mdash; レポートから最も重要なポイントを抽出し、スライドに適した形式に再編成する。</li>
+      <li><strong>デザイン &amp; プレゼンテーション</strong> &mdash; 要約されたコンテンツを洗練されたスライドデッキに変え、HTMLまたはPDFとして配信する。</li>
+    </ol>
+  </div>
+
+  <p>これが統合パイプラインの正に実行することです。<strong>co-consult</strong>がステップ1（コンサルティングスペシャリストチームによるリサーチと分析）を担当し、<strong>co-deck</strong>がステップ2と3（制作エージェントによるコンテンツ構造化、デザイン、プレゼンテーション生成）を担当します。</p>
+
+  <h3>レポートからスライドへの例え</h3>
+
+  <p>本を書いてからTEDトークを作るようなものと考えてください。本（co-consultレポート）には深い分析、サポートデータ、ニュアンスのある議論が含まれます。TEDトーク（co-deckプレゼンテーション）は主要なメッセージを20分で視覚的なナラティブに蒸留します。両方の出力は価値があり、それぞれ異なる目的を果たしますが、同じ知的基盤の上に構築されています。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>co-consultの出力</h4>
+      <ul>
+        <li>詳細な分析レポート</li>
+        <li>市場状況と競合データ</li>
+        <li>イシューツリーとして構造化された問題（MECE）</li>
+        <li>エビデンスに基づく戦略的推奨事項</li>
+        <li>対象: アナリスト、マネージャー、意思決定者</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-deckの出力</h4>
+      <ul>
+        <li>ビジュアルスライドデッキ（HTML + PDF）</li>
+        <li>スライドごとに強調された主要な発見</li>
+        <li>ナラティブフロー: 問題 → 分析 → 解決策</li>
+        <li>テーマ、画像、図によるデザイン</li>
+        <li>対象: 経営陣、クライアント、一般オーディエンス</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>統合ワークフロー概要</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-consultからco-deckへの統合ワークフロー図">
+      <defs>
+        <marker id="arrowIp1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-amber)"/>
+        </marker>
+        <marker id="arrowIp2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
+        </marker>
+        <marker id="arrowIp3" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+
+      <!-- Topic input -->
+      <rect x="15" y="40" width="100" height="48" rx="10" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="65" y="60" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">トピック</text>
+      <text x="65" y="76" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">ユーザー入力</text>
+
+      <!-- Arrow: Topic → co-consult -->
+      <line x1="115" y1="64" x2="148" y2="64" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowIp3)"/>
+
+      <!-- co-consult box -->
+      <rect x="155" y="15" width="200" height="140" rx="12" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="255" y="38" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">co-consult</text>
+      <text x="255" y="54" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">コンサルティング分析</text>
+
+      <!-- co-consult stages -->
+      <rect x="170" y="66" width="80" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1"/>
+      <text x="210" y="82" text-anchor="middle" font-size="9" style="fill:var(--text)">リサーチ</text>
+
+      <rect x="260" y="66" width="80" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1"/>
+      <text x="300" y="82" text-anchor="middle" font-size="9" style="fill:var(--text)">分析</text>
+
+      <rect x="170" y="98" width="80" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1"/>
+      <text x="210" y="114" text-anchor="middle" font-size="9" style="fill:var(--text)">戦略</text>
+
+      <rect x="260" y="98" width="80" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1"/>
+      <text x="300" y="114" text-anchor="middle" font-size="9" style="fill:var(--text)">レポート</text>
+
+      <!-- Arrow: co-consult → Handoff -->
+      <line x1="355" y1="85" x2="398" y2="85" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowIp1)"/>
+      <text x="370" y="78" font-size="9" font-style="italic" style="fill:var(--text-dim)">引き継ぎ</text>
+
+      <!-- Handoff circle -->
+      <circle cx="430" cy="85" r="28" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4,2"/>
+      <text x="430" y="82" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">手動</text>
+      <text x="430" y="95" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">引き継ぎ</text>
+
+      <!-- Arrow: Handoff → co-deck -->
+      <line x1="458" y1="85" x2="498" y2="85" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowIp2)"/>
+
+      <!-- co-deck box -->
+      <rect x="505" y="15" width="180" height="140" rx="12" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="595" y="38" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">co-deck</text>
+      <text x="595" y="54" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">プレゼンテーション</text>
+
+      <!-- co-deck stages -->
+      <rect x="515" y="66" width="70" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="550" y="82" text-anchor="middle" font-size="9" style="fill:var(--text)">ストーリー</text>
+
+      <rect x="600" y="66" width="70" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="635" y="82" text-anchor="middle" font-size="9" style="fill:var(--text)">デザイン</text>
+
+      <rect x="515" y="98" width="70" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="550" y="114" text-anchor="middle" font-size="9" style="fill:var(--text)">ビルド</text>
+
+      <rect x="600" y="98" width="70" height="24" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="635" y="114" text-anchor="middle" font-size="9" style="fill:var(--text)">PDF</text>
+
+      <!-- Output -->
+      <rect x="555" y="185" width="80" height="40" rx="8" fill="var(--accent-green)" stroke="none" opacity="0.9"/>
+      <text x="595" y="202" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">HTML +</text>
+      <text x="595" y="216" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">PDF</text>
+
+      <line x1="595" y1="155" x2="595" y2="183" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowIp2)"/>
+
+      <!-- co-consult output -->
+      <rect x="215" y="185" width="80" height="40" rx="8" fill="var(--accent-amber)" stroke="none" opacity="0.9"/>
+      <text x="255" y="202" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">分析</text>
+      <text x="255" y="216" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">レポート</text>
+
+      <line x1="255" y1="155" x2="255" y2="183" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowIp1)"/>
+
+      <!-- Timeline bar -->
+      <rect x="15" y="250" width="670" height="32" rx="8" fill="var(--bg-info)" stroke="var(--border)" stroke-width="1"/>
+      <text x="65" y="270" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">0分</text>
+      <text x="255" y="270" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">~15分</text>
+      <text x="430" y="270" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">~20分</text>
+      <text x="595" y="270" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">~40分</text>
+
+      <!-- Timeline labels -->
+      <text x="160" y="300" text-anchor="middle" font-size="10" style="fill:var(--accent-amber)">co-consult分析</text>
+      <text x="350" y="300" text-anchor="middle" font-size="10" style="fill:var(--accent)">手動引き継ぎ</text>
+      <text x="530" y="300" text-anchor="middle" font-size="10" style="fill:var(--accent-green)">co-deck制作</text>
+
+      <!-- Progress markers -->
+      <circle cx="15" cy="266" r="4" fill="var(--accent-purple)"/>
+      <circle cx="255" cy="266" r="4" fill="var(--accent-amber)"/>
+      <circle cx="430" cy="266" r="4" fill="var(--accent)"/>
+      <circle cx="595" cy="266" r="4" fill="var(--accent-green)"/>
+
+      <!-- Timeline connector line -->
+      <line x1="65" y1="266" x2="595" y2="266" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3,3" opacity="0.4"/>
+
+      <text x="350" y="330" text-anchor="middle" font-size="11" font-style="italic" style="fill:var(--text-dim)">合計: トピックから完成したデッキまで約30-45分</text>
+    </svg>
+  </div>
+
+  <div class="note">
+    <strong>なぜco-deckだけを使わないのか?</strong> co-deckには一般的なトピックに適した組み込みのリサーチエージェントがあります。しかし、co-consultは専門的なコンサルティングエージェント &mdash; 業界エキスパート、ストラテジーアナリスト、データアナリスト &mdash; を提供し、より深く構造化された分析を行います。トピックがビジネスグレードの戦略的思考（市場分析、競合ポジショニング、デジタルトランスフォーメーション）を必要とする場合、co-consult分析は汎用リサーチエージェントには匹敵しない深みを追加します。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: Manual Handoff Process                            -->
+  <!-- ============================================================ -->
+  <h2 id="handoff-process">手動引き継ぎプロセス</h2>
+
+  <p>現在、co-consult出力をco-deck入力に直接接続する自動パイプラインはありません。2つのシステム間の引き継ぎは<strong>手動</strong>です &mdash; 人間であるあなたが橋渡しを行います。余分な作業のように思えるかもしれませんが、実際には価値のある品質チェックポイントです。ステップバイステップで見ていきましょう。</p>
+
+  <h3>引き継ぎの概要</h3>
+
+  <p>引き継ぎは概念的にはシンプルです: co-consultレポートの主要な発見を取り出し、プレゼンテーションの開始点としてco-deckに入力します。実際には、co-deckのstorylineエージェントが扱える形式にレポートのコアインサイトを要約することを意味します。</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>co-consult分析を完了する。</strong>トピックをco-consultのフルパイプライン（フェーズ0-6）に通します。分析が完全で、推奨事項が明確で、エビデンスが適切に整理されていることを確認します。
+      </li>
+      <li>
+        <strong>レポートコンテンツをコピーする。</strong>co-consult出力レポート（通常プロジェクトの出力ディレクトリ内）を開きます。主要なセクションを選択: エグゼクティブサマリー、主要な発見、戦略的推奨事項、サポートデータポイント。レポート全体をコピーする必要はありません &mdash; プレゼンテーションに表示したいコンテンツに集中してください。
+      </li>
+      <li>
+        <strong>スライド対応形式に要約する。</strong>簡潔な要約ドキュメントを作成するか、co-deckのstorylineエージェントが入力を求めたときに主要なコンテンツを直接貼り付けます。目的は、生のレポート文章でco-deckを圧倒することなく、スライドを構成するのに十分なコンテキストを提供することです。スライドトピックごとに3〜5つの箇条書きを目指してください。
+      </li>
+      <li>
+        <strong>新しいco-deckプロジェクトを開始する。</strong>Claude Desktop Appでco-deckワークスペースに移動します。新しいlectureプロファイルを作成してStage 0を開始します。トピックやリサーチノートの入力を求められたら、要約したco-consultの発見を開始コンテンツとして貼り付けます。
+      </li>
+      <li>
+        <strong>co-deckパイプラインを実行する。</strong>標準の11段階パイプライン（Stage 1-11）に進みます。storylineエージェントが要約コンテンツを使用してスライドデッキを構築し、designエージェントがビジュアルテーマを適用し、build/exportエージェントが最終HTMLとPDFを生成します。
+      </li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>ヒント &mdash; コンテンツの整合性:</strong> 引き継ぎで最も一般的なミスは、co-consultレポート全体をそのままco-deckにダンプすることです。プレゼンテーションはドキュメントではありません。各主要なインサイトを1つの明確な文または箇条書きに要約してください。「オーディエンスがこのスライドから3つのことだけを記憶するとしたら、何であるべきか？」と自問してください。それがco-deckに必要なコンテンツです。
+  </div>
+
+  <div class="note">
+    <strong>将来の自動化:</strong> 手動引き継ぎは一時的なステップです。ai-workspace-standardsエコシステムの将来バージョンでは、co-consultがco-deckが直接読み取れる形式で出力を書き込む自動引き継ぎコントラクトを含める計画です。それまでは、手動プロセスによって、どのコンテンツがプレゼンテーションに入るかを完全にコントロールできます。
+  </div>
+
+  <h3>引き継ぎ品質チェックリスト</h3>
+
+  <p>co-deckパイプラインを開始する前に、引き継ぎコンテンツの準備ができているか確認するための簡単なチェックリストです。</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>コアメッセージが定義されている</strong> &mdash; プレゼンテーションのメインメッセージを1文で言えますか？</li>
+      <li><strong>主要な発見が抽出されている</strong> &mdash; co-consultレポートから3〜5の最も重要な発見を特定しましたか？</li>
+      <li><strong>オーディエンスが考慮されている</strong> &mdash; コンテンツはプレゼンテーションのオーディエンス（経営陣、クライアント、学生）に適していますか？</li>
+      <li><strong>データポイントが選択されている</strong> &mdash; 最もインパクトのあるデータポイントと統計を選びましたか？</li>
+      <li><strong>推奨事項が優先されている</strong> &mdash; 行動項目と次のステップが明確に特定されていますか？</li>
+    </ol>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: Full Pipeline Practice                              -->
+  <!-- ============================================================ -->
+  <h2 id="full-pipeline">フルパイプライン演習</h2>
+
+  <p>完全なエンドツーエンドの例を見ていきましょう。現実的なシナリオを使用します: <strong>「中規模自動車部品メーカー向けの電気自動車市場分析」</strong>。目標は、このトピックから完成した15スライドのプレゼンテーションを約30-45分で作成することです。</p>
+
+  <h3>フェーズA: co-consult分析（約15分）</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>co-consultを開始してプロジェクトを定義する。</strong><br>
+        co-consultワークスペースでClaude Desktop Appを開きます。PMエージェントがプロジェクトを初期化し、プロジェクトのスコープについて尋ねます。<br><br>
+        <em>会話例:</em><br>
+        <strong>あなた:</strong> "中規模の自動車部品メーカー向けの電気自動車業界の市場分析が必要です。ブレーキシステムを製造しており、EV移行の状況、競合の脅威、戦略的機会を理解したいと考えています。"<br>
+        <strong>PM:</strong> "了解しました。コンサルティングチームを編成してリサーチを開始します。"
+      </li>
+      <li>
+        <strong>リサーチと分析。</strong><br>
+        co-consultが専門エージェントをディスパッチします: <em>industry-expert</em>がEV市場データを収集し、<em>strategy-analyst</em>が競合動態を評価し、<em>sme</em>（サブジェクトマターエキスパート）がブレーキシステム技術動向を評価します。<br><br>
+        <em>処理内容:</em> 各エージェントが調査結果を作成します。PMがMECEフレームワーク（Mutually Exclusive, Collectively Exhaustive）に従うイシューツリーで構造化された分析に統合します。
+      </li>
+      <li>
+        <strong>co-consultレポートをレビューする。</strong><br>
+        PMが完成した分析を提示します。正確性と完全性をレビューします。主要なセクションには、市場概要、競合状況、技術評価、戦略的推奨事項が含まれている必要があります。<br><br>
+        <em>出力例:</em> 「EV市場成長予測」「EVブレーキシステムのトップ5競合」「技術ギャップ分析」「[企業]向け戦略的推奨事項」などのセクションを持つレポート。
+      </li>
+    </ol>
+  </div>
+
+  <h3>フェーズB: 引き継ぎ（約5分）</h3>
+
+  <div class="step-list">
+    <ol start="4">
+      <li>
+        <strong>スライド用に要約する。</strong><br>
+        レポートから主要なポイントを抽出し、スライド対応の要約に整理します。エグゼクティブサマリー、3〜5の最も重要な発見、主要な推奨事項に焦点を当てます。<br><br>
+        <em>要約の作成例:</em><br>
+        <em>トピック:</em> 自動車部品メーカー向けのEV市場参入戦略<br>
+        <em>主要な発見1:</em> グローバルEV市場は2030年までに22%のCAGRで成長すると予測されている<br>
+        <em>主要な発見2:</em> リジェネレーティブブレーキの需要はEV普及の加速に伴い3倍に増加する<br>
+        <em>主要な発見3:</em> 2つの主要競合がEV専用ブレーキ製品ラインを発表した<br>
+        <em>推奨事項:</em> リジェネレーティブブレーキのR&Dに投資し、2つのEV OEMとパートナーシップを確立する
+      </li>
+    </ol>
+  </div>
+
+  <h3>フェーズC: co-deck制作（約20分）</h3>
+
+  <div class="step-list">
+    <ol start="5">
+      <li>
+        <strong>co-deckプロジェクトを初期化する。</strong><br>
+        co-deckワークスペースでClaude Desktop Appを開きます。新しいプレゼンテーションプロジェクトを作成します。PMがトピック詳細やリサーチ入力を求めたら、要約したco-consultの発見を貼り付けます。<br><br>
+        <em>会話例:</em><br>
+        <strong>PM:</strong> "このプレゼンテーションのトピックは何にしますか？"<br>
+        <strong>あなた:</strong> "自動車部品メーカー向けのEV市場参入戦略。以下はコンサルティング分析の主要な発見です: [要約を貼り付け]。15スライドのデッキを企業の経営チーム向けに構築して。"
+      </li>
+      <li>
+        <strong>コンテンツ作成とデザイン。</strong><br>
+        co-deckがStage 1-8を実行: リサーチ強化、ストーリーライン設計、デザインスペック作成、HTMLビルド、画像収集、図生成。Gate 2で提案されたスライド構造をレビューして承認します。<br><br>
+        <em>処理内容:</em> storylineエージェントがナラティブフロー（問題 → 分析 → 解決策）を作成します。designエージェントがビジュアルテーマを適用します。html-buildエージェントがHTMLスライドを生成します。
+      </li>
+      <li>
+        <strong>エクスポートとレビュー。</strong><br>
+        co-deckがStage 9-11を実行: レイアウト測定とPDFエクスポート。Gate 5でサンプルPDFのレイアウトとフォント品質をレビューします。フルPDF生成を承認します。<br><br>
+        <em>結果:</em> HTMLとPDF形式の完成した15スライドプレゼンテーション。ビジュアルテーマが適用され、co-consult分析の主要データポイントが明確なオーディエンス向けスライドとして表示されます。
+      </li>
+    </ol>
+  </div>
+
+  <div class="note">
+    <strong>所要時間について:</strong> 30-45分の見積もりは、co-consultとco-deckの両方のワークフローに既に慣れていることを前提としています（第6章と第7章で対応）。初回は45-60分を見込んでください。経験を積むと、引き継ぎが速くなり、パイプライン時間が短縮されます。ほとんどの時間はAIエージェントの作業完了を待つことに費やされます &mdash; あなたの主体的な関与は主に各ゲートでのレビューと承認です。
+  </div>
+
+  <h3>パイプラインタイムライン</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="各フェーズの推定時間を示すパイプラインタイムライン">
+      <defs>
+        <marker id="arrowPt1" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto">
+          <path d="M0,0 L6,2.5 L0,5 Z" fill="var(--text-dim)"/>
+        </marker>
+      </defs>
+
+      <!-- Timeline axis -->
+      <line x1="40" y1="170" x2="670" y2="170" stroke="var(--text-dim)" stroke-width="1.5"/>
+
+      <!-- Time markers -->
+      <text x="40" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">0</text>
+      <text x="200" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">10</text>
+      <text x="340" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">20</text>
+      <text x="480" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">30</text>
+      <text x="620" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">40</text>
+      <text x="665" y="190" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">分</text>
+
+      <circle cx="40" cy="170" r="3" fill="var(--text-dim)"/>
+      <circle cx="200" cy="170" r="3" fill="var(--text-dim)"/>
+      <circle cx="340" cy="170" r="3" fill="var(--text-dim)"/>
+      <circle cx="480" cy="170" r="3" fill="var(--text-dim)"/>
+      <circle cx="620" cy="170" r="3" fill="var(--text-dim)"/>
+
+      <!-- Phase A: co-consult (0-15 min) -->
+      <rect x="40" y="80" width="200" height="50" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="140" y="100" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">フェーズA: co-consult</text>
+      <text x="140" y="118" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">リサーチ + 分析（~15分）</text>
+      <line x1="140" y1="130" x2="140" y2="165" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowPt1)"/>
+
+      <!-- Phase B: Handoff (15-20 min) -->
+      <rect x="250" y="80" width="90" height="50" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4,2"/>
+      <text x="295" y="100" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">引き継ぎ</text>
+      <text x="295" y="118" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">~5分</text>
+      <line x1="295" y1="130" x2="295" y2="165" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowPt1)"/>
+
+      <!-- Phase C: co-deck (20-40 min) -->
+      <rect x="350" y="80" width="280" height="50" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="490" y="100" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">フェーズC: co-deck</text>
+      <text x="490" y="118" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">ストーリー + デザイン + ビルド + PDF（~20分）</text>
+      <line x1="490" y1="130" x2="490" y2="165" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowPt1)"/>
+
+      <!-- Step labels inside Phase A -->
+      <text x="80" y="60" font-size="9" style="fill:var(--accent-amber)">PM初期化</text>
+      <text x="140" y="40" font-size="9" style="fill:var(--accent-amber)">エージェントリサーチ</text>
+      <text x="200" y="60" font-size="9" style="fill:var(--accent-amber)">レポート</text>
+
+      <!-- Step labels inside Phase C -->
+      <text x="390" y="60" font-size="9" style="fill:var(--accent-green)">Stage 0-3</text>
+      <text x="480" y="40" font-size="9" style="fill:var(--accent-green)">Stage 4-8</text>
+      <text x="580" y="60" font-size="9" style="fill:var(--accent-green)">Stage 9-11</text>
+
+      <!-- Gate markers -->
+      <rect x="390" y="145" width="42" height="16" rx="3" fill="var(--accent)" opacity="0.2"/>
+      <text x="411" y="156" text-anchor="middle" font-size="8" font-weight="bold" style="fill:var(--accent)">Gate 2</text>
+
+      <rect x="570" y="145" width="42" height="16" rx="3" fill="var(--accent)" opacity="0.2"/>
+      <text x="591" y="156" text-anchor="middle" font-size="8" font-weight="bold" style="fill:var(--accent)">Gate 5</text>
+
+      <text x="350" y="210" text-anchor="middle" font-size="11" font-style="italic" style="fill:var(--text-dim)">合計所要時間: ~30-45分（初回: ~45-60分）</text>
+    </svg>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: Agent Composition Differences                        -->
+  <!-- ============================================================ -->
+  <h2 id="agent-differences">エージェント構成の違い</h2>
+
+  <p>co-consultとco-deckを比較する最も興味深い側面の一つは、各バリアントがそのドメインに合わせて<strong>異なる専門家チーム</strong>を編成する方法です。両方とも同じPMエージェントと同じオーケストレーションフレームワークを共有していますが、スペシャリストエージェントは完全に異なります。これがバリアントアーキテクチャの力です &mdash; 同じプラットフォーム、異なるチーム、異なる出力。</p>
+
+  <h3>エージェント比較</h3>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>co-consultのエージェント</h4>
+      <ul>
+        <li><strong>pm</strong> &mdash; プロジェクトマネージャー（オーケストレーター）</li>
+        <li><strong>industry-expert</strong> &mdash; 市場と競合のインサイト</li>
+        <li><strong>strategy-analyst</strong> &mdash; 戦略評価とリサーチ</li>
+        <li><strong>sme</strong> &mdash; 機能別専門知識とソリューション設計</li>
+        <li><strong>data-analyst</strong> &mdash; 統計分析とモデリング</li>
+        <li><strong>solutions-architect</strong> &mdash; 技術ソリューション設計</li>
+        <li><strong>communications-lead</strong> &mdash; 戦略的ナラティブとメッセージング</li>
+        <li><strong>change-management-partner</strong> &mdash; 組織変革</li>
+        <li><strong>workstream-lead</strong> &mdash; デリバリー調整</li>
+        <li><strong>delivery-manager</strong> &mdash; プロジェクトデリバリー運営</li>
+        <li><strong>technology-specialist</strong> &mdash; デジタルトランスフォーメーション支援</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-deckのエージェント</h4>
+      <ul>
+        <li><strong>pm</strong> &mdash; プロジェクトマネージャー（オーケストレーター）</li>
+        <li><strong>research</strong> &mdash; Webリサーチと情報源収集</li>
+        <li><strong>source-verifier</strong> &mdash; URL検証と信頼性スコアリング</li>
+        <li><strong>storyline</strong> &mdash; ナラティブ設計とスライド構成</li>
+        <li><strong>design</strong> &mdash; ビジュアルデザインスペック（色、フォント、レイアウト）</li>
+        <li><strong>image-curator</strong> &mdash; 画像検索とダウンロード</li>
+        <li><strong>diagram-specialist</strong> &mdash; SVG図とチャート生成</li>
+        <li><strong>html-build</strong> &mdash; HTMLスライド生成</li>
+        <li><strong>measure</strong> &mdash; PDF用レイアウト測定</li>
+        <li><strong>pdf-export</strong> &mdash; PDF生成</li>
+        <li><strong>version</strong> &mdash; ファイルスナップショットと復元</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>共有と固有のエージェント</h3>
+
+  <p>すべてのエージェントの中で、2つのバリアント間で共有されているのは1つだけ: <strong>PM（プロジェクトマネージャー）</strong>です。その他はすべてドメイン固有です。これは意図的な設計選択を反映しています &mdash; PMがオーケストレーションのバックボーンを提供し、各バリアントがそのドメインに適切な専門知識を持つスペシャリストでチームを構成します。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>共有</h4>
+      <ul>
+        <li><strong>pm</strong> &mdash; オーケストレーション、ゲート承認、エージェントディスパッチ、品質管理</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>ドメイン別違いのまとめ</h4>
+      <ul>
+        <li>co-consultエージェントは<em>思考重視</em>: 分析、戦略、専門的判断</li>
+        <li>co-deckエージェントは<em>制作重視</em>: コンテンツ構造化、ビジュアルデザイン、ファイル生成</li>
+        <li>どちらが「優れている」わけではない &mdash; 同じ全体的なワークフローの異なる段階を担当</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>コンテキストの違い:</strong> 共有のPMエージェントでさえ、各バリアントで異なる動作をします。co-consultでは、PMがコンサルティングチームを編成し、分析品質に焦点を当てた7フェーズワークフローを管理します。co-deckでは、PMが制作マイルストーンとゲート承認に焦点を当てた11段階パイプラインを管理します。PMの動作指示は各バリアント自身の<code>CLAUDE.md</code>または<code>GEMINI.md</code>から読み込まれ、共有の基本動作をバリアント固有のルールで上書きします。
+  </div>
+
+  <h3>ワークフロー比較</h3>
+
+  <p>エージェント自体だけでなく、2つのバリアントは根本的に異なるワークフロー構造を使用しています。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>co-consultワークフロー</h4>
+      <ul>
+        <li>7フェーズワークフロー（フェーズ0-6）</li>
+        <li>フェーズ0: プロジェクト開始</li>
+        <li>フェーズ1-2: リサーチと計画</li>
+        <li>フェーズ3: デザインとソリューションアーキテクチャ</li>
+        <li>フェーズ4: 実行とデリバリー</li>
+        <li>フェーズ5: ライフサイクル確定</li>
+        <li>フェーズ6: 品質保証</li>
+        <li><strong>出力:</strong> 分析レポート（Markdown）</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-deckワークフロー</h4>
+      <ul>
+        <li>11段階パイプライン（Stage 0-11）</li>
+        <li>Stage 0: プロジェクト設定</li>
+        <li>Stage 1: リサーチ</li>
+        <li>Stage 1.5: ソース検証（オプション）</li>
+        <li>Stage 2-3: コンテンツとストーリーライン</li>
+        <li>Stage 4: デザイン</li>
+        <li>Stage 3.5: 画像と図（並行）</li>
+        <li>Stage 5-8: HTMLビルド</li>
+        <li>Stage 9-10: レイアウト測定</li>
+        <li>Stage 11: PDFエクスポート</li>
+        <li><strong>出力:</strong> HTMLスライド + PDF</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: Success Tips                                        -->
+  <!-- ============================================================ -->
+  <h2 id="tips">成功のヒント</h2>
+
+  <p>統合パイプラインを数回実行すると、自分のリズムが develop できます。一般的な落とし穴を回避し、統合から最良の結果を得るための実践的なヒントをいくつか紹介します。</p>
+
+  <h3>ヒント1: 引き継ぎ前の品質チェックを実施する</h3>
+
+  <p>引き継ぎを開始する前に、co-consultレポートが基本的な品質基準を満たしていることを確認してください。低品質の分析は、co-deckのデザイン能力がどれほど優れていても、低品質のプレゼンテーションを生み出します。</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>エグゼクティブサマリーは明確か？</strong> &mdash; レポート全体を2〜3文で要約できますか？</li>
+      <li><strong>発見はエビデンスに裏付けされているか？</strong> &mdash; 各主要な主張にサポートデータがありますか？</li>
+      <li><strong>推奨事項は実行可能か？</strong> &mdash; オーディエンスが実際に行動できますか？</li>
+      <li><strong>構造は論理的か？</strong> &mdash; レポートが問題→分析→解決策の順に自然に流れていますか？</li>
+    </ol>
+  </div>
+
+  <div class="warn">
+    <strong>警告:</strong> co-consultレビューステップをスキップしないでください。分析に事実誤りや論理的ギャップがある場合、それらのエラーがプレゼンテーションに伝播します。co-deckエージェントは入力されたコンテンツを忠実に表現します &mdash; コンサルティング分析の正確性を独立して検証することはありません。
+  </div>
+
+  <h3>ヒント2: 要約する、コピー＆ペーストしない</h3>
+
+  <p>引き継ぎはコピー＆ペースト操作ではありません。コンサルティングレポートとスライドデッキは異なるコミュニケーション目的を持ち、コンテンツを適応させる必要があります。</p>
+
+  <div class="tip-box">
+    <strong>3文ルール:</strong> スライドトピックごとに、co-consultの発見を3文以下に蒸留してください。各文がスライドの箇条書きになります。3文で発見を表現できない場合、複数のスライドに分割するか、簡略化する必要があるかもしれません。この規律は最も重要なことに集中させます。
+  </div>
+
+  <p>要約の実践的なアプローチ:</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>レポートセクション全体を読む</strong> and 各段落の主要な文をハイライトする。</li>
+      <li><strong>関連するハイライトをグループ化する</strong> スライドトピックヘッダーの下に（例: 「市場概要」「競合状況」「技術動向」）。</li>
+      <li><strong> essentials にトリムする</strong> &mdash; レポートでは機能するがスライドでは邪魔になる専門用語、修飾語、注記を削除。</li>
+      <li><strong>データコールアウトを追加する</strong> &mdash; 具体的な数字、パーセンテージ、比較をメモする。</li>
+    </ol>
+  </div>
+
+  <h3>ヒント3: テーマとスタイルを事前選択する</h3>
+
+  <p>co-deckのStage 0で、PMがレンダリングテーマとビジュアルスタイルの選択を求めます。co-deckパイプラインを開始する<strong>前</strong>にこれらの決定を済ませておくと時間を節約でき、往復のやり取りを避けられます。</p>
+
+  <div class="tip-box">
+    <strong>クイック決定フレームワーク:</strong>
+    <ul>
+      <li><strong>ビジネス/企業向けプレゼンテーション?</strong> &rarr; テーマ: <code>pitch-enhanced</code>、スタイル: <code>premium-dark</code></li>
+      <li><strong>教育/講義コンテンツ?</strong> &rarr; テーマ: <code>outline</code>、スタイル: <code>academic</code></li>
+      <li><strong>クリエイティブ/ビジュアルショーケース?</strong> &rarr; テーマ: <code>zen</code>、スタイル: <code>visual-heavy</code></li>
+    </ul>
+    選択を確認する前に<code>docs/html-themes/THEMES.md</code>の完全な互換性マトリックスを確認してください。
+  </div>
+
+  <h3>ヒント4: ゲート承認を丁寧に行う</h3>
+
+  <p>co-consultとco-deckの両方に、パイプラインが進行する前に明示的な承認が必要な必須ゲートがあります。これらのゲートは理由があって存在します &mdash; 問題を早期に発見する品質チェックポイントです。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>co-consultのゲート</h4>
+      <ul>
+        <li><strong>ゲート: チーム編成</strong> &mdash; 提案されたエージェントチームをレビューし、プロジェクトのスコープに合致していることを確認</li>
+        <li><strong>ゲート: 分析レビュー</strong> &mdash; 確定前に完成した分析をレビュー</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-deckのゲート</h4>
+      <ul>
+        <li><strong>Gate 2（必須）</strong> &mdash; デザイン開始前にstoryline.mdとslide_deck.mdをレビュー</li>
+        <li><strong>Gate 5（必須）</strong> &mdash; フルデッキ生成前にサンプルPDFをレビュー</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn">
+    <strong>自動承認しない:</strong> 2回目や3回目の実行では特に、時間を節約するためにすべてのゲートを素早く承認することが誘惑されます。この誘惑に抵抗してください。各ゲートは問題を発見して修正できるチェックポイントです。Gate 2で2分レビューすれば、後の10分の手直しを節約できます。
+  </div>
+
+  <h3>ヒント5: トピックを focused に保つ</h3>
+
+  <p>統合パイプラインは、トピックが<strong>狭く具体的</strong>である場合に最もよく機能します。「医療におけるAI」のようなトピックは、コンサルティンググレードの深さを示す必要がある15スライドのプレゼンテーションには広すぎます。「放射線科部門向けのAI駆動診断ツール」のようなトピックははるかに適しています &mdash; コンサルティングエージェントとプレゼンテーションエージェントの両方に明確なスコープを提供します。</p>
+
+  <div class="note">
+    <strong>適切なバランス:</strong> 3〜5ページのコンサルティングレポートで徹底的に分析でき、12〜18スライドで効果的に提示できるトピックを目指してください。30スライド以上が必要と思う場合、トピックが広すぎる可能性があります &mdash; 各々に focused なテーマを持つ2つの別々のパイプライン実行に分割することを検討してください。
+  </div>
+
+  <h3>ヒントのまとめ</h3>
+
+  <div class="keypoints">
+    <div class="kp-title">クイックリファレンス</div>
+    <ul>
+      <li><strong>品質第一</strong> &mdash; 引き継ぎ前にco-consultレポートをレビュー</li>
+      <li><strong>要約する</strong> &mdash; 3文ルールで発見を蒸留</li>
+      <li><strong>事前選択</strong> &mdash; co-deck開始前にテーマとスタイルを選択</li>
+      <li><strong>ゲートをレビュー</strong> &mdash; 各ゲートで2分使えば10分の手直しを防止</li>
+      <li><strong>focused に保つ</strong> &mdash; 狭いトピックが広いトピックより良い結果を生む</li>
+    </ul>
+  </div>
+
+  <div class="tip-box">
+    <strong>次は何か:</strong> フル統合パイプラインの演習を完了したので、エージェントやスキル自体がどのように構築されるかを学ぶ準備ができました。第9章ではエージェントの作成と変更を扱います &mdash; co-consultとco-deckの両方を動かす構成要素です。エージェントオーサリングを理解することで、両方のバリアントを特定のニーズに合わせてカスタマイズできるようになります。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER NAVIGATION                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch07/07_Co_Deck_Practice_ja.html" class="prev">
+      <div class="dir">&larr; 前の章</div>
+      <div class="ttl">Ch 7 &middot; co-deck: AIプレゼンテーションの実践</div>
+    </a>
+    <a href="../ch09/09_Creating_Agents_ja.html" class="next" style="margin-left:auto;">
+      <div class="dir">次の章 &rarr;</div>
+      <div class="ttl">Ch 9 &middot; エージェントの作成と変更</div>
+    </a>
+  </div>
+   <footer>
+    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) 基準 · 日本語教材<br>
+    公式リソース: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    このハンドブックのコンテンツは <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (表示 - 非営利 - 継承 4.0 国際)</a> ライセンスの下で提供されています。
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

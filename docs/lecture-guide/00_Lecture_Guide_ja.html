@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="講義ガイド · Claude Codeとマルチエージェントハーネス入門 — 前提条件、時間配分、章別ノート、理解度確認問題">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>講義ガイド · Claude Code &amp; Multi-Agent Harness</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+  <style>
+    tr.schedule-total td { font-weight: 700; background: var(--bg2); }
+    h3 { margin: 28px 0 10px; }
+    #agenda p { font-size: 14px; color: var(--text-dim); margin: 8px 0; }
+    footer {
+      margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border);
+      color: var(--text-dim); font-size: 12px; line-height: 1.9;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+<nav>
+  <a href="../index_ja.html" class="nav-home">← ハンドブック_HOME</a>
+  <div class="nav-title">講義ガイド</div>
+  <a href="#prereq">前提条件チェックリスト（統合版）</a>
+  <a href="#agenda">全体時間配分表</a>
+  <a href="#per-section">章別講師ノート</a>
+  <a href="#recap">章別理解度確認問題</a>
+  <div class="nav-section">講師用資料</div>
+  <a href="00_Course_Overview_ja.html">コース概要</a>
+</nav>
+
+<main>
+ <article class="reading">
+  <h1>講義ガイド</h1>
+  <p class="lead">本ハンドブック（第1〜13章＋付録A/B/C）を教える講師向け資料。</p>
+
+  <div class="note">このドキュメントは講師専用の運用リファレンスであり、ハンドブック本文の一部ではありません。受講者に共有する必要はありません。</div>
+  <div class="warn">最終確認前に全文を読み直し、<strong>タイポ、不自然な表現、章/節番号の不一致</strong>がないか確認してください。AI生成の原稿には誤りや不自然な表現が含まれる可能性があります。</div>
+
+  <h2 id="prereq">前提条件チェックリスト（統合版）</h2>
+  <p>セットアップドキュメントに散在する項目をまとめました（<a href="../ch03/03_Setup_Guide_ja.html">第3章・ラボ環境の構築</a>参照）。コース開始前にすべてを確認できます。受講者には<strong>授業の少なくとも1日前</strong>にこのリストを通知し、当日のセットアップ問題で時間を無駄にしないようにしてください。</p>
+  <div class="chk">☐ Claude Proサブスクリプションがアクティブ（APIキーではなく、サブスクリプションアカウント）</div>
+  <div class="chk">☐ Claude.aiアカウントを作成済みでログイン確認済み</div>
+  <div class="chk">☐ macOSまたはWindows 10/11環境（Linuxユーザーは付録BのClaude Code CLIを使用）</div>
+  <div class="chk">☐ 少なくとも2GBの空きディスク容量と安定したインターネット接続</div>
+  <div class="chk">☐ Claude Desktop Appをインストール済み（第2章で詳述；事前インストールで授業がスムーズになります）</div>
+  <div class="chk">☐ <code>C:\git\project\setup</code>事前インストールスクリプトフォルダの準備（推奨）</div>
+  <div class="chk">☐ （第6〜8章のラボ用）ai-workspace-standardsクローン: <code>git clone https://github.com/5throck/ai-workspace-standards.git</code></div>
+  <div class="warn">第11章のチームビルダー演習では、受講者に事前に自分の業務ドメイン（マーケティング、教育、研究など）を考えておくようお願いしてください——これによりインタビューが大幅に短縮されます。受講者には「自分の繰り返し課題を1つ」を準備するよう通知してください。</div>
+
+  <h2 id="agenda">全体時間配分表</h2>
+  <p>時間配分には受講者がコマンドを入力（またはコピー＆ペースト）するハンズオン時間が含まれています。休憩は別枠です。</p>
+  <div class="table-schedule">
+  <table>
+    <thead><tr><th>セクション</th><th>内容</th><th>形式</th><th>時間</th></tr></thead>
+    <tbody>
+      <tr><td>導入</td><td>コースの目標、全体ロードマップ、前提条件確認</td><td>講義</td><td>10分</td></tr>
+      <tr><td>第1章</td><td>AIの潮流、単一AI vs エージェントチーム、ハーネス概念、期待される成果</td><td>講義+確認</td><td>25分</td></tr>
+      <tr><td>第2章</td><td>Claude Desktop Appのインストール、サブスクリプションプラン、最初の会話、プロジェクト、アーティファクト</td><td>ハンズオン</td><td>30分</td></tr>
+      <tr><td>第3章</td><td>前提条件チェックリスト、OS別セットアップスクリプト、インストール確認</td><td>ハンズオン</td><td>30分</td></tr>
+      <tr><td>第4章</td><td>エージェント、スキル、ワークフロー、PMオーケストレーション、3-Tier、PM Gateway、ディスパッチフロー</td><td>講義+確認</td><td>40分</td></tr>
+      <tr><td>第5章</td><td>ai-workspace-standards構造、AGENTS.md/CLAUDE.mdの役割、バリアント概念</td><td>講義</td><td>30分</td></tr>
+      <tr><td>第6章</td><td>co-consult市場分析ラボ、7フェーズワークフロー、成果物確認</td><td>ハンズオン</td><td>40分</td></tr>
+      <tr><td>第7章</td><td>co-deckミニデッキラボ、11ステージパイプライン、ゲート承認</td><td>ハンズオン</td><td>40分</td></tr>
+      <tr><td>第8章</td><td>co-consult + co-deck統合パイプライン、結果の共有</td><td>ハンズオン+共有</td><td>30分</td></tr>
+      <tr><td>第9章</td><td>エージェントファイル形式、フロントマター、agent-lifecycle-manager、スペシャリストエージェントの作成</td><td>ハンズオン</td><td>35分</td></tr>
+      <tr><td>第10章</td><td>スキルファイル形式、トリガー、skill-lifecycle-manager + skill-creator、カスタムスキルの作成</td><td>ハンズオン</td><td>35分</td></tr>
+      <tr><td>第11章</td><td>team-builder 5ステップ、自ドメイン向けエージェントチーム提案</td><td>ハンズオン</td><td>30分</td></tr>
+      <tr><td>第12章</td><td>/sync、Git/GitHub PR、フック、CI/CD、dev-sync.ts</td><td>講義</td><td>25分</td></tr>
+      <tr><td>第13章</td><td>学習ロードマップ、コミュニティ、応用シナリオ、FAQ、全体振り返り</td><td>ディスカッション</td><td>20分</td></tr>
+      <tr class="schedule-total"><td colspan="3">1日合計</td><td>約6時間40分（休憩除く）</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note">2回の休憩（各10〜15分）を入れると、合計<strong>約7時間</strong>になります。付録A/B/Cは必要に応じてコース終了後の自学習として受講者に案内してください。</div>
+
+  <h2 id="per-section">章別講師ノート</h2>
+
+  <h3>第1章: なぜAIエージェントチームなのか？（導入）</h3>
+  <p>本章は、第4章の技術概念に先立って「なぜ複数のAIがチームとして働くべきか」の動機付けを確立します。単一AI vs エージェントチームの比較表を使って違いを実感させ、ハーネス概念を「AIチームを動かすためのフレームワーク」として軽く紹介します。</p>
+  <p>期待される成果のセクションは、受講者が第6〜8章のラボで体験することのプレビューです。ここで「感覚」を伝え、技術詳細は第4章に委ねます。</p>
+  <span class="badge badge-do">受講者アクティビティ</span> 手を挙げて尋ねてください：「AIを単独で使っているとき、複数のAIが仕事を分担してくれたらいいなと思ったことはありますか？」これで第4章への好奇心が高まります。
+
+  <h3>第2章: Claude Desktop Appを始めよう</h3>
+  <p>本ハンドブックのデフォルトツールなので、最も重要なのは受講者が<strong>実際にインストールして最初の会話を開始</strong>することです。すでにインストール済みの受講者は、サブスクリプション比較とプロジェクト作成ラボに集中できます。</p>
+  <p>Linuxユーザーにはデスクトップアプリがないため、付録B（Claude Code CLI）を案内してください。この章ではCLI自体は扱いません。</p>
+  <span class="badge badge-do">受講者アクティビティ</span> 受講者に「AI学習」プロジェクトを作成させ、このカスタム指示を入力させてください：「韓国語で答えて。初心者に分かりやすく説明して。」このプロジェクトはハンドブック全体で使い続けます。
+
+  <h3>第3章: ラボ環境の構築</h3>
+  <p>まず前提条件チェックリストを確認し、OS別セットアップスクリプトを実行し、インストールを確認します。macOS/Windows/Linuxがすべてカバーされているため、自分のOSで一度デモを行い、他の受講者は一致するスクリプトに従うようにします。</p>
+  <p>確認ステップ（<code>bun setup-common.ts</code>）が通ることを確認してください。ここで時間を節約すると、第6〜8章のラボがスムーズに進みます。</p>
+
+  <h3>第4章: マルチエージェントハーネスの概念</h3>
+  <p>本章は以降で使用されるすべての用語（エージェント、スキル、ワークフロー、PM、3-Tier、PM Gateway）のリファレンスポイントなので、ゆっくり進める価値があります。「エージェント＝役割を持つ従業員、スキル＝再利用可能な手順書」といったアナロジーはホワイトボードでうまく機能します。</p>
+  <span class="badge badge-do">受講者アクティビティ</span> ディスパッチフローのSVGを見せ、受講者に隣の人と1分間「PMオーケストレーションを自分たちのチームの仕事にどう適用できるか」について話し合わせます。
+
+  <h3>第5章: ai-workspace-standardsを探索する</h3>
+  <p>L0→L1→L2階層とバリアント概念を伝えてください。初心者には「標準リポジトリからプロジェクトを量産するテンプレートシステム」というアナロジーが効果的です。AGENTS.mdとCLAUDE.mdの異なる役割を表で明確にしてください。</p>
+
+  <h3>第6章: co-consult — AIコンサルティングの実践（午後のコアラボ）</h3>
+  <p>本章は既存バリアントを使用することに専念します。受講者はPMエージェントとの対話を通じて市場分析プロジェクトを実行します。7フェーズワークフローの各フェーズが自動的に進行する様子と、ゲート2と5でユーザー承認が求められることを強調します。</p>
+  <p>成果物（<code>deliverables/reports/</code>）が実際に生成されたことを確認させ、「AIは単独ではこれを行いませんでした——エージェントが役割を分担して協力しました」と強調します。</p>
+  <span class="badge badge-do">受講者アクティビティ</span> 受講者に4つのチーム編成シナリオ（Quick Assessment、Standard、Complex Transformation、Specialized Expert）の中から1つを選ばせ、PMエージェントと対話させます。
+
+  <h3>第7章: co-deck — AIプレゼンテーションの実践</h3>
+  <p>11ステージパイプラインでミニプレゼンテーションを構築：テーマ/スタイル選択、ゲート2と5の承認、HTML+PDF成果物。第6章とは異なり、明確な「プレゼンテーション」出力が現れるため、受講者は満足感を得られます。</p>
+  <span class="badge badge-do">受講者アクティビティ</span> 受講者に完成したスライドを1枚画面共有させ、比較してテーマ/スタイルの選択が結果にどう影響するかを感じさせます。
+
+  <h3>第8章: co-consult + co-deck統合パイプライン</h3>
+  <p>第6章のレポートを第7章の入力に渡す統合ラボです。「トピック入力→30〜45分で完成デッキ」という全フローを見せ、2つのシステムのエージェント構成を比較させます。</p>
+  <span class="badge badge-do">受講者アクティビティ</span> 受講者に第6章のレポートを第7章のco-deckに直接渡して、統合の価値を直接体験させます。
+
+  <h3>第9章: エージェントの作成と修正</h3>
+  <p>エージェントファイル形式（フロントマター、役割定義、Tier）をカバーし、agent-lifecycle-managerを使ってシンプルなスペシャリストエージェントを作成、登録、検証します。初心者には「履歴書（フロントマター）＋業務マニュアル（本文）」のアナロジーが効果的です。</p>
+  <span class="badge badge-do">受講者アクティビティ</span> 受講者がラボで作成した<code>agents/my-analyst.md</code>をAGENTS.mdに登録し、<code>bun scripts/agent-lifecycle-audit.ts</code>で検証させます。
+
+  <h3>第10章: スキルの作成と修正</h3>
+  <p>スキルファイル形式（フロントマター、トリガー、ステップ）をカバーし、skill-lifecycle-manager + skill-creatorでカスタムスキルを作成・テストします。エージェントとスキルの関係には「料理のレシピ」のアナロジーを使用します。</p>
+  <span class="badge badge-do">受講者アクティビティ</span> 受講者がラボで作成した<code>skills/my-reviewer/SKILL.md</code>を登録し、呼び出して動作を確認させます。
+
+  <h3>第11章: 自分のエージェントチームを構築する</h3>
+  <p>team-builderのAI層5ステップワークフロー（要件インタビュー→ベンチマーク→現状チーム診断→提案生成→承認）とスクリプト層（<code>bun scripts/team-builder.ts</code>）をカバーします。</p>
+  <p>受講者が事前にドメインを決めていると、インタビューが早く進みます。提案をレビューし、承認を完了させます（必須ゲート）。</p>
+  <span class="badge badge-do">受講者アクティビティ</span> 受講者に自分のドメイン（マーケティング、教育、研究など）向けのカスタムエージェントチーム提案を取得させ、承認ステップを完了させます。
+
+  <h3>第12章: ワークフローと自動化を理解する</h3>
+  <p>/sync、Git/GitHub PR自動化、フック、CI/CDの基本、dev-sync.tsの仕組みを説明します。初心者には「自動化＝反復作業をシステムに委任する」というアナロジーで始めます。</p>
+  <p>本章はハンズオンラボではなく<strong>概念認識/フォローアップ学習モジュール</strong>として位置付けてください。概念に焦点を当て、CLIに慣れている受講者には付録Bでより深い資料を案内します。興味のある受講者には、任意の課外演習（/syncでサンプルプロジェクトをコミットし、フックの動作を確認する）を提供し、自動化を自己学習の次のステップとして強調します。</p>
+
+  <h3>第13章: 次のステップ＋まとめ</h3>
+  <p>学習ロードマップ、コミュニティ、応用シナリオ、FAQでまとめます。1日全体を振り返り、第1〜12章で構築したもの（プロジェクト、ラボ成果物、エージェント、スキル、チーム提案）をすべて繋げます。</p>
+  <span class="badge badge-do">受講者アクティビティ</span> 受講者に第11章のチーム提案を発表させ、「次にこのチームを実際に構築してみたいですか？」と尋ね、継続学習の動機付けを強化します。
+
+  <h2 id="recap">章別理解度確認問題</h2>
+  <p>各章の終わりに以下の質問をして理解度を確認してください。目標は正解を得ることではなく——受講者が自分の言葉で説明することです。</p>
+
+  <div class="quiz">
+    <div class="quiz-title">第1章 理解度チェック</div>
+    <ol>
+      <li>単一AIとマルチエージェントチームの最大の違いは何ですか？（コンテキスト、役割、並列性）</li>
+      <li>「ハーネス」をどう定義しますか？</li>
+      <li>複数のAIが協力することで何が可能になりますか？</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">第2章 理解度チェック</div>
+    <ol>
+      <li>Claude Desktop AppとClaude.aiウェブ版の違いは何ですか？</li>
+      <li>Projects機能はなぜ便利ですか？</li>
+      <li>Artifactsで何が作れますか？</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">第3章 理解度チェック</div>
+    <ol>
+      <li>自分のOS用のセットアップスクリプトを実行しましたか？</li>
+      <li>インストール成功を確認するコマンドは何ですか？</li>
+      <li>なぜ事前インストールが必要ですか？</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">第4章 理解度チェック</div>
+    <ol>
+      <li>エージェント、スキル、ワークフローの違いをそれぞれ1文で説明してください。</li>
+      <li>PM（プロジェクトマネージャー）エージェントの役割は何ですか？</li>
+      <li>なぜ3-Tier戦略（High/Medium/Low）が必要ですか？</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">第5章 理解度チェック</div>
+    <ol>
+      <li>AGENTS.mdとCLAUDE.mdはそれぞれどのような役割を持ちますか？</li>
+      <li>L0→L1→L2階層とは何ですか？</li>
+      <li>バリアントとは何ですか？</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">第6章 理解度チェック</div>
+    <ol>
+      <li>co-consultの7フェーズワークフローにおけるゲート2と5は何ですか？</li>
+      <li>4つのチーム編成シナリオの違いは何ですか？</li>
+      <li>成果物はどこに保存されますか？</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">第7章 理解度チェック</div>
+    <ol>
+      <li>co-deckの11ステージパイプラインで、テーマ/スタイルを選ぶのはどのステージですか？</li>
+      <li>ゲート2（コンテンツ）とゲート5（サンプルPDF）はそれぞれ何を承認しますか？</li>
+      <li>HTMLとPDFの成果物はどのように生成されますか？</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">第8章 理解度チェック</div>
+    <ol>
+      <li>co-consultレポートをco-deckの入力として渡すにはどうしますか？</li>
+      <li>2つのシステムのエージェント構成が異なるのはなぜですか？</li>
+      <li>統合パイプラインの全フローを説明してください。</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">第9章 理解度チェック</div>
+    <ol>
+      <li>エージェントファイルのフロントマターには何が含まれますか？</li>
+      <li>Tier（High/Medium/Low）は何を決定しますか？</li>
+      <li>agent-lifecycle-managerの5ステップは何ですか？</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">第10章 理解度チェック</div>
+    <ol>
+      <li>スキルファイルのmetadata.triggersの役割は何ですか？</li>
+      <li>エージェントとスキルの関係は何ですか？</li>
+      <li>skill-lifecycle-managerの6ステップは何ですか？</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">第11章 理解度チェック</div>
+    <ol>
+      <li>team-builderのAI層の5ステップを順に挙げてください。</li>
+      <li>なぜ提案承認は必須ゲートですか？</li>
+      <li>スクリプト層（<code>bun scripts/team-builder.ts</code>）は何をしますか？</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">第12章 理解度チェック</div>
+    <ol>
+      <li>/syncコマンドは一度で何を処理しますか？</li>
+      <li>なぜGit/GitHubでPR（Pull Request）が必要ですか？</li>
+      <li>フックとは何ですか？</li>
+    </ol>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">第13章 理解度チェック</div>
+    <ol>
+      <li>今日構築したもの（プロジェクト、成果物、エージェント、スキル、チーム提案）をそれぞれ1文で要約してください。</li>
+      <li>次は何を学びますか？</li>
+      <li>自分の仕事に何を最初に応用しますか？</li>
+    </ol>
+  </div>
+   <footer>
+    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) 基準 · 日本語教材<br>
+    公式リソース: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    このハンドブックのコンテンツは <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (表示 - 非営利 - 継承 4.0 国際)</a> ライセンスの下で提供されています。
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

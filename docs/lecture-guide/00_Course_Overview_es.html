@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Vista general del curso · Introduction to Claude Code and Multi-Agent Harness — learning objectives, audience, schedule, outcomes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Vista general del curso · Claude Code &amp; Multi-Agent Harness</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+  <style>
+    /* Page-specific overrides */
+    .hero p { font-size: 14px; line-height: 1.75; margin: 0; }
+    .tag {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      padding: 2px 10px; border-radius: 20px; letter-spacing: .04em;
+      margin-right: 6px; margin-bottom: 6px;
+    }
+    h2 {
+      font-weight: 700; margin: 44px 0 14px;
+      scroll-margin-top: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    h2 .icon { font-size: 1.2rem; }
+    tr.schedule-total td { font-weight: 700; background: var(--bg2); }
+    .obj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin: 14px 0 22px; }
+    .obj-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+      padding: 16px 18px; font-size: 14px; line-height: 1.65; text-align: left;
+    }
+    .obj-card .obj-num {
+      font-size: 11px; font-weight: 700; color: var(--accent);
+      background: var(--tag-bg); border-radius: 10px; padding: 2px 8px; margin-bottom: 8px; display: inline-block;
+    }
+    .obj-card strong { color: var(--accent-dark); }
+    .takeaway-list { list-style: none; padding: 0; margin: 14px 0 22px; }
+    .takeaway-list li {
+      padding: 10px 16px 10px 42px; position: relative; margin-bottom: 8px;
+      background: var(--bg-success); border: 1px solid var(--badge-green-border); border-radius: 8px; font-size: 14px;
+    }
+    .takeaway-list li::before {
+      content: "✓"; position: absolute; left: 14px; top: 10px;
+      color: var(--accent-green); font-weight: 700; font-size: 14px;
+    }
+    .instructor-box p { margin: 6px 0; }
+    .schedule-block {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 6px 0; border-bottom: 1px solid var(--bg3);
+    }
+    .schedule-block:last-child { border-bottom: none; }
+    .schedule-time {
+      min-width: 70px; font-weight: 700; color: var(--accent-dark);
+      text-align: right; padding-top: 2px;
+    }
+    .schedule-body { flex: 1; }
+    .schedule-body h4 { font-size: 14px; font-weight: 700; margin: 0 0 3px; }
+    .schedule-body p { font-size: 13px; color: var(--text-dim); margin: 2px 0; line-height: 1.6; }
+    footer {
+      margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border);
+      color: var(--text-dim); font-size: 12px; line-height: 1.9;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    @media (max-width: 640px) {
+      .wrap { padding: 32px 18px 60px; }
+      h1 { font-size: 1.7rem; }
+      .obj-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Introduction to Claude Code &amp; Multi-Agent Harness</h1>
+  <p class="subtitle">De un único prompt a un equipo completo. Utilizando Claude Desktop App como herramienta predeterminada, aprende cómo construir y usar equipos de agentes de IA —desde los conceptos básicos hasta la creación práctica— en un curso practico de un dia.</p>
+</header>
+
+<!-- ── One-line summary ── -->
+<div class="hero">
+  <p><strong>De que trata este curso?</strong> Ve más allá de "pedirle a una IA que haga una tarea." Aprende como multiples agentes de IA colaboran como un <strong>equipo que divide roles</strong> —y cómo construir y usar uno. Siguiendo <strong>13 capitulos + 3 apendices</strong>, desde la instalacion y suscripción hasta la creación de agentes, habilidades y equipos, adquiriras una experiencia real que puedes aplicar a tu propio trabajo.</p>
+  <p>La <strong>herramienta predeterminada</strong> es la <strong>Claude Desktop App</strong>, que no requiere experiencia en codificacion. El acceso remoto, Claude Code CLI y los backends de bajo costo (DeepSeek/GLM) estan separados en apendices para que puedas profundizar solo si lo necesitas.</p>
+</div>
+
+<!-- ────────────────── 1. Learning Objectives ────────────────── -->
+<h2 id="objectives"><span class="icon">🎯</span>Learning Objectives</h2>
+<p>Al completar este curso, los participantes podran:</p>
+<div class="obj-grid">
+  <div class="obj-card">
+    <div class="obj-num">LO-1</div>
+    <strong>Explicar</strong>la diferencia entre una IA única y un equipo multiagente desde las perspectivas de contexto, rol y paralelismo, y comprender el concepto de harness.
+  </div>
+  <div class="obj-card">
+    <div class="obj-num">LO-2</div>
+    <strong>Instalar</strong>Claude Desktop App en macOS/Windows/Linux, elegir un plan de suscripción y comenzar un proyecto con su primera conversacion.
+  </div>
+  <div class="obj-card">
+    <div class="obj-num">LO-3</div>
+    <strong>Configurar</strong>el entorno de laboratorio utilizando scripts de configuración especificos del SO y verificar la instalacion.
+  </div>
+  <div class="obj-card">
+    <div class="obj-num">LO-4</div>
+    <strong>Describe</strong>the core architecture of a harness multi-agente: agents, skills, workflows, PM orchestration, the 3-Tier strategy, PM Gateway, and dispatch flow.
+  </div>
+  <div class="obj-card">
+    <div class="obj-num">LO-5</div>
+    <strong>Ejecutar</strong>un informe de análisis de mercado con co-consult, una presentación con co-deck y un pipeline integrado que combina ambos.
+  </div>
+  <div class="obj-card">
+    <div class="obj-num">LO-6</div>
+    <strong>Crear</strong>agentes y habilidades adaptados a tu propio trabajo —registrarlos y validarlos— y usar team-builder para componer un equipo de agentes personalizado.
+  </div>
+  <div class="obj-card">
+    <div class="obj-num">LO-7</div>
+    <strong>Automate</strong>with /sync, Git/GitHub PR automation, hooks, CI/CD basics, and understand how dev-sync.ts works.
+  </div>
+  <div class="obj-card">
+    <div class="obj-num">LO-8</div>
+    <strong>Configurar</strong>un entorno de acceso remoto, ejecutar el mismo proyecto con Claude Code CLI y conectar un backend de bajo costo (DeepSeek/GLM) utilizando claves API almacenadas como variables de entorno.
+  </div>
+</div>
+
+<!-- ────────────────── 2. Audience ────────────────── -->
+<h2 id="audience"><span class="icon">👥</span>Audience</h2>
+<p>Este curso se dirige principalmente a <strong>AI beginners</strong>. No necesitas experiencia en codificación: bastan conocimientos básicos de informática.</p>
+<ul>
+  <li><strong>Profesionales que quieren usar IA en el trabajo.</strong> Usas Claude.ai o ChatGPT, pero no estas familiarizado con "usar multiples IAs como un equipo."</li>
+  <li><strong>Lideres y planificadores de equipo considerando la adopcion de IA.</strong> Quieres saber como desplegar agentes de IA en tu equipo.</li>
+  <li><strong>Instructors and consultants preparing AI education.</strong> Tú planeas enseñar el harness multi-agente como material del curso.</li>
+  <li><strong>Cualquiera que quiera construir software pero sienta una barrera para la codificacion.</strong> Quieres crear programas utilizando lenguaje natural con Claude Desktop App.</li>
+</ul>
+<div class="note">
+  <strong>Nota:</strong> Este manual utiliza la <strong>Claude Desktop App</strong> como su herramienta predeterminada. Los usuarios con conocimientos de Terminal/CLI pueden profundizar con Apéndice B (Claude Code CLI) y Apéndice C (backends de bajo costo). Si necesitas acceder al laboratorio de forma remota, comienza con Apéndice A.
+</div>
+
+<!-- ────────────────── 3. Prerequisites ────────────────── -->
+<h2 id="prerequisites"><span class="icon">📋</span>Prerequisites</h2>
+
+<h3>Subscription &amp; Account</h3>
+<div class="chk">☐ An active Claude Pro subscription (este manual assumes Pro)</div>
+<div class="chk">☐ A Claude.ai account (for Claude Desktop App login)</div>
+
+<h3>Requisitos del sistema</h3>
+<div class="chk">☐ macOS or Windows 10/11 (Linux uses Claude Code CLI from Apéndice B)</div>
+<div class="chk">☐ Al menos 2GB de espacio libre en disco y una conexión a internet</div>
+<div class="chk">☐ (Recomendado) The <code>C:\git\project\setup</code> pre-installation script folder — detailed in Capítulo 3</div>
+
+<div class="warn">
+  <strong>Instala con anticipacion.</strong> Para evitar perder tiempo de clase en problemas de configuración, completa la lista de verificación previa en <a href="../ch03/03_Setup_Guide_es.html">Capitulo 3 · Configurando tu laboratorio</a> al menos un dia antes de que comience el curso. Se proporcionan scripts de configuración especificos del SO.
+</div>
+
+<!-- ────────────────── 4. Course Format ────────────────── -->
+<h2 id="format"><span class="icon">📖</span>Course Format</h2>
+<div class="table-schedule">
+<table>
+  <thead><tr><th>Format</th><th>Content</th><th>Ratio</th></tr></thead>
+  <tbody>
+    <tr><td><span class="tag tag-lecture">Lecture</span></td><td>Concept explanations, architecture overview, tool comparison</td><td>~30%</td></tr>
+    <tr><td><span class="tag tag-lab">Hands-on</span></td><td>Participants install, chat, create projects, agents, and teams</td><td>~55%</td></tr>
+    <tr><td><span class="tag tag-discuss">Discussion</span></td><td>Small-group discussion, comprehension checks, sharing results</td><td>~15%</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight">
+  <div class="hl-title">Lab Environment</div>
+  <p>Todos siguen los mismos ejercicios practicos con la <strong>Claude Desktop App</strong>. Cada comando es copiable, y los comandos para macOS/Windows/Linux se muestran uno al lado del otro para que los participantes puedan seguir en cualquier plataforma.</p>
+</div>
+
+<!-- ────────────────── 5. Course Schedule ────────────────── -->
+<h2 id="agenda"><span class="icon">🕐</span>Course Schedule</h2>
+<p>Tiempo total <strong>aproximadamente 6 horas 40 minutos</strong> (sin descansos). Con dos descansos (10–15 min cada uno), <strong>aproximadamente 7 horas</strong> en total.</p>
+
+<div class="highlight">
+  <div class="hl-title">Schedule Principios</div>
+  <p><strong>Manana (Parte 1)</strong> se centra en conceptos fundamentales y configuración del entorno. <strong>Tarde (Partes 2, 3, 4)</strong> aplica lo que construyes a traves de ejercicios practicos, creación y automatización. Los apendices se cubren despues del curso segun sea necesario.</p>
+</div>
+
+<div class="schedule-block">
+  <div class="schedule-time">10m</div>
+  <div class="schedule-body">
+    <h4>Introduction</h4>
+    <p>Course objectives, full roadmap, prerequisite check</p>
+    <p><span class="tag tag-lecture">Lecture</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">25m</div>
+  <div class="schedule-body">
+    <h4>Cap. 1 · ¿Por qué equipos de AI agent?</h4>
+    <p>AI trends, single AI vs agent teams, harness concept, expected outcomes</p>
+    <p><span class="tag tag-lecture">Lecture</span> <span class="tag tag-discuss">Comprehension Check</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">30m</div>
+  <div class="schedule-body">
+    <h4>Cap. 2 · Comenzando con Claude Desktop App</h4>
+    <p>Installation, subscription plan, first conversation, projects, artifacts</p>
+    <p><span class="tag tag-lab">Hands-on</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">30m</div>
+  <div class="schedule-body">
+    <h4>Cap. 3 · Configurando tu laboratorio</h4>
+    <p>Prerequisite checklist, OS-specific setup scripts, installation verification</p>
+    <p><span class="tag tag-lab">Hands-on</span></p>
+  </div>
+</div>
+
+<div class="schedule-break">☕ Break 1 (10–15 min)</div>
+
+<div class="schedule-block">
+  <div class="schedule-time">40m</div>
+  <div class="schedule-body">
+    <h4>Cap. 4 · Multi-Agent Conceptos del Harness</h4>
+    <p>Agents, skills, workflows, PM orchestration, 3-Tier strategy, PM Gateway, dispatch flow</p>
+    <p><span class="tag tag-lecture">Lecture</span> <span class="tag tag-discuss">Comprehension Check</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">10m</div>
+  <div class="schedule-body">
+    <h4>Concept Check · Pair-and-Share</h4>
+    <p>En parejas, turnense para explicar los conceptos de harness que acaban de aprender (agentes, habilidades, flujos de trabajo, PM Gateway) para consolidarlos antes de pasar al siguiente tema.</p>
+    <p><span class="tag tag-lab">Activity (pairs)</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">30m</div>
+  <div class="schedule-body">
+    <h4>Cap. 5 · Exploring ai-workspace-standards</h4>
+    <p>Repository structure (L0→L1→L2), AGENTS.md/CLAUDE.md roles, variants, template inheritance</p>
+    <p><span class="tag tag-lecture">Lecture</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">40m</div>
+  <div class="schedule-body">
+    <h4>Cap. 6 · co-consult: AI Consulting in Practice</h4>
+    <p>PM dialogue, 7-phase workflow, market analysis project, deliverables check</p>
+    <p><span class="tag tag-lab">Hands-on</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">40m</div>
+  <div class="schedule-body">
+    <h4>Cap. 7 · co-deck: AI Presentation in Practice</h4>
+    <p>11-stage pipeline, theme/style selection, gate approval, mini deck project</p>
+    <p><span class="tag tag-lab">Hands-on</span></p>
+  </div>
+</div>
+
+<div class="schedule-break">☕ Break 2 (10–15 min)</div>
+
+<div class="schedule-block">
+  <div class="schedule-time">30m</div>
+  <div class="schedule-body">
+    <h4>Cap. 8 · Pipeline combinado co-consult + co-deck</h4>
+    <p>Report → deck integration, full pipeline (topic in → finished deck)</p>
+    <p><span class="tag tag-lab">Hands-on</span> <span class="tag tag-discuss">Sharing</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">35m</div>
+  <div class="schedule-body">
+    <h4>Cap. 9 · Creación y modificación de agentes</h4>
+    <p>Agent file format, frontmatter, agent-lifecycle-manager, create a simple specialist agent</p>
+    <p><span class="tag tag-lab">Hands-on</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">35m</div>
+  <div class="schedule-body">
+    <h4>Cap. 10 · Creación y modificación de skills</h4>
+    <p>Skill file format, triggers, skill-lifecycle-manager + skill-creator, create a custom skill</p>
+    <p><span class="tag tag-lab">Hands-on</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">30m</div>
+  <div class="schedule-body">
+    <h4>Cap. 11 · Construyendo tu propio equipo de agentes</h4>
+    <p>flujo de trabajo de 5 pasos de team-builder, obten una propuesta de equipo de agentes personalizado para tu dominio</p>
+    <p><span class="tag tag-lab">Hands-on</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">25m</div>
+  <div class="schedule-body">
+    <h4>Cap. 12 · Comprendiendo flujos de trabajo y automatización</h4>
+    <p>/sync, Git/GitHub PR automation, hooks, CI/CD basics, dev-sync.ts</p>
+    <p><span class="tag tag-lecture">Lecture</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">20m</div>
+  <div class="schedule-body">
+    <h4>Cap. 13 · Próximos pasos + Wrap-Up</h4>
+    <p>Learning roadmap, community, application scenarios, FAQ, full review</p>
+    <p><span class="tag tag-discuss">Discussion</span></p>
+  </div>
+</div>
+
+<!-- ────────────────── 6. Temas Covered ────────────────── -->
+<h2 id="topics"><span class="icon">📚</span>Temas Covered</h2>
+<div class="table-schedule">
+<table>
+  <thead><tr><th>Part</th><th>Temas</th><th>Chapters</th></tr></thead>
+  <tbody>
+    <tr><td>Foundations</td><td>Why agent teams, harness concept, Claude Desktop App install/subscribe/projects, lab setup</td><td>Cap. 1–3</td></tr>
+    <tr><td>Conceptos del Harness</td><td>Agents, skills, workflows, PM orchestration, 3-Tier strategy, ai-workspace-standards structure</td><td>Cap. 4–5</td></tr>
+    <tr><td>Hands-on</td><td>co-consult consulting, co-deck presentations, integrated pipeline</td><td>Cap. 6–8</td></tr>
+    <tr><td>Creation</td><td>Creating agents, creating skills, building your own agent team</td><td>Cap. 9–11</td></tr>
+    <tr><td>Automation</td><td>/sync, Git/GitHub, hooks, CI/CD, dev-sync.ts</td><td>Cap. 12</td></tr>
+    <tr><td>Wrap-Up</td><td>Learning roadmap, community, application scenarios, FAQ</td><td>Cap. 13</td></tr>
+    <tr><td>Advanced (Appendices)</td><td>Remote access (Tailscale/NoMachine/RDP), Claude Code CLI, low-cost backends (DeepSeek/GLM/LiteLLM)</td><td>Ap A/B/C</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ────────────────── 7. What You'll Gain ────────────────── -->
+<h2 id="takeaways"><span class="icon">OK</span>Lo que ganaras al completar el curso</h2>
+<ul class="takeaway-list">
+  <li><strong>Habilidades de harness multiagente.</strong> Ve más allá del uso de una sola IA: comprende y utiliza equipos de agentes que dividen roles y colaboran.</li>
+  <li><strong>Hands-on Claude Desktop App experience.</strong> Familiarízate con la instalación, suscripción, proyectos y artefactos.</li>
+  <li><strong>Three lab deliverables.</strong> Build a co-consult market analysis report, a co-deck presentation, and an integrated pipeline output.</li>
+  <li><strong>Tus propios agentes, habilidades y equipo.</strong> Crea, registra y valida agentes y habilidades, y obten una propuesta de equipo de agentes personalizado a traves de team-builder.</li>
+  <li><strong>Conceptos de automatización.</strong> Comprende /sync, Git/GitHub, hooks y los conceptos básicos de CI/CD, y utiliza flujos de trabajo automatizados.</li>
+  <li><strong>Una hoja de ruta de expansion.</strong> Utiliza los apendices para expandirte al acceso remoto, la CLI y los backends de bajo costo.</li>
+</ul>
+
+<!-- ────────────────── 8. Instructor Information ────────────────── -->
+<h2 id="instructor"><span class="icon">🎤</span>Instructor Information</h2>
+<div class="instructor-box">
+  <p class="placeholder">[Instructor name · affiliation · title]</p>
+  <p class="placeholder">[Instructor bio: AI agent adoption/operation experience, primary interests, contact]</p>
+  <p style="margin-top:12px;font-size:12px;color:var(--text-dim);">Esta sección se deja intencionalmente en blanco para que el instructor la complete.</p>
+</div>
+
+<!-- ────────────────── 9. Resources ────────────────── -->
+<h2 id="resources"><span class="icon">🔗</span>Resources</h2>
+<ul>
+  <li><a href="../index_es.html">Handbook Tabla de contenidos (English)</a></li>
+  <li><a href="../ch01/01_Why_AI_Agents_es.html">Cap. 1 · ¿Por qué equipos de AI agent?</a></li>
+  <li><a href="../ch03/03_Setup_Guide_es.html">Cap. 3 · Configurando tu laboratorio</a></li>
+  <li><a href="00_Lecture_Guide_es.html">Guía del instructor</a></li>
+  <li><a href="https://claude.ai" target="_blank">Claude official site</a></li>
+  <li><a href="https://code.claude.com/docs" target="_blank">Claude Code official docs</a></li>
+  <li><a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards GitHub repository</a></li>
+</ul>
+    <footer>
+    Basado en Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) · Material educativo en español<br>
+    Recursos oficiales: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    El contenido de este manual está bajo la licencia <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (Atribución-NoComercial-CompartirIgual 4.0 Internacional)</a>.
+  </footer>
+  </div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

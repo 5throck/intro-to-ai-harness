@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Ch 6 · co-consult: AIコンサルティングの実践 - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Ch 6 &middot; co-consult: AIコンサルティングの実践</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_ja.html" class="nav-home">&larr; ハンドブックホーム</a>
+  <div class="nav-title">Ch 6 &middot; co-consult: AIコンサルティングの実践</div>
+  <a href="#what-is-coconsult">co-consultとは</a>
+  <a href="#architecture">システムアーキテクチャ</a>
+  <a href="#phases">PMがスペシャリストをディスパッチする仕組み</a>
+  <a href="#how-to-talk">PMへの話しかけ方</a>
+  <a href="#team-patterns">チーム構成パターン</a>
+  <a href="#practice">演習: シンプルな市場分析</a>
+  <a href="#outputs">成果物の確認</a>
+  <div class="nav-section">その他の章</div>
+  <a href="../ch05/05_Workspace_Standards_ja.html">Ch 5 &middot; ai-workspace-standardsの探索</a>
+  <a href="../ch07/07_Co_Deck_Practice_ja.html">Ch 7 &middot; co-deck: AIプレゼンテーションの実践</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">第6章</div>
+  <h1>co-consult: AIコンサルティングの実践</h1>
+  <p class="lead">co-consultは、AIエージェントチームがコンサルティングプロジェクトを実行するシステムです。この章では、co-consultの構造を理解し、Claude Desktop Appを使ってシンプルな市場分析プロジェクトを実行します。</p>
+  <div class="keypoints">
+    <div class="kp-title">本章の内容</div>
+    <ul>
+      <li>co-consultシステムの紹介とアーキテクチャ</li>
+      <li>PMがスペシャリストをディスパッチする仕組み（固定パイプラインなし）</li>
+      <li>PMエージェントへのリクエスト方法</li>
+      <li>4つのチーム構成パターン</li>
+      <li>演習: シンプルな市場分析プロジェクト</li>
+      <li>成果物の確認</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: What is co-consult                                  -->
+  <!-- ============================================================ -->
+  <h2 id="what-is-coconsult">co-consultとは</h2>
+
+  <h3>定義</h3>
+
+  <p><strong>co-consult</strong>は、<strong>AIエージェントチームが戦略コンサルティングプロジェクトを実行する</strong>システムです。第5章で探索したai-workspace-standardsのバリアントの一つとして、複数のAIエージェントが連携して市場分析、競合分析、参入戦略策定、ビジネスモデルレビューなどのコンサルティング業務を自動化します。</p>
+
+  <p>場所: <a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">ai-workspace-standards</a>内の<code>templates/co-consult/</code> &mdash; <code>bun scripts/new-project.ts "&lt;name&gt;" --variant co-consult</code>で自分のコピーをスキャフォールドできます。</p>
+
+  <h3>どのような課題を解決するのか</h3>
+
+  <p>戦略コンサルティングにはいくつかのステップが含まれます。co-consultはプロセス全体をAIエージェントチームで実行します。</p>
+
+  <ul>
+    <li><strong>市場分析</strong> &mdash; 市場規模、成長率、トレンドの理解</li>
+    <li><strong>競合分析</strong> &mdash; 主要競合の強み、弱み、市場シェアの比較</li>
+    <li><strong>参入戦略</strong> &mdash; 新規市場参入の方法、タイミング、チャネルの決定</li>
+    <li><strong>ビジネスモデル</strong> &mdash; 収益構造、価値提案、主要リソースの分析</li>
+    <li><strong>技術動向</strong> &mdash; 関連技術の動向と導入可能性のレビュー</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>初心者向けの例え:</strong> co-consultはバーチャルな「コンサルティングファーム」のようなものです。PM（プロジェクトマネージャー）がパートナー（あなた）と会議を開いて要件を把握し、スペシャリストエージェントがそれぞれの分析を担当します。構造は、実際のコンサルティングファームでシニアコンサルタントがジュニアコンサルタントをリードする仕組みと似ています。
+  </div>
+
+  <h3>co-deckとの違い</h3>
+
+  <p>co-deckが<strong>プレゼンテーション（スライド）制作</strong>に特化しているのに対し、co-consultは<strong>戦略分析とレポート作成</strong>に特化しています。どちらもai-workspace-standardsをベースに構築されていますが、目的とエージェント構成が異なります。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>co-deck</h4>
+      <ul>
+        <li>プレゼンテーションスライド制作</li>
+        <li>research, storyline, html-build, pdf-exportなど</li>
+        <li>11段階パイプライン</li>
+        <li>成果物: HTMLスライド + PDF</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-consult</h4>
+      <ul>
+        <li>戦略コンサルティング分析とレポート</li>
+        <li>strategy-analyst, industry-expert, sme, communications-leadなど</li>
+        <li>PMがディスパッチ、固定パイプラインなし</li>
+        <li>成果物: 分析レポート HTML + PDF</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: System Architecture                                 -->
+  <!-- ============================================================ -->
+  <h2 id="architecture">システムアーキテクチャ</h2>
+
+  <h3>エージェント構成</h3>
+
+  <p>co-consultは<strong>1つのPMエージェント（エンゲージメントリーダー）と10人のスペシャリストエージェント</strong>で構成されています。PMが中心に座り、プロジェクト全体をオーケストレートし、スペシャリストエージェントがそれぞれの専門分野で業務を実行します。</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-consult エージェント構成図">
+      <!-- Background -->
+      <rect x="0" y="0" width="680" height="480" rx="12" fill="var(--bg2)"/>
+
+      <!-- PM (center) -->
+      <circle cx="340" cy="240" r="56" fill="var(--accent)" opacity="0.15"/>
+      <circle cx="340" cy="240" r="56" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <text x="340" y="234" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text)">PM</text>
+      <text x="340" y="252" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">エンゲージメントリーダー</text>
+
+      <!-- Connection lines -->
+      <line x1="340" y1="184" x2="340" y2="72" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="240" x2="540" y2="100" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="240" x2="540" y2="180" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="240" x2="540" y2="260" stroke="var(--accent-purple)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="240" x2="540" y2="340" stroke="var(--accent-red)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="340" y1="296" x2="340" y2="420" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="240" x2="140" y2="100" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="240" x2="140" y2="180" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="240" x2="140" y2="260" stroke="var(--accent-purple)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="240" x2="140" y2="340" stroke="var(--accent-red)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="240" x2="540" y2="420" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+
+      <!-- Top: strategy-analyst -->
+      <rect x="280" y="36" width="120" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="340" y="59" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">strategy-analyst</text>
+
+      <!-- Right column -->
+      <rect x="540" y="78" width="120" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="600" y="101" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">industry-expert</text>
+
+      <rect x="540" y="158" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="600" y="181" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">sme</text>
+
+      <rect x="540" y="238" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="600" y="261" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">data-analyst</text>
+
+      <rect x="540" y="318" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="600" y="341" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">communications-lead</text>
+
+      <rect x="540" y="398" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="600" y="421" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">solutions-architect</text>
+
+      <!-- Left column -->
+      <rect x="20" y="78" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="80" y="101" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">change-mgmt-partner</text>
+
+      <rect x="20" y="158" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="80" y="181" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">workstream-lead</text>
+
+      <rect x="20" y="238" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="80" y="261" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">delivery-manager</text>
+
+      <rect x="20" y="318" width="120" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="80" y="341" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">technology-specialist</text>
+
+      <!-- Bottom: User -->
+      <rect x="290" y="406" width="100" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="340" y="429" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">ユーザー</text>
+
+      <!-- Legend -->
+      <rect x="260" y="460" width="12" height="12" rx="2" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="278" y="470" font-size="9" style="fill:var(--text-dim)">リサーチ / インサイト</text>
+      <rect x="380" y="460" width="12" height="12" rx="2" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="398" y="470" font-size="9" style="fill:var(--text-dim)">分析 / デザイン</text>
+      <rect x="500" y="460" width="12" height="12" rx="2" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="518" y="470" font-size="9" style="fill:var(--text-dim)">デリバリー / サポート</text>
+    </svg>
+  </div>
+
+  <h3>スペシャリストエージェントの役割</h3>
+
+  <p>各スペシャリストエージェントの役割の概要です。固定パイプラインとは異なり、プロジェクトの任意のタイミングで必要に応じてディスパッチされます。</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>エージェント</th>
+        <th>役割</th>
+        <th>説明</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>change-management-partner</code></td>
+        <td>チェンジマネジメントパートナー</td>
+        <td>組織変革、文化戦略、ステークホルダーアライメント</td>
+      </tr>
+      <tr>
+        <td><code>strategy-analyst</code></td>
+        <td>ストラテジーアナリスト</td>
+        <td>市場分析、競合リサーチ、財務モデリング</td>
+      </tr>
+      <tr>
+        <td><code>industry-expert</code></td>
+        <td>インダストリーエキスパート</td>
+        <td>業界固有のインサイト、競争動態、規制環境</td>
+      </tr>
+      <tr>
+        <td><code>sme</code></td>
+        <td>サブジェクトマターエキスパート</td>
+        <td>人事、財務、オペレーション、マーケティングなどの機能専門知識</td>
+      </tr>
+      <tr>
+        <td><code>communications-lead</code></td>
+        <td>コミュニケーションズリード</td>
+        <td>クライアント対応、プレゼンテーション、戦略的ナラティブ</td>
+      </tr>
+      <tr>
+        <td><code>solutions-architect</code></td>
+        <td>ソリューションアーキテクト</td>
+        <td>技術ソリューション設計、システムアーキテクチャ、実装ロードマップ</td>
+      </tr>
+      <tr>
+        <td><code>workstream-lead</code></td>
+        <td>ワークストリームリード</td>
+        <td>ワークストリーム管理、チーム調整、進捗追跡</td>
+      </tr>
+      <tr>
+        <td><code>delivery-manager</code></td>
+        <td>デリバリーマネージャー</td>
+        <td>プロジェクトデリバリー、オペレーション調整、リソース割り当て</td>
+      </tr>
+      <tr>
+        <td><code>technology-specialist</code></td>
+        <td>テクノロジースペシャリスト</td>
+        <td>コラボレーションプラットフォーム、ワークフロー自動化、デジタルトランスフォーメーション</td>
+      </tr>
+      <tr>
+        <td><code>data-analyst</code></td>
+        <td>データアナリスト</td>
+        <td>統計分析、データモデリング、可視化</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    PMエージェントはスペシャリストエージェントの作業を<strong>直接実行しません</strong>。PMはオーケストレーターの役割のみを担い &mdash; ユーザーのリクエストを分析し、プロジェクトの必要に応じて適切なスペシャリストエージェントにタスクをディスパッチします。詳細は第4章のPM Gatewayセクションを参照してください。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: How the PM Dispatches Specialists                     -->
+  <!-- ============================================================ -->
+  <h2 id="phases">PMがスペシャリストをディスパッチする仕組み</h2>
+
+  <p>co-deckの固定された11段階パイプラインとは異なり、co-consultには<strong>固定されたフェーズ順序はありません</strong>。PM（エンゲージメントリーダー）があなたのリクエストを分析し、必要なスペシャリストを決定して直接ディスパッチします &mdash; 番号付きフェーズとゲートを順番に進めるのではなく、プロジェクトの質問と成果物に応じて必要に応じてエージェントを追加します。</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-consult PMディスパッチ図">
+      <!-- Background -->
+      <rect x="0" y="0" width="680" height="260" rx="12" fill="var(--bg2)"/>
+
+      <!-- User -->
+      <rect x="16" y="92" width="90" height="60" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="61" y="118" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">ユーザー</text>
+      <text x="61" y="134" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">リクエスト</text>
+
+      <!-- Arrow -->
+      <path d="M108 122 L128 122" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+      <!-- PM -->
+      <rect x="130" y="82" width="110" height="80" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2.5"/>
+      <text x="185" y="112" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">PM</text>
+      <text x="185" y="128" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">エンゲージメント</text>
+      <text x="185" y="140" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">リーダー</text>
+
+      <!-- Arrows to specialists -->
+      <path d="M242 100 L300 50" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+      <path d="M242 118 L300 118" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+      <path d="M242 136 L300 186" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+
+      <!-- Specialist boxes (dispatched as needed) -->
+      <rect x="302" y="26" width="140" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="372" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">strategy-analyst</text>
+
+      <rect x="302" y="98" width="140" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="372" y="122" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">industry-expert</text>
+
+      <rect x="302" y="166" width="140" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="372" y="190" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">communications-lead</text>
+
+      <text x="372" y="222" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">...その他、必要に応じてディスパッチ</text>
+
+      <!-- Arrows to deliverable -->
+      <path d="M444 46 L494 100" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+      <path d="M444 118 L494 118" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+      <path d="M444 186 L494 136" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+
+      <!-- Deliverable -->
+      <rect x="496" y="82" width="160" height="80" rx="10" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2.5"/>
+      <text x="576" y="112" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">成果物</text>
+      <text x="576" y="128" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">分析結果、レポート</text>
+      <text x="576" y="140" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">PMがレビュー</text>
+
+      <!-- Arrowhead definition -->
+      <defs>
+        <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+          <polygon points="0 0, 6 2, 0 4" style="fill:var(--text-dim)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>プロジェクトの実際の進行手順</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>キックオフ</strong><br>
+        PMがあなたと会話し、トピック、スコープ、ターゲットオーディエンス、タイムラインを把握します。別途「フェーズ0」のファイル形式はありません &mdash; PMは単にこのコンテキストを把握し、プロジェクトに必要なスペシャリストを決定します。
+      </li>
+      <li>
+        <strong>質問に応じてスペシャリストをディスパッチ</strong><br>
+        PMは関連するスペシャリストをアクティブにします。例えば、市場・競合リサーチには<code>strategy-analyst</code>、業界固有のコンテキストには<code>industry-expert</code>、機能別の深掘りには<code>sme</code>などです。順序は固定されておらず、PMは複数を並行してディスパッチすることも、プロジェクト途中でギャップが見つかれば追加することもできます。
+      </li>
+      <li>
+        <strong>統合とレポーティング</strong><br>
+        十分な分析が集まると、PMは通常<code>communications-lead</code>を呼び出してナラティブを構成し、クライアント向けの資料を作成します。また、実装計画が必要な場合は<code>solutions-architect</code>や<code>workstream-lead</code>を追加します。
+      </li>
+      <li>
+        <strong>デリバリーとまとめ</strong><br>
+        大規模なプロジェクトでは、<code>delivery-manager</code>と<code>workstream-lead</code>が実行を調整し、進捗を追跡します。PMはあなたと一緒に成果物が完成したと判断すると、プロジェクトを完了します。
+      </li>
+    </ol>
+  </div>
+
+  <div class="note">
+    あなたは<strong>キックオフで要件を定義</strong>し、PMがチェックインするたびに成果物をレビューします。固定パイプラインがないため、チェックポイントはPMが有用と判断した任意のタイミングで自然に発生します &mdash; 例えば、最初のリサーチラウンドの後や、レポート確定前など。あなたはこれらのチェックポイントでプロジェクトの方向を変更できます。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: How to Talk to the PM                               -->
+  <!-- ============================================================ -->
+  <h2 id="how-to-talk">PMへの話しかけ方</h2>
+
+  <p>co-consultを使用するには、Claude Desktop Appでco-consultプロジェクトを開き、PMエージェントにリクエストを送信します。効果的なリクエストは、プロジェクトの成果品質を大幅に向上させます。</p>
+
+  <h3>良いリクエストの4つの要素</h3>
+
+  <p>良いリクエストには以下の4つの要素が含まれます。</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>目的</strong> &mdash; 何を分析したいですか？</li>
+      <li><strong>スコープ</strong> &mdash; どの市場、どのドメインですか？</li>
+      <li><strong>対象</strong> &mdash; 誰のための分析ですか？（自社、競合など）</li>
+      <li><strong>タイムライン</strong> &mdash; いつまでに結果が必要ですか？</li>
+    </ol>
+  </div>
+
+  <h3>リクエスト例</h3>
+
+  <div class="prompt-box">
+    <strong>例1: 市場分析</strong><br>
+    <code>"韓国のフードデリバリーアプリ市場を分析して。競合比較と参入機会に焦点を当てて。2週間以内に完了して。"</code>
+    <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <div class="prompt-box">
+    <strong>例2: ビジネスモデルレビュー</strong><br>
+    <code>"当社スタートアップのSaaSビジネスモデルをレビューして。対象市場は日本のB2B企業。価格戦略とスケーラビリティをカバーして。"</code>
+    <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <div class="prompt-box">
+    <strong>例3: 技術導入評価</strong><br>
+    <code>"自社にAIチャットボットの導入を評価して。教育業界が対象。コスト分析、技術スタックの選択肢、競合の事例研究を含めて。"</code>
+    <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <h3>良いリクエスト vs. 悪いリクエスト</h3>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>良いリクエスト</h4>
+      <ul>
+        <li>目的が明確: 「市場を分析して」</li>
+        <li>スコープが具体的: 「韓国のフードデリバリーアプリ市場」</li>
+        <li>焦点が明記: 「競合比較と参入機会」</li>
+        <li>タイムラインが設定: 「2週間以内」</li>
+        <li>PMがすぐにエージェントをディスパッチできる</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>悪いリクエスト</h4>
+      <ul>
+        <li>目的が曖昧: 「何か分析して」</li>
+        <li>スコープなし: 市場？技術？競合？</li>
+        <li>焦点が不明確: 「すべて」</li>
+        <li>タイムラインなし: 期限が未定</li>
+        <li>PMがフォローアップの質問をする必要がある</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>初心者はシンプルなトピックから始めましょう。</strong>複雑なプロジェクトは経験を積んでからにしてください。「韓国のコーヒーショップ市場の主要トレンドを分析して」といったシンプルなリクエストで、co-consultの動作を学ぶことをお勧めします。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: Team Composition Patterns                            -->
+  <!-- ============================================================ -->
+  <h2 id="team-patterns">チーム構成パターン</h2>
+
+  <p>co-consultにはプロジェクトの規模と複雑さに応じて<strong>4つのチーム構成パターン</strong>が用意されています。PMがプロジェクトの要件を分析し、最適なパターンを選択します。</p>
+
+  <h3>4つのチーム構成パターン</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="チーム構成パターン図">
+      <!-- Background -->
+      <rect x="0" y="0" width="680" height="400" rx="12" fill="var(--bg2)"/>
+
+      <!-- Pattern 1: Quick Assessment -->
+      <rect x="16" y="16" width="158" height="180" rx="10" fill="var(--bg)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="95" y="40" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--accent-green)">クイック評価</text>
+      <text x="95" y="56" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">迅速な評価</text>
+      <circle cx="95" cy="90" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
+      <text x="95" y="95" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
+      <rect x="30" y="120" width="130" height="22" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="95" y="135" text-anchor="middle" font-size="8" style="fill:var(--text)">strategy-analyst</text>
+      <text x="95" y="164" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">1-2エージェント</text>
+      <text x="95" y="180" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">1-2日</text>
+
+      <!-- Pattern 2: Standard -->
+      <rect x="186" y="16" width="158" height="180" rx="10" fill="var(--bg)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="265" y="40" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--accent)">スタンダード</text>
+      <text x="265" y="56" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">標準スコープ</text>
+      <circle cx="265" cy="90" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
+      <text x="265" y="95" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
+      <rect x="200" y="116" width="70" height="20" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="235" y="130" text-anchor="middle" font-size="7" style="fill:var(--text)">strategy-analyst</text>
+      <rect x="272" y="116" width="60" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="302" y="130" text-anchor="middle" font-size="7" style="fill:var(--text)">industry-expert</text>
+      <rect x="200" y="142" width="60" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="230" y="156" text-anchor="middle" font-size="7" style="fill:var(--text)">comms-lead</text>
+      <text x="265" y="178" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">3-4エージェント</text>
+      <text x="265" y="194" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">1-2週間</text>
+
+      <!-- Pattern 3: Complex Transformation -->
+      <rect x="356" y="16" width="158" height="180" rx="10" fill="var(--bg)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="435" y="40" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--accent-purple)">複雑な変革</text>
+      <text x="435" y="56" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">多面的な変更</text>
+      <circle cx="435" cy="82" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
+      <text x="435" y="87" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
+      <rect x="372" y="108" width="66" height="18" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="405" y="121" text-anchor="middle" font-size="7" style="fill:var(--text)">change-mgmt</text>
+      <rect x="440" y="108" width="64" height="18" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="472" y="121" text-anchor="middle" font-size="7" style="fill:var(--text)">workstream-lead</text>
+      <rect x="372" y="132" width="58" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="401" y="145" text-anchor="middle" font-size="7" style="fill:var(--text)">delivery-mgr</text>
+      <rect x="436" y="132" width="66" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="469" y="145" text-anchor="middle" font-size="7" style="fill:var(--text)">strategy-analyst</text>
+      <rect x="372" y="156" width="56" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="400" y="169" text-anchor="middle" font-size="7" style="fill:var(--text)">sme</text>
+      <rect x="434" y="156" width="66" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="467" y="169" text-anchor="middle" font-size="7" style="fill:var(--text)">comms-lead</text>
+      <text x="435" y="192" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">6-8エージェント</text>
+      <text x="435" y="208" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">2-4週間</text>
+
+      <!-- Pattern 4: Specialized Expert -->
+      <rect x="526" y="16" width="138" height="180" rx="10" fill="var(--bg)" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="595" y="40" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--accent-red)">専門特化</text>
+      <text x="595" y="56" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">ドメイン固有</text>
+      <circle cx="595" cy="90" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
+      <text x="595" y="95" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
+      <rect x="546" y="120" width="46" height="20" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="569" y="134" text-anchor="middle" font-size="7" style="fill:var(--text)">sme</text>
+      <rect x="598" y="120" width="52" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="624" y="134" text-anchor="middle" font-size="7" style="fill:var(--text)">tech-spec</text>
+      <text x="595" y="190" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">2-3エージェント</text>
+      <text x="595" y="206" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">一領域に集中</text>
+
+      <!-- Bottom: Comparison area -->
+      <rect x="16" y="220" width="648" height="170" rx="8" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+      <text x="340" y="244" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">パターン比較</text>
+
+      <!-- Comparison headers -->
+      <text x="130" y="268" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text-dim)">クイック</text>
+      <text x="260" y="268" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text-dim)">スタンダード</text>
+      <text x="410" y="268" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text-dim)">複雑</text>
+      <text x="560" y="268" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text-dim)">専門特化</text>
+
+      <!-- Agent count -->
+      <text x="32" y="290" font-size="9" style="fill:var(--text-dim)">エージェント:</text>
+      <text x="130" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">1-2</text>
+      <text x="260" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">3-4</text>
+      <text x="410" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">6-8</text>
+      <text x="560" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">2-3</text>
+
+      <!-- Duration -->
+      <text x="32" y="310" font-size="9" style="fill:var(--text-dim)">期間:</text>
+      <text x="130" y="310" text-anchor="middle" font-size="9" style="fill:var(--text)">1-2日</text>
+      <text x="260" y="310" text-anchor="middle" font-size="9" style="fill:var(--text)">1-2週間</text>
+      <text x="410" y="310" text-anchor="middle" font-size="9" style="fill:var(--text)">2-4週間</text>
+      <text x="560" y="310" text-anchor="middle" font-size="9" style="fill:var(--text)">ドメインによる</text>
+
+      <!-- Best suited for -->
+      <text x="32" y="332" font-size="9" style="fill:var(--text-dim)">適用:</text>
+      <text x="130" y="332" text-anchor="middle" font-size="8" style="fill:var(--text)">迅速な市場</text>
+      <text x="130" y="344" text-anchor="middle" font-size="8" style="fill:var(--text)">トレンド確認</text>
+      <text x="260" y="332" text-anchor="middle" font-size="8" style="fill:var(--text)">一般的な市場</text>
+      <text x="260" y="344" text-anchor="middle" font-size="8" style="fill:var(--text)">分析プロジェクト</text>
+      <text x="410" y="332" text-anchor="middle" font-size="8" style="fill:var(--text)">多面的な</text>
+      <text x="410" y="344" text-anchor="middle" font-size="8" style="fill:var(--text)">戦略、大規模</text>
+      <text x="560" y="332" text-anchor="middle" font-size="8" style="fill:var(--text)">特定の技術</text>
+      <text x="560" y="344" text-anchor="middle" font-size="8" style="fill:var(--text)">または業界に特化</text>
+
+      <!-- Difficulty badges -->
+      <text x="32" y="368" font-size="9" style="fill:var(--text-dim)">難易度:</text>
+      <rect x="100" y="356" width="60" height="18" rx="4" fill="var(--badge-green-bg)" stroke="var(--badge-green-border)" stroke-width="1"/>
+      <text x="130" y="369" text-anchor="middle" font-size="8" style="fill:var(--badge-green-fg)">初心者</text>
+      <rect x="230" y="356" width="60" height="18" rx="4" fill="var(--badge-blue-bg)" stroke="var(--badge-blue-border)" stroke-width="1"/>
+      <text x="260" y="369" text-anchor="middle" font-size="8" style="fill:var(--badge-blue-fg)">中級</text>
+      <rect x="380" y="356" width="60" height="18" rx="4" fill="var(--badge-red-bg)" stroke="var(--badge-red-border)" stroke-width="1"/>
+      <text x="410" y="369" text-anchor="middle" font-size="8" style="fill:var(--badge-red-fg)">上級</text>
+      <rect x="530" y="356" width="60" height="18" rx="4" fill="var(--badge-amber-bg)" stroke="var(--badge-amber-border)" stroke-width="1"/>
+      <text x="560" y="369" text-anchor="middle" font-size="8" style="fill:var(--badge-amber-fg)">中級</text>
+    </svg>
+  </div>
+
+  <div class="note">
+    <strong>初心者はクイック評価またはスタンダードパターンから始めることをお勧めします。</strong>クイック評価は1-2日で結果が出るため、co-consultの仕組みを学ぶのに最適です。慣れてきたら、スタンダードパターンでより複雑なプロジェクトに進みましょう。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: Practice: Simple Market Analysis                     -->
+  <!-- ============================================================ -->
+  <h2 id="practice">演習: シンプルな市場分析</h2>
+
+  <p>この実践演習では、co-consultを使ってシンプルな市場分析プロジェクトを実行します。クイック評価パターンを使用し、韓国のコーヒーショップ市場の主要トレンドを分析します。</p>
+
+  <h3>演習の目的</h3>
+
+  <ul>
+    <li>co-consultリポジトリをクローンしてプロジェクトをセットアップする</li>
+    <li>Claude Desktop AppでPMエージェントにリクエストを送信する</li>
+    <li>PMがスペシャリストをディスパッチする様子を観察する</li>
+    <li>進捗をレビューし、フィードバックを提供する</li>
+    <li>最終成果物を確認する</li>
+  </ul>
+
+  <h3>前提条件</h3>
+
+  <p>第3章でインストールしたツールが正しく動作していることを確認してください。</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Claude Desktop App</strong> &mdash; Claude AIと会話できること</li>
+      <li><strong>Git</strong> &mdash; リポジトリをクローンできること</li>
+      <li><strong>テキストエディタ</strong> &mdash; VS Codeまたはファイルを開けるエディタ</li>
+    </ol>
+  </div>
+
+  <h3>演習の手順</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>ワークスペースをクローンしてプロジェクトをスキャフォールド</strong><br>
+        以前の章でワークスペースをクローンしていない場合は、先にクローンしてください。その後、<code>new-project.ts</code>を使ってco-consultバリアントから新しいプロジェクトをスキャフォールドします。
+        <div class="prompt-box">
+          <code>git clone https://github.com/5throck/ai-workspace-standards.git</code><br>
+          <code>cd ai-workspace-standards</code><br>
+          <code>bun scripts/new-project.ts "co-consult" --variant co-consult</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+        これにより、<code>Projects/co-consult/</code>が独立したGitリポジトリとして作成され、co-consultバリアントのエージェント、スキル、設定がコピーされます。
+      </li>
+      <li>
+        <strong>Claude Desktop Appでプロジェクトを開く</strong><br>
+        Claude Desktop Appを起動し、<code>Projects/co-consult/</code>フォルダをプロジェクトとして開きます。Claudeに以下のように伝えてPMを開始します。
+        <div class="prompt-box">
+          <code>"新しいプロジェクトを始めたいです。"</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+        PMがキックオフの会話を開始し、トピック、スコープ、タイムラインについて尋ねます。
+      </li>
+      <li>
+        <strong>PMにリクエストを送信する</strong><br>
+        PMの質問に答えてプロジェクトを設定します。以下のように応答してみましょう。
+        <div class="prompt-box">
+          <code>"韓国のコーヒーショップ市場の主要トレンドを分析して。フランチャイズカフェと個人カフェの比較に焦点を当てて。クイック評価にしてください。"</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+        PMがリクエストを分析し、クイック評価規模のプロジェクトに必要なスペシャリストを決定します。
+      </li>
+      <li>
+        <strong>スペシャリストのディスパッチを観察する</strong><br>
+        PMは直接スペシャリストをディスパッチします &mdash; 固定されたフェーズ順序はありません。通常、以下のような動きが見られます。
+        <ul>
+          <li><code>strategy-analyst</code>エージェントが「韓国コーヒーショップ市場のトレンド」をリサーチし、市場規模、成長、競合に関する調査結果ドキュメントを作成する</li>
+          <li>リクエストに応じて、PMが<code>industry-expert</code>を追加して業界固有のコンテキストを得る</li>
+          <li><code>communications-lead</code>エージェントが調査結果をクライアント向けレポートにまとめる</li>
+        </ul>
+        PMは各スペシャリストが作業を完了するたびに進捗を報告します。<code>project_state.json</code>ファイルは自動的に更新されます。
+      </li>
+      <li>
+        <strong>進捗をレビューしてフィードバックを提供する</strong><br>
+        固定パイプラインがないため、PMがレビューに価値があると判断した任意のタイミングでチェックインします &mdash; 通常は最初の分析ラウンドの後と、レポート確定前です。
+        <ul>
+          <li><strong>分析後:</strong> 分析の方向性とインサイトが適切か確認します。調整が必要な場合は、この時点でコースを変更できます。</li>
+          <li><strong>確定前:</strong> 最終レポートの品質をレビューし、完成した成果物への移行を承認します。</li>
+        </ul>
+        チェックポイントでは、以下のように応答できます。
+        <div class="prompt-box">
+          <code>"分析をレビューしました。次のステップに進んでください。"</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+        修正が必要な場合は、具体的なフィードバックを提供します。
+        <div class="prompt-box">
+          <code>"競合分析セクションに配達カフェのデータ（Baemin）を追加して。"</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+      </li>
+      <li>
+        <strong>成果物を確認する</strong><br>
+        PMがプロジェクトの成果物が完成したと判断すると、<code>deliverables/reports/</code>フォルダに成果物が格納されます。確認の手順は次のセクションで説明します。
+      </li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>演習中にエラーが発生した場合は、第3章のトラブルシューティングセクションを参照してください。</strong>Claude Desktop Appが応答しない場合や、エージェントのディスパッチエラーが発生した場合は、Claudeの再起動やプロジェクトフォルダの再オープンを試してください。
+  </div>
+
+  <div class="warn">
+    <strong>注意:</strong> co-consultのエージェントはClaude APIを通じて動作します。演習中、Claudeの応答速度が低下したりタイムアウトしたりすることがあります。複雑な分析には時間がかかり、これは正常な動作です。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: Reviewing Outputs                                   -->
+  <!-- ============================================================ -->
+  <h2 id="outputs">成果物の確認</h2>
+
+  <p>co-consultプロジェクトが完了すると、複数の成果物が生成されます。このセクションでは、各成果物の場所と確認方法を説明します。</p>
+
+  <h3>成果物の場所</h3>
+
+  <p>すべての成果物は<code>deliverables/reports/</code>ディレクトリに保存されます。プロジェクトルートから以下のパスでアクセスします。</p>
+
+  <div class="prompt-box">
+    <code>Projects/co-consult/deliverables/reports/</code>
+    <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <h3>主要成果物</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ファイル</th>
+        <th>説明</th>
+        <th>作成者</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>findings_*.md</code></td>
+        <td>リサーチ結果、市場/競合データ、分析中に収集された情報源</td>
+        <td><code>strategy-analyst</code> / <code>industry-expert</code></td>
+      </tr>
+      <tr>
+        <td><code>analysis_*.md</code></td>
+        <td>関与した他のスペシャリストエージェントの個別分析結果（例: <code>sme</code>、<code>data-analyst</code>）</td>
+        <td>関連スペシャリスト</td>
+      </tr>
+      <tr>
+        <td><code>narrative_framework.md</code></td>
+        <td>レポート全体の構造とセクションレベルのナラティブ設計</td>
+        <td><code>communications-lead</code></td>
+      </tr>
+      <tr>
+        <td><code>report.html</code></td>
+        <td>HTML形式の最終分析レポート</td>
+        <td><code>communications-lead</code></td>
+      </tr>
+      <tr>
+        <td><code>report.pdf</code></td>
+        <td>PDF形式の最終分析レポート</td>
+        <td>PM（確定処理）</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>成果物の確認方法</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>プロジェクトフォルダを開く</strong><br>
+        ターミナルで<code>Projects/co-consult/deliverables/reports/</code>ディレクトリに移動します。
+        <div class="prompt-box">
+          <code>cd Projects/co-consult/deliverables/reports/</code><br>
+          <code>ls</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+      </li>
+      <li>
+        <strong>調査結果ドキュメントを確認する</strong><br>
+        リサーチ結果を確認します。収集された情報源、主要データポイント、参考リンクが含まれています。
+        <div class="prompt-box">
+          <code>cat findings_market.md</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+        またはVS Codeで開きます。
+      </li>
+      <li>
+        <strong>HTMLレポートを確認する</strong><br>
+        <code>report.html</code>ファイルをブラウザで開いて完成したレポートを表示します。チャート、テーブル、図を含むインタラクティブな形式です。
+        <div class="prompt-box">
+          <code>open report.html</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+      </li>
+      <li>
+        <strong>PDFを確認する</strong><br>
+        <code>report.pdf</code>ファイルを開いて印刷対応レポートを表示します。この形式は共有やアーカイブに適しています。
+      </li>
+      <li>
+        <strong>project_state.jsonを確認する</strong><br>
+        プロジェクト全体の進捗を確認できます。どのスペシャリストがディスパッチされ、何を生産し、各レビューポイントでPMがチェックインしたかが記録されています。
+        <div class="prompt-box">
+          <code>cat project_state.json</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <h3>ファイル構造の概要</h3>
+
+  <div class="flow-box">
+    <div class="code-block">
+<pre><code>co-consult/
+  agents/                    # エージェント定義ファイル
+    pm.md
+    strategy-analyst.md
+    industry-expert.md
+    communications-lead.md
+    ...
+  deliverables/
+    reports/
+      findings_market.md    # strategy-analyst / industry-expert 出力
+      narrative_framework.md # communications-lead 出力
+      report.html            # communications-lead 出力
+      report.pdf              # PM 確定処理
+  project_state.json        # プロジェクト進捗状況
+  consult-profile.md        # プロジェクト設定
+  memory/                   # セッションログ
+    YYYY-MM-DD.md</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+</div>
+  </div>
+
+  <div class="note">
+    成果物はClaude Desktop AppのArtifactsでも確認できます。Claudeが生成したファイルや図は会話画面で直接プレビューできます。また、<code>project_state.json</code>でプロジェクトが現在どのフェーズにあるかをリアルタイムで確認できます。
+  </div>
+
+  <div class="tip-box">
+    <strong>成果物の活用方法:</strong> 完成したレポートはチームと共有したり、プレゼンテーションの資料として使用できます。co-deck（第7章）と併用すると、分析レポートをベースにしたプレゼンテーションを作成できます。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER NAVIGATION                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch05/05_Workspace_Standards_ja.html" class="prev">
+      <div class="dir">&larr; 前の章</div>
+      <div class="ttl">Ch 5 &middot; ai-workspace-standardsの探索</div>
+    </a>
+    <a href="../ch07/07_Co_Deck_Practice_ja.html" class="next" style="margin-left:auto;">
+      <div class="dir">次の章 &rarr;</div>
+      <div class="ttl">Ch 7 &middot; co-deck: AIプレゼンテーションの実践</div>
+    </a>
+  </div>
+   <footer>
+    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) 基準 · 日本語教材<br>
+    公式リソース: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    このハンドブックのコンテンツは <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (表示 - 非営利 - 継承 4.0 国際)</a> ライセンスの下で提供されています。
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

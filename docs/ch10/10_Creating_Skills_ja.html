@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Ch 10 &middot; スキルの作成と変更 - Claude Code & Multi-Agent Harness 入門">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Ch 10 &middot; スキルの作成と変更</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_ja.html" class="nav-home">&larr; ハンドブック ホーム</a>
+  <div class="nav-title">Ch 10 &middot; スキルの作成と変更</div>
+  <a href="#skill-revisited">スキルの再考</a>
+  <a href="#file-format">スキルファイルの形式</a>
+  <a href="#frontmatter">フロントマターの記述</a>
+  <a href="#body-content">ボディコンテンツの記述</a>
+  <a href="#lifecycle-manager">skill-lifecycle-managerの利用</a>
+  <a href="#skill-creator">skill-creator プラグイン</a>
+  <a href="#register">登録とデプロイ</a>
+  <a href="#practice">演習: 独自のカスタムスキルを構築する</a>
+  <div class="nav-section">その他の章</div>
+  <a href="../ch09/09_Creating_Agents_ja.html">Ch 9 &middot; エージェントの作成と変更</a>
+  <a href="../ch11/11_Building_Agent_Team_ja.html">Ch 11 &middot; 独自のエージェントチームを構築する</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">第10章</div>
+  <h1>スキルの作成と変更</h1>
+  <p class="lead">この章では、スキルファイルの構造、skill-lifecycle-managerとskill-creatorツールについて解説し、独自のカスタムスキルを構築・登録する手順を説明します。</p>
+  <div class="keypoints">
+    <div class="kp-title">本章の内容</div>
+    <ul>
+      <li>スキルファイルの形式と構造</li>
+      <li>YAMLフロントマターのフィールド解説</li>
+      <li>ボディコンテンツのパターン（概要、使用場面、手順、出力、例）</li>
+      <li>skill-lifecycle-managerの使用方法（6ステップ）</li>
+      <li>skill-creator（Claude Code プラグイン）の概要</li>
+      <li>演習: シンプルなカスタムスキルを作成する</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: Rethinking Skills                                  -->
+  <!-- ============================================================ -->
+  <h2 id="skill-revisited">スキルの再考</h2>
+
+  <p>第4章でスキルの概念を紹介しました: エージェントに特定の種類の作業を<em>どのように</em>実行するかを教える再利用可能なレシピブックです。この章ではさらに一歩踏み込み、実際に新しいスキルをゼロから<em>作成</em>し、プロジェクトに登録し、正しくトリガーされることを検証します。</p>
+
+  <h3>第4章のおさらい</h3>
+
+  <p>エージェントとスキルの主な違いを思い出しましょう:</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>エージェント</h4>
+      <ul>
+        <li><strong>対象:</strong> 固定のアイデンティティを持つデジタル従業員</li>
+        <li><strong>例え:</strong> 従業員本人</li>
+        <li><strong>ファイル:</strong> <code>agents/&lt;name&gt;.md</code></li>
+        <li><strong>スコープ:</strong> プロジェクト全体で持続的な役割</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>スキル</h4>
+      <ul>
+        <li><strong>対象:</strong> 再利用可能な指示レシピ</li>
+        <li><strong>例え:</strong> 従業員が従うレシピブック</li>
+        <li><strong>ファイル:</strong> <code>skills/&lt;name&gt;/SKILL.md</code></li>
+        <li><strong>スコープ:</strong> 必要に応じて呼び出し; エージェント間で共有</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>シェフ（エージェント）は、客が注文した料理に応じて異なるレシピ（スキル）を使います。シェフのアイデンティティは変わりませんが、レシピが各料理の調理方法を正確に指示します。<code>html-build</code>エージェントは常にHTMLスライドを構築しますが、<code>html-build</code>スキルがスライドデッキファイルの読み方、テーマの適用方法、出力の生成方法を正確に指示します。</p>
+
+  <h3>所有権レイヤー（L0 / L1 / L2 / L3）</h3>
+
+  <p>スキルはワークスペース階層の異なるレイヤーに存在し、どのレイヤーを編集しているかを理解することが重要です:</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>L0 &mdash; ワークスペースルート</strong> (<code>skills/</code>): 単一情報源（SSOT）。すべてのスキル開発はここで行われます。スキルを作成・編集する場合、このレイヤーを変更します。</li>
+      <li><strong>L1 &mdash; コモンテンプレート</strong> (<code>templates/common/skills/</code>): <code>bun run propagate:apply</code>でL0から公開されたスナップショット。L1を直接編集することはありません &mdash; 変更はL0から下方向に流れます。</li>
+      <li><strong>L2 &mdash; バリアントテンプレート</strong> (<code>templates/co-*/skills/</code>): L2テンプレートレイヤーで定義されたバリアント固有のスキル。各バリアント（co-deck、co-consultなど）は、そのバリアントからスキャフォールドされたすべてのプロジェクトで共有されるスキルを含めることができます。</li>
+      <li><strong>L3 &mdash; プロジェクトレベル</strong> (<code>Projects/&lt;name&gt;/skills/</code>): L2バリアントテンプレートからL3プロジェクトをスキャフォールドした時に作成されるプロジェクト固有のレイヤー。他のプロジェクトやバリアントテンプレートに影響を与えずに、ローカルカスタマイズをここに追加できます。</li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>「レシピ」の例え</strong><br>
+    エージェントがシェフなら、スキルはキッチンのレシピバインダーにあるレシピカードです。バインダーがL0ワークスペース（マスター原稿）。各レストランチェーン用に印刷された料理本がL1テンプレート。特定の料理（イタリアン、日本料理など）用に追加されたレシピバリエーションがL2バリアントスキル。あるレストランのコピーの余白に書き込まれたメモがL3プロジェクトオーバーライド。常にマスターバインダー（L0）で新しいレシピを書き、コピーを配布します。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: Skill File Format                                  -->
+  <!-- ============================================================ -->
+  <h2 id="file-format">スキルファイルの形式</h2>
+
+  <p>すべてのスキルは<code>skills/</code>の下に独自のディレクトリを持ち、<code>SKILL.md</code>という名前の単一ファイルを格納します。命名規則が重要です: ディレクトリ名は<strong>ケバブケース</strong>を使用し、内部のファイルは常に大文字の<code>SKILL.md</code>です。</p>
+
+  <div class="code-block">
+<div class="code-title">ファイルの場所</div>
+<pre><code>skills/&lt;name&gt;/SKILL.md</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+</div>
+
+  <p>エージェントファイルと同様に、スキルファイルは2つの部分で構成されます: <strong>YAMLフロントマターブロック</strong>（機械可読メタデータ）と<strong>Markdownボディ</strong>（人間可読の指示）。構造はエージェントファイルよりシンプルですが、同じ原則が適用されます: フロントマターはシステム用、ボディはAIモデル用です。</p>
+
+  <h3>構造の概要</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="スキルファイルの構造図: 上部にYAMLフロントマター、下部にマークダウンボディ">
+      <defs>
+        <marker id="arrowSk1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
+        </marker>
+      </defs>
+      <!-- 外側ディレクトリコンテナ -->
+      <rect x="40" y="10" width="620" height="320" rx="8" fill="none" stroke="var(--border)" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="350" y="32" text-anchor="middle" style="color:var(--text)" font-size="14" font-weight="600">skills/&lt;name&gt;/</text>
+
+      <!-- ファイルボックス -->
+      <rect x="70" y="45" width="560" height="270" rx="6" fill="none" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="350" y="66" text-anchor="middle" style="color:var(--accent-green)" font-size="13" font-weight="600">SKILL.md</text>
+
+      <!-- フロントマターボックス -->
+      <rect x="90" y="78" width="520" height="130" rx="6" fill="var(--code-bg)" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="110" y="100" style="color:var(--accent-blue)" font-size="13" font-weight="600">YAMLフロントマター</text>
+      <text x="110" y="120" style="color:var(--text-muted)" font-size="12">---  &lt; 開始フェンス</text>
+      <text x="110" y="140" style="color:var(--text-muted)" font-size="12">name: skill-name</text>
+      <text x="110" y="160" style="color:var(--text-muted)" font-size="12">status: active</text>
+      <text x="110" y="180" style="color:var(--text-muted)" font-size="12">description: &gt;- ...</text>
+      <text x="110" y="200" style="color:var(--text-muted)" font-size="12">metadata: { type, triggers }</text>
+
+      <!-- 矢印 -->
+      <line x1="350" y1="212" x2="350" y2="237" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowSk1)"/>
+
+      <!-- ボディボックス -->
+      <rect x="90" y="242" width="520" height="60" rx="6" fill="var(--surface-alt)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="110" y="266" style="color:var(--accent-green)" font-size="13" font-weight="600">Markdownボディ</text>
+      <text x="110" y="286" style="color:var(--text-muted)" font-size="12">## 概要 &middot; ## 使用場面 &middot; ## 手順 &middot; ## 期待される出力 &middot; ## 例</text>
+    </svg>
+  </div>
+
+  <p>フロントマターは2つの<code>---</code>フェンスで囲まれ、エージェントファイルと同じです。閉じフェンスの下のすべてがボディ &mdash; 見出し、リスト、コードブロック、テーブルを持つ標準的なMarkdownです。</p>
+
+  <div class="note">
+    <strong>スキルとエージェントの命名規則の違い</strong><br>
+    エージェントファイルは<code>agents/&lt;name&gt;.md</code>（エージェントごとに1ファイル）に配置されます。スキルファイルは<code>skills/&lt;name&gt;/SKILL.md</code>（スキルごとに1ディレクトリ、内部に常に大文字の<code>SKILL.md</code>）に配置されます。この余分なディレクトリレイヤーにより、スキルはメインの指示ドキュメントと一緒に補助ファイル（例、テストフィクスチャ）をバンドルできます。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: Writing Frontmatter                                -->
+  <!-- ============================================================ -->
+  <h2 id="frontmatter">フロントマターの記述</h2>
+
+  <p>YAMLフロントマターはスキルの機械可読な身分証明書です。オーケストレーションレイヤー（PM、スクリプト、トリガーマッチング）はこれらのフィールドを読み取り、スキルを<em>いつ</em>、<em>どのように</em>アクティブにするかを決定します。</p>
+
+  <h3>必須フィールドとオプションフィールド</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>フィールド</th>
+        <th>必須?</th>
+        <th>型</th>
+        <th>説明</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>name</code></td>
+        <td>必須</td>
+        <td>string</td>
+        <td>ケバブケース識別子。ディレクトリ名と一致する必要があります。</td>
+      </tr>
+      <tr>
+        <td><code>status</code></td>
+        <td>必須</td>
+        <td>string</td>
+        <td>次のいずれか: <code>active</code>、<code>draft</code>、<code>deprecated</code>、<code>retired</code>。</td>
+      </tr>
+      <tr>
+        <td><code>description</code></td>
+        <td>必須</td>
+        <td>string</td>
+        <td>スキルの機能と使用場面を説明する複数行の概要。<code>Use when:</code>トリガーシナリオを含める必要があります。</td>
+      </tr>
+      <tr>
+        <td><code>owner</code></td>
+        <td>必須</td>
+        <td>string</td>
+        <td>このスキルの保守責任を持つエージェントまたはロール（例: <code>pm</code>、<code>research</code>）。</td>
+      </tr>
+      <tr>
+        <td><code>version</code></td>
+        <td>必須</td>
+        <td>string</td>
+        <td>セマンティックバージョン（<code>1.0.0</code>から開始）。</td>
+      </tr>
+      <tr>
+        <td><code>metadata.type</code></td>
+        <td>必須</td>
+        <td>string</td>
+        <td>次のいずれか: <code>process</code>（ワークフロー/方法論）、<code>implementation</code>（技術）、<code>domain</code>（ドメイン固有の知識）。</td>
+      </tr>
+      <tr>
+        <td><code>metadata.triggers</code></td>
+        <td>必須</td>
+        <td>list</td>
+        <td>このスキルをアクティブにするキーワード。少なくとも1つのエントリが必要です。</td>
+      </tr>
+      <tr>
+        <td><code>scope</code></td>
+        <td>オプション</td>
+        <td>string</td>
+        <td>可視性スコープ: <code>common</code>（すべてのプロジェクト）または<code>variant</code>（プロジェクト固有）。</td>
+      </tr>
+      <tr>
+        <td><code>last_reviewed</code></td>
+        <td>オプション</td>
+        <td>string</td>
+        <td>最終レビュー日（YYYY-MM-DD）。</td>
+      </tr>
+      <tr>
+        <td><code>prerequisites</code></td>
+        <td>オプション</td>
+        <td>string</td>
+        <td>前提となるツールやランタイム要件（例: <code>Bun runtime</code>）。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>フロントマターの例</h3>
+
+  <div class="code-block">
+    <div class="code-title">skills/document-reviewer/SKILL.md &mdash; フロントマター</div>
+<pre><code>---
+name: document-reviewer
+status: active
+scope: common
+description: >
+  Reviews markdown documents for clarity, consistency, and formatting
+  compliance. Checks heading hierarchy, link validity, and writing style.
+  Use when: "review this document", "check formatting", "proofread markdown".
+owner: pm
+version: 1.0.0
+last_reviewed: 2026-08-10
+prerequisites: none
+metadata:
+  type: process
+  triggers:
+    - review document
+    - check formatting
+    - proofread
+    - document quality
+---</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <div class="tip-box">
+    <strong>適切なタイプの選択</strong><br>
+    <strong>process</strong> &mdash; ワークフローと方法論のスキル（例: <code>sync</code>、<code>meeting-facilitation</code>、<code>skill-lifecycle-manager</code>）。<br>
+    <strong>implementation</strong> &mdash; 技術実装のスキル（例: <code>html-build</code>、<code>pdf-export</code>、<code>measure</code>）。<br>
+    <strong>domain</strong> &mdash; ドメイン固有の知識スキル（例: <code>dart-disclosure-parser</code>、<code>mece-logic-auditor</code>）。<br>
+    スキルの主な目的を最もよく表すタイプを選択してください。汎用ワークフローのスキルはほとんどが<code>process</code>です。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: Writing Body Content                               -->
+  <!-- ============================================================ -->
+  <h2 id="body-content">ボディコンテンツの記述</h2>
+
+  <p>閉じ<code>---</code>フェンスの下にあるMarkdownボディは、スキルの<strong>取扱説明書</strong>です。スキルがロードされると、AIモデルはボディ全体を読み、その指示に従います。良いボディコンテンツは、エージェントが毎回一貫して正確にワークフローを実行することを保証します。</p>
+
+  <h3>推奨される5つのセクション</h3>
+
+  <p>ボディの構成方法は多岐にわたりますが、ほとんどのスキルは以下の5つのセクション（順序通り）で恩恵を受けます:</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>概要（Overview）</strong> &mdash; スキルの目的に関する高位の説明。どのような問題を解決するのか？どんな価値を提供するのか？2〜4文に収めてください。</li>
+      <li><strong>使用場面（When to Use）</strong> &mdash; トリガー条件と具体的なユースケース。このスキルをアクティブにするフレーズや状況をリストします。フロントマターのトリガーキーワードを補強します。</li>
+      <li><strong>手順（Steps）</strong> &mdash; エージェントがタスクを完了するために従う番号付きの順次指示。ワークフローが複雑な場合は、論理フェーズごとにグループ化します。各ステップは実行可能であり、適宜検証チェックポイントを含める必要があります。</li>
+      <li><strong>期待される出力（Expected Outputs）</strong> &mdash; スキルが生成するもの。ファイル名、形式、コンテンツ構造を指定し、パイプラインの次のエージェントが正確に何を期待できるかを把握できるようにします。</li>
+      <li><strong>例（Examples）</strong>（オプション） &mdash; スキルが現実的なシナリオでどのように機能するかを示す具体的な使用例。サンプル入力と出力を含めます。</li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>手順を明確かつ順次的に保つ</strong><br>
+    <strong>手順</strong>セクションはスキルの心臓部です。各ステップを命令形の直接命令として書いてください:「入力ファイルを読む」「構造を検証する」「出力レポートを書く」。「データを処理する」のような曖昧なフレーズを避けてください。各ステップで具体的なファイルパス、形式要件、検証チェックを含めてください。サブステップがある場合は、番号付きサブリスト（1.1、1.2など）を使って階層を明確にします。
+  </div>
+
+  <h3>セクションの詳細と例</h3>
+
+  <h4>1. 概要（Overview）</h4>
+  <p>スキルの機能と存在理由を簡潔な文で始めます。</p>
+  <div class="code-block">
+<pre><code>## Overview
+
+Reviews markdown documents for structural clarity, formatting
+consistency, and writing quality. Produces a structured review
+report with categorized findings and actionable fix suggestions.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <h4>2. 使用場面（When to Use）</h4>
+  <p>具体的なトリガーシナリオをリストします。</p>
+  <div class="code-block">
+<pre><code>## When to Use
+
+- User says "review this document" or "check formatting"
+- Before publishing a markdown file to catch issues
+- After a major edit to verify the document still meets standards
+- When quality-gating content before handoff to the next agent</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <h4>3. 手順（Steps）</h4>
+  <p>番号付きの実行可能な指示を提供します。</p>
+  <div class="code-block">
+<pre><code>## Steps
+
+### Step 1: Load and Parse
+- Read the target markdown file using the Read tool
+- Parse the document structure (headings, links, code blocks)
+
+### Step 2: Structural Checks
+- Verify heading hierarchy (no H3 before H2, etc.)
+- Check that every internal link targets an existing file
+- Validate that code blocks specify a language
+
+### Step 3: Quality Review
+- Flag passive voice overuse (more than 30% of sentences)
+- Check for run-on paragraphs (more than 5 sentences)
+- Verify consistent terminology usage</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <h4>4. 期待される出力（Expected Outputs）</h4>
+  <p>スキルが生成するものを定義します。</p>
+  <div class="code-block">
+<pre><code>## Expected Outputs
+
+- `review-report.md` in the same directory as the input file
+- Sections: Structure, Links, Style, Terminology
+- Each finding includes: severity (error/warning/info),
+  location (line reference), and suggested fix</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <h4>5. 例（Examples）（オプション）</h4>
+  <p>現実的な使用シナリオを示します。</p>
+  <div class="code-block">
+<pre><code>## Examples
+
+**Input**: User says "Review docs/ch02/02_Getting_Started.md"
+**Output**: Creates `docs/ch02/review-report.md` with 3 errors
+  (broken link, missing H1, code block without language) and
+  5 warnings (passive voice, long paragraphs).</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <div class="note">
+    <strong>ボディは「取扱説明書」</strong><br>
+    フロントマター（スクリプトとトリガーマッチャーが読み取る）とは異なり、ボディはスキルがロードされた時に<em>AIモデル</em>によって読み取られます。新しいチームメンバー向けのマニュアルを書くように書いてください: 明確で具体的、そして<em>どのように</em>作業を行うかに焦点を当てます。「なぜ」は概要に、「いつ」はトリガーセクションに、「どのように」は手順に属します。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: Using skill-lifecycle-manager                       -->
+  <!-- ============================================================ -->
+  <h2 id="lifecycle-manager">skill-lifecycle-managerの利用</h2>
+
+  <p><code>skill-lifecycle-manager</code>スキルは、スキルの作成、検証、保守のための体系的な6ステッププロセスを提供します。手動でファイルを作成してすべてが正しく接続されることを期待するのではなく、このスキルが各ステップをガイドし、問題を早期に検出します。</p>
+
+  <h3>6ステッププロセス</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="スキルライフサイクル6ステッププロセス図">
+      <defs>
+        <marker id="arrowSlm1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-amber)"/>
+        </marker>
+      </defs>
+
+      <!-- 背景 -->
+      <rect x="10" y="10" width="680" height="320" rx="14" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="350" y="36" text-anchor="middle" style="color:var(--text)" font-size="14" font-weight="600">スキルライフサイクル 6ステッププロセス</text>
+
+      <!-- 行1: ステップ1-4 -->
+      <!-- ステップ1 -->
+      <rect x="25" y="55" width="120" height="55" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="85" y="76" text-anchor="middle" style="color:var(--accent-blue)" font-size="12" font-weight="600">ステップ 1</text>
+      <text x="85" y="95" text-anchor="middle" style="color:var(--text)" font-size="10">ディレクトリ作成</text>
+
+      <!-- 矢印1→2 -->
+      <line x1="145" y1="82" x2="165" y2="82" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowSlm1)"/>
+
+      <!-- ステップ2 -->
+      <rect x="175" y="55" width="120" height="55" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="235" y="76" text-anchor="middle" style="color:var(--accent-blue)" font-size="12" font-weight="600">ステップ 2</text>
+      <text x="235" y="95" text-anchor="middle" style="color:var(--text)" font-size="10">フロントマター記述</text>
+
+      <!-- 矢印2→3 -->
+      <line x1="295" y1="82" x2="315" y2="82" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowSlm1)"/>
+
+      <!-- ステップ3 -->
+      <rect x="325" y="55" width="120" height="55" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="385" y="76" text-anchor="middle" style="color:var(--accent-blue)" font-size="12" font-weight="600">ステップ 3</text>
+      <text x="385" y="95" text-anchor="middle" style="color:var(--text)" font-size="10">ボディ記述</text>
+
+      <!-- 矢印3→4 -->
+      <line x1="445" y1="82" x2="465" y2="82" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowSlm1)"/>
+
+      <!-- ステップ4 -->
+      <rect x="475" y="55" width="120" height="55" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="535" y="76" text-anchor="middle" style="color:var(--accent-blue)" font-size="12" font-weight="600">ステップ 4</text>
+      <text x="535" y="95" text-anchor="middle" style="color:var(--text)" font-size="10">登録</text>
+
+      <!-- 矢印4→5（下への折れ） -->
+      <line x1="535" y1="115" x2="535" y2="140" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowSlm1)"/>
+
+      <!-- 行2: ステップ5-6 -->
+      <!-- ステップ5 -->
+      <rect x="310" y="150" width="145" height="55" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="382" y="171" text-anchor="middle" style="color:var(--accent-blue)" font-size="12" font-weight="600">ステップ 5</text>
+      <text x="382" y="190" text-anchor="middle" style="color:var(--text)" font-size="10">検証</text>
+
+      <!-- 矢印5→6 -->
+      <line x1="310" y1="177" x2="290" y2="177" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowSlm1)"/>
+
+      <!-- ステップ6 -->
+      <rect x="165" y="150" width="145" height="55" rx="8" fill="var(--accent-green)" opacity="0.15" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="237" y="171" text-anchor="middle" style="color:var(--accent-green)" font-size="12" font-weight="600">ステップ 6</text>
+      <text x="237" y="190" text-anchor="middle" style="color:var(--text)" font-size="10">アクティブ化テスト</text>
+
+      <!-- 説明 -->
+      <rect x="25" y="220" width="645" height="95" rx="8" fill="var(--surface-alt)" stroke="var(--border)" stroke-width="1"/>
+      <text x="45" y="242" style="color:var(--text-muted)" font-size="10"><tspan font-weight="600" style="color:var(--accent-blue)">ステップ1:</tspan> mkdir skills/&lt;name&gt; + touch SKILL.md</text>
+      <text x="45" y="260" style="color:var(--text-muted)" font-size="10"><tspan font-weight="600" style="color:var(--accent-blue)">ステップ2:</tspan> name, status, description, owner, version, metadata.type, metadata.triggers を記述</text>
+      <text x="45" y="278" style="color:var(--text-muted)" font-size="10"><tspan font-weight="600" style="color:var(--accent-blue)">ステップ3:</tspan> Overview, When to Use, Steps, Expected Outputs, Examples を記述</text>
+      <text x="45" y="296" style="color:var(--text-muted)" font-size="10"><tspan font-weight="600" style="color:var(--accent-blue)">ステップ4:</tspan> AGENTS.md + docs/context.md に登録 &middot; <tspan font-weight="600" style="color:var(--accent-blue)">ステップ5:</tspan> bun run verify-skills &middot; <tspan font-weight="600" style="color:var(--accent-green)">ステップ6:</tspan> サンプルトリガーでテスト</text>
+    </svg>
+  </div>
+
+  <h3>ステップバイステップの解説</h3>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>ディレクトリを作成する</strong> &mdash; ディレクトリ名にケバブケースを使用して<code>skills/&lt;name&gt;/SKILL.md</code>を作成します。ファイル名は正確に<code>SKILL.md</code>（大文字）である必要があります。</li>
+      <li><strong>フロントマターを記述する</strong> &mdash; すべての必須YAMLフィールド（name、status、description、owner、version、metadata.type、metadata.triggers）を入力します。ディレクトリ名と<code>name</code>フィールドは一致する必要があります。</li>
+      <li><strong>ボディコンテンツを記述する</strong> &mdash; 概要、使用場面、手順（検証チェックポイント付き）、期待される出力、オプションで例を含むMarkdown指示を作成します。</li>
+      <li><strong>ドキュメントに登録する</strong> &mdash; <code>AGENTS.md</code>のスキルテーブルと<code>docs/context.md</code>のスキルセクションにスキルを追加します。ファイルパスとトリガー条件を含めます。</li>
+      <li><strong>検証する</strong> &mdash; <code>bun run verify-skills</code>（または<code>bun scripts/validate-skills.ts</code>）を実行して、スキルがすべての構造・コンテンツチェックに合格するか確認します。</li>
+      <li><strong>アクティブ化テスト</strong> &mdash; プラットフォームツール（Claude Codeの<code>Skill</code>ツールなど）でスキルをロードしてみて、フロントマターが正しく読み込まれること、コンテンツが実行可能であること、トリガーが期待されるユースケースに一致することを確認します。</li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>シンプルに始めて反復する</strong><br>
+    初日から完璧なスキルを作る必要はありません。必須フロントマターフィールドと基本的な手順セクションを持つ最小限の実行可能なスキルを作成してください。最初は<code>status: draft</code>に設定します。テストし、モデルがどのように解釈するかに基づいて文言を調整し、一貫した動作になったら<code>status: active</code>に昇格させます。ライフサイクルマネージャーは反復を安全にします: すべての変更は昇格前に自動的に検証できます。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: skill-creator Plugin                              -->
+  <!-- ============================================================ -->
+  <h2 id="skill-creator">skill-creator プラグイン</h2>
+
+  <p>上記で説明した手動プロセスに加えて、Claude Codeには<strong>skill-creator</strong>プラグインが用意されており、スキルファイルの作成と反復を支援できます。このプラグインはClaude Code CLIプラグインマーケットプレイスで利用可能です。</p>
+
+  <h3>skill-creatorができること</h3>
+
+  <p><code>skill-creator</code>プラグインは3つの主要なワークフローを支援します:</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>ゼロから作成</strong> &mdash; スキルの目的を説明するだけで、適切なフロントマターとボディ構造を持つ新しい<code>SKILL.md</code>ファイルを生成します。</li>
+      <li><strong>既存スキルの編集</strong> &mdash; 既存のスキルの文言を調整し、欠落しているセクションを追加するか、構造を再編成してトリガーの信頼性と指示の明確さを向上させます。</li>
+      <li><strong>文言の反復</strong> &mdash; トリガー条件や手順指示の異なる言い回しをテストし、一貫したAI動作に最適なものを見つけます。</li>
+    </ol>
+  </div>
+
+  <h3>テスト駆動の反復的オーサリング</h3>
+
+  <p>skill-creatorは<strong>テスト駆動</strong>アプローチを採用しています: ドラフトを書き、トリガーをテストし、モデルの動作を観察し、文言を調整します。このサイクルは、スキルが確実にトリガーされ、一貫した出力を生成するまで繰り返されます。</p>
+
+  <div class="flow-box">
+    <div class="step"><strong>1. 説明</strong> &mdash; スキルに何をしてほしいか（目的、トリガーフレーズ、期待される動作）をskill-creatorに伝えます。</div>
+    <div class="step"><strong>2. ドラフト</strong> &mdash; skill-creatorがフロントマターとボディを持つ初期の<code>SKILL.md</code>を生成します。</div>
+    <div class="step"><strong>3. テスト</strong> &mdash; 実際のセッションでスキルをロードし、トリガーフレーズを試します。出力を観察します。</div>
+    <div class="step"><strong>4. 調整</strong> &mdash; テスト結果に基づいて、トリガーキーワードを調整し、曖昧な手順を明確にし、欠落している検証チェックポイントを追加します。</div>
+    <div class="step"><strong>5. 検証</strong> &mdash; 登録前に構造的コンプライアンスを確認するため、skill-lifecycle-managerの検証を実行します。</div>
+  </div>
+
+  <div class="note">
+    <strong>Claude Desktop Appでの代替方法</strong><br>
+    Claude Code CLIプラグインマーケットプレイスなしのClaude Desktop Appを使用している場合、Claudeに直接依頼することで同じワークフローを実現できます:「Markdownドキュメントの書式問題をレビューするスキルを作成して」。Claudeが<code>SKILL.md</code>ファイルのドラフトを作成します。その後、前述のskill-lifecycle-managerの手順を使用して手動で登録・検証できます。主な違いは、skill-creatorプラグインが反復サイクルを自動化する点です。Claude Desktop Appでは、テスト・調整サイクルを手動で管理します。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: Registration & Deployment                          -->
+  <!-- ============================================================ -->
+  <h2 id="register">登録とデプロイ</h2>
+
+  <p>登録されていないスキルは、キッチンのバインダーに入れられなかったレシピカードと同じです。システムはそれを発見できず、エージェントはロードできず、監査スクリプトはそれを孤立したものとしてフラグします。登録により、スキルはワークスペース全体から可視になります。</p>
+
+  <h3>登録先</h3>
+
+  <p><strong>2つの主要な場所</strong>にスキルを登録する必要があります:</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>AGENTS.md &mdash; スキルテーブル</strong>（§6）: スキル名、ファイルパス（<code>skills/&lt;name&gt;/SKILL.md</code>）、簡単な説明を含む行を追加します。これはPMとドキュメントツールが参照するメインレジストリです。</li>
+      <li><strong>docs/context.md &mdash; スキルセクション</strong>: スキル名、タイプ、簡単な説明をスキルセクションに追加します。これにより、開発者向けドキュメントにスキルが表示されます。</li>
+    </ol>
+  </div>
+
+  <h3>登録の例</h3>
+
+  <div class="code-block">
+    <div class="code-title">AGENTS.md &mdash; スキルテーブルのエントリ</div>
+<pre><code>| document-reviewer | `skills/document-reviewer/SKILL.md` | Reviews markdown documents for clarity, consistency, and formatting compliance |</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <div class="code-block">
+    <div class="code-title">docs/context.md &mdash; スキルセクションのエントリ</div>
+<pre><code>### document-reviewer
+- **File**: `skills/document-reviewer/SKILL.md`
+- **Type**: process
+- **Description**: Reviews markdown documents for clarity, consistency, and formatting compliance.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <h3>sync-skills.tsによるデプロイ</h3>
+
+  <p>スキルの作成または更新後、同期スクリプトを実行してプラットフォーム固有のディレクトリに配布します:</p>
+
+  <div class="code-block">
+    <div class="code-title">すべてのプラットフォームにスキルをデプロイ</div>
+<pre><code>bun scripts/sync-skills.ts</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <p>このスクリプトは、<code>skills/&lt;name&gt;/SKILL.md</code>から<code>.claude/skills/&lt;name&gt;/SKILL.md</code>と<code>.gemini/skills/&lt;name&gt;/SKILL.md</code>にコピーし、Claude CodeとAntigravity CLIの両方が発見・ロードできるようにします。L0ワークスペースにいて<code>templates/common/</code>ディレクトリが存在する場合、<code>bun run propagate:apply</code>を実行してL1テンプレートにも伝播させる必要があります。</p>
+
+  <div class="note">
+    <strong>L0の優先度</strong><br>
+    ワークスペースレベルのスキル（<code>skills/</code>）はスキル解決順序で<em>最も高い</em>優先度を持ちます（第4章参照）。つまり、L0で作成したスキルは、同じ名前のプラットフォームレベルやプラグインレベルのスキルより常に優先されます。この力を責任を持って使ってください &mdash; 既存のプラグイン機能を意図的にオーバーライドしたい場合を除き、重複やシャドウイングを行うスキルの作成は避けてください。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 8: Practice                                           -->
+  <!-- ============================================================ -->
+  <h2 id="practice">演習: 独自のカスタムスキルを構築する</h2>
+
+  <p>さあ、あなたの番です。この演習では、Markdownドキュメントの書式、構造、執筆品質をレビューする再利用可能なレシピである<strong>document-reviewer</strong>スキルをゼロから作成します。</p>
+
+  <div class="prompt-box">
+    <strong>目標</strong>: 機能する<code>document-reviewer</code>スキルを作成し、<code>AGENTS.md</code>に登録し、<code>sync-skills.ts</code>でデプロイし、正しくトリガーされることをテストする。
+  </div>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>ディレクトリとファイルを作成する</strong><br>
+        <code>skills/document-reviewer/</code>ディレクトリを作成し、その中に<code>SKILL.md</code>という名前のファイルを追加します。
+      </li>
+      <li>
+        <strong>フロントマターを記述する</strong><br>
+        すべての必須フィールドを含むYAMLフロントマターを追加します。参考用の完全なフロントマター:
+        <div class="code-block">
+          <div class="code-title">skills/document-reviewer/SKILL.md &mdash; フロントマター</div>
+<pre><code>---
+name: document-reviewer
+status: draft
+scope: common
+description: >
+  Reviews markdown documents for clarity, consistency, and formatting
+  compliance. Checks heading hierarchy, link validity, and writing style.
+  Use when: "review this document", "check formatting", "proofread markdown".
+owner: pm
+version: 1.0.0
+last_reviewed: 2026-08-10
+prerequisites: none
+metadata:
+  type: process
+  triggers:
+    - review document
+    - check formatting
+    - proofread
+    - document quality
+---</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+      </li>
+      <li>
+        <strong>ボディを記述する</strong><br>
+        5セクション構造を使用します。完全なボディ:
+        <div class="code-block">
+          <div class="code-title">skills/document-reviewer/SKILL.md &mdash; ボディ</div>
+<pre><code>## Overview
+
+Reviews markdown documents for structural clarity, formatting
+consistency, and writing quality. Produces a structured review
+report with categorized findings and actionable fix suggestions.
+
+## When to Use
+
+- User says "review this document" or "check formatting"
+- Before publishing a markdown file to catch issues
+- After a major edit to verify the document still meets standards
+- When quality-gating content before handoff to the next agent
+
+## Steps
+
+### Step 1: Load and Parse
+- Read the target markdown file using the Read tool
+- Parse the document structure (headings, links, code blocks)
+- Count total lines and estimate word count
+
+### Step 2: Structural Checks
+- Verify heading hierarchy (no H3 before H2, exactly one H1)
+- Check that every internal link targets an existing file
+- Validate that code blocks specify a language tag
+- Ensure images have alt text
+
+### Step 3: Style Review
+- Flag passive voice overuse (more than 30% of sentences)
+- Check for run-on paragraphs (more than 5 sentences)
+- Verify consistent terminology (same term used throughout)
+- Check for redundant phrases or wordiness
+
+### Step 4: Generate Report
+- Create `review-report.md` in the same directory as the input
+- Structure the report with sections: Structure, Links, Style,
+  Terminology, Summary
+- Each finding includes severity (error/warning/info), location
+  (line reference), and suggested fix
+
+## Expected Outputs
+
+- `review-report.md` in the same directory as the reviewed file
+- Sections: Structure, Links, Style, Terminology, Summary
+- Severity levels: error (must fix), warning (should fix),
+  info (suggestion)
+- Word count and line count summary at the top
+
+## Examples
+
+**Input**: "Review docs/ch02/02_Getting_Started.md"
+**Output**: Creates `docs/ch02/review-report.md` reporting
+  2 errors (broken link on line 45, missing H1), 4 warnings
+  (passive voice, long paragraphs), and 3 info items
+  (terminology suggestions).</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+      </li>
+      <li>
+        <strong>AGENTS.mdに登録する</strong><br>
+        <code>AGENTS.md</code>のスキルテーブルにdocument-reviewerをファイルパスと説明とともに追加します。プロジェクトに<code>docs/context.md</code>があれば、そこにもエントリを追加します。
+      </li>
+      <li>
+        <strong>sync-skills.tsでデプロイする</strong><br>
+        ターミナルで<code>bun scripts/sync-skills.ts</code>を実行し、スキルをプラットフォーム固有のディレクトリ（<code>.claude/skills/</code>と<code>.gemini/skills/</code>）に配布します。
+      </li>
+      <li>
+        <strong>検証する</strong><br>
+        <code>bun run verify-skills</code>（または<code>bun scripts/validate-skills.ts</code>）を実行し、スキルがすべての構造・コンテンツチェックに合格するか確認します。報告されたエラーを修正します。
+      </li>
+      <li>
+        <strong>アクティブ化テスト</strong><br>
+        Claude Code（またはClaude Desktop App）で、「README.mdファイルの書式問題をレビューして」と言ってみてください。スキルがロードされ、手順が実行され、<code>review-report.md</code>ファイルが期待される構造で作成されることを確認します。
+      </li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>テストは必須</strong><br>
+    新しいスキルの本当のテストは、検証スクリプトが通過することではなく、実際のユーザーリクエストでトリガーされたときに有用な出力を生成することです。検証に合格した後は、必ず少なくとも1回のエンドツーエンドテストを実行してください: リアルなプロンプトでスキルをトリガーし、出力をレビューし、結果が不安定だったり重要なチェックが漏れたりしている場合は手順指示を調整します。スキルは生きたドキュメントであり、動作が確実に一貫するまで2〜3回の反復を想定してください。
+  </div>
+
+  <div class="keypoints">
+    <div class="kp-title">重要ポイント</div>
+    <ul>
+      <li>スキルは<code>skills/&lt;name&gt;/SKILL.md</code>に保存される再利用可能な指示レシピ</li>
+      <li>スキルファイル = YAMLフロントマター（メタデータ + トリガー）+ Markdownボディ（指示）</li>
+      <li>フロントマターの必須フィールド: name、status、description、owner、version、metadata.type、metadata.triggers</li>
+      <li>ボディセクション: 概要、使用場面、手順、期待される出力、例</li>
+      <li>skill-lifecycle-managerは6ステップの作成・検証プロセスを提供</li>
+      <li>skill-creator（Claude Code プラグイン）はテスト駆動の反復的オーサリングを支援</li>
+      <li>AGENTS.mdとdocs/context.mdにスキルを登録し、<code>bun scripts/sync-skills.ts</code>でデプロイ</li>
+      <li>検証通過後、必ず実際のトリガーフレーズでアクティブ化テストを実行</li>
+      <li><code>status: draft</code>で開始し、スキルが一貫して動作したら<code>active</code>に昇格</li>
+    </ul>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- Chapter Navigation                                           -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch09/09_Creating_Agents_ja.html" class="prev">
+      <div class="dir">&larr; 前の章</div>
+      <div class="ttl">Ch 9 &middot; エージェントの作成と変更</div>
+    </a>
+    <a href="../ch11/11_Building_Agent_Team_ja.html" class="next" style="margin-left:auto;">
+      <div class="dir">次の章 &rarr;</div>
+      <div class="ttl">Ch 11 &middot; 独自のエージェントチームを構築する</div>
+    </a>
+  </div>
+   <footer>
+    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) 基準 · 日本語教材<br>
+    公式リソース: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    このハンドブックのコンテンツは <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (表示 - 非営利 - 継承 4.0 国際)</a> ライセンスの下で提供されています。
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

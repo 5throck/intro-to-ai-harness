@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Ch 9 · エージェントの作成と変更 - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Ch 9 &middot; エージェントの作成と変更</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_ja.html" class="nav-home">&larr; ハンドブックホーム</a>
+  <div class="nav-title">Ch 9 &middot; エージェントの作成と変更</div>
+  <a href="#agent-revisited">エージェントを再考する</a>
+  <a href="#file-format">エージェントファイル形式</a>
+  <a href="#frontmatter">フロントマターの記述</a>
+  <a href="#body-content">ボディコンテンツの記述</a>
+  <a href="#lifecycle-manager">agent-lifecycle-managerの使用</a>
+  <a href="#register">AGENTS.mdへの登録</a>
+  <a href="#verify">検証とテスト</a>
+  <a href="#practice">演習: 自分のスペシャリストエージェントを作る</a>
+  <div class="nav-section">その他の章</div>
+  <a href="../ch08/08_Integrated_Pipeline_ja.html">Ch 8 &middot; co-consult + co-deck統合パイプライン</a>
+  <a href="../ch10/10_Creating_Skills_ja.html">Ch 10 &middot; スキルの作成と変更</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">第9章</div>
+  <h1>エージェントの作成と変更</h1>
+  <p class="lead">本章ではエージェントファイル構造、agent-lifecycle-managerスキルを解説し、独自のスペシャリストエージェントの構築、登録、検証を実際に体験します。</p>
+  <div class="keypoints">
+    <div class="kp-title">本章の内容</div>
+    <ul>
+      <li>エージェントファイル形式と構造</li>
+      <li>YAMLフロントマターのフィールドの意味</li>
+      <li>ボディコンテンツの記述パターン</li>
+      <li>agent-lifecycle-managerの使用（5ステップ）</li>
+      <li>AGENTS.mdへの登録</li>
+      <li>演習: シンプルなスペシャリストエージェントを作成</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: Rethinking Agents                                  -->
+  <!-- ============================================================ -->
+  <h2 id="agent-revisited">エージェントを再考する</h2>
+
+  <p>第4章で、AIエージェントの概念を紹介しました: それぞれが<strong>名前</strong>、<strong>役割</strong>、一連の<strong>指示</strong>、特定の<strong>ツール</strong>へのアクセスを持つ専門ワーカーです。本章ではさらに深く掘り下げます &mdash; 実際に新しいエージェントをゼロから<em>作成</em>し、プロジェクトに登録し、正しく動作することを検証します。</p>
+
+  <h3>第4章のおさらい</h3>
+
+  <p>すべてのエージェントを定義する4つの柱を思い出してください。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>名前</h4>
+      <p>短いkebab-caseの識別子（例: <code>research</code>、<code>html-build</code>、<code>storyline</code>）。ファイルパス、ディスパッチテーブル、ログエントリに表示されます。</p>
+    </div>
+    <div class="col">
+      <h4>役割</h4>
+      <p>エージェントの目的を説明する簡潔な2〜4語のタイトル（例: 「Webリサーチスペシャリスト」）。名刺の肩書きのように考えてください。</p>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>指示</h4>
+      <p>エージェントファイルのMarkdown本文 &mdash; 詳細な動作ガイドライン、ドメインルール、ツール使用ポリシー、引き継ぎコントラクトで、エージェントに作業の<em>方法</em>を指示します。</p>
+    </div>
+    <div class="col">
+      <h4>ツール</h4>
+      <p>エージェントが実行を許可された操作のセット。プラットフォーム設定（CLAUDE.md / GEMINI.md）とスキルバインディングを通じて定義されます。画像キュレーターにはWebアクセスが必要、PDFエクスポーターにはファイルシステム書き込み権限が必要です。</p>
+    </div>
+  </div>
+
+  <h3>独自エージェントを作成する理由</h3>
+
+  <p>標準のco-deckやco-consultプロジェクトには適切に選ばれたエージェントセットが用意されています。しかし、プロジェクトごとに異なります。次のようなエージェントが必要になるかもしれません。</p>
+
+  <ul>
+    <li>長いレポートを1ページのブリーフに要約する<strong>summarizer</strong></li>
+    <li>コンテンツを韓国語と英語の間で変換する<strong>translator</strong></li>
+    <li>数値データを期待される範囲に対して検証する<strong>data-validator</strong></li>
+    <li>スライドコンテンツをTwitterやLinkedIn用に再フォーマットする<strong>social-media-writer</strong></li>
+  </ul>
+
+  <p>ワークフローが既存のエージェントの役割に合わない反復的で専門的なタスクを必要とする場合、新しい<strong>部署の専門家を採用する</strong>時です。</p>
+
+  <div class="tip-box">
+    <strong>「専門家の採用」の例え</strong><br>
+    会社を経営していると想像してください。リサーチ部門、デザイン部門、制作部門があります。ある日、CEOがこう言います: 「50ページのレポートを読んで1ページの要約を取締役会向けに書く人が必要だ。」デザイナーにこれを頼むことはありません &mdash; <em>要約者を採用</em>します。新しいエージェントの作成はまさにこれです: PM（CEO）が適切な人に仕事をディスパッチできるように、明確な責任、ツール、報告ラインを持つ新しい役割を定義することです。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: Agent File Format                                  -->
+  <!-- ============================================================ -->
+  <h2 id="file-format">エージェントファイル形式</h2>
+
+  <p>すべてのエージェントは、<strong>YAMLフロントマターブロック</strong>（機械可読メタデータ）と<strong>Markdownボディ</strong>（AI向けの human-readable 指示）の2つの部分を持つ単一のMarkdownファイルに存在します。ファイルは次の場所に保存されます。</p>
+
+  <div class="code-block">
+<div class="code-title">ファイルの場所</div>
+<pre><code>agents/&lt;name&gt;.md</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+</div>
+
+  <p>命名規則は<strong>kebab-case</strong>: すべて小文字、ハイフン区切り。例: <code>research.md</code>、<code>html-build.md</code>、<code>image-curator.md</code>。</p>
+
+  <h3>構造の概要</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="YAMLフロントマターが上部、Markdownボディが下部にあるエージェントファイル構造図">
+      <defs>
+        <marker id="arrowAf1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-blue)"/>
+        </marker>
+      </defs>
+      <!-- Outer file container -->
+      <rect x="50" y="10" width="600" height="300" rx="8" fill="none" stroke="var(--border)" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="350" y="32" text-anchor="middle" style="color:var(--text)" font-size="14" font-weight="600">agents/&#x3C;name&#x3E;.md</text>
+
+      <!-- Frontmatter box -->
+      <rect x="80" y="50" width="540" height="130" rx="6" fill="var(--code-bg)" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="100" y="75" style="color:var(--accent-blue)" font-size="13" font-weight="600">YAMLフロントマター</text>
+      <text x="100" y="97" style="color:var(--text-muted)" font-size="12">--- &lt; 開始フェンス</text>
+      <text x="100" y="117" style="color:var(--text-muted)" font-size="12">name: agent-name</text>
+      <text x="100" y="137" style="color:var(--text-muted)" font-size="12">role: &quot;Brief title&quot;</text>
+      <text x="100" y="157" style="color:var(--text-muted)" font-size="12">status: active</text>
+      <text x="100" y="173" style="color:var(--text-muted)" font-size="12">--- &lt; 終了フェンス</text>
+
+      <!-- Arrow -->
+      <line x1="350" y1="185" x2="350" y2="210" stroke="var(--accent-blue)" stroke-width="1.5" marker-end="url(#arrowAf1)"/>
+
+      <!-- Body box -->
+      <rect x="80" y="215" width="540" height="80" rx="6" fill="var(--surface-alt)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="100" y="240" style="color:var(--accent-green)" font-size="13" font-weight="600">Markdownボディ</text>
+      <text x="100" y="260" style="color:var(--text-muted)" font-size="12">## Role · ## Responsibilities · ## Tool Usage ...</text>
+      <text x="100" y="280" style="color:var(--text-muted)" font-size="12">AIがディスパッチ時に読み取る詳細な指示</text>
+    </svg>
+  </div>
+
+  <p>フロントマターは2つの<code>---</code>フェンスで囲まれます。終了フェンスの下のすべてがボディ &mdash; 見出し、リスト、コードブロック、テーブルを持つ標準Markdownです。</p>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: Writing Frontmatter                                -->
+  <!-- ============================================================ -->
+  <h2 id="frontmatter">フロントマターの記述</h2>
+
+  <p>YAMLフロントマターはエージェントの機械可読なIDカードです。オーケストレーションレイヤー（PM、スクリプト、監査ツール）はこれらのフィールドを読んで、エージェントを<em>いつ</em><em>どのように</em>ディスパッチするかを決定します。</p>
+
+  <h3>必須フィールド</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>フィールド</th>
+        <th>型</th>
+        <th>説明</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>name</code></td>
+        <td>string</td>
+        <td>kebab-case識別子。ファイル名（<code>.md</code>なし）と一致する必要がある。</td>
+      </tr>
+      <tr>
+        <td><code>role</code></td>
+        <td>string</td>
+        <td>2〜4語の短いタイトル。ディスパッチテーブルやログに表示される。</td>
+      </tr>
+      <tr>
+        <td><code>status</code></td>
+        <td>string</td>
+        <td>次のいずれか: <code>active</code>、<code>draft</code>、<code>deprecated</code>、<code>retired</code>。</td>
+      </tr>
+      <tr>
+        <td><code>tier</code></td>
+        <td>object</td>
+        <td>各プラットフォームをティアレベルにマッピング: <code>high</code>、<code>medium</code>、または<code>low</code>。使用するAIモデルを制御。</td>
+      </tr>
+      <tr>
+        <td><code>color</code></td>
+        <td>string</td>
+        <td>ビジュアルID用の表示色（例: <code>cyan</code>、<code>amber</code>、<code>green</code>）。</td>
+      </tr>
+      <tr>
+        <td><code>description</code></td>
+        <td>string</td>
+        <td>エージェントの動作を説明する1文。エージェントロスターに表示される。</td>
+      </tr>
+      <tr>
+        <td><code>examples</code></td>
+        <td>list</td>
+        <td>トリガーフレーズのサンプル。各エントリに<code>user</code>（ユーザーの発言）と<code>assistant</code>（エージェントの応答）がある。</td>
+      </tr>
+      <tr>
+        <td><code>phases</code></td>
+        <td>list</td>
+        <td>このエージェントが参加するパイプラインステージ（例: Stage 1のリサーチなら<code>[1]</code>）。</td>
+      </tr>
+      <tr>
+        <td><code>handoff_to</code></td>
+        <td>list</td>
+        <td>パイプラインでこのエージェントの後に続くエージェントの名前。</td>
+      </tr>
+      <tr>
+        <td><code>handoff_from</code></td>
+        <td>list</td>
+        <td>パイプラインでこのエージェントの前に来るエージェントの名前。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>フロントマターの例</h3>
+
+  <div class="code-block">
+    <div class="code-title">agents/summarizer.md &mdash; フロントマター</div>
+<pre><code>---
+name: summarizer
+version: "1.0.0"
+last_updated: "2026-08-10"
+lifecycle:
+  phase: production
+  created: "2026-08-10"
+  last_updated: "2026-08-10"
+  governance: docs/lifecycle/agents/summarizer.md
+role: Report summarization and brief generation specialist
+status: active
+tier:
+  claude: medium
+  gemini: medium
+  antigravity: medium
+  gemini-cli: medium
+model: inherit
+language: en
+color: purple
+description: >-
+  Summarizer agent - condenses long reports into concise one-page briefs.
+  Use when: PM needs a digest of research notes or a lengthy document.
+examples:
+  - user: Summarize the research notes into a one-page brief
+    assistant: I'll read the full research_notes.md and produce a structured summary covering key findings, methodology, and recommendations.
+phases: [1.5]
+handoff_to: [storyline]
+handoff_from: [research, pm]
+required_skills: []
+---</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <div class="tip-box">
+    <strong>適切なティアの選択</strong><br>
+    <strong>High</strong> &mdash; 複雑な推論、アーキテクチャの決定、創造的な執筆。高価ですが強力。<br>
+    <strong>Medium</strong> &mdash; コードレビュー、コンテンツ生成、品質チェック。大多数のスペシャリストエージェントに最適。<br>
+    <strong>Low</strong> &mdash; フォーマットや簡単なファイル操作などの高速で反復的なタスク。安価で迅速。<br>
+    迷った場合は<strong>Medium</strong>から始めてください。後でいつでも調整できます。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: Writing Body Content                               -->
+  <!-- ============================================================ -->
+  <h2 id="body-content">ボディコンテンツの記述</h2>
+
+  <p>終了<code>---</code>フェンスの下にあるMarkdownボディは、エージェントの<strong>内部ガイドブック</strong>として機能します。PMがこのエージェントをディスパッチすると、AIモデルがボディ全体を読み、指示に従います。良いボディコンテンツは一貫性のある予測可能な動作を意味します。悪いボディコンテンツはエージェントに即興をさせます &mdash; そして即興はめったに望ましいものではありません。</p>
+
+  <h3>推奨される5つのセクション</h3>
+
+  <p>ボディの構成は自由ですが、ほとんどのエージェントは次の5つのセクションで恩恵を受けます。</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>アイデンティティ</strong> &mdash; このエージェントは誰か？コア目的は何か？どう自己紹介すべきか？</li>
+      <li><strong>動作ガイドライン</strong> &mdash; エージェントはどう振る舞うべきか？トーン、コミュニケーションスタイル、従う（または避ける）べき制約。</li>
+      <li><strong>ドメインルール</strong> &mdash; エージェントが尊重すべきドメイン固有の知識や慣習？（例: 「事実的主張には常に情報源を引用すること。」）</li>
+      <li><strong>ツール使用</strong> &mdash; どのツールを使用すべきか、またその方法？使用<em>してはいけない</em>ツールは？</li>
+      <li><strong>引き継ぎコントラクト</strong> &mdash; エージェントは何を生成するか？誰が受け取るか？どの形式で？</li>
+    </ol>
+  </div>
+
+  <h3>セクションの詳細と例</h3>
+
+  <h4>1. アイデンティティ</h4>
+  <p>エージェントが誰であるかを明確な文で始めます。これによりモデルのコンテキストがすぐに設定されます。</p>
+  <div class="code-block">
+<pre><code>## Role
+
+You are the summarizer specialist for **[Project Name]**.
+Your job is to read lengthy documents (research notes, reports, meeting
+transcripts) and produce a concise, structured one-page brief that
+captures the key findings, methodology, and actionable recommendations.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <h4>2. 動作ガイドライン</h4>
+  <p>トーンと制約を定義します。エージェントが<em>してはいけない</em>ことを具体的にします。</p>
+  <div class="code-block">
+<pre><code>## Behavioral Guidelines
+
+- Write in clear, professional English. Avoid jargon unless the source uses it.
+- Never fabricate information. If a source is unclear, mark it as ⚠️ Unverified.
+- Keep the summary under 500 words unless the user explicitly requests more.
+- Use bullet points for findings; numbered lists for recommendations.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <h4>3. ドメインルール</h4>
+  <p>ドメイン固有のルールにより、エージェントがプロジェクトの慣習を尊重することが保証されます。</p>
+  <div class="code-block">
+<pre><code>## Domain Rules
+
+- Always preserve the original language of quotes. Do not translate quoted text.
+- When summarizing research, maintain the source attribution format: [Source: URL].
+- If the input contains numerical data, round to two decimal places.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <h4>4. ツール使用</h4>
+  <p>エージェントが使用すべきツールと制限を明確にします。</p>
+  <div class="code-block">
+<pre><code>## Tool Usage
+
+- Use **Read** to access source files (research_notes.md, reports).
+- Use **Write** to produce the summary output file.
+- Do NOT use Bash for any purpose — this agent operates on files only.
+- Do NOT browse the web; all source material is provided by the PM.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <h4>5. 引き継ぎコントラクト</h4>
+  <p>エージェントが何を成果物として提供し、誰が受け取るかを定義します。</p>
+  <div class="code-block">
+<pre><code>## Handoff Contract
+
+**Output**: `brief_summary.md` in the project directory.
+**Format**: Markdown with headings (## Findings, ## Methodology, ## Recommendations).
+**Handoff to**: storyline agent (which uses the brief as a reference when composing slides).
+**Completion signal**: Announce output file path and word count.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <div class="note">
+    <strong>ボディは「内部ガイドブック」</strong><br>
+    フロントマター（スクリプトやPMが読み取る）とは異なり、ボディはエージェントがディスパッチされた時に<em>AIモデルだけ</em>が読み取ります。最初の日の新しい従業員に向けた指示を書くように記述してください: 明確、具体的、仕事が存在する<em>理由</em>ではなく<em>方法</em>に焦点を当てます。「理由」はフロントマターのdescriptionに属します。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: Using agent-lifecycle-manager                       -->
+  <!-- ============================================================ -->
+  <h2 id="lifecycle-manager">agent-lifecycle-managerの使用</h2>
+
+  <p><code>agent-lifecycle-manager</code>スキルは、エージェントの作成、検証、保守のための体系的な5ステッププロセスを提供します。手動でファイルを書いてすべてが正しく繋がっていることを祈るのではなく、スキルが各ステップをガイドし、問題を早期に発見します。</p>
+
+  <h3>5ステッププロセス</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="5ステップエージェントライフサイクルプロセス図">
+      <defs>
+        <marker id="arrowLm1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-amber)"/>
+        </marker>
+      </defs>
+
+      <!-- Step 1 -->
+      <rect x="20" y="30" width="120" height="60" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="80" y="55" text-anchor="middle" style="color:var(--accent-blue)" font-size="13" font-weight="600">ステップ1</text>
+      <text x="80" y="73" text-anchor="middle" style="color:var(--text)" font-size="11">ファイル作成</text>
+
+      <!-- Arrow 1->2 -->
+      <line x1="140" y1="60" x2="162" y2="60" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowLm1)"/>
+
+      <!-- Step 2 -->
+      <rect x="170" y="30" width="120" height="60" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="230" y="55" text-anchor="middle" style="color:var(--accent-blue)" font-size="13" font-weight="600">ステップ2</text>
+      <text x="230" y="73" text-anchor="middle" style="color:var(--text)" font-size="11">フロントマター記述</text>
+
+      <!-- Arrow 2->3 -->
+      <line x1="290" y1="60" x2="312" y2="60" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowLm1)"/>
+
+      <!-- Step 3 -->
+      <rect x="320" y="30" width="120" height="60" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="380" y="55" text-anchor="middle" style="color:var(--accent-blue)" font-size="13" font-weight="600">ステップ3</text>
+      <text x="380" y="73" text-anchor="middle" style="color:var(--text)" font-size="11">ボディ記述</text>
+
+      <!-- Arrow 3->4 -->
+      <line x1="440" y1="60" x2="462" y2="60" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowLm1)"/>
+
+      <!-- Step 4 -->
+      <rect x="470" y="30" width="120" height="60" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="530" y="55" text-anchor="middle" style="color:var(--accent-blue)" font-size="13" font-weight="600">ステップ4</text>
+      <text x="530" y="73" text-anchor="middle" style="color:var(--text)" font-size="11">登録</text>
+
+      <!-- Arrow 4->5 -->
+      <line x1="530" y1="90" x2="530" y2="120" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowLm1)"/>
+
+      <!-- Step 5 (centered below) -->
+      <rect x="250" y="130" width="200" height="60" rx="8" fill="var(--accent-green)" opacity="0.15" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="350" y="155" text-anchor="middle" style="color:var(--accent-green)" font-size="13" font-weight="600">ステップ5</text>
+      <text x="350" y="173" text-anchor="middle" style="color:var(--text)" font-size="11">検証 &amp; 監査</text>
+
+      <!-- Descriptions below -->
+      <text x="80" y="115" text-anchor="middle" style="color:var(--text-muted)" font-size="10">agents/&lt;name&gt;.md</text>
+      <text x="230" y="115" text-anchor="middle" style="color:var(--text-muted)" font-size="10">YAMLメタデータ</text>
+      <text x="380" y="115" text-anchor="middle" style="color:var(--text-muted)" font-size="10">Markdown指示</text>
+      <text x="530" y="115" text-anchor="middle" style="color:var(--text-muted)" font-size="10">AGENTS.mdテーブル</text>
+      <text x="350" y="215" text-anchor="middle" style="color:var(--text-muted)" font-size="10">bun scripts/agent-lifecycle-audit.ts</text>
+    </svg>
+  </div>
+
+  <h3>ステップバイステップの解説</h3>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>ファイルを作成</strong> &mdash; kebab-caseで<code>agents/&lt;name&gt;.md</code>を追加。オプションでスキャフォールディングスクリプトを使用: <code>bun scripts/agent-create.ts &lt;name&gt;</code>。</li>
+      <li><strong>フロントマターを記述</strong> &mdash; すべての必須YAMLフィールドを記入: name、role、status、tier、description、examples、phases、handoff_to/from。</li>
+      <li><strong>ボディコンテンツを記述</strong> &mdash; アイデンティティ、動作ガイドライン、ドメインルール、ツール使用、引き継ぎコントラクトをカバーするMarkdown指示を作成。</li>
+      <li><strong>AGENTS.mdに登録</strong> &mdash; エージェントロスターテーブル、定義テーブル、サブエージェントロスターディスパッチテーブルに追加（次のセクション参照）。</li>
+      <li><strong>検証と監査</strong> &mdash; <code>bun scripts/agent-lifecycle-audit.ts</code>を実行して、エージェントがすべてのチェック（孤立検出、フロントマター検証、ティアマッピングなど）に合格することを確認。</li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>シンプルに始める</strong><br>
+    初日から完璧なエージェントは必要ありません。必須のフロントマーターフィールドと基本的なボディだけを持つ最小限の実行可能エージェントを作成してください。テスト後に動作ガイドラインとドメインルールを洗練できます。ライフサイクルマネージャーは反復を安全にします: すべての変更は自動的に検証できます。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: Registering in AGENTS.md                            -->
+  <!-- ============================================================ -->
+  <h2 id="register">AGENTS.mdへの登録</h2>
+
+  <p><code>AGENTS.md</code>に登録されていないエージェントは、採用されたが組織図に追加されなかった従業員のようなものです。PMはディスパッチできず、監査スクリプトは孤立ファイルとしてフラグを立て、他のエージェントはその存在を知りません。登録によりエージェントはシステムの他の部分に接続されます。</p>
+
+  <h3>3つの登録場所</h3>
+
+  <p><code>AGENTS.md</code>内の<strong>3つの場所</strong>にエージェントを追加する必要があります。</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>エージェントロスターテーブル</strong>（§1） &mdash; すべてのエージェントのファイルパス、ティア、役割を示すメインの概要テーブル。</li>
+      <li><strong>個別エージェント定義</strong>（§2） &mdash; フィールドごとのメタデータ（ファイル、ティア、フェーズ、役割）を持つ詳細テーブル。</li>
+      <li><strong>サブエージェントロスターディスパッチテーブル</strong>（§4） &mdash; PMがどのエージェントをディスパッチするか決定する際に参照するテーブル。並行可能性と書き込み権限を含む。</li>
+    </ol>
+  </div>
+
+  <h3>登録の例</h3>
+
+  <p><code>summarizer</code>エージェントの3つのエントリの例です。</p>
+
+  <div class="code-block">
+    <div class="code-title">AGENTS.md &mdash; 3つの登録エントリ</div>
+<pre><code>## §1 Agent Roster (行を追加)
+| **summarizer** | `agents/summarizer.md` | Medium | レポートを1ページのブリーフに要約 |
+
+## §2 Agent Definition (テーブルを追加)
+| Field | Value |
+|-------|-------|
+| **File** | `agents/summarizer.md` |
+| **Tier** | medium |
+| **Phases** | 1.5 |
+| **Role** | 長いレポートを簡潔な1ページのブリーフに要約 |
+
+## §4 Subagent Roster (行を追加)
+| summarizer | `agents/summarizer.md` | Medium | ⚠️ 順番優先 | プロジェクトファイル |</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <div class="note">
+    <strong>PM Gatewayポリシー</strong><br>
+    すべてのスペシャリストエージェントは<em>PMを通じてのみ</em>ディスパッチされることを覚えておいてください。新しいエージェントを登録すると、PMのディスパッチテーブルに新しいオプションを追加します。ユーザーは<code>summarizer</code>を直接呼び出すべきではありません &mdash; PMに依頼し、PMがタスクに基づいてsummarizerをディスパッチするかどうかを決定します。これが第5章で議論した単一エントリポイントパターンです。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: Verification & Testing                             -->
+  <!-- ============================================================ -->
+  <h2 id="verify">検証とテスト</h2>
+
+  <p>エージェントを作成して登録した後、すべてが正しく接続されていることを検証する必要があります。ワークスペースにはこの目的のための自動監査スクリプトが用意されています。</p>
+
+  <h3>検証の実行</h3>
+
+  <div class="code-block">
+    <div class="code-title">エージェントライフサイクル監査コマンド</div>
+<pre><code>bun scripts/agent-lifecycle-audit.ts</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <p>このスクリプトは<code>agents/</code>ディレクトリ内のすべてのファイルをスキャンし、問題をチェックします。</p>
+
+  <h3>監査がチェックする項目</h3>
+
+  <ul>
+    <li><strong>孤立検出</strong> &mdash; <code>agents/</code>内のすべての<code>.md</code>ファイルが<code>AGENTS.md</code>に記載されている必要がある。ファイルが存在するが登録されていない場合、孤立としてフラグが立てられる。</li>
+    <li><strong>フロントマター検証</strong> &mdash; すべての必須フィールド（name、role、status、tier、description）が存在し、正しく型付けられている必要がある。</li>
+    <li><strong>ティアマッピング</strong> &mdash; ティア値は<code>high</code>、<code>medium</code>、<code>low</code>のいずれかでなければならない。無効な値はエラーをトリガーする。</li>
+    <li><strong>ステータス整合性</strong> &mdash; ステータスフィールドは認識された値である必要がある: <code>active</code>、<code>draft</code>、<code>deprecated</code>、または<code>retired</code>。</li>
+    <li><strong>リサーチ役割チェック</strong> &mdash; エージェントがリサーチや調査の役割を持つ場合、ボディに情報源引用要件を含める必要がある。</li>
+    <li><strong>数値役割チェック</strong> &mdash; エージェントが計算を実行する場合、ボディに計算完全性ルールを含める必要がある。</li>
+  </ul>
+
+  <h3>検証ステップ</h3>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>作成</strong> &mdash; フロントマターとボディで<code>agents/summarizer.md</code>を作成。</li>
+      <li><strong>登録</strong> &mdash; <code>AGENTS.md</code>の3つのテーブルすべてにエージェントを追加。</li>
+      <li><strong>監査を実行</strong> &mdash; <code>bun scripts/agent-lifecycle-audit.ts</code>を実行。</li>
+      <li><strong>出力をレビュー</strong> &mdash; エラー（修正必須）と警告（確認推奨）をチェック。</li>
+      <li><strong>修正して再実行</strong> &mdash; 監査がエラーゼロでクリーンに終了するまで繰り返す。</li>
+    </ol>
+  </div>
+
+  <div class="warn">
+    <strong>検証が重要な理由</strong><br>
+    急いでいると監査ステップをスキップしたくなりますが、これはテストなしでコードをデプロイするのと同じです。孤立したエージェントファイルはディスクスペースを浪費し、将来の貢献者を混乱させます。無効なフロントマターはPMのディスパッチロジックがサイレントに失敗する原因になります。handoff_toエントリの欠落はパイプラインの次のエージェントが出力を受け取れないことを意味します。監査はこれらすべての問題を数秒で発見します &mdash; 毎回必ず使用してください。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 8: Practice                                           -->
+  <!-- ============================================================ -->
+  <h2 id="practice">演習: 自分のスペシャリストエージェントを作る</h2>
+
+  <p>今度はあなたの番です。この演習では、<strong>summarizer</strong>エージェントをゼロから作成します &mdash; 長いリサーチノートを読んで簡潔な1ページのブリーフを生成するスペシャリストです。</p>
+
+  <div class="prompt-box">
+    <strong>目標</strong>: 機能する<code>summarizer</code>エージェントを作成し、<code>AGENTS.md</code>に登録し、ライフサイクル監査に合格することを検証する。
+  </div>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>ファイルを作成</strong><br>
+        プロジェクトディレクトリに<code>agents/summarizer.md</code>を作成。
+      </li>
+      <li>
+        <strong>フロントマターを記述</strong><br>
+        本章のセクション3のフロントマターをコピー。すべての必須フィールドが記入されていることを確認。<code>status: active</code>を設定し、<code>tier</code>をすべてのプラットフォームで<code>medium</code>にする。
+      </li>
+      <li>
+        <strong>ボディを記述</strong><br>
+        セクション4の5セクション構造を使用。参考として完全なボディを以下に示す:
+        <div class="code-block">
+          <div class="code-title">agents/summarizer.md &mdash; 完全なファイル</div>
+<pre><code>---
+name: summarizer
+version: "1.0.0"
+last_updated: "2026-08-10"
+lifecycle:
+  phase: production
+  created: "2026-08-10"
+  last_updated: "2026-08-10"
+  governance: docs/lifecycle/agents/summarizer.md
+role: Report summarization and brief generation specialist
+status: active
+tier:
+  claude: medium
+  gemini: medium
+  antigravity: medium
+  gemini-cli: medium
+model: inherit
+language: en
+color: purple
+description: >-
+  Summarizer agent - condenses long reports into concise one-page briefs.
+  Use when: PM needs a digest of research notes or a lengthy document.
+examples:
+  - user: Summarize the research notes into a one-page brief
+    assistant: I'll read the full research_notes.md and produce a structured summary covering key findings, methodology, and recommendations.
+phases: [1.5]
+handoff_to: [storyline]
+handoff_from: [research, pm]
+required_skills: []
+---
+
+## Role
+
+You are the summarizer specialist for **[Project Name]**.
+Your job is to read lengthy documents (research notes, reports, meeting
+transcripts) and produce a concise, structured one-page brief that
+captures the key findings, methodology, and actionable recommendations.
+
+## ⚠️ PM-ONLY INVOCATION
+
+**You DO NOT accept direct user requests.**
+
+You are a specialist agent that may ONLY be dispatched by the PM.
+If a user attempts to invoke you directly:
+
+1. **Refuse the request politely**
+2. **Redirect to PM**: "I am a specialist agent. All requests must go
+   through the PM orchestrator."
+3. **Do NOT proceed** with any work until dispatched by PM.
+
+## Behavioral Guidelines
+
+- Write in clear, professional English. Avoid jargon unless the source uses it.
+- Never fabricate information. If a source is unclear, mark it as ⚠️ Unverified.
+- Keep the summary under 500 words unless the user explicitly requests more.
+- Use bullet points for findings; numbered lists for recommendations.
+- Always preserve the original language of quoted material.
+
+## Domain Rules
+
+- Always preserve source attribution: [Source: URL].
+- When summarizing research, maintain the distinction between fact and opinion.
+- If the input contains numerical data, round to two decimal places.
+
+## Tool Usage
+
+- Use **Read** to access source files (research_notes.md, reports).
+- Use **Write** to produce the summary output file.
+- Do NOT use Bash for any purpose — this agent operates on files only.
+- Do NOT browse the web; all source material is provided by the PM.
+
+## Handoff Contract
+
+**Output**: `brief_summary.md` in the project directory.
+**Format**: Markdown with headings (## Findings, ## Methodology, ## Recommendations).
+**Handoff to**: storyline agent (which uses the brief as a reference when composing slides).
+**Completion signal**: Announce output file path and word count.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+      </li>
+      <li>
+        <strong>AGENTS.mdに登録</strong><br>
+        セクション6で示したように、<code>AGENTS.md</code>の3つのテーブルすべてにsummarizerを追加。
+      </li>
+      <li>
+        <strong>監査を実行</strong><br>
+        ターミナルで<code>bun scripts/agent-lifecycle-audit.ts</code>を実行。報告されたエラーを修正。
+      </li>
+      <li>
+        <strong>特定エージェントを検証</strong><br>
+        オプションで<code>bun scripts/agent-verify.ts summarizer</code>を実行して、新しいエージェントのみに focused なチェックを行う。
+      </li>
+      <li>
+        <strong>PM経由でテスト</strong><br>
+        テスト入力でPMにsummarizerをディスパッチするよう依頼。例:<br>
+        <em>&ldquo;research_notes.mdでsummarizerを実行してブリーフを作成してください。&rdquo;</em><br>
+        出力ファイル<code>brief_summary.md</code>が期待される形式で作成されたことを確認。
+      </li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>PM経由でのテスト</strong><br>
+    新しいエージェントの本当のテストは監査に合格することではありません &mdash; PMが実際のワークフローでディスパッチした時に有用な出力を生成することです。監査が合格した後、必ず少なくとも1つのエンドツーエンドテストを実行してください: PMに実際のタスクを与え、新しいエージェントをディスパッチさせ、出力をレビューします。これにより、静的解析では検出できない問題 &mdash; 技術的には有効だがモデルが一貫して従うには曖昧すぎる指示 &mdash; を発見できます。
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- Chapter Navigation                                           -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch08/08_Integrated_Pipeline_ja.html" class="prev">
+      <div class="dir">&larr; 前の章</div>
+      <div class="ttl">Ch 8 &middot; co-consult + co-deck統合パイプライン</div>
+    </a>
+    <a href="../ch10/10_Creating_Skills_ja.html" class="next" style="margin-left:auto;">
+      <div class="dir">次の章 &rarr;</div>
+      <div class="ttl">Ch 10 &middot; スキルの作成と変更</div>
+    </a>
+  </div>
+   <footer>
+    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) 基準 · 日本語教材<br>
+    公式リソース: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    このハンドブックのコンテンツは <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (表示 - 非営利 - 継承 4.0 国際)</a> ライセンスの下で提供されています。
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

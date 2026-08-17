@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="コース概要 · Claude Codeとマルチエージェントハーネス入門 — 学習目標、対象者、スケジュール、修了後の成果">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>コース概要 · Claude Code &amp; Multi-Agent Harness</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+  <style>
+    /* Page-specific overrides */
+    .hero p { font-size: 14px; line-height: 1.75; margin: 0; }
+    .tag {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      padding: 2px 10px; border-radius: 20px; letter-spacing: .04em;
+      margin-right: 6px; margin-bottom: 6px;
+    }
+    h2 {
+      font-weight: 700; margin: 44px 0 14px;
+      scroll-margin-top: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    h2 .icon { font-size: 1.2rem; }
+    tr.schedule-total td { font-weight: 700; background: var(--bg2); }
+    .obj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin: 14px 0 22px; }
+    .obj-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+      padding: 16px 18px; font-size: 14px; line-height: 1.65; text-align: left;
+    }
+    .obj-card .obj-num {
+      font-size: 11px; font-weight: 700; color: var(--accent);
+      background: var(--tag-bg); border-radius: 10px; padding: 2px 8px; margin-bottom: 8px; display: inline-block;
+    }
+    .obj-card strong { color: var(--accent-dark); }
+    .takeaway-list { list-style: none; padding: 0; margin: 14px 0 22px; }
+    .takeaway-list li {
+      padding: 10px 16px 10px 42px; position: relative; margin-bottom: 8px;
+      background: var(--bg-success); border: 1px solid var(--badge-green-border); border-radius: 8px; font-size: 14px;
+    }
+    .takeaway-list li::before {
+      content: "✓"; position: absolute; left: 14px; top: 10px;
+      color: var(--accent-green); font-weight: 700; font-size: 14px;
+    }
+    .instructor-box p { margin: 6px 0; }
+    .schedule-block {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 6px 0; border-bottom: 1px solid var(--bg3);
+    }
+    .schedule-block:last-child { border-bottom: none; }
+    .schedule-time {
+      min-width: 70px; font-weight: 700; color: var(--accent-dark);
+      text-align: right; padding-top: 2px;
+    }
+    .schedule-body { flex: 1; }
+    .schedule-body h4 { font-size: 14px; font-weight: 700; margin: 0 0 3px; }
+    .schedule-body p { font-size: 13px; color: var(--text-dim); margin: 2px 0; line-height: 1.6; }
+    footer {
+      margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border);
+      color: var(--text-dim); font-size: 12px; line-height: 1.9;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    @media (max-width: 640px) {
+      .wrap { padding: 32px 18px 60px; }
+      h1 { font-size: 1.7rem; }
+      .obj-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Claude Code &amp; マルチエージェントハーネス入門</h1>
+  <p class="subtitle">単一のプロンプトからチーム全体へ。Claude Desktop Appをデフォルトツールとして、AIエージェントチームの構築と活用——基本概念からハンズオンでの作成まで——を1日間の実践コースで学びます。</p>
+</header>
+
+<!-- ── One-line summary ── -->
+<div class="hero">
+  <p><strong>このコースは何か？</strong> 「AIにタスクを頼む」を超えましょう。複数のAIエージェントが<strong>役割を分担するチーム</strong>として協力する方法——そしてそのチームを構築・活用する方法を学びます。<strong>13章＋3つの付録</strong>に沿って、インストールとサブスクリプションからエージェント、スキル、チームの作成まで、自分の仕事に応用できる実践的経験を積みます。</p>
+  <p><strong>デフォルトツール</strong>は<strong>Claude Desktop App</strong>で、コーディング経験は不要です。リモートアクセス、Claude Code CLI、低コストバックエンド（DeepSeek/GLM）は付録に分離されており、必要な場合にのみ深く学べます。</p>
+</div>
+
+<!-- ────────────────── 1. Learning Objectives ────────────────── -->
+<h2 id="objectives"><span class="icon">🎯</span>学習目標</h2>
+<p>本コースを修了すると、受講者は以下のことができるようになります：</p>
+<div class="obj-grid">
+  <div class="obj-card">
+    <div class="obj-num">LO-1</div>
+    <strong>説明できる</strong>：単一AIとマルチエージェントチームの違いをコンテキスト、役割、並列性の観点から理解し、ハーネス概念を説明する。
+  </div>
+  <div class="obj-card">
+    <div class="obj-num">LO-2</div>
+    <strong>インストールできる</strong>：macOS/Windows/LinuxにClaude Desktop Appをインストールし、サブスクリプションプランを選択し、最初の会話でプロジェクトを開始する。
+  </div>
+  <div class="obj-card">
+    <div class="obj-num">LO-3</div>
+    <strong>構築できる</strong>：OS別セットアップスクリプトを使用してラボ環境を構築し、インストールを確認する。
+  </div>
+  <div class="obj-card">
+    <div class="obj-num">LO-4</div>
+    <strong>記述できる</strong>：マルチエージェントハーネスのコアアーキテクチャ——エージェント、スキル、ワークフロー、PMオーケストレーション、3-Tier戦略、PM Gateway、ディスパッチフロー——を説明する。
+  </div>
+  <div class="obj-card">
+    <div class="obj-num">LO-5</div>
+    <strong>実行できる</strong>：co-consultで市場分析レポート、co-deckでプレゼンテーションデッキ、両方を組み合わせた統合パイプラインを実行する。
+  </div>
+  <div class="obj-card">
+    <div class="obj-num">LO-6</div>
+    <strong>作成できる</strong>：自分の業務に合わせたエージェントとスキルを作成・登録・検証し、team-builderでカスタムエージェントチームを構成する。
+  </div>
+  <div class="obj-card">
+    <div class="obj-num">LO-7</div>
+    <strong>自動化できる</strong>：/sync、Git/GitHub PR自動化、フック、CI/CDの基本を活用し、dev-sync.tsの仕組みを理解する。
+  </div>
+  <div class="obj-card">
+    <div class="obj-num">LO-8</div>
+    <strong>設定できる</strong>：リモートアクセス環境を構成し、Claude Code CLIで同じプロジェクトを実行し、環境変数に保存したAPIキーを使用して低コストバックエンド（DeepSeek/GLM）に接続する。
+  </div>
+</div>
+
+<!-- ────────────────── 2. Audience ────────────────── -->
+<h2 id="audience"><span class="icon">👥</span>対象者</h2>
+<p>本コースは主に<strong>AI初心者</strong>を対象としています。コーディング経験は不要——基本的なコンピュータ操作スキルがあれば十分です。</p>
+<ul>
+  <li><strong>仕事でAIを活用したい専門家。</strong> Claude.aiやChatGPTは使ったことがあるが「複数のAIをチームとして使う」ことは不慣れな方。</li>
+  <li><strong>AI導入を検討しているチームリーダー・企画担当者。</strong> AIエージェントをチームにどう導入するかを把握したい方。</li>
+  <li><strong>AI教育を準備している講師・コンサルタント。</strong> マルチエージェントハーネスをコース素材として教える予定の方。</li>
+  <li><strong>ソフトウェアを作りたいがコーディングの障壁を感じている方。</strong> Claude Desktop Appで自然言語を使ってプログラムを作りたい方。</li>
+</ul>
+<div class="note">
+  <strong>注：</strong> 本ハンドブックは<strong>Claude Desktop App</strong>をデフォルトツールとして使用します。ターミナル/CLIに慣れているユーザーは付録B（Claude Code CLI）と付録C（低コストバックエンド）でより深く学べます。ラボにリモートでアクセスする必要がある場合は、付録Aから始めてください。
+</div>
+
+<!-- ────────────────── 3. Prerequisites ────────────────── -->
+<h2 id="prerequisites"><span class="icon">📋</span>前提条件</h2>
+
+<h3>サブスクリプション &amp; アカウント</h3>
+<div class="chk">☐ Claude Proサブスクリプションがアクティブ（本ハンドブックはProを想定）</div>
+<div class="chk">☐ Claude.aiアカウント（Claude Desktop Appログイン用）</div>
+
+<h3>システム要件</h3>
+<div class="chk">☐ macOSまたはWindows 10/11（Linuxは付録BのClaude Code CLIを使用）</div>
+<div class="chk">☐ 少なくとも2GBの空きディスク容量とインターネット接続</div>
+<div class="chk">☐ （推奨）<code>C:\git\project\setup</code>事前インストールスクリプトフォルダ — 第3章で詳述</div>
+
+<div class="warn">
+  <strong>⚠️ 事前にインストールしてください。</strong> 授業時間をセットアップ問題に費やさないため、<a href="../ch03/03_Setup_Guide_ja.html">第3章・ラボ環境の構築</a>の前提条件チェックリストをコース開始の少なくとも1日前に完了してください。OS別セットアップスクリプトが提供されています。
+</div>
+
+<!-- ────────────────── 4. Course Format ────────────────── -->
+<h2 id="format"><span class="icon">📖</span>コース形式</h2>
+<div class="table-schedule">
+<table>
+  <thead><tr><th>形式</th><th>内容</th><th>割合</th></tr></thead>
+  <tbody>
+    <tr><td><span class="tag tag-lecture">講義</span></td><td>概念説明、アーキテクチャ概要、ツール比較</td><td>約30%</td></tr>
+    <tr><td><span class="tag tag-lab">ハンズオン</span></td><td>受講者がインストール、対話、プロジェクト・エージェント・チームを作成</td><td>約55%</td></tr>
+    <tr><td><span class="tag tag-discuss">ディスカッション</span></td><td>小グループディスカッション、理解度確認、結果共有</td><td>約15%</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight">
+  <div class="hl-title">ラボ環境</div>
+  <p>全員が<strong>Claude Desktop App</strong>で同じハンズオン演習に従います。すべてのコマンドがコピー可能で、macOS/Windows/Linuxのコマンドが並列で表示されるため、任意のプラットフォームでフォローできます。</p>
+</div>
+
+<!-- ────────────────── 5. Course Schedule ────────────────── -->
+<h2 id="agenda"><span class="icon">🕐</span>コーススケジュール</h2>
+<p>合計<strong>約6時間40分</strong>（休憩除く）。休憩を2回（各10〜15分）入れると、合計<strong>約7時間</strong>です。</p>
+
+<div class="highlight">
+  <div class="hl-title">スケジュールの原則</div>
+  <p><strong>午前（パート1）</strong>は基礎概念と環境構築に焦点を当てます。<strong>午後（パート2, 3, 4）</strong>はハンズオン演習、作成、自動化を通じて構築したものを応用します。付録は必要に応じてコース終了後にカバーします。</p>
+</div>
+
+<div class="schedule-block">
+  <div class="schedule-time">10分</div>
+  <div class="schedule-body">
+    <h4>導入</h4>
+    <p>コースの目標、全体ロードマップ、前提条件確認</p>
+    <p><span class="tag tag-lecture">講義</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">25分</div>
+  <div class="schedule-body">
+    <h4>第1章 ・ なぜAIエージェントチームなのか？</h4>
+    <p>AIの潮流、単一AI vs エージェントチーム、ハーネス概念、期待される成果</p>
+    <p><span class="tag tag-lecture">講義</span> <span class="tag tag-discuss">理解度確認</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">30分</div>
+  <div class="schedule-body">
+    <h4>第2章 ・ Claude Desktop Appを始めよう</h4>
+    <p>インストール、サブスクリプションプラン、最初の会話、プロジェクト、アーティファクト</p>
+    <p><span class="tag tag-lab">ハンズオン</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">30分</div>
+  <div class="schedule-body">
+    <h4>第3章 ・ ラボ環境の構築</h4>
+    <p>前提条件チェックリスト、OS別セットアップスクリプト、インストール確認</p>
+    <p><span class="tag tag-lab">ハンズオン</span></p>
+  </div>
+</div>
+
+<div class="schedule-break">☕ 休憩1（10〜15分）</div>
+
+<div class="schedule-block">
+  <div class="schedule-time">40分</div>
+  <div class="schedule-body">
+    <h4>第4章 ・ マルチエージェントハーネスの概念</h4>
+    <p>エージェント、スキル、ワークフロー、PMオーケストレーション、3-Tier戦略、PM Gateway、ディスパッチフロー</p>
+    <p><span class="tag tag-lecture">講義</span> <span class="tag tag-discuss">理解度確認</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">10分</div>
+  <div class="schedule-body">
+    <h4>概念チェック ・ ペアで共有</h4>
+    <p>ペアで交互に、学んだハーネス概念（エージェント、スキル、ワークフロー、PM Gateway）を説明し合い、次に進む前に定着させます。</p>
+    <p><span class="tag tag-lab">アクティビティ（ペア）</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">30分</div>
+  <div class="schedule-body">
+    <h4>第5章 ・ ai-workspace-standardsを探索する</h4>
+    <p>リポジトリ構造（L0→L1→L2）、AGENTS.md/CLAUDE.mdの役割、バリアント、テンプレート継承</p>
+    <p><span class="tag tag-lecture">講義</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">40分</div>
+  <div class="schedule-body">
+    <h4>第6章 ・ co-consult: AIコンサルティングの実践</h4>
+    <p>PMとの対話、7フェーズワークフロー、市場分析プロジェクト、成果物確認</p>
+    <p><span class="tag tag-lab">ハンズオン</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">40分</div>
+  <div class="schedule-body">
+    <h4>第7章 ・ co-deck: AIプレゼンテーションの実践</h4>
+    <p>11ステージパイプライン、テーマ/スタイル選択、ゲート承認、ミニデッキプロジェクト</p>
+    <p><span class="tag tag-lab">ハンズオン</span></p>
+  </div>
+</div>
+
+<div class="schedule-break">☕ 休憩2（10〜15分）</div>
+
+<div class="schedule-block">
+  <div class="schedule-time">30分</div>
+  <div class="schedule-body">
+    <h4>第8章 ・ co-consult + co-deck統合パイプライン</h4>
+    <p>レポート→デッキの統合、フルパイプライン（トピック入力→完成デッキ）</p>
+    <p><span class="tag tag-lab">ハンズオン</span> <span class="tag tag-discuss">共有</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">35分</div>
+  <div class="schedule-body">
+    <h4>第9章 ・ エージェントの作成と修正</h4>
+    <p>エージェントファイル形式、フロントマター、agent-lifecycle-manager、シンプルなスペシャリストエージェントの作成</p>
+    <p><span class="tag tag-lab">ハンズオン</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">35分</div>
+  <div class="schedule-body">
+    <h4>第10章 ・ スキルの作成と修正</h4>
+    <p>スキルファイル形式、トリガー、skill-lifecycle-manager + skill-creator、カスタムスキルの作成</p>
+    <p><span class="tag tag-lab">ハンズオン</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">30分</div>
+  <div class="schedule-body">
+    <h4>第11章 ・ 自分のエージェントチームを構築する</h4>
+    <p>team-builder 5ステップワークフロー、自ドメイン向けカスタムエージェントチーム提案の取得</p>
+    <p><span class="tag tag-lab">ハンズオン</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">25分</div>
+  <div class="schedule-body">
+    <h4>第12章 ・ ワークフローと自動化を理解する</h4>
+    <p>/sync、Git/GitHub PR自動化、フック、CI/CDの基本、dev-sync.ts</p>
+    <p><span class="tag tag-lecture">講義</span></p>
+  </div>
+</div>
+<div class="schedule-block">
+  <div class="schedule-time">20分</div>
+  <div class="schedule-body">
+    <h4>第13章 ・ 次のステップ＋まとめ</h4>
+    <p>学習ロードマップ、コミュニティ、応用シナリオ、FAQ、全体振り返り</p>
+    <p><span class="tag tag-discuss">ディスカッション</span></p>
+  </div>
+</div>
+
+<!-- ────────────────── 6. Topics Covered ────────────────── -->
+<h2 id="topics"><span class="icon">📚</span>扱うトピック</h2>
+<div class="table-schedule">
+<table>
+  <thead><tr><th>パート</th><th>トピック</th><th>章</th></tr></thead>
+  <tbody>
+    <tr><td>基礎</td><td>なぜエージェントチームか、ハーネス概念、Claude Desktop Appのインストール/サブスクライブ/プロジェクト、ラボ構築</td><td>第1〜3章</td></tr>
+    <tr><td>ハーネス概念</td><td>エージェント、スキル、ワークフロー、PMオーケストレーション、3-Tier戦略、ai-workspace-standards構造</td><td>第4〜5章</td></tr>
+    <tr><td>ハンズオン</td><td>co-consultコンサルティング、co-deckプレゼンテーション、統合パイプライン</td><td>第6〜8章</td></tr>
+    <tr><td>作成</td><td>エージェントの作成、スキルの作成、自分のエージェントチームの構築</td><td>第9〜11章</td></tr>
+    <tr><td>自動化</td><td>/sync、Git/GitHub、フック、CI/CD、dev-sync.ts</td><td>第12章</td></tr>
+    <tr><td>まとめ</td><td>学習ロードマップ、コミュニティ、応用シナリオ、FAQ</td><td>第13章</td></tr>
+    <tr><td>高度な内容（付録）</td><td>リモートアクセス（Tailscale/NoMachine/RDP）、Claude Code CLI、低コストバックエンド（DeepSeek/GLM/LiteLLM）</td><td>付録A/B/C</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ────────────────── 7. What You'll Gain ────────────────── -->
+<h2 id="takeaways"><span class="icon">✅</span>修了後に得られるもの</h2>
+<ul class="takeaway-list">
+  <li><strong>マルチエージェントハーネスのスキル。</strong> 単一AIの使用を超え、役割を分担して協力するエージェントチームを理解し、実際に活用できる。</li>
+  <li><strong>Claude Desktop Appのハンズオン経験。</strong> インストール、サブスクリプション、プロジェクト、アーティファクトに慣れる。</li>
+  <li><strong>3つのラボ成果物。</strong> co-consult市場分析レポート、co-deckプレゼンテーション、統合パイプライン出力を構築する。</li>
+  <li><strong>自分のエージェント、スキル、チーム。</strong> エージェントとスキルを作成・登録・検証し、team-builderでカスタムエージェントチームの提案を取得する。</li>
+  <li><strong>自動化の概念。</strong> /sync、Git/GitHub、フック、CI/CDの基本を理解し、自動化ワークフローを使用する。</li>
+  <li><strong>拡張ロードマップ。</strong> 付録を使ってリモートアクセス、CLI、低コストバックエンドに広げる。</li>
+</ul>
+
+<!-- ────────────────── 8. Instructor Information ────────────────── -->
+<h2 id="instructor"><span class="icon">🎤</span>講師情報</h2>
+<div class="instructor-box">
+  <p class="placeholder">[講師名 ・ 所属 ・ 役職]</p>
+  <p class="placeholder">[講師プロフィール: AIエージェント導入/運用経験、主要関心事項、連絡先]</p>
+  <p style="margin-top:12px;font-size:12px;color:var(--text-dim);">このセクションは意図的に空白のまま、講師が記入できるようにしています。</p>
+</div>
+
+<!-- ────────────────── 9. Resources ────────────────── -->
+<h2 id="resources"><span class="icon">🔗</span>リソース</h2>
+<ul>
+  <li><a href="../index_ja.html">ハンドブック目次（日本語）</a></li>
+  <li><a href="../ch01/01_Why_AI_Agents_ja.html">第1章 ・ なぜAIエージェントチームなのか？</a></li>
+  <li><a href="../ch03/03_Setup_Guide_ja.html">第3章 ・ ラボ環境の構築</a></li>
+  <li><a href="00_Lecture_Guide_ja.html">講義ガイド</a></li>
+  <li><a href="https://claude.ai" target="_blank">Claude公式サイト</a></li>
+  <li><a href="https://code.claude.com/docs" target="_blank">Claude Code公式ドキュメント</a></li>
+  <li><a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards GitHubリポジトリ</a></li>
+</ul>
+    <footer>
+    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) 基準 · 日本語教材<br>
+    公式リソース: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    このハンドブックのコンテンツは <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (表示 - 非営利 - 継承 4.0 国際)</a> ライセンスの下で提供されています。
+  </footer>
+  </div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

@@ -29,7 +29,7 @@
  <article class="reading">
   <div class="chapter-eyebrow">Capítulo 3</div>
   <h1>Configurando tu laboratorio</h1>
-  <p class="lead">To use sistema multi-agentes like co-consult and co-deck, you need a few additional tools. Este capítulo te guía a través de installing everything at once and verifying it works.</p>
+  <p class="lead">Para usar sistemas multi-agentes como co-consult y co-deck, necesitas algunas herramientas adicionales. Este capítulo te guía a través de la instalación de todo de una vez y la verificación de que funcione.</p>
   <div class="keypoints">
     <div class="kp-title">Lo que cubre este capítulo</div>
     <ul>
@@ -49,7 +49,7 @@
 
   <h3>Required Subscriptions</h3>
 
-  <p>The harness multi-agente is built on Claude Code, and using Claude Code requires a <strong>Claude Pro or Claude Max subscription</strong>.</p>
+  <p>El harness multi-agente está construido sobre Claude Code, y usar Claude Code requiere una <strong>Claude Pro or Claude Max subscription</strong>.</p>
 
   <table>
     <thead>
@@ -153,11 +153,11 @@
 </div>
   </div>
 
-  <p>This folder will store installation verification scripts, configuration files, and project templates going forward. You can change the folder location at any time, but este manual uses the paths above as the reference standard.</p>
+  <p>Esta carpeta almacenará scripts de verificación de instalación, archivos de configuración y plantillas de proyecto de ahora en adelante. Puedes cambiar la ubicación de la carpeta en cualquier momento, pero este manual usa las rutas anteriores como estándar de referencia.</p>
 
   <h3>Folder Structure</h3>
 
-  <p>The setup folder will have the following structure. Right now it is empty, but each item will be populated as you progress through the installation.</p>
+  <p>La carpeta de configuración tendrá la siguiente estructura. Ahora mismo está vacía, pero cada elemento se irá llenando a medida que avances en la instalación.</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
     <svg viewBox="0 0 520 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="setup folder structure diagram" style="width:100%;height:auto;">
@@ -225,16 +225,16 @@
     </svg>
   </div>
 
-  <div class="note">
-    <strong>Avoid spaces or non-English characters in folder paths.</strong> Paths like <code>C:\My Documents\project</code> can cause errors with some tools. Stick to English-only paths like <code>C:\git\project</code> or <code>~/git/project</code> to stay safe.
-  </div>
+  <div class="note"> 
+     <strong>Evita espacios o caracteres no ingleses en las rutas de carpeta.</strong> Las rutas como <code>C:\My Documents\project</code> pueden causar errores con algunas herramientas. Quédate con rutas solo en inglés como <code>C:\git\project</code> o <code>~/git/project</code> para estar seguro.
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 3: Instalación en MacOS                                 -->
   <!-- ============================================================ -->
   <h2 id="install-macos">Instalación en MacOS</h2>
 
-  <p>On MacOS, <strong>Homebrew</strong> makes it easy to install all the required tools. Homebrew is the most widely used open-source package manager for MacOS.</p>
+  <p>En MacOS, <strong>Homebrew</strong> facilita la instalación de todas las herramientas necesarias. Homebrew es el gestor de paquetes de código abierto más utilizado para MacOS.</p>
 
   <div class="step-list">
     <div class="step">
@@ -291,26 +291,26 @@
     </div>
   </div>
 
-  <div class="note">
-    Claude Desktop App is assumed to be already installed from <a href="../ch02/02_Claude_Desktop_App_es.html">Capítulo 2</a>. If you have not installed it yet, complete Capítulo 2 first.
-  </div>
+  <div class="note"> 
+     Se asume que Claude Desktop App ya está instalado desde <a href="../ch02/02_Claude_Desktop_App_es.html">Capítulo 2</a>. Si aún no lo has instalado, completa primero el Capítulo 2. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 4: Instalación en Windows                              -->
   <!-- ============================================================ -->
   <h2 id="install-windows">Instalación en Windows</h2>
 
-  <p>On Windows, each tool is installed individually. Use <strong>PowerShell</strong> or <strong>Command Prompt (CMD)</strong> to proceed.</p>
+  <p>En Windows, cada herramienta se instala individualmente. Usa <strong>PowerShell</strong> o <strong>Command Prompt (CMD)</strong> para continuar.</p>
 
-  <div class="warn">
-    On Windows, you may need to run PowerShell as an administrator. Right-click PowerShell in the Start Menu and select <strong>"Run as Administrator"</strong>.
-  </div>
+  <div class="warn"> 
+     En Windows, es posible que necesites ejecutar PowerShell como administrador. Haz clic derecho en PowerShell en el Menú Inicio y selecciona <strong>"Run as Administrator"</strong>. 
+   </div>
 
   <div class="step-list">
     <div class="step">
       <span class="step-label">Install Git for Windows</span>
       &mdash; Git is a version control system, essential for Claude Code and GitHub integration.<br><br>
-      <strong>Option 1: Install with winget</strong> (Windows 10+)
+      <strong>Opción 1: Instalar con winget</strong> (Windows 10+)
       <div class="code-block">
 <pre><code>winget install --id Git.Git -e --source winget</code></pre>
 <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
@@ -321,7 +321,7 @@
     <div class="step">
       <span class="step-label">Install GitHub CLI</span>
       &mdash; This tool lets you use GitHub from the terminal.<br><br>
-      <strong>Option 1: Install with winget</strong>
+      <strong>Opción 1: Instalar con winget</strong>
       <div class="code-block">
 <pre><code>winget install --id GitHub.cli -e --source winget</code></pre>
 <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
@@ -352,9 +352,9 @@
   <div class="platform-block claude">
     <div class="platform-block-title">Windows-Specific Tips</div>
     <ul>
-      <li><strong>PowerShell vs CMD:</strong> Claude Code and Bun run more reliably in PowerShell. We recommend setting PowerShell as your default terminal.</li>
-      <li><strong>Environment Variable PATH:</strong> If a command is not recognized after installation, restart the terminal. If the problem persists, verify that the installation path was added to the system <code>PATH</code> environment variable.</li>
-      <li><strong>Git Bash:</strong> Installing Git for Windows also installs <code>Git Bash</code>, a terminal that provides a Linux/Mac-like command environment. If you are comfortable with it, feel free to use Git Bash instead.</li>
+      <li><strong>PowerShell vs CMD:</strong> Claude Code y Bun funcionan de manera más confiable en PowerShell. Recomendamos establecer PowerShell como tu terminal predeterminada.</li>
+      <li><strong>Environment Variable PATH:</strong> Si un comando no se reconoce después de la instalación, reinicia la terminal. Si el problema persiste, verifica que la ruta de instalación se haya añadido a la variable de entorno <code>PATH</code> del sistema.</li>
+      <li><strong>Git Bash:</strong> Instalar Git for Windows también instala <code>Git Bash</code>, una terminal que proporciona un entorno de comandos similar a Linux/Mac. Si te sientes cómodo con él, siéntete libre de usar Git Bash en su lugar.</li>
     </ul>
   </div>
 
@@ -363,11 +363,11 @@
   <!-- ============================================================ -->
   <h2 id="install-linux">Instalación en Linux</h2>
 
-  <p>On Linux (Ubuntu/Debian-based), use the <code>apt</code> package manager and official installation scripts.</p>
+  <p>En Linux (basado en Ubuntu/Debian), usa el gestor de paquetes <code>apt</code> y los scripts de instalación oficiales.</p>
 
-  <div class="note">
-    For other Linux distributions (Fedora, Arch, etc.), adjust the package manager commands accordingly. For example, use <code>dnf</code> on Fedora or <code>pacman</code> on Arch.
-  </div>
+  <div class="note"> 
+     Para otras distribuciones de Linux (Fedora, Arch, etc.), ajusta los comandos del gestor de paquetes según corresponda. Por ejemplo, usa <code>dnf</code> en Fedora o <code>pacman</code> en Arch. 
+   </div>
 
   <div class="step-list">
     <div class="step">
@@ -430,11 +430,11 @@
   <!-- ============================================================ -->
   <h2 id="verify">Verificación de instalación</h2>
 
-  <p>Now let's confirm that all tools were installed correctly. Open a terminal and run the following commands in order.</p>
+  <p>Ahora confirmemos que todas las herramientas se instalaron correctamente. Abre una terminal y ejecuta los siguientes comandos en orden.</p>
 
   <h3>Version Check</h3>
 
-  <p>Verify that each tool displays a version number. If a version number appears, the installation was successful.</p>
+  <p>Verifica que cada herramienta muestre un número de versión. Si aparece un número de versión, la instalación fue exitosa.</p>
 
   <div class="code-block">
 <pre><code>git --version</code></pre>
@@ -456,7 +456,7 @@
 
   <h3>Run the Verification Script</h3>
 
-  <p>The verification script in the setup folder checks the installation status of all tools at once.</p>
+  <p>El script de verificación en la carpeta de configuración comprueba el estado de instalación de todas las herramientas a la vez.</p>
 
   <div class="code-block">
 <pre><code>git clone https://github.com/5throck/setup.git
@@ -533,7 +533,7 @@ bun setup-common.ts       # Run the installation verification script</code></pre
       <li>Does <code>git --version</code> display a version number?</li>
       <li>Does <code>gh --version</code> display a version number?</li>
       <li>Does <code>bun --version</code> display a version number?</li>
-      <li>Does <code>gh auth status</code> show your logged-in account?</li>
+      <li>¿Muestra <code>gh auth status</code> tu cuenta con sesión iniciada?</li>
     </ul>
     Si todos los elementos están verificados, ¡tu instalación está completa!
   </div>
@@ -578,7 +578,7 @@ source ~/.bashrc</code></pre>
 
   <h3>GitHub CLI Authentication Error: <code>gh auth status</code> fails</h3>
 
-  <p><strong>Cause:</strong> The GitHub CLI browser authentication did not complete, or the authentication token has expired.</p>
+  <p><strong>Cause:</strong> La autenticación del navegador de GitHub CLI no se completó, o el token de autenticación ha expirado.</p>
 
   <p><strong>Solución:</strong></p>
 
@@ -633,7 +633,7 @@ gh auth login</code></pre>
 
   <div class="step-list">
     <div class="step">
-      <strong>Windows:</strong> Verifica que la ruta de instalación de Git (generalmente <code>C:\Program Files\Git\cmd</code>) esté incluida en la variable de entorno <code>PATH</code> del sistema. Busca <strong>"environment variables"</strong> en la barra de búsqueda de Windows y abre <strong>"Edit the system environment variables"</strong>.
+      <strong>Windows:</strong> Verifica que la ruta de instalación de Git (generalmente <code>C:\Program Files\Git\cmd</code>) esté incluida en la variable de entorno <code>PATH</code> del sistema. Busca <strong>"environment variables"</strong> en la barra de búsqueda de Windows y abre <strong>"Editar las variables de entorno del sistema"</strong>.
     </div>
     <div class="step">
       <strong>MacOS / Linux:</strong> Reinicia la terminal. Si el problema persiste, verifica el PATH con:
@@ -679,9 +679,9 @@ gh auth login</code></pre>
     </tbody>
   </table>
 
-  <div class="note">
-    If you need a remote access environment (SSH, cloud desktop, WSL, etc.), see <a href="../appendix/A_Remote_Access_es.html">Apéndice A: Configuración de entorno de acceso remoto</a>. Installation instructions for WSL (Windows Subsystem for Linux) are also included in that appendix.
-  </div>
+  <div class="note"> 
+     Si necesitas un entorno de acceso remoto (SSH, escritorio en la nube, WSL, etc.), consulta <a href="../appendix/A_Remote_Access_es.html">Apéndice A: Configuración de entorno de acceso remoto</a>. Las instrucciones de instalación de WSL (Windows Subsystem for Linux) también se incluyen en ese apéndice. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- CHAPTER NAVIGATION                                            -->

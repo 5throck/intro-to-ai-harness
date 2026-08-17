@@ -52,7 +52,7 @@
 
   <h3>A Quick Review from Capítulo 4</h3>
 
-  <p>Recall the four pillars that define every agent:</p>
+  <p>Recuerda los cuatro pilares que definen a cada agent:</p>
 
   <div class="compare-grid">
     <div class="col">
@@ -61,7 +61,7 @@
     </div>
     <div class="col">
       <h4>Role</h4>
-      <p>A concise 2&ndash;4 word title describing the agent&rsquo;s purpose (e.g., &ldquo;Web research specialist&rdquo;). Think of it as a job title on a business card.</p>
+      <p>Un título conciso de 2&ndash;4 palabras que describa el propósito del agent (p. ej., &ldquo;Especialista en investigación web&rdquo;). Piénsalo como el cargo en una tarjeta de presentación.</p>
     </div>
   </div>
 
@@ -84,14 +84,14 @@
     <li>Un <strong>summarizer</strong> que condense informes largos en resúmenes de una página</li>
     <li>Un <strong>translator</strong> que convierta contenido entre coreano e inglés</li>
     <li>A <strong>data-validator</strong> that checks numerical data against expected ranges</li>
-    <li>A <strong>social-media-writer</strong> that reformats slide content for Twitter or LinkedIn</li>
+    <li>Un <strong>social-media-writer</strong> que reformatea el contenido de diapositivas para Twitter o LinkedIn</li>
   </ul>
 
   <p>Cuando su flujo de trabajo exige una tarea especializada y repetida que no encaja en el rol de ningún agente existente, es hora de <strong>contratar a un especialista departamental nuevo</strong>.</p>
 
   <div class="tip-box">
-    <strong>The &ldquo;Hiring a Specialist&rdquo; Analogy</strong><br>
-    Imagine que usted dirige una empresa. Tiene un departamento de investigación, uno de diseño y uno de producción. Un día, el CEO dice: «Necesitamos a alguien que lea informes de 50 páginas y escriba un resumen de una página para la junta directiva». Usted no le pediría a un diseñador que hiciera eso; usted <em>contrataría un summarizer</em>. Crear un nuevo agente es exactamente eso: definir un nuevo rol con responsabilidades, herramientas y líneas de reporte claras para que el PM (el CEO) pueda asignar el trabajo a la persona adecuada.
+    <strong>La Analogía de &ldquo;Contratar un Especialista&rdquo;</strong><br>
+    Imagina que diriges una empresa. Tienes un departamento de investigación, uno de diseño y uno de producción. Un día, el CEO dice: «Necesitamos a alguien que lea informes de 50 páginas y escriba un resumen de una página para la junta directiva». Tú no le pedirías a un diseñador que hiciera eso; tú <em>contratarías un summarizer</em>. Crear un nuevo agente es exactamente eso: definir un nuevo rol con responsabilidades, herramientas y líneas de reporte claras para que el PM (el CEO) pueda asignar el trabajo a la persona adecuada.
   </div>
 
 
@@ -108,7 +108,7 @@
 <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
 </div>
 
-  <p>The naming convention is <strong>kebab-case</strong>: all lowercase, words separated by hyphens. Examples: <code>research.md</code>, <code>html-build.md</code>, <code>image-curator.md</code>.</p>
+  <p>La convención de nombres es <strong>kebab-case</strong>: todo en minúsculas, palabras separadas por guiones. Ejemplos: <code>research.md</code>, <code>html-build.md</code>, <code>image-curator.md</code>.</p>
 
   <h3>Structure Overview</h3>
 
@@ -143,7 +143,7 @@
     </svg>
   </div>
 
-  <p>The frontmatter is enclosed between two <code>---</code> fences. Everything below the closing fence is the body &mdash; standard Markdown with headings, lists, code blocks, and tables.</p>
+  <p>El frontmatter está encerrado entre dos vallas <code>---</code>. Todo lo que está debajo de la valla de cierre es el cuerpo &mdash; Markdown estándar con encabezados, listas, bloques de código y tablas.</p>
 
 
   <!-- ============================================================ -->
@@ -151,7 +151,7 @@
   <!-- ============================================================ -->
   <h2 id="frontmatter">Writing Frontmatter</h2>
 
-  <p>The YAML frontmatter is the machine-readable identity card of your agent. The orchestration layer (PM, scripts, audit tools) reads these fields to decide <em>when</em> and <em>how</em> to dispatch the agent.</p>
+  <p>El frontmatter YAML es la tarjeta de identidad legible por máquina de tu agent. La capa de orquestación (PM, scripts, herramientas de audit) lee estos campos para decidir <em>when</em> y <em>how</em> despachar el agent.</p>
 
   <h3>Required Fields</h3>
 
@@ -182,7 +182,7 @@
       <tr>
         <td><code>tier</code></td>
         <td>object</td>
-        <td>Maps each platform to a tier level: <code>high</code>, <code>medium</code>, or <code>low</code>. Controls which AI model is used.</td>
+        <td>Mapea cada plataforma a un nivel de tier: <code>high</code>, <code>medium</code> o <code>low</code>. Controla qué modelo de IA se utiliza.</td>
       </tr>
       <tr>
         <td><code>color</code></td>
@@ -192,27 +192,27 @@
       <tr>
         <td><code>description</code></td>
         <td>string</td>
-        <td>One-sentence summary of what the agent does. Shown in the agent roster.</td>
+        <td>Resumen de una frase de lo que hace el agent. Se muestra en el agent roster.</td>
       </tr>
       <tr>
         <td><code>examples</code></td>
         <td>list</td>
-        <td>Sample trigger phrases. Each entry has <code>user</code> (what the user says) and <code>assistant</code> (how the agent responds).</td>
+        <td>Frases de trigger de ejemplo. Cada entrada tiene <code>user</code> (lo que dice el usuario) y <code>assistant</code> (cómo responde el agent).</td>
       </tr>
       <tr>
         <td><code>phases</code></td>
         <td>list</td>
-        <td>Which pipeline stages this agent participates in (e.g., <code>[1]</code> for research at Stage 1).</td>
+        <td>En qué etapas del pipeline participa este agent (p. ej., <code>[1]</code> para investigación en el Stage 1).</td>
       </tr>
       <tr>
         <td><code>handoff_to</code></td>
         <td>list</td>
-        <td>Names of agents that typically follow this one in the pipeline.</td>
+        <td>Nombres de los agents que típicamente siguen a este en el pipeline.</td>
       </tr>
       <tr>
         <td><code>handoff_from</code></td>
         <td>list</td>
-        <td>Names of agents that typically precede this one in the pipeline.</td>
+        <td>Nombres de los agents que típicamente preceden a este en el pipeline.</td>
       </tr>
     </tbody>
   </table>
@@ -255,7 +255,7 @@ required_skills: []
   </div>
 
   <div class="tip-box">
-    <strong>Choosing the Right Tier</strong><br>
+    <strong>Elegir el Tier Adecuado</strong><br>
     <strong>High</strong> &mdash; Complex reasoning, architectural decisions, creative writing. Expensive but powerful.<br>
     <strong>Medium</strong> — Revisión de código, generación de contenido, comprobaciones de calidad. El punto óptimo para la mayoría de los agentes especialistas.<br>
     <strong>Low</strong> &mdash; Fast, repetitive tasks like formatting or simple file operations. Cheap and quick.<br>
@@ -268,9 +268,9 @@ required_skills: []
   <!-- ============================================================ -->
   <h2 id="body-content">Writing Body Content</h2>
 
-  <p>Debajo de la valla de cierre <code>---</code>, el cuerpo Markdown sirve como la <strong>guía interna</strong> del agente. Cuando el PM despacha este agente, el modelo de IA lee la totalidad del cuerpo y sigue sus instrucciones. Un buen contenido del cuerpo significa un comportamiento consistente y predecible. Un mal contenido del cuerpo significa que el agente improvisa — y la improvisación rara vez es lo que usted quiere.</p>
+  <p>Debajo de la valla de cierre <code>---</code>, el cuerpo Markdown sirve como la <strong>guía interna</strong> del agente. Cuando el PM despacha este agente, el modelo de IA lee la totalidad del cuerpo y sigue sus instrucciones. Un buen contenido del cuerpo significa un comportamiento consistente y predecible. Un mal contenido del cuerpo significa que el agente improvisa — y la improvisación rara vez es lo que quieres.</p>
 
-  <h3>5 Recomendado Sections</h3>
+  <h3>5 Secciones recomendadas</h3>
 
   <p>Aunque puede organizar el cuerpo como quiera, la mayoría de los agentes se benefician de estas cinco secciones:</p>
 
@@ -346,7 +346,7 @@ captures the key findings, methodology, and actionable recommendations.</code></
   </div>
 
   <div class="note">
-    <strong>The Body Is an &ldquo;Internal Guidebook&rdquo;</strong><br>
+    <strong>El Cuerpo Es una &ldquo;Guía Interna&rdquo;</strong><br>
     A diferencia del frontmatter (que es leído por scripts y el PM), el cuerpo es leído <em>solo por el modelo de IA</em> cuando se despacha al agente. Escríbalo como si estuviera dando instrucciones a un nuevo empleado en su primer día: claro, específico y centrado en <em>cómo</em> hacer el trabajo, no en <em>por qué</em> existe el trabajo. El «por qué» pertenece a la descripción del frontmatter.
   </div>
 
@@ -419,7 +419,7 @@ captures the key findings, methodology, and actionable recommendations.</code></
   <div class="step-list">
     <ol>
       <li><strong>Crear el archivo</strong> — Añada <code>agents/&lt;name&gt;.md</code> usando kebab-case. Opcionalmente use el script de andamiaje: <code>bun scripts/agent-create.ts &lt;name&gt;</code>.</li>
-      <li><strong>Write frontmatter</strong> &mdash; Fill in all required YAML fields: name, role, status, tier, description, examples, phases, handoff_to/from.</li>
+      <li><strong>Write frontmatter</strong> &mdash; Rellena todos los campos YAML requeridos: name, role, status, tier, description, examples, phases, handoff_to/from.</li>
       <li><strong>Write body content</strong> &mdash; Compose the Markdown instructions covering Identity, Behavioral Guidelines, Domain Rules, Tool Usage, and Handoff Contract.</li>
       <li><strong>Registrar en AGENTS.md</strong> — Añada el agente a la tabla de Roster de Agentes, a la tabla de Definiciones y a la tabla de despacho del Subagente (ver siguiente sección).</li>
       <li><strong>Validar y auditar</strong> — Ejecute <code>bun scripts/agent-lifecycle-audit.ts</code> para verificar que el agente pasa todas las comprobaciones (detección de huérfanos, validación del frontmatter, mapeo de Tier, etc.).</li>
@@ -494,17 +494,17 @@ captures the key findings, methodology, and actionable recommendations.</code></
 <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
   </div>
 
-  <p>This script scans every file in the <code>agents/</code> directory and checks for problems.</p>
+  <p>Este script escanea cada archivo en el directorio <code>agents/</code> y comprueba si hay problemas.</p>
 
   <h3>What the Audit Checks</h3>
 
   <ul>
-    <li><strong>Orphan detection</strong> &mdash; Every <code>.md</code> file in <code>agents/</code> must be listed in <code>AGENTS.md</code>. If a file exists but is not registered, it is flagged as an orphan.</li>
-    <li><strong>Frontmatter validation</strong> &mdash; All required fields (name, role, status, tier, description) must be present and correctly typed.</li>
-    <li><strong>Tier mapping</strong> &mdash; Tier values must be one of <code>high</code>, <code>medium</code>, <code>low</code>. Any invalid value triggers an error.</li>
-    <li><strong>Status consistency</strong> &mdash; The status field must be a recognized value: <code>active</code>, <code>draft</code>, <code>deprecated</code>, or <code>retired</code>.</li>
-    <li><strong>Research-role check</strong> &mdash; If the agent has a research or investigation role, its body must include source citation requirements.</li>
-    <li><strong>Numerical-role check</strong> &mdash; If the agent performs calculations, its body must include computational integrity rules.</li>
+    <li><strong>Orphan detection</strong> &mdash; Cada archivo <code>.md</code> en <code>agents/</code> debe estar listado en <code>AGENTS.md</code>. Si un archivo existe pero no está registrado, se marca como huérfano.</li>
+    <li><strong>Frontmatter validation</strong> &mdash; Todos los campos requeridos (name, role, status, tier, description) deben estar presentes y correctamente tipados.</li>
+    <li><strong>Tier mapping</strong> &mdash; Los valores de tier deben ser uno de <code>high</code>, <code>medium</code>, <code>low</code>. Cualquier valor inválido genera un error.</li>
+    <li><strong>Status consistency</strong> &mdash; El campo status debe ser un valor reconocido: <code>active</code>, <code>draft</code>, <code>deprecated</code> o <code>retired</code>.</li>
+    <li><strong>Research-role check</strong> &mdash; Si el agent tiene un rol de investigación, su cuerpo debe incluir requisitos de citación de fuentes.</li>
+    <li><strong>Numerical-role check</strong> &mdash; Si el agent realiza cálculos, su cuerpo debe incluir reglas de integridad computacional.</li>
   </ul>
 
   <h3>Verification Steps</h3>
@@ -512,17 +512,17 @@ captures the key findings, methodology, and actionable recommendations.</code></
   <div class="step-list">
     <ol>
       <li><strong>Create</strong> &mdash; Write <code>agents/summarizer.md</code> with frontmatter and body.</li>
-      <li><strong>Register</strong> &mdash; Add the agent to all three tables in <code>AGENTS.md</code>.</li>
+      <li><strong>Register</strong> &mdash; Añade el agent a las tres tablas en <code>AGENTS.md</code>.</li>
       <li><strong>Run audit</strong> &mdash; Execute <code>bun scripts/agent-lifecycle-audit.ts</code>.</li>
-      <li><strong>Review output</strong> &mdash; Check for errors (must fix) and warnings (should review).</li>
-      <li><strong>Fix and re-run</strong> &mdash; Repeat until the audit exits cleanly with zero errors.</li>
+      <li><strong>Review output</strong> &mdash; Comprueba si hay errores (debes corregirlos) y advertencias (deberías revisarlas).</li>
+      <li><strong>Fix and re-run</strong> &mdash; Repite hasta que la audit termine limpiamente con cero errores.</li>
     </ol>
   </div>
 
-  <div class="warn">
-    <strong>Why Verification Matters</strong><br>
-    Skipping the audit step is tempting when you are in a hurry, but it is the equivalent of deploying code without running tests. An orphaned agent file wastes disk space and confuses future contributors. Invalid frontmatter can cause the PM dispatch logic to fail silently. A missing handoff_to entry means the next agent in the pipeline will never receive the output. The audit catches all of these problems in seconds &mdash; use it every time.
-  </div>
+  <div class="warn"> 
+     <strong>Why Verification Matters</strong><br> 
+     Saltarse el paso de audit es tentador cuando tienes prisa, pero es el equivalente a desplegar código sin ejecutar pruebas. Un archivo de agent huérfano desperdicia espacio en disco y confunde a futuros colaboradores. Un frontmatter inválido puede hacer que la lógica de despacho del PM falle silenciosamente. Una entrada handoff_to faltante significa que el siguiente agent del pipeline nunca recibirá el resultado. La audit detecta todos estos problemas en segundos &mdash; úsala cada vez. 
+</div>
 
 
   <!-- ============================================================ -->
@@ -530,7 +530,7 @@ captures the key findings, methodology, and actionable recommendations.</code></
   <!-- ============================================================ -->
   <h2 id="practice">Practice: Build Your Own Specialist Agent</h2>
 
-  <p>Now it is your turn. In this exercise, you will create a <strong>summarizer</strong> agent from scratch &mdash; a specialist that reads long research notes and produces a concise one-page brief.</p>
+  <p>Ahora es tu turno. En este ejercicio, crearás un agent <strong>summarizer</strong> desde cero &mdash; un especialista que lee notas de investigación extensas y produce un resumen conciso de una página.</p>
 
   <div class="prompt-box">
     <strong>Goal</strong>: Create a functional <code>summarizer</code> agent, register it in <code>AGENTS.md</code>, and verify it passes the lifecycle audit.
@@ -538,16 +538,16 @@ captures the key findings, methodology, and actionable recommendations.</code></
 
   <div class="step-list">
     <ol>
+      <li> 
+         <strong>Crea el archivo</strong><br> 
+         Crea <code>agents/summarizer.md</code> en el directorio de tu proyecto. 
+       </li>
+      <li> 
+         <strong>Escribe el frontmatter</strong><br> 
+         Copia el frontmatter de la Sección 3 de este capítulo. Asegúrate de que todos los campos requeridos estén rellenos. Establece <code>status: active</code> y <code>tier</code> en <code>medium</code> para todas las plataformas. 
+       </li>
       <li>
-        <strong>Create the file</strong><br>
-        Create <code>agents/summarizer.md</code> in your project directory.
-      </li>
-      <li>
-        <strong>Write the frontmatter</strong><br>
-        Copy the frontmatter from Section 3 of este capítulo. Make sure all required fields are filled in. Set <code>status: active</code> and <code>tier</code> to <code>medium</code> for all platforms.
-      </li>
-      <li>
-        <strong>Write the body</strong><br>
+        <strong>Escribe el cuerpo</strong><br>
         Use the five-section structure from Section 4. Here is the complete body for reference:
         <div class="code-block">
           <div class="code-title">agents/summarizer.md &mdash; complete file</div>
@@ -635,18 +635,18 @@ If a user attempts to invoke you directly:
         <strong>Register in AGENTS.md</strong><br>
         Añada el summarizer a las tres tablas en <code>AGENTS.md</code> (Roster, Definition, Subagent Roster) como se muestra en la Sección 6.
       </li>
+      <li> 
+         <strong>Ejecuta la audit</strong><br> 
+         Ejecuta <code>bun scripts/agent-lifecycle-audit.ts</code> en tu terminal. Corrige cualquier error reportado. 
+       </li>
       <li>
-        <strong>Run the audit</strong><br>
-        Execute <code>bun scripts/agent-lifecycle-audit.ts</code> in your terminal. Fix any errors reported.
-      </li>
-      <li>
-        <strong>Verify the specific agent</strong><br>
+        <strong>Verifica el agent específico</strong><br>
         Opcionalmente ejecute <code>bun scripts/agent-verify.ts summarizer</code> para una comprobación enfocada solo en el nuevo agente.
       </li>
       <li>
         <strong>Test via PM</strong><br>
         Pida al PM que despache el summarizer con una entrada de prueba. Por ejemplo:<br>
-        <em>&ldquo;Please run the summarizer on research_notes.md and produce a brief.&rdquo;</em><br>
+        <em>&ldquo;Por favor, ejecuta el summarizer sobre research_notes.md y produce un resumen.&rdquo;</em><br>
         Verifique que se crea el archivo de salida <code>brief_summary.md</code> con el formato esperado.
       </li>
     </ol>

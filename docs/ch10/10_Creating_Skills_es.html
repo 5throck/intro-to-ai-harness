@@ -59,7 +59,7 @@
       <h4>Agent</h4>
       <ul>
         <li><strong>What:</strong> A digital employee with a fixed identity</li>
-        <li><strong>Analogy:</strong> The employee themselves</li>
+        <li><strong>Analogía:</strong> The employee themselves</li>
         <li><strong>File:</strong> <code>agents/&lt;name&gt;.md</code></li>
         <li><strong>Scope:</strong> Persistent role across the entire project</li>
       </ul>
@@ -68,7 +68,7 @@
       <h4>Skill</h4>
       <ul>
         <li><strong>What:</strong> A reusable instruction recipe</li>
-        <li><strong>Analogy:</strong> The recipe book the employee follows</li>
+        <li><strong>Analogía:</strong> The recipe book the employee follows</li>
         <li><strong>File:</strong> <code>skills/&lt;name&gt;/SKILL.md</code></li>
         <li><strong>Scope:</strong> Invoked on demand; shared across agents</li>
       </ul>
@@ -84,15 +84,15 @@
   <div class="step-list">
     <ol>
       <li><strong>L0 — Raíz del Espacio de Trabajo</strong> (<code>skills/</code>): La Única Fuente de Verdad. Todo el desarrollo de habilidades ocurre aquí. Cuando crea o edita una habilidad, esta es la capa que modifica.</li>
-      <li><strong>L1 — Plantilla Común</strong> (<code>templates/common/skills/</code>): Una instantánea publicada desde L0 mediante <code>bun run propagate:apply</code>. Usted <em>nunca</em> edita L1 directamente — los cambios fluyen desde L0 hacia abajo.</li>
+      <li><strong>L1 — Plantilla Común</strong> (<code>templates/common/skills/</code>): Una instantánea publicada desde L0 mediante <code>bun run propagate:apply</code>. Tú <em>nunca</em> editas L1 directamente — los cambios fluyen desde L0 hacia abajo.</li>
       <li><strong>L2 — Plantilla Variante</strong> (<code>templates/co-*/skills/</code>): Habilidades específicas de la variante definidas en la capa de plantilla L2. Cada variante (co-deck, co-consult, etc.) puede incluir habilidades que se comparten en todos los proyectos basados en esa variante.</li>
       <li><strong>L3 — Nivel del Proyecto</strong> (<code>Proyectos/&lt;name&gt;/skills/</code>): Una capa específica del proyecto creada cuando un proyecto L3 se basa en una plantilla variante L2. Las personalizaciones locales se pueden añadir aquí sin afectar a otros proyectos o a la plantilla variante.</li>
     </ol>
   </div>
 
   <div class="tip-box">
-    <strong>The &ldquo;Recipe&rdquo; Analogy</strong><br>
-    Si el agente es un chef, entonces la habilidad es una tarjeta de receta en el cuaderno de recetas de la cocina. El cuaderno es el espacio de trabajo L0 (la copia maestra). Los libros de cocina impresos para cada cadena de restaurantes son las plantillas L1. Las variaciones de recetas añadidas para una cocina específica (por ejemplo, italiana, japonesa) son las habilidades variantes L2. Las notas garabateadas en el margen de la copia de un restaurante son las anulaciones del proyecto L3. Usted siempre escribe nuevas recetas en el cuaderno maestro (L0), luego distribuye copias.
+    <strong>La Analogía de la &ldquo;Receta&rdquo;</strong><br>
+    Si el agente es un chef, entonces la habilidad es una tarjeta de receta en el cuaderno de recetas de la cocina. El cuaderno es el espacio de trabajo L0 (la copia maestra). Los libros de cocina impresos para cada cadena de restaurantes son las plantillas L1. Las variaciones de recetas añadidas para una cocina específica (por ejemplo, italiana, japonesa) son las habilidades variantes L2. Las notas garabateadas en el margen de la copia de un restaurante son las anulaciones del proyecto L3. Tú siempre escribes nuevas recetas en el cuaderno maestro (L0), luego distribuyes copias.
   </div>
 
 
@@ -109,7 +109,7 @@
 <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
 </div>
 
-  <p>Like agent files, a skill file has two parts: a <strong>YAML frontmatter block</strong> (machine-readable metadata) and a <strong>Markdown body</strong> (human-readable instructions). The structure is simpler than an agent file, but the same principle applies: the frontmatter is for the system, the body is for the AI model.</p>
+  <p>Al igual que los archivos de agent, un archivo de skill tiene dos partes: un <strong>YAML frontmatter block</strong> (metadatos legibles por máquina) y un <strong>Markdown body</strong> (instrucciones legibles por humanos). La estructura es más simple que la de un archivo de agent, pero se aplica el mismo principio: el frontmatter es para el sistema, el cuerpo es para el modelo de IA.</p>
 
   <h3>Structure Overview</h3>
 
@@ -147,12 +147,12 @@
     </svg>
   </div>
 
-  <p>The frontmatter is enclosed between two <code>---</code> fences, just like agent files. Everything below the closing fence is the body &mdash; standard Markdown with headings, lists, code blocks, and tables.</p>
+  <p>El frontmatter está encerrado entre dos vallas <code>---</code>, igual que los archivos de agent. Todo lo que está debajo de la valla de cierre es el cuerpo &mdash; Markdown estándar con encabezados, listas, bloques de código y tablas.</p>
 
-  <div class="note">
-    <strong>Skill vs Agent File Naming</strong><br>
-    Agent files live at <code>agents/&lt;name&gt;.md</code> (one file per agent). Skill files live at <code>skills/&lt;name&gt;/SKILL.md</code> (one directory per skill, always with an uppercase <code>SKILL.md</code> inside). This extra directory layer allows skills to bundle supplementary files (examples, test fixtures) alongside the main instruction document.
-  </div>
+  <div class="note"> 
+     <strong>Skill vs Agent File Naming</strong><br> 
+     Los archivos de agent viven en <code>agents/&lt;name&gt;.md</code> (un archivo por agent). Los archivos de skill viven en <code>skills/&lt;name&gt;/SKILL.md</code> (un directorio por skill, siempre con un <code>SKILL.md</code> en mayúsculas dentro). Esta capa adicional de directorio permite que las skills agrupen archivos complementarios (ejemplos, fixtures de prueba) junto con el documento de instrucciones principal. 
+</div>
 
 
   <!-- ============================================================ -->
@@ -160,7 +160,7 @@
   <!-- ============================================================ -->
   <h2 id="frontmatter">Writing Frontmatter</h2>
 
-  <p>The YAML frontmatter is the machine-readable identity card of your skill. The orchestration layer (PM, scripts, trigger matching) reads these fields to decide <em>when</em> and <em>how</em> to activate the skill.</p>
+  <p>El frontmatter YAML es la tarjeta de identidad legible por máquina de tu skill. La capa de orquestación (PM, scripts, coincidencia de triggers) lee estos campos para decidir <em>when</em> y <em>how</em> activar la skill.</p>
 
   <h3>Required and Optional Fields</h3>
 
@@ -190,13 +190,13 @@
         <td><code>description</code></td>
         <td>Required</td>
         <td>string</td>
-        <td>Multi-line summary of what the skill does and when to use it. Should include <code>Use when:</code> trigger scenarios.</td>
+        <td>Resumen multilínea de lo que hace la skill y cuándo usarla. Debe incluir <code>Use when:</code> escenarios de trigger.</td>
       </tr>
       <tr>
         <td><code>owner</code></td>
         <td>Required</td>
         <td>string</td>
-        <td>The agent or role accountable for maintaining this skill (e.g., <code>pm</code>, <code>research</code>).</td>
+        <td>El agent o rol responsable de mantener esta skill (p. ej., <code>pm</code>, <code>research</code>).</td>
       </tr>
       <tr>
         <td><code>version</code></td>
@@ -214,7 +214,7 @@
         <td><code>metadata.triggers</code></td>
         <td>Required</td>
         <td>list</td>
-        <td>Keywords that activate this skill. Must have at least one entry.</td>
+        <td>Palabras clave que activan esta skill. Debe tener al menos una entrada.</td>
       </tr>
       <tr>
         <td><code>scope</code></td>
@@ -265,7 +265,7 @@ metadata:
   </div>
 
   <div class="tip-box">
-    <strong>Choosing the Right Type</strong><br>
+    <strong>Elegir el Tipo Adecuado</strong><br>
     <strong>process</strong> &mdash; Workflow and methodology skills (e.g., <code>sync</code>, <code>meeting-facilitation</code>, <code>skill-lifecycle-manager</code>).<br>
     <strong>implementation</strong> &mdash; Technical implementation skills (e.g., <code>html-build</code>, <code>pdf-export</code>, <code>measure</code>).<br>
     <strong>domain</strong> &mdash; Domain-specific knowledge skills (e.g., <code>dart-disclosure-parser</code>, <code>mece-logic-auditor</code>).<br>
@@ -280,7 +280,7 @@ metadata:
 
   <p>Debajo de la valla de cierre <code>---</code>, el cuerpo en Markdown sirve como el <strong>manual de instrucciones</strong> de la habilidad. Cuando se carga la habilidad, el modelo de IA lee todo el cuerpo y sigue su guía. Un buen contenido del cuerpo significa que el agente realiza el flujo de trabajo de manera consistente y correcta cada vez.</p>
 
-  <h3>5 Recomendado Sections</h3>
+  <h3>5 Secciones recomendadas</h3>
 
   <p>Aunque el cuerpo puede organizarse de muchas maneras, la mayoría de las habilidades se benefician de estas cinco secciones, presentadas en orden:</p>
 
@@ -370,7 +370,7 @@ report with categorized findings and actionable fix suggestions.</code></pre>
   </div>
 
   <div class="note">
-    <strong>The Body Is an &ldquo;Instruction Manual&rdquo;</strong><br>
+    <strong>El Cuerpo Es un &ldquo;Manual de Instrucciones&rdquo;</strong><br>
     A diferencia del frontmatter (que es leído por scripts y el comparador de activación), el cuerpo es leído <em>por el modelo de IA</em> cuando se carga la habilidad. Escríbalo como si estuviera escribiendo un manual para un nuevo miembro del equipo: claro, específico y centrado en <em>cómo</em> hacer el trabajo. El «por qué» pertenece a la visión general; el «cuándo» pertenece a la sección de activación; y el «cómo» pertenece a los pasos.
   </div>
 
@@ -485,7 +485,7 @@ report with categorized findings and actionable fix suggestions.</code></pre>
   <div class="step-list">
     <ol>
       <li><strong>Crear desde cero</strong> — Genera un nuevo archivo <code>SKILL.md</code> con el frontmatter y la estructura del cuerpo adecuados basados en su descripción del propósito de la habilidad.</li>
-      <li><strong>Edit existing skills</strong> &mdash; Refines wording, adds missing sections, or restructures an existing skill to improve trigger reliability and instruction clarity.</li>
+      <li><strong>Edit existing skills</strong> &mdash; Refina la redacción, añade secciones faltantes o reestructura una skill existente para mejorar la fiabilidad de los triggers y la claridad de las instrucciones.</li>
       <li><strong>Iterar redacción</strong> — Prueba diferentes frases para las condiciones de activación y las instrucciones de los pasos para encontrar lo que funciona mejor para un comportamiento consistente de la IA.</li>
     </ol>
   </div>
@@ -504,7 +504,7 @@ report with categorized findings and actionable fix suggestions.</code></pre>
 
   <div class="note">
     <strong>Claude Desktop Ap Alternative</strong><br>
-    Si está utilizando Claude Desktop App sin el mercado de plugins de Claude Code CLI, puede lograr el mismo flujo de trabajo pidiéndole directamente a Claude: «Crea una habilidad que revise documentos markdown en busca de problemas de formato». Claude redactará el archivo <code>SKILL.md</code> por usted. Luego puede registrarlo y validarlo manualmente utilizando los pasos del skill-lifecycle-manager descritos en la sección anterior. La diferencia clave es que el plugin skill-creator automatiza el ciclo de iteración; con Claude Desktop App, usted gestiona el ciclo probar-refinar manualmente.
+    Si está utilizando Claude Desktop App sin el mercado de plugins de Claude Code CLI, puede lograr el mismo flujo de trabajo pidiéndole directamente a Claude: «Crea una habilidad que revise documentos markdown en busca de problemas de formato». Claude redactará el archivo <code>SKILL.md</code> por usted. Luego puede registrarlo y validarlo manualmente utilizando los pasos del skill-lifecycle-manager descritos en la sección anterior. La diferencia clave es que el plugin skill-creator automatiza el ciclo de iteración; con Claude Desktop App, tú gestionas el ciclo probar-refinar manualmente.
   </div>
 
 
@@ -553,12 +553,12 @@ report with categorized findings and actionable fix suggestions.</code></pre>
 <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
   </div>
 
-  <p>This script copies the skill from <code>skills/&lt;name&gt;/SKILL.md</code> into <code>.claude/skills/&lt;name&gt;/SKILL.md</code> and <code>.gemini/skills/&lt;name&gt;/SKILL.md</code> so that both Claude Code and Antigravity CLI can discover and load it. If you are in the L0 workspace and a <code>templates/common/</code> directory exists, you should also propagate to the L1 template by running <code>bun run propagate:apply</code>.</p>
+  <p>Este script copia la skill desde <code>skills/&lt;name&gt;/SKILL.md</code> hacia <code>.claude/skills/&lt;name&gt;/SKILL.md</code> y <code>.gemini/skills/&lt;name&gt;/SKILL.md</code> para que tanto Claude Code como Antigravity CLI puedan descubrirla y cargarla. Si estás en el workspace L0 y existe un directorio <code>templates/common/</code>, también debes propagar a la plantilla L1 ejecutando <code>bun run propagate:apply</code>.</p>
 
-  <div class="note">
-    <strong>L0 Accessibility</strong><br>
-    Workspace-level skills (<code>skills/</code>) have the <em>highest</em> priority in the skill resolution order (see Capítulo 4). This means a skill you create at L0 will always take precedence over platform-level or plugin-level skills with the same name. Use this power responsibly &mdash; avoid creating skills that duplicate or shadow existing plugin functionality unless you intentionally want to override it.
-  </div>
+  <div class="note"> 
+     <strong>L0 Accessibility</strong><br> 
+     Las skills a nivel de workspace (<code>skills/</code>) tienen la prioridad <em>highest</em> en el orden de resolución de skills (ver Capítulo 4). Esto significa que una skill que crees en L0 siempre tendrá precedencia sobre las skills a nivel de plataforma o de plugin con el mismo nombre. Usa este poder con responsabilidad &mdash; evita crear skills que dupliquen o eclipsen funcionalidades existentes de plugins, a menos que quieras anularlas intencionalmente. 
+</div>
 
 
   <!-- ============================================================ -->
@@ -566,7 +566,7 @@ report with categorized findings and actionable fix suggestions.</code></pre>
   <!-- ============================================================ -->
   <h2 id="practice">Practice: Build Your Own Custom Skill</h2>
 
-  <p>Now it is your turn. In this exercise, you will create a <strong>document-reviewer</strong> skill from scratch &mdash; a reusable recipe that reviews markdown documents for formatting, structure, and writing quality.</p>
+  <p>Ahora es tu turno. En este ejercicio, crearás una skill <strong>document-reviewer</strong> desde cero &mdash; una receta reutilizable que revisa documentos markdown para verificar formato, estructura y calidad de escritura.</p>
 
   <div class="prompt-box">
     <strong>Goal</strong>: Create a functional <code>document-reviewer</code> skill, register it in <code>AGENTS.md</code>, deploy it with <code>sync-skills.ts</code>, and test that it triggers correctly.
@@ -574,12 +574,12 @@ report with categorized findings and actionable fix suggestions.</code></pre>
 
   <div class="step-list">
     <ol>
+      <li> 
+         <strong>Crea el directorio y el archivo</strong><br> 
+         Crea el directorio <code>skills/document-reviewer/</code> y añade un archivo llamado <code>SKILL.md</code> dentro de él. 
+       </li>
       <li>
-        <strong>Create the directory and file</strong><br>
-        Create the directory <code>skills/document-reviewer/</code> and add a file named <code>SKILL.md</code> inside it.
-      </li>
-      <li>
-        <strong>Write the frontmatter</strong><br>
+        <strong>Escribe el frontmatter</strong><br>
         Add the YAML frontmatter with all required fields. Here is the complete frontmatter for reference:
         <div class="code-block">
           <div class="code-title">skills/document-reviewer/SKILL.md &mdash; frontmatter</div>
@@ -607,7 +607,7 @@ metadata:
         </div>
       </li>
       <li>
-        <strong>Write the body</strong><br>
+        <strong>Escribe el cuerpo</strong><br>
         Use la estructura de cinco secciones. Aquí está el cuerpo completo:
         <div class="code-block">
           <div class="code-title">skills/document-reviewer/SKILL.md &mdash; body</div>
@@ -673,7 +673,7 @@ report with categorized findings and actionable fix suggestions.
         Agregue el document-reviewer a la tabla de Habilidades en <code>AGENTS.md</code> con la ruta del archivo y la descripción. Si su proyecto tiene un <code>docs/context.md</code>, agregue también una entrada allí.
       </li>
       <li>
-        <strong>Deploy with sync-skills.ts</strong><br>
+        <strong>Despliega con sync-skills.ts</strong><br>
         Ejecute <code>bun scripts/sync-skills.ts</code> en su terminal para distribuir la habilidad a los directorios específicos de la plataforma (<code>.claude/skills/</code> y <code>.gemini/skills/</code>).
       </li>
       <li>
@@ -688,7 +688,7 @@ report with categorized findings and actionable fix suggestions.
   </div>
 
   <div class="tip-box">
-    <strong>Testing Is Essential</strong><br>
+    <strong>Probar Es Esencial</strong><br>
     La verdadera prueba de una nueva habilidad no es si el script de validación pasa — sino si la habilidad produce una salida útil cuando se activa con una solicitud real del usuario. Después de que la validación pase, ejecute siempre al menos una prueba de extremo a extremo: active la habilidad con un prompt realista, revise la salida y refine las instrucciones del paso si los resultados son inconsistentes o pasan por alto comprobaciones importantes. Las habilidades son documentos vivos; espere iterar 2–3 veces antes de que el comportamiento sea confiablemente consistente.
   </div>
 

@@ -117,7 +117,7 @@
   <h3>Why DeepSeek?</h3>
   <ul>
     <li>Extremely low cost: approximately $0.27 per 1M input tokens and $1.10 per 1M output tokens (DeepSeek-V3).</li>
-    <li>Strong coding and reasoning capabilities, especially DeepSeek-R1 for chain-of-thought tasks.</li>
+    <li>Capacidades sólidas de codificación y razonamiento, especialmente DeepSeek-R1 para tareas de cadena de pensamiento.</li>
     <li>Claude-compatible API format via the <code>deepseek-chat</code> model endpoint.</li>
   </ul>
 
@@ -174,7 +174,7 @@
 
   <p><strong>Paso 2 — Generar una clave API</strong>: Navega a la sección de Claves API en el panel de control de tu cuenta. Haz clic en <strong>"Create API Key"</strong>, copia la clave y guárdala de forma segura. No podrás verla de nuevo.</p>
 
-  <p><strong>Step 3 &mdash; Set the environment variable</strong>:</p>
+  <p><strong>Paso 3 &mdash; Establece la variable de entorno</strong>:</p>
 
   <p><em>Mac / Linux</em></p>
   <div class="code-block">
@@ -231,7 +231,7 @@ ANTHROPIC_MODEL=deepseek-chat</code></pre>
   <ul>
     <li>Competitive pricing: roughly $0.10 per 1M input tokens for GLM-4-Flash (free tier available).</li>
     <li>Excelente soporte para el idioma chino — mejor que la mayoría de los modelos occidentales para generación y comprensión de texto en chino.</li>
-    <li>GLM-4-Plus offers performance comparable to GPT-4 class models at a fraction of the cost.</li>
+    <li>GLM-4-Plus ofrece un rendimiento comparable a los modelos clase GPT-4 por una fracción del costo.</li>
     <li>Claude-compatible API with OpenAI-style endpoints.</li>
   </ul>
 
@@ -245,7 +245,7 @@ ANTHROPIC_MODEL=deepseek-chat</code></pre>
 
   <p><strong>Paso 2 — Generar una clave API</strong>: En la consola, navega a la sección de Claves API y crea una nueva clave.</p>
 
-  <p><strong>Step 3 &mdash; Set the environment variable</strong>:</p>
+  <p><strong>Paso 3 &mdash; Establece la variable de entorno</strong>:</p>
 
   <p><em>Mac / Linux</em></p>
   <div class="code-block">
@@ -272,7 +272,7 @@ setx ZHIPUAI_API_KEY "your-api-key-here"</code></pre>
 <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
 </div>
 
-  <p><strong>Step 4 &mdash; Configure the API</strong>:</p>
+  <p><strong>Paso 4 &mdash; Configura la API</strong>:</p>
 
   <div class="code-block">
 <pre><code>ANTHROPIC_BASE_URL=https://open.bigmodel.cn/api/paas/v4
@@ -322,7 +322,7 @@ ANTHROPIC_MODEL=glm-4-flash</code></pre>
     <li><strong>Easy switching</strong> &mdash; Change the active model by editing one line, no environment variable changes needed.</li>
     <li><strong>Load balancing</strong> &mdash; Distribute requests across multiple providers automatically.</li>
     <li><strong>Soporte de respaldo (fallback)</strong> &mdash; Si un proveedor está caído, LiteLLM enruta automáticamente al siguiente.</li>
-    <li><strong>Cost tracking</strong> &mdash; Built-in logging of token usage and cost per request.</li>
+    <li><strong>Cost tracking</strong> &mdash; Registro integrado del uso de tokens y el costo por solicitud.</li>
   </ul>
 
   <h3>Installation</h3>
@@ -372,7 +372,7 @@ litellm --config litellm_config.yaml --port 4000</code></pre>
 <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
 </div>
 
-  <p>Then point Claude Code at the local proxy:</p>
+  <p>Luego apunta Claude Code al proxy local:</p>
 
   <div class="code-block">
 <pre><code>ANTHROPIC_BASE_URL=http://localhost:4000
@@ -435,7 +435,7 @@ ANTHROPIC_MODEL=claude-3-5-sonnet</code></pre>
       <ul>
         <li><strong>Cost</strong>: depends on backend(s) chosen</li>
         <li><strong>Best for</strong>: multi-backend management, easy switching</li>
-        <li><strong>Quality</strong>: same as the configured backend</li>
+        <li><strong>Quality</strong>: igual que el backend configurado</li>
         <li><strong>Languages</strong>: same as the configured backend</li>
         <li><strong>Setup</strong>: install Python package + YAML config</li>
         <li><strong>Rate limits</strong>: distributed across backends</li>

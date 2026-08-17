@@ -129,7 +129,7 @@
       </div>
     </div>
     <div class="step">
-      <span class="step-label">Log in to Tailscale on the desktop</span>
+      <span class="step-label">Inicia sesión en Tailscale en el escritorio</span>
       &mdash; Abre Tailscale y haz clic en <strong>"Iniciar sesión"</strong>. Se abrirá una ventana del navegador —autoriza el dispositivo usando la cuenta que creaste en el Paso 1. Después de la autorización, Tailscale mostrará la dirección IP de Tailscale de tu dispositivo (por ejemplo, <code>100.x.x.x</code>).
     </div>
     <div class="step">
@@ -137,7 +137,7 @@
       &mdash; Repite la instalación en tu computadora portátil, tableta o teléfono. Tailscale es compatible con Windows, MacOS, Linux, iOS y Android.
     </div>
     <div class="step">
-      <span class="step-label">Log in on the remote device</span>
+      <span class="step-label">Inicia sesión en el dispositivo remoto</span>
       &mdash; Usa la misma cuenta para iniciar sesión en el dispositivo remoto. Ambos dispositivos aparecerán ahora en tu consola de administración de Tailscale en <a href="https://login.tailscale.com/admin/machines" target="_blank" rel="noopener noreferrer">login.tailscale.com</a>.
     </div>
     <div class="step">
@@ -151,24 +151,24 @@
     </div>
   </div>
 
-  <div class="tip-box">
-    Tailscale's free plan is generous &mdash; it supports up to 100 devices, subnet routing, and MagicDNS (automatic name resolution). You do not need to pay anything to use Tailscale for personal remote access. Visit <a href="https://tailscale.com/pricing" target="_blank" rel="noopener noreferrer">tailscale.com/pricing</a> for plan details.
-  </div>
+  <div class="tip-box"> 
+     El plan gratuito de Tailscale es generoso &mdash; soporta hasta 100 dispositivos, enrutamiento de subredes y MagicDNS (resolución automática de nombres). No necesitas pagar nada para usar Tailscale para acceso remoto personal. Visita <a href="https://tailscale.com/pricing" target="_blank" rel="noopener noreferrer">tailscale.com/pricing</a> para ver los detalles del plan. 
+</div>
 
   <!-- ============================================================ -->
   <!-- SECTION 3: NoMachine Setup                                   -->
   <!-- ============================================================ -->
   <h2 id="nomachine">NoMachine Setup</h2>
 
-  <p><strong>NoMachine</strong> is a free remote desktop application that provides a full graphical desktop experience. Unlike Tailscale (which creates a network tunnel), NoMachine gives you a complete visual remote desktop session &mdash; you see the exact same screen, windows, and applications as if you were sitting in front of the machine.</p>
+  <p><strong>NoMachine</strong> es una aplicación de escritorio remoto gratuita que proporciona una experiencia completa de escritorio gráfico. A diferencia de Tailscale (que crea un túnel de red), NoMachine te da una sesión visual completa de escritorio remoto &mdash; ves exactamente la misma pantalla, ventanas y aplicaciones que si estuvieras sentado frente a la máquina.</p>
 
   <h3>What is NoMachine?</h3>
 
-  <p>NoMachine uses the NX protocol to deliver high-performance remote desktop sessions. It is known for being <strong>fast, responsive, and easy to set up</strong>. Both the sending (host) and receiving (client) sides need NoMachine installed.</p>
+  <p>NoMachine usa el protocolo NX para ofrecer sesiones de escritorio remoto de alto rendimiento. Es conocido por ser <strong>rápido, receptivo y fácil de configurar</strong>. Tanto el lado emisor (host) como el receptor (cliente) necesitan NoMachine instalado.</p>
 
-  <div class="flow-box">
-    <strong>When to use NoMachine</strong>: When you need a full visual desktop experience &mdash; for example, running Claude Desktop App GUI, managing multiple windows, or using applications that require a display.
-  </div>
+  <div class="flow-box"> 
+     <strong>Cuándo usar NoMachine</strong>: Cuando necesitas una experiencia completa de escritorio visual &mdash; por ejemplo, ejecutar la interfaz gráfica de Claude Desktop App, gestionar múltiples ventanas o usar aplicaciones que requieren pantalla. 
+</div>
 
   <div class="step-list">
     <div class="step">
@@ -176,77 +176,77 @@
       &mdash; Visit <a href="https://www.nomachine.com/download" target="_blank" rel="noopener noreferrer">nomachine.com/download</a> and download the version for your operating system.
       <div class="platform-block claude">
         <div class="platform-block-title">Windows</div>
-        <p>Download <strong>NoMachine for Windows</strong> and run the installer. Accept the default settings.</p>
+        <p>Descarga <strong>NoMachine for Windows</strong> y ejecuta el instalador. Acepta la configuración predeterminada.</p>
       </div>
       <div class="platform-block claude">
         <div class="platform-block-title">MacOS</div>
-        <p>Download <strong>NoMachine for macOS</strong> and drag it to your Applications folder.</p>
+        <p>Descarga <strong>NoMachine for macOS</strong> y arrástralo a tu carpeta de Applications.</p>
       </div>
     </div>
-    <div class="step">
-      <span class="step-label">Install and configure the host</span>
-      &mdash; After installation, NoMachine starts automatically as a service. Open the NoMachine application and go to <strong>Settings &rarr; Server &rarr; Security</strong>. Make sure <strong>"Allow connections from other computers"</strong> is enabled.
-    </div>
-    <div class="step">
-      <span class="step-label">Note the host's IP address</span>
-      &mdash; In the NoMachine main window, you will see the local IP address of the host machine (e.g., <code>192.168.1.100</code>). If you are connecting over the internet, you will need the <strong>public IP address</strong> or use Tailscale's IP address instead.
-    </div>
-    <div class="step">
-      <span class="step-label">Download NoMachine on the client (your device)</span>
-      &mdash; On the device you will use to connect remotely, download and install NoMachine from the same download page. NoMachine client software is available for Windows, MacOS, Linux, iOS, and Android.
-    </div>
-    <div class="step">
-      <span class="step-label">Connect to the host</span>
-      &mdash; Open NoMachine on the client device. Click <strong>"New connection"</strong> and enter the host's IP address. If you are using Tailscale, enter the Tailscale IP (e.g., <code>100.x.x.x</code>). Click <strong>"Connect"</strong> and enter the host machine's username and password when prompted.
-    </div>
-    <div class="step">
-      <span class="step-label">Adjust display settings</span>
-      &mdash; Once connected, you can adjust the quality and resolution from the NoMachine menu. For slow connections, reduce the resolution or enable <strong>"Low bandwidth mode"</strong> in the session settings.
-    </div>
+    <div class="step"> 
+       <span class="step-label">Install and configure the host</span> 
+       &mdash; Tras la instalación, NoMachine se inicia automáticamente como servicio. Abre la aplicación NoMachine y ve a <strong>Settings &rarr; Server &rarr; Security</strong>. Asegúrate de que <strong>"Permitir conexiones desde otras computadoras"</strong> esté habilitado. 
+</div>
+    <div class="step"> 
+       <span class="step-label">Note the host's IP address</span> 
+       &mdash; En la ventana principal de NoMachine verás la dirección IP local de la máquina host (p. ej., <code>192.168.1.100</code>). Si te conectas por internet, necesitarás la <strong>public IP address</strong> o usa la dirección IP de Tailscale en su lugar. 
+</div>
+    <div class="step"> 
+       <span class="step-label">Descarga NoMachine en el cliente (tu dispositivo)</span> 
+       &mdash; En el dispositivo que usarás para conectarte de forma remota, descarga e instala NoMachine desde la misma página de descargas. El software cliente de NoMachine está disponible para Windows, MacOS, Linux, iOS y Android. 
+</div>
+    <div class="step"> 
+       <span class="step-label">Connect to the host</span> 
+       &mdash; Abre NoMachine en el dispositivo cliente. Haz clic en <strong>"New connection"</strong> e introduce la dirección IP del host. Si usas Tailscale, introduce la IP de Tailscale (p. ej., <code>100.x.x.x</code>). Haz clic en <strong>"Connect"</strong> e introduce el usuario y la contraseña de la máquina host cuando se te solicite. 
+</div>
+    <div class="step"> 
+       <span class="step-label">Adjust display settings</span> 
+       &mdash; Una vez conectado, puedes ajustar la calidad y la resolución desde el menú de NoMachine. Para conexiones lentas, reduce la resolución o habilita <strong>"Low bandwidth mode"</strong> en la configuración de la sesión. 
+</div>
   </div>
 
-  <div class="tip-box">
-    If your internet connection is unstable, NoMachine can become laggy. In that case, try reducing the display resolution in session settings or consider using <a href="#tailscale">Tailscale</a> combined with command-line access (SSH or Claude Code CLI) instead of a full graphical session.
-  </div>
+  <div class="tip-box"> 
+     Si tu conexión a internet es inestable, NoMachine puede volverse lento. En ese caso, prueba a reducir la resolución de pantalla en la configuración de la sesión o considera usar <a href="#tailscale">Tailscale</a> combinado con acceso por línea de comandos (SSH o Claude Code CLI) en lugar de una sesión gráfica completa. 
+</div>
 
   <!-- ============================================================ -->
   <!-- SECTION 4: Windows RDP Setup                                 -->
   <!-- ============================================================ -->
   <h2 id="windows-rdp">Windows RDP Setup</h2>
 
-  <p><strong>Remote Desktop Protocol (RDP)</strong> is built into Windows Professional, Enterprise, and Education editions. It allows you to connect to a Windows computer remotely using the built-in Remote Desktop Connection tool &mdash; no additional software required on the client side.</p>
+  <p><strong>Remote Desktop Protocol (RDP)</strong> está integrado en las ediciones Windows Professional, Enterprise y Education. Te permite conectarte a una computadora con Windows de forma remota usando la herramienta integrada Remote Desktop Connection &mdash; sin software adicional en el lado del cliente.</p>
 
   <h3>What is Windows RDP?</h3>
 
-  <p>Windows RDP is Microsoft's proprietary remote desktop protocol. It provides a full graphical remote session and is <strong>built directly into Windows</strong>, so you do not need to install third-party software on the host machine. The client side (the device you connect from) can be Windows, Mac, iOS, or Android using the free Microsoft Remote Desktop app.</p>
+  <p>Windows RDP es el protocolo de escritorio remoto propietario de Microsoft. Proporciona una sesión gráfica remota completa y es <strong>integrado directamente en Windows</strong>, por lo que no necesitas instalar software de terceros en la máquina host. El lado del cliente (el dispositivo desde el que te conectas) puede ser Windows, Mac, iOS o Android usando la aplicación gratuita Microsoft Remote Desktop.</p>
 
-  <div class="warn">
-    Windows <strong>Home edition does NOT support RDP hosting</strong>. You need Windows Professional, Enterprise, or Education to act as an RDP host. If you have Windows Home, use <a href="#nomachine">NoMachine</a> instead.
-  </div>
+  <div class="warn"> 
+     Windows <strong>La edición Home NO soporta hospedaje RDP</strong>. Necesitas Windows Professional, Enterprise o Education para actuar como host RDP. Si tienes Windows Home, usa <a href="#nomachine">NoMachine</a> en su lugar. 
+</div>
 
   <div class="step-list">
     <div class="step">
       <span class="step-label">Enable Remote Desktop on the host</span>
       &mdash; On the AI Dev Desktop (Windows), press <code>Win + S</code>, type <strong>"Remote Desktop Settings"</strong>, and press Enter. Toggle <strong>"Enable Remote Desktop"</strong> to <strong>On</strong>. Windows may prompt you to confirm &mdash; click <strong>Confirm</strong>.
     </div>
+    <div class="step"> 
+       <span class="step-label">Configure Windows Firewall</span> 
+       &mdash; Al habilitar Remote Desktop, Windows crea automáticamente una regla de firewall para permitir conexiones RDP en el puerto <strong>3389</strong>. Verifícalo abriendo <strong>Windows Defender Firewall &rarr; Allow an app or feature through Windows Defender Firewall</strong> y confirmando que <strong>Remote Desktop</strong> esté marcado. 
+</div>
     <div class="step">
-      <span class="step-label">Configure Windows Firewall</span>
-      &mdash; When you enable Remote Desktop, Windows automatically creates a firewall rule to allow RDP connections on port <strong>3389</strong>. Verify this by opening <strong>Windows Defender Firewall &rarr; Allow an app or feature through Windows Defender Firewall</strong> and confirming that <strong>Remote Desktop</strong> is checked.
-    </div>
-    <div class="step">
-      <span class="step-label">Set up port forwarding on your router (for internet access)</span>
+      <span class="step-label">Configura el port forwarding en tu router (para acceso por internet)</span>
       &mdash; To connect from outside your local network, you need to forward port <strong>3389</strong> on your router to the host machine's local IP.
       <ol style="margin-top:8px;">
-        <li>Log in to your router's admin panel (usually <code>192.168.1.1</code> or <code>192.168.0.1</code>).</li>
+        <li>Inicia sesión en el panel de administración de tu router (generalmente <code>192.168.1.1</code> o <code>192.168.0.1</code>).</li>
         <li>Find the <strong>Port Forwarding</strong> (or <strong>NAT</strong>) section.</li>
         <li>Create a new rule: External port <strong>3389</strong>, Internal port <strong>3389</strong>, Internal IP address = your desktop's local IP (e.g., <code>192.168.1.100</code>), Protocol = <strong>TCP</strong>.</li>
         <li>Save and apply the rule.</li>
       </ol>
     </div>
-    <div class="step">
-      <span class="step-label">Find the host's public IP address</span>
-      &mdash; On the host machine, visit <a href="https://whatismyipaddress.com" target="_blank" rel="noopener noreferrer">whatismyipaddress.com</a> or search <strong>"What is my IP"</strong> in a browser. Note this address &mdash; you will use it to connect from the client.
-    </div>
+    <div class="step"> 
+       <span class="step-label">Find the host's public IP address</span> 
+       &mdash; En la máquina host, visita <a href="https://whatismyipaddress.com" target="_blank" rel="noopener noreferrer">whatismyipaddress.com</a> o busca <strong>"Cuál es mi IP"</strong> en un navegador. Anota esta dirección &mdash; la usarás para conectarte desde el cliente. 
+</div>
     <div class="step">
       <span class="step-label">Connect from the client device</span>
       &mdash; On your remote device, open the Remote Desktop Connection tool.
@@ -256,21 +256,21 @@
       </div>
       <div class="platform-block claude">
         <div class="platform-block-title">Mac / iOS / Android</div>
-        <p>Download the free <strong>Microsoft Remote Desktop</strong> app from the App Store or Google Play. Add a new connection with the host's public IP address.</p>
+        <p>Descarga la aplicación gratuita <strong>Microsoft Remote Desktop</strong> desde el App Store o Google Play. Añade una nueva conexión con la dirección IP pública del host.</p>
       </div>
     </div>
   </div>
 
-  <div class="warn">
-    <strong>Security exposure warning</strong>: Exposing RDP directly to the internet is risky. Automated bots constantly scan for open RDP ports. To reduce risk: (1) use a <strong>strong, unique password</strong> for the host Windows account, (2) enable <strong>Network Level Authentication (NLA)</strong> in Remote Desktop settings, and (3) consider using <a href="#tailscale">Tailscale VPN</a> instead of port forwarding so RDP is only accessible within your private network.
-  </div>
+  <div class="warn"> 
+     <strong>Security exposure warning</strong>: Exponer RDP directamente a internet es riesgoso. Los bots automatizados escanean constantemente en busca de puertos RDP abiertos. Para reducir el riesgo: (1) usa una <strong>strong, unique password</strong> para la cuenta de Windows del host, (2) habilita <strong>Network Level Authentication (NLA)</strong> en la configuración de Remote Desktop, y (3) considera usar <a href="#tailscale">Tailscale VPN</a> en lugar de port forwarding para que RDP solo sea accesible dentro de tu red privada. 
+</div>
 
   <!-- ============================================================ -->
   <!-- SECTION 5: Comparison & Selection Guide                        -->
   <!-- ============================================================ -->
   <h2 id="comparison">Comparison &amp; Selection Guide</h2>
 
-  <p>Each remote access method has its strengths and weaknesses. Use this comparison to find the best option for your situation.</p>
+  <p>Cada método de acceso remoto tiene sus fortalezas y debilidades. Usa esta comparación para encontrar la mejor opción para tu situación.</p>
 
   <div class="compare-grid" style="grid-template-columns:1fr 1fr 1fr;">
     <div class="compare-col">
@@ -279,7 +279,7 @@
         <li>Encrypted mesh VPN (WireGuard)</li>
         <li>No port forwarding required</li>
         <li>Works behind NAT / firewalls</li>
-        <li>Free for up to 100 devices</li>
+        <li>Gratis hasta 100 dispositivos</li>
         <li>Command-line access</li>
         <li>Best for CLI / SSH workflows</li>
         <li>Minimal bandwidth overhead</li>
@@ -311,13 +311,13 @@
     </div>
   </div>
 
-  <h3>Recomendado Combinations</h3>
+  <h3>Combinaciones recomendadas</h3>
 
   <table>
     <thead>
       <tr>
         <th>Scenario</th>
-        <th>Recomendado Setup</th>
+        <th>Configuración recomendada</th>
         <th>Why</th>
       </tr>
     </thead>
@@ -335,7 +335,7 @@
       <tr>
         <td>Windows-only environment, no third-party software</td>
         <td><strong>Windows RDP</strong></td>
-        <td>Built-in, no extra installation on the host</td>
+        <td>Integrado, sin instalación adicional en el host</td>
       </tr>
       <tr>
         <td>Windows Pro + want maximum security</td>
@@ -345,71 +345,71 @@
     </tbody>
   </table>
 
-  <div class="tip-box">
-    <strong>For beginners</strong>: The easiest combination to start with is <strong>Tailscale + NoMachine</strong>. Install Tailscale on both machines to create a secure network, then use NoMachine for a full graphical remote desktop session. This combination works on both Windows and MacOS, does not require any router configuration, and keeps your connection secure.
-  </div>
+  <div class="tip-box"> 
+     <strong>Para principiantes</strong>: La combinación más fácil para empezar es <strong>Tailscale + NoMachine</strong>. Instala Tailscale en ambas máquinas para crear una red segura, luego usa NoMachine para una sesión completa de escritorio remoto gráfico. Esta combinación funciona tanto en Windows como en MacOS, no requiere configuración del router y mantiene tu conexión segura. 
+</div>
 
   <!-- ============================================================ -->
   <!-- SECTION 6: Solución de problemas                                    -->
   <!-- ============================================================ -->
   <h2 id="troubleshooting">Solución de problemas</h2>
 
-  <p>Here are solutions to the most common remote access issues.</p>
+  <p>Aquí tienes soluciones para los problemas de acceso remoto más comunes.</p>
 
   <div class="step-list">
     <div class="step">
       <span class="step-label">Cannot connect to the host machine</span>
       &mdash; First, verify that the host machine is powered on and connected to the internet. Then check the following:
       <ul style="margin-top:8px;margin-left:20px;">
-        <li><strong>Tailscale</strong>: Both devices must show as online in the Tailscale admin console. Try restarting the Tailscale service.</li>
-        <li><strong>NoMachine</strong>: Verify that NoMachine is running on the host and that "Allow connections" is enabled in Server settings.</li>
-        <li><strong>RDP</strong>: Confirm Remote Desktop is enabled in Windows Settings and that port 3389 is not blocked by your router or ISP.</li>
+        <li><strong>Tailscale</strong>: Ambos dispositivos deben aparecer como en línea en la consola de administración de Tailscale. Prueba reiniciar el servicio de Tailscale.</li>
+        <li><strong>NoMachine</strong>: Verifica que NoMachine esté ejecutándose en el host y que "Allow connections" esté habilitado en la configuración del Server.</li>
+        <li><strong>RDP</strong>: Confirma que Remote Desktop esté habilitado en la Configuración de Windows y que el puerto 3389 no esté bloqueado por tu router o ISP.</li>
       </ul>
     </div>
     <div class="step">
-      <span class="step-label">Connection is very slow or laggy</span>
+      <span class="step-label">La conexión es muy lenta o con lag</span>
       &mdash; Remote desktop performance depends on your internet connection speed. Try these fixes:
       <ul style="margin-top:8px;margin-left:20px;">
         <li>Reduce display resolution in the remote desktop client settings.</li>
-        <li>Close unnecessary applications on the host machine to free up resources.</li>
-        <li>In NoMachine, enable "Low bandwidth mode" or reduce the display quality in session settings.</li>
-        <li>If using RDP, adjust the display settings in the connection options (lower color depth, disable wallpaper, disable font smoothing).</li>
-        <li>Connect via Tailscale (local VPN path) instead of going through port forwarding over the public internet.</li>
+        <li>Cierra las aplicaciones innecesarias en la máquina host para liberar recursos.</li>
+        <li>En NoMachine, habilita "Low bandwidth mode" o reduce la calidad de visualización en la configuración de la sesión.</li>
+        <li>Si usas RDP, ajusta la configuración de pantalla en las opciones de conexión (menos profundidad de color, deshabilitar el fondo de pantalla, deshabilitar el suavizado de fuentes).</li>
+        <li>Conéctate vía Tailscale (ruta VPN local) en lugar de pasar por port forwarding a través de internet pública.</li>
       </ul>
     </div>
     <div class="step">
       <span class="step-label">Authentication or login fails</span>
       &mdash; If you cannot log in:
       <ul style="margin-top:8px;margin-left:20px;">
-        <li>Double-check your username and password. For Windows RDP, you must use the Windows account credentials on the host machine.</li>
-        <li>For Tailscale, make sure both devices are logged into the same Tailscale account.</li>
-        <li>For NoMachine, check that you are entering the host machine's OS username and password (not a NoMachine-specific password, unless you configured one).</li>
-        <li>If you recently changed your password on the host, the remote client may cache old credentials. Clear saved passwords and try again.</li>
+        <li>Verifica de nuevo tu nombre de usuario y contraseña. Para Windows RDP, debes usar las credenciales de la cuenta de Windows de la máquina host.</li>
+        <li>Para Tailscale, asegúrate de que ambos dispositivos hayan iniciado sesión en la misma cuenta de Tailscale.</li>
+        <li>Para NoMachine, comprueba que estés ingresando el nombre de usuario y contraseña del sistema operativo de la máquina host (no una contraseña específica de NoMachine, a menos que hayas configurado una).</li>
+        <li>Si cambiaste recientemente tu contraseña en el host, el cliente remoto puede tener credenciales antiguas en caché. Borra las contraseñas guardadas e inténtalo de nuevo.</li>
       </ul>
     </div>
     <div class="step">
-      <span class="step-label">Audio or clipboard not working in remote session</span>
+      <span class="step-label">El audio o el portapapeles no funciona en la sesión remota</span>
       &mdash; These features are commonly affected:
       <ul style="margin-top:8px;margin-left:20px;">
-        <li><strong>Audio</strong>: In NoMachine, go to Settings &rarr; Audio and ensure "Audio playback" and "Audio recording" are enabled. In RDP, check "Record from this computer" in the Local Resources tab of the connection options.</li>
-        <li><strong>Clipboard</strong>: Both NoMachine and RDP support clipboard sharing, but it must be enabled in the session settings. In NoMachine, check the "Copy and paste" option in the input settings panel.</li>
+        <li><strong>Audio</strong>: En NoMachine, ve a Settings &rarr; Audio y asegúrate de que "Audio playback" y "Audio recording" estén habilitados. En RDP, marca "Record from this computer" en la pestaña Local Resources de las opciones de conexión.</li>
+        <li><strong>Clipboard</strong>: Tanto NoMachine como RDP soportan compartir el portapapeles, pero debe habilitarse en la configuración de la sesión. En NoMachine, verifica la opción "Copy and paste" en el panel de configuración de entrada.</li>
       </ul>
     </div>
     <div class="step">
       <span class="step-label">Tailscale devices show as offline</span>
       &mdash; If a device appears offline in the Tailscale admin console but you know it is running:
       <ul style="margin-top:8px;margin-left:20px;">
-        <li>Check that the Tailscale service is running. On Windows, look for the Tailscale icon in the system tray. On MacOS, check the menu bar icon.</li>
-        <li>Try restarting the Tailscale service. On Windows: open Services, find "Tailscale," right-click, and select Restart. On MacOS: quit and reopen the Tailscale app.</li>
-        <li>Verify that the device has internet access (Tailscale cannot function without an internet connection).</li>
-        <li>If using a corporate or school network, the firewall may block WireGuard traffic. Contact your network administrator or try a different network.</li>
+        <li>Comprueba que el servicio de Tailscale esté ejecutándose. En Windows, busca el ícono de Tailscale en la bandeja del sistema. En MacOS, revisa el ícono de la barra de menú.</li>
+        <li>Prueba reiniciar el servicio de Tailscale. En Windows: abre Services, busca "Tailscale", haz clic derecho y selecciona Restart. En MacOS: cierra y vuelve a abrir la aplicación de Tailscale.</li>
+        <li>Verifica que el dispositivo tenga acceso a internet (Tailscale no puede funcionar sin conexión a internet).</li>
+        <li>Si usas una red corporativa o escolar, el firewall puede bloquear el tráfico de WireGuard. Contacta a tu administrador de red o prueba con una red diferente.</li>
       </ul>
     </div>
   </div>
 
-  <div class="note">
-    <strong>Still stuck?</strong> If none of the above solutions resolve your issue, check the official documentation for each tool: <a href="https://tailscale.com/kb" target="_blank" rel="noopener noreferrer">Tailscale Knowledge Base</a>, <a href="https://www.nomachine.com/support" target="_blank" rel="noopener noreferrer">NoMachine Support</a>, or <a href="https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/" target="_blank" rel="noopener noreferrer">Microsoft RDP Documentation</a>.
-  </div>
+  <div class="note"> 
+     <strong>¿Sigue sin funcionar?</strong> Si ninguna de las soluciones anteriores resuelve tu problema, consulta la documentación oficial de cada herramienta: <a href="https://tailscale.com/kb" target="_blank" rel="noopener noreferrer">Tailscale Knowledge Base</a>, <a href="https://www.nomachine.com/support" target="_blank" rel="noopener noreferrer">NoMachine Support</a> o <a href="https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/" target="_blank" rel="noopener noreferrer">Microsoft RDP Documentation</a>. 
+</div>
 
   <!-- Chapter Navigation -->
   <div class="chapter-nav">

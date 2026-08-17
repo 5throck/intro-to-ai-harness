@@ -29,7 +29,7 @@
  <article class="reading">
   <div class="chapter-eyebrow">Capítulo 12</div>
   <h1>Comprendiendo flujos de trabajo y automatización</h1>
-  <p class="lead">Este capítulo cubre workflow automation in the AI harness &mdash; the /sync command, Git/GitHub PRs, hooks, CI/CD basics, and how dev-sync.ts works.</p>
+  <p class="lead">Este capítulo cubre la automatización de flujos de trabajo en el harness de IA &mdash; el comando /sync, los PRs de Git/GitHub, los hooks, lo básico de CI/CD y cómo funciona dev-sync.ts.</p>
   <div class="keypoints">
     <div class="kp-title">Lo que cubre este capítulo</div>
     <ul>
@@ -75,7 +75,7 @@
         <li>Audit runs automatically</li>
         <li>Version files update automatically</li>
         <li>Commit message generated for you</li>
-        <li>Push happens as part of the pipeline</li>
+        <li>El push ocurre como parte del pipeline</li>
         <li>PR created with a single command</li>
         <li>L0 changes propagate to all variants</li>
         <li>Result: consistent, reliable, repeatable</li>
@@ -285,9 +285,9 @@
   <ul>
     <li>After adding, modifying, or deprecating an agent</li>
     <li>After creating, updating, or removing a skill</li>
-    <li>After changing a script or its status in <code>SCRIPTS.md</code></li>
+    <li>Después de cambiar un script o su estado en <code>SCRIPTS.md</code></li>
     <li>After modifying governance files (<code>AGENTS.md</code>, <code>CLAUDE.md</code>, <code>GEMINI.md</code>)</li>
-    <li>After any change to <code>common-contract.json</code> or template files</li>
+    <li>Después de cualquier cambio en <code>common-contract.json</code> o en archivos de plantilla</li>
   </ul>
 
   <div class="note">
@@ -354,9 +354,9 @@ git log --oneline</code></pre>
       <li>
         <strong>Abrir un PR</strong> — Creas un Pull Request que dice: "por favor, revisen estos cambios y fusionen en la rama principal."
       </li>
-      <li>
-        <strong>Review</strong> &mdash; Team members (or automated checks) review the changes, leave comments, and request modifications if needed.
-      </li>
+      <li> 
+         <strong>Review</strong> &mdash; Los miembros del equipo (o las comprobaciones automatizadas) revisan los cambios, dejan comentarios y solicitan modificaciones si es necesario. 
+       </li>
       <li>
         <strong>Fusionar (Merge)</strong> — Una vez aprobado, el PR se fusiona en la rama principal y tus cambios forman parte del proyecto oficial.
       </li>
@@ -560,7 +560,7 @@ git log --oneline</code></pre>
 
   <p><strong>Integración Continua</strong> significa construir y probar el código automáticamente cada vez que alguien envía cambios. En lugar de esperar un "día de pruebas" designado, cada cambio se prueba inmediatamente. Esto detecta errores y problemas temprano, cuando son más fáciles de arreglar.</p>
 
-  <p>In the AI harness context, CI means running audit scripts, validation checks, and tests automatically whenever a Pull Request is created or updated.</p>
+  <p>En el contexto del harness de IA, CI significa ejecutar scripts de audit, comprobaciones de validación y pruebas automáticamente cada vez que se crea o actualiza un Pull Request.</p>
 
   <h3>Continuous Delivery (CD)</h3>
 
@@ -744,11 +744,11 @@ bun scripts/dev-sync.ts --help</code></pre>
 <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
 </div>
       </li>
+      <li> 
+         <strong>Haz tus cambios.</strong> Edita los archivos que necesitas modificar. Por ejemplo, puedes actualizar el tier de un agent en su archivo markdown, añadir una nueva skill o corregir un error de documentación. Usa el Version Agent para tomar instantáneas de los archivos antes de editarlos. 
+       </li>
       <li>
-        <strong>Make your changes.</strong> Edit the files you need to modify. For example, you might update an agent's tier in its markdown file, add a new skill, or fix a documentation error. Use the Version Agent to snapshot files before editing.
-      </li>
-      <li>
-        <strong>Review your changes.</strong> Before committing, review what you changed to make sure everything looks correct.
+        <strong>Revisa tus cambios.</strong> Before committing, review what you changed to make sure everything looks correct.
 <div class="code-block">
 <pre><code>git status          # See which files changed
 git diff            # See the actual differences</code></pre>
@@ -770,43 +770,43 @@ git commit -m "feat(agent): update tier from low to medium"</code></pre>
 <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
 </div>
       </li>
-      <li>
-        <strong>Review and merge the PR.</strong> Once the PR is created, review it on GitHub. If automated checks pass and the changes look correct, merge the PR into the main branch.
-      </li>
+      <li> 
+         <strong>Revisa y fusiona el PR.</strong> Una vez creado el PR, revísalo en GitHub. Si las comprobaciones automatizadas pasan y los cambios se ven correctos, fusiona el PR en la rama main. 
+       </li>
     </ol>
   </div>
 
   <h3>What Happens Behind the Scenes</h3>
 
-  <p>When you follow this workflow, here is what the system does at each step:</p>
+  <p>Cuando sigues este flujo de trabajo, esto es lo que el sistema hace en cada paso:</p>
 
   <div class="flow-box">
     <div class="flow-step">
       <strong>You:</strong> Create branch &rarr; Edit files &rarr; Review &rarr; Commit &rarr; /sync
     </div>
-    <div class="flow-step">
-      <strong>System (Step 1 &mdash; Lifecycle):</strong> Detects that an agent file changed &rarr; Updates the agent lifecycle record in <code>docs/lifecycle/agents/</code>
-    </div>
+    <div class="flow-step"> 
+       <strong>System (Step 1 &mdash; Lifecycle):</strong> Detecta que cambió un archivo de agent &rarr; Actualiza el registro del ciclo de vida del agent en <code>docs/lifecycle/agents/</code> 
+</div>
     <div class="flow-step">
       <strong>System (Step 2 &mdash; Audit):</strong> Runs <code>audit.ts</code> &rarr; Validates file structure, frontmatter, naming conventions &rarr; All checks pass
     </div>
-    <div class="flow-step">
-      <strong>System (Step 3 &mdash; Publish):</strong> Checks if the change affects L0 shared files &rarr; If so, propagates to L1 template
-    </div>
-    <div class="flow-step">
-      <strong>System (Step 4 &mdash; Commit):</strong> Your commit is already recorded &rarr; Lifecycle files are committed with the sync message
-    </div>
-    <div class="flow-step">
-      <strong>System (Step 5 &mdash; Push + PR):</strong> Pushes to GitHub &rarr; Creates a PR titled "feat(agent): update tier from low to medium" &rarr; CI runs automatically on the PR
-    </div>
-    <div class="flow-step">
-      <strong>Result:</strong> Your change is reviewed, tested, and ready to merge &mdash; all from a single <code>/sync</code> command
-    </div>
+    <div class="flow-step"> 
+       <strong>System (Step 3 &mdash; Publish):</strong> Comprueba si el cambio afecta a los archivos compartidos de L0 &rarr; Si es así, propaga a la plantilla L1 
+</div>
+    <div class="flow-step"> 
+       <strong>System (Step 4 &mdash; Commit):</strong> Tu commit ya está registrado &rarr; Los archivos del ciclo de vida se confirman con el mensaje de sync 
+</div>
+    <div class="flow-step"> 
+       <strong>System (Step 5 &mdash; Push + PR):</strong> Sube los cambios a GitHub &rarr; Crea un PR titulado "feat(agent): update tier from low to medium" &rarr; CI se ejecuta automáticamente en el PR 
+</div>
+    <div class="flow-step"> 
+       <strong>Result:</strong> Tu cambio queda revisado, probado y listo para fusionar &mdash; todo con un solo comando <code>/sync</code> 
+</div>
   </div>
 
-  <div class="tip-box">
-    <strong>Practice makes perfect.</strong> Try this workflow with a small, low-risk change first &mdash; like updating a typo in documentation. Once you are comfortable with the full cycle (branch, edit, commit, /sync, review PR), you can tackle larger changes like adding new agents or creating new skills with confidence. The automation handles the routine steps; you focus on the creative work.
-  </div>
+  <div class="tip-box"> 
+     <strong>Practice makes perfect.</strong> Prueba este flujo de trabajo primero con un cambio pequeño y de bajo riesgo &mdash; como corregir una errata en la documentación. Una vez que te sientas cómodo con el ciclo completo (branch, editar, commit, /sync, revisar PR), podrás abordar con confianza cambios mayores como añadir nuevos agents o crear nuevas skills. La automatización maneja los pasos rutinarios; tú te concentras en el trabajo creativo. 
+</div>
 
   <!-- ============================================================ -->
   <!-- CHAPTER NAVIGATION                                            -->

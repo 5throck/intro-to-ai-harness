@@ -39,14 +39,14 @@
   <p class="lead">Materials for instructors teaching este manual (Chapters 1–13 + Appendices A/B/C).</p>
 
  <div class="note">Este documento es una referencia operativa solo para instructores, no forma parte del cuerpo del manual. No necesita ser compartido con los alumnos.</div>
- <div class="warn">Antes de finalizar, relee el texto completo y comprueba que no haya <strong>errores tipograficos, frases incomodas o discrepancias en los numeros de capitulo/seccion</strong>. Los borradores generados por IA pueden contener errores o redacciones poco naturales.</div>
+ <div class="warn">Antes de finalizar, relee el texto completo y comprueba que no haya <strong>errores tipograficos, frases incomodas o discrepancias en los numeros de capitulo/sección</strong>. Los borradores generados por IA pueden contener errores o redacciones poco naturales.</div>
 
   <h2 id="prereq">Consolidated Prerequisites Checklist</h2>
- <p>Aqui se recopilan los elementos dispersos en los documentos de configuracion (vease <a href="../ch03/03_Setup_Guide_es.html">Capitulo 3 · Configurando tu laboratorio</a>) para que puedas verificarlo todo antes de que comience el curso. Notifica a los participantes esta lista <strong>al menos un dia antes</strong> de la clase para que no haya problemas de configuracion el dia del evento.</p>
+ <p>Aqui se recopilan los elementos dispersos en los documentos de configuración (vease <a href="../ch03/03_Setup_Guide_es.html">Capitulo 3 · Configurando tu laboratorio</a>) para que puedas verificarlo todo antes de que comience el curso. Notifica a los participantes esta lista <strong>al menos un dia antes</strong> de la clase para que no haya problemas de configuración el dia del evento.</p>
   <div class="chk">☐ Active Claude Pro subscription (a subscription account, not an API key)</div>
   <div class="chk">☐ A Claude.ai account created and login verified</div>
   <div class="chk">☐ macOS or Windows 10/11 environment (Linux users use Claude Code CLI from Apéndice B)</div>
-  <div class="chk">☐ At least 2GB of free disk space and a stable internet connection</div>
+  <div class="chk">☐ Al menos 2GB de espacio libre en disco y una conexión a internet estable</div>
   <div class="chk">☐ Claude Desktop App installed (detailed in Cap. 2; installing in advance makes class smoother)</div>
   <div class="chk">☐ The <code>C:\git\project\setup</code> pre-installation script folder ready (recommended)</div>
   <div class="chk">☐ (For Cap. 6–8 labs) ai-workspace-standards clone: <code>git clone https://github.com/5throck/ai-workspace-standards.git</code></div>
@@ -76,23 +76,23 @@
     </tbody>
   </table>
   </div>
- <div class="note">Con dos descansos (10-15 min cada uno), el total es de <strong>aproximadamente 7 horas</strong>. Dirige a los participantes a Apendices A/B/C para estudio autodidacta despues del curso, segun sea necesario.</div>
+ <div class="note">Con dos descansos (10-15 min cada uno), el total es de <strong>aproximadamente 7 horas</strong>. Dirige a los participantes a Apéndices A/B/C para estudio autodidacta despues del curso, segun sea necesario.</div>
 
   <h2 id="per-section">Chapter-by-Chapter Instructor Notes</h2>
 
   <h3>Cap. 1: ¿Por qué equipos de AI agent? (Introduction)</h3>
- <p>Este capitulo establece la motivacion para "por que multiples IAs deben trabajar en equipo" antes de los conceptos tecnicos del Cap. 4. Utiliza la tabla comparativa entre IA unica vs. equipo de agentes para hacer tangible la diferencia, e introduce el concepto harness ligeramente como un "marco para mover equipos de IA".</p>
- <p>La seccion de resultados esperados es una vista previa de lo que experimentaran los participantes en los laboratorios del Cap. 6-8. Transmite la "sensacion" aqui y difiere el detalle tecnico al Cap. 4.</p>
+ <p>Este capitulo establece la motivacion para "por que multiples IAs deben trabajar en equipo" antes de los conceptos tecnicos del Cap. 4. Utiliza la tabla comparativa entre IA única vs. equipo de agentes para hacer tangible la diferencia, e introduce el concepto harness ligeramente como un "marco para mover equipos de IA".</p>
+ <p>La sección de resultados esperados es una vista previa de lo que experimentaran los participantes en los laboratorios del Cap. 6-8. Transmite la "sensacion" aqui y difiere el detalle tecnico al Cap. 4.</p>
   <span class="badge badge-do">Actividad del participante</span> Pide un levantamiento de manos: "Al usar IA en solitario, alguna vez has deseado que varias IAs dividieran el trabajo?". Esto genera curiosidad que se mantiene en el Cap. 4.
 
   <h3>Cap. 2: Comenzando con Claude Desktop App</h3>
- <p>Este es la herramienta predeterminada del manual, por lo que lo mas importante es que los participantes <strong>la instalen realmente y comiencen su primera conversacion</strong>. Los participantes que ya la tenian instalada pueden centrarse en la comparacion de suscripciones y el laboratorio de creacion de proyectos.</p>
-  <p>Linux users have no desktop app, so point them to Apéndice B (Claude Code CLI). Do not cover the CLI itself in este capítulo.</p>
+ <p>Este es la herramienta predeterminada del manual, por lo que lo mas importante es que los participantes <strong>la instalen realmente y comiencen su primera conversacion</strong>. Los participantes que ya la tenian instalada pueden centrarse en la comparacion de suscripciones y el laboratorio de creación de proyectos.</p>
+  <p>Los usuarios de Linux no tienen una aplicación de escritorio, así que dirígelos al Apéndice B (Claude Code CLI). No cubras el CLI en este capítulo.</p>
   <span class="badge badge-do">Actividad del participante</span> Haz que los participantes creen un proyecto de "Aprendizaje con IA" e ingresen esta Instruccion Personalizada: "Responder en coreano. Explicar de forma sencilla para principiantes." Seguiran usando este proyecto a lo largo del manual.
 
   <h3>Cap. 3: Configurando tu laboratorio</h3>
- <p>Primero revisa la lista de verificacion de requisitos previos, luego ejecuta los scripts de configuracion especificos del SO y finalmente verifica la instalacion. Dado que se cubren macOS/Windows/Linux, demuestra una vez en tu propio SO y deja que los demas sigan el script correspondiente.</p>
- <p>Asegurate de que el paso de verificacion (<code>bun setup-common.ts</code>) pase. Ahorrar tiempo aqui hara que los laboratorios del Cap. 6-8 transcurran sin problemas.</p>
+ <p>Primero revisa la lista de verificación de requisitos previos, luego ejecuta los scripts de configuración especificos del SO y finalmente verifica la instalacion. Dado que se cubren macOS/Windows/Linux, demuestra una vez en tu propio SO y deja que los demas sigan el script correspondiente.</p>
+ <p>Asegurate de que el paso de verificación (<code>bun setup-common.ts</code>) pase. Ahorrar tiempo aqui hara que los laboratorios del Cap. 6-8 transcurran sin problemas.</p>
 
   <h3>Cap. 4: Multi-Agent Conceptos del Harness</h3>
  <p>Este capitulo es el punto de referencia para todos los terminos utilizados mas adelante (agentes, habilidades, flujos de trabajo, PM, 3-Tier, PM Gateway), por lo que vale la pena ir despacio. Analogias como "agente = un empleado con un rol, habilidad = un manual de procedimientos reutilizable" funcionan bien en una pizarra.</p>
@@ -102,16 +102,16 @@
  <p>Transmite la jerarquia L0-L1-L2 y el concepto de variante. Para los principiantes, la analogia "un sistema de plantillas que produce proyectos a partir de un repositorio estandar" funciona bien. Usa una tabla para aclarar los diferentes roles de AGENTS.md y CLAUDE.md.</p>
 
   <h3>Cap. 6: co-consult — AI Consulting in Practice (core afternoon lab)</h3>
- <p>Este capitulo esta dedicado a utilizar una variante existente. Los participantes ejecutan un proyecto de analisis de mercado hablando con el agente PM. Enfatiza como cada fase del flujo de trabajo de 7 fases progresa automaticamente y como las Puertas 2 y 5 solicitan la aprobacion del usuario.</p>
+ <p>Este capitulo esta dedicado a utilizar una variante existente. Los participantes ejecutan un proyecto de análisis de mercado hablando con el agente PM. Enfatiza como cada fase del flujo de trabajo de 7 fases progresa automaticamente y como las Puertas 2 y 5 solicitan la aprobacion del usuario.</p>
  <p>Haz que confirmen que los entregables (<code>deliverables/reports/</code>) se generan realmente, y refuerza: "La IA no hizo esto sola: los agentes dividieron roles y colaboraron."</p>
   <span class="badge badge-do">Actividad del participante</span> Deja que los participantes elijan uno de los cuatro escenarios de composicion de equipo (Evaluacion Rapida, Estandar, Transformacion Compleja, Experto Especializado) y hablen con el agente PM sobre ello.
 
   <h3>Cap. 7: co-deck — AI Presentation in Practice</h3>
- <p>Construye una mini presentacion con el pipeline de 11 etapas: seleccion de tema/estilo, aprobaciones de la Puerta 2 y 5, y entregables en HTML+PDF. A diferencia del Cap. 6, aparece un resultado de "presentacion" claro, lo que resulta satisfactorio para los participantes.</p>
+ <p>Construye una mini presentación con el pipeline de 11 etapas: seleccion de tema/estilo, aprobaciones de la Puerta 2 y 5, y entregables en HTML+PDF. A diferencia del Cap. 6, aparece un resultado de "presentación" claro, lo que resulta satisfactorio para los participantes.</p>
   <span class="badge badge-do">Actividad del participante</span> Haz que los participantes compartan pantalla una diapositiva terminada para que puedan comparar y sentir como afectan las elecciones de tema/estilo al resultado.
 
   <h3>Cap. 8: Pipeline combinado co-consult + co-deck</h3>
- <p>Un laboratorio de integracion que pasa el informe del Cap. 6 como entrada al Cap. 7. Muestra el flujo completo: "tema entra, presentacion terminada en 30-45 minutos" —y haz que los participantes comparen las composiciones de agentes de los dos sistemas.</p>
+ <p>Un laboratorio de integracion que pasa el informe del Cap. 6 como entrada al Cap. 7. Muestra el flujo completo: "tema entra, presentación terminada en 30-45 minutos" —y haz que los participantes comparen las composiciones de agentes de los dos sistemas.</p>
   <span class="badge badge-do">Actividad del participante</span> Deja que los participantes alimenten su informe del Cap. 6 directamente en co-deck en el Cap. 7 para experimentar el valor de la integracion de primera mano.
 
   <h3>Cap. 9: Creación y modificación de agentes</h3>
@@ -128,11 +128,11 @@
   <span class="badge badge-do">Actividad del participante</span> Haz que los participantes obtengan una propuesta de equipo de agentes personalizada para su dominio (marketing, educacion, investigacion, etc.) y completen el paso de aprobacion.
 
   <h3>Cap. 12: Comprendiendo flujos de trabajo y automatización</h3>
- <p>Explica /sync, la automatizacion de PR en Git/GitHub, los hooks y los conceptos basicos de CI/CD, y como funciona dev-sync.ts. Comienza a los principiantes con la analogia "automatizacion = delegar trabajo repetitivo a un sistema".</p>
- <p>Enmarca este capitulo como un modulo de <strong>conciencia del concepto / estudio de seguimiento</strong> en lugar de un laboratorio practico. Mantenlo centrado en el concepto y dirige a los participantes con conocimientos de CLI al Apendice B para material mas profundo. Para los interesados, ofrece un ejercicio opcional posterior a la clase (confirmar un proyecto de muestra con /sync, verificar el comportamiento del hook) y enfatiza la automatizacion como un siguiente paso autodirigido.</p>
+ <p>Explica /sync, la automatización de PR en Git/GitHub, los hooks y los conceptos básicos de CI/CD, y como funciona dev-sync.ts. Comienza a los principiantes con la analogia "automatización = delegar trabajo repetitivo a un sistema".</p>
+ <p>Enmarca este capitulo como un modulo de <strong>conciencia del concepto / estudio de seguimiento</strong> en lugar de un laboratorio practico. Mantenlo centrado en el concepto y dirige a los participantes con conocimientos de CLI al Apéndice B para material mas profundo. Para los interesados, ofrece un ejercicio opcional posterior a la clase (confirmar un proyecto de muestra con /sync, verificar el comportamiento del hook) y enfatiza la automatización como un siguiente paso autodirigido.</p>
 
   <h3>Cap. 13: Próximos pasos + Wrap-Up</h3>
- <p>Cierra con la hoja de ruta de aprendizaje, la comunidad, los escenarios de aplicacion y las preguntas frecuentes. Repasa el dia completo y conecta todo lo construido en el Cap. 1-12 (proyectos, entregables de laboratorio, agentes, habilidades, propuesta de equipo).</p>
+ <p>Cierra con la hoja de ruta de aprendizaje, la comunidad, los escenarios de aplicación y las preguntas frecuentes. Repasa el dia completo y conecta todo lo construido en el Cap. 1-12 (proyectos, entregables de laboratorio, agentes, habilidades, propuesta de equipo).</p>
   <span class="badge badge-do">Actividad del participante</span> Haz que los participantes presenten la propuesta de equipo del Cap. 11 y pregunten: "Quieren construir este equipo realmente ahora?" para reforzar la motivacion de seguir aprendiendo.
 
   <h2 id="recap">Chapter Comprehension Questions</h2>
@@ -141,8 +141,8 @@
   <div class="quiz">
     <div class="quiz-title">Cap. 1 Comprehension Check</div>
     <ol>
-      <li>¿Cuál es la mayor diferencia entre una IA unica y un equipo multiagente? (contexto, rol, paralelismo)</li>
-      <li>How would you define a "harness"?</li>
+      <li>¿Cuál es la mayor diferencia entre una IA única y un equipo multiagente? (contexto, rol, paralelismo)</li>
+      <li>¿Cómo definirías un "harness"?</li>
       <li>What becomes possible when multiple AIs collaborate?</li>
     </ol>
   </div>
@@ -159,7 +159,7 @@
   <div class="quiz">
     <div class="quiz-title">Cap. 3 Comprehension Check</div>
     <ol>
-      <li>¿Ejecutaste el script de configuracion para tu SO?</li>
+      <li>¿Ejecutaste el script de configuración para tu SO?</li>
       <li>¿Qué comando verifica que la instalacion fue exitosa?</li>
       <li>¿Por qué se debe hacer la preinstalacion con antelacion?</li>
     </ol>
@@ -169,7 +169,7 @@
     <div class="quiz-title">Cap. 4 Comprehension Check</div>
     <ol>
       <li>Explica la diferencia entre agentes, habilidades y flujos de trabajo en una oracion cada uno.</li>
-      <li>What role does the PM (Project Manager) agent play?</li>
+      <li>¿Qué papel juega el agent PM (Project Manager)?</li>
       <li>Why is the 3-Tier strategy (High/Medium/Low) needed?</li>
     </ol>
   </div>
@@ -178,7 +178,7 @@
     <div class="quiz-title">Cap. 5 Comprehension Check</div>
     <ol>
       <li>¿Qué papel juega cada uno de AGENTS.md y CLAUDE.md?</li>
-      <li>What is the L0→L1→L2 hierarchy?</li>
+      <li>¿Cuál es la jerarquía L0→L1→L2?</li>
       <li>What is a variant?</li>
     </ol>
   </div>
@@ -195,7 +195,7 @@
   <div class="quiz">
     <div class="quiz-title">Cap. 7 Comprehension Check</div>
     <ol>
-      <li>In co-deck's 11-stage pipeline, at which stage do you choose theme/style?</li>
+      <li>En el pipeline de 11 etapas de co-deck, ¿en qué etapa eliges el tema/estilo?</li>
       <li>¿Qué aprueba cada Puerta 2 (contenido) y Puerta 5 (PDF de muestra)?</li>
       <li>¿Cómo se producen los entregables en HTML y PDF?</li>
     </ol>
@@ -213,7 +213,7 @@
   <div class="quiz">
     <div class="quiz-title">Cap. 9 Comprehension Check</div>
     <ol>
-      <li>What goes into an agent file's frontmatter?</li>
+      <li>¿Qué va en el frontmatter de un archivo agent?</li>
       <li>What does Tier (High/Medium/Low) determine?</li>
       <li>¿Cuáles son los 5 pasos de agent-lifecycle-manager?</li>
     </ol>
@@ -231,9 +231,9 @@
   <div class="quiz">
     <div class="quiz-title">Cap. 11 Comprehension Check</div>
     <ol>
-      <li>Recite the 5 steps of team-builder's AI layer in order.</li>
+      <li>Recita los 5 pasos de la capa AI del team-builder en orden.</li>
       <li>Why is proposal approval a MANDATORY GATE?</li>
-      <li>What does the script layer (<code>bun scripts/team-builder.ts</code>) do?</li>
+      <li>¿Qué hace la capa script (<code>bun scripts/team-builder.ts</code>)?</li>
     </ol>
   </div>
 

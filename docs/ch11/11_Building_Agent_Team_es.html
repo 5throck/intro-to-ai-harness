@@ -50,7 +50,7 @@
 
   <h3>Real-World Scenarios</h3>
 
-  <p>Consider these three scenarios where a team of specialized agents outperforms a single generalist:</p>
+  <p>Considera estos tres escenarios donde un equipo de agents especializados supera a un generalista único:</p>
 
   <div class="compare-grid">
     <div class="col">
@@ -85,7 +85,7 @@
       <h4>Benefits of Team Composition</h4>
       <ul>
         <li>Each agent holds <strong>focused context</strong> &mdash; no information overload</li>
-        <li><strong>Separation of concerns</strong> &mdash; writer does not review their own work</li>
+        <li><strong>Separation of concerns</strong> &mdash; el escritor no revisa su propio trabajo</li>
         <li><strong>Parallel execution</strong> &mdash; independent agents run simultaneously</li>
         <li><strong>Fácil de extender</strong> — añadir un nuevo especialista sin tocar a los demás</li>
         <li><strong>Consistent quality</strong> &mdash; specialist depth in each role</li>
@@ -101,7 +101,7 @@
     <li><strong>Sobrecarga de contexto</strong> — un agente debe mantener todo el conocimiento del dominio, las instrucciones y los resultados intermedios a la vez.</li>
     <li><strong>Sin separación de responsabilidades</strong> — el mismo agente escribe, revisa y prueba el código, lo que reduce la calidad.</li>
     <li><strong>Hard to scale</strong> &mdash; adding a new capability means rewriting the entire agent definition.</li>
-    <li><strong>No specialization</strong> &mdash; a generalist agent cannot match the depth of a specialist focused on one task.</li>
+    <li><strong>No specialization</strong> &mdash; un agent generalista no puede igualar la profundidad de un especialista enfocado en una sola tarea.</li>
   </ul>
 
   <h3>Single AI vs. Equipo de agentes</h3>
@@ -175,7 +175,7 @@
   <p>Quizás te preguntes: ¿por qué no dejar que la IA haga todo? La respuesta se reduce a la <strong>fiabilidad y la rendición de cuentas</strong>.</p>
 
   <ul>
-    <li><strong>AI excels at</strong> understanding intent, conducting research, evaluating trade-offs, and generating creative proposals. Steps 1&ndash;4 leverage exactly these strengths.</li>
+    <li><strong>AI excels at</strong> comprender la intención, realizar investigaciones, evaluar trade-offs y generar propuestas creativas. Los Steps 1&ndash;4 aprovechan exactamente estas fortalezas.</li>
     <li><strong>Los scripts sobresalen en</strong> operaciones de archivos determinísticas: crear directorios, escribir archivos con formato exacto, actualizar múltiples documentos referenciados simultáneamente y producir un resultado consistente cada vez. Los Pasos 6&ndash;14 necesitan esta fiabilidad.</li>
     <li><strong>Tú proporcionas la puerta de enlace</strong> en el Paso 5, asegurando que ningún cambio se realice sin tu consentimiento informado. Esto evita que la IA elimine agentes accidentalmente, rompa las cadenas de traspaso o cree documentos de gobernanza inconsistentes.</li>
   </ul>
@@ -288,7 +288,7 @@
 
   <p>La IA utiliza la búsqueda web para encontrar estructuras de equipos del mundo real similares a tus requisitos. Consulta fuentes autorizadas como McKinsey, BCG, Gartner, Forrester o investigación revisada por pares.</p>
 
-  <p>For each reference team, the AI documents:</p>
+  <p>Para cada equipo de referencia, la IA documenta:</p>
 
   <ul>
     <li>Team name and source</li>
@@ -487,18 +487,18 @@
 <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
 </div>
 
-  <p>The script reads the proposal JSON and executes changes in a <strong>fixed, safe order</strong> with checkpoint logging at each step:</p>
+  <p>El script lee el JSON de la propuesta y ejecuta los cambios en un <strong>fixed, safe order</strong> con registro de checkpoints en cada paso:</p>
 
   <div class="step-list">
     <ol>
-      <li><strong>Dry-run validation</strong> &mdash; Parses the JSON and checks all required fields without making changes</li>
+      <li><strong>Dry-run validation</strong> &mdash; Analiza el JSON y comprueba todos los campos requeridos sin hacer cambios</li>
       <li><strong>Delete agents</strong> &mdash; Removes agent files marked for deletion (after skill transfers)</li>
       <li><strong>Convert agents</strong> &mdash; Renames and repurposes existing agents</li>
       <li><strong>Create agents</strong> &mdash; Generates new <code>agents/&lt;name&gt;.md</code> files from templates</li>
       <li><strong>Create skills</strong> &mdash; Generates new <code>skills/&lt;name&gt;/SKILL.md</code> stub files</li>
       <li><strong>Modify skills</strong> &mdash; Applies specified changes to existing skill files</li>
       <li><strong>Reassign skills</strong> &mdash; Updates <code>owner</code> fields in skill frontmatter</li>
-      <li><strong>Register in AGENTS.md</strong> &mdash; Adds new agents to the Agent Roster and Subagent Roster tables</li>
+      <li><strong>Register in AGENTS.md</strong> &mdash; Añade nuevos agents a las tablas Agent Roster y Subagent Roster</li>
       <li><strong>Update phase tables</strong> &mdash; Adjusts dispatch triggers and phase-gate mappings</li>
       <li><strong>Log change history</strong> &mdash; Writes summary to <code>memory/YYYY-MM-DD.md</code></li>
     </ol>
@@ -554,16 +554,16 @@
 
   <div class="tip-box">
     <h4>Dry-Run First</h4>
-    <p>Add the <code>--dry-run</code> flag to preview what the script <em>would</em> do without making any changes: <code>bun scripts/team-builder.ts proposal.json --dry-run</code>. This is highly recommended before your first real execution.</p>
+    <p>Añade el flag <code>--dry-run</code> para previsualizar lo que haría el script <em>would</em> sin realizar ningún cambio: <code>bun scripts/team-builder.ts proposal.json --dry-run</code>. Esto es altamente recomendado antes de tu primera ejecución real.</p>
   </div>
 
   <h3>What Happens If Something Goes Wrong?</h3>
 
-  <p>The script includes <strong>checkpoint logging</strong> at every step. If an error occurs midway (for example, a file already exists or a permission is denied), the script reports exactly which step failed and what was already completed. You can fix the issue and re-run the script &mdash; it will skip steps that were already successfully completed.</p>
+  <p>El script incluye <strong>checkpoint logging</strong> en cada paso. Si ocurre un error a mitad de camino (por ejemplo, un archivo ya existe o se deniega un permiso), el script informa exactamente qué paso falló y qué ya se había completado. Puedes corregir el problema y volver a ejecutar el script &mdash; omitirá los pasos que ya se completaron con éxito.</p>
 
   <div class="warning-box">
     <h4>Backup Before Running</h4>
-    <p>Although the script is designed to be safe, it is good practice to commit your current project state to Git before running <code>team-builder.ts</code>. This gives you a clean rollback point if anything unexpected happens.</p>
+    <p>Aunque el script está diseñado para ser seguro, es una buena práctica hacer commit del estado actual de tu proyecto en Git antes de ejecutar <code>team-builder.ts</code>. Esto te da un punto de reversión limpio si sucede algo inesperado.</p>
   </div>
 
   <!-- ============================================================ -->
@@ -571,7 +571,7 @@
   <!-- ============================================================ -->
   <h2 id="patterns">Existing Team Composition Patterns</h2>
 
-  <p>The co-consult project ships with <strong>four predefined composition patterns</strong> that you can use as-is or customize. Each pattern is optimized for a different engagement type and complexity level.</p>
+  <p>El proyecto co-consult incluye <strong>four predefined composition patterns</strong> que puedes usar tal cual o personalizar. Cada patrón está optimizado para un tipo de engagement y nivel de complejidad diferente.</p>
 
   <div class="compare-grid">
     <div class="col">
@@ -582,7 +582,7 @@
         <li>Industry Expert (domain knowledge)</li>
         <li>Strategy Analyst (research and analysis)</li>
       </ul>
-      <p><strong>When to use:</strong> You need a quick market scan, competitive overview, or initial assessment within a single session.</p>
+      <p><strong>Cuándo usar:</strong> Necesitas un escaneo rápido de mercado, una visión competitiva o una evaluación inicial en una sola sesión.</p>
     </div>
     <div class="col">
       <h4>Standard</h4>
@@ -594,7 +594,7 @@
         <li>Communications Lead (deliverables)</li>
         <li>Delivery Manager (operations)</li>
       </ul>
-      <p><strong>When to use:</strong> Most standard engagements that require research, deliverable creation, and project coordination.</p>
+      <p><strong>Cuándo usar:</strong> La mayoría de los engagements estándar que requieren investigación, creación de entregables y coordinación de proyectos.</p>
     </div>
   </div>
 
@@ -612,7 +612,7 @@
         <li>Workstream Lead (coordination)</li>
         <li>Delivery Manager (operations)</li>
       </ul>
-      <p><strong>When to use:</strong> Multi-phase transformation programs involving technology, people, and process changes.</p>
+      <p><strong>Cuándo usar:</strong> Programas de transformación multifase que involucran tecnología, personas y cambios de procesos.</p>
     </div>
     <div class="col">
       <h4>Specialized Expert</h4>
@@ -623,17 +623,17 @@
         <li>Technology Specialist (tools and automation)</li>
         <li>Data Analyst (metrics and modeling)</li>
       </ul>
-      <p><strong>When to use:</strong> Highly specialized tasks such as financial modeling, HR analytics, or technology stack evaluation.</p>
+      <p><strong>Cuándo usar:</strong> Tareas altamente especializadas como modelado financiero, analítica de RR. HH. o evaluación de stacks tecnológicos.</p>
     </div>
   </div>
 
-  <div class="note">
-    <strong>Customization:</strong> You are not limited to these four patterns. The <code>team-builder</code> skill can design a team from scratch based on your unique requirements. The patterns above serve as starting points and benchmarking references. During the benchmarking step (Step 2), the AI will evaluate these patterns against your specific needs and recommend the best fit or a hybrid approach.
-  </div>
+  <div class="note"> 
+     <strong>Customization:</strong> No estás limitado a estos cuatro patrones. La skill <code>team-builder</code> puede diseñar un equipo desde cero basándose en tus requisitos únicos. Los patrones anteriores sirven como puntos de partida y referencias de benchmarking. Durante el paso de benchmarking (Step 2), la IA evaluará estos patrones contra tus necesidades específicas y recomendará el mejor ajuste o un enfoque híbrido. 
+</div>
 
   <h3>Pattern Selection Guide</h3>
 
-  <p>Use this quick guide to decide which pattern is right for your situation:</p>
+  <p>Usa esta guía rápida para decidir qué patrón es el adecuado para tu situación:</p>
 
   <div class="compare-grid">
     <div class="col">
@@ -679,12 +679,12 @@
   <!-- ============================================================ -->
   <h2 id="practice">Hands-On: Build Your Own Equipo de agentes</h2>
 
-  <p>Now let&rsquo;s put everything together. In this exercise, you will use Claude Desktop App with the <code>/team-builder</code> command to design and deploy a custom agent team for a domain of your choice.</p>
+  <p>Ahora juntémoslo todo. En este ejercicio, usarás Claude Desktop App con el comando <code>/team-builder</code> para diseñar e implementar un equipo de agents personalizado para un dominio de tu elección.</p>
 
   <div class="step-list">
     <ol>
-      <li><strong>Choose your domain</strong> &mdash; Pick a real project or use case: education, software development, content production, legal research, healthcare administration, or anything else. Write down one sentence describing what your team will do.</li>
-      <li><strong>Prepare your requirements</strong> &mdash; Answer the 6 mandatory questions on paper before starting Claude. This makes the interview step much faster:
+      <li><strong>Elige tu dominio</strong> &mdash; Elige un proyecto o caso de uso real: educación, desarrollo de software, producción de contenido, investigación legal, administración sanitaria o cualquier otra cosa. Escribe una frase que describa lo que hará tu equipo.</li>
+      <li><strong>Prepara tus requisitos</strong> &mdash; Answer the 6 mandatory questions on paper before starting Claude. This makes the interview step much faster:
         <ul>
           <li>Domain/purpose of the team</li>
           <li>Expected team size (number of agents)</li>
@@ -694,12 +694,12 @@
           <li>Success metrics and quality standards</li>
         </ul>
       </li>
-      <li><strong>Ask Claude to build the team</strong> &mdash; Open Claude Desktop App and invoke the team-builder skill. Provide your pre-prepared answers. Claude will walk through Steps 1&ndash;4 automatically.</li>
-      <li><strong>Review the proposal</strong> &mdash; At Step 5, Claude presents the full proposal. Read through every section: agent changes, skill plans, workflow phases, and benchmarking evidence. Check that the rationale makes sense for your domain.</li>
-      <li><strong>Approve or revise</strong> &mdash; If the proposal looks good, reply <strong>&ldquo;approve&rdquo;</strong>. If you want changes, describe what you want modified and Claude will regenerate. You can iterate as many times as needed.</li>
-      <li><strong>Verify the results</strong> &mdash; After approval, Claude saves the proposal JSON. Run the script from your terminal:
-        <code>bun scripts/team-builder.ts memory/team-builder-proposal-YYYY-MM-DD.json</code>
-        Then verify that the new agent files, skill files, and updated <code>AGENTS.md</code> all look correct.</li>
+      <li><strong>Pide a Claude que construya el equipo</strong> &mdash; Abre Claude Desktop App e invoca la skill team-builder. Proporciona tus respuestas preparadas de antemano. Claude recorrerá los Steps 1&ndash;4 automáticamente.</li>
+      <li><strong>Revisa la propuesta</strong> &mdash; En el Step 5, Claude presenta la propuesta completa. Lee cada sección: cambios de agents, planes de skills, fases del flujo de trabajo y evidencia de benchmarking. Comprueba que la justificación tenga sentido para tu dominio.</li>
+      <li><strong>Approve or revise</strong> &mdash; Si la propuesta se ve bien, responde <strong>&ldquo;approve&rdquo;</strong>. Si quieres cambios, describe lo que deseas modificar y Claude regenerará. Puedes iterar tantas veces como sea necesario.</li>
+      <li><strong>Verifica los resultados</strong> &mdash; Tras la aprobación, Claude guarda el JSON de la propuesta. Ejecuta el script desde tu terminal: 
+         <code>bun scripts/team-builder.ts memory/team-builder-proposal-YYYY-MM-DD.json</code> 
+         Luego verifica que los nuevos archivos de agent, los archivos de skill y el <code>AGENTS.md</code> actualizado se vean correctos.</li>
     </ol>
   </div>
 

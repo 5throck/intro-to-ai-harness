@@ -17,7 +17,7 @@
   <a href="#what-is-coconsult">What is co-consult</a>
   <a href="#architecture">System Architecture</a>
   <a href="#phases">How the PM Dispatches Specialists</a>
-  <a href="#how-to-talk">How to Talk to the PM</a>
+  <a href="#how-to-talk">Cómo hablar con el PM</a>
   <a href="#team-patterns">Team Composition Patterns</a>
   <a href="#practice">Practice: Simple Market Analysis</a>
   <a href="#outputs">Reviewing Resultados</a>
@@ -35,7 +35,7 @@
     <ul>
       <li>co-consult system introduction and architecture</li>
       <li>How the PM dispatches specialists (no fixed pipeline)</li>
-      <li>How to make requests to the PM agent</li>
+      <li>Cómo hacer solicitudes al agent PM</li>
       <li>4 team composition patterns</li>
       <li>Practice: simple market analysis project</li>
       <li>Reviewing outputs</li>
@@ -49,13 +49,13 @@
 
   <h3>Definition</h3>
 
-  <p><strong>co-consult</strong> is a system in which <strong>AI agent teams carry out strategic consulting projects</strong>. As one of the variants of ai-workspace-standards that we explored in Capítulo 5, multiple AI agents collaborate to automate consulting tasks such as market analysis, competitive analysis, entry strategy development, and business model review.</p>
+  <p><strong>co-consult</strong> es un sistema en el que <strong>AI agent teams carry out strategic consulting projects</strong>. Como una de las variantes de ai-workspace-standards que exploramos en el Capítulo 5, múltiples agents de IA colaboran para automatizar tareas de consultoría como análisis de mercado, análisis competitivo, desarrollo de estrategias de entrada y revisión de modelos de negocio.</p>
 
   <p>Location: <code>templates/co-consult/</code> inside <a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">ai-workspace-standards</a> &mdash; scaffold your own copy with <code>bun scripts/new-project.ts "&lt;name&gt;" --variant co-consult</code>.</p>
 
-  <h3>What Problem Does It Solve?</h3>
+  <h3>¿Qué problema resuelve?</h3>
 
-  <p>Strategic consulting involves several steps. co-consult has the entire process carried out by an AI agent team.</p>
+  <p>La consultoría estratégica involucra varios pasos. co-consult hace que todo el proceso sea llevado a cabo por un equipo de agents de IA.</p>
 
   <ul>
     <li><strong>Market analysis</strong> &mdash; Understanding market size, growth rate, and trends</li>
@@ -65,13 +65,13 @@
     <li><strong>Technology trends</strong> &mdash; Reviewing related technology trends and adoption feasibility</li>
   </ul>
 
-  <div class="tip-box">
-    <strong>Beginner analogy:</strong> co-consult is like a virtual "consulting firm." The PM (Project Manager) holds a meeting with the partner (you) to understand your requirements, and specialist agents each carry out their assigned analysis. The structure is similar to how a senior consultant leads junior consultants at a real consulting firm.
-  </div>
+  <div class="tip-box"> 
+     <strong>Beginner analogy:</strong> co-consult es como una "consultora" virtual. El PM (Project Manager) celebra una reunión con el socio (tú) para entender tus requisitos, y los agents especializados realizan cada uno el análisis que se le asignó. La estructura es similar a cómo un consultor senior dirige a consultores junior en una consultora real. 
+   </div>
 
   <h3>Difference from co-deck</h3>
 
-  <p>While co-deck is specialized for <strong>presentation (slide) production</strong>, co-consult is specialized for <strong>strategic analysis and report writing</strong>. Both systems are built on ai-workspace-standards, but they differ in purpose and agent composition.</p>
+  <p>Mientras que co-deck está especializado en <strong>presentation (slide) production</strong>, co-consult está especializado en <strong>strategic analysis and report writing</strong>. Ambos sistemas están construidos sobre ai-workspace-standards, pero difieren en propósito y composición de agents.</p>
 
   <div class="compare-grid">
     <div class="col">
@@ -101,7 +101,7 @@
 
   <h3>Agent Composition</h3>
 
-  <p>co-consult consists of <strong>one PM agent (the Engagement Leader) and 10 specialist agents</strong>. The PM sits at the center, orchestrating the entire engagement, while specialist agents carry out work in their respective domains.</p>
+  <p>co-consult consiste en <strong>un agent PM (el Engagement Leader) y 10 agents especializados</strong>. El PM se sitúa en el centro, orquestando todo el engagement, mientras los agents especializados realizan el trabajo en sus respectivos dominios.</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
     <svg width="100%" viewBox="0 0 680 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-consult agent composition diagram">
@@ -176,7 +176,7 @@
 
   <h3>Specialist Agent Roles</h3>
 
-  <p>Here is a summary of each specialist agent's role. Unlike a fixed pipeline, any of these can be dispatched at any point in the engagement, as needed.</p>
+  <p>Aquí tienes un resumen del rol de cada agent especializado. A diferencia de un pipeline fijo, cualquiera de ellos puede ser despachado en cualquier momento del engagement, según sea necesario.</p>
 
   <table>
     <thead>
@@ -205,7 +205,7 @@
       <tr>
         <td><code>sme</code></td>
         <td>Subject Matter Expert</td>
-        <td>Functional expertise such as HR, Finance, Operations, or Marketing</td>
+        <td>Conocimiento funcional como RR. HH., Finanzas, Operaciones o Marketing</td>
       </tr>
       <tr>
         <td><code>communications-lead</code></td>
@@ -240,16 +240,16 @@
     </tbody>
   </table>
 
-  <div class="note">
-    The PM agent does <strong>not</strong> execute the work of the specialist agents directly. The PM only plays the role of an orchestrator &mdash; it analyzes the user's request and dispatches tasks to the appropriate specialist agents, as the engagement requires. See the PM Gateway section in Capítulo 4 for details.
-  </div>
+  <div class="note"> 
+     El agent PM <strong>not</strong> ejecuta directamente el trabajo de los agents especializados. El PM solo desempeña el rol de orquestador &mdash; analiza la solicitud del usuario y despacha tareas a los agents especializados apropiados, según lo requiera el engagement. Consulta la sección PM Gateway del Capítulo 4 para más detalles. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 3: How the PM Dispatches Specialists                     -->
   <!-- ============================================================ -->
   <h2 id="phases">How the PM Dispatches Specialists</h2>
 
-  <p>Unlike co-deck's fixed 11-stage pipeline, co-consult has <strong>no fixed phase sequence</strong>. The PM (Engagement Leader) analyzes your request, decides which specialists are needed, and dispatches them directly &mdash; activating more as the engagement's questions and deliverables require, rather than marching through numbered phases and gates.</p>
+  <p>A diferencia del pipeline fijo de 11 etapas de co-deck, co-consult tiene <strong>no fixed phase sequence</strong>. El PM (Engagement Leader) analiza tu solicitud, decide qué especialistas se necesitan y los despacha directamente &mdash; activando más a medida que las preguntas y entregables del engagement lo requieran, en lugar de avanzar por fases numeradas y gates.</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
     <svg width="100%" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-consult PM dispatch diagram">
@@ -285,7 +285,7 @@
       <rect x="302" y="166" width="140" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
       <text x="372" y="190" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">communications-lead</text>
 
-      <text x="372" y="222" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">...other specialists, dispatched only if needed</text>
+      <text x="372" y="222" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">...otros especialistas, despachados solo si se necesitan</text>
 
       <!-- Arrows to deliverable -->
       <path d="M444 46 L494 100" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
@@ -311,35 +311,35 @@
 
   <div class="step-list">
     <ol>
-      <li>
-        <strong>Kickoff</strong><br>
-        The PM talks with you to understand the topic, scope, target audience, and timeline. There is no separate "Phase 0" file format &mdash; the PM simply captures this context and decides which specialists the engagement calls for.
-      </li>
-      <li>
-        <strong>Dispatch specialists as questions arise</strong><br>
-        The PM activates whichever specialists are relevant &mdash; for example <code>strategy-analyst</code> for market and competitive research, <code>industry-expert</code> for sector-specific context, or <code>sme</code> for a functional deep dive. There is no required order; the PM may dispatch several in parallel or bring in more mid-engagement if a gap appears.
-      </li>
-      <li>
-        <strong>Synthesis and reporting</strong><br>
-        Once enough analysis is in hand, the PM typically brings in <code>communications-lead</code> to shape the narrative and produce client-ready materials, and <code>solutions-architect</code> or <code>workstream-lead</code> if the engagement calls for an implementation plan.
-      </li>
-      <li>
-        <strong>Delivery and wrap-up</strong><br>
-        For larger engagements, <code>delivery-manager</code> and <code>workstream-lead</code> coordinate execution and track progress. The PM concludes the engagement once it determines, together with you, that the deliverables are complete.
-      </li>
+      <li> 
+         <strong>Kickoff</strong><br> 
+         El PM habla contigo para comprender el tema, el alcance, la audiencia objetivo y el cronograma. No hay un formato de archivo separado para la "Phase 0" &mdash; el PM simplemente captura este contexto y decide qué especialistas requiere el engagement. 
+       </li>
+      <li> 
+         <strong>Dispatch specialists as questions arise</strong><br> 
+         El PM activa a los especialistas que sean relevantes &mdash; por ejemplo <code>strategy-analyst</code> para investigación de mercado y competencia, <code>industry-expert</code> para contexto específico del sector, o <code>sme</code> para un análisis funcional profundo. No hay un orden requerido; el PM puede despachar varios en paralelo o incorporar más a mitad del engagement si aparece una laguna. 
+       </li>
+      <li> 
+         <strong>Synthesis and reporting</strong><br> 
+         Una vez que se cuenta con suficiente análisis, el PM generalmente incorpora a <code>communications-lead</code> para dar forma a la narrativa y producir materiales listos para el cliente, y a <code>solutions-architect</code> o <code>workstream-lead</code> si el engagement requiere un plan de implementación. 
+       </li>
+      <li> 
+         <strong>Delivery and wrap-up</strong><br> 
+         Para engagements más grandes, <code>delivery-manager</code> y <code>workstream-lead</code> coordinan la ejecución y hacen seguimiento del progreso. El PM concluye el engagement una vez que determina, junto contigo, que los entregables están completos. 
+       </li>
     </ol>
   </div>
 
-  <div class="note">
-    You <strong>define requirements at kickoff</strong> and review deliverables whenever the PM checks in with you. Because there is no fixed pipeline, checkpoints happen naturally at whatever points the PM judges useful &mdash; e.g., after a first round of research, or before finalizing a report &mdash; rather than at hardcoded numbered gates. You can redirect the engagement at any of these checkpoints.
-  </div>
+  <div class="note"> 
+     Tú <strong>define requirements at kickoff</strong> y revisas los entregables cada vez que el PM se pone en contacto contigo. Como no hay un pipeline fijo, los puntos de control ocurren naturalmente en los momentos que el PM juzgue útiles &mdash; p. ej., después de una primera ronda de investigación o antes de finalizar un informe &mdash; en lugar de en gates numerados predefinidos. Puedas redireccionar el engagement en cualquiera de estos puntos de control. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 4: How to Talk to the PM                               -->
   <!-- ============================================================ -->
-  <h2 id="how-to-talk">How to Talk to the PM</h2>
+  <h2 id="how-to-talk">Cómo hablar con el PM</h2>
 
-  <p>To use co-consult, you need to open the co-consult project in Claude Desktop App and send a request to the PM agent. An effective request significantly improves the quality of the project outcome.</p>
+  <p>Para usar co-consult, necesitas abrir el proyecto co-consult en Claude Desktop App y enviar una solicitud al agent PM. Una solicitud efectiva mejora significativamente la calidad del resultado del proyecto.</p>
 
   <h3>The 4 Key Elements of a Good Request</h3>
 
@@ -347,10 +347,10 @@
 
   <div class="step-list">
     <ol>
-      <li><strong>Purpose</strong> &mdash; What do you want to analyze?</li>
+      <li><strong>Purpose</strong> &mdash; ¿Qué quieres analizar?</li>
       <li><strong>Scope</strong> &mdash; Which market, which domain?</li>
-      <li><strong>Target</strong> &mdash; Who is this analysis for? (your company, competitors, etc.)</li>
-      <li><strong>Timeline</strong> &mdash; When do you need the results?</li>
+      <li><strong>Audiencia objetivo</strong> &mdash; ¿Para quién es este análisis? (tu empresa, competidores, etc.)</li>
+      <li><strong>Cronograma</strong> &mdash; ¿Cuándo necesitas los resultados?</li>
     </ol>
   </div>
 
@@ -358,19 +358,19 @@
 
   <div class="prompt-box">
     <strong>Example 1: Market Analysis</strong><br>
-    <code>"Analyze the food delivery app market in South Korea. Focus on competitor comparison and entry opportunities. Complete within 2 weeks."</code>
+    <code>"Analiza el mercado de apps de entrega de comida en Corea del Sur. Enfócate en la comparación de competidores y las oportunidades de entrada. Completa en 2 semanas."</code>
     <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
   </div>
 
   <div class="prompt-box">
     <strong>Example 2: Business Model Review</strong><br>
-    <code>"Review our startup's SaaS business model. Target market is Japanese B2B enterprises. Cover pricing strategy and scalability."</code>
+    <code>"Revisa el modelo de negocio SaaS de nuestra startup. El mercado objetivo son empresas B2B japonesas. Cubre la estrategia de precios y la escalabilidad."</code>
     <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
   </div>
 
   <div class="prompt-box">
     <strong>Example 3: Technology Adoption Assessment</strong><br>
-    <code>"Evaluate introducing an AI chatbot to our company, targeting the education industry. Include cost analysis, technology stack options, and competitor case studies."</code>
+    <code>"Evalúa la introducción de un chatbot de IA en nuestra empresa, dirigido a la industria educativa. Incluye análisis de costos, opciones de stack tecnológico y casos de estudio de competidores."</code>
     <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
   </div>
 
@@ -399,16 +399,16 @@
     </div>
   </div>
 
-  <div class="tip-box">
-    <strong>Start with a simple topic as a beginner.</strong> Save complex projects for after you have gained experience. A straightforward request like "Analyze the key trends in the South Korean coffee shop market" is recommended to learn how co-consult operates before tackling anything more involved.
-  </div>
+  <div class="tip-box"> 
+     <strong>Comienza con un tema simple como principiante.</strong> Guarda los proyectos complejos para después de haber ganado experiencia. Se recomienda una solicitud directa como "Analiza las tendencias clave del mercado de cafeterías de Corea del Sur" para aprender cómo opera co-consult antes de abordar algo más complejo. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 5: Team Composition Patterns                            -->
   <!-- ============================================================ -->
   <h2 id="team-patterns">Team Composition Patterns</h2>
 
-  <p>co-consult offers <strong>4 team composition patterns</strong> depending on the project's scale and complexity. The PM analyzes the project requirements and selects the most appropriate pattern.</p>
+  <p>co-consult ofrece <strong>4 team composition patterns</strong> dependiendo de la escala y complejidad del proyecto. El PM analiza los requisitos del proyecto y selecciona el patrón más apropiado.</p>
 
   <h3>The 4 Team Composition Patterns</h3>
 
@@ -525,22 +525,22 @@
     </svg>
   </div>
 
-  <div class="note">
-    <strong>Beginners are recommended to start with the Quick Assessment or Standard pattern.</strong> Quick Assessment delivers results in 1-2 days, making it ideal for learning how co-consult works. Once you are comfortable, gradually progress to more complex projects with the Standard pattern.
-  </div>
+  <div class="note"> 
+     <strong>Se recomienda que los principiantes comiencen con el patrón Quick Assessment o Standard.</strong> Quick Assessment entrega resultados en 1-2 días, lo que lo hace ideal para aprender cómo funciona co-consult. Una vez que te sientas cómodo, avanza gradualmente a proyectos más complejos con el patrón Standard. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 6: Practice: Simple Market Analysis                     -->
   <!-- ============================================================ -->
   <h2 id="practice">Practice: Simple Market Analysis</h2>
 
-  <p>In this hands-on exercise, you will use co-consult to carry out a simple market analysis project. We will use the Quick Assessment pattern and analyze the key trends in the South Korean coffee shop market.</p>
+  <p>En este ejercicio práctico, usarás co-consult para llevar a cabo un proyecto simple de análisis de mercado. Usaremos el patrón Quick Assessment y analizaremos las tendencias clave del mercado de cafeterías de Corea del Sur.</p>
 
   <h3>Exercise Objectives</h3>
 
   <ul>
-    <li>Clone the co-consult repository and set up the project</li>
-    <li>Send a request to the PM agent in Claude Desktop App</li>
+    <li>Clona el repositorio de co-consult y configura el proyecto</li>
+    <li>Envía una solicitud al agent PM en Claude Desktop App</li>
     <li>Observe the PM dispatching specialists as needed</li>
     <li>Review progress and give feedback along the way</li>
     <li>Review the final deliverables</li>
@@ -548,13 +548,13 @@
 
   <h3>Prerequisites</h3>
 
-  <p>Make sure the tools installed in Capítulo 3 are working correctly.</p>
+  <p>Asegúrate de que las herramientas instaladas en el Capítulo 3 funcionen correctamente.</p>
 
   <div class="step-list">
     <ol>
-      <li><strong>Claude Desktop App</strong> &mdash; You should be able to have a conversation with Claude AI</li>
-      <li><strong>Git</strong> &mdash; You should be able to clone a repository</li>
-      <li><strong>Text editor</strong> &mdash; VS Code or any editor where you can open files</li>
+      <li><strong>Claude Desktop App</strong> &mdash; Debes poder tener una conversación con Claude AI</li>
+      <li><strong>Git</strong> &mdash; Debes poder clonar un repositorio</li>
+      <li><strong>Text editor</strong> &mdash; VS Code o cualquier editor donde puedas abrir archivos</li>
     </ol>
   </div>
 
@@ -563,7 +563,7 @@
   <div class="step-list">
     <ol>
       <li>
-        <strong>Clone the workspace and scaffold the project</strong><br>
+        <strong>Clona el workspace y genera el proyecto</strong><br>
         If you haven't already cloned the workspace in an earlier chapter, do that first, then scaffold a new project from the co-consult variant using <code>new-project.ts</code>.
         <div class="prompt-box">
           <code>git clone https://github.com/5throck/ai-workspace-standards.git</code><br>
@@ -574,7 +574,7 @@
         This creates <code>Proyectos/co-consult/</code> as its own independent Git repository, with the co-consult variant's agents, skills, and configuration already copied in.
       </li>
       <li>
-        <strong>Open the project in Claude Desktop App</strong><br>
+        <strong>Abre el proyecto en Claude Desktop App</strong><br>
         Launch Claude Desktop App and open the <code>Proyectos/co-consult/</code> folder as the project. Tell Claude the following to start the PM.
         <div class="prompt-box">
           <code>"I'd like to start a new project."</code>
@@ -583,20 +583,20 @@
         The PM starts the kickoff conversation and asks about the topic, scope, and timeline.
       </li>
       <li>
-        <strong>Make your request to the PM</strong><br>
+        <strong>Haz tu solicitud al PM</strong><br>
         Answer the PM's questions to configure the engagement. Try responding like this.
         <div class="prompt-box">
-          <code>"Analyze the key trends in the South Korean coffee shop market. Focus on the comparison between franchise cafes and independent cafes. Keep it a quick assessment."</code>
+          <code>"Analiza las tendencias clave del mercado de cafeterías de Corea del Sur. Enfócate en la comparación entre cafeterías de franquicia e independientes. Mantenlo como una evaluación rápida."</code>
           <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
         </div>
         The PM analyzes your request and decides which specialists to dispatch for a Quick Assessment-sized engagement.
       </li>
       <li>
-        <strong>Observe the specialist dispatch</strong><br>
+        <strong>Observa el despacho de especialistas</strong><br>
         The PM dispatches specialists directly &mdash; there is no fixed phase sequence. You will typically see something like the following.
         <ul>
           <li>The <code>strategy-analyst</code> agent researches "South Korean coffee shop market trends" and produces a findings document with market size, growth, and competitive notes</li>
-          <li>If the request calls for it, the PM also brings in <code>industry-expert</code> for sector-specific context</li>
+          <li>Si la solicitud lo requiere, el PM también incorpora a <code>industry-expert</code> para el contexto específico del sector</li>
           <li>The <code>communications-lead</code> agent shapes the findings into a client-ready report</li>
         </ul>
         The PM reports progress as each specialist finishes its piece. The <code>project_state.json</code> file is automatically updated throughout.
@@ -605,8 +605,8 @@
         <strong>Review progress and give feedback</strong><br>
         Since there is no fixed pipeline, the PM checks in with you whenever it judges there's something worth reviewing &mdash; typically after the first round of analysis, and again before finalizing the report.
         <ul>
-          <li><strong>After analysis:</strong> Verify that the analysis direction and insights are appropriate. If adjustments are needed, this is the point to change course.</li>
-          <li><strong>Before finalizing:</strong> Review the quality of the final report and approve turning it into a finished deliverable.</li>
+          <li><strong>Después del análisis:</strong> Verifica que la dirección del análisis y las ideas sean apropiadas. Si se necesitan ajustes, este es el momento de cambiar de rumbo.</li>
+          <li><strong>Before finalizing:</strong> Revisa la calidad del informe final y aprueba convertirlo en un entregable terminado.</li>
         </ul>
         At a checkpoint, you can respond like this.
         <div class="prompt-box">
@@ -615,35 +615,35 @@
         </div>
         Or if revisions are needed, provide specific feedback.
         <div class="prompt-box">
-          <code>"Add delivery cafe data from Baemin to the competitive analysis section."</code>
+          <code>"Añade datos de cafeterías de entrega de Baemin a la sección de análisis competitivo."</code>
           <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
         </div>
       </li>
-      <li>
-        <strong>Check the deliverables</strong><br>
-        Once the PM determines the engagement's deliverables are complete, you can find them in the <code>deliverables/reports/</code> folder. The specific steps for reviewing them are covered in the next section.
-      </li>
+      <li> 
+         <strong>Revisa los entregables</strong><br> 
+         Una vez que el PM determina que los entregables del engagement están completos, puedes encontrarlos en la carpeta <code>deliverables/reports/</code>. Los pasos específicos para revisarlos se cubren en la siguiente sección. 
+       </li>
     </ol>
   </div>
 
-  <div class="tip-box">
-    <strong>If you encounter errors during the exercise, refer to the troubleshooting section in Capítulo 3.</strong> If Claude Desktop App does not respond, or an agent dispatch error occurs, try restarting Claude or re-opening the project folder.
-  </div>
+  <div class="tip-box"> 
+     <strong>Si encuentras errores durante el ejercicio, consulta la sección de solución de problemas del Capítulo 3.</strong> Si Claude Desktop App no responde, o ocurre un error de despacho de un agent, prueba reiniciar Claude o volver a abrir la carpeta del proyecto. 
+   </div>
 
-  <div class="warn">
-    <strong>Warning:</strong> co-consult's agents operate through the Claude API. During the exercise, Claude's response speed may slow down or time out. Complex analyses take longer, and this is normal behavior.
-  </div>
+  <div class="warn"> 
+     <strong>Warning:</strong> Los agents de co-consult operan a través de la API de Claude. Durante el ejercicio, la velocidad de respuesta de Claude puede ralentizarse o agotar el tiempo de espera. Los análisis complejos tardan más, y este es un comportamiento normal. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 7: Reviewing Resultados                                   -->
   <!-- ============================================================ -->
   <h2 id="outputs">Reviewing Resultados</h2>
 
-  <p>When a co-consult project is completed, several deliverables are generated. This section explains where each deliverable is located and how to review it.</p>
+  <p>Cuando se completa un proyecto de co-consult, se generan varios entregables. Esta sección explica dónde se encuentra cada entregable y cómo revisarlo.</p>
 
   <h3>Resultado Location</h3>
 
-  <p>All deliverables are stored in the <code>deliverables/reports/</code> directory. From the project root, access it via the following path.</p>
+  <p>Todos los entregables se almacenan en el directorio <code>deliverables/reports/</code>. Desde la raíz del proyecto, accede a él mediante la siguiente ruta.</p>
 
   <div class="prompt-box">
     <code>Proyectos/co-consult/deliverables/reports/</code>
@@ -694,7 +694,7 @@
   <div class="step-list">
     <ol>
       <li>
-        <strong>Open the project folder</strong><br>
+        <strong>Abre la carpeta del proyecto</strong><br>
         Navigate to the <code>Proyectos/co-consult/deliverables/reports/</code> directory in your terminal.
         <div class="prompt-box">
           <code>cd Proyectos/co-consult/deliverables/reports/</code><br>
@@ -703,7 +703,7 @@
         </div>
       </li>
       <li>
-        <strong>Review the findings document</strong><br>
+        <strong>Revisa el documento de hallazgos</strong><br>
         Check the research results. It contains collected sources, key data points, and reference links.
         <div class="prompt-box">
           <code>cat findings_market.md</code>
@@ -712,17 +712,17 @@
         Or open it in VS Code.
       </li>
       <li>
-        <strong>Review the HTML report</strong><br>
+        <strong>Revisa el informe HTML</strong><br>
         Open the <code>report.html</code> file in a browser to view the completed report. It is an interactive format that includes charts, tables, and diagrams.
         <div class="prompt-box">
           <code>open report.html</code>
           <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
         </div>
       </li>
-      <li>
-        <strong>Review the PDF</strong><br>
-        Open the <code>report.pdf</code> file to view the print-ready report. This format is suitable for sharing or archiving.
-      </li>
+      <li> 
+         <strong>Revisa el PDF</strong><br> 
+         Abre el archivo <code>report.pdf</code> para ver el informe listo para imprimir. Este formato es adecuado para compartir o archivar. 
+</li>
       <li>
         <strong>Check project_state.json</strong><br>
         You can view the overall project progress. It records which specialists have been dispatched, what they've produced, and whether the PM has checked in with you at each review point.
@@ -759,13 +759,13 @@
 </div>
   </div>
 
-  <div class="note">
-    Deliverables can also be viewed in Claude Desktop App's Artifacts. Files and diagrams generated by Claude can be previewed directly in the conversation screen. Additionally, <code>project_state.json</code> lets you check in real time which Phase the project is currently in.
-  </div>
+  <div class="note"> 
+     Los entregables también pueden verse en los Artifacts de Claude Desktop App. Los archivos y diagramas generados por Claude pueden previsualizarse directamente en la pantalla de conversación. Además, <code>project_state.json</code> te permite comprobar en tiempo real en qué Phase se encuentra actualmente el proyecto. 
+   </div>
 
-  <div class="tip-box">
-    <strong>How to use the deliverables:</strong> The completed report can be shared with your team or used as material for a presentation. When used together with co-deck (Capítulo 7), you can create a presentation based on the analysis report.
-  </div>
+  <div class="tip-box"> 
+     <strong>Cómo usar los entregables:</strong> El informe completado puede compartirse con tu equipo o usarse como material para una presentación. Cuando se usa junto con co-deck (Capítulo 7), puedes crear una presentación basada en el informe de análisis. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- CHAPTER NAVIGATION                                            -->

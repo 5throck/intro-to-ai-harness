@@ -100,7 +100,7 @@
 <pre><code>winget install OpenJS.NodeJS.LTS</code></pre>
 <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
 </div>
-        <p>Or download the installer from <a href="https://nodejs.org" target="_blank" rel="noopener noreferrer">nodejs.org</a>.</p>
+        <p>O descarga el instalador desde <a href="https://nodejs.org" target="_blank" rel="noopener noreferrer">nodejs.org</a>.</p>
       </div>
       <div class="platform-block claude">
         <div class="platform-block-title">macOS</div>
@@ -142,7 +142,7 @@ npm --version</code></pre>
 <pre><code>claude --version</code></pre>
 <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
 </div>
-      <p>If a version number is displayed, the installation was successful.</p>
+      <p>Si se muestra un número de versión, la instalación fue exitosa.</p>
     </div>
     <div class="step">
       <span class="step-label">Paso 5: Authenticate</span>
@@ -151,20 +151,20 @@ npm --version</code></pre>
 <pre><code>claude auth login</code></pre>
 <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
 </div>
-      <p>A browser window will open. Log in with the same Anthropic account you use for Claude Desktop App. Once authentication is complete, you can start using Claude Code CLI.</p>
+      <p>Se abrirá una ventana del navegador. Inicia sesión con la misma cuenta de Anthropic que usas para Claude Desktop App. Una vez completada la autenticación, podrás empezar a usar Claude Code CLI.</p>
     </div>
   </div>
 
-  <div class="warn">
-    On Windows, if you see a <code>"claude is not recognized"</code> error after installation, restart your terminal. If the issue persists, verify that the npm global bin directory (usually <code>%APPDATA%\npm</code>) is in your system <code>PATH</code> environment variable.
-  </div>
+  <div class="warn"> 
+     En Windows, si ves un error <code>"claude is not recognized"</code> después de la instalación, reinicia tu terminal. Si el problema persiste, verifica que el directorio bin global de npm (generalmente <code>%APPDATA%\npm</code>) esté en la variable de entorno <code>PATH</code> de tu sistema. 
+</div>
 
   <!-- ============================================================
        SECTION 3: Basic Usage
        ============================================================ -->
   <h2 id="basic-usage">Basic Usage</h2>
 
-  <p>Once Claude Code CLI is installed and authenticated, you can start a conversation directly in your terminal. The basic flow is simple: navigate to your project folder, launch Claude, and start chatting.</p>
+  <p>Una vez que Claude Code CLI esté instalado y autenticado, puedes iniciar una conversación directamente en tu terminal. El flujo básico es simple: navega a la carpeta de tu proyecto, inicia Claude y empieza a conversar.</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
     <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing Claude Code CLI basic usage flow">
@@ -250,7 +250,7 @@ npm --version</code></pre>
 
   <h3>Starting a Session</h3>
 
-  <p>To start using Claude Code CLI, open a terminal and follow these steps:</p>
+  <p>Para empezar a usar Claude Code CLI, abre una terminal y sigue estos pasos:</p>
 
   <div class="step-list">
     <div class="step">
@@ -270,26 +270,26 @@ npm --version</code></pre>
 </div>
       Claude will load your project context and display a welcome message. You can now type your request in natural language, just like chatting with Claude Desktop App.
     </div>
-    <div class="step">
-      <span class="step-label">Interact with Claude</span>
-      &mdash; Type your question or instruction and press Enter. Claude can read files, edit code, run terminal commands, and explain its reasoning. When Claude needs permission to execute a command or modify a file, it will ask you first.
-    </div>
-    <div class="step">
-      <span class="step-label">End the session</span>
-      &mdash; Type <code>/exit</code> or press <code>Ctrl+C</code> to end the Claude Code session.
-    </div>
+    <div class="step"> 
+       <span class="step-label">Interact with Claude</span> 
+       &mdash; Escribe tu pregunta o instrucción y presiona Enter. Claude puede leer archivos, editar código, ejecutar comandos de terminal y explicar su razonamiento. Cuando Claude necesite permiso para ejecutar un comando o modificar un archivo, te lo preguntará primero. 
+</div>
+    <div class="step"> 
+       <span class="step-label">End the session</span> 
+       &mdash; Escribe <code>/exit</code> o presiona <code>Ctrl+C</code> para terminar la sesión de Claude Code. 
+</div>
   </div>
 
-  <div class="note">
-    When you start Claude Code CLI in a project directory, Claude automatically reads the project structure and configuration files (such as <code>CLAUDE.md</code>, <code>AGENTS.md</code>, or <code>.claude/</code> directories). This context helps Claude understand your project and follow your workspace rules.
-  </div>
+  <div class="note"> 
+     Cuando inicias Claude Code CLI en un directorio de proyecto, Claude lee automáticamente la estructura del proyecto y los archivos de configuración (como los directorios <code>CLAUDE.md</code>, <code>AGENTS.md</code> o <code>.claude/</code>). Este contexto ayuda a Claude a entender tu proyecto y seguir las reglas de tu workspace. 
+</div>
 
   <!-- ============================================================
        SECTION 4: Key Commands
        ============================================================ -->
   <h2 id="commands">Key Commands</h2>
 
-  <p>Claude Code CLI provides a set of slash commands that give you quick access to common actions. These commands are typed at the Claude prompt (prefixed with <code>/</code>).</p>
+  <p>Claude Code CLI proporciona un conjunto de slash commands que te dan acceso rápido a acciones comunes. Estos comandos se escriben en el prompt de Claude (con el prefijo <code>/</code>).</p>
 
   <table>
     <thead>
@@ -302,12 +302,12 @@ npm --version</code></pre>
     <tbody>
       <tr>
         <td><code>/help</code></td>
-        <td>Display a list of all available commands and their descriptions</td>
+        <td>Muestra una lista de todos los comandos disponibles y sus descripciones</td>
         <td><code>/help</code></td>
       </tr>
       <tr>
         <td><code>/exit</code></td>
-        <td>End the current Claude Code session and return to the terminal</td>
+        <td>Termina la sesión actual de Claude Code y vuelve a la terminal</td>
         <td><code>/exit</code></td>
       </tr>
       <tr>
@@ -317,7 +317,7 @@ npm --version</code></pre>
       </tr>
       <tr>
         <td><code>/compact</code></td>
-        <td>Summarize the conversation so far to free up context window space</td>
+        <td>Resume la conversación hasta el momento para liberar espacio en la ventana de contexto</td>
         <td><code>/compact</code></td>
       </tr>
       <tr>
@@ -327,7 +327,7 @@ npm --version</code></pre>
       </tr>
       <tr>
         <td><code>/cost</code></td>
-        <td>Display token usage and estimated cost for the current session</td>
+        <td>Muestra el uso de tokens y el costo estimado de la sesión actual</td>
         <td><code>/cost</code></td>
       </tr>
       <tr>
@@ -347,7 +347,7 @@ npm --version</code></pre>
       </tr>
       <tr>
         <td><code>/logout</code></td>
-        <td>Sign out of your Anthropic account</td>
+        <td>Cierra sesión en tu cuenta de Anthropic</td>
         <td><code>/logout</code></td>
       </tr>
     </tbody>
@@ -355,7 +355,7 @@ npm --version</code></pre>
 
   <h3>Common Usage Patterns</h3>
 
-  <p>Beyond slash commands, the most common way to use Claude Code CLI is through natural language instructions. Here are some typical patterns:</p>
+  <p>Más allá de los slash commands, la forma más común de usar Claude Code CLI es mediante instrucciones en lenguaje natural. Aquí tienes algunos patrones típicos:</p>
 
   <div class="step-list">
     <div class="step">
@@ -425,7 +425,7 @@ npm --version</code></pre>
       </tr>
       <tr>
         <td><code>AGENTS.md</code></td>
-        <td>Agent ecosystem registry &mdash; defines all agents, their roles, phases, and dispatch rules</td>
+        <td>Registro del ecosistema de agents &mdash; define todos los agents, sus roles, fases y reglas de despacho</td>
         <td>PM Agent (orchestrator)</td>
       </tr>
       <tr>

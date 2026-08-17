@@ -30,7 +30,7 @@
  <article class="reading">
   <div class="chapter-eyebrow">Capítulo 7</div>
   <h1>co-deck: AI Presentation in Practice</h1>
-  <p class="lead">co-deck is a system where AI agent teams produce presentations (lecture materials, slide decks). Este capítulo cubre the 11-Stage pipeline and walks you through creating a mini presentation.</p>
+  <p class="lead">co-deck es un sistema donde los equipos de agents de IA producen presentaciones (materiales de clase, presentaciones de diapositivas). Este capítulo cubre el pipeline de 11 etapas y te guía en la creación de una mini presentación.</p>
   <div class="keypoints">
     <div class="kp-title">Lo que cubre este capítulo</div>
     <ul>
@@ -50,9 +50,9 @@
 
   <h3>Definition</h3>
 
-  <p><strong>co-deck</strong> is a variant of the ai-workspace-standards ecosystem specialized for producing <em>lecture materials and presentation slide decks</em>. It is an L2 variant project that inherits the common workspace structure (agents, skills, governance rules) and adds its own specialized agents and an 11-stage production pipeline.</p>
+  <p><strong>co-deck</strong> es una variante del ecosistema ai-workspace-standards especializada en producir <em>lecture materials and presentation slide decks</em>. Es un proyecto variante L2 que hereda la estructura común del workspace (agents, skills, reglas de gobernanza) y añade sus propios agents especializados y un pipeline de producción de 11 etapas.</p>
 
-  <p>The name "co-deck" stands for <strong>co</strong>llaborative <strong>deck</strong> &mdash; a slide deck produced through collaboration between a human presenter and a team of AI agents.</p>
+  <p>El nombre "co-deck" significa <strong>co</strong>llaborative <strong>deck</strong> &mdash; una presentación producida mediante la colaboración entre un presentador humano y un equipo de agents de IA.</p>
 
   <h3>What co-deck Produces</h3>
 
@@ -62,7 +62,7 @@
     <div class="col">
       <h4>Single-File HTML Slide Deck</h4>
       <ul>
-        <li>A self-contained <code>.html</code> file with all slides, CSS, images, and JavaScript embedded</li>
+        <li>Un archivo <code>.html</code> autónomo con todas las diapositivas, CSS, imágenes y JavaScript incrustados</li>
         <li>Open in any browser &mdash; no installation required</li>
         <li>Supports presenter mode, TTS narration, keyboard navigation, and fullscreen</li>
         <li>Five HTML themes available (outline, vertical, pitch-enhanced, outlook, zen)</li>
@@ -73,15 +73,15 @@
       <ul>
         <li>A pixel-perfect PDF suitable for printing or distribution</li>
         <li>16:9 aspect ratio, matched to the HTML layout</li>
-        <li>Generated from the same slide data as the HTML version</li>
-        <li>Sample PDF (5 slides) for review, then full PDF export on approval</li>
+        <li>Generado a partir de los mismos datos de diapositivas que la versión HTML</li>
+        <li>PDF de muestra (5 diapositivas) para revisión, luego exportación del PDF completo tras la aprobación</li>
       </ul>
     </div>
   </div>
 
   <h3>The Presentation Production Company Analogy</h3>
 
-  <p>Imagine you are running a <strong>presentation production company</strong>. You are the executive producer (the human), and you have a team of specialists working under a project manager. Here is how the analogy maps:</p>
+  <p>Imagina que diriges una <strong>presentation production company</strong>. Tú eres el productor ejecutivo (el humano) y tienes un equipo de especialistas trabajando bajo un gestor de proyecto. Así se mapea la analogía:</p>
 
   <div class="compare-grid">
     <div class="col">
@@ -101,7 +101,7 @@
     <div class="col">
       <h4>co-deck</h4>
       <ul>
-        <li><strong>You (the user)</strong> &mdash; provides the topic, reviews content at Gate 2, approves PDF at Gate 5</li>
+        <li><strong>Tú (el usuario)</strong> &mdash; proporciona el tema, revisa el contenido en el Gate 2, aprueba el PDF en el Gate 5</li>
         <li><strong>PM Agent</strong> &mdash; orchestrates all specialist agents, manages pipeline stages</li>
         <li><strong>research + source-verifier</strong> &mdash; web research and URL validation</li>
         <li><strong>storyline</strong> &mdash; creates storyline.md and slide_deck.md</li>
@@ -114,16 +114,16 @@
     </div>
   </div>
 
-  <div class="note">
-    <strong>Version control is built in.</strong> The <code>version</code> agent acts like a company's document archive manager &mdash; it snapshots every file before any change is made, so you can always roll back to a previous state. Think of it as an automatic "Save As" before every edit.
-  </div>
+  <div class="note"> 
+     <strong>El control de versiones está integrado.</strong> El agent <code>version</code> actúa como el gestor del archivo documental de una empresa &mdash; toma una instantánea de cada archivo antes de cualquier cambio, de modo que siempre puedas revertir a un estado anterior. Piénsalo como un "Guardar como" automático antes de cada edición. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 2: System Architecture                                -->
   <!-- ============================================================ -->
   <h2 id="architecture">System Architecture</h2>
 
-  <p>co-deck's architecture follows the <strong>PM + Specialist Agent pattern</strong> from ai-workspace-standards. The PM Agent acts as the central orchestrator, and a team of specialist agents each handle one aspect of presentation production.</p>
+  <p>La arquitectura de co-deck sigue el <strong>PM + Specialist Agent pattern</strong> de ai-workspace-standards. El Agent PM actúa como orquestador central, y un equipo de agents especializados maneja cada aspecto de la producción de la presentación.</p>
 
   <h3>Agent Roles Table</h3>
 
@@ -208,7 +208,7 @@
 
   <h3>Agent Composition Diagram</h3>
 
-  <p>The diagram below shows how the PM Agent sits at the center, dispatching specialist agents for each stage of the pipeline. The version agent runs in parallel as a cross-cutting concern.</p>
+  <p>El diagrama de abajo muestra cómo el Agent PM se sitúa en el centro, despachando a los agents especializados para cada etapa del pipeline. El agent version se ejecuta en paralelo como una preocupación transversal.</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
     <svg width="100%" viewBox="0 0 660 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agent composition diagram showing PM at center with specialist agents around it">
@@ -287,43 +287,43 @@
     </svg>
   </div>
 
-  <div class="note">
-    <strong>The user talks only to the PM.</strong> You never directly instruct specialist agents. You tell the PM what you want (for example, "make a presentation about climate change"), and the PM dispatches the right agents in the right order. This is the <em>PM Gateway</em> pattern we learned about in Capítulo 4.
-  </div>
+  <div class="note"> 
+     <strong>El usuario solo habla con el PM.</strong> Nunca instruyes directamente a los agents especializados. Le dices al PM lo que quieres (por ejemplo, "haz una presentación sobre el cambio climático"), y el PM despacha a los agents adecuados en el orden correcto. Este es el patrón <em>PM Gateway</em> que aprendimos en el Capítulo 4. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 3: 11-Stage Pipeline                                  -->
   <!-- ============================================================ -->
   <h2 id="11-stages">11-Stage Pipeline</h2>
 
-  <p>The co-deck pipeline consists of <strong>11 stages</strong>, each handled by a specific specialist agent (or the PM directly). The stages run sequentially, with some optional review gates along the way. Here is a detailed walkthrough of each stage.</p>
+  <p>El pipeline de co-deck consta de <strong>11 stages</strong>, cada una manejada por un agent especialista específico (o por el PM directamente). Las etapas se ejecutan secuencialmente, con algunos gates de revisión opcionales en el camino. Aquí tienes un recorrido detallado de cada etapa.</p>
 
   <h3>Stage 0 &mdash; Config (Mandatory)</h3>
-  <p>The PM reads the master <code>docs/lecture-profile.md</code>, copies it to <code>presentations/&lt;name&gt;/lecture-profile.md</code>, and prompts you to fill in lecture-specific details: <strong>title, audience, level, keywords</strong>. You must also confirm the <strong>rendering theme</strong>, <strong>visual style</strong>, whether <strong>source verification</strong> is enabled, <strong>divider mode</strong>, and <strong>background image</strong> preferences. The PM initializes <code>project_state.json</code> and <code>memory/keywords.md</code>.</p>
+  <p>El PM lee el <code>docs/lecture-profile.md</code> maestro, lo copia a <code>presentations/&lt;name&gt;/lecture-profile.md</code> y te pide que completes los detalles específicos de la clase: <strong>title, audience, level, keywords</strong>. También debes confirmar el <strong>rendering theme</strong>, <strong>visual style</strong>, si <strong>source verification</strong> está habilitado, <strong>divider mode</strong> y las preferencias <strong>background image</strong>. El PM inicializa <code>project_state.json</code> y <code>memory/keywords.md</code>.</p>
 
   <h3>Stage 1 &mdash; Research</h3>
-  <p>The <strong>research agent</strong> performs web research on the topic (in both Korean and English if needed), collecting sources and writing <code>research_notes.md</code> with sections for sources, key facts, and credibility notes. This becomes the knowledge base for the entire presentation.</p>
+  <p>El <strong>research agent</strong> realiza investigación web sobre el tema (en coreano e inglés si es necesario), recopilando fuentes y escribiendo <code>research_notes.md</code> con secciones para fuentes, hechos clave y notas de credibilidad. Esto se convierte en la base de conocimiento de toda la presentación.</p>
 
   <h3>Stage 1.5 &mdash; Source Verification (Optional)</h3>
-  <p>If source verification is enabled (the default), the <strong>source-verifier agent</strong> validates every URL from <code>research_notes.md</code> via HTTP check and content cross-check, producing <code>source-verification.md</code> with a <strong>Trust Score</strong>. The pipeline halts only if the Trust Score falls below 70%.</p>
+  <p>Si la verificación de fuentes está habilitada (el valor predeterminado), el <strong>source-verifier agent</strong> valida cada URL de <code>research_notes.md</code> mediante comprobación HTTP y verificación cruzada de contenido, produciendo <code>source-verification.md</code> con un <strong>Trust Score</strong>. El pipeline se detiene solo si el Trust Score cae por debajo del 70%.</p>
 
   <h3>Stage 2 &ndash; 3 &mdash; Content (Storyline + Slide Deck)</h3>
-  <p>The <strong>storyline agent</strong> designs the narrative arc and writes <code>storyline.md</code>, then composes <code>slide_deck.md</code> with per-slide content including titles, bullet points, speaker notes, and image role/query fields for each slide.</p>
+  <p>El <strong>storyline agent</strong> diseña el arco narrativo y escribe <code>storyline.md</code>, luego compone <code>slide_deck.md</code> con contenido por diapositiva que incluye títulos, viñetas, notas del orador y campos de rol/consulta de imagen para cada diapositiva.</p>
 
   <h3>Stage 4 &mdash; Design</h3>
-  <p>The <strong>design agent</strong> locks the visual design style: color palette, font families, spacing, and layout rules. It produces <code>design_spec.md</code> with all CSS variables and typography decisions.</p>
+  <p>El <strong>design agent</strong> fija el estilo de diseño visual: paleta de colores, familias de fuentes, espaciado y reglas de disposición. Produce <code>design_spec.md</code> con todas las variables CSS y decisiones tipográficas.</p>
 
   <h3>Stage 3.5 &mdash; Image Curation + Diagram Generation</h3>
-  <p>The <strong>image-curator</strong> and <strong>diagram-specialist</strong> agents run in parallel. Image-curator searches Pixabay, Unsplash, and Pexels for commercial-use images. Diagram-specialist generates SVG concept diagrams and data charts. Both produce manifest files (<code>image-manifest.json</code> and <code>diagram-manifest.json</code>).</p>
+  <p>Los agents <strong>image-curator</strong> y <strong>diagram-specialist</strong> se ejecutan en paralelo. Image-curator busca imágenes de uso comercial en Pixabay, Unsplash y Pexels. Diagram-specialist genera diagramas conceptuales SVG y gráficos de datos. Ambos producen archivos manifiesto (<code>image-manifest.json</code> y <code>diagram-manifest.json</code>).</p>
 
   <h3>Stage 5 &ndash; 8 &mdash; HTML Build</h3>
-  <p>The <strong>html-build agent</strong> generates the single-file HTML slide deck by combining <code>slide_deck.md</code> content with the selected theme template, design spec, images, and diagrams. The result is a self-contained <code>.html</code> file that works in any browser.</p>
+  <p>El <strong>html-build agent</strong> genera la presentación HTML de archivo único combinando el contenido de <code>slide_deck.md</code> con la plantilla de tema seleccionada, la especificación de diseño, las imágenes y los diagramas. El resultado es un archivo <code>.html</code> autónomo que funciona en cualquier navegador.</p>
 
   <h3>Stage 9 &ndash; 10 &mdash; Layout Measure</h3>
-  <p>The <strong>measure agent</strong> uses Playwright to auto-measure the rendered HTML slides, extracting pixel coordinates, fonts, and colors for accurate PDF generation. It also downloads any required TTF fonts.</p>
+  <p>El <strong>measure agent</strong> usa Playwright para medir automáticamente las diapositivas HTML renderizadas, extrayendo coordenadas de píxeles, fuentes y colores para una generación precisa del PDF. También descarga las fuentes TTF necesarias.</p>
 
   <h3>Stage 11 &mdash; PDF Export</h3>
-  <p>The <strong>pdf-export agent</strong> first generates a <strong>sample PDF</strong> (5 slides) for your review. Once you approve, it generates the <strong>full PDF</strong> from the complete slide data.</p>
+  <p>El <strong>pdf-export agent</strong> primero genera un <strong>sample PDF</strong> (5 diapositivas) para tu revisión. Una vez que lo apruebas, genera el <strong>full PDF</strong> a partir de los datos completos de las diapositivas.</p>
 
   <h3>Pipeline Flow Diagram</h3>
 
@@ -431,16 +431,16 @@
     </svg>
   </div>
 
-  <div class="note">
-    <strong>Mandatory vs. Optional Gates:</strong> Only <strong>Gate 2</strong> (content approval) and <strong>Gate 5</strong> (sample PDF approval) require your explicit approval. Gates 1.5, 3, and 4 are optional &mdash; the PM may auto-advance after a brief review. The pipeline halts at Gate 1.5 only if the Trust Score falls below 70%.
-  </div>
+  <div class="note"> 
+     <strong>Gates Obligatorios vs. Opcionales:</strong> Solo <strong>Gate 2</strong> (aprobación del contenido) y <strong>Gate 5</strong> (aprobación del PDF de muestra) requieren tu aprobación explícita. Los Gates 1.5, 3 y 4 son opcionales &mdash; el PM puede avanzar automáticamente tras una breve revisión. El pipeline se detiene en el Gate 1.5 solo si el Trust Score cae por debajo del 70%. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 4: Themes and Styles                                   -->
   <!-- ============================================================ -->
   <h2 id="theme-style">Themes and Styles</h2>
 
-  <p>One of co-deck's most powerful features is the separation of <strong>themes</strong> and <strong>styles</strong>. These two concepts work together to give you full control over how your presentation looks, without touching any code.</p>
+  <p>Una de las características más poderosas de co-deck es la separación de <strong>themes</strong> y <strong>styles</strong>. Estos dos conceptos trabajan juntos para darte control total sobre el aspecto de tu presentación, sin tocar una sola línea de código.</p>
 
   <h3>Theme vs. Style</h3>
 
@@ -448,30 +448,30 @@
     <div class="col">
       <h4>Theme (Rendering Paradigm)</h4>
       <ul>
-        <li><strong>What:</strong> The HTML rendering engine and slide structure</li>
-        <li><strong>Controls:</strong> How slides are laid out, navigation behavior, transition effects, TOC structure</li>
+        <li><strong>What:</strong> El motor de renderizado HTML y la estructura de las diapositivas</li>
+        <li><strong>Controls:</strong> Cómo se disponen las diapositivas, el comportamiento de la navegación, los efectos de transición, la estructura del TOC</li>
         <li><strong>Examples:</strong> <code>outline</code> (vertical outline), <code>vertical</code> (scroll-based), <code>pitch-enhanced</code> (PPT-style), <code>outlook</code> (horizontal scroll), <code>zen</code> (minimal zen)</li>
         <li><strong>Packaged as:</strong> 4 files &mdash; <code>template.html</code>, <code>theme.json</code>, <code>theme.css</code>, <code>pdf_layout_spec.json</code></li>
-        <li><strong>Analogy:</strong> The <em>floor plan</em> of a house &mdash; it determines the shape and flow of the rooms</li>
+        <li><strong>Analogía:</strong> El <em>floor plan</em> de una casa &mdash; determina la forma y el flujo de las habitaciones</li>
       </ul>
     </div>
     <div class="col">
       <h4>Style (Visual Appearance)</h4>
       <ul>
-        <li><strong>What:</strong> The CSS variable set that defines colors, fonts, and visual mood</li>
+        <li><strong>What:</strong> El conjunto de variables CSS que define colores, fuentes y ambiente visual</li>
         <li><strong>Controls:</strong> Background color, text color, accent color, heading fonts, border styles, shadows, and other visual properties</li>
         <li><strong>Examples:</strong> <code>classic</code> (light, professional), <code>premium-dark</code> (dark, sleek), <code>minimal</code> (ultra-clean), <code>academic</code> (scholarly), <code>visual-heavy</code> (image-forward)</li>
         <li><strong>Packaged as:</strong> Single <code>style.css</code> file defining CSS variable overrides</li>
-        <li><strong>Analogy:</strong> The <em>interior design</em> of a house &mdash; same floor plan, completely different look and feel</li>
+        <li><strong>Analogía:</strong> El <em>interior design</em> de una casa &mdash; mismo plano, aspecto y sensación completamente diferentes</li>
       </ul>
     </div>
   </div>
 
   <h3>Compatibility Matrix</h3>
 
-  <p>Not every style works with every theme. Each theme declares its <strong>compatible styles</strong> in <code>theme.json</code>. For example, the <code>pitch</code> theme supports only <code>classic</code>, <code>minimal</code>, and <code>premium-dark</code>, while the <code>outline</code> theme supports all five styles.</p>
+  <p>No todos los estilos funcionan con todos los temas. Cada tema declara sus <strong>compatible styles</strong> en <code>theme.json</code>. Por ejemplo, el tema <code>pitch</code> solo soporta <code>classic</code>, <code>minimal</code> y <code>premium-dark</code>, mientras que el tema <code>outline</code> soporta los cinco estilos.</p>
 
-  <p>The compatibility matrix is documented in <code>docs/html-themes/THEMES.md</code> and is enforced by the PM at Stage 0. If you try to combine an incompatible theme and style, the PM will reject the combination and explain why.</p>
+  <p>La matriz de compatibilidad está documentada en <code>docs/html-themes/THEMES.md</code> y la aplica el PM en el Stage 0. Si intentas combinar un tema y un estilo incompatibles, el PM rechazará la combinación y explicará por qué.</p>
 
   <div class="compare-grid">
     <div class="col">
@@ -492,28 +492,28 @@
     </div>
   </div>
 
-  <div class="tip-box">
-    <strong>Tip for beginners:</strong> If you are unsure which theme and style to pick, start with <strong><code>outline</code> theme + <code>classic</code> style</strong>. This combination has the widest compatibility, produces a clean vertical layout, and works well for most presentation types. You can always change it later without redoing your content.
-  </div>
+  <div class="tip-box"> 
+     <strong>Consejo para principiantes:</strong> Si no estás seguro de qué tema y estilo elegir, empieza con el tema <strong><code>outline</code> + estilo <code>classic</code></strong>. Esta combinación tiene la mayor compatibilidad, produce una disposición vertical limpia y funciona bien para la mayoría de los tipos de presentación. Siempre puedes cambiarlo más tarde sin rehacer tu contenido. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 5: Gate Approvals                                      -->
   <!-- ============================================================ -->
   <h2 id="gates">Gate Approvals</h2>
 
-  <p>Gates are checkpoints in the pipeline where the workflow pauses for your review. They exist so that <strong>you remain in control</strong> of the presentation at critical decision points. The PM never proceeds past a mandatory gate without your explicit approval.</p>
+  <p>Los gates son puntos de control del pipeline donde el flujo de trabajo hace una pausa para tu revisión. Existen para que <strong>tú mantienes el control</strong> de la presentación en los puntos de decisión críticos. El PM nunca avanza más allá de un gate obligatorio sin tu aprobación explícita.</p>
 
   <h3>Mandatory Gates</h3>
 
-  <p>Two gates are <strong>mandatory</strong> &mdash; you must explicitly approve before the pipeline continues.</p>
+  <p>Dos gates son <strong>mandatory</strong> &mdash; debes aprobar explícitamente antes de que el pipeline continúe.</p>
 
   <div class="compare-grid">
     <div class="col">
       <h4>Gate 2 &mdash; Content Approval</h4>
       <ul>
-        <li><strong>When:</strong> After the storyline agent finishes <code>storyline.md</code> and <code>slide_deck.md</code></li>
-        <li><strong>What you review:</strong> The narrative structure, chapter outline, slide titles, bullet content, and image placements</li>
-        <li><strong>Why it matters:</strong> Once you approve, the design, image, and build agents start working based on this content. Changing content later means re-running multiple stages</li>
+        <li><strong>When:</strong> Después de que el agent de storyline termina <code>storyline.md</code> y <code>slide_deck.md</code></li>
+        <li><strong>Lo que revisas:</strong> La estructura narrativa, el esquema de capítulos, los títulos de las diapositivas, el contenido de las viñetas y las ubicaciones de las imágenes</li>
+        <li><strong>Why it matters:</strong> Una vez que apruebas, los agents de diseño, imagen y construcción comienzan a trabajar basándose en este contenido. Cambiar el contenido más tarde significa re-ejecutar múltiples etapas</li>
         <li><strong>PM message:</strong> "Approving starts design and HTML. Approve?"</li>
       </ul>
     </div>
@@ -521,8 +521,8 @@
       <h4>Gate 5 &mdash; Sample PDF Approval</h4>
       <ul>
         <li><strong>When:</strong> After the pdf-export agent generates a 5-slide sample PDF</li>
-        <li><strong>What you review:</strong> Layout, fonts, colors, spacing, and overall visual quality of the sample</li>
-        <li><strong>Why it matters:</strong> This is your chance to catch visual issues before the full PDF is generated</li>
+        <li><strong>Lo que revisas:</strong> Disposición, fuentes, colores, espaciado y calidad visual general de la muestra</li>
+        <li><strong>Why it matters:</strong> Esta es tu oportunidad de detectar problemas visuales antes de que se genere el PDF completo</li>
         <li><strong>PM message:</strong> "Check layout and fonts. Generate full PDF? Approve?"</li>
       </ul>
     </div>
@@ -530,96 +530,96 @@
 
   <h3>Optional Gates</h3>
 
-  <p>Three gates are <strong>optional</strong> &mdash; the PM reviews the output and auto-advances unless there is a problem.</p>
+  <p>Tres gates son <strong>optional</strong> &mdash; el PM revisa el resultado y avanza automáticamente a menos que haya un problema.</p>
 
   <ul>
-    <li><strong>Gate 1.5 (Source Verification)</strong> &mdash; After source-verifier produces <code>source-verification.md</code>. The PM outputs the Trust Score and proceeds automatically. Halts only if Trust Score &lt; 70%.</li>
-    <li><strong>Gate 3 (Design Spec)</strong> &mdash; After the design agent produces <code>design_spec.md</code>. The PM outputs a summary of the theme and visual spec, then proceeds.</li>
+    <li><strong>Gate 1.5 (Source Verification)</strong> &mdash; Después de que source-verifier produce <code>source-verification.md</code>. El PM muestra el Trust Score y continúa automáticamente. Se detiene solo si el Trust Score &amp;lt; 70%.</li>
+    <li><strong>Gate 3 (Design Spec)</strong> &mdash; Después de que el agent de diseño produce <code>design_spec.md</code>. El PM muestra un resumen del tema y la especificación visual, luego continúa.</li>
     <li><strong>Gate 4 (HTML Draft)</strong> &mdash; After the html-build agent generates the HTML slide deck. The PM outputs built file details, then proceeds.</li>
   </ul>
 
-  <div class="warn">
-    <strong>Gate 2 is the most important decision point.</strong> Approving Gate 2 triggers the design, image curation, diagram generation, HTML build, and PDF export stages. If you later want to change the content structure (for example, add a chapter, remove slides, or reorganize the flow), the PM will need to reset downstream stages and re-run them. Review the content carefully before approving.
-  </div>
+  <div class="warn"> 
+     <strong>El Gate 2 es el punto de decisión más importante.</strong> Aprobar el Gate 2 dispara las etapas de diseño, curación de imágenes, generación de diagramas, construcción HTML y exportación a PDF. Si más adelante quieres cambiar la estructura del contenido (por ejemplo, añadir un capítulo, eliminar diapositivas o reorganizar el flujo), el PM tendrá que reiniciar las etapas posteriores y re-ejecutarlas. Revisa el contenido cuidadosamente antes de aprobar. 
+   </div>
 
-  <div class="note">
-    <strong>Rework rules:</strong> If you request changes after a gate, the PM identifies which downstream stages need re-running, calls the version agent to snapshot current files, dispatches the appropriate specialist, and resets affected stages to "pending" in <code>project_state.json</code>. Stages whose output is unchanged (for example, research) are skipped.
-  </div>
+  <div class="note"> 
+     <strong>Rework rules:</strong> Si solicitas cambios después de un gate, el PM identifica qué etapas posteriores necesitan re-ejecutarse, llama al agent version para tomar instantáneas de los archivos actuales, despacha al especialista apropiado y restablece las etapas afectadas a "pendiente" en <code>project_state.json</code>. Las etapas cuyo resultado no cambia (por ejemplo, la investigación) se omiten. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 6: How to Talk to the PM                                -->
   <!-- ============================================================ -->
-  <h2 id="how-to-talk">How to Talk to the PM</h2>
+  <h2 id="how-to-talk">Cómo hablar con el PM</h2>
 
-  <p>Since the PM Agent is your single point of contact, knowing how to communicate effectively makes the entire process smoother. You interact with the PM through natural language in your Claude Code or Antigravity CLI session.</p>
+  <p>Dado que el Agent PM es tu punto único de contacto, saber comunicarte eficazmente hace que todo el proceso sea más fluido. Interactúas con el PM mediante lenguaje natural en tu sesión de Claude Code o Antigravity CLI.</p>
 
   <h3>Starting a New Presentation</h3>
 
-  <p>To start a new presentation, simply tell the PM what you want to create. Here are some example prompts.</p>
+  <p>Para iniciar una nueva presentación, simplemente dile al PM qué quieres crear. Aquí tienes algunos prompts de ejemplo.</p>
 
   <div class="prompt-box">
     <strong>Example prompts for starting a presentation:</strong>
     <ul>
       <li>"Create a presentation about renewable energy for university students."</li>
       <li>"Make a 20-slide lecture deck on machine learning basics for beginners."</li>
-      <li>"I need a presentation on climate change with lots of diagrams and data charts."</li>
-      <li>"Build a slide deck about the history of the internet for a high school audience."</li>
+      <li>"Necesito una presentación sobre el cambio climático con muchos diagramas y gráficos de datos."</li>
+      <li>"Crea una presentación sobre la historia de internet para una audiencia de bachillerato."</li>
     </ul>
   </div>
 
   <h3>Good vs. Bad Requests</h3>
 
-  <p>The quality of your request affects the quality of the output. Here is a comparison to help you formulate effective requests.</p>
+  <p>La calidad de tu solicitud afecta la calidad del resultado. Aquí tienes una comparación para ayudarte a formular solicitudes eficaces.</p>
 
   <div class="compare-grid">
     <div class="col">
       <h4>Good Requests</h4>
       <ul>
         <li>"Create a presentation about <strong>renewable energy</strong> for <strong>university students</strong>. Include <strong>data charts</strong> showing growth trends."</li>
-        <li>"Make a <strong>15-slide</strong> lecture on <strong>AI ethics</strong> for a <strong>general audience</strong>. Use the <strong>outline theme</strong> with <strong>premium-dark style</strong>."</li>
-        <li>"I want a presentation on <strong>space exploration</strong> with <strong>chapter dividers</strong> and <strong>speaker notes</strong> for each slide."</li>
+        <li>"Haz una clase <strong>15-slide</strong> sobre <strong>AI ethics</strong> para un <strong>general audience</strong>. Usa el <strong>outline theme</strong> con <strong>premium-dark style</strong>."</li>
+        <li>"Quiero una presentación sobre <strong>space exploration</strong> con <strong>chapter dividers</strong> y <strong>speaker notes</strong> en cada diapositiva."</li>
       </ul>
     </div>
     <div class="col">
       <h4>Requests That Need Improvement</h4>
       <ul>
-        <li>"Make a presentation." &mdash; <em>Too vague. The PM needs a topic and audience.</em></li>
-        <li>"Do the whole thing." &mdash; <em>The PM needs specifics to dispatch the right agents.</em></li>
-        <li>"Make it look good." &mdash; <em>Specify a theme and style, or let the PM suggest one based on your content.</em></li>
+        <li>"Haz una presentación." &mdash; <em>Demasiado vago. El PM necesita un tema y una audiencia.</em></li>
+        <li>"Hazlo todo." &mdash; <em>El PM necesita detalles específicos para despachar a los agents correctos.</em></li>
+        <li>"Que se vea bien." &mdash; <em>Especifica un tema y estilo, o deja que el PM sugiera uno basándose en tu contenido.</em></li>
       </ul>
     </div>
   </div>
 
   <h3>Requesting Changes</h3>
 
-  <p>After reviewing gate outputs, you can request changes in natural language. The PM will figure out which agents to re-dispatch and which stages to re-run.</p>
+  <p>Después de revisar los resultados de los gates, puedes solicitar cambios en lenguaje natural. El PM determinará qué agents re-despachar y qué etapas re-ejecutar.</p>
 
   <div class="prompt-box">
     <strong>Example prompts for requesting changes:</strong>
     <ul>
-      <li>"The storyline has too many slides in Capítulo 2. Merge some of them."</li>
-      <li>"Can you change the accent color to blue in the design spec?"</li>
+      <li>"La storyline tiene demasiadas diapositivas en el Capítulo 2. Fusiona algunas."</li>
+      <li>"¿Puedes cambiar el color de acento a azul en la especificación de diseño?"</li>
       <li>"I want to add a comparison diagram on slide 8."</li>
-      <li>"The sample PDF fonts look wrong. Can you re-measure?"</li>
+      <li>"Las fuentes del PDF de muestra se ven mal. ¿Puedes volver a medir?"</li>
     </ul>
   </div>
 
-  <div class="tip-box">
-    <strong>Tip:</strong> You do not need to know which agent handles your request. Just describe what you want changed, and the PM will figure out the rest. For example, saying "add more images to Capítulo 3" automatically triggers the image-curator agent &mdash; you do not need to mention the agent by name.
-  </div>
+  <div class="tip-box"> 
+     <strong>Tip:</strong> No necesitas saber qué agent maneja tu solicitud. Simplemente describe lo que quieres cambiar, y el PM se encargará del resto. Por ejemplo, decir "añade más imágenes al Capítulo 3" activa automáticamente el agent image-curator &mdash; no necesitas mencionar el agent por su nombre. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 7: Practice — Create a Mini Presentation               -->
   <!-- ============================================================ -->
   <h2 id="practice">Practice: Create a Mini Presentation</h2>
 
-  <p>In this exercise, you will use co-deck to build a 5-slide mini presentation. The topic is "5 Core Concepts of Machine Learning" &mdash; a simple presentation aimed at beginners.</p>
+  <p>En este ejercicio, usarás co-deck para construir una mini presentación de 5 diapositivas. El tema es "5 Conceptos Clave del Machine Learning" &mdash; una presentación simple dirigida a principiantes.</p>
 
   <h3>Practice Objectives</h3>
 
   <ul>
-    <li>Clone the co-deck repository and set up the project</li>
-    <li>Send a request to the PM Agent from Claude Desktop App</li>
+    <li>Clona el repositorio de co-deck y configura el proyecto</li>
+    <li>Envía una solicitud al Agent PM desde Claude Desktop App</li>
     <li>Observe the 11-Stage pipeline in action</li>
     <li>Experience the Gate 2 and Gate 5 approval process</li>
     <li>Review the final outputs (HTML and PDF)</li>
@@ -627,13 +627,13 @@
 
   <h3>Prerequisites</h3>
 
-  <p>Make sure the tools you installed in Capítulo 3 are working correctly.</p>
+  <p>Asegúrate de que las herramientas que instalaste en el Capítulo 3 funcionen correctamente.</p>
 
   <div class="step-list">
     <ol>
-      <li><strong>Claude Desktop App</strong> &mdash; must be able to hold a conversation with Claude</li>
+      <li><strong>Claude Desktop App</strong> &mdash; debe poder mantener una conversación con Claude</li>
       <li><strong>Git</strong> &mdash; must be able to clone repositories</li>
-      <li><strong>Browser</strong> &mdash; a browser that can open the HTML slide deck</li>
+      <li><strong>Browser</strong> &mdash; un navegador que pueda abrir la presentación HTML</li>
     </ol>
   </div>
 
@@ -642,7 +642,7 @@
   <div class="step-list">
     <ol>
       <li>
-        <strong>Clone the workspace and scaffold the project</strong><br>
+        <strong>Clona el workspace y genera el proyecto</strong><br>
         If you haven't already cloned the workspace in an earlier chapter, do that first, then scaffold a new project from the co-deck variant using <code>new-project.ts</code>.
         <div class="prompt-box">
           <code>git clone https://github.com/5throck/ai-workspace-standards.git</code><br>
@@ -653,7 +653,7 @@
         This creates <code>Proyectos/co-deck/</code> as its own independent Git repository, with the co-deck variant's agents, skills, and configuration already copied in.
       </li>
       <li>
-        <strong>Open the project in Claude Desktop App</strong><br>
+        <strong>Abre el proyecto en Claude Desktop App</strong><br>
         Launch Claude Desktop App and open the <code>Proyectos/co-deck/</code> folder as a project. Start the PM by telling Claude the following.
         <div class="prompt-box">
           <code>"Let's start a new project."</code>
@@ -686,8 +686,8 @@
         Once Stage 1 (research) and Stage 2&ndash;3 (content) finish, the PM asks for your approval at Gate 2. Review <code>slide_deck.md</code> and check the following.
         <ul>
           <li>Is the slide structure logical?</li>
-          <li>Is the content of each slide accurate?</li>
-          <li>Are the cover slide and closing slide appropriate?</li>
+          <li>¿Es preciso el contenido de cada diapositiva?</li>
+          <li>¿Son apropiadas la diapositiva de portada y la de cierre?</li>
         </ul>
         After reviewing, respond like this.
         <div class="prompt-box">
@@ -704,38 +704,38 @@
         <ul>
           <li>Do the fonts render correctly without breaking?</li>
           <li>Is the layout well arranged?</li>
-          <li>Do the colors appear as intended?</li>
+          <li>¿Aparecen los colores como se pretendía?</li>
         </ul>
         After reviewing, respond like this.
         <div class="prompt-box">
           <code>"I've reviewed the sample PDF. Please generate the full PDF."</code>
         </div>
       </li>
-      <li>
-        <strong>Review the final outputs</strong><br>
-        Once every stage is complete, you can find the final outputs in the <code>presentations/&lt;project&gt;/</code> folder. The next section explains exactly how to review them.
-      </li>
+      <li> 
+         <strong>Review the final outputs</strong><br> 
+         Una vez completadas todas las etapas, puedes encontrar los resultados finales en la carpeta <code>presentations/&lt;project&gt;/</code>. La siguiente sección explica exactamente cómo revisarlos. 
+       </li>
     </ol>
   </div>
 
-  <div class="tip-box">
-    <strong>Start with a short 5&ndash;10 slide presentation.</strong> A smaller deck lets the whole pipeline finish quickly so you can get a feel for how co-deck works. Once you are comfortable, try a full-scale 20&ndash;30+ slide lecture deck.
-  </div>
+  <div class="tip-box"> 
+     <strong>Start with a short 5&ndash;10 slide presentation.</strong> Una presentación más pequeña permite que todo el pipeline termine rápidamente para que te familiarices con cómo funciona co-deck. Una vez que te sientas cómodo, prueba una presentación completa de 20&ndash;30+ diapositivas. 
+   </div>
 
-  <div class="warn">
-    <strong>Note:</strong> co-deck's agents run through the Claude API. Claude's responses may slow down or time out during the exercise. Presentations with many images or diagrams can take longer &mdash; this is expected behavior.
-  </div>
+  <div class="warn"> 
+     <strong>Note:</strong> Los agents de co-deck se ejecutan a través de la API de Claude. Las respuestas de Claude pueden ralentizarse o agotar el tiempo de espera durante el ejercicio. Las presentaciones con muchas imágenes o diagramas pueden tardar más &mdash; este es un comportamiento esperado. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 8: Reviewing Resultados                                  -->
   <!-- ============================================================ -->
   <h2 id="outputs">Reviewing Resultados</h2>
 
-  <p>After the pipeline completes, your presentation outputs live in the project directory. Let us look at where to find them and how to review each output type.</p>
+  <p>Después de que el pipeline termina, los resultados de tu presentación viven en el directorio del proyecto. Veamos dónde encontrarlos y cómo revisar cada tipo de resultado.</p>
 
   <h3>Resultado Locations</h3>
 
-  <p>All outputs for your presentation are stored under <code>presentations/&lt;project-name&gt;/</code>. Here is the directory layout you will see after a complete pipeline run.</p>
+  <p>Todos los resultados de tu presentación se almacenan bajo <code>presentations/&lt;project-name&gt;/</code>. Aquí tienes la disposición de directorios que verás después de una ejecución completa del pipeline.</p>
 
   <div class="prompt-box">
     <code>Proyectos/co-deck/presentations/&lt;project-name&gt;/</code>
@@ -756,11 +756,11 @@
       </tr>
       <tr>
         <td><code>research_notes.md</code></td>
-        <td>Web research sources and key facts gathered by the research agent</td>
+        <td>Fuentes de investigación web y hechos clave recopilados por el agent de investigación</td>
       </tr>
       <tr>
         <td><code>storyline.md</code></td>
-        <td>Narrative arc and chapter structure designed by the storyline agent</td>
+        <td>Arco narrativo y estructura de capítulos diseñados por el agent de storyline</td>
       </tr>
       <tr>
         <td><code>slide_deck.md</code></td>
@@ -801,28 +801,28 @@
 
   <div class="step-list">
     <ol>
-      <li class="step">
-        <strong>Open the HTML slide deck.</strong>
-        Navigate to <code>presentations/&lt;project-name&gt;/lecture_v1.html</code> and open it in your web browser. You should see your complete presentation with all slides, images, diagrams, and navigation. Try clicking through the slides, using keyboard arrows, and toggling the speaker notes panel.
-      </li>
-      <li class="step">
-        <strong>Test HTML features.</strong>
-        Press <kbd>F</kbd> for fullscreen, <kbd>T</kbd> to open the table of contents, <kbd>S</kbd> to view speaker notes, and <kbd>Escape</kbd> to exit. These controls let you practice your presentation just like a real slide app.
-      </li>
-      <li class="step">
-        <strong>Open the PDF.</strong>
-        Navigate to <code>presentations/&lt;project-name&gt;/&lt;project&gt;.pdf</code> and open it in your PDF viewer. Compare the PDF layout to the HTML version &mdash; they should match closely in colors, fonts, and spacing.
-      </li>
-      <li class="step">
-        <strong>Review intermediate files (optional).</strong>
-        If you want to understand how the pipeline works, open <code>research_notes.md</code> to see what the research agent found, <code>slide_deck.md</code> to see the structured content, and <code>design_spec.md</code> to see the visual design decisions. These files give you full visibility into every decision the AI agents made.
-      </li>
+      <li class="step"> 
+         <strong>Open the HTML slide deck.</strong> 
+         Navega a <code>presentations/&lt;project-name&gt;/lecture_v1.html</code> y ábrelo en tu navegador web. Deberías ver tu presentación completa con todas las diapositivas, imágenes, diagramas y navegación. Prueba a hacer clic por las diapositivas, usar las flechas del teclado y alternar el panel de notas del orador. 
+       </li>
+      <li class="step"> 
+         <strong>Test HTML features.</strong> 
+         Presiona <kbd>F</kbd> para pantalla completa, <kbd>T</kbd> para abrir la tabla de contenidos, <kbd>S</kbd> para ver las notas del orador y <kbd>Escape</kbd> para salir. Estos controles te permiten practicar tu presentación igual que en una aplicación real de diapositivas. 
+       </li>
+      <li class="step"> 
+         <strong>Open the PDF.</strong> 
+         Navega a <code>presentations/&lt;project-name&gt;/&lt;project&gt;.pdf</code> y ábrelo en tu visor de PDF. Compara la disposición del PDF con la versión HTML &mdash; deberían coincidir estrechamente en colores, fuentes y espaciado. 
+       </li>
+      <li class="step"> 
+         <strong>Review intermediate files (optional).</strong> 
+         Si quieres entender cómo funciona el pipeline, abre <code>research_notes.md</code> para ver lo que encontró el agent de investigación, <code>slide_deck.md</code> para ver el contenido estructurado y <code>design_spec.md</code> para ver las decisiones de diseño visual. Estos archivos te dan total visibilidad sobre cada decisión que tomaron los agents de IA. 
+</li>
     </ol>
   </div>
 
-  <div class="tip-box">
-    <strong>Pro tip:</strong> The HTML slide deck is the primary deliverable. It is self-contained (no server required), supports interactive features like presenter mode and TTS narration, and works offline. The PDF is best for printing or sharing with people who prefer a static document. Use both: present from the HTML, distribute the PDF.
-  </div>
+  <div class="tip-box"> 
+     <strong>Pro tip:</strong> La presentación HTML es el entregable principal. Es autónoma (no requiere servidor), soporta funciones interactivas como el modo presentador y la narración TTS, y funciona sin conexión. El PDF es mejor para imprimir o compartir con personas que prefieren un documento estático. Usa ambos: presenta desde el HTML, distribuye el PDF. 
+   </div>
 
   <h3>File Structure Summary</h3>
 
@@ -860,9 +860,9 @@
 </div>
   </div>
 
-  <div class="note">
-    <strong>What's next?</strong> In Capítulo 8, we will combine the <strong>co-consult</strong> (from Capítulo 6) and <strong>co-deck</strong> pipelines into a single integrated workflow &mdash; first producing a consulting analysis, then turning the key findings into a polished presentation. This is where the full power of the multi-agent ecosystem shines.
-  </div>
+  <div class="note"> 
+     <strong>What's next?</strong> En el Capítulo 8 combinaremos los pipelines de <strong>co-consult</strong> (del Capítulo 6) y <strong>co-deck</strong> en un único flujo de trabajo integrado &mdash; produciendo primero un análisis de consultoría y convirtiendo luego los hallazgos clave en una presentación pulida. Aquí es donde brilla todo el poder del ecosistema multi-agent. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- CHAPTER NAVIGATION                                            -->

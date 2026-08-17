@@ -27,7 +27,7 @@
   <a href="#step2">Step 2 — OS-Specific Scripts</a>
   <a href="#step3">Step 3 — Verify Installation</a>
   <a href="#tools">Tool List</a>
-  <a href="#terminal">Recomendado Terminal Apps</a>
+  <a href="#terminal">Aplicaciones de terminal recomendadas</a>
   <a href="#trouble">Solución de problemas</a>
   <div class="nav-section">Other Documents</div>
   <a href="SETUP_CHECKLIST_es.html">Lista de verificación previa a la instalación</a>
@@ -83,9 +83,9 @@ cd setup</pre>
   <p>Before running the script, first read and complete the <a href="SETUP_CHECKLIST_es.html">Lista de verificación previa a la instalación</a>.</p>
   <p><strong>Key items to confirm</strong></p>
   <ul>
-    <li>Active subscription to <strong>Claude Pro/Max</strong> and <strong>Gemini Advanced</strong> (a subscription plan, not an API key)</li>
+    <li>Suscripción activa a <strong>Claude Pro/Max</strong> y <strong>Gemini Advanced</strong> (un plan de suscripción, no una clave API)</li>
     <li>A <strong>GitHub account</strong> created, ready for <code>gh auth login</code></li>
-    <li>At least <strong>5 GB</strong> of free disk space and confirmed <strong>administrator/sudo privileges</strong></li>
+    <li>Al menos <strong>5 GB</strong> de espacio libre en disco y confirmado <strong>administrator/sudo privileges</strong></li>
   </ul>
 
   <h2 id="step2">Step 2 — Run the OS-Specific Script</h2>
@@ -129,7 +129,7 @@ bash setup-linux.sh --wezterm --docker</pre>
 .\setup-windows.ps1 -WSL2 -WezTerm -Docker  # Install all optional extras</pre>
     <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
   </div>
-  <div class="note"><strong>After running</strong>: close and reopen your terminal to apply PATH changes.</div>
+  <div class="note"><strong>After running</strong>: cierra y vuelve a abrir tu terminal para aplicar los cambios del PATH.</div>
 
   <h2 id="step3">Step 3 — Verify Installation</h2>
   <div style="position:relative">
@@ -173,7 +173,7 @@ bash setup-linux.sh --wezterm --docker</pre>
     </tbody>
   </table>
 
-  <h2 id="terminal">Recomendado Terminal Apps (Windows)</h2>
+  <h2 id="terminal">Aplicaciones de terminal recomendadas (Windows)</h2>
   <table>
     <thead><tr><th>App</th><th>Descripción</th><th>Install</th></tr></thead>
     <tbody>
@@ -186,7 +186,7 @@ bash setup-linux.sh --wezterm --docker</pre>
   <h2 id="trouble">Solución de problemas</h2>
 
   <p><strong><code>bun: command not found</code> después de la instalación</strong></p>
-  <p>Restart your terminal. On Windows, bun is automatically registered in the User environment variables. macOS/Linux:</p>
+  <p>Reinicia tu terminal. En Windows, bun se registra automáticamente en las variables de entorno del usuario. macOS/Linux:</p>
   <div style="position:relative">
   <pre class="code-block">export PATH="$HOME/.bun/bin:$PATH"</pre>
   <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
@@ -196,10 +196,10 @@ bash setup-linux.sh --wezterm --docker</pre>
   <p>El script intenta automáticamente con un respaldo de npm si bun falla. Si el problema persiste, verifica la ruta con <code>bun pm ls -g</code> y agrégala a tu PATH.</p>
 
   <p><strong><code>agy: command not found</code> después de la instalación</strong></p>
-  <p>The Antigravity CLI installer places the binary in <code>~/.local/bin</code> or <code>/usr/local/bin</code>. Run <code>source ~/.bashrc</code> or restart your terminal.</p>
+  <p>El instalador CLI de Antigravity coloca el binario en <code>~/.local/bin</code> o <code>/usr/local/bin</code>. Ejecuta <code>source ~/.bashrc</code> o reinicia tu terminal.</p>
 
   <p><strong>Windows: "running scripts is disabled on this system"</strong></p>
-  <p>The script automatically sets this to <code>RemoteSigned</code>. To change it manually:</p>
+  <p>El script establece esto automáticamente en <code>RemoteSigned</code>. Para cambiarlo manualmente:</p>
   <div style="position:relative">
   <pre class="code-block">Set-ExecutionPolicy RemoteSigned -Scope CurrentUser</pre>
   <button class="copy-btn" onclick="copyCode(this)">Copiar</button>

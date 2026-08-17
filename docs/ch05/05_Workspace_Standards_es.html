@@ -28,7 +28,7 @@
  <article class="reading">
   <div class="chapter-eyebrow">Capítulo 5</div>
   <h1>Exploring ai-workspace-standards</h1>
-  <p class="lead">Learn the structure and core concepts of the ai-workspace-standards repository: 4-level layer structure (L0&rarr;L1&rarr;L2&rarr;L3), the variant concept, key files (AGENTS.md, CLAUDE.md, GEMINI.md), and common contracts. Este capítulo gives you a guided tour of the workspace that underpins every multi-agent project.</p>
+  <p class="lead">Aprende la estructura y los conceptos clave del repositorio ai-workspace-standards: la estructura de 4 niveles (L0&rarr;L1&rarr;L2&rarr;L3), el concepto de variante, los archivos clave (AGENTS.md, CLAUDE.md, GEMINI.md) y los contratos comunes. Este capítulo te da un recorrido guiado por el workspace que sustenta cada proyecto multi-agente.</p>
   <div class="keypoints">
     <div class="kp-title">Lo que cubre este capítulo</div>
     <ul>
@@ -45,30 +45,30 @@
   <!-- ============================================================ -->
   <h2 id="what-is">What is ai-workspace-standards</h2>
 
-  <p>In the previous chapter we explored the conceptual building blocks of a harness multi-agente &mdash; agents, skills, the PM Gateway, and handoff contracts. Now it is time to look at the <em>actual codebase</em> that puts all those ideas into practice. That codebase is called <strong>ai-workspace-standards</strong>.</p>
+  <p>En el capítulo anterior exploramos los bloques de construcción conceptuales de un harness multi-agente &mdash; agents, skills, el PM Gateway y los handoff contracts. Ahora es momento de mirar el <em>actual codebase</em> que pone todas esas ideas en práctica. Ese código base se llama <strong>ai-workspace-standards</strong>.</p>
 
   <h3>Definition</h3>
 
-  <p><strong>ai-workspace-standards</strong> is an open-source GitHub repository that defines a standardized workspace structure for multi-agent AI projects. It provides a shared set of conventions, file layouts, agent definitions, skill templates, and automation scripts that any AI-assisted project can adopt. Think of it as the <em>foundational blueprint</em> that makes agent teamwork possible.</p>
+  <p><strong>ai-workspace-standards</strong> es un repositorio de código abierto en GitHub que define una estructura de workspace estandarizada para proyectos de IA multi-agente. Proporciona un conjunto compartido de convenciones, disposiciones de archivos, definiciones de agents, plantillas de skills y scripts de automatización que cualquier proyecto asistido por IA puede adoptar. Piénsalo como el <em>foundational blueprint</em> que hace posible el trabajo en equipo de los agents.</p>
 
-  <p>The repository is hosted at <a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">github.com/5throck/ai-workspace-standards</a> and is maintained as a living standard that evolves alongside AI tooling capabilities.</p>
+  <p>El repositorio está alojado en <a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">github.com/5throck/ai-workspace-standards</a> y se mantiene como un estándar vivo que evoluciona junto con las capacidades de las herramientas de IA.</p>
 
   <h3>Why Standards Matter</h3>
 
-  <p>You might wonder: why do we need a "standard" workspace at all? Can't each project just organize its files however it wants?</p>
+  <p>Quizás te preguntes: ¿por qué necesitamos un workspace "estándar"? ¿No puede cada proyecto simplemente organizar sus archivos como quiera?</p>
 
-  <p>The answer comes down to <em>interoperability</em>. When multiple AI agents need to collaborate on the same project, they must all agree on where files live, what format they use, and what conventions to follow. Without a shared standard, every project would invent its own structure, and agents trained for one project could not work on another. Standards make it possible to:</p>
+  <p>La respuesta se reduce a <em>interoperability</em>. Cuando múltiples agents de IA necesitan colaborar en el mismo proyecto, todos deben ponerse de acuerdo sobre dónde viven los archivos, qué formato usan y qué convenciones siguen. Sin un estándar compartido, cada proyecto inventaría su propia estructura, y los agents entrenados para un proyecto no podrían trabajar en otro. Los estándares hacen posible:</p>
 
   <ul>
-    <li><strong>Reuse agents across projects</strong> &mdash; A research agent written for one project can work on any project that follows the same layout conventions.</li>
-    <li><strong>Share skills as plugins</strong> &mdash; Skills are packaged as portable instruction sets that any workspace can load, just like browser extensions.</li>
-    <li><strong>Automate quality checks</strong> &mdash; Audit scripts can validate any workspace that follows the standard structure, catching errors before they propagate.</li>
-    <li><strong>Onboard new team members quickly</strong> &mdash; Whether human or AI, anyone joining the project immediately knows where to find what they need.</li>
+    <li><strong>Reuse agents across projects</strong> &mdash; Un agent de investigación escrito para un proyecto puede trabajar en cualquier proyecto que siga las mismas convenciones de disposición.</li>
+    <li><strong>Share skills as plugins</strong> &mdash; Las skills se empaquetan como conjuntos de instrucciones portátiles que cualquier workspace puede cargar, igual que las extensiones de navegador.</li>
+    <li><strong>Automate quality checks</strong> &mdash; Los scripts de audit pueden validar cualquier workspace que siga la estructura estándar, detectando errores antes de que se propaguen.</li>
+    <li><strong>Onboard new team members quickly</strong> &mdash; Ya sea humano o IA, cualquiera que se incorpore al proyecto sabe de inmediato dónde encontrar lo que necesita.</li>
   </ul>
 
   <h3>The Org Chart Analogy</h3>
 
-  <p>Think of ai-workspace-standards as an <strong>"org chart and employee manual template"</strong> for a company. When you start a new business, you do not invent the concept of "departments" from scratch &mdash; you adopt a standard structure (HR, Finance, Engineering, Marketing) and customize it to your needs. In the same way, ai-workspace-standards provides a proven organizational template for AI projects:</p>
+  <p>Piensa en ai-workspace-standards como un <strong>"org chart and employee manual template"</strong> para una empresa. Cuando inicias un nuevo negocio, no inventas el concepto de "departamentos" desde cero &mdash; adoptas una estructura estándar (RR. HH., Finanzas, Ingeniería, Marketing) y la personalizas según tus necesidades. De la misma manera, ai-workspace-standards proporciona una plantilla organizacional probada para proyectos de IA:</p>
 
   <div class="compare-grid">
     <div class="col">
@@ -93,16 +93,16 @@
     </div>
   </div>
 
-  <div class="note">
-    <strong>co-consult and co-deck are built on top of this standard.</strong> Every variant project &mdash; whether it produces slide decks (co-deck), consulting analyses (co-consult), or something else entirely &mdash; inherits its base structure from ai-workspace-standards. The variant adds its own specialized agents, skills, and scripts on top of the common foundation, just as a franchise restaurant adds its own menu items to a standard kitchen layout.
-  </div>
+  <div class="note"> 
+     <strong>co-consult y co-deck están construidos sobre este estándar.</strong> Cada proyecto variante &mdash; ya sea que produzca presentaciones (co-deck), análisis de consultoría (co-consult) o cualquier otra cosa &mdash; hereda su estructura base de ai-workspace-standards. La variante añade sus propios agents, skills y scripts especializados sobre la base común, igual que una franquicia de restaurantes añade sus propios platos al menú sobre una cocina estándar. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 2: Directory Structure                                 -->
   <!-- ============================================================ -->
   <h2 id="directory-structure">Directory Structure</h2>
 
-  <p>Let us take a tour of the top-level directories in a typical ai-workspace-standards workspace. Each directory has a clear purpose, and understanding this layout is the first step to navigating any project built on the standard.</p>
+  <p>Hagamos un recorrido por los directorios de nivel superior en un workspace típico de ai-workspace-standards. Cada directorio tiene un propósito claro, y entender esta disposición es el primer paso para navegar cualquier proyecto construido sobre el estándar.</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
     <svg width="100%" viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Directory tree diagram showing top-level folders in ai-workspace-standards">
@@ -175,50 +175,50 @@
 
   <h3>Directory Overview</h3>
 
-  <p>Here is a brief description of each directory and what it contains.</p>
+  <p>Aquí tienes una breve descripción de cada directorio y lo que contiene.</p>
 
   <ul>
-    <li><strong><code>agents/</code></strong> &mdash; Contains one markdown file per agent (for example, <code>research.md</code>, <code>design.md</code>, <code>pm.md</code>). Each file defines the agent's role, tier, phases, triggers, tool permissions, and detailed instructions. This is where the "employee profiles" live.</li>
-    <li><strong><code>skills/</code></strong> &mdash; Contains subdirectories, each with a <code>SKILL.md</code> file that defines a reusable workflow recipe. Skills can be loaded by any agent that needs them. Think of this as the company recipe book collection.</li>
-    <li><strong><code>scripts/</code></strong> &mdash; Automation scripts written in TypeScript (executed via <code>bun</code>). Includes audit tools, sync pipelines, validation checks, and other utilities that keep the workspace healthy.</li>
-    <li><strong><code>docs/</code></strong> &mdash; Governance documentation and design specifications. Includes Architecture Decision Records (ADRs), user guides, design specifications, VERSION_MANIFEST.md, and lifecycle procedures. <strong>Note:</strong> <code>context.md</code> exists only in L2/L3 projects, not at the workspace root (L0), where <code>AGENTS.md</code> is the SSOT.</li>
-    <li><strong><code>templates/</code></strong> &mdash; The common template that serves as the L1 base layer (see the hierarchy section below). Contains shared agent definitions, skill templates, and configuration that all variant projects inherit.</li>
-    <li><strong><code>Proyectos/</code></strong> &mdash; Individual project workspaces scaffolded from L2 variant templates. Each project is an independent directory (for example, <code>Proyectos/climate-change/</code>) with its own context, agents, skills, and output files. In variant projects like co-deck, individual presentations live as subdirectories within the project.</li>
-    <li><strong><code>memory/</code></strong> &mdash; Session logs, meeting transcripts, and daily development notes. Every AI session writes a summary here, creating an audit trail of decisions and changes.</li>
+    <li><strong><code>agents/</code></strong> &mdash; Contiene un archivo markdown por agent (por ejemplo, <code>research.md</code>, <code>design.md</code>, <code>pm.md</code>). Cada archivo define el rol, tier, fases, triggers, permisos de herramientas e instrucciones detalladas del agent. Aquí es donde viven los "perfiles de empleado".</li>
+    <li><strong><code>skills/</code></strong> &mdash; Contiene subdirectorios, cada uno con un archivo <code>SKILL.md</code> que define una receta de flujo de trabajo reutilizable. Las skills pueden ser cargadas por cualquier agent que las necesite. Piensa en esto como la colección de libros de recetas de la empresa.</li>
+    <li><strong><code>scripts/</code></strong> &mdash; Scripts de automatización escritos en TypeScript (ejecutados vía <code>bun</code>). Incluye herramientas de audit, pipelines de sincronización, comprobaciones de validación y otras utilidades que mantienen el workspace saludable.</li>
+    <li><strong><code>docs/</code></strong> &mdash; Documentación de gobernanza y especificaciones de diseño. Incluye Architecture Decision Records (ADRs), guías de usuario, especificaciones de diseño, VERSION_MANIFEST.md y procedimientos de ciclo de vida. <strong>Note:</strong> <code>context.md</code> existe solo en proyectos L2/L3, no en la raíz del workspace (L0), donde <code>AGENTS.md</code> es el SSOT.</li>
+    <li><strong><code>templates/</code></strong> &mdash; La plantilla común que sirve como capa base L1 (ver la sección de jerarquía más abajo). Contiene definiciones compartidas de agents, plantillas de skills y configuración que todos los proyectos variant heredan.</li>
+    <li><strong><code>Proyectos/</code></strong> &mdash; Workspaces de proyectos individuales creados a partir de plantillas variant L2. Cada proyecto es un directorio independiente (por ejemplo, <code>Proyectos/climate-change/</code>) con su propio contexto, agents, skills y archivos de salida. En proyectos variant como co-deck, las presentaciones individuales viven como subdirectorios dentro del proyecto.</li>
+    <li><strong><code>memory/</code></strong> &mdash; Logs de sesión, transcripciones de reuniones y notas de desarrollo diarias. Cada sesión de IA escribe un resumen aquí, creando un rastro de auditoría de decisiones y cambios.</li>
   </ul>
 
-  <div class="tip-box">
-    <strong>Tip:</strong> The <code>agents/</code> and <code>skills/</code> directories are the heart of the workspace. When you want to understand how a project works, start by reading the agent files in <code>agents/</code> &mdash; they tell you exactly what each AI does, when it is activated, and what it produces.
-  </div>
+  <div class="tip-box"> 
+     <strong>Tip:</strong> Los directorios <code>agents/</code> y <code>skills/</code> son el corazón del workspace. Cuando quieras entender cómo funciona un proyecto, empieza leyendo los archivos de agent en <code>agents/</code> &mdash; te dicen exactamente qué hace cada IA, cuándo se activa y qué produce. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 3: Key Files                                           -->
   <!-- ============================================================ -->
   <h2 id="key-files">Key Files</h2>
 
-  <p>Among the many files in an ai-workspace-standards workspace, a few stand out as especially important. These are the governance files that every AI agent and every human collaborator must respect.</p>
+  <p>Entre los muchos archivos de un workspace de ai-workspace-standards, algunos destacan como especialmente importantes. Estos son los archivos de gobernanza que cada agent de IA y cada colaborador humano debe respetar.</p>
 
   <h3>The Big Three</h3>
 
-  <p>Three files form the backbone of workspace governance: <strong>AGENTS.md</strong>, <strong>CLAUDE.md</strong>, and <strong>GEMINI.md</strong>. Each serves a distinct audience, but together they create a unified set of rules.</p>
+  <p>Tres archivos forman la columna vertebral de la gobernanza del workspace: <strong>AGENTS.md</strong>, <strong>CLAUDE.md</strong> y <strong>GEMINI.md</strong>. Cada uno sirve a una audiencia distinta, pero juntos crean un conjunto unificado de reglas.</p>
 
   <div class="compare-grid">
     <div class="col">
       <h4>AGENTS.md</h4>
       <ul>
         <li><strong>Audience:</strong> All AI platforms (Claude, Gemini, and others)</li>
-        <li><strong>Role:</strong> The master registry &mdash; lists every agent, its tier, phases, dispatch triggers, and the PM Gateway rules</li>
-        <li><strong>Analogy:</strong> The company's org chart posted in the lobby &mdash; everyone can see who does what</li>
+        <li><strong>Role:</strong> El registro maestro &mdash; lista cada agent, su tier, fases, triggers de despacho y las reglas del PM Gateway</li>
+        <li><strong>Analogía:</strong> El organigrama de la empresa publicado en el vestíbulo &mdash; todos pueden ver quién hace qué</li>
         <li><strong>Key content:</strong> Agent roster, PM Gateway policy, execution plan templates, 3-Tier strategy, lifecycle management rules</li>
-        <li><strong>Loaded by:</strong> Claude Code automatically loads this file at the start of every session</li>
+        <li><strong>Loaded by:</strong> Claude Code carga automáticamente este archivo al inicio de cada sesión</li>
       </ul>
     </div>
     <div class="col">
       <h4>CLAUDE.md</h4>
       <ul>
         <li><strong>Audience:</strong> Claude Code (Anthropic's AI coding agent)</li>
-        <li><strong>Role:</strong> Claude-specific behavioral instructions &mdash; how Claude should behave in this workspace</li>
-        <li><strong>Analogy:</strong> The Claude employee handbook &mdash; Claude reads this on its first day and follows it throughout</li>
+        <li><strong>Role:</strong> Instrucciones de comportamiento específicas de Claude &mdash; cómo debe comportarse Claude en este workspace</li>
+        <li><strong>Analogía:</strong> El manual del empleado de Claude &mdash; Claude lo lee su primer día y lo sigue en adelante</li>
         <li><strong>Key content:</strong> Platform-specific dispatch rules, model tier mappings, Claude-specific tool permissions, workflow triggers</li>
         <li><strong>Loaded by:</strong> Claude Code automatically at session start</li>
       </ul>
@@ -227,8 +227,8 @@
       <h4>GEMINI.md</h4>
       <ul>
         <li><strong>Audience:</strong> Antigravity CLI (Google's AI coding agent)</li>
-        <li><strong>Role:</strong> Antigravity-specific behavioral instructions &mdash; how Antigravity CLI should behave in this workspace</li>
-        <li><strong>Analogy:</strong> The Antigravity CLI employee handbook &mdash; Antigravity CLI reads this on its first day and follows it throughout</li>
+        <li><strong>Role:</strong> Instrucciones de comportamiento específicas de Antigravity &mdash; cómo debe comportarse Antigravity CLI en este workspace</li>
+        <li><strong>Analogía:</strong> El manual del empleado de Antigravity CLI &mdash; Antigravity CLI lo lee su primer día y lo sigue en adelante</li>
         <li><strong>Key content:</strong> Platform-specific dispatch rules, model tier mappings, Antigravity-specific tool permissions, workflow triggers</li>
         <li><strong>Loaded by:</strong> Antigravity CLI automatically at session start</li>
       </ul>
@@ -237,7 +237,7 @@
 
   <h3>How the Three Files Work Together</h3>
 
-  <p>The key insight is that <strong>AGENTS.md contains the shared rules</strong> that apply to all platforms, while <strong>CLAUDE.md and GEMINI.md add platform-specific details</strong> on top. This separation means the core governance lives in one place, and platform differences are isolated to their respective files.</p>
+  <p>La idea clave es que <strong>AGENTS.md contiene las reglas compartidas</strong> que se aplican a todas las plataformas, mientras que <strong>CLAUDE.md y GEMINI.md añaden detalles específicos de plataforma</strong> encima. Esta separación significa que la gobernanza central vive en un solo lugar, y las diferencias de plataforma se aíslan en sus respectivos archivos.</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
     <svg width="100%" viewBox="0 0 660 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Relationship diagram showing AGENTS.md, CLAUDE.md, and GEMINI.md">
@@ -286,38 +286,38 @@
 
   <h3>Other Important Files</h3>
 
-  <p>Beyond the big three, several other files play critical roles in the workspace.</p>
+  <p>Más allá de los tres grandes, varios otros archivos desempeñan roles críticos en el workspace.</p>
 
   <ul>
-    <li><strong><code>context.md</code></strong> (L2/L3 only) &mdash; The project's identity card, found only in variant templates and scaffolded projects. Declares the project type, status, architecture, key files, and documentation standards. It is marked as immutable after project creation &mdash; all project-specific changes go into a separate variant context file instead. Think of it as the company's certificate of incorporation. At the workspace root (L0), <code>AGENTS.md</code> serves as the SSOT instead.</li>
-    <li><strong><code>CHANGELOG.md</code></strong> &mdash; A human-readable record of all changes made to the project, organized by version number. Every modification to agents, skills, scripts, or governance files is logged here so that team members can track what changed and why.</li>
-    <li><strong><code>variant.json</code></strong> &mdash; The variant's metadata file. Declares the variant name, type, status, version, which agents and skills it includes, and how it inherits from the common template. We will explore this in detail in the Variants section.</li>
-    <li><strong><code>memory/YYYY-MM-DD.md</code></strong> &mdash; Dated session logs. Each working session produces a dated log file (for example, <code>memory/2026-08-10.md</code>) with a summary of what was accomplished, what changed, what decisions were made, and what issues remain open.</li>
+    <li><strong><code>context.md</code></strong> (solo L2/L3) &mdash; La tarjeta de identidad del proyecto, que se encuentra solo en plantillas variant y proyectos generados a partir de ellas. Declara el tipo de proyecto, estado, arquitectura, archivos clave y estándares de documentación. Se marca como inmutable después de la creación del proyecto &mdash; todos los cambios específicos del proyecto van en un archivo de contexto variante separado. Piénsalo como el acta constitutiva de la empresa. En la raíz del workspace (L0), <code>AGENTS.md</code> sirve como SSOT en su lugar.</li>
+    <li><strong><code>CHANGELOG.md</code></strong> &mdash; Un registro legible por humanos de todos los cambios realizados en el proyecto, organizado por número de versión. Cada modificación a agents, skills, scripts o archivos de gobernanza se registra aquí para que los miembros del equipo puedan rastrear qué cambió y por qué.</li>
+    <li><strong><code>variant.json</code></strong> &mdash; El archivo de metadatos de la variante. Declara el nombre, tipo, estado y versión de la variante, qué agents y skills incluye, y cómo hereda de la plantilla común. Exploraremos esto en detalle en la sección de Variants.</li>
+    <li><strong><code>memory/YYYY-MM-DD.md</code></strong> &mdash; Logs de sesión con fecha. Cada sesión de trabajo produce un archivo de log fechado (por ejemplo, <code>memory/2026-08-10.md</code>) con un resumen de lo que se logró, qué cambió, qué decisiones se tomaron y qué problemas quedan abiertos.</li>
   </ul>
 
-  <div class="note">
-    <strong>File Analogy Summary:</strong> If the workspace were a city, <code>AGENTS.md</code> would be the city charter (the founding document everyone follows), <code>CLAUDE.md</code> and <code>GEMINI.md</code> would be department-specific rulebooks, <code>context.md</code> would be the city's registration certificate, <code>CHANGELOG.md</code> would be the public record of city council decisions, and <code>memory/</code> would be the city archive where every meeting's minutes are stored.
-  </div>
+  <div class="note"> 
+     <strong>File Analogy Summary:</strong> Si el workspace fuera una ciudad, <code>AGENTS.md</code> sería el acta constitutiva (el documento fundacional que todos siguen), <code>CLAUDE.md</code> y <code>GEMINI.md</code> serían los reglamentos específicos de cada departamento, <code>context.md</code> sería el certificado de registro de la ciudad, <code>CHANGELOG.md</code> sería el registro público de las decisiones del concejo, y <code>memory/</code> sería el archivo de la ciudad donde se guardan las actas de cada reunión. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 4: 4-Level Layer Structure                              -->
   <!-- ============================================================ -->
   <h2 id="hierarchy">4-Level Layer Structure</h2>
 
-  <p>One of the most powerful design decisions in ai-workspace-standards is the <strong>4-level layer structure</strong>. This is a hierarchical system where resources flow from the original source (L0) through common infrastructure (L1), variant templates (L2), and into actual projects (L3).</p>
+  <p>Una de las decisiones de diseño más poderosas de ai-workspace-standards es el <strong>4-level layer structure</strong>. Es un sistema jerárquico donde los recursos fluyen desde la fuente original (L0) a través de la infraestructura común (L1), las plantillas variant (L2) y hacia los proyectos reales (L3).</p>
 
-  <div class="tip-box">
-    <strong>Distribution Path vs Layer Structure</strong><br>
-    "L0 &rarr; L1 &rarr; L2" describes the <strong>distribution path</strong>: the direction in which original source code is delivered to L1 and L2.<br>
-    "L1 &rarr; L2 &rarr; L3" describes the <strong>layer structure</strong>: a static hierarchy where each layer serves as the foundation for the layer below it.
-  </div>
+  <div class="tip-box"> 
+     <strong>Distribution Path vs Layer Structure</strong><br> 
+     "L0 &rarr; L1 &rarr; L2" describe la <strong>distribution path</strong>: la dirección en la que el código fuente original se entrega a L1 y L2.<br> 
+     "L1 &rarr; L2 &rarr; L3" describe la <strong>layer structure</strong>: una jerarquía estática donde cada capa sirve de fundamento para la capa inferior. 
+   </div>
 
   <h3>L0 Source (Workspace Root) &mdash; Original Source</h3>
 
-  <p><strong>L0 Source</strong> is the workspace root directory itself. It is the <strong>only place where edits are made</strong>, and the starting point from which changes propagate to all other layers.</p>
+  <p><strong>L0 Source</strong> es el directorio raíz del workspace en sí. Es el <strong>único lugar donde se hacen ediciones</strong>, y el punto de partida desde el cual los cambios se propagan a todas las demás capas.</p>
 
   <ul>
-    <li><strong>Common agents</strong> &mdash; The PM agent and other foundational agents used by every project</li>
+    <li><strong>Common agents</strong> &mdash; El agent PM y otros agents fundamentales que usa cada proyecto</li>
     <li><strong>Common skills</strong> &mdash; Reusable workflow recipes available everywhere</li>
     <li><strong>Core scripts</strong> &mdash; audit.ts, validate-templates.ts, and other essential automation tools</li>
     <li><strong>AGENTS.md</strong> &mdash; The global agent registry</li>
@@ -325,7 +325,7 @@
 
   <h3>L1 (Common Template) &mdash; Common Infrastructure Layer</h3>
 
-  <p><strong>L1</strong> is the common infrastructure layer located at <code>templates/common/</code>. Built from content distributed by L0 Source, it provides <strong>templates shared by all variants</strong>, including platform-specific configurations and standardized directory structures.</p>
+  <p><strong>L1</strong> es la capa de infraestructura común ubicada en <code>templates/common/</code>. Construida a partir del contenido distribuido por L0 Source, proporciona <strong>plantillas compartidas por todas las variantes</strong>, incluyendo configuraciones específicas de plataforma y estructuras de directorio estandarizadas.</p>
 
   <ul>
     <li><code>.claude/</code> directory &mdash; Claude Code settings, commands, and skills</li>
@@ -335,11 +335,11 @@
     <li><code>propagation-map.json</code> &mdash; Defines L0&rarr;L1 distribution rules</li>
   </ul>
 
-  <p class="text-dim"><em>Note: L1 is never edited directly. Changes are distributed automatically from L0 Source via <code>bun run propagate:apply</code>.</em></p>
+  <p class="text-dim"><em>Nota: L1 nunca se edita directamente. Los cambios se distribuyen automáticamente desde L0 Source vía <code>bun run propagate:apply</code>.</em></p>
 
   <h3>L2 (Variant Template) &mdash; Variant Template Layer</h3>
 
-  <p><strong>L2</strong> is the variant template layer located at <code>templates/co-*/</code>. Each variant (co-deck, co-consult, etc.) is a template built on L1 that adds <strong>its own agents, skills, and configuration</strong>.</p>
+  <p><strong>L2</strong> es la capa de plantillas variant ubicada en <code>templates/co-*/</code>. Cada variante (co-deck, co-consult, etc.) es una plantilla construida sobre L1 que añade <strong>sus propios agents, skills y configuración</strong>.</p>
 
   <ul>
     <li>Variant-specific agents (for example, co-deck's image-curator, pdf-export)</li>
@@ -348,17 +348,17 @@
     <li>Inherits the L1 common template (<code>variant.json</code>'s <code>inherits_common: "templates/common"</code>)</li>
   </ul>
 
-  <p>There are currently 10 variant templates: co-abap, co-consult, co-deck, co-design, co-develop, co-export, co-game, co-news, co-security, and co-work.</p>
+  <p>Actualmente hay 10 plantillas variant: co-abap, co-consult, co-deck, co-design, co-develop, co-export, co-game, co-news, co-security y co-work.</p>
 
   <h3>L3 (Project) &mdash; Actual Project Layer</h3>
 
-  <p><strong>L3</strong> is the actual project layer located at <code>Proyectos/*/</code>. Each L3 project is <strong>scaffolded</strong> from an L2 variant template. Proyectos operate independently and support local customization.</p>
+  <p><strong>L3</strong> es la capa de proyectos reales ubicada en <code>Proyectos/*/</code>. Cada proyecto L3 es <strong>scaffolded</strong> a partir de una plantilla variante L2. Los proyectos operan de forma independiente y soportan personalización local.</p>
 
   <ul>
     <li><code>docs/context.md</code> &mdash; The project's deep configuration (immutable after project creation)</li>
     <li>Project-specific agents, skills, and scripts</li>
     <li>variant.json &mdash; Metadata copied from L2</li>
-    <li>The space where actual work output is produced</li>
+    <li>El espacio donde se produce el resultado del trabajo real</li>
   </ul>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
@@ -452,27 +452,27 @@
 
   <h3>Distribution Path and Layer Structure</h3>
 
-  <p>It is important to distinguish two directions in this system.</p>
+  <p>Es importante distinguir dos direcciones en este sistema.</p>
 
   <ul>
-    <li><strong>Distribution path (L0 &rarr; L1 &rarr; L2)</strong>: Changes from the original source (L0) are delivered via <code>propagate:apply</code> to the L1 common template and then to each L2 variant template. This is the direction <em>code flows</em>.</li>
-    <li><strong>Layer structure (L1 &rarr; L2 &rarr; L3)</strong>: A static hierarchical relationship where each layer builds on the template of the layer above it. L3 projects are scaffolded from L2 variant templates, and L2 inherits the L1 common template.</li>
+    <li><strong>Distribution path (L0 &rarr; L1 &rarr; L2)</strong>: Los cambios de la fuente original (L0) se entregan vía <code>propagate:apply</code> a la plantilla común L1 y luego a cada plantilla variante L2. Esta es la dirección <em>code flows</em>.</li>
+    <li><strong>Layer structure (L1 &rarr; L2 &rarr; L3)</strong>: Una relación jerárquica estática donde cada capa se construye sobre la plantilla de la capa superior. Los proyectos L3 se generan a partir de plantillas variant L2, y L2 hereda la plantilla común L1.</li>
   </ul>
 
   <h3>Override Rules</h3>
 
-  <p>A lower layer can <em>override</em> settings from a higher layer, but changes never propagate in the reverse direction. This follows the same principle as class inheritance in object-oriented programming.</p>
+  <p>Una capa inferior puede <em>override</em> configuraciones de una capa superior, pero los cambios nunca se propagan en dirección inversa. Esto sigue el mismo principio que la herencia de clases en programación orientada a objetos.</p>
 
   <ul>
-    <li><strong>Rules set at L3</strong> take priority over rules from L2, L1, and L0.</li>
-    <li><strong>Rules set at L2</strong> take priority over rules from L1 and L0 (unless overridden by L3).</li>
-    <li><strong>Rules set at L1</strong> take priority over rules from L0 (unless overridden by L2 or L3).</li>
-    <li><strong>Rules from L0</strong> apply to all layers when nowhere else overridden.</li>
+    <li><strong>Las reglas establecidas en L3</strong> tienen prioridad sobre las reglas de L2, L1 y L0.</li>
+    <li><strong>Las reglas establecidas en L2</strong> tienen prioridad sobre las reglas de L1 y L0 (a menos que L3 las anule).</li>
+    <li><strong>Las reglas establecidas en L1</strong> tienen prioridad sobre las reglas de L0 (a menos que L2 o L3 las anulen).</li>
+    <li><strong>Las reglas de L0</strong> se aplican a todas las capas cuando ninguna otra capa las ha anulado.</li>
   </ul>
 
-  <div class="note">
-    Everything at L0 Source is <strong>common to all projects</strong>. That means core scripts like audit.ts and validate-templates.ts work identically in every project. When you fix something at L0, the change propagates through the distribution path to L1 and L2, and ultimately reaches every L3 project. This is the core promise of the standard &mdash; <em>define once, apply consistently everywhere</em>.
-  </div>
+  <div class="note"> 
+     Todo lo que está en L0 Source es <strong>común a todos los proyectos</strong>. Esto significa que scripts centrales como audit.ts y validate-templates.ts funcionan idénticamente en cada proyecto. Cuando corriges algo en L0, el cambio se propaga por la ruta de distribución a L1 y L2, y finalmente llega a cada proyecto L3. Esta es la promesa central del estándar &mdash; <em>define once, apply consistently everywhere</em>. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 5: Variant Concept                                     -->
@@ -481,13 +481,13 @@
 
   <h3>What is a Variant?</h3>
 
-  <p>A <strong>variant</strong> is a template customized for a specific purpose, built on the L0 + L1 foundation. As explained in the 4-level layer structure section, <strong>L2</strong> is the variant template layer, and <strong>L3</strong> is the actual project scaffolded from an L2 template.</p>
+  <p>Una <strong>variant</strong> es una plantilla personalizada para un propósito específico, construida sobre la base L0 + L1. Como se explicó en la sección de estructura de 4 niveles, <strong>L2</strong> es la capa de plantillas variant, y <strong>L3</strong> es el proyecto real generado a partir de una plantilla L2.</p>
 
-  <p>Variants are what make ai-workspace-standards practical. The standard provides the foundation; variants provide the specialization. Without variants, the standard would be a generic framework with no real-world application. Without the standard, variants would be isolated projects with incompatible structures.</p>
+  <p>Las variantes son lo que hace práctico a ai-workspace-standards. El estándar proporciona la base; las variantes proporcionan la especialización. Sin variantes, el estándar sería un marco genérico sin aplicación real. Sin el estándar, las variantes serían proyectos aislados con estructuras incompatibles.</p>
 
   <h3>Variant Examples</h3>
 
-  <p>Let us look at two real variants to understand how this works in practice.</p>
+  <p>Veamos dos variantes reales para entender cómo funciona esto en la práctica.</p>
 
   <div class="compare-grid">
     <div class="col">
@@ -512,24 +512,24 @@
     </div>
   </div>
 
-  <p>Despite their different purposes, both variants share the same foundation: the PM orchestration pattern, the 3-Tier strategy, the PM Gateway, the handoff contract system, and the directory layout. This shared foundation is what makes them interoperable and maintainable.</p>
+  <p>A pesar de sus diferentes propósitos, ambas variantes comparten la misma base: el patrón de orquestación del PM, la 3-Tier strategy, el PM Gateway, el sistema de handoff contracts y la disposición de directorios. Esta base compartida es lo que las hace interoperables y mantenibles.</p>
 
   <h3>variant.json &mdash; The Variant Identity Card</h3>
 
-  <p>Every variant has a <code>variant.json</code> file at its project root that declares its identity and configuration. This file is the variant's "passport" &mdash; it tells the system what this variant is, what it includes, and how it relates to the common template.</p>
+  <p>Cada variante tiene un archivo <code>variant.json</code> en la raíz de su proyecto que declara su identidad y configuración. Este archivo es el "pasaporte" de la variante &mdash; le dice al sistema qué es esta variante, qué incluye y cómo se relaciona con la plantilla común.</p>
 
-  <p>Here are the key fields in <code>variant.json</code>.</p>
+  <p>Aquí están los campos clave en <code>variant.json</code>.</p>
 
   <ul>
-    <li><strong><code>name</code></strong> &mdash; The variant's identifier (for example, <code>"co-deck"</code> or <code>"co-consult"</code>).</li>
-    <li><strong><code>description</code></strong> &mdash; A human-readable summary of what the variant does.</li>
-    <li><strong><code>variant_type</code></strong> &mdash; The category of work this variant handles (for example, <code>"lecture"</code> for presentation production).</li>
-    <li><strong><code>status</code></strong> &mdash; The lifecycle status: <code>"draft"</code>, <code>"beta"</code>, or <code>"stable"</code>.</li>
+    <li><strong><code>name</code></strong> &mdash; El identificador de la variante (por ejemplo, <code>"co-deck"</code> o <code>"co-consult"</code>).</li>
+    <li><strong><code>description</code></strong> &mdash; Un resumen legible por humanos de lo que hace la variante.</li>
+    <li><strong><code>variant_type</code></strong> &mdash; La categoría de trabajo que maneja esta variante (por ejemplo, <code>"lecture"</code> para producción de presentaciones).</li>
+    <li><strong><code>status</code></strong> &mdash; El estado del ciclo de vida: <code>"draft"</code>, <code>"beta"</code> o <code>"stable"</code>.</li>
     <li><strong><code>version</code></strong> &mdash; The current version number following semantic versioning (major.minor.patch).</li>
-    <li><strong><code>inherits_common</code></strong> &mdash; The path to the common template this variant inherits from (typically <code>"templates/common"</code>).</li>
-    <li><strong><code>agents</code></strong> &mdash; A list of agents this variant includes, with their file paths.</li>
-    <li><strong><code>skills</code></strong> &mdash; A list of skills available in this variant.</li>
-    <li><strong><code>lifecycle</code></strong> &mdash; Metadata about the variant's lifecycle transitions (when it was created, when it was promoted to beta, etc.).</li>
+    <li><strong><code>inherits_common</code></strong> &mdash; La ruta a la plantilla común de la cual hereda esta variante (típicamente <code>"templates/common"</code>).</li>
+    <li><strong><code>agents</code></strong> &mdash; Una lista de los agents que incluye esta variante, con sus rutas de archivo.</li>
+    <li><strong><code>skills</code></strong> &mdash; Una lista de las skills disponibles en esta variante.</li>
+    <li><strong><code>lifecycle</code></strong> &mdash; Metadatos sobre las transiciones del ciclo de vida de la variante (cuándo fue creada, cuándo fue promovida a beta, etc.).</li>
   </ul>
 
   <div class="code-block">
@@ -552,26 +552,26 @@
 
   <h3>Variant Lifecycle</h3>
 
-  <p>Variants go through a defined lifecycle, tracked in <code>variant.json</code> under the <code>lifecycle</code> field.</p>
+  <p>Las variantes atraviesan un ciclo de vida definido, rastreado en <code>variant.json</code> bajo el campo <code>lifecycle</code>.</p>
 
   <div class="step-list">
     <ol>
-      <li><strong>Draft</strong> &mdash; The variant is under initial development. Structure and agents are being defined. Not yet ready for use.</li>
-      <li><strong>Beta</strong> &mdash; The variant is functional but may have rough edges. Early adopters can try it and provide feedback. This is where co-deck currently stands.</li>
-      <li><strong>Stable</strong> &mdash; The variant has been thoroughly tested and is ready for production use. Breaking changes require a major version bump.</li>
+      <li><strong>Draft</strong> &mdash; La variante está en desarrollo inicial. La estructura y los agents están siendo definidos. Aún no está lista para usar.</li>
+      <li><strong>Beta</strong> &mdash; La variante es funcional pero puede tener asperezas. Los primeros adoptantes pueden probarla y dar retroalimentación. Aquí es donde se encuentra co-deck actualmente.</li>
+      <li><strong>Stable</strong> &mdash; La variante ha sido probada exhaustivamente y está lista para uso en producción. Los cambios disruptivos requieren un incremento de versión mayor.</li>
     </ol>
   </div>
 
   <h3>Creating a New Project From a Variant</h3>
 
-  <p>The exercises in Chapters 6 and 7 have you clone a pre-built example project (co-consult, co-deck) to save setup time. In real day-to-day use, you don't clone anything &mdash; you <strong>scaffold</strong> a brand-new L3 project directly from an L2 variant template with a single command, run from the workspace root:</p>
+  <p>Los ejercicios de los capítulos 6 y 7 te hacen clonar un proyecto de ejemplo preconstruido (co-consult, co-deck) para ahorrar tiempo de configuración. En el uso real del día a día, no clonas nada &mdash; <strong>scaffold</strong> un proyecto L3 completamente nuevo directamente desde una plantilla variante L2 con un solo comando, ejecutado desde la raíz del workspace:</p>
 
   <div class="code-block">
 <pre><code>bun scripts/new-project.ts "my-market-report" --variant co-consult</code></pre>
 <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
 </div>
 
-  <p>This creates <code>Proyectos/my-market-report/</code> as a fresh, independent Git repository, copying co-consult's agents, skills, and configuration into it and rendering the empty <code>docs/context.md</code> skeleton so you can fill in this specific project's goals. The full syntax is:</p>
+  <p>Esto crea <code>Proyectos/my-market-report/</code> como un repositorio Git nuevo e independiente, copiando los agents, skills y configuración de co-consult en él y renderizando el esqueleto vacío <code>docs/context.md</code> para que puedas completar los objetivos de este proyecto específico. La sintaxis completa es:</p>
 
   <div class="code-block">
 <pre><code>bun scripts/new-project.ts "&lt;project-name&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|both] [--version X.Y.Z]</code></pre>
@@ -579,46 +579,46 @@
 </div>
 
   <ul>
-    <li><strong><code>&lt;project-name&gt;</code></strong> &mdash; Required. Becomes the folder name under <code>Proyectos/</code>.</li>
-    <li><strong><code>--variant &lt;variant&gt;</code></strong> &mdash; Required. Which L2 template to scaffold from (<code>co-consult</code>, <code>co-deck</code>, <code>co-develop</code>, etc.).</li>
-    <li><strong><code>--platform</code></strong> &mdash; Optional. Restrict which platform configs (<code>.claude/</code>, <code>.gemini/</code>) get copied. Defaults to <code>both</code>.</li>
-    <li><strong><code>--version</code></strong> &mdash; Optional. Pin the source variant's template version instead of using its current one.</li>
+    <li><strong><code>&lt;nombre-del-proyecto&gt;</code></strong> &mdash; Requerido. Se convierte en el nombre de la carpeta dentro de <code>Proyectos/</code>.</li>
+    <li><strong><code>--variant &lt;variant&gt;</code></strong> &mdash; Requerido. Desde qué plantilla L2 generar el proyecto (<code>co-consult</code>, <code>co-deck</code>, <code>co-develop</code>, etc.).</li>
+    <li><strong><code>--platform</code></strong> &mdash; Opcional. Restringe qué configuraciones de plataforma (<code>.claude/</code>, <code>.gemini/</code>) se copian. El valor predeterminado es <code>both</code>.</li>
+    <li><strong><code>--version</code></strong> &mdash; Opcional. Fija la versión de plantilla de la variante fuente en lugar de usar la actual.</li>
   </ul>
 
-  <div class="note">
-    Don't confuse this with <strong>creating a new variant</strong>, covered next. <code>new-project.ts</code> is the everyday command you'll run constantly &mdash; it scaffolds an L3 project from an L2 template that already exists. Building the L2 template itself (a brand-new variant like co-legal or co-hr) is a separate, much rarer workflow using <code>create-l3-scaffold.ts</code>, described in Capítulo 11.
-  </div>
+  <div class="note"> 
+     No confundas esto con <strong>creating a new variant</strong>, que se cubre a continuación. <code>new-project.ts</code> es el comando cotidiano que ejecutarás constantemente &mdash; genera un proyecto L3 a partir de una plantilla L2 que ya existe. Construir la propia plantilla L2 (una variante completamente nueva como co-legal o co-hr) es un flujo de trabajo separado y mucho más raro que usa <code>create-l3-scaffold.ts</code>, descrito en el Capítulo 11. 
+   </div>
 
-  <div class="tip-box">
-    <strong>Thinking about creating your own variant?</strong> Capítulo 11 of este manual covers the process of designing and building a custom variant from scratch. You will learn how to define your own agents, skills, and workflow pipeline, and how to register your variant so it inherits all the benefits of the shared workspace standard.
-  </div>
+  <div class="tip-box"> 
+     <strong>¿Piensas crear tu propia variante?</strong> El Capítulo 11 de este manual cubre el proceso de diseñar y construir una variante personalizada desde cero. Aprenderás cómo definir tus propios agents, skills y pipeline de flujo de trabajo, y cómo registrar tu variante para que herede todos los beneficios del estándar de workspace compartido. 
+   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 6: Common Contracts                                    -->
   <!-- ============================================================ -->
   <h2 id="contracts">Common Contracts</h2>
 
-  <p>The final piece of the ai-workspace-standards architecture is the concept of <strong>common contracts</strong>. These are shared agreements that ensure all projects, variants, and agents speak the same language.</p>
+  <p>La última pieza de la arquitectura de ai-workspace-standards es el concepto de <strong>common contracts</strong>. Son acuerdos compartidos que garantizan que todos los proyectos, variantes y agents hablen el mismo idioma.</p>
 
   <h3>What Are Common Contracts?</h3>
 
-  <p>A <strong>common contract</strong> is a formal specification that defines how different parts of the workspace interact with each other. Just as a legal contract specifies the obligations between two parties, a common contract specifies the data formats, file locations, naming conventions, and communication protocols that agents and projects must follow.</p>
+  <p>Un <strong>common contract</strong> es una especificación formal que define cómo interactúan entre sí las diferentes partes del workspace. Así como un contrato legal especifica las obligaciones entre dos partes, un contrato común especifica los formatos de datos, ubicaciones de archivos, convenciones de nomenclatura y protocolos de comunicación que los agents y proyectos deben seguir.</p>
 
-  <p>Common contracts are defined across the workspace's core governance documents &mdash; <code>CONSTITUTION.md</code>, <code>AGENTS.md</code> (L0 SSOT), and variant-specific <code>docs/context.md</code> (L2/L3) &mdash; and serve three key roles.</p>
+  <p>Los contratos comunes se definen en los documentos de gobernanza central del workspace &mdash; <code>CONSTITUTION.md</code>, <code>AGENTS.md</code> (SSOT de L0) y <code>docs/context.md</code> específico de cada variante (L2/L3) &mdash; y cumplen tres roles clave.</p>
 
   <div class="compare-grid">
     <div class="col">
       <h4>1. Data Format Contract</h4>
       <ul>
-        <li>Defines the structure and fields of key data files (research notes, slide decks, design specs, image manifests)</li>
-        <li>Ensures every agent produces output in a format the next agent can consume</li>
+        <li>Define la estructura y los campos de los archivos de datos clave (notas de investigación, presentaciones, especificaciones de diseño, manifiestos de imágenes)</li>
+        <li>Garantiza que cada agent produzca salida en un formato que el siguiente agent pueda consumir</li>
         <li>Example: <code>research_notes.md</code> must include a Sources section, a Key Facts section, and a Credibility Notes section</li>
       </ul>
     </div>
     <div class="col">
       <h4>2. Directory Layout Contract</h4>
       <ul>
-        <li>Defines where each type of file lives within the workspace</li>
+        <li>Define dónde vive cada tipo de archivo dentro del workspace</li>
         <li>Ensures agents can find their input files without guessing</li>
         <li>Example: Research notes must be at <code>Proyectos/&lt;project&gt;/research_notes.md</code></li>
       </ul>
@@ -626,63 +626,63 @@
     <div class="col">
       <h4>3. Naming Convention Contract</h4>
       <ul>
-        <li>Defines how files, agents, skills, and variants should be named</li>
+        <li>Define cómo deben nombrarse los archivos, agents, skills y variantes</li>
         <li>Ensures consistency across the entire workspace ecosystem</li>
-        <li>Example: Agent files use lowercase-with-hyphens (<code>source-verifier.md</code>), skills use the same pattern</li>
+        <li>Ejemplo: Los archivos de agent usan minúsculas-con-guiones (<code>source-verifier.md</code>), las skills usan el mismo patrón</li>
       </ul>
     </div>
   </div>
 
   <h3>How Contracts Are Applied</h3>
 
-  <p>Contracts are not just documentation &mdash; they are enforced. Here is how the contract system works in practice.</p>
+  <p>Los contratos no son solo documentación &mdash; se aplican. Así es como funciona el sistema de contratos en la práctica.</p>
 
   <div class="step-list">
     <ol>
-      <li>
-        <strong>Contract definition</strong> &mdash; Contracts are defined in the workspace's core governance documents: <code>CONSTITUTION.md</code> (shared standards), <code>AGENTS.md</code> (agent registry, SSOT at L0), and <code>docs/context.md</code> (project-specific configuration, L2/L3 only). These documents specify the schemas, layouts, and naming rules that all projects must follow.
-      </li>
-      <li>
-        <strong>Template inheritance</strong> &mdash; When an L1 common template is created, it copies the contract from L0. L2 variants inherit the contract through L1. Every project in the workspace shares the same contract foundation.
-      </li>
-      <li>
-        <strong>Variant extension</strong> &mdash; L2 variants may add their own contract extensions for variant-specific files (for example, co-deck adds contracts for slide deck files, theme files, and PDF layout specs). These extensions are defined in the variant's own context file.
-      </li>
-      <li>
-        <strong>Validation enforcement</strong> &mdash; The <code>scripts/audit.ts</code> script automatically checks every project against the contracts it inherits. If a file violates the contract (wrong format, wrong location, wrong name), the audit reports it as an error that must be fixed before the project can proceed.
-      </li>
+      <li> 
+         <strong>Contract definition</strong> &mdash; Los contratos se definen en los documentos de gobernanza central del workspace: <code>CONSTITUTION.md</code> (estándares compartidos), <code>AGENTS.md</code> (registro de agents, SSOT en L0) y <code>docs/context.md</code> (configuración específica del proyecto, solo L2/L3). Estos documentos especifican los esquemas, disposiciones y reglas de nomenclatura que todos los proyectos deben seguir. 
+       </li>
+      <li> 
+         <strong>Template inheritance</strong> &mdash; Cuando se crea una plantilla común L1, copia el contrato de L0. Las variantes L2 heredan el contrato a través de L1. Cada proyecto del workspace comparte la misma base contractual. 
+       </li>
+      <li> 
+         <strong>Variant extension</strong> &mdash; Las variantes L2 pueden añadir sus propias extensiones de contrato para archivos específicos de la variante (por ejemplo, co-deck añade contratos para archivos de presentaciones, archivos de temas y especificaciones de diseño PDF). Estas extensiones se definen en el propio archivo de contexto de la variante. 
+       </li>
+      <li> 
+         <strong>Validation enforcement</strong> &mdash; El script <code>scripts/audit.ts</code> comprueba automáticamente cada proyecto contra los contratos que hereda. Si un archivo viola el contrato (formato incorrecto, ubicación incorrecta, nombre incorrecto), la audit lo reporta como un error que debe corregirse antes de que el proyecto pueda continuar. 
+       </li>
     </ol>
   </div>
 
   <h3>Contracts and Handoff Contracts</h3>
 
-  <p>You may recall from Capítulo 4 that <strong>handoff contracts</strong> define how one agent passes its output to the next. Common contracts are the <em>broader system</em> that handoff contracts operate within. Think of it this way:</p>
+  <p>Quizás recuerdes del Capítulo 4 que <strong>handoff contracts</strong> definen cómo un agent pasa su resultado al siguiente. Los contratos comunes son el <em>broader system</em> dentro del cual operan los handoff contracts. Piénsalo así:</p>
 
   <ul>
     <li><strong>Common contracts</strong> define the <em>overall language</em> everyone speaks (file formats, directory layout, naming conventions)</li>
     <li><strong>Handoff contracts</strong> define the <em>specific conversations</em> between pairs of agents (Agent A produces file X, Agent B reads file X)</li>
   </ul>
 
-  <p>Common contracts make handoff contracts possible. If every agent agrees on the common contract (where files live and what format they use), then defining a handoff contract between two agents is straightforward &mdash; you only need to specify which file to pass.</p>
+  <p>Los contratos comunes hacen posibles los handoff contracts. Si cada agent acuerda el contrato común (dónde viven los archivos y qué formato usan), entonces definir un handoff contract entre dos agents es sencillo &mdash; solo necesitas especificar qué archivo pasar.</p>
 
-  <div class="note">
-    <strong>Analogy &mdash; A Common Language:</strong> Imagine an international summit where delegates from many countries meet to collaborate. The <em>common contract</em> is the agreement to use English as the working language, follow parliamentary procedure, and use standardized document formats. With those ground rules in place, any two delegates (agents) can have a focused conversation (handoff contract) about their specific topic. Without the common language, every pair of delegates would need to invent their own communication protocol from scratch &mdash; inefficient and error-prone.
-  </div>
+  <div class="note"> 
+     <strong>Analogy &mdash; A Common Language:</strong> Imagina una cumbre internacional donde delegados de muchos países se reúnen para colaborar. El <em>common contract</em> es el acuerdo de usar el inglés como idioma de trabajo, seguir el procedimiento parlamentario y usar formatos de documentos estandarizados. Con esas reglas básicas establecidas, dos delegados cualesquiera (agents) pueden mantener una conversación enfocada (handoff contract) sobre su tema específico. Sin el idioma común, cada par de delegados tendría que inventar su propio protocolo de comunicación desde cero &mdash; ineficiente y propenso a errores. 
+   </div>
 
   <h3>Contract Benefits</h3>
 
   <p>The contract system provides several concrete benefits for AI agent collaboration.</p>
 
   <ul>
-    <li><strong>Zero configuration handoff.</strong> When Agent A finishes and Agent B starts, Agent B already knows where to find Agent A's output because the directory layout contract specifies the exact path.</li>
-    <li><strong>Automatic error detection.</strong> The audit script catches contract violations before they cause runtime failures. If an agent writes a file to the wrong location or in the wrong format, the audit flags it immediately.</li>
-    <li><strong>Cross-project portability.</strong> An agent that follows the common contract can work in any variant project without modification. The research agent from co-deck could, in principle, be dropped into co-consult and work correctly because both variants share the same contracts.</li>
-    <li><strong>Version-controlled evolution.</strong> When the common contract needs to change (for example, adding a new required field to the slide deck format), the change is made at L0, propagated through the sync pipeline, and enforced by the audit script across all projects.</li>
+    <li><strong>Zero configuration handoff.</strong> Cuando el Agent A termina y el Agent B comienza, el Agent B ya sabe dónde encontrar el resultado del Agent A porque el contrato de disposición de directorios especifica la ruta exacta.</li>
+    <li><strong>Automatic error detection.</strong> El script de audit detecta las violaciones de contrato antes de que causen fallos en tiempo de ejecución. Si un agent escribe un archivo en la ubicación incorrecta o en el formato incorrecto, la audit lo marca de inmediato.</li>
+    <li><strong>Cross-project portability.</strong> Un agent que sigue el contrato común puede trabajar en cualquier proyecto variante sin modificación. El agent de investigación de co-deck podría, en principio, trasladarse a co-consult y funcionar correctamente porque ambas variantes comparten los mismos contratos.</li>
+    <li><strong>Version-controlled evolution.</strong> Cuando el contrato común necesita cambiar (por ejemplo, añadir un nuevo campo requerido al formato de la presentación), el cambio se hace en L0, se propaga a través del pipeline de sincronización y lo aplica el script de audit en todos los proyectos.</li>
   </ul>
 
-  <div class="tip-box">
-    <strong>Key Takeaway:</strong> The combination of a 4-level layer structure, the variant concept, and common contracts is what makes ai-workspace-standards a true <em>platform</em> rather than just a collection of files. The layer structure provides organization (L0&rarr;L1&rarr;L2 distribution path, L1&rarr;L2&rarr;L3 static hierarchy), variants provide specialization, and contracts provide interoperability. Together, they enable any number of specialized AI projects to share a common foundation while remaining independently customizable.
-  </div>
+  <div class="tip-box"> 
+     <strong>Key Takeaway:</strong> La combinación de la estructura de 4 niveles, el concepto de variante y los contratos comunes es lo que convierte a ai-workspace-standards en un verdadero <em>platform</em> y no solo una colección de archivos. La estructura de capas proporciona organización (ruta de distribución L0&rarr;L1&rarr;L2, jerarquía estática L1&rarr;L2&rarr;L3), las variantes proporcionan especialización, y los contratos proporcionan interoperabilidad. Juntos, permiten que cualquier número de proyectos de IA especializados comparta una base común manteniendo la personalización independiente. 
+</div>
 
   <!-- ============================================================ -->
   <!-- CHAPTER NAVIGATION                                            -->

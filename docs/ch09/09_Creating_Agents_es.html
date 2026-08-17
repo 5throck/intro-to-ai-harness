@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Cap. 9 · Creating & Modifying Agents - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Cap. 9 · Creating & Modifying Agents</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_es.html" class="nav-home">&larr; Inicio del manual</a>
+  <div class="nav-title">Cap. 9 &middot; Creación y modificación de agentes</div>
+  <a href="#agent-revisited">Rethinking Agents</a>
+  <a href="#file-format">Agent File Format</a>
+  <a href="#frontmatter">Writing Frontmatter</a>
+  <a href="#body-content">Writing Body Content</a>
+  <a href="#lifecycle-manager">Using agent-lifecycle-manager</a>
+  <a href="#register">Registering in AGENTS.md</a>
+  <a href="#verify">Verification &amp; Testing</a>
+  <a href="#practice">Practice: Build Your Own Specialist Agent</a>
+  <div class="nav-section">Otros capítulos</div>
+  <a href="../ch08/08_Integrated_Pipeline_es.html">Cap. 8 &middot; Pipeline combinado co-consult + co-deck</a>
+  <a href="../ch10/10_Creating_Skills_es.html">Cap. 10 &middot; Creación y modificación de skills</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">Capítulo 9</div>
+  <h1>Creación y modificación de agentes</h1>
+  <p class="lead">Este capítulo cubre la estructura de archivos del agent, la habilidad agent-lifecycle-manager y le guía en cómo construir, registrar y verificar su propio agente especialista.</p>
+  <div class="keypoints">
+    <div class="kp-title">Lo que cubre este capítulo</div>
+    <ul>
+      <li>Agent file format and structure</li>
+      <li>YAML frontmatter field meanings</li>
+      <li>Body content writing patterns</li>
+      <li>agent-lifecycle-manager usage (5-step)</li>
+      <li>AGENTS.md registration</li>
+      <li>Practice: create a simple specialist agent</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: Rethinking Agents                                  -->
+  <!-- ============================================================ -->
+  <h2 id="agent-revisited">Rethinking Agents</h2>
+
+  <p>En el Capítulo 4, presentamos el concepto de agentes de IA: trabajadores especializados que cada uno tiene un <strong>nombre</strong>, un <strong>rol</strong>, un conjunto de <strong>instrucciones</strong> y acceso a <strong>herramientas</strong> específicas. En este capítulo, profundizamos: realmente vamos a <em>crear</em> un nuevo agente desde cero, registrarlo en el proyecto y verificar que funcione.</p>
+
+  <h3>A Quick Review from Capítulo 4</h3>
+
+  <p>Recall the four pillars that define every agent:</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Name</h4>
+      <p>Un identificador corto en kebab-case (por ejemplo, <code>research</code>, <code>html-build</code>, <code>storyline</code>). El nombre aparece en las rutas de archivo, en las tablas de despacho y en los registros.</p>
+    </div>
+    <div class="col">
+      <h4>Role</h4>
+      <p>A concise 2&ndash;4 word title describing the agent&rsquo;s purpose (e.g., &ldquo;Web research specialist&rdquo;). Think of it as a job title on a business card.</p>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Instructions</h4>
+      <p>El cuerpo markdown del archivo del agente: directrices de comportamiento detalladas, reglas de dominio, políticas de uso de herramientas y contratos de traspaso que le dicen al agente <em>cómo</em> hacer su trabajo.</p>
+    </div>
+    <div class="col">
+      <h4>Tools</h4>
+      <p>El conjunto de operaciones que el agente tiene permitido realizar. Definido mediante la configuración de la plataforma (CLAUDE.md / GEMINI.md) y los enlaces de habilidades. Un curador de imágenes necesita acceso web; un exportador de PDF necesita permisos de escritura en el sistema de archivos.</p>
+    </div>
+  </div>
+
+  <h3>Why Create Your Own Agents?</h3>
+
+  <p>Los proyectos estándar co-deck y co-consult vienen con un conjunto bien elegido de agentes. Pero cada proyecto es diferente. Es posible que necesite:</p>
+
+  <ul>
+    <li>Un <strong>summarizer</strong> que condense informes largos en resúmenes de una página</li>
+    <li>Un <strong>translator</strong> que convierta contenido entre coreano e inglés</li>
+    <li>A <strong>data-validator</strong> that checks numerical data against expected ranges</li>
+    <li>A <strong>social-media-writer</strong> that reformats slide content for Twitter or LinkedIn</li>
+  </ul>
+
+  <p>Cuando su flujo de trabajo exige una tarea especializada y repetida que no encaja en el rol de ningún agente existente, es hora de <strong>contratar a un especialista departamental nuevo</strong>.</p>
+
+  <div class="tip-box">
+    <strong>The &ldquo;Hiring a Specialist&rdquo; Analogy</strong><br>
+    Imagine que usted dirige una empresa. Tiene un departamento de investigación, uno de diseño y uno de producción. Un día, el CEO dice: «Necesitamos a alguien que lea informes de 50 páginas y escriba un resumen de una página para la junta directiva». Usted no le pediría a un diseñador que hiciera eso; usted <em>contrataría un summarizer</em>. Crear un nuevo agente es exactamente eso: definir un nuevo rol con responsabilidades, herramientas y líneas de reporte claras para que el PM (el CEO) pueda asignar el trabajo a la persona adecuada.
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: Agent File Format                                  -->
+  <!-- ============================================================ -->
+  <h2 id="file-format">Agent File Format</h2>
+
+  <p>Cada agente vive en un único archivo Markdown con dos partes: un <strong>bloque de frontmatter YAML</strong> (metadatos legibles por máquina) y un <strong>cuerpo Markdown</strong> (instrucciones legibles por humanos para la IA). El archivo se almacena en:</p>
+
+  <div class="code-block">
+<div class="code-title">File location</div>
+<pre><code>agents/&lt;name&gt;.md</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+
+  <p>The naming convention is <strong>kebab-case</strong>: all lowercase, words separated by hyphens. Examples: <code>research.md</code>, <code>html-build.md</code>, <code>image-curator.md</code>.</p>
+
+  <h3>Structure Overview</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agent file structure diagram showing YAML frontmatter on top and markdown body below">
+      <defs>
+        <marker id="arrowAf1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-blue)"/>
+        </marker>
+      </defs>
+      <!-- Outer file container -->
+      <rect x="50" y="10" width="600" height="300" rx="8" fill="none" stroke="var(--border)" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="350" y="32" text-anchor="middle" style="color:var(--text)" font-size="14" font-weight="600">agents/&#x3C;name&#x3E;.md</text>
+
+      <!-- Frontmatter box -->
+      <rect x="80" y="50" width="540" height="130" rx="6" fill="var(--code-bg)" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="100" y="75" style="color:var(--accent-blue)" font-size="13" font-weight="600">YAML Frontmatter</text>
+      <text x="100" y="97" style="color:var(--text-muted)" font-size="12">---  &lt; opening fence</text>
+      <text x="100" y="117" style="color:var(--text-muted)" font-size="12">name: agent-name</text>
+      <text x="100" y="137" style="color:var(--text-muted)" font-size="12">role: &quot;Brief title&quot;</text>
+      <text x="100" y="157" style="color:var(--text-muted)" font-size="12">status: active</text>
+      <text x="100" y="173" style="color:var(--text-muted)" font-size="12">---  &lt; closing fence</text>
+
+      <!-- Arrow -->
+      <line x1="350" y1="185" x2="350" y2="210" stroke="var(--accent-blue)" stroke-width="1.5" marker-end="url(#arrowAf1)"/>
+
+      <!-- Body box -->
+      <rect x="80" y="215" width="540" height="80" rx="6" fill="var(--surface-alt)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="100" y="240" style="color:var(--accent-green)" font-size="13" font-weight="600">Markdown Body</text>
+      <text x="100" y="260" style="color:var(--text-muted)" font-size="12">## Role &middot; ## Responsibilities &middot; ## Tool Usage ...</text>
+      <text x="100" y="280" style="color:var(--text-muted)" font-size="12">Detailed instructions the AI reads at dispatch time</text>
+    </svg>
+  </div>
+
+  <p>The frontmatter is enclosed between two <code>---</code> fences. Everything below the closing fence is the body &mdash; standard Markdown with headings, lists, code blocks, and tables.</p>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: Writing Frontmatter                                -->
+  <!-- ============================================================ -->
+  <h2 id="frontmatter">Writing Frontmatter</h2>
+
+  <p>The YAML frontmatter is the machine-readable identity card of your agent. The orchestration layer (PM, scripts, audit tools) reads these fields to decide <em>when</em> and <em>how</em> to dispatch the agent.</p>
+
+  <h3>Required Fields</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Descripción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>name</code></td>
+        <td>string</td>
+        <td>Kebab-case identifier. Must match the filename (without <code>.md</code>).</td>
+      </tr>
+      <tr>
+        <td><code>role</code></td>
+        <td>string</td>
+        <td>Short 2&ndash;4 word title. Shown in dispatch tables and logs.</td>
+      </tr>
+      <tr>
+        <td><code>status</code></td>
+        <td>string</td>
+        <td>One of: <code>active</code>, <code>draft</code>, <code>deprecated</code>, <code>retired</code>.</td>
+      </tr>
+      <tr>
+        <td><code>tier</code></td>
+        <td>object</td>
+        <td>Maps each platform to a tier level: <code>high</code>, <code>medium</code>, or <code>low</code>. Controls which AI model is used.</td>
+      </tr>
+      <tr>
+        <td><code>color</code></td>
+        <td>string</td>
+        <td>Display color for visual identity (e.g., <code>cyan</code>, <code>amber</code>, <code>green</code>).</td>
+      </tr>
+      <tr>
+        <td><code>description</code></td>
+        <td>string</td>
+        <td>One-sentence summary of what the agent does. Shown in the agent roster.</td>
+      </tr>
+      <tr>
+        <td><code>examples</code></td>
+        <td>list</td>
+        <td>Sample trigger phrases. Each entry has <code>user</code> (what the user says) and <code>assistant</code> (how the agent responds).</td>
+      </tr>
+      <tr>
+        <td><code>phases</code></td>
+        <td>list</td>
+        <td>Which pipeline stages this agent participates in (e.g., <code>[1]</code> for research at Stage 1).</td>
+      </tr>
+      <tr>
+        <td><code>handoff_to</code></td>
+        <td>list</td>
+        <td>Names of agents that typically follow this one in the pipeline.</td>
+      </tr>
+      <tr>
+        <td><code>handoff_from</code></td>
+        <td>list</td>
+        <td>Names of agents that typically precede this one in the pipeline.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Example Frontmatter</h3>
+
+  <div class="code-block">
+    <div class="code-title">agents/summarizer.md &mdash; frontmatter</div>
+<pre><code>---
+name: summarizer
+version: "1.0.0"
+last_updated: "2026-08-10"
+lifecycle:
+  phase: production
+  created: "2026-08-10"
+  last_updated: "2026-08-10"
+  governance: docs/lifecycle/agents/summarizer.md
+role: Report summarization and brief generation specialist
+status: active
+tier:
+  claude: medium
+  gemini: medium
+  antigravity: medium
+  gemini-cli: medium
+model: inherit
+language: en
+color: purple
+description: >-
+  Summarizer agent - condenses long reports into concise one-page briefs.
+  Use when: PM needs a digest of research notes or a lengthy document.
+examples:
+  - user: Summarize the research notes into a one-page brief
+    assistant: I'll read the full research_notes.md and produce a structured summary covering key findings, methodology, and recommendations.
+phases: [1.5]
+handoff_to: [storyline]
+handoff_from: [research, pm]
+required_skills: []
+---</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+
+  <div class="tip-box">
+    <strong>Choosing the Right Tier</strong><br>
+    <strong>High</strong> &mdash; Complex reasoning, architectural decisions, creative writing. Expensive but powerful.<br>
+    <strong>Medium</strong> — Revisión de código, generación de contenido, comprobaciones de calidad. El punto óptimo para la mayoría de los agentes especialistas.<br>
+    <strong>Low</strong> &mdash; Fast, repetitive tasks like formatting or simple file operations. Cheap and quick.<br>
+    En caso de duda, comience con <strong>Medium</strong>. Siempre puede ajustar más tarde.
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: Writing Body Content                               -->
+  <!-- ============================================================ -->
+  <h2 id="body-content">Writing Body Content</h2>
+
+  <p>Debajo de la valla de cierre <code>---</code>, el cuerpo Markdown sirve como la <strong>guía interna</strong> del agente. Cuando el PM despacha este agente, el modelo de IA lee la totalidad del cuerpo y sigue sus instrucciones. Un buen contenido del cuerpo significa un comportamiento consistente y predecible. Un mal contenido del cuerpo significa que el agente improvisa — y la improvisación rara vez es lo que usted quiere.</p>
+
+  <h3>5 Recomendado Sections</h3>
+
+  <p>Aunque puede organizar el cuerpo como quiera, la mayoría de los agentes se benefician de estas cinco secciones:</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Identity</strong> — ¿Quién es este agente? ¿Cuál es su propósito principal? ¿Cómo debe presentarse?</li>
+      <li><strong>Behavioral Guidelines</strong> — ¿Cómo debe comportarse el agente? Tono, estilo de comunicación, restricciones a seguir (o evitar).</li>
+      <li><strong>Domain Rules</strong> — ¿Qué conocimiento o convenciones específicas del dominio debe respetar el agente? (p. ej., «Siempre cite fuentes para las afirmaciones fácticas.»)</li>
+      <li><strong>Tool Usage</strong> — ¿Qué herramientas debe usar el agente y cómo? ¿Hay alguna herramienta que <em>no</em> deba usar?</li>
+      <li><strong>Handoff Contract</strong> — ¿Qué produce el agente? ¿Quién recibe la salida? ¿En qué formato?</li>
+    </ol>
+  </div>
+
+  <h3>Section Details with Examples</h3>
+
+  <h4>1. Identity</h4>
+  <p>Comience con una declaración clara de quién es el agente. Esto establece inmediatamente el contexto del modelo.</p>
+  <div class="code-block">
+<pre><code>## Role
+
+You are the summarizer specialist for **[Project Name]**.
+Your job is to read lengthy documents (research notes, reports, meeting
+transcripts) and produce a concise, structured one-page brief that
+captures the key findings, methodology, and actionable recommendations.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+
+  <h4>2. Behavioral Guidelines</h4>
+  <p>Defina el tono y las restricciones. Sea específico sobre lo que el agente <em>no</em> debe hacer.</p>
+  <div class="code-block">
+<pre><code>## Behavioral Guidelines
+
+- Write in clear, professional English. Avoid jargon unless the source uses it.
+- Never fabricate information. If a source is unclear, mark it as ⚠️ Unverified.
+- Keep the summary under 500 words unless the user explicitly requests more.
+- Use bullet points for findings; numbered lists for recommendations.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+
+  <h4>3. Domain Rules</h4>
+  <p>Domain-specific rules ensure the agent respects project conventions.</p>
+  <div class="code-block">
+<pre><code>## Domain Rules
+
+- Always preserve the original language of quotes. Do not translate quoted text.
+- When summarizing research, maintain the source attribution format: [Source: URL].
+- If the input contains numerical data, round to two decimal places.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+
+  <h4>4. Tool Usage</h4>
+  <p>Aclare qué herramientas debe usar el agente y cualquier restricción.</p>
+  <div class="code-block">
+<pre><code>## Tool Usage
+
+- Use **Read** to access source files (research_notes.md, reports).
+- Use **Write** to produce the summary output file.
+- Do NOT use Bash for any purpose &mdash; this agent operates on files only.
+- Do NOT browse the web; all source material is provided by the PM.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+
+  <h4>5. Handoff Contract</h4>
+  <p>Defina qué entrega el agente y quién lo recibe.</p>
+  <div class="code-block">
+<pre><code>## Handoff Contract
+
+**Output**: `brief_summary.md` in the project directory.
+**Format**: Markdown with headings (## Findings, ## Methodology, ## Recommendations).
+**Handoff to**: storyline agent (which uses the brief as a reference when composing slides).
+**Completion signal**: Announce output file path and word count.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+
+  <div class="note">
+    <strong>The Body Is an &ldquo;Internal Guidebook&rdquo;</strong><br>
+    A diferencia del frontmatter (que es leído por scripts y el PM), el cuerpo es leído <em>solo por el modelo de IA</em> cuando se despacha al agente. Escríbalo como si estuviera dando instrucciones a un nuevo empleado en su primer día: claro, específico y centrado en <em>cómo</em> hacer el trabajo, no en <em>por qué</em> existe el trabajo. El «por qué» pertenece a la descripción del frontmatter.
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: Using agent-lifecycle-manager                       -->
+  <!-- ============================================================ -->
+  <h2 id="lifecycle-manager">Using agent-lifecycle-manager</h2>
+
+  <p>La habilidad agent-lifecycle-manager proporciona un proceso sistemático de 5 pasos para crear, validar y mantener agentes. En lugar de escribir archivos manualmente esperando que todo se conecte, la habilidad lo guía a través de cada paso y detecta problemas tempranamente.</p>
+
+  <h3>The 5-Step Process</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Five-step agent lifecycle process diagram">
+      <defs>
+        <marker id="arrowLm1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-amber)"/>
+        </marker>
+      </defs>
+
+      <!-- Step 1 -->
+      <rect x="20" y="30" width="120" height="60" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="80" y="55" text-anchor="middle" style="color:var(--accent-blue)" font-size="13" font-weight="600">Step 1</text>
+      <text x="80" y="73" text-anchor="middle" style="color:var(--text)" font-size="11">Create File</text>
+
+      <!-- Arrow 1->2 -->
+      <line x1="140" y1="60" x2="162" y2="60" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowLm1)"/>
+
+      <!-- Step 2 -->
+      <rect x="170" y="30" width="120" height="60" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="230" y="55" text-anchor="middle" style="color:var(--accent-blue)" font-size="13" font-weight="600">Step 2</text>
+      <text x="230" y="73" text-anchor="middle" style="color:var(--text)" font-size="11">Write Frontmatter</text>
+
+      <!-- Arrow 2->3 -->
+      <line x1="290" y1="60" x2="312" y2="60" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowLm1)"/>
+
+      <!-- Step 3 -->
+      <rect x="320" y="30" width="120" height="60" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="380" y="55" text-anchor="middle" style="color:var(--accent-blue)" font-size="13" font-weight="600">Step 3</text>
+      <text x="380" y="73" text-anchor="middle" style="color:var(--text)" font-size="11">Write Body</text>
+
+      <!-- Arrow 3->4 -->
+      <line x1="440" y1="60" x2="462" y2="60" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowLm1)"/>
+
+      <!-- Step 4 -->
+      <rect x="470" y="30" width="120" height="60" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
+      <text x="530" y="55" text-anchor="middle" style="color:var(--accent-blue)" font-size="13" font-weight="600">Step 4</text>
+      <text x="530" y="73" text-anchor="middle" style="color:var(--text)" font-size="11">Register</text>
+
+      <!-- Arrow 4->5 -->
+      <line x1="530" y1="90" x2="530" y2="120" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowLm1)"/>
+
+      <!-- Step 5 (centered below) -->
+      <rect x="250" y="130" width="200" height="60" rx="8" fill="var(--accent-green)" opacity="0.15" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="350" y="155" text-anchor="middle" style="color:var(--accent-green)" font-size="13" font-weight="600">Step 5</text>
+      <text x="350" y="173" text-anchor="middle" style="color:var(--text)" font-size="11">Validate &amp; Audit</text>
+
+      <!-- Descripcións below -->
+      <text x="80" y="115" text-anchor="middle" style="color:var(--text-muted)" font-size="10">agents/&lt;name&gt;.md</text>
+      <text x="230" y="115" text-anchor="middle" style="color:var(--text-muted)" font-size="10">YAML metadata</text>
+      <text x="380" y="115" text-anchor="middle" style="color:var(--text-muted)" font-size="10">Markdown instructions</text>
+      <text x="530" y="115" text-anchor="middle" style="color:var(--text-muted)" font-size="10">AGENTS.md tables</text>
+      <text x="350" y="215" text-anchor="middle" style="color:var(--text-muted)" font-size="10">bun scripts/agent-lifecycle-audit.ts</text>
+    </svg>
+  </div>
+
+  <h3>Step-by-Step Explanation</h3>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Crear el archivo</strong> — Añada <code>agents/&lt;name&gt;.md</code> usando kebab-case. Opcionalmente use el script de andamiaje: <code>bun scripts/agent-create.ts &lt;name&gt;</code>.</li>
+      <li><strong>Write frontmatter</strong> &mdash; Fill in all required YAML fields: name, role, status, tier, description, examples, phases, handoff_to/from.</li>
+      <li><strong>Write body content</strong> &mdash; Compose the Markdown instructions covering Identity, Behavioral Guidelines, Domain Rules, Tool Usage, and Handoff Contract.</li>
+      <li><strong>Registrar en AGENTS.md</strong> — Añada el agente a la tabla de Roster de Agentes, a la tabla de Definiciones y a la tabla de despacho del Subagente (ver siguiente sección).</li>
+      <li><strong>Validar y auditar</strong> — Ejecute <code>bun scripts/agent-lifecycle-audit.ts</code> para verificar que el agente pasa todas las comprobaciones (detección de huérfanos, validación del frontmatter, mapeo de Tier, etc.).</li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>Start Simple</strong><br>
+    No necesita un agente perfecto el primer día. Cree un agente mínimamente viable con solo los campos de frontmatter requeridos y un cuerpo básico. Siempre puede refinar las directrices de comportamiento y las reglas del dominio después de probarlo. El lifecycle-manager hace que la iteración sea segura: cada cambio puede ser validado automáticamente.
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: Registering in AGENTS.md                            -->
+  <!-- ============================================================ -->
+  <h2 id="register">Registering in AGENTS.md</h2>
+
+  <p>Un agente que no está registrado en <code>AGENTS.md</code> es como un empleado que fue contratado pero nunca añadido al organigrama. El PM no puede despacharlo, los scripts de auditoría lo marcarán como huérfano y otros agentes no sabrán que existe. El registro conecta su agente con el resto del sistema.</p>
+
+  <h3>3 Registration Locations</h3>
+
+  <p>Necesita añadir su agente en <strong>tres lugares</strong> dentro de <code>AGENTS.md</code>:</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Agent Roster Table</strong> (Sección 1) — La tabla de visión general principal que muestra la ruta del archivo, el Tier y el rol de cada agente.</li>
+      <li><strong>Individual Agent Definition</strong> (&sect;2) &mdash; A detailed table with field-by-field metadata (file, tier, phases, role).</li>
+      <li><strong>Subagent Roster / Dispatch Table</strong> (Sección 4) — La tabla que el PM referencia al decidir qué agente despachar, incluyendo paralelización y permisos de escritura.</li>
+    </ol>
+  </div>
+
+  <h3>Registration Example</h3>
+
+  <p>Así es como se ven las tres entradas para un agente <code>summarizer</code>:</p>
+
+  <div class="code-block">
+    <div class="code-title">AGENTS.md &mdash; three registration entries</div>
+<pre><code>## §1 Agent Roster (add row)
+| **summarizer** | `agents/summarizer.md` | Medium | Condenses reports into one-page briefs |
+
+## §2 Agent Definition (add table)
+| Field | Value |
+|-------|-------|
+| **File** | `agents/summarizer.md` |
+| **Tier** | medium |
+| **Phases** | 1.5 |
+| **Role** | Condenses long reports into concise one-page briefs |
+
+## §4 Subagent Roster (add row)
+| summarizer | `agents/summarizer.md` | Medium | ⚠️ sequential preferred | project files |</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+
+  <div class="note">
+    <strong>PM Gateway Policy</strong><br>
+    Recuerde que todos los agentes especialistas se despachan <em>únicamente a través del PM</em>. Cuando registra un nuevo agente, le está dando al PM una nueva opción en su tabla de despacho. Los usuarios nunca deben invocar <code>summarizer</code> directamente; le preguntan al PM, y el PM decide si despachar el summarizer basándose en la tarea. Este es el patrón de punto único de entrada que discutimos en Capítulo 5.
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: Verification & Testing                             -->
+  <!-- ============================================================ -->
+  <h2 id="verify">Verification &amp; Testing</h2>
+
+  <p>Después de crear y registrar su agente, debe verificar que todo esté conectado correctamente. El workspace proporciona un script de auditoría automatizado para este propósito.</p>
+
+  <h3>Running the Verification</h3>
+
+  <div class="code-block">
+    <div class="code-title">Agent lifecycle audit command</div>
+<pre><code>bun scripts/agent-lifecycle-audit.ts</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+
+  <p>This script scans every file in the <code>agents/</code> directory and checks for problems.</p>
+
+  <h3>What the Audit Checks</h3>
+
+  <ul>
+    <li><strong>Orphan detection</strong> &mdash; Every <code>.md</code> file in <code>agents/</code> must be listed in <code>AGENTS.md</code>. If a file exists but is not registered, it is flagged as an orphan.</li>
+    <li><strong>Frontmatter validation</strong> &mdash; All required fields (name, role, status, tier, description) must be present and correctly typed.</li>
+    <li><strong>Tier mapping</strong> &mdash; Tier values must be one of <code>high</code>, <code>medium</code>, <code>low</code>. Any invalid value triggers an error.</li>
+    <li><strong>Status consistency</strong> &mdash; The status field must be a recognized value: <code>active</code>, <code>draft</code>, <code>deprecated</code>, or <code>retired</code>.</li>
+    <li><strong>Research-role check</strong> &mdash; If the agent has a research or investigation role, its body must include source citation requirements.</li>
+    <li><strong>Numerical-role check</strong> &mdash; If the agent performs calculations, its body must include computational integrity rules.</li>
+  </ul>
+
+  <h3>Verification Steps</h3>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Create</strong> &mdash; Write <code>agents/summarizer.md</code> with frontmatter and body.</li>
+      <li><strong>Register</strong> &mdash; Add the agent to all three tables in <code>AGENTS.md</code>.</li>
+      <li><strong>Run audit</strong> &mdash; Execute <code>bun scripts/agent-lifecycle-audit.ts</code>.</li>
+      <li><strong>Review output</strong> &mdash; Check for errors (must fix) and warnings (should review).</li>
+      <li><strong>Fix and re-run</strong> &mdash; Repeat until the audit exits cleanly with zero errors.</li>
+    </ol>
+  </div>
+
+  <div class="warn">
+    <strong>Why Verification Matters</strong><br>
+    Skipping the audit step is tempting when you are in a hurry, but it is the equivalent of deploying code without running tests. An orphaned agent file wastes disk space and confuses future contributors. Invalid frontmatter can cause the PM dispatch logic to fail silently. A missing handoff_to entry means the next agent in the pipeline will never receive the output. The audit catches all of these problems in seconds &mdash; use it every time.
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 8: Practice                                           -->
+  <!-- ============================================================ -->
+  <h2 id="practice">Practice: Build Your Own Specialist Agent</h2>
+
+  <p>Now it is your turn. In this exercise, you will create a <strong>summarizer</strong> agent from scratch &mdash; a specialist that reads long research notes and produces a concise one-page brief.</p>
+
+  <div class="prompt-box">
+    <strong>Goal</strong>: Create a functional <code>summarizer</code> agent, register it in <code>AGENTS.md</code>, and verify it passes the lifecycle audit.
+  </div>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Create the file</strong><br>
+        Create <code>agents/summarizer.md</code> in your project directory.
+      </li>
+      <li>
+        <strong>Write the frontmatter</strong><br>
+        Copy the frontmatter from Section 3 of este capítulo. Make sure all required fields are filled in. Set <code>status: active</code> and <code>tier</code> to <code>medium</code> for all platforms.
+      </li>
+      <li>
+        <strong>Write the body</strong><br>
+        Use the five-section structure from Section 4. Here is the complete body for reference:
+        <div class="code-block">
+          <div class="code-title">agents/summarizer.md &mdash; complete file</div>
+<pre><code>---
+name: summarizer
+version: "1.0.0"
+last_updated: "2026-08-10"
+lifecycle:
+  phase: production
+  created: "2026-08-10"
+  last_updated: "2026-08-10"
+  governance: docs/lifecycle/agents/summarizer.md
+role: Report summarization and brief generation specialist
+status: active
+tier:
+  claude: medium
+  gemini: medium
+  antigravity: medium
+  gemini-cli: medium
+model: inherit
+language: en
+color: purple
+description: >-
+  Summarizer agent - condenses long reports into concise one-page briefs.
+  Use when: PM needs a digest of research notes or a lengthy document.
+examples:
+  - user: Summarize the research notes into a one-page brief
+    assistant: I'll read the full research_notes.md and produce a structured summary covering key findings, methodology, and recommendations.
+phases: [1.5]
+handoff_to: [storyline]
+handoff_from: [research, pm]
+required_skills: []
+---
+
+## Role
+
+You are the summarizer specialist for **[Project Name]**.
+Your job is to read lengthy documents (research notes, reports, meeting
+transcripts) and produce a concise, structured one-page brief that
+captures the key findings, methodology, and actionable recommendations.
+
+## ⚠️ PM-ONLY INVOCATION
+
+**You DO NOT accept direct user requests.**
+
+You are a specialist agent that may ONLY be dispatched by the PM.
+If a user attempts to invoke you directly:
+
+1. **Refuse the request politely**
+2. **Redirect to PM**: "I am a specialist agent. All requests must go
+   through the PM orchestrator."
+3. **Do NOT proceed** with any work until dispatched by PM.
+
+## Behavioral Guidelines
+
+- Write in clear, professional English. Avoid jargon unless the source uses it.
+- Never fabricate information. If a source is unclear, mark it as ⚠️ Unverified.
+- Keep the summary under 500 words unless the user explicitly requests more.
+- Use bullet points for findings; numbered lists for recommendations.
+- Always preserve the original language of quoted material.
+
+## Domain Rules
+
+- Always preserve source attribution: [Source: URL].
+- When summarizing research, maintain the distinction between fact and opinion.
+- If the input contains numerical data, round to two decimal places.
+
+## Tool Usage
+
+- Use **Read** to access source files (research_notes.md, reports).
+- Use **Write** to produce the summary output file.
+- Do NOT use Bash for any purpose — this agent operates on files only.
+- Do NOT browse the web; all source material is provided by the PM.
+
+## Handoff Contract
+
+**Output**: `brief_summary.md` in the project directory.
+**Format**: Markdown with headings (## Findings, ## Methodology, ## Recommendations).
+**Handoff to**: storyline agent (which uses the brief as a reference when composing slides).
+**Completion signal**: Announce output file path and word count.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+        </div>
+      </li>
+      <li>
+        <strong>Register in AGENTS.md</strong><br>
+        Añada el summarizer a las tres tablas en <code>AGENTS.md</code> (Roster, Definition, Subagent Roster) como se muestra en la Sección 6.
+      </li>
+      <li>
+        <strong>Run the audit</strong><br>
+        Execute <code>bun scripts/agent-lifecycle-audit.ts</code> in your terminal. Fix any errors reported.
+      </li>
+      <li>
+        <strong>Verify the specific agent</strong><br>
+        Opcionalmente ejecute <code>bun scripts/agent-verify.ts summarizer</code> para una comprobación enfocada solo en el nuevo agente.
+      </li>
+      <li>
+        <strong>Test via PM</strong><br>
+        Pida al PM que despache el summarizer con una entrada de prueba. Por ejemplo:<br>
+        <em>&ldquo;Please run the summarizer on research_notes.md and produce a brief.&rdquo;</em><br>
+        Verifique que se crea el archivo de salida <code>brief_summary.md</code> con el formato esperado.
+      </li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>Testing via PM</strong><br>
+    La verdadera prueba de un nuevo agente no es si pasa la auditoría — sino si produce una salida útil cuando es despachado por el PM en un flujo de trabajo real. Después de que la auditoría pase, ejecute siempre al menos una prueba de extremo a extremo: déle al PM una tarea real, permita que despache su nuevo agente y revise la salida. Esto detecta problemas que el análisis estático no puede — como instrucciones que son técnicamente válidas pero demasiado vagas para que el modelo las siga consistentemente.
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- Chapter Navigation                                           -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch08/08_Integrated_Pipeline_es.html" class="prev">
+      <div class="dir">&larr; Capítulo anterior</div>
+      <div class="ttl">Cap. 8 &middot; Pipeline combinado co-consult + co-deck</div>
+    </a>
+    <a href="../ch10/10_Creating_Skills_es.html" class="next" style="margin-left:auto;">
+      <div class="dir">Siguiente capítulo &rarr;</div>
+      <div class="ttl">Cap. 10 &middot; Creación y modificación de skills</div>
+    </a>
+  </div>
+   <footer>
+    Basado en Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) · Materiales educativos en español<br>
+    Documentos oficiales: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    El contenido del manual está licenciado bajo <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (Atribución-NoComercial-CompartirIgual 4.0 Internacional)</a>.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

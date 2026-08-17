@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Workshop Lista de verificación previa a la instalación · Claude Code & Multi-Agent Harness - A hands-on guide for AI beginners">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Workshop Lista de verificación previa a la instalación · Claude Code &amp; Multi-Agent Harness</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+  <style>
+    /* Page-specific overrides */
+    h2 { color: var(--accent-dark); margin: 40px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); scroll-margin-top: 20px; }
+    .chk-list li.sub { margin-left: 22px; color: var(--text-dim); }
+    .chk-list li.sub::before { content: '—'; color: var(--text-dim); }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+<nav>
+  <a href="../index_es.html" class="nav-home">← Inicio del manual</a>
+  <div class="nav-title">Lista de verificación previa a la instalación</div>
+  <a href="#s1">1. Verify Subscription</a>
+  <a href="#s2">2. Account Preparation</a>
+  <a href="#s3">3. Requisitos del sistema</a>
+  <a href="#s4">4. Git User Setup</a>
+  <a href="#s5">5. GitHub Authentication</a>
+  <a href="#s6">6. Project Environment Setup</a>
+  <a href="#s7">7. Final Environment Check</a>
+  <div class="nav-section">Other Documents</div>
+  <a href="SETUP_es.html">Workshop Environment Setup Guide</a>
+  <a href="../ch03/03_Setup_Guide_es.html">Capítulo 3 Setup Guide</a>
+</nav>
+
+<main>
+ <article class="reading">
+  <h1>Workshop Lista de verificación previa a la instalación</h1>
+  <p class="subtitle">Completa esta lista de verificación <strong>antes</strong> de ejecutar el script de instalación. Los siguientes elementos no se pueden automatizar y requieren una acción manual.</p>
+
+  <h2 id="s1">1. Verify Subscription (Top Priority)</h2>
+  <p>Las herramientas utilizadas en las sesiones prácticas del taller requieren una suscripción válida.</p>
+  <table>
+    <thead><tr><th>Tool</th><th>Required Plan</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Claude Code CLI</strong> (<code>claude</code>)</td><td>Claude Pro or Max</td></tr>
+      <tr><td><strong>Claude Desktop App</strong></td><td>Claude Pro or higher</td></tr>
+      <tr><td><strong>Antigravity CLI</strong> (<code>agy</code>)</td><td>Gemini Advanced</td></tr>
+      <tr><td><strong>Antigravity Desktop App</strong></td><td>Gemini Advanced</td></tr>
+    </tbody>
+  </table>
+  <div class="warn"><strong>Sobre las claves API</strong>: Las claves API solo son necesarias para integraciones fuera de tu plan de suscripción. Las sesiones prácticas del taller están completamente cubiertas por el modelo de suscripción, así que solo emita una clave API si es verdaderamente necesario.</div>
+
+  <h2 id="s2">2. Account Preparation</h2>
+  <ul class="chk-list">
+    <li><strong>Google Account</strong> — required to use Antigravity / Gemini Advanced</li>
+    <li><strong>GitHub Account</strong> — required for <code>gh auth login</code> and PR exercises</li>
+    <li class="sub">If you don't have one, sign up in advance at <a href="https://github.com/signup" target="_blank">github.com/signup</a></li>
+  </ul>
+
+  <h2 id="s3">3. Requisitos del sistema</h2>
+  <ul class="chk-list">
+    <li>OS: Windows 11 (Intel) / macOS Sequoia 15 or later on Apple Silicon (M series) / Ubuntu 24.04 or later</li>
+    <li>Free disk space: <strong>5 GB or more</strong></li>
+    <li>Administrator / sudo privileges</li>
+    <li class="sub"><strong>Windows</strong>: Inicio → buscar "PowerShell" → clic derecho → "Ejecutar como administrador" (o <code>Win + X</code> → "Terminal (Admin)"), luego haz clic en "Sí" en el cuadro de diálogo de confirmación de UAC</li>
+    <li class="sub"><strong>macOS / Linux</strong>: prefix the command with <code>sudo</code></li>
+    <li>Stable internet connection (total download size approx. 1–2 GB)</li>
+  </ul>
+
+  <h2 id="s4">4. Git User Setup</h2>
+  <p>Después de instalar git, registra tu información de usuario con los siguientes comandos.</p>
+  <div style="position:relative">
+    <pre class="code-block">git config --global user.name  "Jane Doe"
+git config --global user.email "you@example.com"</pre>
+    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+  <ul class="chk-list">
+    <li><code>git config --global user.name</code> configured</li>
+    <li><code>git config --global user.email</code> configured</li>
+  </ul>
+
+  <h2 id="s5">5. GitHub Authentication</h2>
+  <div style="position:relative">
+    <pre class="code-block">gh auth login</pre>
+    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+  <p>Sigue las indicaciones para completar la autenticación en tu navegador.</p>
+  <ul class="chk-list">
+    <li>Confirm "Logged in" is displayed when running <code>gh auth status</code></li>
+  </ul>
+
+  <h2 id="s6">6. Project Environment Setup (after cloning the repository)</h2>
+  <p>Al usar las variantes prácticas <strong>co-consult</strong> o <strong>co-deck</strong>:</p>
+  <div style="position:relative">
+    <pre class="code-block">cp .env.sample .env
+# Abre el archivo .env y completa los valores requeridos</pre>
+    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+  <ul class="chk-list">
+    <li>Created <code>.env</code> from <code>.env.sample</code></li>
+    <li>Entered required API keys / configuration values</li>
+  </ul>
+
+  <p>For Python-based exercises — use <strong>uv</strong> (required):</p>
+  <div style="position:relative">
+    <pre class="code-block">uv sync          # Install dependencies based on pyproject.toml
+# Or, if using requirements.txt:
+uv pip install -r requirements.txt</pre>
+    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+  <ul class="chk-list">
+    <li>Confirmed <code>uv</code> is installed and available (<code>uv --version</code>)</li>
+    <li>Installed Python dependencies via <code>uv</code></li>
+  </ul>
+
+  <div class="note"><strong>Docker</strong> es opcional. Instálalo solo si el facilitador te lo indica específicamente. Agrega la bandera <code>--docker</code> en macOS/Linux o la bandera <code>-Docker</code> en Windows al script de instalación.
+  <ul class="chk-list" style="margin-top:8px;"><li><em>(Optional)</em> Confirm Docker is installed and the daemon is running</li></ul></div>
+
+  <h2 id="s7">7. Verificación Final del Entorno (debe ejecutarse antes del taller)</h2>
+  <p>Ejecuta el siguiente comando desde dentro de la carpeta clonada setup/. (Si aún no lo has clonado, consulta <a href="SETUP_en.html#step0">Guía de Configuración Paso 0</a>.)</p>
+  <div style="position:relative">
+    <pre class="code-block">bun setup-common.ts</pre>
+    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+  <p>Estás listo una vez que cada elemento de la tabla de salida muestre ✅.</p>
+
+  <hr>
+  <p style="text-align:center;color:var(--text-dim);font-size:13px;">Para preguntas, por favor contacta al facilitador antes de que comience el taller.</p>
+   <footer>
+    Basado en Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) · Materiales educativos en español<br>
+    Documentos oficiales: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    El contenido del manual está licenciado bajo <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (Atribución-NoComercial-CompartirIgual 4.0 Internacional)</a>.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/copy-code.js"></script>
+  <script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

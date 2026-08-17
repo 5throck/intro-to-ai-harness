@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Ch 7 · co-deck: AIプレゼンテーションの実践 - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Ch 7 &middot; co-deck: AIプレゼンテーションの実践</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_ja.html" class="nav-home">&larr; ハンドブックホーム</a>
+  <div class="nav-title">Ch 7 &middot; co-deck: AIプレゼンテーションの実践</div>
+  <a href="#what-is-codeck">co-deckとは</a>
+  <a href="#architecture">システムアーキテクチャ</a>
+  <a href="#11-stages">11段階パイプライン</a>
+  <a href="#theme-style">テーマとスタイル</a>
+  <a href="#gates">ゲート承認</a>
+  <a href="#how-to-talk">PMへの話しかけ方</a>
+  <a href="#practice">演習: ミニプレゼンテーションを作成</a>
+  <a href="#outputs">成果物の確認</a>
+  <div class="nav-section">その他の章</div>
+  <a href="../ch06/06_Co_Consult_Practice_ja.html">Ch 6 &middot; co-consult: AIコンサルティングの実践</a>
+  <a href="../ch08/08_Integrated_Pipeline_ja.html">Ch 8 &middot; co-consult + co-deck統合パイプライン</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">第7章</div>
+  <h1>co-deck: AIプレゼンテーションの実践</h1>
+  <p class="lead">co-deckは、AIエージェントチームがプレゼンテーション（講義資料、スライドデッキ）を制作するシステムです。本章では11段階パイプラインを解説し、ミニプレゼンテーションを作成する手順を実践します。</p>
+  <div class="keypoints">
+    <div class="kp-title">本章の内容</div>
+    <ul>
+      <li>co-deckシステムの紹介とアーキテクチャ</li>
+      <li>11段階パイプライン</li>
+      <li>テーマとスタイルの選択</li>
+      <li>ゲート承認（Gate 2: コンテンツ、Gate 5: サンプルPDF）</li>
+      <li>演習: ミニプレゼンテーションを作成</li>
+      <li>HTMLとPDF出力の確認</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: What is co-deck                                     -->
+  <!-- ============================================================ -->
+  <h2 id="what-is-codeck">co-deckとは</h2>
+
+  <h3>定義</h3>
+
+  <p><strong>co-deck</strong>は、<em>講義資料とプレゼンテーションスライドデッキの制作</em>に特化したai-workspace-standardsエコシステムのバリアントです。L2バリアントプロジェクトとして、共通ワークスペース構造（エージェント、スキル、ガバナンスルール）を継承し、独自の専門エージェントと11段階制作パイプラインを追加しています。</p>
+
+  <p>「co-deck」の名前は、<strong>co</strong>llaborative <strong>deck</strong> &mdash; 人間のプレゼンターとAIエージェントチームのコラボレーションによって制作されるスライドデッキ &mdash; に由来します。</p>
+
+  <h3>co-deckが制作するもの</h3>
+
+  <p>co-deckは2つの主要な出力タイプを生成します。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>シングルファイルHTMLスライドデッキ</h4>
+      <ul>
+        <li>すべてのスライド、CSS、画像、JavaScriptが埋め込まれた自己完結型の<code>.html</code>ファイル</li>
+        <li>ブラウザで開くだけで動作 &mdash; インストール不要</li>
+        <li>プレゼンターモード、TTSナレーション、キーボードナビゲーション、全画面表示に対応</li>
+        <li>5つのHTMLテーマ（outline、vertical、pitch-enhanced、outlook、zen）</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>印刷対応PDF</h4>
+      <ul>
+        <li>印刷や配布に適した高精度PDF</li>
+        <li>16:9アスペクト比、HTMLレイアウトに一致</li>
+        <li>HTML版と同じスライドデータから生成</li>
+        <li>レビュー用サンプルPDF（5スライド）、承認後にフルPDFエクスポート</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>プレゼンテーション制作会社の例え</h3>
+
+  <p>あなたが<strong>プレゼンテーション制作会社</strong>を経営していると想像してください。あなたがエグゼクティブプロデューサー（人間）で、プロジェクトマネージャーの下で専門家チームが働きます。例えの対応関係は以下の通りです。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>プレゼンテーション会社</h4>
+      <ul>
+        <li><strong>エグゼクティブプロデューサー</strong>（あなた） &mdash; トピックを定義し、草案をレビューし、最終承認をする</li>
+        <li><strong>プロジェクトマネージャー</strong> &mdash; チームをオーケストレートし、タスクをスケジュールし、品質を管理する</li>
+        <li><strong>リサーチチーム</strong> &mdash; 情報源を収集し、事実確認をする</li>
+        <li><strong>コンテンツライター</strong> &mdash; ナラティブを構成し、スライドコンテンツを執筆する</li>
+        <li><strong>アートディレクター</strong> &mdash; 色、フォント、ビジュアルスタイルを選択する</li>
+        <li><strong>カメラマン</strong> &mdash; 画像を検索・ダウンロードする</li>
+        <li><strong>グラフィックチーム</strong> &mdash; 図やチャートを作成する</li>
+        <li><strong>Web開発者</strong> &mdash; HTMLスライドデッキを構築する</li>
+        <li><strong>印刷スペシャリスト</strong> &mdash; 最終PDFを制作する</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-deck</h4>
+      <ul>
+        <li><strong>あなた（ユーザー）</strong> &mdash; トピックを提供し、Gate 2でコンテンツをレビューし、Gate 5でPDFを承認する</li>
+        <li><strong>PMエージェント</strong> &mdash; すべてのスペシャリストエージェントをオーケストレートし、パイプラインステージを管理する</li>
+        <li><strong>research + source-verifier</strong> &mdash; WebリサーチとURL検証</li>
+        <li><strong>storyline</strong> &mdash; storyline.mdとslide_deck.mdを作成</li>
+        <li><strong>design</strong> &mdash; カラーパレットとフォントを含むdesign_spec.mdを作成</li>
+        <li><strong>image-curator</strong> &mdash; Pixabay、Unsplash、Pexelsで画像を検索</li>
+        <li><strong>diagram-specialist</strong> &mdash; SVG図とデータチャートを生成</li>
+        <li><strong>html-build</strong> &mdash; シングルファイルHTMLスライドデッキを生成</li>
+        <li><strong>pdf-export</strong> &mdash; サンプルPDFとフルPDFを出力</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>バージョン管理が組み込まれています。</strong><code>version</code>エージェントは会社の文書アーカイブマネージャーのように機能します &mdash; 変更が行われる前にすべてのファイルをスナップショットするため、常に以前の状態にロールバックできます。すべての編集の前の自動「名前を付けて保存」と考えてください。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: System Architecture                                -->
+  <!-- ============================================================ -->
+  <h2 id="architecture">システムアーキテクチャ</h2>
+
+  <p>co-deckのアーキテクチャは、ai-workspace-standardsの<strong>PM + スペシャリストエージェントパターン</strong>に従っています。PMエージェントが中央オーケストレーターとして機能し、各スペシャリストエージェントがプレゼンテーション制作の一側面を担当します。</p>
+
+  <h3>エージェント役割テーブル</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>エージェント</th>
+        <th>ティア</th>
+        <th>ステージ</th>
+        <th>役割</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>PM</strong></td>
+        <td>High</td>
+        <td>0 &ndash; 11</td>
+        <td>パイプライン全体をオーケストレート、スペシャリストをディスパッチ、ゲートを管理</td>
+      </tr>
+      <tr>
+        <td><strong>research</strong></td>
+        <td>Medium</td>
+        <td>1</td>
+        <td>Web情報源を収集し、<code>research_notes.md</code>を作成</td>
+      </tr>
+      <tr>
+        <td><strong>source-verifier</strong></td>
+        <td>Medium</td>
+        <td>1.5</td>
+        <td>URLを検証し、Trust Score付きの<code>source-verification.md</code>を作成</td>
+      </tr>
+      <tr>
+        <td><strong>storyline</strong></td>
+        <td>Medium</td>
+        <td>2 &ndash; 3</td>
+        <td><code>storyline.md</code>と<code>slide_deck.md</code>を作成</td>
+      </tr>
+      <tr>
+        <td><strong>design</strong></td>
+        <td>Medium</td>
+        <td>4</td>
+        <td>ビジュアルデザインを確定 &mdash; カラーパレット、フォント、レイアウトを<code>design_spec.md</code>に記述</td>
+      </tr>
+      <tr>
+        <td><strong>image-curator</strong></td>
+        <td>Medium</td>
+        <td>3.5</td>
+        <td>商用利用可能な画像を検索・ダウンロードして<code>assets/images/</code>に保存</td>
+      </tr>
+      <tr>
+        <td><strong>diagram-specialist</strong></td>
+        <td>Medium</td>
+        <td>3.5</td>
+        <td>SVG概念図とデータチャートを生成して<code>assets/diagrams/</code>に保存</td>
+      </tr>
+      <tr>
+        <td><strong>html-build</strong></td>
+        <td>Medium</td>
+        <td>5 &ndash; 8</td>
+        <td><code>slide_deck.md</code>からシングルファイルHTMLスライドデッキを生成</td>
+      </tr>
+      <tr>
+        <td><strong>measure</strong></td>
+        <td>Medium</td>
+        <td>9 &ndash; 10</td>
+        <td>PlaywrightでHTMLレイアウトを自動測定、PDF用TTFフォントをダウンロード</td>
+      </tr>
+      <tr>
+        <td><strong>pdf-export</strong></td>
+        <td>Medium</td>
+        <td>11</td>
+        <td>スライドデータからサンプルPDFとフルPDFを生成</td>
+      </tr>
+      <tr>
+        <td><strong>version</strong></td>
+        <td>Low</td>
+        <td>0 &ndash; 11</td>
+        <td>すべての編集前にファイルをスナップショット、要求に応じて以前の状態を復元</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>エージェント構成図</h3>
+
+  <p>以下の図は、PMエージェントが中心に位置し、パイプラインの各ステージでスペシャリストエージェントをディスパッチする様子を示しています。versionエージェントは横断的関心事として並行して実行されます。</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PMを中心にスペシャリストエージェントが配置されたエージェント構成図">
+      <!-- Arrowhead definitions -->
+      <defs>
+        <marker id="arrowArch" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowArchG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
+        </marker>
+      </defs>
+
+      <!-- PM Agent (center) -->
+      <rect x="220" y="185" width="220" height="60" rx="14" fill="var(--accent-purple)" stroke="none" opacity="0.95"/>
+      <text x="330" y="212" text-anchor="middle" font-size="15" font-weight="bold" fill="var(--text-inverse)">PMエージェント</text>
+      <text x="330" y="232" text-anchor="middle" font-size="10" fill="var(--text-inverse)">Highティア · オーケストレーター</text>
+
+      <!-- research (top-left) -->
+      <rect x="30" y="30" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="115" y="50" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">research</text>
+      <text x="115" y="64" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 1 · Webリサーチ</text>
+      <line x1="200" y1="60" x2="245" y2="185" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowArch)"/>
+
+      <!-- source-verifier (top) -->
+      <rect x="270" y="10" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="355" y="30" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">source-verifier</text>
+      <text x="355" y="44" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 1.5 · URL検証</text>
+      <line x1="355" y1="54" x2="340" y2="185" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowArchG)"/>
+
+      <!-- storyline (top-right) -->
+      <rect x="470" y="40" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="555" y="60" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">storyline</text>
+      <text x="555" y="74" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 2–3 · コンテンツ設計</text>
+      <line x1="470" y1="68" x2="435" y2="185" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowArch)"/>
+
+      <!-- design (right) -->
+      <rect x="480" y="160" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="565" y="180" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">design</text>
+      <text x="565" y="194" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 4 · ビジュアルスタイル</text>
+      <line x1="480" y1="182" x2="440" y2="205" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowArch)"/>
+
+      <!-- image-curator (bottom-right) -->
+      <rect x="470" y="290" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="555" y="310" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">image-curator</text>
+      <text x="555" y="324" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 3.5 · 画像検索</text>
+      <line x1="470" y1="305" x2="435" y2="240" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowArch)"/>
+
+      <!-- diagram-specialist (bottom) -->
+      <rect x="250" y="330" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="335" y="350" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">diagram-specialist</text>
+      <text x="335" y="364" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 3.5 · SVG図</text>
+      <line x1="335" y1="330" x2="330" y2="245" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowArchG)"/>
+
+      <!-- html-build (bottom-left) -->
+      <rect x="30" y="300" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="115" y="320" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">html-build</text>
+      <text x="115" y="334" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 5–8 · HTMLスライド</text>
+      <line x1="200" y1="312" x2="235" y2="245" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowArch)"/>
+
+      <!-- pdf-export (left) -->
+      <rect x="10" y="180" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="95" y="200" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">pdf-export</text>
+      <text x="95" y="214" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 11 · PDF出力</text>
+      <line x1="180" y1="202" x2="220" y2="210" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowArch)"/>
+
+      <!-- version (floating bottom-right corner) -->
+      <rect x="20" y="395" width="160" height="36" rx="8" fill="var(--bg-info)" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="5,3"/>
+      <text x="100" y="418" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text-dim)">version（横断的）</text>
+
+      <!-- User (top center) -->
+      <rect x="130" y="115" width="140" height="36" rx="18" fill="var(--bg-warn)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="200" y="138" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">あなた（ユーザー）</text>
+      <line x1="220" y1="133" x2="260" y2="190" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowArch)"/>
+      <text x="225" y="155" font-size="9" font-style="italic" style="fill:var(--text-dim)">リクエスト &amp; 承認</text>
+    </svg>
+  </div>
+
+  <div class="note">
+    <strong>ユーザーはPMにのみ話します。</strong>スペシャリストエージェントに直接指示することはありません。PMに欲しいものを伝える（例えば「気候変動についてプレゼンテーションを作って」）と、PMが適切なエージェントを適切な順序でディスパッチします。これが第4章で学んだ<em>PM Gateway</em>パターンです。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: 11-Stage Pipeline                                  -->
+  <!-- ============================================================ -->
+  <h2 id="11-stages">11段階パイプライン</h2>
+
+  <p>co-deckパイプラインは<strong>11のステージ</strong>で構成され、各ステージは特定のスペシャリストエージェント（またはPM直接）が担当します。ステージは順番に実行され、一部にはオプションのレビューゲートがあります。各ステージの詳細なウォークスルーは以下の通りです。</p>
+
+  <h3>Stage 0 &mdash; 設定（必須）</h3>
+  <p>PMがマスター<code>docs/lecture-profile.md</code>を読み、<code>presentations/&lt;name&gt;/lecture-profile.md</code>にコピーし、あなたに講義固有の詳細の入力を求めます：<strong>タイトル、オーディエンス、レベル、キーワード</strong>。また、<strong>レンダリングテーマ</strong>、<strong>ビジュアルスタイル</strong>、<strong>ソース検証</strong>の有無、<strong>ディバイダーモード</strong>、<strong>背景画像</strong>の設定も確認する必要があります。PMは<code>project_state.json</code>と<code>memory/keywords.md</code>を初期化します。</p>
+
+  <h3>Stage 1 &mdash; リサーチ</h3>
+  <p><strong>researchエージェント</strong>がトピックに関するWebリサーチを実行し（必要に応じて韓国語と英語の両方で）、情報源を収集して<code>research_notes.md</code>を作成します。情報源、重要事実、信頼性メモのセクションを含み、プレゼンテーション全体の知識ベースになります。</p>
+
+  <h3>Stage 1.5 &mdash; ソース検証（オプション）</h3>
+  <p>ソース検証が有効な場合（デフォルト）、<strong>source-verifierエージェント</strong>が<code>research_notes.md</code>のすべてのURLをHTTPチェックとコンテンツクロスチェックで検証し、<strong>Trust Score</strong>付きの<code>source-verification.md</code>を作成します。Trust Scoreが70%を下回った場合のみパイプラインは停止します。</p>
+
+  <h3>Stage 2–3 &mdash; コンテンツ（ストーリーライン + スライドデッキ）</h3>
+  <p><strong>storylineエージェント</strong>がナラティブアークを設計して<code>storyline.md</code>を作成し、続いて<code>slide_deck.md</code>を作成します。スライドごとのタイトル、箇条書き、スピーカーノート、画像ロール/クエリフィールドが含まれます。</p>
+
+  <h3>Stage 4 &mdash; デザイン</h3>
+  <p><strong>designエージェント</strong>がビジュアルデザインスタイルを確定します: カラーパレット、フォントファミリー、スペーシング、レイアウトルール。すべてのCSS変数とタイポグラフィの決定を含む<code>design_spec.md</code>を作成します。</p>
+
+  <h3>Stage 3.5 &mdash; 画像収集 + 図生成</h3>
+  <p><strong>image-curator</strong>と<strong>diagram-specialist</strong>エージェントが並行して実行されます。Image-curatorはPixabay、Unsplash、Pexelsから商用利用可能な画像を検索します。Diagram-specialistはSVG概念図とデータチャートを生成します。両者ともマニフェストファイル（<code>image-manifest.json</code>と<code>diagram-manifest.json</code>）を作成します。</p>
+
+  <h3>Stage 5–8 &mdash; HTMLビルド</h3>
+  <p><strong>html-buildエージェント</strong>が<code>slide_deck.md</code>のコンテンツを選択したテーマテンプレート、デザインスペック、画像、図と組み合わせて、シングルファイルHTMLスライドデッキを生成します。結果は自己完結型の<code>.html</code>ファイルで、どのブラウザでも動作します。</p>
+
+  <h3>Stage 9–10 &mdash; レイアウト測定</h3>
+  <p><strong>measureエージェント</strong>がPlaywrightを使ってレンダリングされたHTMLスライドを自動測定し、正確なPDF生成のためにピクセル座標、フォント、色を抽出します。必要なTTFフォントもダウンロードします。</p>
+
+  <h3>Stage 11 &mdash; PDFエクスポート</h3>
+  <p><strong>pdf-exportエージェント</strong>がまず<strong>サンプルPDF</strong>（5スライド）を生成してあなたのレビューに提供します。承認後、完全なスライドデータから<strong>フルPDF</strong>を生成します。</p>
+
+  <h3>パイプラインフロー図</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 660" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ゲートマーカー付き11段階パイプラインフロー図">
+      <defs>
+        <marker id="arrowPipe" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowPipeG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
+        </marker>
+        <marker id="arrowPipeA" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-amber)"/>
+        </marker>
+      </defs>
+
+      <!-- Stage 0 -->
+      <rect x="210" y="8" width="260" height="34" rx="8" fill="var(--accent-purple)" stroke="none"/>
+      <text x="340" y="30" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--text-inverse)">[0] 設定</text>
+      <line x1="340" y1="42" x2="340" y2="62" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowPipe)"/>
+
+      <!-- Stage 1 -->
+      <rect x="210" y="66" width="260" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="340" y="88" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">[1] リサーチ</text>
+      <line x1="340" y1="100" x2="340" y2="120" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowPipe)"/>
+
+      <!-- Gate 1.5 -->
+      <rect x="290" y="124" width="100" height="24" rx="12" fill="var(--accent-green)" stroke="none" opacity="0.8"/>
+      <text x="340" y="140" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">Gate 1.5</text>
+      <text x="400" y="140" font-size="9" style="fill:var(--text-dim)">(オプション)</text>
+      <line x1="340" y1="148" x2="340" y2="168" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowPipeG)"/>
+
+      <!-- Stage 1.5 -->
+      <rect x="210" y="172" width="260" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="340" y="194" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">[1.5] ソース検証</text>
+      <line x1="340" y1="206" x2="340" y2="226" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowPipeG)"/>
+
+      <!-- Gate 2 (mandatory) -->
+      <rect x="270" y="230" width="140" height="26" rx="13" fill="var(--accent-amber)" stroke="none"/>
+      <text x="340" y="248" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">Gate 2（必須）</text>
+      <line x1="340" y1="256" x2="340" y2="276" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowPipeA)"/>
+
+      <!-- Stage 2-3 -->
+      <rect x="210" y="280" width="260" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="340" y="302" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">[2–3] コンテンツ（ストーリーライン）</text>
+      <line x1="340" y1="314" x2="340" y2="334" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowPipeA)"/>
+
+      <!-- Stage 4 -->
+      <rect x="210" y="338" width="260" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="340" y="360" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">[4] デザイン</text>
+      <line x1="340" y1="372" x2="340" y2="392" stroke="var(--accent-purple)" stroke-width="2" marker-end="url(#arrowPipe)"/>
+
+      <!-- Gate 3 -->
+      <rect x="290" y="396" width="100" height="24" rx="12" fill="var(--accent)" stroke="none" opacity="0.8"/>
+      <text x="340" y="412" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">Gate 3</text>
+      <text x="400" y="412" font-size="9" style="fill:var(--text-dim)">(オプション)</text>
+      <line x1="340" y1="420" x2="340" y2="440" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowPipe)"/>
+
+      <!-- Stage 3.5 -->
+      <rect x="210" y="444" width="260" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="340" y="466" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">[3.5] 画像 + 図</text>
+      <line x1="340" y1="478" x2="340" y2="498" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowPipe)"/>
+
+      <!-- Stage 5-8 -->
+      <rect x="210" y="502" width="260" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="340" y="524" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">[5–8] HTMLビルド</text>
+      <line x1="340" y1="536" x2="340" y2="556" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowPipeG)"/>
+
+      <!-- Stage 9-10 -->
+      <rect x="210" y="560" width="260" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="340" y="582" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">[9–10] レイアウト測定</text>
+      <line x1="340" y1="594" x2="340" y2="614" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowPipeA)"/>
+
+      <!-- Gate 5 (mandatory) -->
+      <rect x="270" y="618" width="140" height="26" rx="13" fill="var(--accent-amber)" stroke="none"/>
+      <text x="340" y="636" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">Gate 5（必須）</text>
+
+      <!-- Stage 11 -->
+      <rect x="210" y="622" width="260" height="34" rx="0 0 8 8" fill="none" stroke="none"/>
+
+      <!-- Parallel fork for 3.5 -->
+      <line x1="210" y1="461" x2="140" y2="461" stroke="var(--accent)" stroke-width="1.5"/>
+      <rect x="20" y="448" width="120" height="26" rx="6" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1"/>
+      <text x="80" y="465" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">image-curator</text>
+
+      <line x1="210" y1="461" x2="140" y2="478" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <rect x="20" y="466" width="120" height="26" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="80" y="483" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">diagram-specialist</text>
+
+      <text x="170" y="458" font-size="8" style="fill:var(--text-dim)">並行</text>
+
+      <!-- Legend -->
+      <rect x="480" y="20" width="14" height="14" rx="3" fill="var(--accent-amber)"/>
+      <text x="500" y="32" font-size="9" style="fill:var(--text-dim)">必須ゲート（あなたの承認）</text>
+
+      <rect x="480" y="42" width="14" height="14" rx="3" fill="var(--accent)" opacity="0.8"/>
+      <text x="500" y="54" font-size="9" style="fill:var(--text-dim)">オプショナルゲート（レビューのみ）</text>
+
+      <rect x="480" y="64" width="14" height="14" rx="3" fill="var(--accent-purple)"/>
+      <text x="500" y="76" font-size="9" style="fill:var(--text-dim)">PM / 設定ステージ</text>
+
+      <rect x="480" y="86" width="14" height="14" rx="3" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="500" y="98" font-size="9" style="fill:var(--text-dim)">スペシャリストエージェントステージ</text>
+    </svg>
+  </div>
+
+  <div class="note">
+    <strong>必須ゲート vs. オプショナルゲート:</strong> <strong>Gate 2</strong>（コンテンツ承認）と<strong>Gate 5</strong>（サンプルPDF承認）のみが明示的な承認を必要とします。Gate 1.5、3、4はオプション &mdash; PMは簡単なレビュー後に自動で進めます。パイプラインはTrust Scoreが70%を下回った場合のみGate 1.5で停止します。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: Themes and Styles                                   -->
+  <!-- ============================================================ -->
+  <h2 id="theme-style">テーマとスタイル</h2>
+
+  <p>co-deckの最も強力な機能の一つは、<strong>テーマ</strong>と<strong>スタイル</strong>の分離です。この2つの概念が連携して、コードに触れることなくプレゼンテーションの外観を完全にコントロールできます。</p>
+
+  <h3>テーマ vs. スタイル</h3>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>テーマ（レンダリングパラダイム）</h4>
+      <ul>
+        <li><strong>内容:</strong> HTMLレンダリングエンジンとスライド構造</li>
+        <li><strong>制御:</strong> スライドのレイアウト、ナビゲーション動作、トランジション効果、目次構造</li>
+        <li><strong>例:</strong> <code>outline</code>（垂直アウトライン）、<code>vertical</code>（スクロールベース）、<code>pitch-enhanced</code>（PPT風）、<code>outlook</code>（水平スクロール）、<code>zen</code>（ミニマル禅）</li>
+        <li><strong>梱包内容:</strong> 4ファイル &mdash; <code>template.html</code>、<code>theme.json</code>、<code>theme.css</code>、<code>pdf_layout_spec.json</code></li>
+        <li><strong>例え:</strong> 家の<strong>間取り図</strong> &mdash; 部屋の形と動線を決定する</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>スタイル（ビジュアル外観）</h4>
+      <ul>
+        <li><strong>内容:</strong> 色、フォント、ビジュアルムードを定義するCSS変数セット</li>
+        <li><strong>制御:</strong> 背景色、テキスト色、アクセント色、見出しフォント、ボーダースタイル、シャドウ、その他のビジュアルプロパティ</li>
+        <li><strong>例:</strong> <code>classic</code>（ライト、プロフェッショナル）、<code>premium-dark</code>（ダーク、洗練）、<code>minimal</code>（超クリーン）、<code>academic</code>（学術的）、<code>visual-heavy</code>（画像重視）</li>
+        <li><strong>梱包内容:</strong> CSS変数オーバーライドを定義する単一の<code>style.css</code>ファイル</li>
+        <li><strong>例え:</strong> 家の<strong>インテリアデザイン</strong> &mdash; 同じ間取りで完全に異なる外観と雰囲気</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>互換性マトリックス</h3>
+
+  <p>すべてのスタイルがすべてのテーマで動作するわけではありません。各テーマは<code>theme.json</code>で<strong>互換スタイル</strong>を宣言します。例えば、<code>pitch</code>テーマは<code>classic</code>、<code>minimal</code>、<code>premium-dark</code>のみをサポートし、<code>outline</code>テーマはすべての5つのスタイルをサポートします。</p>
+
+  <p>互換性マトリックスは<code>docs/html-themes/THEMES.md</code>に記載されており、PMがStage 0で確認します。互換性のないテーマとスタイルの組み合わせを試みると、PMは組み合わせを拒否し、理由を説明します。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>広い互換性</h4>
+      <ul>
+        <li><strong>outline</strong> &mdash; classic、minimal、premium-dark、academic、visual-heavy（5スタイル）</li>
+        <li><strong>vertical</strong> &mdash; classic、minimal、premium-dark、academic、visual-heavy（5スタイル）</li>
+        <li><strong>zen</strong> &mdash; classic、minimal、premium-dark、academic（4スタイル）</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>狭い互換性</h4>
+      <ul>
+        <li><strong>pitch-enhanced</strong> &mdash; classic、minimal、premium-dark、academic、visual-heavy（5、ただしvisual-heavyは部分対応）</li>
+        <li><strong>pitch</strong> &mdash; classic、minimal、premium-dark（3スタイル）</li>
+        <li><strong>outlook</strong> &mdash; classic、minimal、premium-dark、academic、visual-heavy（5スタイル）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>初心者へのヒント:</strong> どのテーマとスタイルを選ぶか迷った場合は、<strong><code>outline</code>テーマ + <code>classic</code>スタイル</strong>から始めてください。この組み合わせは最も広い互換性を持ち、きれいな垂直レイアウトで、ほとんどのプレゼンテーションタイプに適しています。コンテンツをやり直すことなく後から変更できます。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: Gate Approvals                                      -->
+  <!-- ============================================================ -->
+  <h2 id="gates">ゲート承認</h2>
+
+  <p>ゲートはパイプライン内のチェックポイントで、ワークフローが一時停止してレビューを待ちます。<strong>あなたが重要な決定ポイントでコントロールを維持</strong>するために存在します。PMは必須ゲートをあなたの明示的な承認なしに通りません。</p>
+
+  <h3>必須ゲート</h3>
+
+  <p>2つのゲートが<strong>必須</strong>です &mdash; パイプラインが続行する前に明示的に承認する必要があります。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Gate 2 &mdash; コンテンツ承認</h4>
+      <ul>
+        <li><strong>タイミング:</strong> storylineエージェントが<code>storyline.md</code>と<code>slide_deck.md</code>を完了した後</li>
+        <li><strong>レビュー内容:</strong> ナラティブ構造、チャプター構成、スライドタイトル、箇条書きコンテンツ、画像配置</li>
+        <li><strong>重要性:</strong> 承認後、デザイン、画像、ビルドエージェントがこのコンテンツに基づいて作業を開始。後からのコンテンツ変更は複数ステージの再実行を意味する</li>
+        <li><strong>PMメッセージ:</strong> "デザインとHTMLの開始を承認しますか？"</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Gate 5 &mdash; サンプルPDF承認</h4>
+      <ul>
+        <li><strong>タイミング:</strong> pdf-exportエージェントが5スライドのサンプルPDFを生成した後</li>
+        <li><strong>レビュー内容:</strong> レイアウト、フォント、色、スペーシング、全体のビジュアル品質</li>
+        <li><strong>重要性:</strong> フルPDF生成前にビジュアルの問題を発見する最後のチャンス</li>
+        <li><strong>PMメッセージ:</strong> "レイアウトとフォントを確認してください。フルPDFを生成しますか？"</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>オプショナルゲート</h3>
+
+  <p>3つのゲートは<strong>オプショナル</strong>です &mdash; PMが出力をレビューし、問題がなければ自動的に進めます。</p>
+
+  <ul>
+    <li><strong>Gate 1.5（ソース検証）</strong> &mdash; source-verifierが<code>source-verification.md</code>を作成した後。PMがTrust Scoreを出力して自動的に進めます。Trust Score &lt; 70%の場合のみ停止。</li>
+    <li><strong>Gate 3（デザインスペック）</strong> &mdash; designエージェントが<code>design_spec.md</code>を作成した後。PMがテーマとビジュアルスペックの概要を出力して進めます。</li>
+    <li><strong>Gate 4（HTML下書き）</strong> &mdash; html-buildエージェントがHTMLスライドデッキを生成した後。PMがビルドファイルの詳細を出力して進めます。</li>
+  </ul>
+
+  <div class="warn">
+    <strong>Gate 2は最も重要な決定ポイントです。</strong> Gate 2を承認すると、デザイン、画像収集、図生成、HTMLビルド、PDFエクスポートの各ステージがトリガーされます。後でコンテンツ構造を変更する場合（チャプターの追加、スライドの削除、フローの再編成など）、PMは下流のステージをリセットして再実行する必要があります。承認前にコンテンツを慎重にレビューしてください。
+  </div>
+
+  <div class="note">
+    <strong>修正ルール:</strong> ゲート後に変更を要求すると、PMは再実行が必要な下流ステージを特定し、versionエージェントに現在のファイルのスナップショットを依頼し、適切なスペシャリストをディスパッチし、影響を受けるステージを<code>project_state.json</code>で「pending」にリセットします。出力が変更されていないステージ（例: リサーチ）はスキップされます。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: How to Talk to the PM                                -->
+  <!-- ============================================================ -->
+  <h2 id="how-to-talk">PMへの話しかけ方</h2>
+
+  <p>PMエージェントが唯一の窓口であるため、効果的なコミュニケーション方法を知っておくとプロセス全体がスムーズになります。Claude CodeまたはAntigravity CLIセッション内の自然言語でPMと対話します。</p>
+
+  <h3>新しいプレゼンテーションの開始</h3>
+
+  <p>新しいプレゼンテーションを開始するには、PMに作成したいものを伝えるだけです。以下にプロンプトの例を示します。</p>
+
+  <div class="prompt-box">
+    <strong>プレゼンテーション開始のプロンプト例:</strong>
+    <ul>
+      <li>"大学生向けに再生可能エネルギーについてのプレゼンテーションを作成して。"</li>
+      <li>"機械学習の基礎について初心者向けの20スライドの講義デッキを作って。"</li>
+      <li>"気候変動についてのプレゼンテーションが必要。図やデータチャートをたくさん使って。"</li>
+      <li>"インターネットの歴史について高校生向けのスライドデッキを作って。"</li>
+    </ul>
+  </div>
+
+  <h3>良いリクエスト vs. 改善が必要なリクエスト</h3>
+
+  <p>リクエストの品質が出力の品質に影響します。効果的なリクエストの構成に役立つ比較です。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>良いリクエスト</h4>
+      <ul>
+        <li>"<strong>再生可能エネルギー</strong>について<strong>大学生向け</strong>にプレゼンテーションを作成して。<strong>成長トレンド</strong>を示す<strong>データチャート</strong>を含めて。"</li>
+        <li>"<strong>AI倫理</strong>について<strong>一般オーディエンス向け</strong>の<strong>15スライド</strong>の講義を作って。<strong>outlineテーマ</strong>で<strong>premium-darkスタイル</strong>を使って。"</li>
+        <li>"<strong>宇宙探査</strong>について<strong>チャプターディバイダー</strong>と<strong>スピーカーノート</strong>付きのプレゼンテーションが欲しい。"</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>改善が必要なリクエスト</h4>
+      <ul>
+        <li>"プレゼンテーションを作って。" &mdash; <em>曖昧すぎる。PMはトピックとオーディエンスを必要としています。</em></li>
+        <li>"全部やって。" &mdash; <em>PMは正しいエージェントをディスパッチするために具体性を必要としています。</em></li>
+        <li>"きれいにして。" &mdash; <em>テーマとスタイルを指定するか、コンテンツに基づいてPMに提案させてください。</em></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>変更のリクエスト</h3>
+
+  <p>ゲート出力をレビューした後、自然言語で変更をリクエストできます。PMがどのエージェントを再ディスパッチし、どのステージを再実行するかを判断します。</p>
+
+  <div class="prompt-box">
+    <strong>変更リクエストのプロンプト例:</strong>
+    <ul>
+      <li>"第2章のスライドが多すぎる。いくつか統合して。"</li>
+      <li>"デザインスペックのアクセントカラーを青に変更して。"</li>
+      <li>"スライド8に比較図を追加して。"</li>
+      <li>"サンプルPDFのフォントがおかしい。再測定して。"</li>
+    </ul>
+  </div>
+
+  <div class="tip-box">
+    <strong>ヒント:</strong> どのエージェントがあなたのリクエストを処理するかを知る必要はありません。変更したい内容を説明するだけで、PMが判断します。例えば「第3章にもっと画像を追加して」と言えば、自動的にimage-curatorエージェントがトリガーされます &mdash; エージェント名を指定する必要はありません。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: Practice — Create a Mini Presentation               -->
+  <!-- ============================================================ -->
+  <h2 id="practice">演習: ミニプレゼンテーションを作成</h2>
+
+  <p>この演習では、co-deckを使って5スライドのミニプレゼンテーションを作成します。トピックは「機械学習の5つのコア概念」 &mdash; 初心者向けのシンプルなプレゼンテーションです。</p>
+
+  <h3>演習の目的</h3>
+
+  <ul>
+    <li>co-deckリポジトリをクローンしてプロジェクトをセットアップする</li>
+    <li>Claude Desktop AppからPMエージェントにリクエストを送信する</li>
+    <li>11段階パイプラインの動作を観察する</li>
+    <li>Gate 2とGate 5の承認プロセスを体験する</li>
+    <li>最終成果物（HTMLとPDF）を確認する</li>
+  </ul>
+
+  <h3>前提条件</h3>
+
+  <p>第3章でインストールしたツールが正しく動作していることを確認してください。</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Claude Desktop App</strong> &mdash; Claudeと会話できること</li>
+      <li><strong>Git</strong> &mdash; リポジトリをクローンできること</li>
+      <li><strong>ブラウザ</strong> &mdash; HTMLスライドデッキを開けるブラウザ</li>
+    </ol>
+  </div>
+
+  <h3>ステップバイステップの手順</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>ワークスペースをクローンしてプロジェクトをスキャフォールド</strong><br>
+        以前の章でワークスペースをクローンしていない場合は、先にクローンしてください。その後、<code>new-project.ts</code>を使ってco-deckバリアントから新しいプロジェクトをスキャフォールドします。
+        <div class="prompt-box">
+          <code>git clone https://github.com/5throck/ai-workspace-standards.git</code><br>
+          <code>cd ai-workspace-standards</code><br>
+          <code>bun scripts/new-project.ts "co-deck" --variant co-deck</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+        これにより、<code>Projects/co-deck/</code>が独立したGitリポジトリとして作成され、co-deckバリアントのエージェント、スキル、設定がコピーされます。
+      </li>
+      <li>
+        <strong>Claude Desktop Appでプロジェクトを開く</strong><br>
+        Claude Desktop Appを起動し、<code>Projects/co-deck/</code>フォルダをプロジェクトとして開きます。以下のように伝えてPMを開始します。
+        <div class="prompt-box">
+          <code>"新しいプロジェクトを始めましょう。"</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+        PMがStage 0（プロジェクト設定）に入り、トピック、オーディエンス、テーマ、スタイルについて尋ねます。
+      </li>
+      <li>
+        <strong>PMに話しかける</strong><br>
+        PMの質問に答えてプロジェクトを設定します。以下のように応答してみましょう。
+        <div class="prompt-box">
+          <code>"機械学習の5つのコア概念についてミニプレゼンテーションを作成して。5スライド。初心者向け。英語で。"</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+        PMがリクエストを分析し、<code>lecture-profile.md</code>の設定フィールド（テーマ、スタイル、source_verificationなど）を案内します。
+      </li>
+      <li>
+        <strong>Stage 0の設定（トピック、オーディエンス、言語）</strong><br>
+        PMが以下の項目を確認します。初心者はデフォルトのままにしてください。
+        <ul>
+          <li><strong>レンダリングテーマ:</strong> pitch-enhanced（デフォルト）</li>
+          <li><strong>ビジュアルスタイル:</strong> classic（デフォルト）</li>
+          <li><strong>ソース検証:</strong> true（デフォルト）</li>
+          <li><strong>ディバイダーモード:</strong> auto（デフォルト）</li>
+        </ul>
+        すべての設定を確認し、PMに進行を指示します。
+      </li>
+      <li>
+        <strong>Gate 2を承認する（スライドコンテンツをレビュー）</strong><br>
+        Stage 1（リサーチ）とStage 2–3（コンテンツ）が完了すると、PMがGate 2で承認を求めます。<code>slide_deck.md</code>をレビューし、以下を確認します。
+        <ul>
+          <li>スライド構成は論理的か？</li>
+          <li>各スライドのコンテンツは正確か？</li>
+          <li>表紙スライドと終了スライドは適切か？</li>
+        </ul>
+        レビュー後、以下のように応答します。
+        <div class="prompt-box">
+          <code>"スライドコンテンツをレビューしました。次のステージに進んでください。"</code>
+        </div>
+        変更が必要な場合は、具体的に伝えます。
+        <div class="prompt-box">
+          <code>"スライド3の内容をより簡単な用語で説明して。"</code>
+        </div>
+      </li>
+      <li>
+        <strong>Gate 5を承認する（サンプルPDFをレビュー）</strong><br>
+        Stage 11が<code>sample_5slides.pdf</code>を生成すると、PMがGate 5で承認を求めます。サンプルPDFで以下を確認します。
+        <ul>
+          <li>フォントが正しくレンダリングされているか？</li>
+          <li>レイアウトはきれいに配置されているか？</li>
+          <li>色は意図通りに表示されているか？</li>
+        </ul>
+        レビュー後、以下のように応答します。
+        <div class="prompt-box">
+          <code>"サンプルPDFをレビューしました。フルPDFを生成してください。"</code>
+        </div>
+      </li>
+      <li>
+        <strong>最終成果物を確認する</strong><br>
+        すべてのステージが完了すると、最終成果物が<code>presentations/&lt;project&gt;/</code>フォルダにあります。確認方法は次のセクションで説明します。
+      </li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>まずは5〜10スライドの短いプレゼンテーションから始めましょう。</strong>小さなデッキであればパイプライン全体が速く完了するため、co-deckの仕組みを把握できます。慣れてきたら、本格的な20〜30+スライドの講義デッキに挑戦してください。
+  </div>
+
+  <div class="warn">
+    <strong>注意:</strong> co-deckのエージェントはClaude APIを通じて実行されます。演習中、Claudeの応答が遅くなったりタイムアウトしたりすることがあります。画像や図が多いプレゼンテーションは時間がかかることがあります &mdash; これは想定された動作です。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 8: Reviewing Outputs                                  -->
+  <!-- ============================================================ -->
+  <h2 id="outputs">成果物の確認</h2>
+
+  <p>パイプライン完了後、プレゼンテーションの成果物はプロジェクトディレクトリに格納されます。どこに何があるか、各出力タイプの確認方法を見てみましょう。</p>
+
+  <h3>成果物の場所</h3>
+
+  <p>プレゼンテーションのすべての出力は<code>presentations/&lt;project-name&gt;/</code>の下に保存されます。パイプラン完了後のディレクトリ構成は以下の通りです。</p>
+
+  <div class="prompt-box">
+    <code>Projects/co-deck/presentations/&lt;project-name&gt;/</code>
+    <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ファイル / ディレクトリ</th>
+        <th>説明</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>lecture-profile.md</code></td>
+        <td>プロジェクト設定（トピック、オーディエンス、テーマ、スタイル）</td>
+      </tr>
+      <tr>
+        <td><code>research_notes.md</code></td>
+        <td>researchエージェントが収集したWebリサーチ情報源と主要事実</td>
+      </tr>
+      <tr>
+        <td><code>storyline.md</code></td>
+        <td>storylineエージェントが設計したナラティブアークとチャプター構造</td>
+      </tr>
+      <tr>
+        <td><code>slide_deck.md</code></td>
+        <td>スライドごとのコンテンツ: タイトル、箇条書き、スピーカーノート、画像ロール</td>
+      </tr>
+      <tr>
+        <td><code>design_spec.md</code></td>
+        <td>ビジュアルデザイン: カラーパレット、フォント、CSS変数</td>
+      </tr>
+      <tr>
+        <td><code>assets/images/</code></td>
+        <td>ダウンロードされた商用利用画像 + <code>image-manifest.json</code></td>
+      </tr>
+      <tr>
+        <td><code>assets/diagrams/</code></td>
+        <td>生成されたSVG図 + <code>diagram-manifest.json</code></td>
+      </tr>
+      <tr>
+        <td><code>lecture_v1.html</code></td>
+        <td>最終的なシングルファイルHTMLスライドデッキ</td>
+      </tr>
+      <tr>
+        <td><code>&lt;project&gt;.pdf</code></td>
+        <td>最終的な印刷対応PDF</td>
+      </tr>
+      <tr>
+        <td><code>sample_5slides.pdf</code></td>
+        <td>Gate 5レビュー用の5スライドサンプルPDF</td>
+      </tr>
+      <tr>
+        <td><code>project_state.json</code></td>
+        <td>パイプライン進捗トラッカー（各ステージのステータス）</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>成果物の開き方と確認方法</h3>
+
+  <div class="step-list">
+    <ol>
+      <li class="step">
+        <strong>HTMLスライドデッキを開く。</strong>
+        <code>presentations/&lt;project-name&gt;/lecture_v1.html</code>に移動し、Webブラウザで開きます。すべてのスライド、画像、図、ナビゲーションを含む完全なプレゼンテーションが表示されます。スライドのクリック、キーボード矢印、スピーカーノートパネルの切り替えを試してください。
+      </li>
+      <li class="step">
+        <strong>HTML機能をテストする。</strong>
+        <kbd>F</kbd>で全画面表示、<kbd>T</kbd>で目次を開く、<kbd>S</kbd>でスピーカーノートを表示、<kbd>Escape</kbd>で終了。これらのコントロールで本番のスライドアプリと同じようにプレゼンの練習ができます。
+      </li>
+      <li class="step">
+        <strong>PDFを開く。</strong>
+        <code>presentations/&lt;project-name&gt;/&lt;project&gt;.pdf</code>に移動し、PDFビューアで開きます。PDFレイアウトをHTML版と比較 &mdash; 色、フォント、スペーシングが一致しているはずです。
+      </li>
+      <li class="step">
+        <strong>中間ファイルを確認する（オプション）。</strong>
+        パイプラインの仕組みを理解したい場合は、<code>research_notes.md</code>でresearchエージェントの調査結果を、<code>slide_deck.md</code>で構造化されたコンテンツを、<code>design_spec.md</code>でビジュアルデザインの決定を確認できます。これらのファイルでAIエージェントのすべての判断を可視化できます。
+      </li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>上級者のヒント:</strong> HTMLスライドデッキが主要な成果物です。自己完結型（サーバー不要）、プレザーターモードやTTSナレーションなどのインタラクティブ機能をサポートし、オフラインで動作します。PDFは印刷や静的ドキュメントを好む人向けに最適です。両方を使いましょう: HTMLでプレゼンし、PDFを配布。
+  </div>
+
+  <h3>ファイル構造の概要</h3>
+
+  <div class="flow-box">
+    <div class="code-block">
+<pre><code>co-deck/
+├── agents/                        # エージェント定義ファイル
+│   ├── pm.md
+│   ├── research.md
+│   ├── storyline.md
+│   ├── design.md
+│   ├── html-build.md
+│   ├── pdf-export.md
+│   └── ...
+├── docs/html-themes/               # テーマとスタイルレジストリ
+│   ├── THEMES.md
+│   ├── themes/                    # pitch, pitch-enhanced, outline, vertical, zen, ...
+│   └── styles/                    # classic, minimal, premium-dark, academic, ...
+├── presentations/
+│   └── &lt;project-name&gt;/
+│       ├── lecture-profile.md     # Stage 0: プロジェクト設定
+│       ├── project_state.json     # パイプライン進捗トラッカー
+│       ├── research_notes.md      # Stage 1: リサーチ結果
+│       ├── storyline.md           # Stage 2-3: スライド構造
+│       ├── slide_deck.md          # Stage 2-3: スライドごとのコンテンツ
+│       ├── design_spec.md         # Stage 4: デザインスペック
+│       ├── assets/
+│       │   ├── images/            # Stage 3.5: ダウンロードされた画像
+│       │   └── diagrams/          # Stage 3.5: 生成されたSVG図
+│       ├── lecture_v1.html        # Stage 5-8: HTMLスライドデッキ
+│       └── &lt;project&gt;.pdf       # Stage 11: 最終PDF
+├── scripts/co-deck/               # 自動化スクリプト
+└── memory/                        # セッション記録</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+</div>
+  </div>
+
+  <div class="note">
+    <strong>次は何か:</strong> 第8章では、<strong>co-consult</strong>（第6章）と<strong>co-deck</strong>のパイプラインを統合したワークフローを解説します &mdash; まずコンサルティング分析を作成し、次に主要な分析結果を洗練されたプレゼンテーションに変えます。ここがマルチエージェントエコシステムの真価が発揮される場面です。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER NAVIGATION                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch06/06_Co_Consult_Practice_ja.html" class="prev">
+      <div class="dir">&larr; 前の章</div>
+      <div class="ttl">Ch 6 &middot; co-consult: AIコンサルティングの実践</div>
+    </a>
+    <a href="../ch08/08_Integrated_Pipeline_ja.html" class="next" style="margin-left:auto;">
+      <div class="dir">次の章 &rarr;</div>
+      <div class="ttl">Ch 8 &middot; co-consult + co-deck統合パイプライン</div>
+    </a>
+  </div>
+   <footer>
+    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) ベース · 日本語教育資料<br>
+    公式ドキュメント: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    ハンドブックのコンテンツは <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (表示 - 非営利 - 継承 4.0 国際)</a> のもとでライセンスされています。
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

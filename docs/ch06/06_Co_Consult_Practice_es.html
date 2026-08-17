@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Cap. 6 &middot; co-consult: AI Consulting in Practice - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Cap. 6 &middot; co-consult: AI Consulting in Practice</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_es.html" class="nav-home">&larr; Inicio del manual</a>
+  <div class="nav-title">Cap. 6 &middot; co-consult: AI Consulting in Practice</div>
+  <a href="#what-is-coconsult">What is co-consult</a>
+  <a href="#architecture">System Architecture</a>
+  <a href="#phases">How the PM Dispatches Specialists</a>
+  <a href="#how-to-talk">How to Talk to the PM</a>
+  <a href="#team-patterns">Team Composition Patterns</a>
+  <a href="#practice">Practice: Simple Market Analysis</a>
+  <a href="#outputs">Reviewing Resultados</a>
+  <div class="nav-section">Otros capítulos</div>
+  <a href="../ch05/05_Workspace_Standards_es.html">Cap. 5 &middot; Exploring ai-workspace-standards</a>
+  <a href="../ch07/07_Co_Deck_Practice_es.html">Cap. 7 &middot; co-deck: AI Presentation in Practice</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">Capítulo 6</div>
+  <h1>co-consult: AI Consulting in Practice</h1>
+  <p class="lead">co-consult is a system where AI agent teams execute consulting projects. En este capítulo, you'll understand co-consult's structure and run a simple market analysis project using Claude Desktop App.</p>
+  <div class="keypoints">
+    <div class="kp-title">Lo que cubre este capítulo</div>
+    <ul>
+      <li>co-consult system introduction and architecture</li>
+      <li>How the PM dispatches specialists (no fixed pipeline)</li>
+      <li>How to make requests to the PM agent</li>
+      <li>4 team composition patterns</li>
+      <li>Practice: simple market analysis project</li>
+      <li>Reviewing outputs</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: What is co-consult                                  -->
+  <!-- ============================================================ -->
+  <h2 id="what-is-coconsult">What is co-consult</h2>
+
+  <h3>Definition</h3>
+
+  <p><strong>co-consult</strong> is a system in which <strong>AI agent teams carry out strategic consulting projects</strong>. As one of the variants of ai-workspace-standards that we explored in Capítulo 5, multiple AI agents collaborate to automate consulting tasks such as market analysis, competitive analysis, entry strategy development, and business model review.</p>
+
+  <p>Location: <code>templates/co-consult/</code> inside <a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">ai-workspace-standards</a> &mdash; scaffold your own copy with <code>bun scripts/new-project.ts "&lt;name&gt;" --variant co-consult</code>.</p>
+
+  <h3>What Problem Does It Solve?</h3>
+
+  <p>Strategic consulting involves several steps. co-consult has the entire process carried out by an AI agent team.</p>
+
+  <ul>
+    <li><strong>Market analysis</strong> &mdash; Understanding market size, growth rate, and trends</li>
+    <li><strong>Competitive analysis</strong> &mdash; Comparing key competitors' strengths, weaknesses, and market share</li>
+    <li><strong>Entry strategy</strong> &mdash; Determining methods, timing, and channels for entering a new market</li>
+    <li><strong>Business model</strong> &mdash; Analyzing revenue structure, value proposition, and key resources</li>
+    <li><strong>Technology trends</strong> &mdash; Reviewing related technology trends and adoption feasibility</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>Beginner analogy:</strong> co-consult is like a virtual "consulting firm." The PM (Project Manager) holds a meeting with the partner (you) to understand your requirements, and specialist agents each carry out their assigned analysis. The structure is similar to how a senior consultant leads junior consultants at a real consulting firm.
+  </div>
+
+  <h3>Difference from co-deck</h3>
+
+  <p>While co-deck is specialized for <strong>presentation (slide) production</strong>, co-consult is specialized for <strong>strategic analysis and report writing</strong>. Both systems are built on ai-workspace-standards, but they differ in purpose and agent composition.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>co-deck</h4>
+      <ul>
+        <li>Presentation slide production</li>
+        <li>research, storyline, html-build, pdf-export, etc.</li>
+        <li>11-Stage pipeline</li>
+        <li>Resultado: HTML slides + PDF</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-consult</h4>
+      <ul>
+        <li>Strategic consulting analysis and reports</li>
+        <li>strategy-analyst, industry-expert, sme, communications-lead, etc.</li>
+        <li>PM-dispatched, no fixed pipeline</li>
+        <li>Resultado: Analysis report HTML + PDF</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: System Architecture                                 -->
+  <!-- ============================================================ -->
+  <h2 id="architecture">System Architecture</h2>
+
+  <h3>Agent Composition</h3>
+
+  <p>co-consult consists of <strong>one PM agent (the Engagement Leader) and 10 specialist agents</strong>. The PM sits at the center, orchestrating the entire engagement, while specialist agents carry out work in their respective domains.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-consult agent composition diagram">
+      <!-- Background -->
+      <rect x="0" y="0" width="680" height="480" rx="12" fill="var(--bg2)"/>
+
+      <!-- PM (center) -->
+      <circle cx="340" cy="240" r="56" fill="var(--accent)" opacity="0.15"/>
+      <circle cx="340" cy="240" r="56" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <text x="340" y="234" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text)">PM</text>
+      <text x="340" y="252" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Engagement Leader</text>
+
+      <!-- Connection lines -->
+      <line x1="340" y1="184" x2="340" y2="72" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="240" x2="540" y2="100" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="240" x2="540" y2="180" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="240" x2="540" y2="260" stroke="var(--accent-purple)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="240" x2="540" y2="340" stroke="var(--accent-red)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="340" y1="296" x2="340" y2="420" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="240" x2="140" y2="100" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="240" x2="140" y2="180" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="240" x2="140" y2="260" stroke="var(--accent-purple)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="240" x2="140" y2="340" stroke="var(--accent-red)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="240" x2="540" y2="420" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+
+      <!-- Top: strategy-analyst -->
+      <rect x="280" y="36" width="120" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="340" y="59" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">strategy-analyst</text>
+
+      <!-- Right column -->
+      <rect x="540" y="78" width="120" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="600" y="101" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">industry-expert</text>
+
+      <rect x="540" y="158" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="600" y="181" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">sme</text>
+
+      <rect x="540" y="238" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="600" y="261" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">data-analyst</text>
+
+      <rect x="540" y="318" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="600" y="341" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">communications-lead</text>
+
+      <rect x="540" y="398" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="600" y="421" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">solutions-architect</text>
+
+      <!-- Left column -->
+      <rect x="20" y="78" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="80" y="101" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">change-mgmt-partner</text>
+
+      <rect x="20" y="158" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="80" y="181" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">workstream-lead</text>
+
+      <rect x="20" y="238" width="120" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="80" y="261" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">delivery-manager</text>
+
+      <rect x="20" y="318" width="120" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="80" y="341" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">technology-specialist</text>
+
+      <!-- Bottom: User -->
+      <rect x="290" y="406" width="100" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="340" y="429" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">User</text>
+
+      <!-- Legend -->
+      <rect x="260" y="460" width="12" height="12" rx="2" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="278" y="470" font-size="9" style="fill:var(--text-dim)">Research / Insight</text>
+      <rect x="380" y="460" width="12" height="12" rx="2" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="398" y="470" font-size="9" style="fill:var(--text-dim)">Analysis / Design</text>
+      <rect x="500" y="460" width="12" height="12" rx="2" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="518" y="470" font-size="9" style="fill:var(--text-dim)">Delivery / Support</text>
+    </svg>
+  </div>
+
+  <h3>Specialist Agent Roles</h3>
+
+  <p>Here is a summary of each specialist agent's role. Unlike a fixed pipeline, any of these can be dispatched at any point in the engagement, as needed.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Agent</th>
+        <th>Role</th>
+        <th>Descripción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>change-management-partner</code></td>
+        <td>Change Management Partner</td>
+        <td>Organizational transformation, culture strategy, and stakeholder alignment</td>
+      </tr>
+      <tr>
+        <td><code>strategy-analyst</code></td>
+        <td>Strategy Analyst</td>
+        <td>Market analysis, competitive research, and financial modeling</td>
+      </tr>
+      <tr>
+        <td><code>industry-expert</code></td>
+        <td>Industry Expert</td>
+        <td>Industry-specific insights, competitive dynamics, and the regulatory landscape</td>
+      </tr>
+      <tr>
+        <td><code>sme</code></td>
+        <td>Subject Matter Expert</td>
+        <td>Functional expertise such as HR, Finance, Operations, or Marketing</td>
+      </tr>
+      <tr>
+        <td><code>communications-lead</code></td>
+        <td>Communications Lead</td>
+        <td>Client communications, presentations, and strategic narratives</td>
+      </tr>
+      <tr>
+        <td><code>solutions-architect</code></td>
+        <td>Solucións Architect</td>
+        <td>Technical solution design, system architecture, and implementation roadmaps</td>
+      </tr>
+      <tr>
+        <td><code>workstream-lead</code></td>
+        <td>Workstream Lead</td>
+        <td>Workstream management, team coordination, and progress tracking</td>
+      </tr>
+      <tr>
+        <td><code>delivery-manager</code></td>
+        <td>Delivery Manager</td>
+        <td>Project delivery, operations coordination, and resource allocation</td>
+      </tr>
+      <tr>
+        <td><code>technology-specialist</code></td>
+        <td>Technology Specialist</td>
+        <td>Collaboration platforms, workflow automation, and digital transformation</td>
+      </tr>
+      <tr>
+        <td><code>data-analyst</code></td>
+        <td>Data Analyst</td>
+        <td>Statistical analysis, data modeling, and visualization</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    The PM agent does <strong>not</strong> execute the work of the specialist agents directly. The PM only plays the role of an orchestrator &mdash; it analyzes the user's request and dispatches tasks to the appropriate specialist agents, as the engagement requires. See the PM Gateway section in Capítulo 4 for details.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: How the PM Dispatches Specialists                     -->
+  <!-- ============================================================ -->
+  <h2 id="phases">How the PM Dispatches Specialists</h2>
+
+  <p>Unlike co-deck's fixed 11-stage pipeline, co-consult has <strong>no fixed phase sequence</strong>. The PM (Engagement Leader) analyzes your request, decides which specialists are needed, and dispatches them directly &mdash; activating more as the engagement's questions and deliverables require, rather than marching through numbered phases and gates.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-consult PM dispatch diagram">
+      <!-- Background -->
+      <rect x="0" y="0" width="680" height="260" rx="12" fill="var(--bg2)"/>
+
+      <!-- User -->
+      <rect x="16" y="92" width="90" height="60" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="61" y="118" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">User</text>
+      <text x="61" y="134" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">request</text>
+
+      <!-- Arrow -->
+      <path d="M108 122 L128 122" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+      <!-- PM -->
+      <rect x="130" y="82" width="110" height="80" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2.5"/>
+      <text x="185" y="112" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">PM</text>
+      <text x="185" y="128" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">Engagement</text>
+      <text x="185" y="140" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">Leader</text>
+
+      <!-- Arrows to specialists -->
+      <path d="M242 100 L300 50" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+      <path d="M242 118 L300 118" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+      <path d="M242 136 L300 186" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+
+      <!-- Specialist boxes (dispatched as needed) -->
+      <rect x="302" y="26" width="140" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="372" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">strategy-analyst</text>
+
+      <rect x="302" y="98" width="140" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="372" y="122" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">industry-expert</text>
+
+      <rect x="302" y="166" width="140" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="372" y="190" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">communications-lead</text>
+
+      <text x="372" y="222" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">...other specialists, dispatched only if needed</text>
+
+      <!-- Arrows to deliverable -->
+      <path d="M444 46 L494 100" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+      <path d="M444 118 L494 118" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+      <path d="M444 186 L494 136" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+
+      <!-- Deliverable -->
+      <rect x="496" y="82" width="160" height="80" rx="10" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2.5"/>
+      <text x="576" y="112" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Deliverables</text>
+      <text x="576" y="128" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">findings, report</text>
+      <text x="576" y="140" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">reviewed by PM</text>
+
+      <!-- Arrowhead definition -->
+      <defs>
+        <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+          <polygon points="0 0, 6 2, 0 4" style="fill:var(--text-dim)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>How an Engagement Actually Proceeds</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Kickoff</strong><br>
+        The PM talks with you to understand the topic, scope, target audience, and timeline. There is no separate "Phase 0" file format &mdash; the PM simply captures this context and decides which specialists the engagement calls for.
+      </li>
+      <li>
+        <strong>Dispatch specialists as questions arise</strong><br>
+        The PM activates whichever specialists are relevant &mdash; for example <code>strategy-analyst</code> for market and competitive research, <code>industry-expert</code> for sector-specific context, or <code>sme</code> for a functional deep dive. There is no required order; the PM may dispatch several in parallel or bring in more mid-engagement if a gap appears.
+      </li>
+      <li>
+        <strong>Synthesis and reporting</strong><br>
+        Once enough analysis is in hand, the PM typically brings in <code>communications-lead</code> to shape the narrative and produce client-ready materials, and <code>solutions-architect</code> or <code>workstream-lead</code> if the engagement calls for an implementation plan.
+      </li>
+      <li>
+        <strong>Delivery and wrap-up</strong><br>
+        For larger engagements, <code>delivery-manager</code> and <code>workstream-lead</code> coordinate execution and track progress. The PM concludes the engagement once it determines, together with you, that the deliverables are complete.
+      </li>
+    </ol>
+  </div>
+
+  <div class="note">
+    You <strong>define requirements at kickoff</strong> and review deliverables whenever the PM checks in with you. Because there is no fixed pipeline, checkpoints happen naturally at whatever points the PM judges useful &mdash; e.g., after a first round of research, or before finalizing a report &mdash; rather than at hardcoded numbered gates. You can redirect the engagement at any of these checkpoints.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: How to Talk to the PM                               -->
+  <!-- ============================================================ -->
+  <h2 id="how-to-talk">How to Talk to the PM</h2>
+
+  <p>To use co-consult, you need to open the co-consult project in Claude Desktop App and send a request to the PM agent. An effective request significantly improves the quality of the project outcome.</p>
+
+  <h3>The 4 Key Elements of a Good Request</h3>
+
+  <p>A good request includes the following four elements.</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Purpose</strong> &mdash; What do you want to analyze?</li>
+      <li><strong>Scope</strong> &mdash; Which market, which domain?</li>
+      <li><strong>Target</strong> &mdash; Who is this analysis for? (your company, competitors, etc.)</li>
+      <li><strong>Timeline</strong> &mdash; When do you need the results?</li>
+    </ol>
+  </div>
+
+  <h3>Request Examples</h3>
+
+  <div class="prompt-box">
+    <strong>Example 1: Market Analysis</strong><br>
+    <code>"Analyze the food delivery app market in South Korea. Focus on competitor comparison and entry opportunities. Complete within 2 weeks."</code>
+    <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+
+  <div class="prompt-box">
+    <strong>Example 2: Business Model Review</strong><br>
+    <code>"Review our startup's SaaS business model. Target market is Japanese B2B enterprises. Cover pricing strategy and scalability."</code>
+    <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+
+  <div class="prompt-box">
+    <strong>Example 3: Technology Adoption Assessment</strong><br>
+    <code>"Evaluate introducing an AI chatbot to our company, targeting the education industry. Include cost analysis, technology stack options, and competitor case studies."</code>
+    <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+
+  <h3>Good Requests vs. Poor Requests</h3>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Good Request</h4>
+      <ul>
+        <li>Purpose is clear: "Analyze the market"</li>
+        <li>Scope is specific: "South Korean food delivery app market"</li>
+        <li>Focus areas are stated: "Competitor comparison and entry opportunities"</li>
+        <li>Timeline is set: "Within 2 weeks"</li>
+        <li>PM can dispatch agents immediately</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Poor Request</h4>
+      <ul>
+        <li>Purpose is vague: "Analyze something for me"</li>
+        <li>No scope: Market? Technology? Competitors?</li>
+        <li>Focus areas unclear: "Everything"</li>
+        <li>No timeline: Deadline is undefined</li>
+        <li>PM must ask follow-up questions</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>Start with a simple topic as a beginner.</strong> Save complex projects for after you have gained experience. A straightforward request like "Analyze the key trends in the South Korean coffee shop market" is recommended to learn how co-consult operates before tackling anything more involved.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: Team Composition Patterns                            -->
+  <!-- ============================================================ -->
+  <h2 id="team-patterns">Team Composition Patterns</h2>
+
+  <p>co-consult offers <strong>4 team composition patterns</strong> depending on the project's scale and complexity. The PM analyzes the project requirements and selects the most appropriate pattern.</p>
+
+  <h3>The 4 Team Composition Patterns</h3>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Team composition patterns diagram">
+      <!-- Background -->
+      <rect x="0" y="0" width="680" height="400" rx="12" fill="var(--bg2)"/>
+
+      <!-- Pattern 1: Quick Assessment -->
+      <rect x="16" y="16" width="158" height="180" rx="10" fill="var(--bg)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="95" y="40" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--accent-green)">Quick Assessment</text>
+      <text x="95" y="56" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Rapid evaluation</text>
+      <circle cx="95" cy="90" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
+      <text x="95" y="95" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
+      <rect x="30" y="120" width="130" height="22" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="95" y="135" text-anchor="middle" font-size="8" style="fill:var(--text)">strategy-analyst</text>
+      <text x="95" y="164" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">1-2 agents</text>
+      <text x="95" y="180" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">1-2 days</text>
+
+      <!-- Pattern 2: Standard -->
+      <rect x="186" y="16" width="158" height="180" rx="10" fill="var(--bg)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="265" y="40" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--accent)">Standard</text>
+      <text x="265" y="56" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Standard scope</text>
+      <circle cx="265" cy="90" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
+      <text x="265" y="95" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
+      <rect x="200" y="116" width="70" height="20" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="235" y="130" text-anchor="middle" font-size="7" style="fill:var(--text)">strategy-analyst</text>
+      <rect x="272" y="116" width="60" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="302" y="130" text-anchor="middle" font-size="7" style="fill:var(--text)">industry-expert</text>
+      <rect x="200" y="142" width="60" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="230" y="156" text-anchor="middle" font-size="7" style="fill:var(--text)">comms-lead</text>
+      <text x="265" y="178" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">3-4 agents</text>
+      <text x="265" y="194" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">1-2 weeks</text>
+
+      <!-- Pattern 3: Complex Transformation -->
+      <rect x="356" y="16" width="158" height="180" rx="10" fill="var(--bg)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="435" y="40" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--accent-purple)">Complex Transform</text>
+      <text x="435" y="56" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Multi-faceted change</text>
+      <circle cx="435" cy="82" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
+      <text x="435" y="87" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
+      <rect x="372" y="108" width="66" height="18" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="405" y="121" text-anchor="middle" font-size="7" style="fill:var(--text)">change-mgmt</text>
+      <rect x="440" y="108" width="64" height="18" rx="5" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="472" y="121" text-anchor="middle" font-size="7" style="fill:var(--text)">workstream-lead</text>
+      <rect x="372" y="132" width="58" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="401" y="145" text-anchor="middle" font-size="7" style="fill:var(--text)">delivery-mgr</text>
+      <rect x="436" y="132" width="66" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="469" y="145" text-anchor="middle" font-size="7" style="fill:var(--text)">strategy-analyst</text>
+      <rect x="372" y="156" width="56" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="400" y="169" text-anchor="middle" font-size="7" style="fill:var(--text)">sme</text>
+      <rect x="434" y="156" width="66" height="18" rx="5" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="467" y="169" text-anchor="middle" font-size="7" style="fill:var(--text)">comms-lead</text>
+      <text x="435" y="192" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">6-8 agents</text>
+      <text x="435" y="208" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">2-4 weeks</text>
+
+      <!-- Pattern 4: Specialized Expert -->
+      <rect x="526" y="16" width="138" height="180" rx="10" fill="var(--bg)" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="595" y="40" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--accent-red)">Specialized</text>
+      <text x="595" y="56" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Domain-specific</text>
+      <circle cx="595" cy="90" r="16" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
+      <text x="595" y="95" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">PM</text>
+      <rect x="546" y="120" width="46" height="20" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="569" y="134" text-anchor="middle" font-size="7" style="fill:var(--text)">sme</text>
+      <rect x="598" y="120" width="52" height="20" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="624" y="134" text-anchor="middle" font-size="7" style="fill:var(--text)">tech-spec</text>
+      <text x="595" y="190" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">2-3 agents</text>
+      <text x="595" y="206" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Focused on one area</text>
+
+      <!-- Bottom: Comparison area -->
+      <rect x="16" y="220" width="648" height="170" rx="8" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+      <text x="340" y="244" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Pattern Comparison</text>
+
+      <!-- Comparison headers -->
+      <text x="130" y="268" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text-dim)">Quick</text>
+      <text x="260" y="268" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text-dim)">Standard</text>
+      <text x="410" y="268" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text-dim)">Complex</text>
+      <text x="560" y="268" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text-dim)">Specialized</text>
+
+      <!-- Agent count -->
+      <text x="32" y="290" font-size="9" style="fill:var(--text-dim)">Agents:</text>
+      <text x="130" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">1-2</text>
+      <text x="260" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">3-4</text>
+      <text x="410" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">6-8</text>
+      <text x="560" y="290" text-anchor="middle" font-size="9" style="fill:var(--text)">2-3</text>
+
+      <!-- Duration -->
+      <text x="32" y="310" font-size="9" style="fill:var(--text-dim)">Duration:</text>
+      <text x="130" y="310" text-anchor="middle" font-size="9" style="fill:var(--text)">1-2 days</text>
+      <text x="260" y="310" text-anchor="middle" font-size="9" style="fill:var(--text)">1-2 weeks</text>
+      <text x="410" y="310" text-anchor="middle" font-size="9" style="fill:var(--text)">2-4 weeks</text>
+      <text x="560" y="310" text-anchor="middle" font-size="9" style="fill:var(--text)">Varies by domain</text>
+
+      <!-- Best suited for -->
+      <text x="32" y="332" font-size="9" style="fill:var(--text-dim)">Best for:</text>
+      <text x="130" y="332" text-anchor="middle" font-size="8" style="fill:var(--text)">Quick market</text>
+      <text x="130" y="344" text-anchor="middle" font-size="8" style="fill:var(--text)">trend check</text>
+      <text x="260" y="332" text-anchor="middle" font-size="8" style="fill:var(--text)">General market</text>
+      <text x="260" y="344" text-anchor="middle" font-size="8" style="fill:var(--text)">analysis project</text>
+      <text x="410" y="332" text-anchor="middle" font-size="8" style="fill:var(--text)">Multi-faceted</text>
+      <text x="410" y="344" text-anchor="middle" font-size="8" style="fill:var(--text)">strategy, large scale</text>
+      <text x="560" y="332" text-anchor="middle" font-size="8" style="fill:var(--text)">Specific technology</text>
+      <text x="560" y="344" text-anchor="middle" font-size="8" style="fill:var(--text)">or industry focus</text>
+
+      <!-- Difficulty badges -->
+      <text x="32" y="368" font-size="9" style="fill:var(--text-dim)">Difficulty:</text>
+      <rect x="100" y="356" width="60" height="18" rx="4" fill="var(--badge-green-bg)" stroke="var(--badge-green-border)" stroke-width="1"/>
+      <text x="130" y="369" text-anchor="middle" font-size="8" style="fill:var(--badge-green-fg)">Beginner</text>
+      <rect x="230" y="356" width="60" height="18" rx="4" fill="var(--badge-blue-bg)" stroke="var(--badge-blue-border)" stroke-width="1"/>
+      <text x="260" y="369" text-anchor="middle" font-size="8" style="fill:var(--badge-blue-fg)">Intermediate</text>
+      <rect x="380" y="356" width="60" height="18" rx="4" fill="var(--badge-red-bg)" stroke="var(--badge-red-border)" stroke-width="1"/>
+      <text x="410" y="369" text-anchor="middle" font-size="8" style="fill:var(--badge-red-fg)">Advanced</text>
+      <rect x="530" y="356" width="60" height="18" rx="4" fill="var(--badge-amber-bg)" stroke="var(--badge-amber-border)" stroke-width="1"/>
+      <text x="560" y="369" text-anchor="middle" font-size="8" style="fill:var(--badge-amber-fg)">Intermediate</text>
+    </svg>
+  </div>
+
+  <div class="note">
+    <strong>Beginners are recommended to start with the Quick Assessment or Standard pattern.</strong> Quick Assessment delivers results in 1-2 days, making it ideal for learning how co-consult works. Once you are comfortable, gradually progress to more complex projects with the Standard pattern.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: Practice: Simple Market Analysis                     -->
+  <!-- ============================================================ -->
+  <h2 id="practice">Practice: Simple Market Analysis</h2>
+
+  <p>In this hands-on exercise, you will use co-consult to carry out a simple market analysis project. We will use the Quick Assessment pattern and analyze the key trends in the South Korean coffee shop market.</p>
+
+  <h3>Exercise Objectives</h3>
+
+  <ul>
+    <li>Clone the co-consult repository and set up the project</li>
+    <li>Send a request to the PM agent in Claude Desktop App</li>
+    <li>Observe the PM dispatching specialists as needed</li>
+    <li>Review progress and give feedback along the way</li>
+    <li>Review the final deliverables</li>
+  </ul>
+
+  <h3>Prerequisites</h3>
+
+  <p>Make sure the tools installed in Capítulo 3 are working correctly.</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Claude Desktop App</strong> &mdash; You should be able to have a conversation with Claude AI</li>
+      <li><strong>Git</strong> &mdash; You should be able to clone a repository</li>
+      <li><strong>Text editor</strong> &mdash; VS Code or any editor where you can open files</li>
+    </ol>
+  </div>
+
+  <h3>Exercise Steps</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Clone the workspace and scaffold the project</strong><br>
+        If you haven't already cloned the workspace in an earlier chapter, do that first, then scaffold a new project from the co-consult variant using <code>new-project.ts</code>.
+        <div class="prompt-box">
+          <code>git clone https://github.com/5throck/ai-workspace-standards.git</code><br>
+          <code>cd ai-workspace-standards</code><br>
+          <code>bun scripts/new-project.ts "co-consult" --variant co-consult</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+        </div>
+        This creates <code>Proyectos/co-consult/</code> as its own independent Git repository, with the co-consult variant's agents, skills, and configuration already copied in.
+      </li>
+      <li>
+        <strong>Open the project in Claude Desktop App</strong><br>
+        Launch Claude Desktop App and open the <code>Proyectos/co-consult/</code> folder as the project. Tell Claude the following to start the PM.
+        <div class="prompt-box">
+          <code>"I'd like to start a new project."</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+        </div>
+        The PM starts the kickoff conversation and asks about the topic, scope, and timeline.
+      </li>
+      <li>
+        <strong>Make your request to the PM</strong><br>
+        Answer the PM's questions to configure the engagement. Try responding like this.
+        <div class="prompt-box">
+          <code>"Analyze the key trends in the South Korean coffee shop market. Focus on the comparison between franchise cafes and independent cafes. Keep it a quick assessment."</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+        </div>
+        The PM analyzes your request and decides which specialists to dispatch for a Quick Assessment-sized engagement.
+      </li>
+      <li>
+        <strong>Observe the specialist dispatch</strong><br>
+        The PM dispatches specialists directly &mdash; there is no fixed phase sequence. You will typically see something like the following.
+        <ul>
+          <li>The <code>strategy-analyst</code> agent researches "South Korean coffee shop market trends" and produces a findings document with market size, growth, and competitive notes</li>
+          <li>If the request calls for it, the PM also brings in <code>industry-expert</code> for sector-specific context</li>
+          <li>The <code>communications-lead</code> agent shapes the findings into a client-ready report</li>
+        </ul>
+        The PM reports progress as each specialist finishes its piece. The <code>project_state.json</code> file is automatically updated throughout.
+      </li>
+      <li>
+        <strong>Review progress and give feedback</strong><br>
+        Since there is no fixed pipeline, the PM checks in with you whenever it judges there's something worth reviewing &mdash; typically after the first round of analysis, and again before finalizing the report.
+        <ul>
+          <li><strong>After analysis:</strong> Verify that the analysis direction and insights are appropriate. If adjustments are needed, this is the point to change course.</li>
+          <li><strong>Before finalizing:</strong> Review the quality of the final report and approve turning it into a finished deliverable.</li>
+        </ul>
+        At a checkpoint, you can respond like this.
+        <div class="prompt-box">
+          <code>"I've reviewed the analysis. Please proceed to the next step."</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+        </div>
+        Or if revisions are needed, provide specific feedback.
+        <div class="prompt-box">
+          <code>"Add delivery cafe data from Baemin to the competitive analysis section."</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+        </div>
+      </li>
+      <li>
+        <strong>Check the deliverables</strong><br>
+        Once the PM determines the engagement's deliverables are complete, you can find them in the <code>deliverables/reports/</code> folder. The specific steps for reviewing them are covered in the next section.
+      </li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>If you encounter errors during the exercise, refer to the troubleshooting section in Capítulo 3.</strong> If Claude Desktop App does not respond, or an agent dispatch error occurs, try restarting Claude or re-opening the project folder.
+  </div>
+
+  <div class="warn">
+    <strong>Warning:</strong> co-consult's agents operate through the Claude API. During the exercise, Claude's response speed may slow down or time out. Complex analyses take longer, and this is normal behavior.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: Reviewing Resultados                                   -->
+  <!-- ============================================================ -->
+  <h2 id="outputs">Reviewing Resultados</h2>
+
+  <p>When a co-consult project is completed, several deliverables are generated. This section explains where each deliverable is located and how to review it.</p>
+
+  <h3>Resultado Location</h3>
+
+  <p>All deliverables are stored in the <code>deliverables/reports/</code> directory. From the project root, access it via the following path.</p>
+
+  <div class="prompt-box">
+    <code>Proyectos/co-consult/deliverables/reports/</code>
+    <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+  </div>
+
+  <h3>Key Deliverables</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>File</th>
+        <th>Descripción</th>
+        <th>Produced by</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>findings_*.md</code></td>
+        <td>Research findings, market/competitive data, and sources collected during analysis</td>
+        <td><code>strategy-analyst</code> / <code>industry-expert</code></td>
+      </tr>
+      <tr>
+        <td><code>analysis_*.md</code></td>
+        <td>Individual analysis results from other specialist agents involved (e.g. <code>sme</code>, <code>data-analyst</code>)</td>
+        <td>relevant specialist</td>
+      </tr>
+      <tr>
+        <td><code>narrative_framework.md</code></td>
+        <td>Overall report structure and section-level narrative design</td>
+        <td><code>communications-lead</code></td>
+      </tr>
+      <tr>
+        <td><code>report.html</code></td>
+        <td>Final analysis report in HTML format</td>
+        <td><code>communications-lead</code></td>
+      </tr>
+      <tr>
+        <td><code>report.pdf</code></td>
+        <td>Final analysis report in PDF format</td>
+        <td>PM (finalization)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>How to Review Deliverables</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Open the project folder</strong><br>
+        Navigate to the <code>Proyectos/co-consult/deliverables/reports/</code> directory in your terminal.
+        <div class="prompt-box">
+          <code>cd Proyectos/co-consult/deliverables/reports/</code><br>
+          <code>ls</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+        </div>
+      </li>
+      <li>
+        <strong>Review the findings document</strong><br>
+        Check the research results. It contains collected sources, key data points, and reference links.
+        <div class="prompt-box">
+          <code>cat findings_market.md</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+        </div>
+        Or open it in VS Code.
+      </li>
+      <li>
+        <strong>Review the HTML report</strong><br>
+        Open the <code>report.html</code> file in a browser to view the completed report. It is an interactive format that includes charts, tables, and diagrams.
+        <div class="prompt-box">
+          <code>open report.html</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+        </div>
+      </li>
+      <li>
+        <strong>Review the PDF</strong><br>
+        Open the <code>report.pdf</code> file to view the print-ready report. This format is suitable for sharing or archiving.
+      </li>
+      <li>
+        <strong>Check project_state.json</strong><br>
+        You can view the overall project progress. It records which specialists have been dispatched, what they've produced, and whether the PM has checked in with you at each review point.
+        <div class="prompt-box">
+          <code>cat project_state.json</code>
+          <button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <h3>File Structure Summary</h3>
+
+  <div class="flow-box">
+    <div class="code-block">
+<pre><code>co-consult/
+  agents/                    # Agent definition files
+    pm.md
+    strategy-analyst.md
+    industry-expert.md
+    communications-lead.md
+    ...
+  deliverables/
+    reports/
+      findings_market.md    # strategy-analyst / industry-expert output
+      narrative_framework.md # communications-lead output
+      report.html            # communications-lead output
+      report.pdf              # PM finalization
+  project_state.json        # Project progress status
+  consult-profile.md        # Project settings
+  memory/                   # Session logs
+    YYYY-MM-DD.md</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+  </div>
+
+  <div class="note">
+    Deliverables can also be viewed in Claude Desktop App's Artifacts. Files and diagrams generated by Claude can be previewed directly in the conversation screen. Additionally, <code>project_state.json</code> lets you check in real time which Phase the project is currently in.
+  </div>
+
+  <div class="tip-box">
+    <strong>How to use the deliverables:</strong> The completed report can be shared with your team or used as material for a presentation. When used together with co-deck (Capítulo 7), you can create a presentation based on the analysis report.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER NAVIGATION                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch05/05_Workspace_Standards_es.html" class="prev">
+      <div class="dir">&larr; Capítulo anterior</div>
+      <div class="ttl">Cap. 5 &middot; Exploring ai-workspace-standards</div>
+    </a>
+    <a href="../ch07/07_Co_Deck_Practice_es.html" class="next" style="margin-left:auto;">
+      <div class="dir">Siguiente capítulo &rarr;</div>
+      <div class="ttl">Cap. 7 &middot; co-deck: AI Presentation in Practice</div>
+    </a>
+  </div>
+   <footer>
+    Basado en Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) · Materiales educativos en español<br>
+    Documentos oficiales: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    El contenido del manual está licenciado bajo <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (Atribución-NoComercial-CompartirIgual 4.0 Internacional)</a>.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

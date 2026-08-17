@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Claude Codeとマルチエージェントハーネス入門 — AI初心者向けの実践ガイド">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Claude Code &amp; マルチエージェントハーネス</title>
+  <link rel="stylesheet" href="assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="assets/css/handbook-components.css">
+  <style>
+    footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 12px;
+      line-height: 1.9;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    .tag-ref { background: var(--tag-bg); color: var(--tag-text); border: 1px solid var(--border-info); }
+    .tag-ex  { background: var(--bg-success); color: var(--accent-green); border: 1px solid var(--border-success); }
+    .tag-ch  { background: var(--bg-info); color: var(--accent-purple); border: 1px solid var(--accent-purple); }
+    .tag-app { background: var(--bg-note); color: var(--accent-amber); border: 1px solid var(--border-warn); }
+    .card h2 {
+      font-size: 1.06rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .card p {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Claude Code &amp; マルチエージェントハーネス</h1>
+      <p class="subtitle">AI初心者向けの実践ガイド — Claude Desktop Appでマルチエージェントチームをマスターする</p>
+    </header>
+
+    <div class="meta">
+      対象者 <strong>AI初心者 / Claude Desktop Appユーザー</strong> &nbsp;|&nbsp; ラボ環境: <strong>MacOS / Windows / Linux</strong>
+      &nbsp;|&nbsp; 主要ツール: <strong>Claude Desktop App</strong>
+      &nbsp;|&nbsp; 参考文献: <a href="https://claude.ai" target="_blank">Claude</a>,
+      <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a>
+      <br>最終更新 <strong>2026年8月</strong>
+    </div>
+
+    <!-- ─── Instructor Materials ─── -->
+    <div class="group">
+      <p class="section-label">講師用資料</p>
+      <div class="grid">
+        <a class="card" href="lecture-guide/00_Course_Overview_ja.html">
+          <span class="tag tag-ref">コース概要</span>
+          <h2>コース概要 — 学習目標 · 対象者 · スケジュール · 成果</h2>
+          <p>このコースが教える内容、対象者、スケジュールを一目で紹介します。コースの導入にご利用ください。</p>
+          <div class="go">概要を開く →</div>
+        </a>
+        <a class="card" href="lecture-guide/00_Lecture_Guide_ja.html">
+          <span class="tag tag-ref">講義ガイド</span>
+          <h2>講義ガイド — 前提条件 · 時間配分 · 章ごとのメモ · 確認問題</h2>
+          <p>講師専用の運用資料：前提条件チェックリスト、時間配分表、章ごとの講師メモ、理解度確認問題をまとめたものです。</p>
+          <div class="go">ガイドを開く →</div>
+        </a>
+        <a class="card" href="setup/SETUP_ja.html">
+          <span class="tag tag-ref">セットアップガイド</span>
+          <h2>ワークショップ環境セットアップガイド -- OS別スクリプトとツール一覧</h2>
+          <p>演習に必要な全ツール（bun, git, gh, claude, agy）をOS別スクリプトでワンコマンドインストール。ツール一覧とトラブルシューティングガイド付き。</p>
+          <div class="go">セットアップを開く →</div>
+        </a>
+        <a class="card" href="setup/SETUP_CHECKLIST_ja.html">
+          <span class="tag tag-ref">チェックリスト</span>
+          <h2>インストール前チェックリスト -- サブスクリプション、アカウント、システム要件</h2>
+          <p>インストールスクリプト実行前に確認すべきサブスクリプションプラン、アカウント、システム要件、Git/GitHub設定のチェックリストです。</p>
+          <div class="go">チェックリストを開く →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ─── Part 1: Fundamentals (ch01–ch05) ─── -->
+    <div class="group">
+      <p class="section-label"><span class="type">パート1</span> 基礎 — AIエージェントチームの世界へ</p>
+      <div class="grid">
+        <a class="card" href="ch01/01_Why_AI_Agents_ja.html">
+          <span class="tag tag-ch">第1章</span>
+          <h2>なぜAIエージェントチームが必要なのか？</h2>
+          <p>AIのトレンド、単一AIとマルチエージェントの比較、ハーネスの概念、期待される効果。複数のAIが協力する理由を理解しましょう。</p>
+          <div class="go">第1章を読む →</div>
+        </a>
+        <a class="card" href="ch02/02_Claude_Desktop_App_ja.html">
+          <span class="tag tag-ch">第2章</span>
+          <h2>Claude Desktop Appの使い始め方</h2>
+          <p>Claude Desktop Appのインストール、サブスクリプション設定、プロジェクトを開く、基本的な会話、アーティファクト、プロジェクト機能。このハンドブックの主要ツールです。</p>
+          <div class="go">第2章を読む →</div>
+        </a>
+        <a class="card" href="ch03/03_Setup_Guide_ja.html">
+          <span class="tag tag-ch">第3章</span>
+          <h2>ラボ環境のセットアップ</h2>
+          <p>事前チェックリスト、OS別インストールスクリプト、検証 — すべて一度に。MacOS、Windows、Linuxに対応。</p>
+          <div class="go">第3章を読む →</div>
+        </a>
+        <a class="card" href="ch04/04_Harness_Concepts_ja.html">
+          <span class="tag tag-ch">第4章</span>
+          <h2>マルチエージェントハーネスの概念</h2>
+          <p>コアアーキテクチャを学ぶ：エージェント、スキル、ワークフロー、PMオーケストレーション、3ティア戦略、PM Gateway、ディスパッチフロー。</p>
+          <div class="go">第4章を読む →</div>
+        </a>
+        <a class="card" href="ch05/05_Workspace_Standards_ja.html">
+          <span class="tag tag-ch">第5章</span>
+          <h2>ai-workspace-standardsを探る</h2>
+          <p>リポジトリ構造（L0→L1→L2）、AGENTS.md/CLAUDE.mdの役割、バリアント概念、テンプレート継承、コモンコントラクト。</p>
+          <div class="go">第5章を読む →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ─── Part 2: Hands-on Practice (ch06–ch08) ─── -->
+    <div class="group">
+      <p class="section-label"><span class="type">パート2</span> 実践演習 — co-consultとco-deckを体験する</p>
+      <div class="grid">
+        <a class="card" href="ch06/06_Co_Consult_Practice_ja.html">
+          <span class="tag tag-ch">第6章</span>
+          <h2>co-consult：AIコンサルティングの実践</h2>
+          <p>PMエージェントとのチャットで市場分析プロジェクトを実行。7フェーズワークフロー、4つのチーム構成シナリオ、出力検証を練習。</p>
+          <div class="go">第6章を読む →</div>
+        </a>
+        <a class="card" href="ch07/07_Co_Deck_Practice_ja.html">
+          <span class="tag tag-ch">第7章</span>
+          <h2>co-deck：AIプレゼンテーションの実践</h2>
+          <p>11ステージパイプラインでミニプレゼンテーションを作成。テーマ/スタイル選択、Gate承認、HTML+PDF出力生成を練習。</p>
+          <div class="go">第7章を読む →</div>
+        </a>
+        <a class="card" href="ch08/08_Integrated_Pipeline_ja.html">
+          <span class="tag tag-ch">第8章</span>
+          <h2>co-consult + co-deck 統合パイプライン</h2>
+          <p>co-consultレポートをco-deckの入力に連携し、フルパイプラインを実行 — トピックから完成プレゼンテーションまで30〜45分。</p>
+          <div class="go">第8章を読む →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ─── Part 3: Creation (ch09–ch11) ─── -->
+    <div class="group">
+      <p class="section-label"><span class="type">パート3</span> 作成 — 自分のエージェント、スキル、チームを構築する</p>
+      <div class="grid">
+        <a class="card" href="ch09/09_Creating_Agents_ja.html">
+          <span class="tag tag-ch">第9章</span>
+          <h2>エージェントの作成と修正</h2>
+          <p>エージェントファイル形式、フロントマター構造、agent-lifecycle-managerの使用、AGENTS.mdへの登録、簡単なスペシャリストエージェントの実践作成。</p>
+          <div class="go">第9章を読む →</div>
+        </a>
+        <a class="card" href="ch10/10_Creating_Skills_ja.html">
+          <span class="tag tag-ch">第10章</span>
+          <h2>スキルの作成と修正</h2>
+          <p>スキルファイル形式、トリガー設定、skill-lifecycle-manager + skill-creatorの使用、カスタムスキルの実践作成とテスト。</p>
+          <div class="go">第10章を読む →</div>
+        </a>
+        <a class="card" href="ch11/11_Building_Agent_Team_ja.html">
+          <span class="tag tag-ch">第11章</span>
+          <h2>自分のエージェントチームを構築する</h2>
+          <p>team-builderスキルを使って、要件インタビューからベンチマーク、提案生成、承認まで。自分のドメインに合わせたカスタムエージェントチームを構築。</p>
+          <div class="go">第11章を読む →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ─── Part 4: Automation & Next Steps (ch12–ch13) ─── -->
+    <div class="group">
+      <p class="section-label"><span class="type">パート4</span> 自動化と次のステップ</p>
+      <div class="grid">
+        <a class="card" href="ch12/12_Workflows_Automation_ja.html">
+          <span class="tag tag-ch">第12章</span>
+          <h2>ワークフローと自動化の理解</h2>
+          <p>/syncコマンド、Git/GitHub PR自動化、Hookの概念、CI/CDの基礎、dev-sync.tsの内部構造。</p>
+          <div class="go">第12章を読む →</div>
+        </a>
+        <a class="card" href="ch13/13_Next_Steps_ja.html">
+          <span class="tag tag-ch">第13章</span>
+          <h2>次のステップ</h2>
+          <p>コミュニティ、追加学習リソース、ユースケースシナリオ、FAQ — まとめと次の挑戦への準備。</p>
+          <div class="go">第13章を読む →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ─── Appendix ─── -->
+    <div class="group">
+      <p class="section-label">付録</p>
+      <div class="grid">
+        <a class="card" href="appendix/A_Remote_Access_ja.html">
+          <span class="tag tag-app">付録A</span>
+          <h2>リモートアクセスのセットアップ</h2>
+          <p>Tailscale VPN、NoMachine、Windows RDPを使ってラボ環境にリモート接続。</p>
+          <div class="go">付録Aを読む →</div>
+        </a>
+        <a class="card" href="appendix/B_Claude_Code_CLI_ja.html">
+          <span class="tag tag-app">付録B</span>
+          <h2>Claude Code CLIガイド</h2>
+          <p>Claude Code CLIのインストール、ターミナルでの使用、主要コマンド、Desktop AppとCLIの比較。</p>
+          <div class="go">付録Bを読む →</div>
+        </a>
+        <a class="card" href="appendix/C_Low_Cost_Backends_ja.html">
+          <span class="tag tag-app">付録C</span>
+          <h2>低コストAIバックエンドの統合</h2>
+          <p>DeepSeekおよびGLM/ZhipuAIバックエンドをClaude Codeに接続、LiteLLMプロキシのセットアップ。</p>
+          <div class="go">付録Cを読む →</div>
+        </a>
+      </div>
+    </div>
+    <footer>
+    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) ベース · 日本語教育資料<br>
+    公式ドキュメント: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    ハンドブックのコンテンツは <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (表示 - 非営利 - 継承 4.0 インターナショナル)</a> のライセンスに基づいています。
+  </footer>
+  </div>
+  <script src="assets/inpage-search.js" defer></script>
+  <script src="assets/search-data.js" defer></script>
+  <script src="assets/site-search.js" defer></script>
+  <script src="assets/dark-mode-toggle.js"></script>
+  <script src="assets/lang-switcher.js"></script>
+</body>
+</html>

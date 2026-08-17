@@ -42,7 +42,53 @@ var SEARCH_DATA = {
     { path: 'appendix/B_Claude_Code_CLI_en.html', title: 'Appendix B · Claude Code CLI Guide', lang: 'en' },
     { path: 'appendix/C_Low_Cost_Backends_en.html', title: 'Appendix C · Low-Cost AI Backend Integration', lang: 'en' },
     { path: 'lecture-guide/00_Course_Overview_en.html', title: 'Course Overview · Claude Code & Multi-Agent Harness', lang: 'en' },
-    { path: 'lecture-guide/00_Lecture_Guide_en.html', title: 'Lecture Guide · Claude Code & Multi-Agent Harness', lang: 'en' }
+    { path: 'lecture-guide/00_Lecture_Guide_en.html', title: 'Lecture Guide · Claude Code & Multi-Agent Harness', lang: 'en' },
+
+    /* ── JA ── */
+    { path: 'index_ja.html', title: 'Claude Code & マルチエージェントハーネス', lang: 'ja' },
+    { path: 'ch01/01_Why_AI_Agents_ja.html', title: '第1章 · なぜAIエージェントチームが必要なのか？', lang: 'ja' },
+    { path: 'ch02/02_Claude_Desktop_App_ja.html', title: '第2章 · Claude Desktop Appの使い始め方', lang: 'ja' },
+    { path: 'ch03/03_Setup_Guide_ja.html', title: '第3章 · ラボ環境のセットアップ', lang: 'ja' },
+    { path: 'ch04/04_Harness_Concepts_ja.html', title: '第4章 · マルチエージェントハーネスの概念', lang: 'ja' },
+    { path: 'ch05/05_Workspace_Standards_ja.html', title: 'Ch 5 · ai-workspace-standardsを探索する', lang: 'ja' },
+    { path: 'ch06/06_Co_Consult_Practice_ja.html', title: 'Ch 6 · co-consult: AIコンサルティングの実践', lang: 'ja' },
+    { path: 'ch07/07_Co_Deck_Practice_ja.html', title: 'Ch 7 · co-deck: AIプレゼンテーションの実践', lang: 'ja' },
+    { path: 'ch08/08_Integrated_Pipeline_ja.html', title: 'Ch 8 · co-consult + co-deck統合パイプライン', lang: 'ja' },
+    { path: 'ch09/09_Creating_Agents_ja.html', title: 'Ch 9 · エージェントの作成と変更', lang: 'ja' },
+    { path: 'ch10/10_Creating_Skills_ja.html', title: 'Ch 10 · スキルの作成と変更', lang: 'ja' },
+    { path: 'ch11/11_Building_Agent_Team_ja.html', title: 'Ch 11 · 独自のエージェントチームを構築する', lang: 'ja' },
+    { path: 'ch12/12_Workflows_Automation_ja.html', title: 'Ch 12 · ワークフローと自動化', lang: 'ja' },
+    { path: 'ch13/13_Next_Steps_ja.html', title: 'Ch 13 · 次のステップ', lang: 'ja' },
+    { path: 'appendix/A_Remote_Access_ja.html', title: '付録A · リモートアクセス設定', lang: 'ja' },
+    { path: 'appendix/B_Claude_Code_CLI_ja.html', title: '付録B · Claude Code CLIガイド', lang: 'ja' },
+    { path: 'appendix/C_Low_Cost_Backends_ja.html', title: '付録C · 低コストAIバックエンド統合', lang: 'ja' },
+    { path: 'lecture-guide/00_Course_Overview_ja.html', title: 'コース概要 · Claude Code & Multi-Agent Harness', lang: 'ja' },
+    { path: 'lecture-guide/00_Lecture_Guide_ja.html', title: '講義ガイド · Claude Code & Multi-Agent Harness', lang: 'ja' },
+    { path: 'setup/SETUP_ja.html', title: 'ワークショップ環境セットアップガイド', lang: 'ja' },
+    { path: 'setup/SETUP_CHECKLIST_ja.html', title: 'ワークショップ事前インストールチェックリスト', lang: 'ja' },
+
+    /* ── ES ── */
+    { path: 'index_es.html', title: 'Claude Code & Multi-Agent Harness', lang: 'es' },
+    { path: 'ch01/01_Why_AI_Agents_es.html', title: 'Cap. 1 · ¿Por qué equipos de AI agent?', lang: 'es' },
+    { path: 'ch02/02_Claude_Desktop_App_es.html', title: 'Cap. 2 · Comenzando con Claude Desktop App', lang: 'es' },
+    { path: 'ch03/03_Setup_Guide_es.html', title: 'Cap. 3 · Configurando tu laboratorio', lang: 'es' },
+    { path: 'ch04/04_Harness_Concepts_es.html', title: 'Cap. 4 · Conceptos del Multi-Agent Harness', lang: 'es' },
+    { path: 'ch05/05_Workspace_Standards_es.html', title: 'Cap. 5 · Explorando ai-workspace-standards', lang: 'es' },
+    { path: 'ch06/06_Co_Consult_Practice_es.html', title: 'Cap. 6 · co-consult: AI Consulting en Práctica', lang: 'es' },
+    { path: 'ch07/07_Co_Deck_Practice_es.html', title: 'Cap. 7 · co-deck: AI Presentación en Práctica', lang: 'es' },
+    { path: 'ch08/08_Integrated_Pipeline_es.html', title: 'Cap. 8 · Pipeline combinado co-consult + co-deck', lang: 'es' },
+    { path: 'ch09/09_Creating_Agents_es.html', title: 'Cap. 9 · Creación y Modificación de Agents', lang: 'es' },
+    { path: 'ch10/10_Creating_Skills_es.html', title: 'Cap. 10 · Creación y Modificación de Skills', lang: 'es' },
+    { path: 'ch11/11_Building_Agent_Team_es.html', title: 'Cap. 11 · Construyendo tu Propio Equipo de Agentes', lang: 'es' },
+    { path: 'ch12/12_Workflows_Automation_es.html', title: 'Cap. 12 · Flujos de Trabajo y Automatización', lang: 'es' },
+    { path: 'ch13/13_Next_Steps_es.html', title: 'Cap. 13 · Próximos Pasos', lang: 'es' },
+    { path: 'appendix/A_Remote_Access_es.html', title: 'Apéndice A · Configuración de Acceso Remoto', lang: 'es' },
+    { path: 'appendix/B_Claude_Code_CLI_es.html', title: 'Apéndice B · Guía de Claude Code CLI', lang: 'es' },
+    { path: 'appendix/C_Low_Cost_Backends_es.html', title: 'Apéndice C · Integración de Backends de IA de Bajo Costo', lang: 'es' },
+    { path: 'lecture-guide/00_Course_Overview_es.html', title: 'Vista General del Curso · Claude Code & Multi-Agent Harness', lang: 'es' },
+    { path: 'lecture-guide/00_Lecture_Guide_es.html', title: 'Guía del Instructor · Claude Code & Multi-Agent Harness', lang: 'es' },
+    { path: 'setup/SETUP_es.html', title: 'Guía de Configuración del Entorno de Workshop', lang: 'es' },
+    { path: 'setup/SETUP_CHECKLIST_es.html', title: 'Lista de Verificación Previa a la Instalación', lang: 'es' }
   ],
 
   LABELS: {
@@ -52,6 +98,22 @@ var SEARCH_DATA = {
       noResult: 'No results',
       hint: function(n){ return n + ' documents searched. Navigates to exact position.'; },
       building: 'Building index…'
+    },
+
+    es: {
+      placeholder: 'Buscar en todo el manual — secciones, elementos, escenarios…',
+      section: 'Sección', scenario: 'Escenario', item: 'Elemento',
+      noResult: 'Sin resultados',
+      hint: function(n){ return n + ' documentos buscados. Navega a la posición exacta.'; },
+      building: 'Construyendo índice…'
+    },
+
+    ja: {
+      placeholder: 'ハンドブック全体検索 — セクション・項目・シナリオ…',
+      section: 'セクション', scenario: 'シナリオ', item: '項目',
+      noResult: '結果なし',
+      hint: function(n){ return n + '文書から検索し、該当箇所に移動します。'; },
+      building: 'インデックス準備中…'
     },
 
     ko: {

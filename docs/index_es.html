@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Introducción a Claude Code y Multi-Agent Harness — Una guía práctica para principiantes en IA">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Claude Code &amp; Multi-Agent Harness</title>
+  <link rel="stylesheet" href="assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="assets/css/handbook-components.css">
+  <style>
+    footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 12px;
+      line-height: 1.9;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    .tag-ref { background: var(--tag-bg); color: var(--tag-text); border: 1px solid var(--border-info); }
+    .tag-ex  { background: var(--bg-success); color: var(--accent-green); border: 1px solid var(--border-success); }
+    .tag-ch  { background: var(--bg-info); color: var(--accent-purple); border: 1px solid var(--accent-purple); }
+    .tag-app { background: var(--bg-note); color: var(--accent-amber); border: 1px solid var(--border-warn); }
+    .card h2 {
+      font-size: 1.06rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .card p {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Claude Code &amp; Multi-Agent Harness</h1>
+      <p class="subtitle">Una guía práctica para principiantes en IA — Dominando equipos multi-agente con Claude Desktop App</p>
+    </header>
+
+    <div class="meta">
+      Público <strong>Principiantes en IA / Usuarios de Claude Desktop App</strong> &nbsp;|&nbsp; Entornos de laboratorio: <strong>MacOS / Windows / Linux</strong>
+      &nbsp;|&nbsp; Herramienta principal: <strong>Claude Desktop App</strong>
+      &nbsp;|&nbsp; Referencias: <a href="https://claude.ai" target="_blank">Claude</a>,
+      <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a>
+      <br>Última actualización <strong>Agosto 2026</strong>
+    </div>
+
+    <!-- ─── Instructor Materials ─── -->
+    <div class="group">
+      <p class="section-label">Materiales del Instructor</p>
+      <div class="grid">
+        <a class="card" href="lecture-guide/00_Course_Overview_es.html">
+          <span class="tag tag-ref">Course Overview</span>
+          <h2>Vista general del curso — Objetivos de aprendizaje · Público · Horario · Resultados</h2>
+          <p>Una introducción rápida a lo que enseña este curso, a quién está dirigido y cómo está programado. Úsela para presentar el curso.</p>
+          <div class="go">Abrir vista general →</div>
+        </a>
+        <a class="card" href="lecture-guide/00_Lecture_Guide_es.html">
+          <span class="tag tag-ref">Lecture Guide</span>
+          <h2>Guía del instructor — Requisitos previos · Asignación de tiempo · Notas por capítulo · Preguntas de comprensión</h2>
+          <p>Material operativo solo para instructores: lista consolidada de requisitos previos, tabla completa de asignación de tiempo, notas del instructor capítulo por capítulo y preguntas de comprensión.</p>
+          <div class="go">Abrir guía →</div>
+        </a>
+        <a class="card" href="setup/SETUP_es.html">
+          <span class="tag tag-ref">Guía de configuración</span>
+          <h2>Guía de configuración del entorno del taller — Scripts específicos por sistema operativo y lista de herramientas</h2>
+          <p>Instalación en un solo comando de todas las herramientas necesarias para los ejercicios (bun, git, gh, claude, agy) mediante scripts específicos por sistema operativo, más un inventario de herramientas y guía de solución de problemas.</p>
+          <div class="go">Abrir configuración →</div>
+        </a>
+        <a class="card" href="setup/SETUP_CHECKLIST_es.html">
+          <span class="tag tag-ref">Lista de verificación</span>
+          <h2>Lista de verificación previa a la instalación — Suscripciones, cuentas y requisitos del sistema</h2>
+          <p>Una lista de verificación de planes de suscripción, cuentas, requisitos del sistema y configuración de Git/GitHub para verificar antes de ejecutar los scripts de instalación.</p>
+          <div class="go">Abrir lista de verificación →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ─── Part 1: Fundamentals (ch01–ch05) ─── -->
+    <div class="group">
+      <p class="section-label"><span class="type">Parte 1</span> Fundamentos — Entrando al mundo de los equipos de AI agent</p>
+      <div class="grid">
+        <a class="card" href="ch01/01_Why_AI_Agents_es.html">
+          <span class="tag tag-ch">Cap 1</span>
+          <h2>¿Por qué equipos de AI agent?</h2>
+          <p>Tendencias de IA, comparación entre IA individual y multi-agente, conceptos de harness y beneficios esperados. Comprenda por qué múltiples IAs necesitan colaborar.</p>
+          <div class="go">Leer Cap 1 →</div>
+        </a>
+        <a class="card" href="ch02/02_Claude_Desktop_App_es.html">
+          <span class="tag tag-ch">Cap 2</span>
+          <h2>Comenzando con Claude Desktop App</h2>
+          <p>Instale Claude Desktop App, configure suscripciones, abra proyectos, realice conversaciones básicas, use Artifacts y funciones del proyecto. Esta es la herramienta principal de este manual.</p>
+          <div class="go">Leer Cap 2 →</div>
+        </a>
+        <a class="card" href="ch03/03_Setup_Guide_es.html">
+          <span class="tag tag-ch">Cap 3</span>
+          <h2>Configurando su laboratorio</h2>
+          <p>Lista de verificación previa al vuelo, scripts de instalación específicos por sistema operativo y verificación — todo en un solo paso. Soporta MacOS, Windows y Linux.</p>
+          <div class="go">Leer Cap 3 →</div>
+        </a>
+        <a class="card" href="ch04/04_Harness_Concepts_es.html">
+          <span class="tag tag-ch">Cap 4</span>
+          <h2>Conceptos del Multi-Agent Harness</h2>
+          <p>Aprenda la arquitectura central: agentes, skills, flujos de trabajo, orquestación del PM, estrategia 3-Tier, PM Gateway y flujo de despacho.</p>
+          <div class="go">Leer Cap 4 →</div>
+        </a>
+        <a class="card" href="ch05/05_Workspace_Standards_es.html">
+          <span class="tag tag-ch">Cap 5</span>
+          <h2>Explorando ai-workspace-standards</h2>
+          <p>Estructura del repositorio (L0→L1→L2), roles de AGENTS.md/CLAUDE.md, concepto de variant, herencia de plantillas y contratos comunes.</p>
+          <div class="go">Leer Cap 5 →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ─── Part 2: Hands-on Practice (ch06–ch08) ─── -->
+    <div class="group">
+      <p class="section-label"><span class="type">Parte 2</span> Práctica guiada — Pruebe co-consult y co-deck</p>
+      <div class="grid">
+        <a class="card" href="ch06/06_Co_Consult_Practice_es.html">
+          <span class="tag tag-ch">Cap 6</span>
+          <h2>co-consult: consultoría con IA en la práctica</h2>
+          <p>Ejecute un proyecto de análisis de mercado conversando con el agente PM. Practique el flujo de trabajo de 7 fases, 4 escenarios de configuración de equipo y verificación de resultados.</p>
+          <div class="go">Leer Cap 6 →</div>
+        </a>
+        <a class="card" href="ch07/07_Co_Deck_Practice_es.html">
+          <span class="tag tag-ch">Cap 7</span>
+          <h2>co-deck: presentaciones con IA en la práctica</h2>
+          <p>Cree una mini presentación utilizando el pipeline de 11 etapas. Practique la selección de tema/estilo, aprobaciones Gate y generación de salida HTML+PDF.</p>
+          <div class="go">Leer Cap 7 →</div>
+        </a>
+        <a class="card" href="ch08/08_Integrated_Pipeline_es.html">
+          <span class="tag tag-ch">Cap 8</span>
+          <h2>Pipeline combinado co-consult + co-deck</h2>
+          <p>Vincule informes de co-consult como entrada de co-deck y ejecute el pipeline completo — desde el tema hasta la presentación terminada en 30-45 minutos.</p>
+          <div class="go">Leer Cap 8 →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ─── Part 3: Creation (ch09–ch11) ─── -->
+    <div class="group">
+      <p class="section-label"><span class="type">Parte 3</span> Creación — Construya sus propios agentes, skills y equipos</p>
+      <div class="grid">
+        <a class="card" href="ch09/09_Creating_Agents_es.html">
+          <span class="tag tag-ch">Cap 9</span>
+          <h2>Creación y modificación de agentes</h2>
+          <p>Formato de archivo de agente, estructura del frontmatter, uso del agent-lifecycle-manager, registro en AGENTS.md y práctica guiada para escribir un agente especialista sencillo.</p>
+          <div class="go">Leer Cap 9 →</div>
+        </a>
+        <a class="card" href="ch10/10_Creating_Skills_es.html">
+          <span class="tag tag-ch">Cap 10</span>
+          <h2>Creación y modificación de skills</h2>
+          <p>Formato de archivo de skill, configuración de triggers, uso de skill-lifecycle-manager + skill-creator y práctica guiada para escribir y probar un skill personalizado.</p>
+          <div class="go">Leer Cap 10 →</div>
+        </a>
+        <a class="card" href="ch11/11_Building_Agent_Team_es.html">
+          <span class="tag tag-ch">Cap 11</span>
+          <h2>Construyendo su propio equipo de agentes</h2>
+          <p>Use el skill team-builder desde la entrevista de requisitos hasta la evaluación comparativa, generación de propuestas y aprobación. Construya un equipo de agentes personalizado para su dominio.</p>
+          <div class="go">Leer Cap 11 →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ─── Part 4: Automation & Next Steps (ch12–ch13) ─── -->
+    <div class="group">
+      <p class="section-label"><span class="type">Parte 4</span> Automatización y próximos pasos</p>
+      <div class="grid">
+        <a class="card" href="ch12/12_Workflows_Automation_es.html">
+          <span class="tag tag-ch">Cap 12</span>
+          <h2>Comprendiendo flujos de trabajo y automatización</h2>
+          <p>Comando /sync, automatización de Git/GitHub PR, conceptos de Hook, fundamentos de CI/CD e internals de dev-sync.ts.</p>
+          <div class="go">Leer Cap 12 →</div>
+        </a>
+        <a class="card" href="ch13/13_Next_Steps_es.html">
+          <span class="tag tag-ch">Cap 13</span>
+          <h2>Próximos pasos</h2>
+          <p>Comunidad, recursos de aprendizaje adicionales, escenarios de casos de uso y preguntas frecuentes para cerrar y prepararse para su próximo desafío.</p>
+          <div class="go">Leer Cap 13 →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ─── Appendix ─── -->
+    <div class="group">
+      <p class="section-label">Apéndice</p>
+      <div class="grid">
+        <a class="card" href="appendix/A_Remote_Access_es.html">
+          <span class="tag tag-app">Ap A</span>
+          <h2>Configuración de acceso remoto</h2>
+          <p>Conéctese a su entorno de laboratorio de forma remota mediante Tailscale VPN, NoMachine y Windows RDP.</p>
+          <div class="go">Leer Ap A →</div>
+        </a>
+        <a class="card" href="appendix/B_Claude_Code_CLI_es.html">
+          <span class="tag tag-app">Ap B</span>
+          <h2>Guía de Claude Code CLI</h2>
+          <p>Instalación de Claude Code CLI, uso en terminal, comandos clave y comparación entre Desktop App y CLI.</p>
+          <div class="go">Leer Ap B →</div>
+        </a>
+        <a class="card" href="appendix/C_Low_Cost_Backends_es.html">
+          <span class="tag tag-app">Ap C</span>
+          <h2>Integración de backends de IA de bajo costo</h2>
+          <p>Conecte los backends DeepSeek y GLM/ZhipuAI a Claude Code, además de la configuración del proxy LiteLLM.</p>
+          <div class="go">Leer Ap C →</div>
+        </a>
+      </div>
+    </div>
+    <footer>
+    Basado en Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) · Materiales educativos en español<br>
+    Documentos oficiales: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    El contenido del manual está licenciado bajo <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (Atribución-NoComercial-CompartirIgual 4.0 Internacional)</a>.
+  </footer>
+  </div>
+  <script src="assets/inpage-search.js" defer></script>
+  <script src="assets/search-data.js" defer></script>
+  <script src="assets/site-search.js" defer></script>
+  <script src="assets/dark-mode-toggle.js"></script>
+  <script src="assets/lang-switcher.js"></script>
+</body>
+</html>

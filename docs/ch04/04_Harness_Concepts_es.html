@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Cap. 4 · Multi-Agent Conceptos del Harness - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Cap. 4 · Multi-Agent Conceptos del Harness</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_es.html" class="nav-home">&larr; Inicio del manual</a>
+  <div class="nav-title">Cap. 4 &middot; Multi-Agent Conceptos del Harness</div>
+  <a href="#agents">What Are Agents</a>
+  <a href="#skills">What Are Skills</a>
+  <a href="#pm-orchestration">PM Orchestration</a>
+  <a href="#three-tier">3-Tier Strategy</a>
+  <a href="#pm-gateway">PM Gateway</a>
+  <a href="#dispatch-flow">Dispatch Flow</a>
+  <a href="#handoff">Handoff Contracts</a>
+  <div class="nav-section">Otros capítulos</div>
+  <a href="../ch03/03_Setup_Guide_es.html">Cap. 3 &middot; Configurando tu laboratorio</a>
+  <a href="../ch05/05_Workspace_Standards_es.html">Cap. 5 &middot; Exploring ai-workspace-standards</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">Capítulo 4</div>
+  <h1>Multi-Agent Conceptos del Harness</h1>
+  <p class="lead">Learn the core concepts of the harness multi-agente: agents, skills, PM orchestration, 3-Tier strategy, PM Gateway, dispatch flow, and handoff contracts. Este capítulo builds your understanding of the entire harness architecture.</p>
+  <div class="keypoints">
+    <div class="kp-title">Lo que cubre este capítulo</div>
+    <ul>
+      <li>Definitions of agents and skills</li>
+      <li>PM orchestration and PM Gateway roles</li>
+      <li>3-Tier strategy (High / Medium / Low)</li>
+      <li>Dispatch flow and handoff contracts</li>
+      <li>Complete harness architecture diagram</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: What Are Agents                                     -->
+  <!-- ============================================================ -->
+  <h2 id="agents">What Are Agents</h2>
+
+  <p>In Capítulo 1 we compared a single AI to an entire team of specialists. Now let us look at the building blocks of that team. The first and most important concept is the <strong>agent</strong>.</p>
+
+  <h3>Agent Definition</h3>
+
+  <p>An <strong>agent</strong> is an AI entity that has a clearly defined <em>role</em>, a set of <em>tools</em> it may use, and a set of <em>rules</em> it must follow. Think of an agent as a digital employee in a company: it has a job title, knows which tools it is allowed to operate, and works within the boundaries set by company policy.</p>
+
+  <p>Each agent is described by a markdown file (for example, <code>agents/research.md</code> or <code>agents/design.md</code>). That file contains everything the AI needs to behave as the agent: its name, tier, phase assignments, detailed instructions, tool permissions, and the triggers that tell the PM when to dispatch it.</p>
+
+  <h3>Agent Componentes</h3>
+
+  <p>Every agent is built from four core components.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agent components diagram showing four core parts">
+      <!-- Central agent box -->
+      <rect x="215" y="10" width="230" height="52" rx="12" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="330" y="42" text-anchor="middle" font-size="16" font-weight="bold" fill="var(--text-inverse)">Agent</text>
+
+      <!-- Arrow down from center -->
+      <line x1="330" y1="62" x2="330" y2="92" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowAgent)"/>
+
+      <!-- Componente 1: Role -->
+      <rect x="30" y="100" width="145" height="110" rx="10" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="102" y="126" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">1. Role</text>
+      <text x="102" y="148" text-anchor="middle" font-size="11" style="fill:var(--text)">What the agent does</text>
+      <text x="102" y="168" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">e.g. "research the</text>
+      <text x="102" y="182" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">topic and collect sources"</text>
+      <text x="102" y="200" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">defined in agents/*.md</text>
+
+      <!-- Componente 2: Tools -->
+      <rect x="195" y="100" width="145" height="110" rx="10" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="267" y="126" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">2. Tools</text>
+      <text x="267" y="148" text-anchor="middle" font-size="11" style="fill:var(--text)">What it may use</text>
+      <text x="267" y="168" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Read, Write, Edit,</text>
+      <text x="267" y="182" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Bash, WebSearch,</text>
+      <text x="267" y="200" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Agent (sub-dispatch)</text>
+
+      <!-- Componente 3: Rules -->
+      <rect x="360" y="100" width="145" height="110" rx="10" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="432" y="126" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">3. Rules</text>
+      <text x="432" y="148" text-anchor="middle" font-size="11" style="fill:var(--text)">Boundaries it obeys</text>
+      <text x="432" y="168" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">PM-only invocation,</text>
+      <text x="432" y="182" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">write-path limits,</text>
+      <text x="432" y="200" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">quality standards</text>
+
+      <!-- Componente 4: Tier -->
+      <rect x="525" y="100" width="120" height="110" rx="10" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="585" y="126" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">4. Tier</text>
+      <text x="585" y="148" text-anchor="middle" font-size="11" style="fill:var(--text)">Complexity level</text>
+      <text x="585" y="168" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">High (plan)</text>
+      <text x="585" y="182" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Medium (review)</text>
+      <text x="585" y="200" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Low (execute)</text>
+
+      <!-- Connecting lines from center to components -->
+      <line x1="280" y1="92" x2="102" y2="100" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <line x1="330" y1="92" x2="267" y2="100" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <line x1="380" y1="92" x2="432" y2="100" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <line x1="420" y1="92" x2="585" y2="100" stroke="var(--accent-purple)" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <!-- Analogy box at bottom -->
+      <rect x="60" y="240" width="540" height="100" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5" opacity="0.7"/>
+      <text x="330" y="266" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">Analogy: Agents as Company Employees</text>
+      <text x="330" y="290" text-anchor="middle" font-size="11" style="fill:var(--text)">Role = Job title (Researcher, Designer, Developer)</text>
+      <text x="330" y="310" text-anchor="middle" font-size="11" style="fill:var(--text)">Tools = Equipment and software access (word processor, design tool, terminal)</text>
+      <text x="330" y="330" text-anchor="middle" font-size="11" style="fill:var(--text)">Rules = Company policies and security clearances (who can edit which files)</text>
+
+      <defs>
+        <marker id="arrowAgent" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>Agent Types in the Harness</h3>
+
+  <p>The co-deck harness defines several specialist agents, each responsible for a different stage of the presentation pipeline.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Orchestrator</h4>
+      <ul>
+        <li><strong>PM Agent</strong> &mdash; The project manager. It never writes code or edits files directly. It reads configurations, plans execution, and dispatches specialist agents.</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Content Agents</h4>
+      <ul>
+        <li><strong>research</strong> &mdash; Gathers web sources and writes <code>research_notes.md</code></li>
+        <li><strong>storyline</strong> &mdash; Writes the narrative structure and per-slide content</li>
+        <li><strong>source-verifier</strong> &mdash; Validates URLs and checks source trustworthiness</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Production Agents</h4>
+      <ul>
+        <li><strong>design</strong> &mdash; Locks the visual theme (colors, fonts, layout)</li>
+        <li><strong>html-build</strong> &mdash; Generates HTML slides from the deck spec</li>
+        <li><strong>pdf-export</strong> &mdash; Converts slides to PDF output</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Asset Agents</h4>
+      <ul>
+        <li><strong>image-curator</strong> &mdash; Searches and downloads slide images</li>
+        <li><strong>diagram-specialist</strong> &mdash; Generates SVG diagrams and charts</li>
+        <li><strong>measure</strong> &mdash; Measures layout coordinates for PDF</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note">
+    There is also a <strong>version</strong> agent that takes snapshots of files before every edit, like a safety net. It runs at every stage (0 through 6) so you can always roll back to a previous version if something goes wrong.
+  </div>
+
+  <h3>Agent File Example</h3>
+
+  <p>Below is a simplified example of what an agent definition file looks like. The real files contain much more detail, but this gives you the idea.</p>
+
+  <div class="code-block">
+<pre><code># agents/research.md
+---
+name: research
+tier: medium
+phases: 1
+role: >
+  Gathers web sources and writes research_notes.md
+  for storyline design.
+dispatch_triggers:
+  - "research the topic"
+  - "collect sources"
+  - "write research notes"
+---
+## Instructions
+- Search the web in both Korean and English.
+- Write findings to research_notes.md.
+- Include URLs, key facts, and source credibility notes.
+- Do NOT create slide content &mdash; that is the storyline agent's job.</code></pre>
+<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+</div>
+
+  <p>Notice how the file clearly defines <em>what the agent does</em> (role), <em>when to dispatch it</em> (triggers), and <em>what it must not do</em> (rules). This clarity is what makes multi-agent collaboration work reliably.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: What Are Skills                                    -->
+  <!-- ============================================================ -->
+  <h2 id="skills">What Are Skills</h2>
+
+  <p>If agents are the employees, then <strong>skills</strong> are the recipe books they follow. A skill is a reusable set of instructions that tells an agent <em>how</em> to perform a specific type of work.</p>
+
+  <h3>Skill Definition</h3>
+
+  <p>A <strong>skill</strong> is a packaged instruction document (stored as <code>SKILL.md</code>) that defines a repeatable workflow. Skills can be loaded by any agent that needs them. For example, the <code>research</code> agent loads the <code>research</code> skill to know exactly how to search the web and structure its findings.</p>
+
+  <h3>Skill Componentes</h3>
+
+  <p>Each skill contains the following parts.</p>
+
+  <ul>
+    <li><strong>Metadata</strong> &mdash; The skill's name, version, owner (maintainer), status, and trigger phrases stored in YAML frontmatter.</li>
+    <li><strong>Triggers</strong> &mdash; Natural-language phrases that tell the system when to activate this skill (for example, "research topic" or "generate PDF").</li>
+    <li><strong>Instructions</strong> &mdash; Step-by-step guidance the agent follows to complete the task.</li>
+    <li><strong>Input / Resultado Contract</strong> &mdash; What files the skill reads and what files it produces, so the next agent in the pipeline knows where to pick up.</li>
+    <li><strong>Quality Checks</strong> &mdash; Validation rules the agent applies before declaring the task done.</li>
+  </ul>
+
+  <h3>Agent vs Skill Comparison</h3>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Agent</h4>
+      <ul>
+        <li><strong>What:</strong> A digital employee with a fixed identity</li>
+        <li><strong>Analogy:</strong> The employee themselves</li>
+        <li><strong>File:</strong> <code>agents/&lt;name&gt;.md</code></li>
+        <li><strong>Scope:</strong> Persistent role across the entire project</li>
+        <li><strong>Lifecycle:</strong> Created once, updated over time</li>
+        <li><strong>Example:</strong> The research agent always handles web research, no matter which project it works on</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Skill</h4>
+      <ul>
+        <li><strong>What:</strong> A reusable instruction recipe</li>
+        <li><strong>Analogy:</strong> The recipe book the employee follows</li>
+        <li><strong>File:</strong> <code>skills/&lt;name&gt;/SKILL.md</code></li>
+        <li><strong>Scope:</strong> Invoked on demand when a specific task is needed</li>
+        <li><strong>Lifecycle:</strong> Versioned independently; multiple agents can share the same skill</li>
+        <li><strong>Example:</strong> The "source-verification" skill can be loaded by the research agent or run as a standalone check</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Analogy:</strong> Think of it this way &mdash; a chef (agent) uses different recipes (skills) depending on what dish the customer ordered. The chef's identity does not change, but the recipe tells them exactly how to prepare each dish. Similarly, the <code>html-build</code> agent always builds HTML slides, but the <code>html-build</code> skill tells it precisely how to read the slide deck file, apply the theme, and produce the output.
+  </div>
+
+  <h3>Skill Resolution Priority</h3>
+
+  <p>When a user request matches a skill trigger, the system checks three locations in priority order.</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Workspace-level skills</strong> (<code>skills/&lt;name&gt;/SKILL.md</code>) &mdash; Core workspace functionality like scaffolding, validation, and audit. These have the <em>highest</em> priority.
+      </li>
+      <li>
+        <strong>Platform config skills</strong> (<code>.claude/skills/</code> or <code>.gemini/skills/</code>) &mdash; Platform-specific hooks, commands, and lifecycle management.
+      </li>
+      <li>
+        <strong>Global plugin skills</strong> &mdash; General-purpose development workflows from external plugins. These have the <em>lowest</em> priority.
+      </li>
+    </ol>
+  </div>
+
+  <div class="tip-box">
+    <strong>Tip:</strong> A single skill can be shared across multiple agents. The "version" skill, for example, is loaded by <em>every</em> agent because every agent needs to snapshot files before editing them. This reuse is what makes skills powerful &mdash; write the instructions once, use them everywhere.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: PM Orchestration                                    -->
+  <!-- ============================================================ -->
+  <h2 id="pm-orchestration">PM Orchestration</h2>
+
+  <p>We have introduced agents and skills. Now the question is: <em>who decides which agent runs when, in what order, and with what resources?</em> The answer is the <strong>PM (Project Manager) Agent</strong>, and the process it manages is called <strong>PM orchestration</strong>.</p>
+
+  <h3>What the PM Does</h3>
+
+  <p>The PM agent is the <strong>orchestrator</strong> of the entire multi-agent workflow. It sits at the top of the hierarchy and is responsible for the following tasks.</p>
+
+  <ul>
+    <li><strong>Triage user requests</strong> &mdash; When you type a command like "make a presentation about climate change," the PM analyzes what you need and determines which agents should be involved.</li>
+    <li><strong>Create execution plans</strong> &mdash; The PM maps out a step-by-step plan: first dispatch the research agent, then the storyline agent, then the design agent, and so on.</li>
+    <li><strong>Dispatch specialist agents</strong> &mdash; The PM sends the right agent to do each job. It never does the work itself &mdash; it only coordinates.</li>
+    <li><strong>Enforce quality gates</strong> &mdash; At certain checkpoints (called "gates"), the PM pauses the pipeline and asks you to review the output before proceeding.</li>
+    <li><strong>Track progress</strong> &mdash; The PM maintains <code>project_state.json</code> to record which stages are complete and which are still pending.</li>
+    <li><strong>Manage rework</strong> &mdash; If you request changes after a stage is done, the PM identifies which downstream stages need to be re-run and dispatches the minimum set of agents to apply the fix.</li>
+  </ul>
+
+  <h3>What the PM Does NOT Do</h3>
+
+  <p>This is equally important. The PM <strong>never</strong> directly edits project files (except memory logs and changelogs), never writes code, and never performs specialist work. If the PM tried to do the research agent's job, it would violate the separation of concerns that keeps the system reliable.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PM orchestration flow diagram">
+      <!-- User -->
+      <rect x="255" y="8" width="150" height="44" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="330" y="35" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">User</text>
+
+      <!-- User to PM -->
+      <line x1="330" y1="52" x2="330" y2="78" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowPm1)"/>
+      <text x="345" y="70" font-size="10" style="fill:var(--text-dim)">request</text>
+
+      <!-- PM Agent -->
+      <rect x="210" y="84" width="240" height="48" rx="10" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="330" y="113" text-anchor="middle" font-size="14" font-weight="bold" fill="var(--text-inverse)">PM Agent (Orchestrator)</text>
+
+      <!-- PM to Gate 2 -->
+      <line x1="330" y1="132" x2="330" y2="158" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowPm1)"/>
+      <text x="345" y="150" font-size="10" style="fill:var(--text-dim)">plan</text>
+
+      <!-- Gate 2 -->
+      <rect x="255" y="164" width="150" height="32" rx="8" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="330" y="184" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Gate 2 (Mandatory)</text>
+
+      <!-- Gate 2 to Agents -->
+      <line x1="255" y1="180" x2="180" y2="218" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowPmGreen)"/>
+      <line x1="330" y1="196" x2="330" y2="218" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowPmAmber)"/>
+      <line x1="405" y1="180" x2="480" y2="218" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowPmAccent)"/>
+
+      <!-- Agent A -->
+      <rect x="60" y="224" width="140" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="130" y="247" text-anchor="middle" font-size="11" style="fill:var(--text)">Research Agent</text>
+
+      <!-- Agent B -->
+      <rect x="260" y="224" width="140" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="330" y="247" text-anchor="middle" font-size="11" style="fill:var(--text)">Storyline Agent</text>
+
+      <!-- Agent C -->
+      <rect x="460" y="224" width="140" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="530" y="247" text-anchor="middle" font-size="11" style="fill:var(--text)">Design Agent</text>
+
+      <!-- Agents to output -->
+      <line x1="130" y1="260" x2="130" y2="290" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowPmGreen)"/>
+      <line x1="330" y1="260" x2="330" y2="290" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowPmAmber)"/>
+      <line x1="530" y1="260" x2="530" y2="290" stroke="var(--accent)" stroke-width="1.2" marker-end="url(#arrowPmAccent)"/>
+
+      <!-- Resultado files -->
+      <rect x="55" y="296" width="150" height="28" rx="6" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="130" y="315" text-anchor="middle" font-size="10" style="fill:var(--text)">research_notes.md</text>
+
+      <rect x="255" y="296" width="150" height="28" rx="6" fill="var(--bg-success)" stroke="var(--accent-amber)" stroke-width="1.2"/>
+      <text x="330" y="315" text-anchor="middle" font-size="10" style="fill:var(--text)">slide_deck.md</text>
+
+      <rect x="455" y="296" width="150" height="28" rx="6" fill="var(--bg-success)" stroke="var(--accent)" stroke-width="1.2"/>
+      <text x="530" y="315" text-anchor="middle" font-size="10" style="fill:var(--text)">design_spec.md</text>
+
+      <!-- Resultados merge to Gate 5 -->
+      <line x1="130" y1="324" x2="280" y2="356" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowPmGreen)"/>
+      <line x1="330" y1="324" x2="330" y2="356" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowPmAmber)"/>
+      <line x1="530" y1="324" x2="380" y2="356" stroke="var(--accent)" stroke-width="1.2" marker-end="url(#arrowPmAccent)"/>
+
+      <!-- Gate 5 -->
+      <rect x="255" y="358" width="150" height="32" rx="8" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="330" y="378" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Gate 5 (Mandatory)</text>
+
+      <defs>
+        <marker id="arrowPm1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowPmGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-green)"/>
+        </marker>
+        <marker id="arrowPmAmber" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-amber)"/>
+        </marker>
+        <marker id="arrowPmAccent" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="note">
+    <strong>Analogy &mdash; The Conductor:</strong> Think of the PM agent as the conductor of an orchestra. The conductor does not play any instrument. Instead, they read the score (the execution plan), cue each section at the right moment (dispatch), and ensure the whole performance flows harmoniously. The musicians (specialist agents) are the ones who actually produce the music.
+  </div>
+
+  <h3>Quality Gates</h3>
+
+  <p>At certain points in the pipeline, the PM pauses and presents the output for your review. These checkpoints are called <strong>gates</strong>. There are two types.</p>
+
+  <ul>
+    <li><strong>Mandatory gates</strong> &mdash; The pipeline <em>cannot proceed</em> until you explicitly approve. Gate 2 (after content is ready) and Gate 5 (after the sample PDF is generated) are mandatory.</li>
+    <li><strong>Optional gates</strong> &mdash; The PM shows you a summary and then continues automatically. Gate 1.5 (source verification), Gate 3 (design spec), and Gate 4 (HTML draft) are optional.</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>Why gates matter:</strong> Without gates, the pipeline would run straight from research to PDF without giving you a chance to correct direction. Gates let you review the storyline before the design is locked, and preview the layout before the full PDF is generated &mdash; saving time and preventing wasted effort.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: 3-Tier Strategy                                    -->
+  <!-- ============================================================ -->
+  <h2 id="three-tier">3-Tier Strategy</h2>
+
+  <p>Not all tasks require the same level of AI reasoning. Some tasks need deep architectural thinking, while others are simple and repetitive. The harness uses a <strong>3-Tier strategy</strong> to match the right model to each task, balancing quality against cost.</p>
+
+  <h3>The Three Tiers</h3>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>High Tier (Plan)</h4>
+      <ul>
+        <li><strong>Models:</strong> Claude Opus 4, Gemini 3.1 Pro</li>
+        <li><strong>Used for:</strong> Complex reasoning, architectural design, planning, writing precise agent prompts</li>
+        <li><strong>Who uses it:</strong> The PM agent (orchestrator)</li>
+        <li><strong>Cost:</strong> Highest</li>
+        <li><strong>Example:</strong> Analyzing a user's request, determining which agents to dispatch, and creating a multi-step execution plan</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Medium Tier (Review)</h4>
+      <ul>
+        <li><strong>Models:</strong> Claude Sonnet 4, Gemini 3.5 Flash</li>
+        <li><strong>Used for:</strong> Code review, testing, quality gates, compliance checks</li>
+        <li><strong>Who uses it:</strong> Auditor and QA agents</li>
+        <li><strong>Cost:</strong> Moderate</li>
+        <li><strong>Example:</strong> Reviewing the storyline agent's output for factual accuracy, checking that design specs are internally consistent</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Low Tier (Execute)</h4>
+      <ul>
+        <li><strong>Models:</strong> Claude Haiku 4, Gemini 3.5 Flash</li>
+        <li><strong>Used for:</strong> Fast repetitive coding, simple file operations, routine tasks</li>
+        <li><strong>Who uses it:</strong> Execution agents (version snapshots, file edits)</li>
+        <li><strong>Cost:</strong> Lowest</li>
+        <li><strong>Example:</strong> Taking a snapshot of a file before an edit, performing a string replacement in a config file</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Key Rules</h3>
+
+  <ul>
+    <li><strong>Tier can be downgraded, never upgraded.</strong> The PM may assign a lower-tier model to a simple task to save cost, but it can never assign a model above an agent's defined baseline tier. If a downgraded task fails, the agent's baseline tier must be restored for the retry.</li>
+    <li><strong>The orchestrator always uses the High tier.</strong> Since the PM makes the most critical decisions &mdash; which agents to dispatch, what order to run them in &mdash; it always operates at the highest reasoning level.</li>
+    <li><strong>Reviewers must be independent.</strong> The agent that produced the work is never the same agent that reviews it. This separation ensures genuine quality control, just like having a separate QA team.</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>For beginners:</strong> You do not need to worry about selecting models yourself. The harness automatically assigns the right tier based on the task. When you gain more experience, you can tune tier assignments in the agent configuration files to optimize cost and quality for your specific projects.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: PM Gateway                                         -->
+  <!-- ============================================================ -->
+  <h2 id="pm-gateway">PM Gateway</h2>
+
+  <p>The <strong>PM Gateway</strong> is the single point of entry through which all user requests flow. It ensures that specialist agents are never called directly by the user &mdash; every interaction goes through the PM first.</p>
+
+  <h3>Why a Gateway?</h3>
+
+  <p>Imagine a company where any employee could walk up to the CEO and give orders. Chaos, right? The same principle applies here. If a user could directly invoke the design agent or the research agent, the PM would lose its ability to plan, sequence, and quality-check the workflow. The gateway prevents this.</p>
+
+  <h3>How the Gateway Works</h3>
+
+  <p>The PM Gateway is enforced at four layers, providing defense in depth.</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Tool-Level Enforcement</strong> &mdash; The agent tool itself rejects calls that bypass the PM. This is the hardest enforcement layer, like a locked door that only opens with the right key.
+      </li>
+      <li>
+        <strong>System Prompt-Level Enforcement</strong> &mdash; The platform (Claude Code or Antigravity CLI) loads the PM's rules first, so the AI knows from the start that it must route through the PM.
+      </li>
+      <li>
+        <strong>Agent File-Level Enforcement</strong> &mdash; Every specialist agent file contains a "PM-ONLY INVOCATION" section that explicitly states only the PM may dispatch it.
+      </li>
+      <li>
+        <strong>QA Gate-Level Enforcement</strong> &mdash; The auditor agent detects any attempt to bypass the PM during the Phase 6 quality audit and reports it as a violation.
+      </li>
+    </ol>
+  </div>
+
+  <h3>PM Direct Execution Scope</h3>
+
+  <p>Even the PM itself has restrictions on what it can do directly.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Always Allowed</h4>
+      <ul>
+        <li>Read files</li>
+        <li>Search (glob, grep)</li>
+        <li>Create tasks and update status</li>
+        <li>Ask the user questions</li>
+        <li>Run read-only bash commands (<code>git status</code>, <code>ls</code>)</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Restricted</h4>
+      <ul>
+        <li>Write/Edit files &mdash; only <code>memory/*.md</code> and <code>CHANGELOG.md</code></li>
+        <li>Bash write commands &mdash; must delegate to a specialist</li>
+        <li>Code implementation &mdash; must delegate to a specialist</li>
+        <li>Design work &mdash; must delegate to a specialist</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn">
+    <strong>Important:</strong> Never attempt to call specialist agents directly. Always go through the PM. If you type "research topic X" instead of going through the PM workflow, the request will be rejected at the tool level. This is by design &mdash; the gateway ensures that every action is planned, tracked, and quality-checked.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: Dispatch Flow                                      -->
+  <!-- ============================================================ -->
+  <h2 id="dispatch-flow">Dispatch Flow</h2>
+
+  <p>When the PM decides which agents to run and in what order, it follows a structured <strong>dispatch flow</strong>. The key decision is whether to run agents <em>in parallel</em> or <em>in sequence</em>.</p>
+
+  <h3>Parallel vs Serial Dispatch</h3>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Parallel Dispatch</h4>
+      <ul>
+        <li>Multiple agents run <strong>at the same time</strong></li>
+        <li>Used for read-only tasks (research, analysis, inspection)</li>
+        <li>Faster overall &mdash; no waiting for one agent to finish</li>
+        <li>Example: The <code>image-curator</code> and <code>diagram-specialist</code> both run in parallel at Stage 3.5 because they do not depend on each other's output</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Serial Dispatch</h4>
+      <ul>
+        <li>Agents run <strong>one at a time</strong>, in order</li>
+        <li>Used for write tasks to prevent file conflicts</li>
+        <li>Slower but safer &mdash; each agent's output is available before the next one starts</li>
+        <li>Example: The research agent must finish <code>research_notes.md</code> before the storyline agent can use it</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dispatch flow diagram showing parallel and serial paths">
+      <!-- Request -->
+      <rect x="255" y="8" width="150" height="40" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="330" y="33" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">User Request</text>
+
+      <!-- PM Triage -->
+      <line x1="330" y1="48" x2="330" y2="72" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowD1)"/>
+      <rect x="230" y="78" width="200" height="36" rx="8" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="330" y="101" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--text-inverse)">PM Triage</text>
+
+      <!-- Decision diamond -->
+      <line x1="330" y1="114" x2="330" y2="138" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowD1)"/>
+      <polygon points="330,142 385,170 330,198 275,170" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="330" y="174" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">Read-only?</text>
+
+      <!-- NO branch (left) — Serial -->
+      <line x1="275" y1="170" x2="160" y2="170" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="218" y="163" font-size="10" font-weight="bold" style="fill:var(--accent)">No (Write)</text>
+
+      <rect x="40" y="152" width="120" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="100" y="175" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">SERIAL</text>
+
+      <!-- Serial chain -->
+      <line x1="100" y1="188" x2="100" y2="218" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowD1)"/>
+      <rect x="40" y="224" width="120" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="100" y="244" text-anchor="middle" font-size="10" style="fill:var(--text)">Agent A</text>
+
+      <line x1="100" y1="256" x2="100" y2="270" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowDGreen)"/>
+      <rect x="40" y="276" width="120" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="100" y="296" text-anchor="middle" font-size="10" style="fill:var(--text)">Agent B</text>
+
+      <!-- YES branch (right) — Parallel -->
+      <line x1="385" y1="170" x2="500" y2="170" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="440" y="163" font-size="10" font-weight="bold" style="fill:var(--accent-green)">Yes (Read)</text>
+
+      <rect x="500" y="152" width="120" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="560" y="175" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">PARALLEL</text>
+
+      <!-- Parallel chain -->
+      <line x1="520" y1="188" x2="480" y2="218" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowDGreen)"/>
+      <line x1="560" y1="188" x2="560" y2="218" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowDGreen)"/>
+      <line x1="600" y1="188" x2="640" y2="218" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowDGreen)"/>
+
+      <rect x="430" y="224" width="100" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="480" y="244" text-anchor="middle" font-size="10" style="fill:var(--text)">Agent X</text>
+
+      <rect x="510" y="224" width="100" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="560" y="244" text-anchor="middle" font-size="10" style="fill:var(--text)">Agent Y</text>
+
+      <rect x="590" y="224" width="60" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="620" y="244" text-anchor="middle" font-size="10" style="fill:var(--text)">Z</text>
+
+      <text x="480" y="276" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">All run simultaneously</text>
+      <text x="480" y="292" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">(no file conflicts)</text>
+
+      <!-- Merge back to QA -->
+      <rect x="250" y="318" width="160" height="18" rx="4" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="330" y="331" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">QA Gate &rarr; Finalize</text>
+
+      <line x1="100" y1="308" x2="250" y2="327" stroke="var(--accent)" stroke-width="1" marker-end="url(#arrowD1)" stroke-dasharray="4,3"/>
+      <line x1="560" y1="256" x2="410" y2="327" stroke="var(--accent-green)" stroke-width="1" marker-end="url(#arrowDGreen)" stroke-dasharray="4,3"/>
+
+      <defs>
+        <marker id="arrowD1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowDGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-green)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>The Dispatch Decision</h3>
+
+  <p>When the PM receives a request, it follows a simple decision tree.</p>
+
+  <div class="flow-box">
+    <div class="step">1. <strong>Receive request</strong> &mdash; The user types a command or the pipeline advances to the next stage.</div>
+    <div class="step">2. <strong>Classify deliverable type</strong> &mdash; The PM identifies what kind of output is needed (research notes, design spec, HTML slides, PDF, etc.) and maps it to the correct agent.</div>
+    <div class="step">3. <strong>Determine parallel or serial</strong> &mdash; If the task involves writing files, dispatch serially (one agent at a time). If it involves only reading and analysis, dispatch all relevant agents in parallel.</div>
+    <div class="step">4. <strong>Dispatch agents</strong> &mdash; Send the task to the specialist agent(s) with the appropriate tier model.</div>
+    <div class="step">5. <strong>Collect and validate</strong> &mdash; Wait for all agents to complete, then run quality checks at the next gate.</div>
+  </div>
+
+  <div class="tip-box">
+    <strong>Beginner tip:</strong> You do not need to memorize this decision tree. The PM handles it automatically. As you gain experience, you will start to recognize which stages run in parallel and which are serial, and you can predict the pipeline's behavior more accurately.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: Handoff Contracts                                   -->
+  <!-- ============================================================ -->
+  <h2 id="handoff">Handoff Contracts</h2>
+
+  <p>In a sistema multi-agente, the work product of one agent becomes the input for the next. The mechanism that makes this transfer reliable is called a <strong>handoff contract</strong>.</p>
+
+  <h3>What Is a Handoff Contract?</h3>
+
+  <p>A <strong>handoff contract</strong> is an agreement between two agents that specifies three things.</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Resultado file</strong> &mdash; What file(s) the sending agent produces. For example, the research agent produces <code>research_notes.md</code>.
+      </li>
+      <li>
+        <strong>File location</strong> &mdash; Where the file is placed so the receiving agent knows exactly where to find it. For example, <code>presentations/&lt;project&gt;/research_notes.md</code>.
+      </li>
+      <li>
+        <strong>Format and structure</strong> &mdash; The expected format (markdown, JSON, etc.) and the sections or fields the file must contain, so the receiving agent can parse it reliably.
+      </li>
+    </ol>
+  </div>
+
+  <p>When these three elements are clearly defined, the handoff is <em>contractual</em> &mdash; the receiving agent knows exactly what to expect and how to consume the data. This eliminates guesswork and reduces errors.</p>
+
+  <h3>Example: Research to Storyline</h3>
+
+  <p>Here is a real handoff contract from the co-deck pipeline.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Sending Agent: Research</h4>
+      <ul>
+        <li><strong>Produces:</strong> <code>research_notes.md</code></li>
+        <li><strong>Location:</strong> <code>presentations/&lt;name&gt;/</code></li>
+        <li><strong>Format:</strong> Markdown with sections for Sources, Key Facts, Credibility Notes</li>
+        <li><strong>Trigger:</strong> "research the topic"</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Receiving Agent: Storyline</h4>
+      <ul>
+        <li><strong>Consumes:</strong> <code>research_notes.md</code></li>
+        <li><strong>Reads from:</strong> Same project directory</li>
+        <li><strong>Expects:</strong> Structured markdown it can parse for key facts and source URLs</li>
+        <li><strong>Produces:</strong> <code>storyline.md</code> + <code>slide_deck.md</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <p>The contract is explicit in both agent files. The research agent's instructions say "write findings to <code>research_notes.md</code>" and the storyline agent's instructions say "read <code>research_notes.md</code> as input." Because the contract is written down in the agent definitions, there is no ambiguity.</p>
+
+  <h3>Why Handoff Contracts Matter</h3>
+
+  <p>Without handoff contracts, agents would need to guess where to find their input, what format it is in, and whether it is ready. This leads to three common failure modes.</p>
+
+  <ul>
+    <li><strong>File not found</strong> &mdash; The receiving agent looks for a file that was never created or was saved in a different location.</li>
+    <li><strong>Format mismatch</strong> &mdash; The sending agent outputs JSON but the receiving agent expects markdown.</li>
+    <li><strong>Premature consumption</strong> &mdash; The receiving agent starts before the sending agent has finished writing, resulting in incomplete or corrupted data.</li>
+  </ul>
+
+  <p>Handoff contracts prevent all three of these issues by making the transfer expectations explicit, verifiable, and enforceable.</p>
+
+  <div class="note">
+    <strong>Analogy &mdash; The Handover Manual:</strong> Think of a handoff contract like the handover manual used in shift changes at a hospital or factory. When the day shift ends, the outgoing nurse fills out a structured form: which patients were treated, which medications were administered, what issues remain open. The incoming nurse reads this form and can pick up exactly where the previous shift left off. Without this manual, critical information could be lost. The same principle applies to AI agents.
+  </div>
+
+  <h3>Handoff Chain in the Full Pipeline</h3>
+
+  <p>Here is the complete handoff chain for the co-deck presentation pipeline. Each arrow represents a handoff contract.</p>
+
+  <div class="flow-box">
+    <div class="step"><strong>Stage 0:</strong> PM reads <code>lecture-profile.md</code> &rarr; initializes <code>project_state.json</code></div>
+    <div class="step"><strong>Stage 1:</strong> research &rarr; produces <code>research_notes.md</code></div>
+    <div class="step"><strong>Stage 1.5:</strong> source-verifier &rarr; reads <code>research_notes.md</code>, produces <code>source-verification.md</code></div>
+    <div class="step"><strong>Stage 2-3:</strong> storyline &rarr; reads <code>research_notes.md</code>, produces <code>storyline.md</code> + <code>slide_deck.md</code></div>
+    <div class="step"><strong>Stage 3:</strong> design &rarr; reads <code>slide_deck.md</code>, produces <code>design_spec.md</code></div>
+    <div class="step"><strong>Stage 3.5:</strong> image-curator &rarr; reads <code>slide_deck.md</code>, produces <code>image-manifest.json</code> + images</div>
+    <div class="step"><strong>Stage 3.5:</strong> diagram-specialist &rarr; reads <code>slide_deck.md</code>, produces <code>diagram-manifest.json</code> + SVGs</div>
+    <div class="step"><strong>Stage 5-8:</strong> html-build &rarr; reads <code>slide_deck.md</code> + <code>design_spec.md</code> + manifests, produces <code>lecture_vN.html</code></div>
+    <div class="step"><strong>Stage 9-10:</strong> measure &rarr; reads HTML, produces <code>pdf_layout_spec.md</code></div>
+    <div class="step"><strong>Stage 11:</strong> pdf-export &rarr; reads all specs, produces <code>&lt;project&gt;.pdf</code></div>
+  </div>
+
+  <p>Notice how each agent only reads what it needs and produces a well-defined output. The chain forms a clear data flow from user request to final PDF, with every handoff point documented in the agent and skill definitions.</p>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER NAVIGATION                                            -->
+  <!-- ============================================================ -->
+  <div class="chapter-nav">
+    <a href="../ch03/03_Setup_Guide_es.html" class="prev">
+      <div class="dir">&larr; Capítulo anterior</div>
+      <div class="ttl">Cap. 3 &middot; Configurando tu laboratorio</div>
+    </a>
+    <a href="../ch05/05_Workspace_Standards_es.html" class="next" style="margin-left:auto;">
+      <div class="dir">Siguiente capítulo &rarr;</div>
+      <div class="ttl">Cap. 5 &middot; Exploring ai-workspace-standards</div>
+    </a>
+  </div>
+   <footer>
+    Basado en Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) · Materiales educativos en español<br>
+    Documentos oficiales: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    El contenido del manual está licenciado bajo <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (Atribución-NoComercial-CompartirIgual 4.0 Internacional)</a>.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

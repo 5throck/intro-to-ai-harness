@@ -47,12 +47,12 @@
 
   <h3>정의</h3>
 
-  <p><strong>ai-workspace-standards</strong>는 Claude Code, Gemini CLI 같은 AI 코딩 도구를 활용하여 <em>여러 AI 에이전트가 협력하는 프로젝트</em>를 만들 때 필요한 <strong>오픈소스 표준 템플릿</strong>입니다. GitHub에서 무료로 공개되어 있으며, 누구나 복사해서 자신의 프로젝트에 적용할 수 있습니다.</p>
+  <p><strong>ai-workspace-standards</strong>는 Claude Code, Antigravity CLI 같은 AI 코딩 도구를 활용하여 <em>여러 AI 에이전트가 협력하는 프로젝트</em>를 만들 때 필요한 <strong>오픈소스 표준 템플릿</strong>입니다. GitHub에서 무료로 공개되어 있으며, 누구나 복사해서 자신의 프로젝트에 적용할 수 있습니다.</p>
 
   <ul>
     <li><strong>GitHub 저장소</strong>: <code>github.com/5throck/ai-workspace-standards</code></li>
     <li><strong>라이선스</strong>: 오픈소스 (누구나 자유롭게 사용, 수정, 배포 가능)</li>
-    <li><strong>지원 플랫폼</strong>: Claude Code, Gemini CLI (두 플랫폼 모두 동일한 구조 사용)</li>
+    <li><strong>지원 플랫폼</strong>: Claude Code, Antigravity CLI (두 플랫폼 모두 동일한 구조 사용)</li>
   </ul>
 
   <h3>왜 표준이 필요한가?</h3>
@@ -228,7 +228,7 @@
 
   <h3>루트 파일들</h3>
 
-  <p>최상위 디렉토리에는 폴더 외에도 중요한 파일들이 있습니다. <code>AGENTS.md</code>(에이전트 레지스트리), <code>CLAUDE.md</code>(Claude Code용 지침), <code>GEMINI.md</code>(Gemini CLI용 지침), <code>CHANGELOG.md</code>(변경 이력)가 모두 프로젝트 루트에 위치합니다. 이 파일들은 이 장의 "핵심 파일들" 섹션에서 자세히 다룹니다.</p>
+  <p>최상위 디렉토리에는 폴더 외에도 중요한 파일들이 있습니다. <code>AGENTS.md</code>(에이전트 레지스트리), <code>CLAUDE.md</code>(Claude Code용 지침), <code>GEMINI.md</code>(Antigravity CLI용 지침), <code>CHANGELOG.md</code>(변경 이력)가 모두 프로젝트 루트에 위치합니다. 이 파일들은 이 장의 "핵심 파일들" 섹션에서 자세히 다룹니다.</p>
 
   <div class="tip-box">
     <strong>팁:</strong> 실제로 탐색해보고 싶다면 터미널에서 저장소를 클론하세요. <code>git clone https://github.com/5throck/ai-workspace-standards.git</code> 명령으로 내 컴퓨터에 복사한 뒤, 각 폴더와 파일을 직접 열어보면 훨씬 이해가 빠릅니다.
@@ -271,11 +271,11 @@
 
   <p>초보자 비유: <strong>CLAUDE.md는 Claude에게 주는 "업무 지시서"입니다.</strong> 직원에게 "이런 작업이 들어오면 이 담당자에게 넘겨라", "이 단계에서는 반드시 관리자 승인을 받아라"라고 적어놓은 메뉴얼과 같습니다.</p>
 
-  <h3 id="gemini-md">GEMINI.md — Gemini CLI용 행동 지침</h3>
+  <h3 id="gemini-md">GEMINI.md — Antigravity CLI용 행동 지침</h3>
 
-  <p><strong>GEMINI.md</strong>는 Gemini CLI(Google의 AI 코딩 도구)용 행동 지침입니다. 내용과 구조는 CLAUDE.md와 <em>동일한 역할</em>을 하며, 단지 Claude Code 대신 Gemini CLI를 사용할 때 적용된다는 점이 다릅니다.</p>
+  <p><strong>GEMINI.md</strong>는 Antigravity CLI(Google의 AI 코딩 도구)용 행동 지침입니다. 내용과 구조는 CLAUDE.md와 <em>동일한 역할</em>을 하며, 단지 Claude Code 대신 Antigravity CLI를 사용할 때 적용된다는 점이 다릅니다.</p>
 
-  <p>두 파일이 왜 따로 존재할까요? Claude Code와 Gemini CLI는 각각 다른 회사에서 만든 도구이므로, <strong>모델 이름, 도구 호출 방식, 시스템 프롬프트 형식</strong>이 다릅니다. 하지만 <strong>에이전트 구조, 워크플로우, 게이트 규칙</strong>은 완전히 동일합니다. 따라서 CLAUDE.md와 GEMINI.md는 "같은 규칙, 다른 도구 설정"이라고 이해하면 됩니다.</p>
+  <p>두 파일이 왜 따로 존재할까요? Claude Code와 Antigravity CLI는 각각 다른 회사에서 만든 도구이므로, <strong>모델 이름, 도구 호출 방식, 시스템 프롬프트 형식</strong>이 다릅니다. 하지만 <strong>에이전트 구조, 워크플로우, 게이트 규칙</strong>은 완전히 동일합니다. 따라서 CLAUDE.md와 GEMINI.md는 "같은 규칙, 다른 도구 설정"이라고 이해하면 됩니다.</p>
 
   <h3>CHANGELOG.md — 변경 이력 기록</h3>
 
@@ -311,7 +311,7 @@
       <h4>CLAUDE.md / GEMINI.md</h4>
       <ul>
         <li>역할: 플랫폼별 행동 지침</li>
-        <li>대상: Claude Code / Gemini CLI</li>
+        <li>대상: Claude Code / Antigravity CLI</li>
         <li>내용: 디스패치 규칙, 3-Tier 전략, 게이트 프로토콜, 도구 권한</li>
         <li>비유: 업무 지시서</li>
         <li>위치: 프로젝트 루트</li>
@@ -349,7 +349,7 @@
 
   <ul>
     <li><code>.claude/</code> 디렉토리 — Claude Code용 설정, 명령어, 스킬</li>
-    <li><code>.gemini/</code> 디렉토리 — Gemini CLI용 설정, 명령어, 스킬</li>
+    <li><code>.gemini/</code> 디렉토리 — Antigravity CLI용 설정, 명령어, 스킬</li>
     <li>플랫폼별 에이전트 설정 (CLAUDE.md, GEMINI.md)</li>
     <li>공통 에이전트 템플릿, 공통 스킬, 스크립트</li>
     <li><code>propagation-map.json</code> — L0→L1 배포 규칙 정의</li>

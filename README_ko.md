@@ -1,6 +1,6 @@
 # Claude Code와 멀티 에이전트 하네스 — 입문 핸드북
 
-Language: [English](README.md) | **한국어**
+Language: [English](README.md) | [한국어](README_ko.md) | [日本語](README_ja.md) | [Español](README_es.md)
 
 AI 초보자를 위한 다국어(한국어·영어·일본어·스페인어) 핸드북입니다. Claude Desktop App을 기본 도구로 사용하여 AI 에이전트 팀의 개념부터 직접 만들어 쓰는 방법까지, 복사 가능한 명령어와 인라인 SVG 다이어그램으로 쉽게 배웁니다.
 

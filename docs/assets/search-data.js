@@ -23,6 +23,9 @@ var SEARCH_DATA = {
     { path: 'appendix/C_Low_Cost_Backends_ko.html', title: '별첨 C · 저비용 AI 백엔드 연동', lang: 'ko' },
     { path: 'lecture-guide/00_Course_Overview.html', title: '강의 소개', lang: 'ko' },
     { path: 'lecture-guide/00_Lecture_Guide.html', title: '강의 진행 가이드', lang: 'ko' },
+    { path: 'index.html', title: 'Claude Code와 멀티 에이전트 하네스', lang: 'ko' },
+    { path: 'setup/SETUP_ko.html', title: '워크숍 환경 설치 가이드 · Claude Code와 멀티 에이전트 하네스', lang: 'ko' },
+    { path: 'setup/SETUP_CHECKLIST_ko.html', title: '워크숍 사전 설치 체크리스트 · Claude Code와 멀티 에이전트 하네스', lang: 'ko' },
 
     /* ── EN ── */
     { path: 'ch01/01_Why_AI_Agents_en.html', title: 'Ch 1 · Why AI Agent Teams?', lang: 'en' },
@@ -43,6 +46,9 @@ var SEARCH_DATA = {
     { path: 'appendix/C_Low_Cost_Backends_en.html', title: 'Appendix C · Low-Cost AI Backend Integration', lang: 'en' },
     { path: 'lecture-guide/00_Course_Overview_en.html', title: 'Course Overview · Claude Code & Multi-Agent Harness', lang: 'en' },
     { path: 'lecture-guide/00_Lecture_Guide_en.html', title: 'Lecture Guide · Claude Code & Multi-Agent Harness', lang: 'en' },
+    { path: 'index_en.html', title: 'Claude Code & Multi-Agent Harness', lang: 'en' },
+    { path: 'setup/SETUP_en.html', title: 'Workshop Environment Setup Guide · Claude Code & Multi-Agent Harness', lang: 'en' },
+    { path: 'setup/SETUP_CHECKLIST_en.html', title: 'Workshop Pre-Installation Checklist · Claude Code & Multi-Agent Harness', lang: 'en' },
 
     /* ── JA ── */
     { path: 'index_ja.html', title: 'Claude Code & マルチエージェントハーネス', lang: 'ja' },

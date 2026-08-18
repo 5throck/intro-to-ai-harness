@@ -2,6 +2,34 @@
 
 All notable changes to this handbook will be documented in this file.
 
+## [2026-08-18] — Project Review Fixes: Security, CI & Search Completeness
+
+### Security
+- **Fixed HTML entity escaping bug** in `site-search.js` — `'<'` was incorrectly escaped as `&gt;`, breaking search result rendering
+- Removed all `execSync` (shell invocation) usage from `deploy-handbook.ts` — replaced `run()`/`shellEscape()` with `execFileSync` argument arrays across all 7 call sites
+- Removed dead `callLocalLlm()` stub (shell injection pattern) and unused `execSync` imports from translation scripts
+- Added 200-character input limit in `inpage-search.js` to prevent regex DoS
+
+### Search
+- Added 6 missing pages to `search-manifest.json` (index + setup pages for ko/en) — all 4 languages now have exactly 21 searchable pages
+- Replaced 7 hardcoded colors in `site-search.js` with CSS variable references (dark mode support)
+- Rewrote `copy-code.js` with clipboard API error handling, ARIA live region, and `execCommand` fallback
+
+### CI
+- Consolidated `validate-handbook.yml` from 8 parallel jobs (16 redundant checkout/setup steps) to a single job with 12 sequential checks
+- Added 4 previously missing checks to CI: `check-symmetry`, `check-links`, `check-labels`, `check-search`
+- Added search index freshness verification (`build-search-index` diff check)
+
+### Translation Scripts (one-shot pipeline, maintenance)
+- Moved 6 translation scripts from repo root to `scripts/`; added new shared module `translate-lib.ts` (file list, code-segment splitting, entity decoding, English/Spanish heuristic) used by all 7 translation scripts
+- Renamed `translate-with-llm.ts` → `translate-dict.ts` (matches its dictionary-based behavior)
+- Removed ~250 lines of dead code from `translate-full.ts`; fixed missing array terminator syntax error
+- Deleted `_translation_work/` intermediate artifacts (gitignored working files)
+
+### Misc
+- Added `SPDX-License-Identifier: CC-BY-NC-SA-4.0` header to `LICENSE`
+- Renormalized mixed CRLF line endings via `git add --renormalize`
+
 ## [2026-08-16] — Content Accuracy & Security Review
 
 ### Security

@@ -64,3 +64,6 @@ __pycache__/
 # Claude memory files — auto-generated, not for publishing
 CLAUDE.md
 **/CLAUDE.md
+
+# Translation working files — intermediate artifacts, not for publishing
+_translation_work/

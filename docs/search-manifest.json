@@ -68,17 +68,17 @@
       "lang": "ko"
     },
     {
-      "path": "appendix/A_Remote_Access_ko.html",
+      "path": "appendix/A_Remote_Access.html",
       "title": "별첨 A · 원격 접속 환경 설정",
       "lang": "ko"
     },
     {
-      "path": "appendix/B_Claude_Code_CLI_ko.html",
+      "path": "appendix/B_Claude_Code_CLI.html",
       "title": "별첨 B · Claude Code CLI 사용법",
       "lang": "ko"
     },
     {
-      "path": "appendix/C_Low_Cost_Backends_ko.html",
+      "path": "appendix/C_Low_Cost_Backends.html",
       "title": "별첨 C · 저비용 AI 백엔드 연동",
       "lang": "ko"
     },
@@ -403,7 +403,7 @@
       "lang": "en"
     },
     {
-      "path": "setup/SETUP_ko.html",
+      "path": "setup/SETUP.html",
       "title": "워크숍 환경 설치 가이드 · Claude Code와 멀티 에이전트 하네스",
       "lang": "ko"
     },
@@ -413,7 +413,7 @@
       "lang": "en"
     },
     {
-      "path": "setup/SETUP_CHECKLIST_ko.html",
+      "path": "setup/SETUP_CHECKLIST.html",
       "title": "워크숍 사전 설치 체크리스트 · Claude Code와 멀티 에이전트 하네스",
       "lang": "ko"
     },

@@ -2,10 +2,12 @@
 
 Language: [English](README.md) | [한국어](README_ko.md)
 
-A beginner-friendly bilingual handbook (Korean/English) for AI newcomers. Using Claude Desktop App as the default tool, it teaches AI agent team concepts from basics to hands-on creation — with copyable commands and inline SVG diagrams.
+A beginner-friendly multilingual handbook (Korean · English · Japanese · Español) for AI newcomers. Using Claude Desktop App as the default tool, it teaches AI agent team concepts from basics to hands-on creation — with copyable commands and inline SVG diagrams.
 
 ## 🌐 Read the Handbook Live
 👉 **[Online Handbook](https://5throck.github.io/intro-to-ai-harness/)**
+
+> **Note:** The online handbook is available in Korean, English, Japanese, and Spanish via the in-page language switcher.
 
 ## 📚 Curriculum / Contents
 - **Ch. 1 · Why AI Agent Teams?** — AI trends, single AI vs multi-agent, harness concept
@@ -22,6 +24,7 @@ A beginner-friendly bilingual handbook (Korean/English) for AI newcomers. Using 
 - **Ch. 12 · Understanding Workflows & Automation** — /sync command, Git/GitHub, Hook, CI/CD
 - **Ch. 13 · Next Steps** — Community, learning resources, use cases, FAQ
 - **Appendices** — Remote Access Setup, Claude Code CLI Guide, Low-Cost AI Backend Integration
+- **Course Overview & Lecture Guide** — Learning objectives, day-by-day schedule, facilitator notes
 
 ## 🎯 Target Versions
 - Claude Code 2026-08 / Claude Desktop App (latest) / `ai-workspace-standards` main (2026-08)

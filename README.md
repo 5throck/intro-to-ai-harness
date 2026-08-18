@@ -1,6 +1,6 @@
 # Introduction to Claude Code and Multi-Agent Harness
 
-Language: [English](README.md) | [한국어](README_ko.md)
+Language: [English](README.md) | [한국어](README_ko.md) | [日本語](README_ja.md) | [Español](README_es.md)
 
 A beginner-friendly multilingual handbook (Korean · English · Japanese · Español) for AI newcomers. Using Claude Desktop App as the default tool, it teaches AI agent team concepts from basics to hands-on creation — with copyable commands and inline SVG diagrams.
 

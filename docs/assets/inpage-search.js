@@ -170,6 +170,8 @@
 
     function apply(scrollFirst){
       var q = input.value.trim();
+      if (q.length > 200) { q = q.slice(0, 200); input.value = q; }
+      clearBtn.style.display = q ? 'block' : 'none';
       clearBtn.style.display = q ? 'block' : 'none';
       highlight(q);
       if (!q){ countEl.textContent = ''; return; }

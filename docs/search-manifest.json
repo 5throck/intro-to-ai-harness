@@ -83,6 +83,11 @@
       "lang": "ko"
     },
     {
+      "path": "appendix/D_Korean_Open_Data_API_Keys.html",
+      "title": "별첨 D · 한국 오픈데이터 API 키 발급과 설정 (DART · 법제처 · KOSIS)",
+      "lang": "ko"
+    },
+    {
       "path": "lecture-guide/00_Course_Overview.html",
       "title": "강의 소개",
       "lang": "ko"
@@ -170,6 +175,11 @@
     {
       "path": "appendix/C_Low_Cost_Backends_en.html",
       "title": "Appendix C · Low-Cost AI Backend Integration",
+      "lang": "en"
+    },
+    {
+      "path": "appendix/D_Korean_Open_Data_API_Keys_en.html",
+      "title": "Appendix D · Korean Open-Data API Keys (DART · LAW · KOSIS)",
       "lang": "en"
     },
     {
@@ -265,6 +275,11 @@
     {
       "path": "appendix/C_Low_Cost_Backends_ja.html",
       "title": "付録C · 低コストAIバックエンド統合",
+      "lang": "ja"
+    },
+    {
+      "path": "appendix/D_Korean_Open_Data_API_Keys_ja.html",
+      "title": "付録D · 韓国オープンデータAPIキーの取得と設定",
       "lang": "ja"
     },
     {
@@ -370,6 +385,11 @@
     {
       "path": "appendix/C_Low_Cost_Backends_es.html",
       "title": "Apéndice C · Integración de Backends de IA de Bajo Costo",
+      "lang": "es"
+    },
+    {
+      "path": "appendix/D_Korean_Open_Data_API_Keys_es.html",
+      "title": "Apéndice D · Claves de API de datos abiertos de Corea",
       "lang": "es"
     },
     {

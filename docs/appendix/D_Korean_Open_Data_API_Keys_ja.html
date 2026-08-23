@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="付録D · 韓国オープンデータAPIキーの取得と設定 - Claude Codeとマルチエージェントハーネス入門">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>付録D · 韓国オープンデータAPIキーの取得と設定</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_ja.html" class="nav-home">&larr; ハンドブック ホーム</a>
+  <div class="nav-title">付録D &middot; 韓国オープンデータAPIキーの取得と設定</div>
+  <a href="#overview">概要</a>
+  <a href="#keys-summary">APIキー一覧</a>
+  <a href="#k-dart">DART 電子公示</a>
+  <a href="#k-law">国家法令情報センター</a>
+  <a href="#k-kosis">KOSIS 国家統計</a>
+  <a href="#env-config">環境変数の設定</a>
+  <a href="#verify">動作確認</a>
+  <a href="#troubleshooting">トラブルシューティング</a>
+  <a href="#license">ライセンスと出典表記</a>
+  <div class="nav-section">その他の章</div>
+  <a href="C_Low_Cost_Backends_ja.html">付録C &middot; 低コストAIバックエンド統合</a>
+  <a href="../ch10/10_Creating_Skills_ja.html">Ch 10 &middot; スキルの作成と変更</a>
+  <a href="B_Claude_Code_CLI_ja.html">付録B &middot; Claude Code CLIガイド</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">付録D</div>
+  <h1>韓国オープンデータAPIキーの取得と設定</h1>
+  <p class="lead">この付録では、<strong>k-dart</strong>・<strong>k-law</strong>・<strong>k-kosis</strong> スキルが利用する韓国の公共オープンデータAPI &mdash; 金融監督院のDART電子公示、法制処の国家法令情報センター、統計庁のKOSIS国家統計ポータル &mdash; のキーを取得し、環境変数として設定する方法を説明します。</p>
+  <div class="keypoints">
+    <div class="kp-title">この付録で扱う内容</div>
+    <ul>
+      <li>3つの公共APIサービスと発行ポータルの一覧</li>
+      <li>DART電子公示APIキーの取得（即時発行）</li>
+      <li>国家法令情報センターOC識別子の申請（1&ndash;2営業日）</li>
+      <li>KOSIS国家統計ポータルAPIキーの申請</li>
+      <li><code>.env</code>への環境変数設定（Windows / macOS / Linux）</li>
+      <li>curlによる動作確認とトラブルシューティング</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================
+       Section 1: 概要
+       ============================================================ -->
+  <h2 id="overview">1. 概要</h2>
+
+  <p>このワークスペースには、韓国の公共データを照会するスキルが3つ含まれています。<strong>k-dart</strong>は韓国金融監督院（금융감독원、FSS）が運営する電子公示システムDARTの、<strong>k-law</strong>は法制処（법제처、MOLEG）の国家法令情報センター（국가법령정보센터）の、<strong>k-kosis</strong>は統計庁（통계청、KOSTAT）のKOSIS国家統計ポータル（국가통계포털）のOpen APIを呼び出します。3つのスキルはいずれもリクエスト直前に<strong>環境変数からキーを読み込む</strong>ため、利用前に各サービスのキーを取得して設定しておく必要があります。</p>
+
+  <div class="flow-box">
+    流れは3サービスとも同じです。<strong>スキルが環境変数を読み &rarr; curlリクエストにキーを載せて送信 &rarr; JSONレスポンスが返る</strong>。一度設定すれば、以降のすべてのセッションで再利用できます。
+  </div>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg viewBox="0 0 660 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;" role="img" aria-label="スキルが環境変数からキーを読み、curlでリクエストを送り、JSONレスポンスを受け取る流れの図">
+      <!-- Title -->
+      <text x="330" y="28" text-anchor="middle" font-size="15" font-weight="700" style="color:var(--text);">オープンデータスキルの呼び出しフロー</text>
+
+      <!-- Step 1: skill -->
+      <rect x="20" y="50" width="140" height="110" rx="8" fill="var(--bg3)" stroke="var(--accent)"/>
+      <rect x="20" y="50" width="140" height="34" rx="8" fill="var(--accent)"/>
+      <rect x="20" y="76" width="140" height="8" fill="var(--accent)"/>
+      <text x="90" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text-inverse)">1. スキル呼び出し</text>
+      <text x="90" y="112" text-anchor="middle" font-size="11" style="color:var(--text-dim);">k-dart &middot; k-law</text>
+      <text x="90" y="130" text-anchor="middle" font-size="11" style="color:var(--text-dim);">k-kosis</text>
+
+      <!-- Arrow 1→2 -->
+      <line x1="160" y1="105" x2="178" y2="105" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowKrDataJa)"/>
+
+      <!-- Step 2: env var -->
+      <rect x="180" y="50" width="140" height="110" rx="8" fill="var(--bg3)" stroke="var(--accent-green)"/>
+      <rect x="180" y="50" width="140" height="34" rx="8" fill="var(--accent-green)"/>
+      <rect x="180" y="76" width="140" height="8" fill="var(--accent-green)"/>
+      <text x="250" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text-inverse)">2. 環境変数</text>
+      <text x="250" y="112" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--accent-green);">DART_API_KEY</text>
+      <text x="250" y="130" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--accent-green);">KOSIS_API_KEY</text>
+
+      <!-- Arrow 2→3 -->
+      <line x1="320" y1="105" x2="338" y2="105" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowKrDataJa)"/>
+
+      <!-- Step 3: curl -->
+      <rect x="340" y="50" width="140" height="110" rx="8" fill="var(--bg3)" stroke="var(--accent-purple)"/>
+      <rect x="340" y="50" width="140" height="34" rx="8" fill="var(--accent-purple)"/>
+      <rect x="340" y="76" width="140" height="8" fill="var(--accent-purple)"/>
+      <text x="410" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text-inverse)">3. curlリクエスト</text>
+      <text x="410" y="112" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--accent-purple);">crtfc_key &middot; OC</text>
+      <text x="410" y="130" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--accent-purple);">apiKey</text>
+
+      <!-- Arrow 3→4 -->
+      <line x1="480" y1="105" x2="498" y2="105" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowKrDataJa)"/>
+
+      <!-- Step 4: JSON -->
+      <rect x="500" y="50" width="140" height="110" rx="8" fill="var(--bg3)" stroke="var(--accent-amber)"/>
+      <rect x="500" y="50" width="140" height="34" rx="8" fill="var(--accent-amber)"/>
+      <rect x="500" y="76" width="140" height="8" fill="var(--accent-amber)"/>
+      <text x="570" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text-inverse)">4. JSONレスポンス</text>
+      <text x="570" y="112" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--accent-amber);">status "000" など</text>
+      <text x="570" y="130" text-anchor="middle" font-size="11" style="color:var(--text-dim);">エージェントが解釈</text>
+
+      <!-- Arrow marker -->
+      <defs>
+        <marker id="arrowKrDataJa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <p>3サービスとも<strong>無料</strong>で、個人開発者でも登録手続きを済ませればすぐに利用できます。ただし承認にかかる時間はサービスごとに異なります &mdash; DARTは即時発行、国家法令情報センターは1&ndash;2営業日、KOSISは公式な基準が文書化されていないためポータルの掲示板で確認します。</p>
+
+  <!-- ============================================================
+       Section 2: APIキー一覧
+       ============================================================ -->
+  <h2 id="keys-summary">2. APIキー一覧</h2>
+
+  <p>取得対象の3サービスを表にまとめます。詳細な手続きは各サービスのセクションを参照してください。</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>サービス</th>
+        <th>提供機関</th>
+        <th>発行ポータル</th>
+        <th>承認</th>
+        <th>環境変数</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>DART電子公示</td>
+        <td>韓国金融監督院（FSS）</td>
+        <td><a href="https://opendart.fss.or.kr/intro/main.do" target="_blank">opendart.fss.or.kr</a></td>
+        <td>即時</td>
+        <td><code>DART_API_KEY</code></td>
+      </tr>
+      <tr>
+        <td>国家法令情報センター</td>
+        <td>韓国法制処（MOLEG）</td>
+        <td><a href="https://open.law.go.kr/" target="_blank">open.law.go.kr</a></td>
+        <td>1&ndash;2営業日</td>
+        <td><code>LAW_API_OC</code></td>
+      </tr>
+      <tr>
+        <td>KOSIS国家統計ポータル</td>
+        <td>韓国統計庁（KOSTAT）</td>
+        <td><a href="https://kosis.kr/openapi/" target="_blank">kosis.kr/openapi</a></td>
+        <td>ポータル掲示板で確認</td>
+        <td><code>KOSIS_API_KEY</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    法令ポータルはキー文字列を発行せず、<strong>登録時に使用したメールID</strong>をOC識別子として使います。KOSISの承認手続きと所要時間は公式には文書化されていません。申請後は<strong>ポータルの掲示板</strong>で確認してください。
+  </div>
+
+  <!-- ============================================================
+       Section 3: DART 電子公示
+       ============================================================ -->
+  <h2 id="k-dart">3. DART電子公示API</h2>
+
+  <p>DARTは韓国金融監督院（금융감독원）が運営する電子公示システムのOpen APIです。上場企業の公示リストから企業概況、財務諸表、主要事項報告までを<strong>機械可読な形式</strong>で提供するため、企業分析エージェントのデータソースとして利用できます。</p>
+
+  <h3>取得方法</h3>
+  <ol>
+    <li><a href="https://opendart.fss.or.kr/uss/umt/EgovMberInsertView.do" target="_blank">opendart.fss.or.kr の会員登録ページ</a> でアカウントを作成します。</li>
+    <li>ログイン後、<strong>認証キー申請</strong>メニューからOpen API認証キーを発行します。</li>
+    <li>発行されたキー（40文字）を安全な場所に保管します &mdash; マイページで再確認できます。</li>
+  </ol>
+  <p>認証キーは<strong>即時発行</strong>で、承認待ちはありません。</p>
+
+  <h3>リクエスト方法</h3>
+  <ul>
+    <li><strong>キーの送信</strong> &mdash; すべてのリクエストで、40文字の認証キーを <code>crtfc_key</code> パラメータとして渡します。</li>
+    <li><strong>1日の上限</strong> &mdash; 1日あたり約20,000リクエスト。超過するとステータスコード <code>020</code> が返ります。</li>
+    <li><strong>固有番号が必要</strong> &mdash; 企業別エンドポイントのほとんどは8桁の <code>corp_code</code> を要求します。<code>corpCode.xml</code>（固有番号ファイル）をダウンロードし、社名で検索して確認します。</li>
+  </ul>
+
+  <p>主なステータスコードは次のとおりです。</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ステータスコード</th>
+        <th>意味</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>000</code></td>
+        <td>正常処理</td>
+      </tr>
+      <tr>
+        <td><code>010</code></td>
+        <td>未登録のキー</td>
+      </tr>
+      <tr>
+        <td><code>011</code></td>
+        <td>使用できないキー</td>
+      </tr>
+      <tr>
+        <td><code>013</code></td>
+        <td>該当データなし</td>
+      </tr>
+      <tr>
+        <td><code>020</code></td>
+        <td>1日のリクエスト上限超過</td>
+      </tr>
+      <tr>
+        <td><code>100</code></td>
+        <td>フィールド値のエラー</td>
+      </tr>
+      <tr>
+        <td><code>800</code></td>
+        <td>システムメンテナンス中</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>照会できる内容</h3>
+  <ul>
+    <li><strong>公示検索</strong>（공시검색）&mdash; 日付・企業・報告書種類別の公示リスト</li>
+    <li><strong>企業概況</strong>（기업개황）&mdash; 会社概要、業種、資本金などの基本情報</li>
+    <li><strong>財務諸表</strong>（재무제표）&mdash; 単一・複数企業の主要勘定と財務諸表</li>
+    <li><strong>主要事項報告</strong>（주요사항보고）&mdash; 無償株式発行、資本変動などの主要報告</li>
+  </ul>
+
+  <div class="tip-box">
+    動作確認の例としてよく使われるサムスン電子の <code>corp_code</code> は <code>00126380</code> です。キー発行直後にこの値で企業概況を照会してみてください（<a href="#verify">動作確認</a>セクション参照）。
+  </div>
+
+  <!-- ============================================================
+       Section 4: 国家法令情報センター
+       ============================================================ -->
+  <h2 id="k-law">4. 国家法令情報センターAPI</h2>
+
+  <p>国家法令情報センター（국가법령정보센터）は、韓国法制処（법제처）が運営する法令統合ポータルです。現行法令の本文に加え、判例・行政規則・自治法規までOpen APIで提供しており、法令検索・要約スキルのデータソースとして使います。</p>
+
+  <h3>申請方法</h3>
+  <p><a href="https://open.law.go.kr/" target="_blank">open.law.go.kr</a> で会員登録した後、上部メニュー <strong>OPEN API &gt; 利用申請</strong>から利用するAPIを選んで申請します。承認には通常<strong>1&ndash;2営業日</strong>かかります。</p>
+
+  <h3>OC識別子</h3>
+  <p>法令ポータルは個別のキー文字列を発行しません。代わりに、<strong>登録時に使用したメールID全体</strong>（例: <code>myname@example.com</code>）がOC識別子になります。環境変数 <code>LAW_API_OC</code> にそのメールIDをそのまま保存し、リクエスト時に <code>OC=</code> パラメータで渡します。</p>
+
+  <div class="warn">
+    リクエストに <code>type=JSON</code> を指定しないと、APIはJSONではなく<strong>HTMLページ</strong>を返します。リクエストごとに必ず <code>type=JSON</code> を含めてください。
+  </div>
+
+  <h3>照会できる内容</h3>
+  <ul>
+    <li><strong>現行法令</strong>（현행법령）&mdash; 法律・施行令・施行規則の本文と検索</li>
+    <li><strong>判例</strong>（판례）&mdash; 大法院・憲法裁判所の決定</li>
+    <li><strong>行政規則・自治法規</strong>（행정규칙·자치법규）&mdash; 訓令・例規、条例・規則</li>
+    <li><strong>法令解釈例・条約</strong>（법령해석례·조약）&mdash; 権威ある解釈事例と国際条約</li>
+  </ul>
+
+  <!-- ============================================================
+       Section 5: KOSIS 国家統計
+       ============================================================ -->
+  <h2 id="k-kosis">5. KOSIS国家統計ポータルAPI</h2>
+
+  <p>KOSIS（국가통계포털）は韓国統計庁（통계청）が運営する国家統計ポータルです。人口・経済・社会全般の公式統計表をOpen APIで提供しており、統計照会・時系列分析スキルのデータソースとして使います。</p>
+
+  <h3>申請方法</h3>
+  <p><a href="https://kosis.kr/openapi/" target="_blank">kosis.kr/openapi</a> で会員登録した後、<strong>利用申請</strong>メニューからOpen APIの利用を申請します。</p>
+
+  <div class="note">
+    KOSISの利用申請の<strong>承認手続きと所要時間は公式には文書化されていません</strong>。申請後、ポータルの掲示板とマイページで承認状態を直接確認してください。承認前はAPI呼び出しが拒否されます。
+  </div>
+
+  <h3>リクエスト方法</h3>
+  <ul>
+    <li><strong>キーの送信</strong> &mdash; 環境変数 <code>KOSIS_API_KEY</code> にキーを保存し、リクエスト時に <code>apiKey=</code> パラメータで渡します。</li>
+    <li><strong>エラーレスポンス</strong> &mdash; パラメータエラーは <code>{"err":"21"}</code>、該当データなしは <code>{"err":"30"}</code> の形式で返ります。</li>
+    <li><strong>コードの確認</strong> &mdash; 統計表コード（<code>objL1</code>）や項目コード（<code>itmId</code>）がリクエストごとに必要で、統計リスト照会を段階的にたどって確認します。</li>
+  </ul>
+
+  <h3>照会できる内容</h3>
+  <ul>
+    <li><strong>統合検索</strong>（통합검색）&mdash; 統計表・項目のキーワード検索</li>
+    <li><strong>統計リスト</strong>（통계목록）&mdash; 分類別の統計表一覧</li>
+    <li><strong>統計データ</strong>（통계자료）&mdash; 実際の数値データ</li>
+    <li><strong>統計説明</strong>（통계설명）&mdash; 統計表の定義・単位・注記</li>
+  </ul>
+
+  <!-- ============================================================
+       Section 6: 環境変数の設定
+       ============================================================ -->
+  <h2 id="env-config">6. 環境変数の設定</h2>
+
+  <p>発行されたキーは、プロジェクトルートの <code>.env.sample</code> を <code>.env</code> にコピーして設定します。韓国関連のキーは <code># &gt;&gt;&gt; country-scoped:KR</code> マーカーブロックにまとまっています。<code>DART_API_KEY</code> と <code>LAW_API_OC</code> はすでに記載されていますが、<strong><code>KOSIS_API_KEY</code> はまだ <code>.env.sample</code> にないため、行を手動で追加</strong>する必要があります。</p>
+
+  <div class="code-block">
+<pre><code>cp .env.sample .env
+
+# country-scoped:KR ブロック — 3つのキーを実際の値に置き換えます
+DART_API_KEY=発行された-40文字-の認証キー
+LAW_API_OC=登録-メールID@example.com
+KOSIS_API_KEY=発行された-KOSIS-キー</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <p>Windows（PowerShell）では現在のセッションに設定し、必要ならユーザー変数として恒久的に保存します。</p>
+
+  <div class="code-block">
+<pre><code>$env:DART_API_KEY="発行された-40文字-の認証キー"
+$env:LAW_API_OC="登録-メールID@example.com"
+$env:KOSIS_API_KEY="発行された-KOSIS-キー"
+
+# 恒久保存（ユーザー変数）— 新しいターミナルでも保持されます
+[System.Environment]::SetEnvironmentVariable("DART_API_KEY", "発行された-40文字-の認証キー", "User")</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <p>macOS / Linuxでは、シェルプロファイルに export 行を追加します。</p>
+
+  <div class="code-block">
+<pre><code>export DART_API_KEY="発行された-40文字-の認証キー"
+export LAW_API_OC="登録-メールID@example.com"
+export KOSIS_API_KEY="発行された-KOSIS-キー"</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <div class="warn">
+    <code>.env</code> ファイルと実際のキーを<strong>絶対にGitにコミットしないでください</strong>。<code>.env</code> は <code>.gitignore</code> で除外しておく必要があります。キーが漏えた場合は、各ポータルで再発行してください。
+  </div>
+
+  <!-- ============================================================
+       Section 7: 動作確認
+       ============================================================ -->
+  <h2 id="verify">7. 動作確認</h2>
+
+  <p>キーが正しく設定されたか、サービスごとに簡単なcurl呼び出しで確認します。3つのコマンドはいずれも環境変数を読むため、設定した同じターミナルで実行してください。</p>
+
+  <p><strong>DART &mdash; 企業概況（サムスン電子）</strong></p>
+  <div class="code-block">
+<pre><code># DART — company overview (Samsung Electronics)
+curl -fsS --get 'https://opendart.fss.or.kr/api/company.json' \
+  --data-urlencode "crtfc_key=$DART_API_KEY" \
+  --data-urlencode 'corp_code=00126380'</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+  <p><strong>期待される結果:</strong> <code>status</code> が <code>"000"</code> のJSONで、サムスン電子の企業概況が出力されます。</p>
+
+  <p><strong>法令 &mdash; 法令検索</strong></p>
+  <div class="code-block">
+<pre><code># LAW — statute search
+curl -fsS --get 'https://www.law.go.kr/DRF/lawSearch.do' \
+  --data-urlencode "OC=$LAW_API_OC" \
+  --data-urlencode 'target=law' \
+  --data-urlencode 'type=JSON' \
+  --data-urlencode 'query=개인정보보호법' \
+  --data-urlencode 'display=10'</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+  <p><strong>期待される結果:</strong> <code>LawSearch</code> レスポンスのJSONが出力され、<code>totalCnt</code> が1以上になります（個人情報保護法の検索結果）。</p>
+
+  <p><strong>KOSIS &mdash; 統計リスト</strong></p>
+  <div class="code-block">
+<pre><code># KOSIS — statistics list
+curl -fsS --get 'https://kosis.kr/openapi/statisticsList.do' \
+  --data-urlencode "apiKey=$KOSIS_API_KEY" \
+  --data-urlencode 'method=getList' \
+  --data-urlencode 'vwCd=MT_ZTITLE' \
+  --data-urlencode 'parentId=A' \
+  --data-urlencode 'format=json'</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+  <p><strong>期待される結果:</strong> 統計リスト行を含むJSON配列が出力されます。</p>
+
+  <!-- ============================================================
+       Section 8: トラブルシューティング
+       ============================================================ -->
+  <h2 id="troubleshooting">8. トラブルシューティング</h2>
+
+  <p>よくある症状と対処方法をまとめます。</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>症状</th>
+        <th>サービス</th>
+        <th>原因と対処</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>status</code> 010 / 011</td>
+        <td>DART</td>
+        <td>未登録または使用不可のキー &mdash; 認証キーを再確認し、再発行します</td>
+      </tr>
+      <tr>
+        <td><code>status</code> 020</td>
+        <td>DART</td>
+        <td>1日のリクエスト上限超過 &mdash; 翌日に再試行します</td>
+      </tr>
+      <tr>
+        <td><code>status</code> 013</td>
+        <td>DART</td>
+        <td>該当データなし &mdash; 照会期間と <code>corp_code</code> を確認します</td>
+      </tr>
+      <tr>
+        <td><code>totalCnt</code> 0</td>
+        <td>法令</td>
+        <td>一致する法令なし &mdash; キーワードを広げ、<code>target</code> 値を確認します</td>
+      </tr>
+      <tr>
+        <td>JSONの代わりにHTMLが返る</td>
+        <td>法令</td>
+        <td><code>type=JSON</code> の指定漏れ &mdash; リクエストに <code>type=JSON</code> を追加します</td>
+      </tr>
+      <tr>
+        <td>承認前に呼び出し失敗</td>
+        <td>法令 &middot; KOSIS</td>
+        <td>利用申請の承認前は呼び出せません &mdash; 承認完了まで待ちます</td>
+      </tr>
+      <tr>
+        <td><code>{"err":"21"}</code></td>
+        <td>KOSIS</td>
+        <td>無効なパラメータ &mdash; <code>objL1</code>・<code>itmId</code> などのコードを統計リスト照会で確認します</td>
+      </tr>
+      <tr>
+        <td><code>{"err":"30"}</code></td>
+        <td>KOSIS</td>
+        <td>データなし &mdash; キーワードと統計表コードを確認します</td>
+      </tr>
+      <tr>
+        <td>Git Bashでハングル文字化け</td>
+        <td>KOSIS</td>
+        <td>Windows Git Bashのエンコーディング問題 &mdash; ハングル値をパーセントエンコードして直接渡します</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ============================================================
+       Section 9: ライセンスと出典表記
+       ============================================================ -->
+  <h2 id="license">9. ライセンスと出典表記</h2>
+
+  <p>3サービスが提供するデータはすべて、韓国の公共データ著作物利用許諾 <strong>コングヌリ（공공누리、KOGL）</strong>ライセンスで提供されます。レポートやエージェントの成果物にデータを引用・再構成する場合は、出典（例: <code>出典: 韓国金融監督院 DART電子公示</code>）を明記する必要があります。著作物タイプ別の表記方法は<a href="https://www.kogl.or.kr/" target="_blank">コングヌリ公式サイト</a>で確認してください。</p>
+
+  <div class="chapter-nav">
+    <a href="C_Low_Cost_Backends_ja.html" class="prev">
+      <div class="dir">&larr; 付録C</div>
+      <div class="ttl">低コストAIバックエンド統合</div>
+    </a>
+  </div>
+   <footer>
+    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) 基準 · 日本語教材<br>
+    公式リソース: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    このハンドブックのコンテンツは <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (表示 - 非営利 - 継承 4.0 国際)</a> ライセンスの下で提供されています。
+  </footer>
+ </article>
+</main>
+</div>
+
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Appendix D · Korean Open-Data API Keys (DART · LAW · KOSIS) - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Appendix D · Korean Open-Data API Keys (DART · LAW · KOSIS)</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_en.html" class="nav-home">&larr; Handbook Home</a>
+  <div class="nav-title">Appendix D &middot; Korean Open-Data API Keys</div>
+  <a href="#overview">Overview</a>
+  <a href="#keys-summary">Keys at a Glance</a>
+  <a href="#k-dart">DART Electronic Disclosure</a>
+  <a href="#k-law">National Law Information Center</a>
+  <a href="#k-kosis">KOSIS Statistics Portal</a>
+  <a href="#env-config">Environment Variable Setup</a>
+  <a href="#verify">Verification</a>
+  <a href="#troubleshooting">Troubleshooting</a>
+  <a href="#license">Licensing and Attribution</a>
+  <div class="nav-section">Other Chapters</div>
+  <a href="C_Low_Cost_Backends_en.html">Appendix C &middot; Low-Cost AI Backend Integration</a>
+  <a href="../ch10/10_Creating_Skills_en.html">Ch 10 &middot; Creating &amp; Modifying Skills</a>
+  <a href="B_Claude_Code_CLI_en.html">Appendix B &middot; Claude Code CLI Guide</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">Appendix D</div>
+  <h1>Korean Open-Data API Keys (DART · LAW · KOSIS)</h1>
+  <p class="lead">This appendix explains how to obtain and configure the three Korean public open-data API credentials that the <strong>k-dart</strong>, <strong>k-law</strong>, and <strong>k-kosis</strong> skills rely on &mdash; DART electronic disclosures (Financial Supervisory Service), the National Law Information Center (Ministry of Government Legislation), and the KOSIS national statistics portal (Statistics Korea).</p>
+  <div class="keypoints">
+    <div class="kp-title">What This Appendix Covers</div>
+    <ul>
+      <li>The three public API services and their portals, at a glance</li>
+      <li>Getting a DART electronic-disclosure API key (issued immediately)</li>
+      <li>Requesting a National Law Information Center OC identifier (1&ndash;2 business days)</li>
+      <li>Requesting a KOSIS statistics portal API key</li>
+      <li>Configuring the keys in <code>.env</code> (Windows / macOS / Linux)</li>
+      <li>Verifying the setup with curl, plus troubleshooting</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================
+       Section 1: Overview
+       ============================================================ -->
+  <h2 id="overview">1. Overview</h2>
+
+  <p>This workspace ships three skills that query Korean public data. <strong>k-dart</strong> calls the Open API of DART, the electronic disclosure system of the Financial Supervisory Service (금융감독원); <strong>k-law</strong> calls the National Law Information Center (국가법령정보센터) operated by the Ministry of Government Legislation; <strong>k-kosis</strong> calls the KOSIS national statistics portal (국가통계포털) of Statistics Korea. All three skills <strong>read their credentials from environment variables</strong> right before each request, so you must obtain and configure a key for each service before using them.</p>
+
+  <div class="flow-box">
+    The flow is identical for all three services: <strong>the skill reads an environment variable &rarr; curl sends the request with the key attached &rarr; a JSON response comes back</strong>. Once configured, the keys are reused by every later session.
+  </div>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg viewBox="0 0 660 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;" role="img" aria-label="Diagram of a skill reading a key from an environment variable, sending a curl request, and receiving a JSON response">
+      <!-- Title -->
+      <text x="330" y="28" text-anchor="middle" font-size="15" font-weight="700" style="color:var(--text);">Open-Data Skill Request Flow</text>
+
+      <!-- Step 1: skill -->
+      <rect x="20" y="50" width="140" height="110" rx="8" fill="var(--bg3)" stroke="var(--accent)"/>
+      <rect x="20" y="50" width="140" height="34" rx="8" fill="var(--accent)"/>
+      <rect x="20" y="76" width="140" height="8" fill="var(--accent)"/>
+      <text x="90" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text-inverse)">1. Skill Call</text>
+      <text x="90" y="112" text-anchor="middle" font-size="11" style="color:var(--text-dim);">k-dart &middot; k-law</text>
+      <text x="90" y="130" text-anchor="middle" font-size="11" style="color:var(--text-dim);">k-kosis</text>
+
+      <!-- Arrow 1→2 -->
+      <line x1="160" y1="105" x2="178" y2="105" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowKrDataEn)"/>
+
+      <!-- Step 2: env var -->
+      <rect x="180" y="50" width="140" height="110" rx="8" fill="var(--bg3)" stroke="var(--accent-green)"/>
+      <rect x="180" y="50" width="140" height="34" rx="8" fill="var(--accent-green)"/>
+      <rect x="180" y="76" width="140" height="8" fill="var(--accent-green)"/>
+      <text x="250" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text-inverse)">2. Env Var</text>
+      <text x="250" y="112" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--accent-green);">DART_API_KEY</text>
+      <text x="250" y="130" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--accent-green);">KOSIS_API_KEY</text>
+
+      <!-- Arrow 2→3 -->
+      <line x1="320" y1="105" x2="338" y2="105" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowKrDataEn)"/>
+
+      <!-- Step 3: curl -->
+      <rect x="340" y="50" width="140" height="110" rx="8" fill="var(--bg3)" stroke="var(--accent-purple)"/>
+      <rect x="340" y="50" width="140" height="34" rx="8" fill="var(--accent-purple)"/>
+      <rect x="340" y="76" width="140" height="8" fill="var(--accent-purple)"/>
+      <text x="410" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text-inverse)">3. curl Request</text>
+      <text x="410" y="112" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--accent-purple);">crtfc_key &middot; OC</text>
+      <text x="410" y="130" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--accent-purple);">apiKey</text>
+
+      <!-- Arrow 3→4 -->
+      <line x1="480" y1="105" x2="498" y2="105" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowKrDataEn)"/>
+
+      <!-- Step 4: JSON -->
+      <rect x="500" y="50" width="140" height="110" rx="8" fill="var(--bg3)" stroke="var(--accent-amber)"/>
+      <rect x="500" y="50" width="140" height="34" rx="8" fill="var(--accent-amber)"/>
+      <rect x="500" y="76" width="140" height="8" fill="var(--accent-amber)"/>
+      <text x="570" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text-inverse)">4. JSON Response</text>
+      <text x="570" y="112" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--accent-amber);">status "000" etc.</text>
+      <text x="570" y="130" text-anchor="middle" font-size="11" style="color:var(--text-dim);">agent parses it</text>
+
+      <!-- Arrow marker -->
+      <defs>
+        <marker id="arrowKrDataEn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <p>All three services are <strong>free</strong>; individual developers can use them right after completing registration. Approval times differ, though &mdash; DART issues keys immediately, the National Law Information Center takes 1&ndash;2 business days, and KOSIS has no officially documented timeline, so check the portal notices.</p>
+
+  <!-- ============================================================
+       Section 2: Keys at a Glance
+       ============================================================ -->
+  <h2 id="keys-summary">2. Keys at a Glance</h2>
+
+  <p>The table below summarizes the three services. See each service's section for the detailed signup steps.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Service</th>
+        <th>Provider</th>
+        <th>Portal</th>
+        <th>Approval</th>
+        <th>Env var</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>DART electronic disclosure</td>
+        <td>Financial Supervisory Service (FSS)</td>
+        <td><a href="https://opendart.fss.or.kr/intro/main.do" target="_blank">opendart.fss.or.kr</a></td>
+        <td>Immediate</td>
+        <td><code>DART_API_KEY</code></td>
+      </tr>
+      <tr>
+        <td>National Law Information Center</td>
+        <td>Ministry of Government Legislation (MOLEG)</td>
+        <td><a href="https://open.law.go.kr/" target="_blank">open.law.go.kr</a></td>
+        <td>1&ndash;2 business days</td>
+        <td><code>LAW_API_OC</code></td>
+      </tr>
+      <tr>
+        <td>KOSIS national statistics portal</td>
+        <td>Statistics Korea (KOSTAT)</td>
+        <td><a href="https://kosis.kr/openapi/" target="_blank">kosis.kr/openapi</a></td>
+        <td>See portal notices</td>
+        <td><code>KOSIS_API_KEY</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    The law portal does not issue a key string &mdash; it uses the <strong>email ID you registered with</strong> as the OC identifier. The KOSIS approval process and timeline are not officially documented; after applying, check the <strong>portal notices</strong>.
+  </div>
+
+  <!-- ============================================================
+       Section 3: DART Electronic Disclosure API
+       ============================================================ -->
+  <h2 id="k-dart">3. DART Electronic Disclosure API</h2>
+
+  <p>DART is the Open API of the electronic disclosure system run by the Financial Supervisory Service (금융감독원). It serves everything from listed-company disclosure lists to company overviews, financial statements, and material-event reports in a <strong>machine-readable form</strong>, making it a good data source for corporate-analysis agents.</p>
+
+  <h3>Getting a Key</h3>
+  <ol>
+    <li>Create an account on the <a href="https://opendart.fss.or.kr/uss/umt/EgovMberInsertView.do" target="_blank">opendart.fss.or.kr signup page</a>.</li>
+    <li>After logging in, request an Open API key from the <strong>API key request</strong> menu (인증키 신청).</li>
+    <li>Store the issued key &mdash; a 40-character string &mdash; somewhere safe; you can re-check it on My Page.</li>
+  </ol>
+  <p>Keys are <strong>issued immediately</strong>; there is no approval wait.</p>
+
+  <h3>Making Requests</h3>
+  <ul>
+    <li><strong>Passing the key</strong> &mdash; every request carries the 40-character key in the <code>crtfc_key</code> parameter.</li>
+    <li><strong>Daily limit</strong> &mdash; about 20,000 requests per day. Exceeding it returns status code <code>020</code>.</li>
+    <li><strong>Corp code required</strong> &mdash; most company endpoints require an 8-digit <code>corp_code</code>. Download <code>corpCode.xml</code> (the corporation code file) and look up the company by name to resolve it.</li>
+  </ul>
+
+  <p>The main status codes are:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Status code</th>
+        <th>Meaning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>000</code></td>
+        <td>Success</td>
+      </tr>
+      <tr>
+        <td><code>010</code></td>
+        <td>Unregistered key</td>
+      </tr>
+      <tr>
+        <td><code>011</code></td>
+        <td>Key not usable</td>
+      </tr>
+      <tr>
+        <td><code>013</code></td>
+        <td>No data found</td>
+      </tr>
+      <tr>
+        <td><code>020</code></td>
+        <td>Daily limit exceeded</td>
+      </tr>
+      <tr>
+        <td><code>100</code></td>
+        <td>Invalid field value</td>
+      </tr>
+      <tr>
+        <td><code>800</code></td>
+        <td>System under maintenance</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>What You Can Query</h3>
+  <ul>
+    <li><strong>Disclosure search</strong> (공시검색) &mdash; disclosure lists by date, company, and report type</li>
+    <li><strong>Company overview</strong> (기업개황) &mdash; company summary, industry, capital, and other basics</li>
+    <li><strong>Financial statements</strong> (재무제표) &mdash; single- and multi-company key accounts and full statements</li>
+    <li><strong>Material-event reports</strong> (주요사항보고) &mdash; capital changes, bonus share issuances, and other key events</li>
+  </ul>
+
+  <div class="tip-box">
+    The <code>corp_code</code> of Samsung Electronics, <code>00126380</code>, is a common verification example. Right after key issuance, query the company overview with it (see the <a href="#verify">Verification</a> section).
+  </div>
+
+  <!-- ============================================================
+       Section 4: National Law Information Center API
+       ============================================================ -->
+  <h2 id="k-law">4. National Law Information Center API</h2>
+
+  <p>The National Law Information Center (국가법령정보센터) is the integrated statute portal operated by the Ministry of Government Legislation (법제처, MOLEG). Beyond the current statutes themselves, it exposes case law, administrative rules, and autonomous regulations through its Open API, making it the data source for statute-search and summarization skills.</p>
+
+  <h3>Applying</h3>
+  <p>Register at <a href="https://open.law.go.kr/" target="_blank">open.law.go.kr</a>, then open the <strong>OPEN API &gt; Application</strong> (활용신청) menu at the top and submit an application for the API you want to use. Approval usually takes <strong>1&ndash;2 business days</strong>.</p>
+
+  <h3>The OC Identifier</h3>
+  <p>The law portal does not issue a separate key string. Instead, the <strong>full email ID you registered with</strong> (for example, <code>myname@example.com</code>) serves as the OC identifier. Store that email ID in <code>LAW_API_OC</code> and pass it with the <code>OC=</code> parameter on every request.</p>
+
+  <div class="warn">
+    If you omit <code>type=JSON</code>, the API returns an <strong>HTML page</strong> instead of JSON. Always include <code>type=JSON</code> in every request.
+  </div>
+
+  <h3>What You Can Query</h3>
+  <ul>
+    <li><strong>Current statutes</strong> (현행법령) &mdash; acts, enforcement decrees, and enforcement rules</li>
+    <li><strong>Case law</strong> (판례) &mdash; Supreme Court and Constitutional Court decisions</li>
+    <li><strong>Administrative rules and autonomous regulations</strong> (행정규칙·자치법규) &mdash; directives, ordinances, and rules</li>
+    <li><strong>Statute interpretations and treaties</strong> (법령해석례·조약) &mdash; authoritative interpretation cases and international treaties</li>
+  </ul>
+
+  <!-- ============================================================
+       Section 5: KOSIS Statistics Portal API
+       ============================================================ -->
+  <h2 id="k-kosis">5. KOSIS Statistics Portal API</h2>
+
+  <p>KOSIS (국가통계포털) is the national statistics portal operated by Statistics Korea (통계청, KOSTAT). It exposes official statistical tables across population, economy, and society through its Open API, serving as the data source for statistics-lookup and time-series analysis skills.</p>
+
+  <h3>Applying</h3>
+  <p>Register at <a href="https://kosis.kr/openapi/" target="_blank">kosis.kr/openapi</a> and submit an Open API usage application through the <strong>Application</strong> (활용신청) menu.</p>
+
+  <div class="note">
+    The KOSIS <strong>approval process and timeline are not officially documented</strong>. After applying, check the portal notices and your My Page for the approval status. Calls are rejected until approval is granted.
+  </div>
+
+  <h3>Making Requests</h3>
+  <ul>
+    <li><strong>Passing the key</strong> &mdash; store the key in <code>KOSIS_API_KEY</code> and pass it with the <code>apiKey=</code> parameter.</li>
+    <li><strong>Error responses</strong> &mdash; an invalid parameter returns <code>{"err":"21"}</code>; no matching data returns <code>{"err":"30"}</code>.</li>
+    <li><strong>Resolving codes</strong> &mdash; requests need table and item codes such as <code>objL1</code> and <code>itmId</code>; walk the statistics-list endpoints step by step to resolve them.</li>
+  </ul>
+
+  <h3>What You Can Query</h3>
+  <ul>
+    <li><strong>Integrated search</strong> (통합검색) &mdash; keyword search across statistical tables and items</li>
+    <li><strong>Statistics list</strong> (통계목록) &mdash; table listings by classification</li>
+    <li><strong>Statistics data</strong> (통계자료) &mdash; the actual numeric data</li>
+    <li><strong>Statistics descriptions</strong> (통계설명) &mdash; definitions, units, and notes for each table</li>
+  </ul>
+
+  <!-- ============================================================
+       Section 6: Environment Variable Setup
+       ============================================================ -->
+  <h2 id="env-config">6. Environment Variable Setup</h2>
+
+  <p>Configure the issued keys by copying the project's <code>.env.sample</code> to <code>.env</code>. The Korean keys live inside the <code># &gt;&gt;&gt; country-scoped:KR</code> marker block. <code>DART_API_KEY</code> and <code>LAW_API_OC</code> are already listed there; <strong><code>KOSIS_API_KEY</code> is not yet in <code>.env.sample</code>, so add the line manually</strong>.</p>
+
+  <div class="code-block">
+<pre><code>cp .env.sample .env
+
+# country-scoped:KR block — fill in your three keys
+DART_API_KEY=your-40-char-dart-key
+LAW_API_OC=your-registered-email-id@example.com
+KOSIS_API_KEY=your-kosis-key</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+
+  <p>On Windows (PowerShell), set them for the current session and, if you like, store them permanently as user variables.</p>
+
+  <div class="code-block">
+<pre><code>$env:DART_API_KEY="your-40-char-dart-key"
+$env:LAW_API_OC="your-registered-email-id@example.com"
+$env:KOSIS_API_KEY="your-kosis-key"
+
+# Permanent (user variable) — persists across new terminals
+[System.Environment]::SetEnvironmentVariable("DART_API_KEY", "your-40-char-dart-key", "User")</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+
+  <p>On macOS / Linux, add export lines to your shell profile.</p>
+
+  <div class="code-block">
+<pre><code>export DART_API_KEY="your-40-char-dart-key"
+export LAW_API_OC="your-registered-email-id@example.com"
+export KOSIS_API_KEY="your-kosis-key"</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+
+  <div class="warn">
+    Never commit <code>.env</code> or real keys to Git. Keep <code>.env</code> excluded via <code>.gitignore</code>, and reissue any key that has been exposed.
+  </div>
+
+  <!-- ============================================================
+       Section 7: Verification
+       ============================================================ -->
+  <h2 id="verify">7. Verification</h2>
+
+  <p>A simple curl call per service confirms the keys are configured correctly. All three commands read the environment variables, so run them in the same terminal where you set them.</p>
+
+  <p><strong>DART &mdash; company overview (Samsung Electronics)</strong></p>
+  <div class="code-block">
+<pre><code># DART — company overview (Samsung Electronics)
+curl -fsS --get 'https://opendart.fss.or.kr/api/company.json' \
+  --data-urlencode "crtfc_key=$DART_API_KEY" \
+  --data-urlencode 'corp_code=00126380'</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+  <p><strong>Expected result:</strong> JSON with <code>status</code> <code>"000"</code> containing the Samsung Electronics company overview.</p>
+
+  <p><strong>LAW &mdash; statute search</strong></p>
+  <div class="code-block">
+<pre><code># LAW — statute search
+curl -fsS --get 'https://www.law.go.kr/DRF/lawSearch.do' \
+  --data-urlencode "OC=$LAW_API_OC" \
+  --data-urlencode 'target=law' \
+  --data-urlencode 'type=JSON' \
+  --data-urlencode 'query=개인정보보호법' \
+  --data-urlencode 'display=10'</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+  <p><strong>Expected result:</strong> a <code>LawSearch</code> JSON response whose <code>totalCnt</code> is 1 or higher (matching the Personal Information Protection Act, 개인정보보호법).</p>
+
+  <p><strong>KOSIS &mdash; statistics list</strong></p>
+  <div class="code-block">
+<pre><code># KOSIS — statistics list
+curl -fsS --get 'https://kosis.kr/openapi/statisticsList.do' \
+  --data-urlencode "apiKey=$KOSIS_API_KEY" \
+  --data-urlencode 'method=getList' \
+  --data-urlencode 'vwCd=MT_ZTITLE' \
+  --data-urlencode 'parentId=A' \
+  --data-urlencode 'format=json'</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+  <p><strong>Expected result:</strong> a JSON array of statistics-list rows.</p>
+
+  <!-- ============================================================
+       Section 8: Troubleshooting
+       ============================================================ -->
+  <h2 id="troubleshooting">8. Troubleshooting</h2>
+
+  <p>The table below lists common symptoms and how to fix them.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Symptom</th>
+        <th>Service</th>
+        <th>Cause &amp; fix</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>status</code> 010 / 011</td>
+        <td>DART</td>
+        <td>Unregistered or unusable key &mdash; double-check the key and reissue it</td>
+      </tr>
+      <tr>
+        <td><code>status</code> 020</td>
+        <td>DART</td>
+        <td>Daily request limit exceeded &mdash; retry the next day</td>
+      </tr>
+      <tr>
+        <td><code>status</code> 013</td>
+        <td>DART</td>
+        <td>No data &mdash; check the date range and <code>corp_code</code></td>
+      </tr>
+      <tr>
+        <td><code>totalCnt</code> 0</td>
+        <td>LAW</td>
+        <td>No matching statute &mdash; broaden the keyword and check the <code>target</code> value</td>
+      </tr>
+      <tr>
+        <td>HTML page returned</td>
+        <td>LAW</td>
+        <td>Missing <code>type=JSON</code> &mdash; add <code>type=JSON</code> to the request</td>
+      </tr>
+      <tr>
+        <td>Calls fail before approval</td>
+        <td>LAW &middot; KOSIS</td>
+        <td>Calls are rejected until the application is approved &mdash; wait for approval</td>
+      </tr>
+      <tr>
+        <td><code>{"err":"21"}</code></td>
+        <td>KOSIS</td>
+        <td>Invalid parameter &mdash; resolve codes like <code>objL1</code> and <code>itmId</code> via the list endpoints</td>
+      </tr>
+      <tr>
+        <td><code>{"err":"30"}</code></td>
+        <td>KOSIS</td>
+        <td>No data &mdash; check the keyword and statistical-table codes</td>
+      </tr>
+      <tr>
+        <td>Korean keywords garbled in Git Bash</td>
+        <td>KOSIS</td>
+        <td>Windows Git Bash encoding issue &mdash; percent-encode Korean values and pass them literally</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ============================================================
+       Section 9: Licensing and Attribution
+       ============================================================ -->
+  <h2 id="license">9. Licensing and Attribution</h2>
+
+  <p>Data from all three services is published under the <strong>Korea Open Government License (공공누리, KOGL)</strong>. When you quote or rework the data in reports or agent deliverables, you must attribute the source (for example, <code>Source: Financial Supervisory Service DART electronic disclosures</code>). The attribution format for each work type is documented on the <a href="https://www.kogl.or.kr/" target="_blank">KOGL website</a>.</p>
+
+  <div class="chapter-nav">
+    <a href="C_Low_Cost_Backends_en.html" class="prev">
+      <div class="dir">&larr; Appendix C</div>
+      <div class="ttl">Low-Cost AI Backend Integration</div>
+    </a>
+  </div>
+   <footer>
+    Based on Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) · English Educational Materials<br>
+    Official Docs: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    Handbook content is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (Attribution-NonCommercial-ShareAlike 4.0 International)</a>.
+  </footer>
+ </article>
+</main>
+</div>
+
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

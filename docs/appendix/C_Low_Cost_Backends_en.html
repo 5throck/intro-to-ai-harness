@@ -163,7 +163,7 @@
       <!-- Labels below steps -->
       <text x="75" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">platform.deepseek.com</text>
       <text x="242" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">API Keys page</text>
-      <text x="424" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">DEEPSEEK_API_KEY</text>
+      <text x="424" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">ANTHROPIC_API_KEY</text>
       <text x="591" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">Run agents</text>
     </svg>
   </div>
@@ -179,7 +179,7 @@
   <p><em>Mac / Linux</em></p>
   <div class="code-block">
 <pre><code># Add to your ~/.bashrc, ~/.zshrc, or ~/.profile
-export DEEPSEEK_API_KEY="sk-your-api-key-here"
+export ANTHROPIC_API_KEY="sk-your-api-key-here"
 
 # Apply immediately
 source ~/.bashrc</code></pre>
@@ -189,20 +189,20 @@ source ~/.bashrc</code></pre>
   <p><em>Windows (PowerShell)</em></p>
   <div class="code-block">
 <pre><code># Set for the current session
-$env:DEEPSEEK_API_KEY = "sk-your-api-key-here"
+$env:ANTHROPIC_API_KEY = "sk-your-api-key-here"
 
 # Set permanently (recommended)
-[System.Environment]::SetEnvironmentVariable("DEEPSEEK_API_KEY", "sk-your-api-key-here", "User")</code></pre>
+[System.Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", "sk-your-api-key-here", "User")</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
 
   <p><em>Windows (Command Prompt)</em></p>
   <div class="code-block">
 <pre><code># Set for the current session
-set DEEPSEEK_API_KEY=sk-your-api-key-here
+set ANTHROPIC_API_KEY=sk-your-api-key-here
 
 # Set permanently (recommended &mdash; via System Properties)
-setx DEEPSEEK_API_KEY "sk-your-api-key-here"</code></pre>
+setx ANTHROPIC_API_KEY "sk-your-api-key-here"</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
 
@@ -213,7 +213,7 @@ setx DEEPSEEK_API_KEY "sk-your-api-key-here"</code></pre>
   <p><strong>Step 4 &mdash; Configure Claude Code to use DeepSeek</strong>: In your workspace configuration (e.g., <code>CLAUDE.md</code> or the equivalent settings file), point the API base URL and model to DeepSeek:</p>
 
   <div class="code-block">
-<pre><code>ANTHROPIC_BASE_URL=https://api.deepseek.com
+<pre><code>ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
 ANTHROPIC_MODEL=deepseek-chat</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
@@ -225,7 +225,7 @@ ANTHROPIC_MODEL=deepseek-chat</code></pre>
        ============================================================ -->
   <h2 id="glm">3. GLM/ZhipuAI Backend</h2>
 
-  <p><strong>ZhipuAI</strong> (formerly known as GLM) is a Chinese AI company backed by Tsinghua University. Their <strong>GLM-4</strong> series of models offer strong performance for coding, reasoning, and &mdash; notably &mdash; Chinese language tasks.</p>
+  <p><strong>ZhipuAI</strong> (formerly known as GLM) is a Chinese AI company backed by Tsinghua University. Their <strong>GLM-4</strong> series of models offer strong performance for coding, reasoning, and &mdash; notably &mdash; Chinese language tasks. ZhipuAI also operates <strong>Z.ai</strong>, its global English developer platform for international users.</p>
 
   <h3>Why GLM/ZhipuAI?</h3>
   <ul>
@@ -241,7 +241,7 @@ ANTHROPIC_MODEL=deepseek-chat</code></pre>
 
   <h3>Step-by-Step Setup</h3>
 
-  <p><strong>Step 1 &mdash; Create an account</strong>: Visit <strong>open.bigmodel.cn</strong> (ZhipuAI's developer platform), register, and verify your phone number.</p>
+  <p><strong>Step 1 &mdash; Create an account</strong>: Visit <a href="https://z.ai/model-api" target="_blank">z.ai/model-api</a> (Z.ai, ZhipuAI's global English developer platform), register, and verify your phone number.</p>
 
   <p><strong>Step 2 &mdash; Generate an API key</strong>: In the console, navigate to the API Keys section and create a new key.</p>
 
@@ -249,38 +249,92 @@ ANTHROPIC_MODEL=deepseek-chat</code></pre>
 
   <p><em>Mac / Linux</em></p>
   <div class="code-block">
-<pre><code>export ZHIPUAI_API_KEY="your-api-key-here"
+<pre><code>export ANTHROPIC_AUTH_TOKEN="your-api-key-here"
 source ~/.bashrc</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
 
   <p><em>Windows (PowerShell)</em></p>
   <div class="code-block">
-<pre><code>$env:ZHIPUAI_API_KEY = "your-api-key-here"
+<pre><code>$env:ANTHROPIC_AUTH_TOKEN = "your-api-key-here"
 
 # Permanent
-[System.Environment]::SetEnvironmentVariable("ZHIPUAI_API_KEY", "your-api-key-here", "User")</code></pre>
+[System.Environment]::SetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", "your-api-key-here", "User")</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
 
   <p><em>Windows (Command Prompt)</em></p>
   <div class="code-block">
-<pre><code>set ZHIPUAI_API_KEY=your-api-key-here
+<pre><code>set ANTHROPIC_AUTH_TOKEN=your-api-key-here
 
 # Permanent
-setx ZHIPUAI_API_KEY "your-api-key-here"</code></pre>
+setx ANTHROPIC_AUTH_TOKEN "your-api-key-here"</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
 
   <p><strong>Step 4 &mdash; Configure the API</strong>:</p>
 
   <div class="code-block">
-<pre><code>ANTHROPIC_BASE_URL=https://open.bigmodel.cn/api/paas/v4
-ANTHROPIC_MODEL=glm-4-flash</code></pre>
+<pre><code>ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
 
   <p><code>glm-4-flash</code> is the most cost-effective option. Use <code>glm-4-plus</code> or <code>glm-4-long</code> for tasks that require higher reasoning quality or longer context windows.</p>
+
+  <h3>Pricing: Pay-as-you-go API vs. the GLM Coding Plan subscription</h3>
+  <p>There are two ways to pay for GLM. The <strong>pay-as-you-go API</strong> configured above bills per token using an API key from <a href="https://z.ai/model-api" target="_blank">z.ai/model-api</a>. The <strong>GLM Coding Plan</strong> is a monthly subscription for AI coding that works with Claude Code, Cline, and OpenCode; its credits reset every 5 hours and weekly.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Plan</th>
+        <th>5-hour credits</th>
+        <th>Weekly credits</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Lite</td>
+        <td>2,000</td>
+        <td>10,000</td>
+        <td>Subscription starts at $18/month</td>
+      </tr>
+      <tr>
+        <td>Pro</td>
+        <td>12,000</td>
+        <td>60,000</td>
+        <td>&mdash;</td>
+      </tr>
+      <tr>
+        <td>Max</td>
+        <td>28,000</td>
+        <td>140,000</td>
+        <td>&mdash;</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Credits are token-based with per-model multipliers and reset every 5 hours plus weekly. Every plan includes the GLM-5.3, GLM-5-Turbo, and GLM-4.7 models, plus Vision, Web Search, Web Reader, and Zread MCP servers. Check current pricing at the subscribe page &mdash; off-peak usage is discounted 50% (peak hours are Mon&ndash;Fri 14:00&ndash;18:00 UTC+8).</p>
+
+  <div class="code-block">
+<pre><code># Mac / Linux
+export ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
+export ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"
+
+# Windows PowerShell
+$env:ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
+$env:ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+
+  <p>To configure this automatically, run <code>npx @z_ai/coding-helper</code>. Optionally, pin specific models with overrides such as <code>ANTHROPIC_DEFAULT_SONNET_MODEL</code>.</p>
+
+  <div class="tip-box">
+    If you use Claude Code daily or heavily, the GLM Coding Plan keeps costs predictable. For occasional or light use, the pay-as-you-go API is usually cheaper. Note that DeepSeek offers pay-as-you-go API access only &mdash; there is no subscription plan.
+  </div>
+
+  <p>See the <a href="https://z.ai/subscribe" target="_blank">GLM Coding Plan subscribe page</a>, the <a href="https://docs.z.ai/devpack/overview" target="_blank">official plan overview</a>, and the <a href="https://docs.z.ai/devpack/tool/claude" target="_blank">Claude Code integration guide</a> for details.</p>
 
   <h3>Model Selection Guide</h3>
 
@@ -422,7 +476,7 @@ ANTHROPIC_MODEL=claude-3-5-sonnet</code></pre>
     <div class="compare-col">
       <h4>GLM/ZhipuAI</h4>
       <ul>
-        <li><strong>Cost</strong>: free tier available; ~$0.10/1M tokens paid</li>
+        <li><strong>Cost</strong>: free tier available; ~$0.10/1M tokens paid; GLM Coding Plan subscription from $18/month</li>
         <li><strong>Best for</strong>: Chinese/Korean tasks, long-context work</li>
         <li><strong>Quality</strong>: high for Asian languages; good for code</li>
         <li><strong>Languages</strong>: excellent Chinese/Korean; good English</li>
@@ -518,16 +572,15 @@ ANTHROPIC_MODEL=claude-3-5-sonnet</code></pre>
         <div class="step-label">Set the Environment Variables</div>
         <p>Set the API key and base URL for your chosen backend. For DeepSeek on Mac/Linux:</p>
         <div class="code-block">
-<pre><code>export DEEPSEEK_API_KEY="sk-your-key"
-export ANTHROPIC_BASE_URL="https://api.deepseek.com"
+<pre><code>export ANTHROPIC_API_KEY="sk-your-key"
+export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
 export ANTHROPIC_MODEL="deepseek-chat"</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
         <p>For GLM on Windows PowerShell:</p>
         <div class="code-block">
-<pre><code>$env:ZHIPUAI_API_KEY = "your-key"
-$env:ANTHROPIC_BASE_URL = "https://open.bigmodel.cn/api/paas/v4"
-$env:ANTHROPIC_MODEL = "glm-4-flash"</code></pre>
+<pre><code>$env:ANTHROPIC_AUTH_TOKEN = "your-key"
+$env:ANTHROPIC_BASE_URL = "https://api.z.ai/api/anthropic"</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
       </div>

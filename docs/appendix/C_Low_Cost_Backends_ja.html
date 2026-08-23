@@ -163,7 +163,7 @@
       <!-- Labels below steps -->
       <text x="75" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">platform.deepseek.com</text>
       <text x="242" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">API Keysページ</text>
-      <text x="424" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">DEEPSEEK_API_KEY</text>
+      <text x="424" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">ANTHROPIC_API_KEY</text>
       <text x="591" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">エージェントを実行</text>
     </svg>
   </div>
@@ -179,7 +179,7 @@
   <p><em>Mac / Linux</em></p>
   <div class="code-block">
 <pre><code># ~/.bashrc、~/.zshrc、または~/.profileに追加
-export DEEPSEEK_API_KEY="sk-your-api-key-here"
+export ANTHROPIC_API_KEY="sk-your-api-key-here"
 
 # 即座に適用
 source ~/.bashrc</code></pre>
@@ -189,20 +189,20 @@ source ~/.bashrc</code></pre>
   <p><em>Windows（PowerShell）</em></p>
   <div class="code-block">
 <pre><code># 現在のセッションに設定
-$env:DEEPSEEK_API_KEY = "sk-your-api-key-here"
+$env:ANTHROPIC_API_KEY = "sk-your-api-key-here"
 
 # 恒久的に設定（推奨）
-[System.Environment]::SetEnvironmentVariable("DEEPSEEK_API_KEY", "sk-your-api-key-here", "User")</code></pre>
+[System.Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", "sk-your-api-key-here", "User")</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
   <p><em>Windows（コマンドプロンプト）</em></p>
   <div class="code-block">
 <pre><code># 現在のセッションに設定
-set DEEPSEEK_API_KEY=sk-your-api-key-here
+set ANTHROPIC_API_KEY=sk-your-api-key-here
 
 # 恒久的に設定（推奨 — システムのプロパティ経由）
-setx DEEPSEEK_API_KEY "sk-your-api-key-here"</code></pre>
+setx ANTHROPIC_API_KEY "sk-your-api-key-here"</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
@@ -213,7 +213,7 @@ setx DEEPSEEK_API_KEY "sk-your-api-key-here"</code></pre>
   <p><strong>ステップ4 &mdash; Claude CodeにDeepSeekを使用するよう設定する</strong>: ワークスペース設定（<code>CLAUDE.md</code>または同等の設定ファイル）で、APIのベースURLとモデルをDeepSeekに指定します:</p>
 
   <div class="code-block">
-<pre><code>ANTHROPIC_BASE_URL=https://api.deepseek.com
+<pre><code>ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
 ANTHROPIC_MODEL=deepseek-chat</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
@@ -225,7 +225,7 @@ ANTHROPIC_MODEL=deepseek-chat</code></pre>
        ============================================================ -->
   <h2 id="glm">3. GLM/ZhipuAIバックエンド</h2>
 
-  <p><strong>ZhipuAI</strong>（旧称: GLM）は、清華大学の支援を受けている中国のAI企業です。<strong>GLM-4</strong>シリーズのモデルは、コーディング、推論、そして &mdash; 特筆すべきことに &mdash; 中国語タスクで優れた性能を発揮します。</p>
+  <p><strong>ZhipuAI</strong>（旧称: GLM）は、清華大学の支援を受けている中国のAI企業です。<strong>GLM-4</strong>シリーズのモデルは、コーディング、推論、そして &mdash; 特筆すべきことに &mdash; 中国語タスクで優れた性能を発揮します。ZhipuAIは、海外向けのグローバル英語開発者プラットフォーム <strong>Z.ai</strong> も運営しています。</p>
 
   <h3>なぜGLM/ZhipuAI？</h3>
   <ul>
@@ -241,7 +241,7 @@ ANTHROPIC_MODEL=deepseek-chat</code></pre>
 
   <h3>ステップバイステップの設定</h3>
 
-  <p><strong>ステップ1 &mdash; アカウントの作成</strong>: <strong>open.bigmodel.cn</strong>（ZhipuAIの開発者プラットフォーム）にアクセスし、登録して電話番号を認証します。</p>
+  <p><strong>ステップ1 &mdash; アカウントの作成</strong>: <a href="https://z.ai/model-api" target="_blank">z.ai/model-api</a>（Z.ai、ZhipuAIのグローバル英語開発者プラットフォーム）にアクセスし、登録して電話番号を認証します。</p>
 
   <p><strong>ステップ2 &mdash; APIキーの生成</strong>: コンソールでAPI Keysセクションに移動し、新しいキーを作成します。</p>
 
@@ -249,38 +249,92 @@ ANTHROPIC_MODEL=deepseek-chat</code></pre>
 
   <p><em>Mac / Linux</em></p>
   <div class="code-block">
-<pre><code>export ZHIPUAI_API_KEY="your-api-key-here"
+<pre><code>export ANTHROPIC_AUTH_TOKEN="your-api-key-here"
 source ~/.bashrc</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
   <p><em>Windows（PowerShell）</em></p>
   <div class="code-block">
-<pre><code>$env:ZHIPUAI_API_KEY = "your-api-key-here"
+<pre><code>$env:ANTHROPIC_AUTH_TOKEN = "your-api-key-here"
 
 # 恒久的に設定
-[System.Environment]::SetEnvironmentVariable("ZHIPUAI_API_KEY", "your-api-key-here", "User")</code></pre>
+[System.Environment]::SetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", "your-api-key-here", "User")</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
   <p><em>Windows（コマンドプロンプト）</em></p>
   <div class="code-block">
-<pre><code>set ZHIPUAI_API_KEY=your-api-key-here
+<pre><code>set ANTHROPIC_AUTH_TOKEN=your-api-key-here
 
 # 恒久的に設定
-setx ZHIPUAI_API_KEY "your-api-key-here"</code></pre>
+setx ANTHROPIC_AUTH_TOKEN "your-api-key-here"</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
   <p><strong>ステップ4 &mdash; APIの設定</strong>:</p>
 
   <div class="code-block">
-<pre><code>ANTHROPIC_BASE_URL=https://open.bigmodel.cn/api/paas/v4
-ANTHROPIC_MODEL=glm-4-flash</code></pre>
+<pre><code>ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
   <p><code>glm-4-flash</code>は最もコスト効率の良いオプションです。より高い推論品質や長いコンテキストウィンドウが必要なタスクには<code>glm-4-plus</code>または<code>glm-4-long</code>を使用してください。</p>
+
+  <h3>料金体系: 従量制APIと定額制GLM Coding Plan</h3>
+  <p>GLMの支払い方法は2つあります。上で設定した<strong>従量制API</strong>は、<a href="https://z.ai/model-api" target="_blank">z.ai/model-api</a> で発行したAPIキーを使い、トークン使用量に応じて課金されます。一方、<strong>GLM Coding Plan</strong>はClaude Code、Cline、OpenCodeと互換性のある月額定額制サブスクリプションで、クレジットは5時間ごとと週単位でリセットされます。</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>プラン</th>
+        <th>5時間あたりクレジット</th>
+        <th>週間クレジット</th>
+        <th>備考</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Lite</td>
+        <td>2,000</td>
+        <td>10,000</td>
+        <td>サブスクリプションは$18/月から</td>
+      </tr>
+      <tr>
+        <td>Pro</td>
+        <td>12,000</td>
+        <td>60,000</td>
+        <td>&mdash;</td>
+      </tr>
+      <tr>
+        <td>Max</td>
+        <td>28,000</td>
+        <td>140,000</td>
+        <td>&mdash;</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>クレジットはトークンベースでモデルごとの倍率が適用され、5時間ごとと週単位でリセットされます。すべてのプランにGLM-5.3、GLM-5-Turbo、GLM-4.7モデルと、Vision、Web Search、Web Reader、ZreadのMCPサーバーが含まれます。最新の価格は購読ページで確認してください。オフピーク時間の利用は50%割引になります（ピークは月曜〜金曜 14:00〜18:00 UTC+8）。</p>
+
+  <div class="code-block">
+<pre><code># Mac / Linux
+export ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
+export ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"
+
+# Windows PowerShell
+$env:ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
+$env:ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <p>自動設定には <code>npx @z_ai/coding-helper</code> を実行する方法もあります。必要に応じて、<code>ANTHROPIC_DEFAULT_SONNET_MODEL</code> などの環境変数でモデルを指定できます。</p>
+
+  <div class="tip-box">
+    Claude Codeを毎日大量に使うなら、コストを予測しやすい定額制のGLM Coding Planが有利です。たまに軽く使うだけなら従量制APIのほうが経済的です。なお、DeepSeekは従量制APIのみの提供で、定額制サブスクリプションはありません。
+  </div>
+
+  <p>詳しくは <a href="https://z.ai/subscribe" target="_blank">GLM Coding Planの購読ページ</a>、<a href="https://docs.z.ai/devpack/overview" target="_blank">公式プランドキュメント</a>、<a href="https://docs.z.ai/devpack/tool/claude" target="_blank">Claude Code連携ガイド</a>を参照してください。</p>
 
   <h3>モデル選択ガイド</h3>
 
@@ -422,7 +476,7 @@ ANTHROPIC_MODEL=claude-3-5-sonnet</code></pre>
     <div class="compare-col">
       <h4>GLM/ZhipuAI</h4>
       <ul>
-        <li><strong>コスト</strong>: 無料ティアあり; 有料は~$0.10/100万トークン</li>
+        <li><strong>コスト</strong>: 無料ティアあり; 有料は~$0.10/100万トークン; GLM Coding Planは$18/月から</li>
         <li><strong>最適</strong>: 中国語/韓国語タスク、長文脈の作業</li>
         <li><strong>品質</strong>: アジア言語では高い; コードも良好</li>
         <li><strong>言語</strong>: 中国語/韓国語に最適; 英語も良好</li>
@@ -518,16 +572,15 @@ ANTHROPIC_MODEL=claude-3-5-sonnet</code></pre>
         <div class="step-label">環境変数を設定する</div>
         <p>選択したバックエンドのAPIキーとベースURLを設定します。Mac/LinuxのDeepSeekの場合:</p>
         <div class="code-block">
-<pre><code>export DEEPSEEK_API_KEY="sk-your-key"
-export ANTHROPIC_BASE_URL="https://api.deepseek.com"
+<pre><code>export ANTHROPIC_API_KEY="sk-your-key"
+export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
 export ANTHROPIC_MODEL="deepseek-chat"</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
         <p>Windows PowerShellのGLMの場合:</p>
         <div class="code-block">
-<pre><code>$env:ZHIPUAI_API_KEY = "your-key"
-$env:ANTHROPIC_BASE_URL = "https://open.bigmodel.cn/api/paas/v4"
-$env:ANTHROPIC_MODEL = "glm-4-flash"</code></pre>
+<pre><code>$env:ANTHROPIC_AUTH_TOKEN = "your-key"
+$env:ANTHROPIC_BASE_URL = "https://api.z.ai/api/anthropic"</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
       </div>

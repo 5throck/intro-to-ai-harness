@@ -141,7 +141,7 @@
     <div class="platform-block-title">Windows</div>
     <div class="code-block">
 <pre><code>mkdir C:\git\project\setup</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
   </div>
 
@@ -149,7 +149,7 @@
     <div class="platform-block-title">MacOS / Linux</div>
     <div class="code-block">
 <pre><code>mkdir -p ~/git/project/setup</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
   </div>
 
@@ -242,7 +242,7 @@
       먼저 Homebrew가 이미 설치되어 있는지 확인합니다. 터미널(Terminal.app)을 열고 다음 명령어를 실행하세요.
       <div class="code-block">
 <pre><code>brew --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
       버전 번호가 표시되면 이미 설치된 것입니다. 다음 단계로 건너뛰세요.<br>
       <code>command not found</code>라는 메시지가 나오면 Homebrew를 설치해야 합니다.
@@ -252,7 +252,7 @@
       Homebrew 공식 홈페이지의 설치 스크립트를 실행합니다. 터미널에 다음 명령어를 복사하여 붙여넣으세요.
       <div class="code-block">
 <pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
       설치가 완료되면 터미널을 닫고 다시 엽니다.
     </div>
@@ -261,7 +261,7 @@
       <code>Git</code>은 버전 관리 시스템입니다. 코드의 변경 이력을 추적하고, GitHub와 연동하여 프로젝트를 관리하는 데 사용됩니다. Claude Code와 멀티 에이전트 시스템의 핵심 기반 도구입니다.
       <div class="code-block">
 <pre><code>brew install git</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
     </div>
     <div class="step">
@@ -269,7 +269,7 @@
       <code>GitHub CLI</code>(<code>gh</code>)는 터미널에서 GitHub를 사용할 수 있게 해주는 도구입니다. Claude Code가 GitHub 저장소를 생성하고 관리하는 데 사용됩니다.
       <div class="code-block">
 <pre><code>brew install gh</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
     </div>
     <div class="step">
@@ -277,7 +277,7 @@
       <code>Bun</code>은 JavaScript/TypeScript 실행 환경입니다. Node.js의 대안으로, 멀티 에이전트 하네스의 자동화 스크립트와 설정 검증 도구를 실행하는 데 필요합니다. 속도가 빠르고 설치가 간편한 것이 특징입니다.
       <div class="code-block">
 <pre><code>brew install oven-sh/bun/bun</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
     </div>
     <div class="step">
@@ -285,7 +285,7 @@
       GitHub 계정을 <code>gh</code>에 연결합니다. 이 단계를 거쳐야 Claude Code에서 GitHub 기능을 사용할 수 있습니다.
       <div class="code-block">
 <pre><code>gh auth login</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
       안내에 따라 <strong>GitHub.com</strong>을 선택하고, 브라우저가 열리면 GitHub 계정으로 로그인하여 인증을 완료하세요.
     </div>
@@ -313,7 +313,7 @@
       <strong>방법 1: winget으로 설치</strong> (Windows 10 이상)
       <div class="code-block">
 <pre><code>winget install --id Git.Git -e --source winget</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
       <strong>방법 2: 직접 다운로드</strong><br>
       <a href="https://git-scm.com/download/win" target="_blank" rel="noopener noreferrer">git-scm.com/download/win</a>에서 설치 파일을 다운로드하여 실행하세요. 설치 옵션은 기본값 그대로 진행해도 됩니다.
@@ -324,7 +324,7 @@
       <strong>방법 1: winget으로 설치</strong>
       <div class="code-block">
 <pre><code>winget install --id GitHub.cli -e --source winget</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
       <strong>방법 2: 직접 다운로드</strong><br>
       <a href="https://cli.github.com/" target="_blank" rel="noopener noreferrer">cli.github.com</a>에서 Windows용 설치 파일을 다운로드하세요.
@@ -334,7 +334,7 @@
       PowerShell에서 다음 명령어를 실행하여 Bun을 설치합니다.
       <div class="code-block">
 <pre><code>powershell -c "irm bun.sh/install.ps1 | iex"</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
       설치가 완료되면 <strong>PowerShell을 재시작</strong>해야 <code>bun</code> 명령어를 인식합니다.
     </div>
@@ -343,7 +343,7 @@
       GitHub 계정을 <code>gh</code>에 연결합니다.
       <div class="code-block">
 <pre><code>gh auth login</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
       안내에 따라 <strong>GitHub.com</strong>을 선택하고, 브라우저가 열리면 GitHub 계정으로 로그인하여 인증을 완료하세요.
     </div>
@@ -375,7 +375,7 @@
       설치 전 시스템 패키지를 최신 상태로 업데이트합니다.
       <div class="code-block">
 <pre><code>sudo apt update &amp;&amp; sudo apt upgrade -y</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
     </div>
     <div class="step">
@@ -383,7 +383,7 @@
       대부분의 Ubuntu/Debian 시스템에 Git이 이미 설치되어 있지만, 확인 후 필요하면 설치합니다.
       <div class="code-block">
 <pre><code>sudo apt install -y git</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
     </div>
     <div class="step">
@@ -398,7 +398,7 @@
 &amp;&amp; echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list &gt; /dev/null \
 &amp;&amp; sudo apt update \
 &amp;&amp; sudo apt install gh -y</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
     </div>
     <div class="step">
@@ -406,12 +406,12 @@
       공식 설치 스크립트를 사용하여 Bun을 설치합니다.
       <div class="code-block">
 <pre><code>curl -fsSL https://bun.sh/install | bash</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
       설치 완료 후 터미널을 재시작하거나 다음 명령어로 PATH를 적용하세요.
       <div class="code-block">
 <pre><code>source ~/.bashrc</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
     </div>
     <div class="step">
@@ -419,7 +419,7 @@
       GitHub 계정을 <code>gh</code>에 연결합니다.
       <div class="code-block">
 <pre><code>gh auth login</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
       안내에 따라 <strong>GitHub.com</strong>을 선택하고, 브라우저가 열리면 GitHub 계정으로 로그인하여 인증을 완료하세요.
     </div>
@@ -438,19 +438,19 @@
 
   <div class="code-block">
 <pre><code>git --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
   <p>예상 결과: <code>git version 2.45.0</code> (버전 번호는 다를 수 있음)</p>
 
   <div class="code-block">
 <pre><code>gh --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
   <p>예상 결과: <code>gh version 2.62.0</code> (버전 번호는 다를 수 있음)</p>
 
   <div class="code-block">
 <pre><code>bun --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
   <p>예상 결과: <code>1.1.30</code> (버전 번호는 다를 수 있음)</p>
 
@@ -462,7 +462,7 @@
 <pre><code>git clone https://github.com/5throck/setup.git
 cd setup
 bun setup-common.ts       # 설치 검증 스크립트 실행</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
 
   <p>검증 스크립트는 Git, GitHub CLI, Bun의 설치 여부와 버전, 그리고 GitHub 인증 상태를 확인합니다.</p>
@@ -562,14 +562,14 @@ bun setup-common.ts       # 설치 검증 스크립트 실행</code></pre>
         <div class="code-block">
 <pre><code>echo 'export PATH="$HOME/.bun/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
       </div>
       <div class="platform-block claude">
         <div class="platform-block-title">Windows (PowerShell)</div>
         <div class="code-block">
 <pre><code>$env:Path += ";$env:USERPROFILE\.bun\bin"</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
         영구 적용하려면 시스템 환경변수 편집 창에서 PATH에 <code>%USERPROFILE%\.bun\bin</code>을 추가하세요.
       </div>
@@ -588,7 +588,7 @@ source ~/.bashrc</code></pre>
       <div class="code-block">
 <pre><code>gh auth logout
 gh auth login</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
     </div>
     <div class="step">
@@ -639,7 +639,7 @@ gh auth login</code></pre>
       <strong>MacOS / Linux:</strong> 터미널을 재시작하세요. 그래도 문제가 있다면 다음 명령어로 PATH를 확인합니다.
       <div class="code-block">
 <pre><code>echo $PATH</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">복사</button>
+<button class="copy-btn">복사</button>
 </div>
       Git 설치 경로(보통 <code>/usr/local/bin</code> 또는 <code>/usr/bin</code>)가 포함되어 있는지 확인하세요.
     </div>

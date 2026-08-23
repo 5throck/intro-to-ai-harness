@@ -435,7 +435,7 @@
   "requiredSkills": ["research", "insight-synthesis"],
   "rationale": "Benchmarking shows McKinsey teams include a dedicated strategy role"
 }</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button class="copy-btn">Copy</button>
 </div>
 
   <p>Each field maps directly to agent frontmatter properties you learned in Chapter 9. The <code>rationale</code> field is especially important &mdash; it links every design decision back to the benchmarking evidence from Step 2.</p>
@@ -451,7 +451,7 @@
   "lead": "engagement-leader",
   "supporting": ["strategy-analyst"]
 }</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button class="copy-btn">Copy</button>
 </div>
 
   <p>Each phase specifies a <strong>lead agent</strong> (who orchestrates) and optional <strong>supporting agents</strong> (who contribute). This structure directly mirrors the dispatch tables you saw in <code>AGENTS.md</code>.</p>
@@ -466,7 +466,7 @@
   "fromOwner": "old-analyst",
   "toOwner": "strategy-analyst"
 }</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button class="copy-btn">Copy</button>
 </div>
 
   <p>This ensures <strong>no skill is orphaned</strong> when an agent is removed. The proactive skill transfer plan from Step 3 guarantees that every skill has a valid owner before any deletion occurs.</p>
@@ -484,7 +484,7 @@
 
   <div class="code-block">
 <pre><code>bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button class="copy-btn">Copy</button>
 </div>
 
   <p>The script reads the proposal JSON and executes changes in a <strong>fixed, safe order</strong> with checkpoint logging at each step:</p>
@@ -725,7 +725,7 @@ Collaboration style: Sequential with a quality review gate before final output
 
 Success metrics: All content must pass a quality checklist; HTML output must be 
 accessible (WCAG 2.1 AA compliant)</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
 </div>
   </div>
 

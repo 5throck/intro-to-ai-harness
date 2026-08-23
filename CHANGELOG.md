@@ -2,6 +2,18 @@
 
 All notable changes to this handbook will be documented in this file.
 
+## [2026-08-23] — Copy Button CSP Compliance
+
+### Bug Fix
+- **Fixed all copy buttons site-wide** — the CSP meta tag (`script-src 'self'`) blocks inline event handlers, so every `<button onclick="copyCode(this)">` stopped working. Clicks are now handled by document-level event delegation for `.copy-btn` in `copy-code.js`, and all 538 inline handlers across 60 pages were removed.
+
+### Hardening
+- Copy feedback now restores each button's original localized label instead of a hardcoded string (button labels vary by page language)
+- No CSP change — the strict `script-src 'self'` policy is preserved
+
+### Maintenance
+- Normalized mixed CRLF/LF line endings in `docs/*.html` back to the repo's canonical CRLF checkout form (damage introduced by a crashed one-shot edit script)
+
 ## [2026-08-18] — Project Review Fixes: Security, CI & Search Completeness
 
 ### Security

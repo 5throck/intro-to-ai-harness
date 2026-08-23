@@ -98,7 +98,7 @@
         <div class="platform-block-title">Windows</div>
         <div class="code-block">
 <pre><code>winget install OpenJS.NodeJS.LTS</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
         <p>O descarga el instalador desde <a href="https://nodejs.org" target="_blank" rel="noopener noreferrer">nodejs.org</a>.</p>
       </div>
@@ -106,14 +106,14 @@
         <div class="platform-block-title">macOS</div>
         <div class="code-block">
 <pre><code>brew install node</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       </div>
       <div class="platform-block claude">
         <div class="platform-block-title">Linux (Ubuntu/Debian)</div>
         <div class="code-block">
 <pre><code>sudo apt update &amp;&amp; sudo apt install -y nodejs npm</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       </div>
     </div>
@@ -123,7 +123,7 @@
       <div class="code-block">
 <pre><code>node --version
 npm --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       <p>Expected result: <code>v20.x.x</code> or higher for Node.js, <code>10.x.x</code> or higher for npm.</p>
     </div>
@@ -132,7 +132,7 @@ npm --version</code></pre>
       &mdash; Install the Claude Code CLI globally using npm.
       <div class="code-block">
 <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
@@ -140,7 +140,7 @@ npm --version</code></pre>
       &mdash; Check that Claude Code CLI is available.
       <div class="code-block">
 <pre><code>claude --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       <p>Si se muestra un número de versión, la instalación fue exitosa.</p>
     </div>
@@ -149,7 +149,7 @@ npm --version</code></pre>
       &mdash; Before using Claude Code CLI for the first time, you must authenticate with your Anthropic account.
       <div class="code-block">
 <pre><code>claude auth login</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       <p>Se abrirá una ventana del navegador. Inicia sesión con la misma cuenta de Anthropic que usas para Claude Desktop App. Una vez completada la autenticación, podrás empezar a usar Claude Code CLI.</p>
     </div>
@@ -258,7 +258,7 @@ npm --version</code></pre>
       &mdash; Use <code>cd</code> to move to the directory containing your project files.
       <div class="code-block">
 <pre><code>cd ~/git/project/my-harness</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
@@ -266,7 +266,7 @@ npm --version</code></pre>
       &mdash; Type <code>claude</code> and press Enter.
       <div class="code-block">
 <pre><code>claude</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       Claude will load your project context and display a welcome message. You can now type your request in natural language, just like chatting with Claude Desktop App.
     </div>
@@ -363,7 +363,7 @@ npm --version</code></pre>
       &mdash; Ask Claude to read and explain any file in your project.
       <div class="code-block">
 <pre><code>Read agents/pm.md and explain the PM Agent's role</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
@@ -371,7 +371,7 @@ npm --version</code></pre>
       &mdash; Ask Claude to make changes to your code or configuration files.
       <div class="code-block">
 <pre><code>Add a new agent entry for "translator" to the AGENTS.md roster table</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
@@ -379,7 +379,7 @@ npm --version</code></pre>
       &mdash; Claude can execute terminal commands on your behalf.
       <div class="code-block">
 <pre><code>Run bun scripts/audit.ts and show me the results</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       Claude will ask for your permission before executing any command.
     </div>
@@ -389,7 +389,7 @@ npm --version</code></pre>
       <div class="code-block">
 <pre><code>I get a "module not found" error when running the audit script.
   Check the dependencies and suggest a fix.</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
     </div>
   </div>
@@ -520,7 +520,7 @@ claude "Run the audit script and report any issues"
 
 # Start Claude in non-interactive mode (for automation)
 claude -p "Generate a summary of all agent definitions"</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
 
   <div class="note">

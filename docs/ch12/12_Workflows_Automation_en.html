@@ -332,7 +332,7 @@ git checkout -b feature/my-new-feature
 
 # See the commit history
 git log --oneline</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
 </div>
 
   <h3>GitHub Basics</h3>
@@ -466,7 +466,7 @@ git log --oneline</code></pre>
 
 # post-merge   — Runs AFTER a branch is merged
 #               Use: install dependencies, update lock files</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
 </div>
 
   <h3>The Alarm System Analogy</h3>
@@ -591,7 +591,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: gitleaks detect              # Scan for secrets</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
 </div>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
@@ -717,7 +717,7 @@ bun scripts/dev-sync.ts
 
 # Check for help and available options
 bun scripts/dev-sync.ts --help</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
 </div>
 
   <div class="warn">
@@ -741,7 +741,7 @@ bun scripts/dev-sync.ts --help</code></pre>
         <strong>Create a feature branch.</strong> Start by creating a new branch for your work. This isolates your changes from the main branch and allows for review before merging.
 <div class="code-block">
 <pre><code>git checkout -b feature/update-agent-tier</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
 </div>
       </li>
       <li>
@@ -752,7 +752,7 @@ bun scripts/dev-sync.ts --help</code></pre>
 <div class="code-block">
 <pre><code>git status          # See which files changed
 git diff            # See the actual differences</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
 </div>
       </li>
       <li>
@@ -760,14 +760,14 @@ git diff            # See the actual differences</code></pre>
 <div class="code-block">
 <pre><code>git add agents/my-agent.md
 git commit -m "feat(agent): update tier from low to medium"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
 </div>
       </li>
       <li>
         <strong>Run /sync.</strong> Execute the sync command with a descriptive message. The pipeline will run the audit, update lifecycle records, push the commit, and create a PR.
 <div class="code-block">
 <pre><code>/sync "feat(agent): update tier from low to medium"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
 </div>
       </li>
       <li>

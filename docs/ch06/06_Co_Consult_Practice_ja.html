@@ -359,19 +359,19 @@
   <div class="prompt-box">
     <strong>例1: 市場分析</strong><br>
     <code>"韓国のフードデリバリーアプリ市場を分析して。競合比較と参入機会に焦点を当てて。2週間以内に完了して。"</code>
-    <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+    <button type="button" class="copy-btn">コピー</button>
   </div>
 
   <div class="prompt-box">
     <strong>例2: ビジネスモデルレビュー</strong><br>
     <code>"当社スタートアップのSaaSビジネスモデルをレビューして。対象市場は日本のB2B企業。価格戦略とスケーラビリティをカバーして。"</code>
-    <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+    <button type="button" class="copy-btn">コピー</button>
   </div>
 
   <div class="prompt-box">
     <strong>例3: 技術導入評価</strong><br>
     <code>"自社にAIチャットボットの導入を評価して。教育業界が対象。コスト分析、技術スタックの選択肢、競合の事例研究を含めて。"</code>
-    <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+    <button type="button" class="copy-btn">コピー</button>
   </div>
 
   <h3>良いリクエスト vs. 悪いリクエスト</h3>
@@ -569,7 +569,7 @@
           <code>git clone https://github.com/5throck/ai-workspace-standards.git</code><br>
           <code>cd ai-workspace-standards</code><br>
           <code>bun scripts/new-project.ts "co-consult" --variant co-consult</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+          <button type="button" class="copy-btn">コピー</button>
         </div>
         これにより、<code>Projects/co-consult/</code>が独立したGitリポジトリとして作成され、co-consultバリアントのエージェント、スキル、設定がコピーされます。
       </li>
@@ -578,7 +578,7 @@
         Claude Desktop Appを起動し、<code>Projects/co-consult/</code>フォルダをプロジェクトとして開きます。Claudeに以下のように伝えてPMを開始します。
         <div class="prompt-box">
           <code>"新しいプロジェクトを始めたいです。"</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+          <button type="button" class="copy-btn">コピー</button>
         </div>
         PMがキックオフの会話を開始し、トピック、スコープ、タイムラインについて尋ねます。
       </li>
@@ -587,7 +587,7 @@
         PMの質問に答えてプロジェクトを設定します。以下のように応答してみましょう。
         <div class="prompt-box">
           <code>"韓国のコーヒーショップ市場の主要トレンドを分析して。フランチャイズカフェと個人カフェの比較に焦点を当てて。クイック評価にしてください。"</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+          <button type="button" class="copy-btn">コピー</button>
         </div>
         PMがリクエストを分析し、クイック評価規模のプロジェクトに必要なスペシャリストを決定します。
       </li>
@@ -611,12 +611,12 @@
         チェックポイントでは、以下のように応答できます。
         <div class="prompt-box">
           <code>"分析をレビューしました。次のステップに進んでください。"</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+          <button type="button" class="copy-btn">コピー</button>
         </div>
         修正が必要な場合は、具体的なフィードバックを提供します。
         <div class="prompt-box">
           <code>"競合分析セクションに配達カフェのデータ（Baemin）を追加して。"</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+          <button type="button" class="copy-btn">コピー</button>
         </div>
       </li>
       <li>
@@ -647,7 +647,7 @@
 
   <div class="prompt-box">
     <code>Projects/co-consult/deliverables/reports/</code>
-    <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+    <button type="button" class="copy-btn">コピー</button>
   </div>
 
   <h3>主要成果物</h3>
@@ -699,7 +699,7 @@
         <div class="prompt-box">
           <code>cd Projects/co-consult/deliverables/reports/</code><br>
           <code>ls</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+          <button type="button" class="copy-btn">コピー</button>
         </div>
       </li>
       <li>
@@ -707,7 +707,7 @@
         リサーチ結果を確認します。収集された情報源、主要データポイント、参考リンクが含まれています。
         <div class="prompt-box">
           <code>cat findings_market.md</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+          <button type="button" class="copy-btn">コピー</button>
         </div>
         またはVS Codeで開きます。
       </li>
@@ -716,7 +716,7 @@
         <code>report.html</code>ファイルをブラウザで開いて完成したレポートを表示します。チャート、テーブル、図を含むインタラクティブな形式です。
         <div class="prompt-box">
           <code>open report.html</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+          <button type="button" class="copy-btn">コピー</button>
         </div>
       </li>
       <li>
@@ -728,7 +728,7 @@
         プロジェクト全体の進捗を確認できます。どのスペシャリストがディスパッチされ、何を生産し、各レビューポイントでPMがチェックインしたかが記録されています。
         <div class="prompt-box">
           <code>cat project_state.json</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+          <button type="button" class="copy-btn">コピー</button>
         </div>
       </li>
     </ol>
@@ -755,7 +755,7 @@
   consult-profile.md        # プロジェクト設定
   memory/                   # セッションログ
     YYYY-MM-DD.md</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
   </div>
 

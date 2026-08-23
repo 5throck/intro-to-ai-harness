@@ -98,7 +98,7 @@
         <div class="platform-block-title">Windows</div>
         <div class="code-block">
 <pre><code>winget install OpenJS.NodeJS.LTS</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
         <p>または<a href="https://nodejs.org" target="_blank" rel="noopener noreferrer">nodejs.org</a>からインストーラーをダウンロードします。</p>
       </div>
@@ -106,14 +106,14 @@
         <div class="platform-block-title">macOS</div>
         <div class="code-block">
 <pre><code>brew install node</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       </div>
       <div class="platform-block claude">
         <div class="platform-block-title">Linux (Ubuntu/Debian)</div>
         <div class="code-block">
 <pre><code>sudo apt update &amp;&amp; sudo apt install -y nodejs npm</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       </div>
     </div>
@@ -123,7 +123,7 @@
       <div class="code-block">
 <pre><code>node --version
 npm --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       <p>期待される結果: Node.jsが <code>v20.x.x</code> 以上、npmが <code>10.x.x</code> 以上。</p>
     </div>
@@ -132,7 +132,7 @@ npm --version</code></pre>
       &mdash; npmを使用してClaude Code CLIをグローバルにインストールします。
       <div class="code-block">
 <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
     </div>
     <div class="step">
@@ -140,7 +140,7 @@ npm --version</code></pre>
       &mdash; Claude Code CLIが利用可能であることを確認します。
       <div class="code-block">
 <pre><code>claude --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       <p>バージョン番号が表示されれば、インストールは成功しています。</p>
     </div>
@@ -149,7 +149,7 @@ npm --version</code></pre>
       &mdash; Claude Code CLIを初めて使用する前に、Anthropicアカウントで認証する必要があります。
       <div class="code-block">
 <pre><code>claude auth login</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       <p>ブラウザウィンドウが開きます。Claude Desktop Appで使用しているのと同じAnthropicアカウントでログインしてください。認証が完了すると、Claude Code CLIを使い始めることができます。</p>
     </div>
@@ -258,7 +258,7 @@ npm --version</code></pre>
       &mdash; <code>cd</code>を使ってプロジェクトファイルがあるディレクトリに移動します。
       <div class="code-block">
 <pre><code>cd ~/git/project/my-harness</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
     </div>
     <div class="step">
@@ -266,7 +266,7 @@ npm --version</code></pre>
       &mdash; <code>claude</code>と入力してEnterを押します。
       <div class="code-block">
 <pre><code>claude</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       Claudeがプロジェクトコンテキストを読み込み、ウェルカムメッセージを表示します。Claude Desktop Appとチャットするのと同じように、自然言語でリクエストを入力できます。
     </div>
@@ -363,7 +363,7 @@ npm --version</code></pre>
       &mdash; Claudeにプロジェクト内の任意のファイルを読み取って説明してもらいます。
       <div class="code-block">
 <pre><code>agents/pm.mdを読んで、PMエージェントの役割を説明して</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
     </div>
     <div class="step">
@@ -371,7 +371,7 @@ npm --version</code></pre>
       &mdash; Claudeにコードや設定ファイルの変更を依頼します。
       <div class="code-block">
 <pre><code>AGENTS.mdのロスターテーブルに「translator」の新しいエージェントエントリを追加して</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
     </div>
     <div class="step">
@@ -379,7 +379,7 @@ npm --version</code></pre>
       &mdash; Claudeはあなたに代わってターミナルコマンドを実行できます。
       <div class="code-block">
 <pre><code>bun scripts/audit.tsを実行して結果を表示して</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       Claudeはコマンドを実行する前に許可を求めます。
     </div>
@@ -389,7 +389,7 @@ npm --version</code></pre>
       <div class="code-block">
 <pre><code>監査スクリプトを実行すると「module not found」エラーになります。
   依存関係をチェックして修正案を提案して。</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
     </div>
   </div>
@@ -520,7 +520,7 @@ claude "監査スクリプトを実行して問題を報告して"
 
 # 非対話モードでClaudeを起動（自動化用）
 claude -p "すべてのエージェント定義の要約を生成して"</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
 
   <div class="note">

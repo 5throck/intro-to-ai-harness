@@ -183,7 +183,7 @@ export DEEPSEEK_API_KEY="sk-your-api-key-here"
 
 # Apply immediately
 source ~/.bashrc</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <p><em>Windows (PowerShell)</em></p>
@@ -193,7 +193,7 @@ $env:DEEPSEEK_API_KEY = "sk-your-api-key-here"
 
 # Set permanently (recommended)
 [System.Environment]::SetEnvironmentVariable("DEEPSEEK_API_KEY", "sk-your-api-key-here", "User")</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <p><em>Windows (Command Prompt)</em></p>
@@ -203,7 +203,7 @@ set DEEPSEEK_API_KEY=sk-your-api-key-here
 
 # Set permanently (recommended &mdash; via System Properties)
 setx DEEPSEEK_API_KEY "sk-your-api-key-here"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <div class="tip-box">
@@ -215,7 +215,7 @@ setx DEEPSEEK_API_KEY "sk-your-api-key-here"</code></pre>
   <div class="code-block">
 <pre><code>ANTHROPIC_BASE_URL=https://api.deepseek.com
 ANTHROPIC_MODEL=deepseek-chat</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <p>Esto le indica a Claude Code que envíe solicitudes al endpoint de la API de DeepSeek en lugar del de Anthropic. El formato de respuesta es compatible, por lo que no se necesitan otros cambios.</p>
@@ -251,7 +251,7 @@ ANTHROPIC_MODEL=deepseek-chat</code></pre>
   <div class="code-block">
 <pre><code>export ZHIPUAI_API_KEY="your-api-key-here"
 source ~/.bashrc</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <p><em>Windows (PowerShell)</em></p>
@@ -260,7 +260,7 @@ source ~/.bashrc</code></pre>
 
 # Permanent
 [System.Environment]::SetEnvironmentVariable("ZHIPUAI_API_KEY", "your-api-key-here", "User")</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <p><em>Windows (Command Prompt)</em></p>
@@ -269,7 +269,7 @@ source ~/.bashrc</code></pre>
 
 # Permanent
 setx ZHIPUAI_API_KEY "your-api-key-here"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <p><strong>Paso 4 &mdash; Configura la API</strong>:</p>
@@ -277,7 +277,7 @@ setx ZHIPUAI_API_KEY "your-api-key-here"</code></pre>
   <div class="code-block">
 <pre><code>ANTHROPIC_BASE_URL=https://open.bigmodel.cn/api/paas/v4
 ANTHROPIC_MODEL=glm-4-flash</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <p><code>glm-4-flash</code> es la opción más rentable. Utiliza <code>glm-4-plus</code> o <code>glm-4-long</code> para tareas que requieran una mayor calidad de razonamiento o ventanas de contexto más largas.</p>
@@ -333,7 +333,7 @@ pip install litellm[proxy]
 
 # Or via uv (faster)
 uv pip install litellm[proxy]</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <h3>Configuration</h3>
@@ -357,7 +357,7 @@ model_list:
     litellm_params:
       model: openai/gpt-4o-mini
       api_key: ${OPENAI_API_KEY}</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <div class="tip-box">
@@ -369,7 +369,7 @@ model_list:
   <div class="code-block">
 <pre><code># Start the LiteLLM proxy server
 litellm --config litellm_config.yaml --port 4000</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <p>Luego apunta Claude Code al proxy local:</p>
@@ -377,7 +377,7 @@ litellm --config litellm_config.yaml --port 4000</code></pre>
   <div class="code-block">
 <pre><code>ANTHROPIC_BASE_URL=http://localhost:4000
 ANTHROPIC_MODEL=claude-3-5-sonnet</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <p>Todas las solicitudes de Claude Code fluirán a través de LiteLLM hasta tu backend configurado. El proxy maneja la autenticación, la traducción de formato y el manejo de errores de forma transparente.</p>
@@ -521,14 +521,14 @@ ANTHROPIC_MODEL=claude-3-5-sonnet</code></pre>
 <pre><code>export DEEPSEEK_API_KEY="sk-your-key"
 export ANTHROPIC_BASE_URL="https://api.deepseek.com"
 export ANTHROPIC_MODEL="deepseek-chat"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
         <p>For GLM on Windows PowerShell:</p>
         <div class="code-block">
 <pre><code>$env:ZHIPUAI_API_KEY = "your-key"
 $env:ANTHROPIC_BASE_URL = "https://open.bigmodel.cn/api/paas/v4"
 $env:ANTHROPIC_MODEL = "glm-4-flash"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
       </div>
     </div>
@@ -562,7 +562,7 @@ unset ANTHROPIC_MODEL
 # Windows PowerShell
 Remove-Item Env:\ANTHROPIC_BASE_URL
 Remove-Item Env:\ANTHROPIC_MODEL</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
         <p>Claude Code volverá a usar el endpoint predeterminado de Anthropic en el próximo inicio.</p>
       </div>

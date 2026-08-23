@@ -359,19 +359,19 @@
   <div class="prompt-box">
     <strong>예시 1: 시장 분석</strong><br>
     <code>"한국의 배달 앱 시장을 분석해줘. 경쟁사 비교와 진입 기회를 중점적으로. 2주 내 완료."</code>
-    <button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+    <button type="button" class="copy-btn">복사</button>
   </div>
 
   <div class="prompt-box">
     <strong>예시 2: 비즈니스 모델 검토</strong><br>
     <code>"우리 스타트업의 SaaS 비즈니스 모델을 검토해줘. 타겟 시장은 일본 B2B 기업. 가격 전략과 확장 가능성에 대해."</code>
-    <button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+    <button type="button" class="copy-btn">복사</button>
   </div>
 
   <div class="prompt-box">
     <strong>예시 3: 기술 도입 검토</strong><br>
     <code>"우리 회사에 AI 챗봇을 도입하는 것을 검토해줘. 교육 업계 대상. 비용, 기술 스택, 경쟁사 사례를 포함해줘."</code>
-    <button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+    <button type="button" class="copy-btn">복사</button>
   </div>
 
   <h3>좋은 요청 vs 아쉬운 요청</h3>
@@ -569,7 +569,7 @@
           <code>git clone https://github.com/5throck/ai-workspace-standards.git</code><br>
           <code>cd ai-workspace-standards</code><br>
           <code>bun scripts/new-project.ts "co-consult" --variant co-consult</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+          <button type="button" class="copy-btn">복사</button>
         </div>
         이 명령은 <code>Projects/co-consult/</code>를 독립된 Git 저장소로 생성하고, co-consult variant의 에이전트·스킬·설정을 이미 복사해 넣습니다.
       </li>
@@ -578,7 +578,7 @@
         Claude Desktop App을 실행하고, <code>Projects/co-consult/</code> 폴더를 프로젝트로 엽니다. Claude에게 다음과 같이 말하여 PM을 시작합니다.
         <div class="prompt-box">
           <code>"새 프로젝트를 시작할게요."</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+          <button type="button" class="copy-btn">복사</button>
         </div>
         PM이 킥오프 대화를 시작하여 주제, 범위, 일정을 물어봅니다.
       </li>
@@ -587,7 +587,7 @@
         PM의 질문에 답하며 인게이지먼트를 설정합니다. 다음과 같이 응답해보세요.
         <div class="prompt-box">
           <code>"한국 카페 시장의 주요 트렌드를 분석해줘. 프랜차이즈 카페와 독립 카페의 비교를 중점적으로. 간단한 평가 수준으로 부탁해."</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+          <button type="button" class="copy-btn">복사</button>
         </div>
         PM이 요청을 분석하고, Quick Assessment 규모의 인게이지먼트에 맞게 어떤 전문가를 디스패치할지 판단합니다.
       </li>
@@ -611,12 +611,12 @@
         이 시점에서는 다음과 같이 응답하면 됩니다.
         <div class="prompt-box">
           <code>"분석 내용 확인했습니다. 다음 단계로 진행해줘."</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+          <button type="button" class="copy-btn">복사</button>
         </div>
         또는 수정이 필요하면 구체적으로 알려주세요.
         <div class="prompt-box">
           <code>"경쟁사 분석 부분에 배민의 배달 카페 데이터도 추가해줘."</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+          <button type="button" class="copy-btn">복사</button>
         </div>
       </li>
       <li>
@@ -647,7 +647,7 @@
 
   <div class="prompt-box">
     <code>Projects/co-consult/deliverables/reports/</code>
-    <button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+    <button type="button" class="copy-btn">복사</button>
   </div>
 
   <h3>주요 산출물</h3>
@@ -699,7 +699,7 @@
         <div class="prompt-box">
           <code>cd Projects/co-consult/deliverables/reports/</code><br>
           <code>ls</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+          <button type="button" class="copy-btn">복사</button>
         </div>
       </li>
       <li>
@@ -707,7 +707,7 @@
         리서치 결과를 확인합니다. 수집된 출처, 핵심 데이터, 참고 링크가 포함되어 있습니다.
         <div class="prompt-box">
           <code>cat findings_market.md</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+          <button type="button" class="copy-btn">복사</button>
         </div>
         또는 VS Code에서 열어보세요.
       </li>
@@ -716,7 +716,7 @@
         <code>report.html</code> 파일을 브라우저에서 열어 완성된 보고서를 확인합니다. 차트, 표, 다이어그램이 포함된 인터랙티브한 형태입니다.
         <div class="prompt-box">
           <code>open report.html</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+          <button type="button" class="copy-btn">복사</button>
         </div>
       </li>
       <li>
@@ -728,7 +728,7 @@
         프로젝트의 전체 진행 상태를 확인할 수 있습니다. 어떤 전문가가 디스패치되었는지, 무엇을 산출했는지, PM이 각 검토 시점에서 사용자와 확인했는지가 기록되어 있습니다.
         <div class="prompt-box">
           <code>cat project_state.json</code>
-          <button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+          <button type="button" class="copy-btn">복사</button>
         </div>
       </li>
     </ol>
@@ -755,7 +755,7 @@
 ├── consult-profile.md          # 프로젝트 설정
 └── memory/                     # 세션 기록
     └── YYYY-MM-DD.md</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
   </div>
 

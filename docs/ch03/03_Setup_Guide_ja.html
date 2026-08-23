@@ -141,7 +141,7 @@
     <div class="platform-block-title">Windows</div>
     <div class="code-block">
 <pre><code>mkdir C:\git\project\setup</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
   </div>
 
@@ -149,7 +149,7 @@
     <div class="platform-block-title">MacOS / Linux</div>
     <div class="code-block">
 <pre><code>mkdir -p ~/git/project/setup</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
   </div>
 
@@ -242,7 +242,7 @@
       &mdash; <strong>Terminal.app</strong>を開き、以下のコマンドを実行します。
       <div class="code-block">
 <pre><code>brew --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       バージョン番号が表示されれば、Homebrewはすでにインストールされています &mdash; 次のステップに進んでください。<br>
       <code>command not found</code>と表示された場合は、まずHomebrewをインストールする必要があります。
@@ -252,7 +252,7 @@
       &mdash; Homebrewのウェブサイトから公式インストールスクリプトを実行します。以下のコマンドをターミナルにコピー＆ペーストしてください。
       <div class="code-block">
 <pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       インストールが完了したら、ターミナルを閉じて再度開いてください。
     </div>
@@ -261,7 +261,7 @@
       &mdash; <code>Git</code>はバージョン管理システムです。コードの変更を追跡し、GitHubと統合してプロジェクト管理を行います。GitはClaude Codeとマルチエージェントシステムの基本的なツールです。
       <div class="code-block">
 <pre><code>brew install git</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
     </div>
     <div class="step">
@@ -269,7 +269,7 @@
       &mdash; <code>GitHub CLI</code>（<code>gh</code>）を使うと、ターミナルから直接GitHubを使用できます。Claude CodeはGitHubリポジトリの作成と管理にこれを使用します。
       <div class="code-block">
 <pre><code>brew install gh</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
     </div>
     <div class="step">
@@ -277,7 +277,7 @@
       &mdash; <code>Bun</code>はJavaScript/TypeScriptランタイムです。Node.jsの代替として、マルチエージェントハーネスの自動化スクリプトと設定検証ツールの実行に必要です。高速でインストールが容易なことで知られています。
       <div class="code-block">
 <pre><code>brew install oven-sh/bun/bun</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
     </div>
     <div class="step">
@@ -285,7 +285,7 @@
       &mdash; GitHubアカウントを<code>gh</code>にリンクします。Claude CodeがGitHub機能を使用する前にこのステップが必要です。
       <div class="code-block">
 <pre><code>gh auth login</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       プロンプトに従って<strong>GitHub.com</strong>を選択します。ブラウザが開いたら、GitHubアカウントでログインして認証を完了してください。
     </div>
@@ -313,7 +313,7 @@
       <strong>オプション1：wingetでインストール</strong>（Windows 10+）
       <div class="code-block">
 <pre><code>winget install --id Git.Git -e --source winget</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       <strong>オプション2：直接ダウンロード</strong><br>
       <a href="https://git-scm.com/download/win" target="_blank" rel="noopener noreferrer">git-scm.com/download/win</a>からインストーラーをダウンロードして実行します。デフォルトのインストールオプションで問題ありません。
@@ -324,7 +324,7 @@
       <strong>オプション1：wingetでインストール</strong>
       <div class="code-block">
 <pre><code>winget install --id GitHub.cli -e --source winget</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       <strong>オプション2：直接ダウンロード</strong><br>
       <a href="https://cli.github.com/" target="_blank" rel="noopener noreferrer">cli.github.com</a>からWindowsインストーラーをダウンロードします。
@@ -334,7 +334,7 @@
       &mdash; PowerShellで以下のコマンドを実行してBunをインストールします。
       <div class="code-block">
 <pre><code>powershell -c "irm bun.sh/install.ps1 | iex"</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       インストール後、<code>bun</code>コマンドが認識されるように<strong>PowerShellを再起動</strong>する必要があります。
     </div>
@@ -343,7 +343,7 @@
       &mdash; GitHubアカウントを<code>gh</code>にリンクします。
       <div class="code-block">
 <pre><code>gh auth login</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       プロンプトに従って<strong>GitHub.com</strong>を選択します。ブラウザが開いたら、GitHubアカウントでログインして認証を完了してください。
     </div>
@@ -375,7 +375,7 @@
       &mdash; 何かをインストールする前に、システムパッケージを最新に更新します。
       <div class="code-block">
 <pre><code>sudo apt update &amp;&amp; sudo apt upgrade -y</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
     </div>
     <div class="step">
@@ -383,7 +383,7 @@
       &mdash; GitはほとんどのUbuntu/Debianシステムにプレインストールされていますが、確認して必要に応じてインストールします。
       <div class="code-block">
 <pre><code>sudo apt install -y git</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
     </div>
     <div class="step">
@@ -398,7 +398,7 @@
 &amp;&amp; echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list &gt; /dev/null \
 &amp;&amp; sudo apt update \
 &amp;&amp; sudo apt install gh -y</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
     </div>
     <div class="step">
@@ -406,12 +406,12 @@
       &mdash; 公式インストールスクリプトを使用してBunをインストールします。
       <div class="code-block">
 <pre><code>curl -fsSL https://bun.sh/install | bash</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       インストール完了後、ターミナルを再起動するか、PATH更新を適用してください：
       <div class="code-block">
 <pre><code>source ~/.bashrc</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
     </div>
     <div class="step">
@@ -419,7 +419,7 @@
       &mdash; GitHubアカウントを<code>gh</code>にリンクします。
       <div class="code-block">
 <pre><code>gh auth login</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       プロンプトに従って<strong>GitHub.com</strong>を選択します。ブラウザが開いたら、GitHubアカウントでログインして認証を完了してください。
     </div>
@@ -438,19 +438,19 @@
 
   <div class="code-block">
 <pre><code>git --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
   <p>期待される結果：<code>git version 2.45.0</code>（バージョン番号は異なる場合があります）</p>
 
   <div class="code-block">
 <pre><code>gh --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
   <p>期待される結果：<code>gh version 2.62.0</code>（バージョン番号は異なる場合があります）</p>
 
   <div class="code-block">
 <pre><code>bun --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
   <p>期待される結果：<code>1.1.30</code>（バージョン番号は異なる場合があります）</p>
 
@@ -462,7 +462,7 @@
 <pre><code>git clone https://github.com/5throck/setup.git
 cd setup
 bun setup-common.ts       # インストール検証スクリプトを実行</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
 
   <p>検証スクリプトは、Git、GitHub CLI、Bunがインストールされているか、そのバージョンを表示し、GitHub認証ステータスを確認します。</p>
@@ -562,14 +562,14 @@ bun setup-common.ts       # インストール検証スクリプトを実行</co
         <div class="code-block">
 <pre><code>echo 'export PATH="$HOME/.bun/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       </div>
       <div class="platform-block claude">
         <div class="platform-block-title">Windows（PowerShell）</div>
         <div class="code-block">
 <pre><code>$env:Path += ";$env:USERPROFILE\.bun\bin"</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
         永続的に適用するには、システム環境変数エディタでPATH変数に<code>%USERPROFILE%\.bun\bin</code>を追加してください。
       </div>
@@ -588,7 +588,7 @@ source ~/.bashrc</code></pre>
       <div class="code-block">
 <pre><code>gh auth logout
 gh auth login</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
     </div>
     <div class="step">
@@ -639,7 +639,7 @@ gh auth login</code></pre>
       <strong>MacOS / Linux：</strong>ターミナルを再起動します。問題が解決しない場合は、以下でPATHを確認します：
       <div class="code-block">
 <pre><code>echo $PATH</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button class="copy-btn">コピー</button>
 </div>
       Gitのインストールパス（通常は<code>/usr/local/bin</code>または<code>/usr/bin</code>）が含まれているか確認します。
     </div>

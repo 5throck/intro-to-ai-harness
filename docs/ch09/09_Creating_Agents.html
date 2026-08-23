@@ -106,7 +106,7 @@
 ├── pdf-export.md      # PDF 익스포트 에이전트
 ├── version.md         # 버전 관리 에이전트
 └── ...                # 여러분이 만들 에이전트!</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <h3>파일 구조: YAML 프론트매터 + 마크다운 본문</h3>
@@ -282,7 +282,7 @@ handoff_to:
 handoff_from:
   - research
 ---</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <h3>각 필드의 선택 가이드</h3>
@@ -352,7 +352,7 @@ handoff_from:
 You are the data analysis specialist for **My Project**.
 You analyze datasets, identify patterns, and produce
 structured analysis reports with actionable insights.</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <h4>2. 행동 지침 (Behavioral Guidelines)</h4>
@@ -366,7 +366,7 @@ structured analysis reports with actionable insights.</code></pre>
 - Produce structured reports in markdown format
 - **Do NOT** fabricate data or statistics
 - **Do NOT** modify source datasets</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <h4>3. 도메인 규칙 (Domain Rules)</h4>
@@ -379,7 +379,7 @@ structured analysis reports with actionable insights.</code></pre>
 - Use markdown table format for data summaries
 - File names must follow kebab-case convention
 - Reports must not exceed 2000 words unless requested</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <h4>4. 도구 사용법 (Tool Usage)</h4>
@@ -392,7 +392,7 @@ structured analysis reports with actionable insights.</code></pre>
 - **Write**: Save reports to `reports/` directory
 - **Bash**: Execute analysis scripts with `bun run`
 - **WebSearch**: Verify data points against web sources</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <h4>5. 핸드오프 계약 (Handoff Contract)</h4>
@@ -408,7 +408,7 @@ Output must include:
 - Executive summary (max 200 words)
 - Key findings with data citations
 - Recommendations section</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <div class="note">
@@ -589,7 +589,7 @@ Output must include:
 
   <div class="code-block">
 <pre><code>| data-analyst | `agents/data-analyst.md` | Medium | 데이터셋을 분석하고 구조화된 보고서를 생성합니다 |</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <p><strong>2. Agent Definitions 섹션에 추가:</strong></p>
@@ -603,14 +603,14 @@ Output must include:
 | **Tier** | Medium                                            |
 | **Phases** | 2, 3                                            |
 | **Role** | 데이터셋을 분석하고 구조화된 보고서를 생성합니다      |</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <p><strong>3. Subagent Roster 테이블에 추가:</strong></p>
 
   <div class="code-block">
 <pre><code>| data-analyst | `agents/data-analyst.md` | Medium | ⚠️ sequential preferred | project files |</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <div class="note">
@@ -632,7 +632,7 @@ bun scripts/agent-lifecycle-audit.ts
 
 # 특정 에이전트만 검증
 bun scripts/agent-verify.ts &lt;agent-name&gt;</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <h3>검증 항목</h3>
@@ -808,7 +808,7 @@ Output structure:
 3. **Important Statistics** (preserved exactly)
 4. **Actionable Takeaways** (if applicable)
 5. **Source References** (preserved from input)</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <h3>AGENTS.md 등록 내용 예시</h3>
@@ -819,7 +819,7 @@ Output structure:
 
   <div class="code-block">
 <pre><code>| **summarizer** | [`agents/summarizer.md`](agents/summarizer.md) | Medium | 긴 문서를 읽고 간결한 요약을 생성합니다 |</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <p><strong>Agent Definitions에 추가:</strong></p>
@@ -833,14 +833,14 @@ Output structure:
 | **Tier**  | Medium                                                         |
 | **Phases** | 2, 3                                                         |
 | **Role**  | 긴 문서를 읽고 핵심 발견, 하이라이트, 실행 가능한 인사이트를 포함한 간결한 요약을 생성합니다 |</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <p><strong>Subagent Roster에 추가:</strong></p>
 
   <div class="code-block">
 <pre><code>| summarizer | `agents/summarizer.md` | Medium | ⚠️ sequential preferred | project files |</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <div class="tip-box">

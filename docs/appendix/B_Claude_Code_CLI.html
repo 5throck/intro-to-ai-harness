@@ -178,7 +178,7 @@
         <p>터미널을 열고 다음 명령어를 입력하여 Node.js가 설치되어 있는지 확인합니다:</p>
         <div class="code-block">
 <pre><code>node --version</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
         <p><strong>예상 결과:</strong> <code>v18.x.x</code> 또는 그 이상의 버전 번호가 출력됩니다. 버전이 18 미만이거나 명령어를 찾을 수 없다는 메시지가 나오면 <a href="https://nodejs.org" target="_blank">nodejs.org</a>에서 최신 LTS 버전을 설치하세요.</p>
       </div>
@@ -190,7 +190,7 @@
         <p>Node.js가 확인되면, npm을 사용하여 Claude Code CLI를 전역 설치합니다:</p>
         <div class="code-block">
 <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
         <p><strong>예상 결과:</strong> 패키지가 다운로드되고 설치가 완료됩니다. 몇 분 정도 걸릴 수 있습니다.</p>
       </div>
@@ -202,7 +202,7 @@
         <p>설치가 완료되면 버전을 확인하여 정상적으로 설치되었는지 검증합니다:</p>
         <div class="code-block">
 <pre><code>claude --version</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
         <p><strong>예상 결과:</strong> Claude Code의 버전 번호가 출력됩니다 (예: <code>1.0.x</code>). 에러가 나면 2단계를 다시 시도하세요.</p>
       </div>
@@ -214,7 +214,7 @@
         <p>터미널에서 <code>claude</code>를 처음 실행하면 Anthropic 계정으로 로그인하라는 메시지가 나옵니다:</p>
         <div class="code-block">
 <pre><code>claude</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
         <p>브라우저가 열리며 Anthropic 로그인 페이지로 이동합니다. Claude Pro 또는 Max 구독 계정으로 로그인하세요. 인증이 완료되면 터미널에서 Claude Code를 사용할 수 있습니다.</p>
       </div>
@@ -261,7 +261,7 @@
   <p>터미널을 열고 다음 명령어를 입력합니다:</p>
   <div class="code-block">
 <pre><code>claude</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
   <p>Claude Code가 시작되면 프롬프트(<code>&gt;</code> 기호)가 표시되며, 여기에 질문이나 지시를 입력합니다.</p>
 
@@ -296,7 +296,7 @@
 
 # 방법 2: 단축키로 종료
 Ctrl + C</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <!-- Inline SVG: CLI 기본 사용 흐름 다이어그램 -->
@@ -443,14 +443,14 @@ Ctrl + C</code></pre>
   <p>사용 가능한 모든 명령어 목록과 간단한 설명을 표시합니다:</p>
   <div class="code-block">
 <pre><code>/help</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <p><strong>/clear — 대화 초기화</strong></p>
   <p>현재 대화 내용을 모두 지우고 새 대화를 시작합니다. 컨텍스트가 길어져 응답 품질이 떨어질 때 유용합니다:</p>
   <div class="code-block">
 <pre><code>/clear</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <p><strong>/model — 모델 변경</strong></p>
@@ -461,21 +461,21 @@ Ctrl + C</code></pre>
 
 # Opus 모델로 변경 (가장 강력, 비용 높음)
 /model claude-opus-5</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <p><strong>/cost — 비용 확인</strong></p>
   <p>현재 세션에서 사용된 토큰 수와 예상 비용을 표시합니다. API 사용량을 모니터링할 때 유용합니다:</p>
   <div class="code-block">
 <pre><code>/cost</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <p><strong>/compact — 컨텍스트 압축</strong></p>
   <p>대화가 길어지면 Claude의 "기억 용량"인 컨텍스트 윈도우가 꽉 차게 됩니다. <code>/compact</code>는 이전 대화를 요약하여 공간을 확보합니다:</p>
   <div class="code-block">
 <pre><code>/compact</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <div class="tip-box">
@@ -498,7 +498,7 @@ Ctrl + C</code></pre>
         <p>터미널에서 작업할 프로젝트 폴더로 이동합니다:</p>
         <div class="code-block">
 <pre><code>cd ~/my-project</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
       </div>
     </div>
@@ -509,7 +509,7 @@ Ctrl + C</code></pre>
         <p>프로젝트 폴더에서 Claude Code를 실행합니다:</p>
         <div class="code-block">
 <pre><code>claude</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
       </div>
     </div>
@@ -647,7 +647,7 @@ claude
 
 # 나쁜 예 — 홈 디렉토리에서 실행
 claude</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
       </div>
     </div>
@@ -659,7 +659,7 @@ claude</code></pre>
         <div class="code-block">
 <pre><code># 대화 10-15회 전환마다 실행
 /compact</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
       </div>
     </div>
@@ -671,7 +671,7 @@ claude</code></pre>
         <div class="code-block">
 <pre><code># 세션 비용 확인
 /cost</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
       </div>
     </div>
@@ -684,7 +684,7 @@ claude</code></pre>
 <pre><code># AGENTS.md 확인
 claude
 # "현재 프로젝트의 에이전트 목록을 보여줘"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
       </div>
     </div>
@@ -698,7 +698,7 @@ claude
 export ANTHROPIC_API_KEY="your-deepseek-key"
 export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
 claude</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
         <p>자세한 설정 방법은 <a href="C_Low_Cost_Backends.html">별첨 C: 저비용 AI 백엔드 연동</a>을 참조하세요.</p>
       </div>

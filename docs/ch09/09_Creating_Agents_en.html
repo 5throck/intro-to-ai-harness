@@ -105,7 +105,7 @@
   <div class="code-block">
 <div class="code-title">File location</div>
 <pre><code>agents/&lt;name&gt;.md</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
 </div>
 
   <p>The naming convention is <strong>kebab-case</strong>: all lowercase, words separated by hyphens. Examples: <code>research.md</code>, <code>html-build.md</code>, <code>image-curator.md</code>.</p>
@@ -251,7 +251,7 @@ handoff_to: [storyline]
 handoff_from: [research, pm]
 required_skills: []
 ---</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
   </div>
 
   <div class="tip-box">
@@ -295,7 +295,7 @@ You are the summarizer specialist for **[Project Name]**.
 Your job is to read lengthy documents (research notes, reports, meeting
 transcripts) and produce a concise, structured one-page brief that
 captures the key findings, methodology, and actionable recommendations.</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
   </div>
 
   <h4>2. Behavioral Guidelines</h4>
@@ -307,7 +307,7 @@ captures the key findings, methodology, and actionable recommendations.</code></
 - Never fabricate information. If a source is unclear, mark it as ⚠️ Unverified.
 - Keep the summary under 500 words unless the user explicitly requests more.
 - Use bullet points for findings; numbered lists for recommendations.</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
   </div>
 
   <h4>3. Domain Rules</h4>
@@ -318,7 +318,7 @@ captures the key findings, methodology, and actionable recommendations.</code></
 - Always preserve the original language of quotes. Do not translate quoted text.
 - When summarizing research, maintain the source attribution format: [Source: URL].
 - If the input contains numerical data, round to two decimal places.</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
   </div>
 
   <h4>4. Tool Usage</h4>
@@ -330,7 +330,7 @@ captures the key findings, methodology, and actionable recommendations.</code></
 - Use **Write** to produce the summary output file.
 - Do NOT use Bash for any purpose &mdash; this agent operates on files only.
 - Do NOT browse the web; all source material is provided by the PM.</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
   </div>
 
   <h4>5. Handoff Contract</h4>
@@ -342,7 +342,7 @@ captures the key findings, methodology, and actionable recommendations.</code></
 **Format**: Markdown with headings (## Findings, ## Methodology, ## Recommendations).
 **Handoff to**: storyline agent (which uses the brief as a reference when composing slides).
 **Completion signal**: Announce output file path and word count.</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
   </div>
 
   <div class="note">
@@ -470,7 +470,7 @@ captures the key findings, methodology, and actionable recommendations.</code></
 
 ## §4 Subagent Roster (add row)
 | summarizer | `agents/summarizer.md` | Medium | ⚠️ sequential preferred | project files |</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
   </div>
 
   <div class="note">
@@ -491,7 +491,7 @@ captures the key findings, methodology, and actionable recommendations.</code></
   <div class="code-block">
     <div class="code-title">Agent lifecycle audit command</div>
 <pre><code>bun scripts/agent-lifecycle-audit.ts</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
   </div>
 
   <p>This script scans every file in the <code>agents/</code> directory and checks for problems.</p>
@@ -628,7 +628,7 @@ If a user attempts to invoke you directly:
 **Format**: Markdown with headings (## Findings, ## Methodology, ## Recommendations).
 **Handoff to**: storyline agent (which uses the brief as a reference when composing slides).
 **Completion signal**: Announce output file path and word count.</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
         </div>
       </li>
       <li>

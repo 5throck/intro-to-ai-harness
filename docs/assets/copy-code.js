@@ -1,4 +1,5 @@
 function copyCode(btn) {
+  var original = btn.textContent;
   var text;
   var codes = btn.parentElement.querySelectorAll(':scope > code');
   if (codes.length > 1) {
@@ -15,7 +16,7 @@ function copyCode(btn) {
       btn.classList.add('copied');
       btn.setAttribute('aria-live', 'polite');
       setTimeout(function () {
-        btn.textContent = 'Copy';
+        btn.textContent = original;
         btn.classList.remove('copied');
         btn.removeAttribute('aria-live');
       }, 1500);
@@ -23,7 +24,7 @@ function copyCode(btn) {
       btn.textContent = 'Failed';
       btn.classList.add('copied');
       setTimeout(function () {
-        btn.textContent = 'Copy';
+        btn.textContent = original;
         btn.classList.remove('copied');
       }, 1500);
     });
@@ -40,17 +41,23 @@ function copyCode(btn) {
       btn.textContent = 'Copied!';
       btn.classList.add('copied');
       setTimeout(function () {
-        btn.textContent = 'Copy';
+        btn.textContent = original;
         btn.classList.remove('copied');
       }, 1500);
     } catch (e) {
       btn.textContent = 'Failed';
       btn.classList.add('copied');
       setTimeout(function () {
-        btn.textContent = 'Copy';
+        btn.textContent = original;
         btn.classList.remove('copied');
       }, 1500);
     }
     document.body.removeChild(ta);
   }
 }
+
+// CSP: script-src 'self' blocks inline onclick, so clicks are handled by delegation
+document.addEventListener('click', function (e) {
+  var btn = e.target && e.target.closest ? e.target.closest('.copy-btn') : null;
+  if (btn) copyCode(btn);
+});

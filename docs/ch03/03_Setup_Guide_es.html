@@ -141,7 +141,7 @@
     <div class="platform-block-title">Windows</div>
     <div class="code-block">
 <pre><code>mkdir C:\git\project\setup</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
   </div>
 
@@ -149,7 +149,7 @@
     <div class="platform-block-title">MacOS / Linux</div>
     <div class="code-block">
 <pre><code>mkdir -p ~/git/project/setup</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
   </div>
 
@@ -242,7 +242,7 @@
       &mdash; Open <strong>Terminal.app</strong> and run the following command.
       <div class="code-block">
 <pre><code>brew --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       If a version number appears, Homebrew is already installed &mdash; skip to the next step.<br>
       If you see <code>command not found</code>, you need to install Homebrew first.
@@ -252,7 +252,7 @@
       &mdash; Run the official installation script from Homebrew's website. Copy and paste this command into your terminal.
       <div class="code-block">
 <pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       Once installation completes, close and reopen the terminal.
     </div>
@@ -261,7 +261,7 @@
       &mdash; <code>Git</code> is a version control system. It tracks changes to your code and integrates with GitHub for project management. Git is a foundational tool for Claude Code and the sistema multi-agente.
       <div class="code-block">
 <pre><code>brew install git</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
@@ -269,7 +269,7 @@
       &mdash; <code>GitHub CLI</code> (<code>gh</code>) lets you use GitHub directly from the terminal. Claude Code uses it to create and manage GitHub repositories.
       <div class="code-block">
 <pre><code>brew install gh</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
@@ -277,7 +277,7 @@
       &mdash; <code>Bun</code> is a JavaScript/TypeScript runtime. It serves as an alternative to Node.js and is required to run the harness multi-agente's automation scripts and configuration validation tools. It is known for being fast and easy to install.
       <div class="code-block">
 <pre><code>brew install oven-sh/bun/bun</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
@@ -285,7 +285,7 @@
       &mdash; Link your GitHub account to <code>gh</code>. This step is required before Claude Code can use GitHub features.
       <div class="code-block">
 <pre><code>gh auth login</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       Follow the prompts to select <strong>GitHub.com</strong>. When your browser opens, log in with your GitHub account to complete authentication.
     </div>
@@ -313,7 +313,7 @@
       <strong>Opción 1: Instalar con winget</strong> (Windows 10+)
       <div class="code-block">
 <pre><code>winget install --id Git.Git -e --source winget</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       <strong>Option 2: Download directly</strong><br>
       Download the installer from <a href="https://git-scm.com/download/win" target="_blank" rel="noopener noreferrer">git-scm.com/download/win</a> and run it. Default installation options are fine.
@@ -324,7 +324,7 @@
       <strong>Opción 1: Instalar con winget</strong>
       <div class="code-block">
 <pre><code>winget install --id GitHub.cli -e --source winget</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       <strong>Option 2: Download directly</strong><br>
       Download the Windows installer from <a href="https://cli.github.com/" target="_blank" rel="noopener noreferrer">cli.github.com</a>.
@@ -334,7 +334,7 @@
       &mdash; Run the following command in PowerShell to install Bun.
       <div class="code-block">
 <pre><code>powershell -c "irm bun.sh/install.ps1 | iex"</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       After installation, you must <strong>restart PowerShell</strong> for the <code>bun</code> command to be recognized.
     </div>
@@ -343,7 +343,7 @@
       &mdash; Link your GitHub account to <code>gh</code>.
       <div class="code-block">
 <pre><code>gh auth login</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       Follow the prompts to select <strong>GitHub.com</strong>. When your browser opens, log in with your GitHub account to complete authentication.
     </div>
@@ -375,7 +375,7 @@
       &mdash; Before installing anything, update your system packages to the latest versions.
       <div class="code-block">
 <pre><code>sudo apt update &amp;&amp; sudo apt upgrade -y</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
@@ -383,7 +383,7 @@
       &mdash; Git is pre-installed on most Ubuntu/Debian systems, but verify and install if needed.
       <div class="code-block">
 <pre><code>sudo apt install -y git</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
@@ -398,7 +398,7 @@
 &amp;&amp; echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list &gt; /dev/null \
 &amp;&amp; sudo apt update \
 &amp;&amp; sudo apt install gh -y</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
@@ -406,12 +406,12 @@
       &mdash; Use the official installation script to install Bun.
       <div class="code-block">
 <pre><code>curl -fsSL https://bun.sh/install | bash</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       After installation completes, restart the terminal or apply the PATH update with:
       <div class="code-block">
 <pre><code>source ~/.bashrc</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
@@ -419,7 +419,7 @@
       &mdash; Link your GitHub account to <code>gh</code>.
       <div class="code-block">
 <pre><code>gh auth login</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       Follow the prompts to select <strong>GitHub.com</strong>. When your browser opens, log in with your GitHub account to complete authentication.
     </div>
@@ -438,19 +438,19 @@
 
   <div class="code-block">
 <pre><code>git --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
   <p>Expected result: <code>git version 2.45.0</code> (version number may vary)</p>
 
   <div class="code-block">
 <pre><code>gh --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
   <p>Expected result: <code>gh version 2.62.0</code> (version number may vary)</p>
 
   <div class="code-block">
 <pre><code>bun --version</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
   <p>Expected result: <code>1.1.30</code> (version number may vary)</p>
 
@@ -462,7 +462,7 @@
 <pre><code>git clone https://github.com/5throck/setup.git
 cd setup
 bun setup-common.ts       # Run the installation verification script</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
 
   <p>El script de verificación comprueba si Git, GitHub CLI y Bun están instalados, muestra sus versiones y verifica tu estado de autenticación de GitHub.</p>
@@ -562,14 +562,14 @@ bun setup-common.ts       # Run the installation verification script</code></pre
         <div class="code-block">
 <pre><code>echo 'export PATH="$HOME/.bun/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       </div>
       <div class="platform-block claude">
         <div class="platform-block-title">Windows (PowerShell)</div>
         <div class="code-block">
 <pre><code>$env:Path += ";$env:USERPROFILE\.bun\bin"</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
         To apply this permanently, add <code>%USERPROFILE%\.bun\bin</code> to the PATH variable in the System Environment Variables editor.
       </div>
@@ -588,7 +588,7 @@ source ~/.bashrc</code></pre>
       <div class="code-block">
 <pre><code>gh auth logout
 gh auth login</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
@@ -639,7 +639,7 @@ gh auth login</code></pre>
       <strong>MacOS / Linux:</strong> Reinicia la terminal. Si el problema persiste, verifica el PATH con:
       <div class="code-block">
 <pre><code>echo $PATH</code></pre>
-<button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button class="copy-btn">Copiar</button>
 </div>
       Check whether the Git installation path (usually <code>/usr/local/bin</code> or <code>/usr/bin</code>) is included.
     </div>

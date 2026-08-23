@@ -149,21 +149,21 @@
   <div class="code-block">
 <pre><code>export ANTHROPIC_API_KEY="your-deepseek-api-key"
 export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <p>Windows (PowerShell)의 경우:</p>
   <div class="code-block">
 <pre><code>$env:ANTHROPIC_API_KEY="your-deepseek-api-key"
 $env:ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <p><strong>3단계: Claude Code 실행</strong></p>
   <p>환경 변수를 설정한 후, Claude Code를 일반적으로 실행합니다:</p>
   <div class="code-block">
 <pre><code>claude</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <div class="tip-box">
@@ -256,21 +256,21 @@ $env:ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
   <div class="code-block">
 <pre><code>export ANTHROPIC_API_KEY="your-zhipuai-api-key"
 export ANTHROPIC_BASE_URL="https://open.bigmodel.cn/api/anthropic"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <p>Windows (PowerShell)의 경우:</p>
   <div class="code-block">
 <pre><code>$env:ANTHROPIC_API_KEY="your-zhipuai-api-key"
 $env:ANTHROPIC_BASE_URL="https://open.bigmodel.cn/api/anthropic"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <p><strong>3단계: Claude Code 실행</strong></p>
   <p>환경 변수 설정 후 Claude Code를 실행합니다. DeepSeek과 동일한 방식입니다:</p>
   <div class="code-block">
 <pre><code>claude</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <div class="tip-box">
@@ -305,7 +305,7 @@ $env:ANTHROPIC_BASE_URL="https://open.bigmodel.cn/api/anthropic"</code></pre>
 <pre><code>pip install litellm
 # 또는 격리된 환경을 선호하는 경우
 pipx install litellm</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <p><strong>2단계: 설정 파일 작성</strong></p>
@@ -320,13 +320,13 @@ pipx install litellm</code></pre>
     litellm_params:
       model: zhipu/glm-4
       api_key: os.environ/ZHIPU_API_KEY</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <p><strong>3단계: 프록시 실행</strong></p>
   <div class="code-block">
 <pre><code>litellm --config litellm_config.yaml</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
   <p>프록시가 <code>http://localhost:4000</code> 에서 실행됩니다.</p>
 
@@ -335,7 +335,7 @@ pipx install litellm</code></pre>
 <pre><code>export ANTHROPIC_API_KEY="any-key"
 export ANTHROPIC_BASE_URL="http://localhost:4000"
 claude</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
 
   <div class="note">
@@ -429,7 +429,7 @@ claude</code></pre>
         <p>별첨 B를 참조하여 Claude Code CLI가 설치되어 있는지 확인합니다. 터미널에서 다음 명령어를 입력하세요:</p>
         <div class="code-block">
 <pre><code>claude --version</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
         <p><strong>예상 결과:</strong> Claude Code 버전 번호가 출력됩니다. 에러가 나면 별첨 B의 설치 가이드를 따르세요.</p>
       </div>
@@ -456,13 +456,13 @@ claude</code></pre>
         <div class="code-block">
 <pre><code>export ANTHROPIC_API_KEY="sk-your-deepseek-key"
 export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
         <p><strong>Windows (PowerShell):</strong></p>
         <div class="code-block">
 <pre><code>$env:ANTHROPIC_API_KEY="sk-your-deepseek-key"
 $env:ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
         <p><strong>영구 설정 (선택):</strong> 매번 입력하기 번거롭다면 셸 프로필에 추가하세요:</p>
         <ul>
@@ -479,7 +479,7 @@ $env:ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
         <p>환경 변수를 설정한 터미널에서 Claude Code를 실행합니다:</p>
         <div class="code-block">
 <pre><code>claude</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
         <p><strong>예상 결과:</strong> Claude Code가 정상적으로 시작되며, DeepSeek 백엔드를 통해 응답합니다.</p>
       </div>
@@ -508,7 +508,7 @@ export ANTHROPIC_BASE_URL="https://open.bigmodel.cn/api/anthropic"
 # Windows (PowerShell)
 $env:ANTHROPIC_API_KEY="your-zhipuai-key"
 $env:ANTHROPIC_BASE_URL="https://open.bigmodel.cn/api/anthropic"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">복사</button>
+<button type="button" class="copy-btn">복사</button>
 </div>
         <p><strong>예상 결과:</strong> 같은 <code>claude</code> 명령어로 GLM 백엔드가 실행됩니다. 한국어 응답 품질을 비교해보세요.</p>
       </div>

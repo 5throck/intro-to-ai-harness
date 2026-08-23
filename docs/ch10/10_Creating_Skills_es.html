@@ -106,7 +106,7 @@
   <div class="code-block">
 <div class="code-title">File location</div>
 <pre><code>skills/&lt;name&gt;/SKILL.md</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <p>Al igual que los archivos de agent, un archivo de skill tiene dos partes: un <strong>YAML frontmatter block</strong> (metadatos legibles por máquina) y un <strong>Markdown body</strong> (instrucciones legibles por humanos). La estructura es más simple que la de un archivo de agent, pero se aplica el mismo principio: el frontmatter es para el sistema, el cuerpo es para el modelo de IA.</p>
@@ -261,7 +261,7 @@ metadata:
     - proofread
     - document quality
 ---</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
   </div>
 
   <div class="tip-box">
@@ -309,7 +309,7 @@ metadata:
 Reviews markdown documents for structural clarity, formatting
 consistency, and writing quality. Produces a structured review
 report with categorized findings and actionable fix suggestions.</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
   </div>
 
   <h4>2. Cuándo usar esta habilidad</h4>
@@ -321,7 +321,7 @@ report with categorized findings and actionable fix suggestions.</code></pre>
 - Before publishing a markdown file to catch issues
 - After a major edit to verify the document still meets standards
 - When quality-gating content before handoff to the next agent</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
   </div>
 
   <h4>3. Steps</h4>
@@ -342,7 +342,7 @@ report with categorized findings and actionable fix suggestions.</code></pre>
 - Flag passive voice overuse (more than 30% of sentences)
 - Check for run-on paragraphs (more than 5 sentences)
 - Verify consistent terminology usage</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
   </div>
 
   <h4>4. Expected Resultados</h4>
@@ -354,7 +354,7 @@ report with categorized findings and actionable fix suggestions.</code></pre>
 - Sections: Structure, Links, Style, Terminology
 - Each finding includes: severity (error/warning/info),
   location (line reference), and suggested fix</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
   </div>
 
   <h4>5. Examples (optional)</h4>
@@ -366,7 +366,7 @@ report with categorized findings and actionable fix suggestions.</code></pre>
 **Output**: Creates `docs/ch02/review-report.md` with 3 errors
   (broken link, missing H1, code block without language) and
   5 warnings (passive voice, long paragraphs).</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
   </div>
 
   <div class="note">
@@ -531,7 +531,7 @@ report with categorized findings and actionable fix suggestions.</code></pre>
   <div class="code-block">
     <div class="code-title">AGENTS.md &mdash; Skills table entry</div>
 <pre><code>| document-reviewer | `skills/document-reviewer/SKILL.md` | Reviews markdown documents for clarity, consistency, and formatting compliance |</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
   </div>
 
   <div class="code-block">
@@ -540,7 +540,7 @@ report with categorized findings and actionable fix suggestions.</code></pre>
 - **File**: `skills/document-reviewer/SKILL.md`
 - **Type**: process
 - **Description**: Reviews markdown documents for clarity, consistency, and formatting compliance.</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
   </div>
 
   <h3>Deploying with sync-skills.ts</h3>
@@ -550,7 +550,7 @@ report with categorized findings and actionable fix suggestions.</code></pre>
   <div class="code-block">
     <div class="code-title">Deploy skill to all platforms</div>
 <pre><code>bun scripts/sync-skills.ts</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
   </div>
 
   <p>Este script copia la skill desde <code>skills/&lt;name&gt;/SKILL.md</code> hacia <code>.claude/skills/&lt;name&gt;/SKILL.md</code> y <code>.gemini/skills/&lt;name&gt;/SKILL.md</code> para que tanto Claude Code como Antigravity CLI puedan descubrirla y cargarla. Si estás en el workspace L0 y existe un directorio <code>templates/common/</code>, también debes propagar a la plantilla L1 ejecutando <code>bun run propagate:apply</code>.</p>
@@ -603,7 +603,7 @@ metadata:
     - proofread
     - document quality
 ---</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
         </div>
       </li>
       <li>
@@ -665,7 +665,7 @@ report with categorized findings and actionable fix suggestions.
   2 errors (broken link on line 45, missing H1), 4 warnings
   (passive voice, long paragraphs), and 3 info items
   (terminology suggestions).</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">Copiar</button>
+<button type="button" class="copy-btn">Copiar</button>
         </div>
       </li>
       <li>

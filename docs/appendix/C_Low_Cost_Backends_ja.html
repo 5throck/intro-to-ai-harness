@@ -183,7 +183,7 @@ export DEEPSEEK_API_KEY="sk-your-api-key-here"
 
 # 即座に適用
 source ~/.bashrc</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
 
   <p><em>Windows（PowerShell）</em></p>
@@ -193,7 +193,7 @@ $env:DEEPSEEK_API_KEY = "sk-your-api-key-here"
 
 # 恒久的に設定（推奨）
 [System.Environment]::SetEnvironmentVariable("DEEPSEEK_API_KEY", "sk-your-api-key-here", "User")</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
 
   <p><em>Windows（コマンドプロンプト）</em></p>
@@ -203,7 +203,7 @@ set DEEPSEEK_API_KEY=sk-your-api-key-here
 
 # 恒久的に設定（推奨 — システムのプロパティ経由）
 setx DEEPSEEK_API_KEY "sk-your-api-key-here"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
 
   <div class="tip-box">
@@ -215,7 +215,7 @@ setx DEEPSEEK_API_KEY "sk-your-api-key-here"</code></pre>
   <div class="code-block">
 <pre><code>ANTHROPIC_BASE_URL=https://api.deepseek.com
 ANTHROPIC_MODEL=deepseek-chat</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
 
   <p>これにより、Claude CodeはAnthropicのAPIエンドポイントではなくDeepSeekのAPIエンドポイントにリクエストを送信するようになります。レスポンス形式は互換性があるため、他の変更は不要です。</p>
@@ -251,7 +251,7 @@ ANTHROPIC_MODEL=deepseek-chat</code></pre>
   <div class="code-block">
 <pre><code>export ZHIPUAI_API_KEY="your-api-key-here"
 source ~/.bashrc</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
 
   <p><em>Windows（PowerShell）</em></p>
@@ -260,7 +260,7 @@ source ~/.bashrc</code></pre>
 
 # 恒久的に設定
 [System.Environment]::SetEnvironmentVariable("ZHIPUAI_API_KEY", "your-api-key-here", "User")</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
 
   <p><em>Windows（コマンドプロンプト）</em></p>
@@ -269,7 +269,7 @@ source ~/.bashrc</code></pre>
 
 # 恒久的に設定
 setx ZHIPUAI_API_KEY "your-api-key-here"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
 
   <p><strong>ステップ4 &mdash; APIの設定</strong>:</p>
@@ -277,7 +277,7 @@ setx ZHIPUAI_API_KEY "your-api-key-here"</code></pre>
   <div class="code-block">
 <pre><code>ANTHROPIC_BASE_URL=https://open.bigmodel.cn/api/paas/v4
 ANTHROPIC_MODEL=glm-4-flash</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
 
   <p><code>glm-4-flash</code>は最もコスト効率の良いオプションです。より高い推論品質や長いコンテキストウィンドウが必要なタスクには<code>glm-4-plus</code>または<code>glm-4-long</code>を使用してください。</p>
@@ -333,7 +333,7 @@ pip install litellm[proxy]
 
 # またはuvで（より高速）
 uv pip install litellm[proxy]</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
 
   <h3>設定</h3>
@@ -357,7 +357,7 @@ model_list:
     litellm_params:
       model: openai/gpt-4o-mini
       api_key: ${OPENAI_API_KEY}</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
 
   <div class="tip-box">
@@ -369,7 +369,7 @@ model_list:
   <div class="code-block">
 <pre><code># LiteLLMプロキシサーバーを起動
 litellm --config litellm_config.yaml --port 4000</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
 
   <p>その後、Claude Codeをローカルプロキシに向けるように設定します:</p>
@@ -377,7 +377,7 @@ litellm --config litellm_config.yaml --port 4000</code></pre>
   <div class="code-block">
 <pre><code>ANTHROPIC_BASE_URL=http://localhost:4000
 ANTHROPIC_MODEL=claude-3-5-sonnet</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
 
   <p>Claude CodeからのすべてのリクエストはLiteLLMを経由して設定したバックエンドに送られます。プロキシは認証、フォーマット変換、エラー処理を透過的に行います。</p>
@@ -521,14 +521,14 @@ ANTHROPIC_MODEL=claude-3-5-sonnet</code></pre>
 <pre><code>export DEEPSEEK_API_KEY="sk-your-key"
 export ANTHROPIC_BASE_URL="https://api.deepseek.com"
 export ANTHROPIC_MODEL="deepseek-chat"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
         <p>Windows PowerShellのGLMの場合:</p>
         <div class="code-block">
 <pre><code>$env:ZHIPUAI_API_KEY = "your-key"
 $env:ANTHROPIC_BASE_URL = "https://open.bigmodel.cn/api/paas/v4"
 $env:ANTHROPIC_MODEL = "glm-4-flash"</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
       </div>
     </div>
@@ -562,7 +562,7 @@ unset ANTHROPIC_MODEL
 # Windows PowerShell
 Remove-Item Env:\ANTHROPIC_BASE_URL
 Remove-Item Env:\ANTHROPIC_MODEL</code></pre>
-<button type="button" class="copy-btn" onclick="copyCode(this)">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
         <p>Claude Codeは次回の起動時にAnthropicのデフォルトエンドポイントに戻ります。</p>
       </div>

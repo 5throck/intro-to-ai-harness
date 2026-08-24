@@ -6,6 +6,7 @@ All notable changes to this handbook will be documented in this file.
 
 ### Added
 - **`scripts/check-i18n-parity.ts`** — new cross-language content gate: FAIL on heading/code-block count mismatches, missing language variants, and wrong-language internal links; WARN on >15% list/table drift and numeric-token divergence. Wired into `handbook-doctor` (Check 13) and `package.json` (`bun run check-i18n`).
+- **bun run ci** - one-command local run of the exact CI check chain (validate-handbook through check-search); prevents the doctor-green-but-CI-red failure mode.
 
 ### Changed
 - **Regenerated en/ja/es editions from the Korean canonical** for ch01, ch02, ch04, ch05, ch07, ch08, ch09, ch10, ch11, ch13, Appendix A, Appendix B, Appendix C — structure now identical across languages: ch09/ch10 practice labs restored (were empty), ch13 FAQ set unified at 12 questions, ch02 plan-comparison table, ch04 gateway sections + 3-Tier table, ch08 handoff procedure & timeline, ch11 team-builder internals (+202 lines of backported sections), App A/B install details and full command sets, App C z.ai/GLM pricing.

@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Cap. 10 &middot; Creación y modificación de skills - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="description" content="Cap. 10 &middot; Creación y modificación de skills - Introducción a Claude Code y Multi-Agent Harness">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
   <title>Cap. 10 &middot; Creación y modificación de skills</title>
@@ -14,14 +14,14 @@
 <nav>
   <a href="../index_es.html" class="nav-home">&larr; Inicio del manual</a>
   <div class="nav-title">Cap. 10 &middot; Creación y modificación de skills</div>
-  <a href="#skill-revisited">Rethinking Skills</a>
-  <a href="#file-format">Skill File Format</a>
-  <a href="#frontmatter">Writing Frontmatter</a>
-  <a href="#body-content">Writing Body Content</a>
-  <a href="#lifecycle-manager">Using skill-lifecycle-manager</a>
-  <a href="#skill-creator">skill-creator Plugin</a>
-  <a href="#register">Registration &amp; Deployment</a>
-  <a href="#practice">Practice: Build Your Own Custom Skill</a>
+  <a href="#skill-revisited">Repensando las skills</a>
+  <a href="#file-format">Formato del archivo de skill</a>
+  <a href="#frontmatter">Redacción del frontmatter</a>
+  <a href="#body-content">Redacción del cuerpo</a>
+  <a href="#lifecycle-manager">Uso de skill-lifecycle-manager</a>
+  <a href="#skill-creator">Plugin skill-creator</a>
+  <a href="#register">Registro y despliegue</a>
+  <a href="#practice">Práctica: crea tu propia skill personalizada</a>
   <div class="nav-section">Otros capítulos</div>
   <a href="../ch09/09_Creating_Agents_es.html">Cap. 9 &middot; Creación y modificación de agentes</a>
   <a href="../ch11/11_Building_Agent_Team_es.html">Cap. 11 &middot; Construyendo tu propio equipo de agentes</a>
@@ -30,686 +30,910 @@
  <article class="reading">
   <div class="chapter-eyebrow">Capítulo 10</div>
   <h1>Creación y modificación de skills</h1>
-  <p class="lead">Este capítulo cubre la estructura de los archivos de habilidad, las herramientas skill-lifecycle-manager y skill-creator, y le guía en la construcción y el registro de su propia habilidad personalizada.</p>
+  <p class="lead">En este capítulo aprenderás la estructura de los archivos de skill y recorrerás todo el proceso de crear y registrar tu propia skill personalizada con skill-lifecycle-manager y skill-creator.</p>
   <div class="keypoints">
     <div class="kp-title">Lo que cubre este capítulo</div>
     <ul>
-      <li>Skill file format and structure</li>
-      <li>YAML frontmatter field meanings</li>
-      <li>Body content patterns (Overview, When to Use, Steps, Resultados, Examples)</li>
-      <li>skill-lifecycle-manager usage (6-step)</li>
-      <li>skill-creator (Claude Code plugin) overview</li>
-      <li>Practice: create a simple custom skill</li>
+      <li>Formato y estructura del archivo de skill</li>
+      <li>Significado de los campos YAML del frontmatter</li>
+      <li>Patrones de redacción del cuerpo (Overview, When to Use, Steps, Outputs, Examples)</li>
+      <li>Cómo usar skill-lifecycle-manager (6 pasos)</li>
+      <li>Cómo usar skill-creator (plugin de Claude Code)</li>
+      <li>Práctica: escribir una skill personalizada sencilla</li>
     </ul>
   </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 1: Rethinking Skills                                  -->
   <!-- ============================================================ -->
-  <h2 id="skill-revisited">Rethinking Skills</h2>
+  <h2 id="skill-revisited">Repensando las skills</h2>
 
-  <p>En el Capítulo 4, presentamos el concepto de habilidades (skills): libros de recetas reutilizables que indican a los agentes <em>cómo</em> realizar tipos específicos de trabajo. En este capítulo, profundizamos un nivel más — realmente <em>crearemos</em> una nueva habilidad desde cero, la registraremos en el proyecto y verificaremos que se active correctamente.</p>
+  <h3>Repaso del capítulo 4</h3>
 
-  <h3>A Quick Review from Capítulo 4</h3>
+  <p>En el capítulo 4, «Conceptos del harness multiagente», conocimos por primera vez las skills. Aprendimos que una skill es <strong>"un flujo de trabajo reutilizable que un agente puede ejecutar"</strong>. Una skill se compone de cuatro elementos —nombre, descripción, trigger y pasos— y se activa automáticamente ante ciertas palabras clave o situaciones.</p>
 
-  <p>Recordemos la distinción clave entre agentes y habilidades:</p>
+  <p>Recordando, los cuatro elementos esenciales de una skill eran:</p>
+
+  <ul>
+    <li><strong>Nombre (Name)</strong> &mdash; el nombre único que identifica la skill (por ejemplo: <code>research</code>, <code>html-build</code>, <code>pdf-export</code>)</li>
+    <li><strong>Descripción (Description)</strong> &mdash; el detalle de qué hace esta skill y qué pasos sigue</li>
+    <li><strong>Trigger</strong> &mdash; las condiciones bajo las que la skill se activa automáticamente (palabras clave, patrones de comandos, fases del pipeline)</li>
+    <li><strong>Pasos (Steps)</strong> &mdash; el procedimiento concreto que ejecuta la skill (definido en orden)</li>
+  </ul>
+
+  <h3>Skill vs. agente (una vez más)</h3>
+
+  <p>En el capítulo 9 aprendiste a crear agentes. Antes de aprender a crear skills, fijemos de nuevo con claridad la diferencia entre ambos conceptos.</p>
 
   <div class="compare-grid">
     <div class="col">
-      <h4>Agent</h4>
+      <h4>Agente</h4>
       <ul>
-        <li><strong>What:</strong> A digital employee with a fixed identity</li>
-        <li><strong>Analogía:</strong> The employee themselves</li>
-        <li><strong>File:</strong> <code>agents/&lt;name&gt;.md</code></li>
-        <li><strong>Scope:</strong> Persistent role across the entire project</li>
+        <li><strong>"Quién"</strong> realiza la tarea</li>
+        <li>Un asistente de IA con rol, permisos y herramientas</li>
+        <li>Analogía: <strong>el cocinero (un empleado)</strong></li>
+        <li>Ubicación del archivo: <code>agents/&lt;name&gt;.md</code></li>
       </ul>
     </div>
     <div class="col">
       <h4>Skill</h4>
       <ul>
-        <li><strong>What:</strong> A reusable instruction recipe</li>
-        <li><strong>Analogía:</strong> The recipe book the employee follows</li>
-        <li><strong>File:</strong> <code>skills/&lt;name&gt;/SKILL.md</code></li>
-        <li><strong>Scope:</strong> Invoked on demand; shared across agents</li>
+        <li><strong>"Qué"</strong> se realiza</li>
+        <li>Un procedimiento de flujo de trabajo reutilizable</li>
+        <li>Analogía: <strong>la receta</strong></li>
+        <li>Ubicación del archivo: <code>skills/&lt;name&gt;/SKILL.md</code></li>
       </ul>
     </div>
   </div>
 
-  <p>Un chef (agente) utiliza diferentes recetas (habilidades) dependiendo del plato que haya pedido el cliente. La identidad del chef no cambia, pero la receta les dice exactamente cómo preparar cada plato. El agente <code>html-build</code> siempre construye diapositivas HTML, pero la habilidad <code>html-build</code> le indica precisamente cómo leer el archivo de la presentación, aplicar el tema y producir la salida.</p>
-
-  <h3>Ownership Layers (L0 / L1 / L2 / L3)</h3>
-
-  <p>Las habilidades viven en diferentes capas de la jerarquía del espacio de trabajo, y comprender en qué capa está editando es fundamental:</p>
-
-  <div class="step-list">
-    <ol>
-      <li><strong>L0 — Raíz del Espacio de Trabajo</strong> (<code>skills/</code>): La Única Fuente de Verdad. Todo el desarrollo de habilidades ocurre aquí. Cuando crea o edita una habilidad, esta es la capa que modifica.</li>
-      <li><strong>L1 — Plantilla Común</strong> (<code>templates/common/skills/</code>): Una instantánea publicada desde L0 mediante <code>bun run propagate:apply</code>. Tú <em>nunca</em> editas L1 directamente — los cambios fluyen desde L0 hacia abajo.</li>
-      <li><strong>L2 — Plantilla Variante</strong> (<code>templates/co-*/skills/</code>): Habilidades específicas de la variante definidas en la capa de plantilla L2. Cada variante (co-deck, co-consult, etc.) puede incluir habilidades que se comparten en todos los proyectos basados en esa variante.</li>
-      <li><strong>L3 — Nivel del Proyecto</strong> (<code>Proyectos/&lt;name&gt;/skills/</code>): Una capa específica del proyecto creada cuando un proyecto L3 se basa en una plantilla variante L2. Las personalizaciones locales se pueden añadir aquí sin afectar a otros proyectos o a la plantilla variante.</li>
-    </ol>
-  </div>
-
   <div class="tip-box">
-    <strong>La Analogía de la &ldquo;Receta&rdquo;</strong><br>
-    Si el agente es un chef, entonces la habilidad es una tarjeta de receta en el cuaderno de recetas de la cocina. El cuaderno es el espacio de trabajo L0 (la copia maestra). Los libros de cocina impresos para cada cadena de restaurantes son las plantillas L1. Las variaciones de recetas añadidas para una cocina específica (por ejemplo, italiana, japonesa) son las habilidades variantes L2. Las notas garabateadas en el margen de la copia de un restaurante son las anulaciones del proyecto L3. Tú siempre escribes nuevas recetas en el cuaderno maestro (L0), luego distribuyes copias.
+    <strong>Analogía para principiantes:</strong> una skill es una "receta de cocina". El agente (el cocinero) sigue la receta para preparar el plato (la tarea). Un cocinero puede tener muchas recetas, y varios cocineros pueden compartir la misma receta. Cuando la receta está clara, cualquier cocinero obtiene resultados consistentes.
   </div>
 
+  <h3>Las capas de propiedad (ownership) de una skill</h3>
+
+  <p>A diferencia de los agentes, las skills <strong>existen de forma independiente</strong>. Una skill puede definirse en varias capas, y cada capa tiene un alcance y una influencia distintos.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>L0 — Workspace (espacio de trabajo)</h4>
+      <ul>
+        <li>Ubicación: <code>skills/&lt;name&gt;/SKILL.md</code></li>
+        <li>Alcance: disponible en todos los proyectos</li>
+        <li>Prioridad: la más alta (prioridad 1)</li>
+        <li>Ejemplos: <code>sync</code>, <code>security-scan</code></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>L1 — Plantilla común (Common Template)</h4>
+      <ul>
+        <li>Ubicación: <code>templates/common/skills/</code></li>
+        <li>Alcance: los proyectos derivados de esa plantilla</li>
+        <li>Prioridad: después de L0 (prioridad 2)</li>
+        <li>Ejemplos: skills de validación comunes de la plantilla</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>L2 — Plantilla variante (Variant Template)</h4>
+      <ul>
+        <li>Ubicación: <code>templates/co-*/skills/</code></li>
+        <li>Alcance: todos los proyectos generados a partir de esa variante</li>
+        <li>Prioridad: después de L1 (prioridad 3)</li>
+        <li>Ejemplos: skills exclusivas de co-deck</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>L3 — Proyecto</h4>
+      <ul>
+        <li>Ubicación: <code>.claude/skills/</code>o <code>.gemini/skills/</code></li>
+        <li>Alcance: solo ese proyecto</li>
+        <li>Prioridad: la más baja (prioridad 4)</li>
+        <li>Ejemplos: hooks exclusivos del proyecto</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Reglas básicas</h4>
+      <ul>
+        <li>Si la misma skill existe en varias ubicaciones, se usa la de prioridad 1</li>
+        <li>Las skills L0 se comparten globalmente</li>
+        <li>Las skills L2 pertenecen solo a una variante; las L3, solo a un proyecto</li>
+        <li>Como principio, evita definiciones duplicadas</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>¿Por qué crear las tuyas?</h3>
+
+  <p>El sistema ya incluye diversas skills. A medida que los requisitos del proyecto se diversifican aparecen <strong>flujos de trabajo no cubiertos por las skills existentes</strong>. Por ejemplo:</p>
+
+  <ul>
+    <li><strong>Revisión de calidad documental</strong> &mdash; una skill que revisa la consistencia y completitud de los documentos generados</li>
+    <li><strong>Despliegue automático</strong> &mdash; una skill que publica los entregables terminados en un servidor específico automáticamente</li>
+    <li><strong>Generación de informes a medida</strong> &mdash; una skill que produce informes con formato específico del proyecto</li>
+    <li><strong>Revisión periódica de estado</strong> &mdash; una skill que inspecciona el estado general del proyecto con regularidad</li>
+  </ul>
+
+  <p>Cuando necesites uno de estos flujos de trabajo, puedes <strong>crear tu propia skill personalizada y añadirla al sistema</strong>. Una skill es un único archivo markdown, así que cualquiera puede crearla siguiendo unas pocas reglas.</p>
+
+  <div class="note">
+    A diferencia de los agentes, las skills existen de forma independiente. Varios agentes pueden referenciar la misma skill. Por ejemplo, la skill <code>sync</code> la usa sobre todo el agente PM, pero otros agentes también pueden referenciarla si lo necesitan.
+  </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 2: Skill File Format                                  -->
   <!-- ============================================================ -->
-  <h2 id="file-format">Skill File Format</h2>
+  <h2 id="file-format">Formato del archivo de skill</h2>
 
-  <p>Cada habilidad vive en su propio directorio bajo <code>skills/</code>, con un único archivo llamado <code>SKILL.md</code>. El nombre es importante: el nombre del directorio utiliza <strong>kebab-case</strong>, y el archivo dentro siempre es <code>SKILL.md</code> en mayúsculas.</p>
+  <h3>Ubicación del archivo</h3>
 
-  <div class="code-block">
-<div class="code-title">File location</div>
-<pre><code>skills/&lt;name&gt;/SKILL.md</code></pre>
+  <p>Los archivos de skill se guardan en el directorio <code>skills/</code> de la raíz del proyecto. A diferencia de los agentes, cada skill tiene <strong>sus propia carpeta</strong>. El nombre de la carpeta es el nombre de la skill, y dentro va el archivo <code>SKILL.md</code>.</p>
+
+  
+    
+    <div class="code-block">
+<pre><code>skills/
+├── sync/
+│   └── SKILL.md              # Skill de sincronización
+├── security-scan/
+│   └── SKILL.md              # Skill de análisis de seguridad
+├── meeting-facilitation/
+│   └── SKILL.md              # Skill de facilitación de reuniones
+├── research/
+│   └── SKILL.md              # Skill de investigación
+└── my-reviewer/              # ★ La skill que vamos a crear
+    └── SKILL.md</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
 
-  <p>Al igual que los archivos de agent, un archivo de skill tiene dos partes: un <strong>YAML frontmatter block</strong> (metadatos legibles por máquina) y un <strong>Markdown body</strong> (instrucciones legibles por humanos). La estructura es más simple que la de un archivo de agent, pero se aplica el mismo principio: el frontmatter es para el sistema, el cuerpo es para el modelo de IA.</p>
+  <h3>Estructura del archivo: frontmatter + cuerpo</h3>
 
-  <h3>Structure Overview</h3>
+  <p>Un archivo SKILL.md consta de dos partes. En la parte superior va el <strong>frontmatter YAML (metadatos)</strong> y debajo el <strong>cuerpo markdown (instrucciones de ejecución)</strong>. El frontmatter YAML se escribe dentro de un bloque que abre y cierra con tres guiones, <code>---</code>.</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Skill file structure diagram showing YAML frontmatter on top and markdown body below">
-      <defs>
-        <marker id="arrowSk1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
-        </marker>
-      </defs>
-      <!-- Outer directory container -->
-      <rect x="40" y="10" width="620" height="320" rx="8" fill="none" stroke="var(--border)" stroke-width="2" stroke-dasharray="6,3"/>
-      <text x="350" y="32" text-anchor="middle" style="color:var(--text)" font-size="14" font-weight="600">skills/&lt;name&gt;/</text>
+    <svg width="100%" viewBox="0 0 640 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de la estructura del archivo de skill">
+      <!-- Contorno del archivo -->
+      <rect x="40" y="10" width="560" height="400" rx="14" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="320" y="38" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--accent)">skills/&lt;name&gt;/SKILL.md</text>
 
-      <!-- File box -->
-      <rect x="70" y="45" width="560" height="270" rx="6" fill="none" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="350" y="66" text-anchor="middle" style="color:var(--accent-green)" font-size="13" font-weight="600">SKILL.md</text>
+      <!-- Área de frontmatter -->
+      <rect x="65" y="52" width="510" height="140" rx="10" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="85" y="76" font-size="13" font-weight="bold" style="fill:var(--accent-purple)">Frontmatter YAML (metadatos)</text>
 
-      <!-- Frontmatter box -->
-      <rect x="90" y="78" width="520" height="130" rx="6" fill="var(--code-bg)" stroke="var(--accent-blue)" stroke-width="1.5"/>
-      <text x="110" y="100" style="color:var(--accent-blue)" font-size="13" font-weight="600">YAML Frontmatter</text>
-      <text x="110" y="120" style="color:var(--text-muted)" font-size="12">---  &lt; opening fence</text>
-      <text x="110" y="140" style="color:var(--text-muted)" font-size="12">name: skill-name</text>
-      <text x="110" y="160" style="color:var(--text-muted)" font-size="12">status: active</text>
-      <text x="110" y="180" style="color:var(--text-muted)" font-size="12">description: &gt;- ...</text>
-      <text x="110" y="200" style="color:var(--text-muted)" font-size="12">metadata: { type, triggers }</text>
+      <!-- --- valla -->
+      <text x="85" y="96" font-size="12" font-family="monospace" style="fill:var(--text-dim)">---</text>
+      <text x="85" y="114" font-size="11" font-family="monospace" style="fill:var(--text)">name: my-reviewer</text>
+      <text x="85" y="130" font-size="11" font-family="monospace" style="fill:var(--text)">status: active</text>
+      <text x="85" y="146" font-size="11" font-family="monospace" style="fill:var(--text)">owner: pm</text>
+      <text x="85" y="162" font-size="11" font-family="monospace" style="fill:var(--text)">metadata:</text>
+      <text x="85" y="178" font-size="11" font-family="monospace" style="fill:var(--text)">  type: quality</text>
+      <text x="85" y="190" font-size="12" font-family="monospace" style="fill:var(--text-dim)">---</text>
 
-      <!-- Arrow -->
-      <line x1="350" y1="212" x2="350" y2="237" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowSk1)"/>
+      <!-- Flecha separadora -->
+      <line x1="320" y1="196" x2="320" y2="220" stroke="var(--accent-amber)" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="340" y="213" font-size="10" style="fill:var(--accent-amber)">Debajo de la valla: el cuerpo</text>
 
-      <!-- Body box -->
-      <rect x="90" y="242" width="520" height="60" rx="6" fill="var(--surface-alt)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="110" y="266" style="color:var(--accent-green)" font-size="13" font-weight="600">Markdown Body</text>
-      <text x="110" y="286" style="color:var(--text-muted)" font-size="12">## Overview &middot; ## When to Use &middot; ## Steps &middot; ## Resultados &middot; ## Examples</text>
+      <!-- Área del cuerpo -->
+      <rect x="65" y="224" width="510" height="172" rx="10" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="85" y="248" font-size="13" font-weight="bold" style="fill:var(--accent-green)">Cuerpo markdown (instrucciones de ejecución)</text>
+
+      <!-- Secciones del cuerpo -->
+      <rect x="85" y="260" width="220" height="26" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="195" y="278" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">## Overview</text>
+
+      <rect x="315" y="260" width="240" height="26" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="435" y="278" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">## When to Use</text>
+
+      <rect x="85" y="294" width="220" height="26" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="195" y="312" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">## Steps</text>
+
+      <rect x="315" y="294" width="240" height="26" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="435" y="312" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">## Expected Outputs</text>
+
+      <rect x="85" y="328" width="220" height="26" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="195" y="346" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">## Examples</text>
+
+      <rect x="315" y="328" width="240" height="26" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="435" y="346" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">## Notes (opcional)</text>
+
+      <!-- Etiqueta inferior -->
+      <rect x="120" y="370" width="400" height="28" rx="7" fill="var(--bg-note)" stroke="var(--border)" stroke-width="1"/>
+      <text x="320" y="389" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">Frontmatter = identidad de la skill / Cuerpo = pasos que sigue el agente</text>
     </svg>
   </div>
 
-  <p>El frontmatter está encerrado entre dos vallas <code>---</code>, igual que los archivos de agent. Todo lo que está debajo de la valla de cierre es el cuerpo &mdash; Markdown estándar con encabezados, listas, bloques de código y tablas.</p>
+  <p>Las claves de esta estructura son:</p>
 
-  <div class="note"> 
-     <strong>Skill vs Agent File Naming</strong><br> 
-     Los archivos de agent viven en <code>agents/&lt;name&gt;.md</code> (un archivo por agent). Los archivos de skill viven en <code>skills/&lt;name&gt;/SKILL.md</code> (un directorio por skill, siempre con un <code>SKILL.md</code> en mayúsculas dentro). Esta capa adicional de directorio permite que las skills agrupen archivos complementarios (ejemplos, fixtures de prueba) junto con el documento de instrucciones principal. 
-</div>
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Frontmatter YAML</strong> &mdash; entre las vallas <code>---</code> se escribe la información de identidad de la skill (nombre, estado, descripción, propietario, versión, metadatos). El sistema la usa para reconocer y gestionar la skill.
+      </li>
+      <li>
+        <strong>Cuerpo markdown</strong> &mdash; debajo del frontmatter se escribe, en formato markdown, el procedimiento de ejecución que el agente debe seguir. Se recomienda organizarlo en las secciones Overview (resumen), When to Use (cuándo usarlo), Steps (pasos), Expected Outputs (resultados esperados) y Examples (ejemplos).
+      </li>
+    </ol>
+  </div>
 
-
+  <div class="note">
+    A diferencia de los agentes, las skills existen de forma independiente. Varios agentes pueden referenciar la misma skill. Por ejemplo, la skill <code>security-scan</code>puede invocarla el agente PM o referenciarla directamente un agente especialista.
+  </div>
   <!-- ============================================================ -->
   <!-- SECTION 3: Writing Frontmatter                                -->
   <!-- ============================================================ -->
-  <h2 id="frontmatter">Writing Frontmatter</h2>
+  <h2 id="frontmatter">Redacción del frontmatter</h2>
 
-  <p>El frontmatter YAML es la tarjeta de identidad legible por máquina de tu skill. La capa de orquestación (PM, scripts, coincidencia de triggers) lee estos campos para decidir <em>when</em> y <em>how</em> activar la skill.</p>
+  <h3>Campos obligatorios y opcionales</h3>
 
-  <h3>Required and Optional Fields</h3>
+  <p>El frontmatter YAML incluye varios campos para identificar y gestionar la skill. Se dividen en obligatorios y opcionales.</p>
 
-  <table>
+  <table style="width:100%;border-collapse:collapse;margin:16px 0;">
     <thead>
       <tr>
-        <th>Field</th>
-        <th>Required?</th>
-        <th>Type</th>
-        <th>Descripción</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">Campo</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">Obligatorio</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">Descripción</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">Ejemplo</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><code>name</code></td>
-        <td>Required</td>
-        <td>string</td>
-        <td>Kebab-case identifier. Must match the directory name.</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">name</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);"><strong style="color:var(--accent-green);">Sí</strong></td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Nombre único de la skill</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">my-reviewer</td>
       </tr>
       <tr>
-        <td><code>status</code></td>
-        <td>Required</td>
-        <td>string</td>
-        <td>One of: <code>active</code>, <code>draft</code>, <code>deprecated</code>, <code>retired</code>.</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">status</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);"><strong style="color:var(--accent-green);">Sí</strong></td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">active / draft / deprecated</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">active</td>
       </tr>
       <tr>
-        <td><code>description</code></td>
-        <td>Required</td>
-        <td>string</td>
-        <td>Resumen multilínea de lo que hace la skill y cuándo usarla. Debe incluir <code>Use when:</code> escenarios de trigger.</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">description</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);"><strong style="color:var(--accent-green);">Sí</strong></td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Descripción detallada de la skill (el PM la consulta al despachar)</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:12px;">"Reviews document quality..."</td>
       </tr>
       <tr>
-        <td><code>owner</code></td>
-        <td>Required</td>
-        <td>string</td>
-        <td>El agent o rol responsable de mantener esta skill (p. ej., <code>pm</code>, <code>research</code>).</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">owner</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);"><strong style="color:var(--accent-green);">Sí</strong></td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Responsable del mantenimiento (agente o rol)</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">pm</td>
       </tr>
       <tr>
-        <td><code>version</code></td>
-        <td>Required</td>
-        <td>string</td>
-        <td>Semantic version (start at <code>1.0.0</code>).</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">version</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);"><strong style="color:var(--accent-green);">Sí</strong></td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Número de versión (se recomienda versionado semántico)</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">"1.0.0"</td>
       </tr>
       <tr>
-        <td><code>metadata.type</code></td>
-        <td>Required</td>
-        <td>string</td>
-        <td>One of: <code>process</code> (workflow/methodology), <code>implementation</code> (technical), <code>domain</code> (domain-specific knowledge).</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">metadata.type</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Opcional</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">automation / quality / lifecycle</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">quality</td>
       </tr>
       <tr>
-        <td><code>metadata.triggers</code></td>
-        <td>Required</td>
-        <td>list</td>
-        <td>Palabras clave que activan esta skill. Debe tener al menos una entrada.</td>
-      </tr>
-      <tr>
-        <td><code>scope</code></td>
-        <td>Optional</td>
-        <td>string</td>
-        <td>Visibility scope: <code>common</code> (all projects) or <code>variant</code> (project-specific).</td>
-      </tr>
-      <tr>
-        <td><code>last_reviewed</code></td>
-        <td>Optional</td>
-        <td>string</td>
-        <td>Date of last review (YYYY-MM-DD).</td>
-      </tr>
-      <tr>
-        <td><code>prerequisites</code></td>
-        <td>Optional</td>
-        <td>string</td>
-        <td>Any prerequisite tools or runtime requirements (e.g., <code>Bun runtime</code>).</td>
+        <td style="padding:8px 12px;font-family:monospace;font-size:12px;">metadata.triggers</td>
+        <td style="padding:8px 12px;">Opcional</td>
+        <td style="padding:8px 12px;">Lista de palabras clave que activan la skill automáticamente</td>
+        <td style="padding:8px 12px;font-size:12px;">["review document", "check quality"]</td>
       </tr>
     </tbody>
   </table>
 
-  <h3>Example Frontmatter</h3>
+  <h3>Detalles de cada campo</h3>
 
-  <div class="code-block">
-    <div class="code-title">skills/document-reviewer/SKILL.md &mdash; frontmatter</div>
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>name</strong> &mdash; el identificador único de la skill. Debe coincidir con el nombre de la carpeta: para <code>skills/my-reviewer/SKILL.md</code> el name es <code>my-reviewer</code>. Se recomienda kebab-case.
+      </li>
+      <li>
+        <strong>status</strong> &mdash; el estado actual de la skill: <code>active</code>(en uso), <code>draft</code>(en redacción) o <code>deprecated</code> (retirada). Empieza una skill nueva como <code>draft</code>y cámbiala a <code>active</code> cuando pase la validación.
+      </li>
+      <li>
+        <strong>description</strong> &mdash; la descripción detallada de la skill. El PM la consulta al decidir qué skill despachar, así que debe ser <strong>clara y específica</strong>. Incluye no solo "qué hace", sino también "qué pasos sigue".
+      </li>
+      <li>
+        <strong>owner</strong> &mdash; el agente o rol responsable del mantenimiento de esta skill. Por ejemplo, una skill gestionada por el PM lleva <code>pm</code>; una skill de automatización lleva <code>automation-engineer</code>.
+      </li>
+      <li>
+        <strong>version</strong> &mdash; el número de versión de la skill. Se recomienda el formato de versionado semántico (<code>MAJOR.MINOR.PATCH</code>): por ejemplo, <code>"1.0.0"</code>, <code>"1.1.0"</code>, <code>"2.0.0"</code>.
+      </li>
+      <li>
+        <strong>metadata.type</strong> &mdash; la clasificación de la skill. Elige una de estas: <code>automation</code>(automatización), <code>quality</code>(calidad) o <code>lifecycle</code>(ciclo de vida). Resulta útil para filtrar u ordenar la lista de skills.
+      </li>
+      <li>
+        <strong>metadata.triggers</strong> &mdash; la lista de palabras clave que activan automáticamente la skill. Cuando una petición del usuario contiene esas palabras, el PM empareja y despacha la skill. Cuanto más específicos sean los triggers, más precisa será la coincidencia.
+      </li>
+    </ol>
+  </div>
+
+  <h3>Ejemplo de frontmatter</h3>
+
+  <p>A continuación, un ejemplo de frontmatter que puedes usar tal cual.</p>
+
+  
+    
+    <div class="code-block">
 <pre><code>---
-name: document-reviewer
+name: my-reviewer
 status: active
-scope: common
-description: >
-  Reviews markdown documents for clarity, consistency, and formatting
-  compliance. Checks heading hierarchy, link validity, and writing style.
-  Use when: "review this document", "check formatting", "proofread markdown".
+description: Reviews document quality and provides structured feedback. Checks readability, consistency, and completeness of markdown documents.
 owner: pm
-version: 1.0.0
-last_reviewed: 2026-08-10
-prerequisites: none
+version: "1.0.0"
 metadata:
-  type: process
+  type: quality
   triggers:
-    - review document
-    - check formatting
-    - proofread
-    - document quality
+    - "review document"
+    - "check quality"
+    - "quality review"
 ---</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
-  </div>
+</div>
 
   <div class="tip-box">
-    <strong>Elegir el Tipo Adecuado</strong><br>
-    <strong>process</strong> &mdash; Workflow and methodology skills (e.g., <code>sync</code>, <code>meeting-facilitation</code>, <code>skill-lifecycle-manager</code>).<br>
-    <strong>implementation</strong> &mdash; Technical implementation skills (e.g., <code>html-build</code>, <code>pdf-export</code>, <code>measure</code>).<br>
-    <strong>domain</strong> &mdash; Domain-specific knowledge skills (e.g., <code>dart-disclosure-parser</code>, <code>mece-logic-auditor</code>).<br>
-    Elija el tipo que mejor describa el propósito principal de la habilidad. La mayoría de las habilidades de flujo de trabajo de propósito general son <code>process</code>.
+    <strong>Consejo para principiantes:</strong> como el PM consulta la description al elegir una skill, escríbela con detalle: por ejemplo, "Revisa la legibilidad, la consistencia y la completitud de documentos y ofrece retroalimentación estructurada". Una descripción larga y específica es mejor que una breve y vaga como "revisa documentos".
   </div>
-
 
   <!-- ============================================================ -->
   <!-- SECTION 4: Writing Body Content                               -->
   <!-- ============================================================ -->
-  <h2 id="body-content">Writing Body Content</h2>
+  <h2 id="body-content">Redacción del cuerpo</h2>
 
-  <p>Debajo de la valla de cierre <code>---</code>, el cuerpo en Markdown sirve como el <strong>manual de instrucciones</strong> de la habilidad. Cuando se carga la habilidad, el modelo de IA lee todo el cuerpo y sigue su guía. Un buen contenido del cuerpo significa que el agente realiza el flujo de trabajo de manera consistente y correcta cada vez.</p>
+  <h3>Estructura recomendada del cuerpo</h3>
 
-  <h3>5 Secciones recomendadas</h3>
-
-  <p>Aunque el cuerpo puede organizarse de muchas maneras, la mayoría de las habilidades se benefician de estas cinco secciones, presentadas en orden:</p>
+  <p>El cuerpo markdown bajo el frontmatter es el <strong>procedimiento de ejecución</strong> que el agente seguirá realmente. Se recomienda organizarlo en cinco secciones.</p>
 
   <div class="step-list">
     <ol>
-      <li><strong>Visión general (Overview)</strong> — Una explicación de alto nivel del propósito de la habilidad. ¿Qué problema resuelve? ¿Qué valor aporta? Manténgalo en 2–4 frases.</li>
-      <li><strong>Cuándo usar esta habilidad (When to Use This Skill)</strong> — Condiciones de activación y casos de uso concretos. Enumere las frases o situaciones que deben activar esta habilidad. Esto refuerza las palabras clave de activación en el frontmatter.</li>
-      <li><strong>Pasos (Steps)</strong> — Instrucciones numeradas y secuenciales que sigue el agente para completar la tarea. Agrúpelas por fases lógicas si el flujo de trabajo es complejo. Cada paso debe ser accionable e incluir puntos de control de validación cuando sea apropiado.</li>
-      <li><strong>Resultados esperados (Expected Results)</strong> — Lo que produce la habilidad. Especifique nombres de archivo, formatos y estructura del contenido para que el siguiente agente en la tubería sepa exactamente qué esperar.</li>
-      <li><strong>Ejemplos (Examples)</strong> (opcional) — Ejemplos de uso concretos que muestran cómo se comporta la habilidad en escenarios realistas. Incluya entradas y salidas de muestra.</li>
+      <li>
+        <strong>Overview</strong> &mdash; explica el propósito y el alcance de la skill en uno o dos párrafos. Deja claro "¿para qué sirve esta skill?" y "¿hasta dónde llega su alcance?".
+      </li>
+      <li>
+        <strong>When to Use</strong> &mdash; describe las condiciones que activan la skill: ¿cuándo debe activarse? Escribe concretamente qué situaciones, peticiones o estados de archivo la disparan.
+      </li>
+      <li>
+        <strong>Steps</strong> &mdash; escribe el procedimiento detallado que sigue el agente como secuencia numerada. Cada paso debe ser claro e inequívoco. Indica de forma concreta: "lee el archivo → revísalo → redacta los resultados".
+      </li>
+      <li>
+        <strong>Expected Outputs</strong> &mdash; indica qué archivos o resultados deben existir cuando la skill termine. Incluir nombres de archivo, rutas y formatos facilita que el siguiente agente aproveche los resultados.
+      </li>
+      <li>
+        <strong>Examples</strong> &mdash; muestra escenarios reales de uso. Da ejemplos concretos de cómo se ejecuta esta skill cuando el usuario hace cierta petición.
+      </li>
     </ol>
   </div>
 
-  <div class="tip-box">
-    <strong>Keep Steps Clear and Sequential</strong><br>
-    La sección <strong>Pasos (Steps)</strong> es el corazón de su habilidad. Escriba cada paso como un comando directo en modo imperativo: «Leer el archivo de entrada», «Validar la estructura», «Escribir el informe de salida». Evite frases vagas como «Manejar los datos». Incluya rutas de archivo específicas, requisitos de formato y comprobaciones de validación en cada paso. Si un paso tiene subpasos, utilice listas numeradas subordinadas (1.1, 1.2, etc.) para mantener la claridad de la jerarquía.
-  </div>
+  <h3>Consejos de redacción por sección</h3>
 
-  <h3>Section Details with Examples</h3>
+  <p>En la sección <strong>Overview</strong>, explica por qué existe la skill. Escribe de modo que el lector (o agente) entienda "¿por qué usaría yo esta skill?".</p>
 
-  <h4>1. Overview</h4>
-  <p>Comience con una declaración concisa de lo que hace la habilidad y por qué existe.</p>
-  <div class="code-block">
+  
+    
+    <div class="code-block">
 <pre><code>## Overview
 
-Reviews markdown documents for structural clarity, formatting
-consistency, and writing quality. Produces a structured review
-report with categorized findings and actionable fix suggestions.</code></pre>
+Esta skill realiza una revisión integral de la calidad de
+documentos markdown. Evalúa los documentos desde tres
+perspectivas —legibilidad, consistencia y completitud—
+y ofrece retroalimentación estructurada.</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
-  </div>
+</div>
 
-  <h4>2. Cuándo usar esta habilidad</h4>
-  <p>List specific trigger scenarios.</p>
-  <div class="code-block">
+  <p>En la sección <strong>When to Use</strong>, presenta condiciones de activación claras.</p>
+
+  
+    
+    <div class="code-block">
 <pre><code>## When to Use
 
-- User says "review this document" or "check formatting"
-- Before publishing a markdown file to catch issues
-- After a major edit to verify the document still meets standards
-- When quality-gating content before handoff to the next agent</code></pre>
-<button type="button" class="copy-btn">Copiar</button>
-  </div>
+Se activa cuando el usuario hace peticiones como:
+- "revisa este documento"
+- "comprueba la calidad del documento"
+- "hazme una revisión de calidad"
 
-  <h4>3. Steps</h4>
-  <p>Provide numbered, actionable instructions.</p>
-  <div class="code-block">
+También puede despacharla automáticamente el PM
+cuando otro agente necesite una revisión de calidad
+tras terminar un documento.</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+
+  <p>La sección <strong>Steps</strong> es la parte más importante. Escribe el procedimiento con claridad.</p>
+
+  
+    
+    <div class="code-block">
 <pre><code>## Steps
 
-### Step 1: Load and Parse
-- Read the target markdown file using the Read tool
-- Parse the document structure (headings, links, code blocks)
-
-### Step 2: Structural Checks
-- Verify heading hierarchy (no H3 before H2, etc.)
-- Check that every internal link targets an existing file
-- Validate that code blocks specify a language
-
-### Step 3: Quality Review
-- Flag passive voice overuse (more than 30% of sentences)
-- Check for run-on paragraphs (more than 5 sentences)
-- Verify consistent terminology usage</code></pre>
+1. **Identificar el archivo objetivo** — Confirma la ruta del documento a revisar.
+2. **Leer el documento** — Carga el archivo objetivo y analiza su contenido.
+3. **Revisión de legibilidad** — Comprueba longitud de frases, estructura de párrafos y jerarquía de encabezados.
+4. **Revisión de consistencia** — Comprueba terminología, estilo de formato y formatos de fecha.
+5. **Revisión de completitud** — Busca secciones ausentes y frases incompletas.
+6. **Redactar la retroalimentación** — Organiza los hallazgos en un formato estructurado.</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
-  </div>
+</div>
 
-  <h4>4. Expected Resultados</h4>
-  <p>Define what the skill produces.</p>
-  <div class="code-block">
+  <p>En la sección <strong>Expected Outputs</strong>, indica los entregables.</p>
+
+  
+    
+    <div class="code-block">
 <pre><code>## Expected Outputs
 
-- `review-report.md` in the same directory as the input file
-- Sections: Structure, Links, Style, Terminology
-- Each finding includes: severity (error/warning/info),
-  location (line reference), and suggested fix</code></pre>
+- Informe de revisión (stdout o salida a archivo)
+- Lista de problemas (gravedad por elemento: advertencia / corrección recomendada / error)
+- Lista de sugerencias de mejora</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
-  </div>
+</div>
 
-  <h4>5. Examples (optional)</h4>
-  <p>Show realistic usage scenarios.</p>
-  <div class="code-block">
+  <p>En la sección <strong>Examples</strong>, muestra ejemplos concretos de uso.</p>
+
+  
+    
+    <div class="code-block">
 <pre><code>## Examples
 
-**Input**: User says "Review docs/ch02/02_Getting_Started.md"
-**Output**: Creates `docs/ch02/review-report.md` with 3 errors
-  (broken link, missing H1, code block without language) and
-  5 warnings (passive voice, long paragraphs).</code></pre>
+**Ejemplo 1:** el usuario pide "revisa este documento"
+→ Lee el documento objetivo, ejecuta las cinco comprobaciones
+  y entrega retroalimentación estructurada.
+
+**Ejemplo 2:** el PM lo despacha tras completar el manual
+→ Revisa el origen markdown del archivo HTML terminado y
+  informa del cumplimiento de las guías de autoría.</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
+</div>
+
+  <div class="tip-box">
+    <strong>La sección Steps es el 'manual de procedimientos' del agente.</strong> Escríbela clara y en orden. Las instrucciones concretas ("lee todas las secciones h2 en orden y comprueba que cada una tenga cuerpo") son mejores que las vagas ("revisa bien el documento"). El agente sigue las instrucciones fielmente: cuanto más precisas sean, mayor será la calidad del resultado.
   </div>
-
-  <div class="note">
-    <strong>El Cuerpo Es un &ldquo;Manual de Instrucciones&rdquo;</strong><br>
-    A diferencia del frontmatter (que es leído por scripts y el comparador de activación), el cuerpo es leído <em>por el modelo de IA</em> cuando se carga la habilidad. Escríbalo como si estuviera escribiendo un manual para un nuevo miembro del equipo: claro, específico y centrado en <em>cómo</em> hacer el trabajo. El «por qué» pertenece a la visión general; el «cuándo» pertenece a la sección de activación; y el «cómo» pertenece a los pasos.
-  </div>
-
-
   <!-- ============================================================ -->
-  <!-- SECTION 5: Using skill-lifecycle-manager                       -->
+  <!-- SECTION 5: skill-lifecycle-manager                            -->
   <!-- ============================================================ -->
-  <h2 id="lifecycle-manager">Using skill-lifecycle-manager</h2>
+  <h2 id="lifecycle-manager">Uso de skill-lifecycle-manager</h2>
 
-  <p>La habilidad <code>skill-lifecycle-manager</code> proporciona un proceso sistemático de 6 pasos para crear, validar y mantener habilidades. En lugar de crear archivos manualmente y esperar que todo se conecte, la habilidad lo guía a través de cada paso y detecta problemas tempranamente.</p>
+  <h3>¿Qué es skill-lifecycle-manager?</h3>
 
-  <h3>The 6-Step Process</h3>
+  <p><code>skill-lifecycle-manager</code> es una <strong>skill de gestión</strong> que guía la creación, validación y mantenimiento de skills. Piensa en ella como la versión skill del <code>agent-lifecycle-manager</code> que aprendiste en el capítulo 9. Siguiendo sus indicaciones al crear una skill nueva, la escribirás correctamente y sin omisiones.</p>
+
+  <p>Las funciones centrales de esta skill son:</p>
+
+  <ul>
+    <li>Guiar los pasos necesarios al crear una skill nueva</li>
+    <li>Comprobar que los campos del frontmatter están bien escritos</li>
+    <li>Guiar el registro en el sistema (AGENTS.md, VERSION_MANIFEST.md)</li>
+    <li>Proporcionar las instrucciones para ejecutar los scripts de validación</li>
+  </ul>
+
+  <h3>El proceso de 6 pasos</h3>
+
+  <p><code>skill-lifecycle-manager</code> guía la creación de la skill en seis pasos. Si los sigues en orden obtendrás una skill completa y pulida.</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Six-step skill lifecycle process diagram">
+    <svg width="100%" viewBox="0 0 660 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama del ciclo de vida de la skill en 6 pasos">
+      <!-- Título -->
+      <text x="330" y="28" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--accent-purple)">Proceso de 6 pasos de skill-lifecycle-manager</text>
+
+      <!-- Paso 1 -->
+      <rect x="30" y="48" width="175" height="58" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="32" y="65" font-size="11" font-weight="bold" style="fill:var(--accent)">Paso 1</text>
+      <text x="117" y="82" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">Crear directorio</text>
+      <text x="117" y="98" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">skills/&lt;name&gt;/</text>
+
+      <!-- Flecha 1→2 -->
+      <line x1="205" y1="77" x2="240" y2="77" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSlm)"/>
+
+      <!-- Paso 2 -->
+      <rect x="245" y="48" width="175" height="58" rx="10" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="247" y="65" font-size="11" font-weight="bold" style="fill:var(--accent-green)">Paso 2</text>
+      <text x="332" y="82" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">Escribir frontmatter</text>
+      <text x="332" y="98" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Metadatos YAML</text>
+
+      <!-- Flecha 2→3 -->
+      <line x1="420" y1="77" x2="455" y2="77" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSlm)"/>
+
+      <!-- Paso 3 -->
+      <rect x="460" y="48" width="175" height="58" rx="10" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="462" y="65" font-size="11" font-weight="bold" style="fill:var(--accent-amber)">Paso 3</text>
+      <text x="547" y="82" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">Escribir cuerpo</text>
+      <text x="547" y="98" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Procedimiento</text>
+
+      <!-- Flecha 3→4 (abajo) -->
+      <path d="M547,106 L547,132 L547,132" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSlm)"/>
+
+      <!-- Paso 4 -->
+      <rect x="460" y="140" width="175" height="58" rx="10" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="462" y="157" font-size="11" font-weight="bold" style="fill:var(--accent-purple)">Paso 4</text>
+      <text x="547" y="174" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">Registro en el sistema</text>
+      <text x="547" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">AGENTS.md + VERSION_MANIFEST</text>
+
+      <!-- Flecha 4→5 (izquierda) -->
+      <line x1="460" y1="169" x2="425" y2="169" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSlm)"/>
+
+      <!-- Paso 5 -->
+      <rect x="245" y="140" width="175" height="58" rx="10" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="247" y="157" font-size="11" font-weight="bold" style="fill:var(--accent)">Paso 5</text>
+      <text x="332" y="174" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">Ejecutar validación</text>
+      <text x="332" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">skill-lifecycle-audit.ts</text>
+
+      <!-- Flecha 5→6 (izquierda) -->
+      <line x1="245" y1="169" x2="210" y2="169" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSlm)"/>
+
+      <!-- Paso 6 -->
+      <rect x="30" y="140" width="175" height="58" rx="10" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="32" y="157" font-size="11" font-weight="bold" style="fill:var(--accent-green)">Paso 6</text>
+      <text x="117" y="174" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">Prueba de activación</text>
+      <text x="117" y="190" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Probar con peticiones reales</text>
+
+      <!-- Panel inferior de detalles -->
+      <rect x="30" y="220" width="605" height="210" rx="10" fill="var(--bg-note)" stroke="var(--border)" stroke-width="1"/>
+      <text x="50" y="244" font-size="12" font-weight="bold" style="fill:var(--text)">Detalle de cada paso:</text>
+
+      <text x="50" y="266" font-size="11" style="fill:var(--accent)">Paso 1:</text>
+      <text x="100" y="266" font-size="11" style="fill:var(--text)">Crea el directorio skills/&lt;name&gt;/. Usa kebab-case para el nombre.</text>
+
+      <text x="50" y="290" font-size="11" style="fill:var(--accent-green)">Paso 2:</text>
+      <text x="100" y="290" font-size="11" style="fill:var(--text)">Escribe el frontmatter YAML de SKILL.md. name, status, description, owner y version son obligatorios.</text>
+
+      <text x="50" y="314" font-size="11" style="fill:var(--accent-amber)">Paso 3:</text>
+      <text x="100" y="314" font-size="11" style="fill:var(--text)">Escribe en orden Overview, When to Use, Steps, Expected Outputs y Examples.</text>
+
+      <text x="50" y="338" font-size="11" style="fill:var(--accent-purple)">Paso 4:</text>
+      <text x="100" y="338" font-size="11" style="fill:var(--text)">Registra la skill en la tabla Skills de AGENTS.md y en docs/VERSION_MANIFEST.md.</text>
+
+      <text x="50" y="362" font-size="11" style="fill:var(--accent)">Paso 5:</text>
+      <text x="100" y="362" font-size="11" style="fill:var(--text)">Ejecuta bun scripts/skill-lifecycle-audit.ts para validar frontmatter y estructura.</text>
+
+      <text x="50" y="386" font-size="11" style="fill:var(--accent-green)">Paso 6:</text>
+      <text x="100" y="386" font-size="11" style="fill:var(--text)">Vía PM, comprueba con peticiones reales que la skill funciona. Prueba con las palabras clave.</text>
+
+      <text x="50" y="416" font-size="10" style="fill:var(--text-dim)">Si la validación falla, vuelve a los Pasos 2-3, corrige y revalida. Tras superar todos los pasos, cambia status de draft a active.</text>
+
       <defs>
-        <marker id="arrowSlm1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-amber)"/>
+        <marker id="arrowSlm" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
         </marker>
       </defs>
-
-      <!-- Background -->
-      <rect x="10" y="10" width="680" height="320" rx="14" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="6,3"/>
-      <text x="350" y="36" text-anchor="middle" style="color:var(--text)" font-size="14" font-weight="600">Skill Lifecycle 6-Step Process</text>
-
-      <!-- Row 1: Steps 1-4 -->
-      <!-- Step 1 -->
-      <rect x="25" y="55" width="120" height="55" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
-      <text x="85" y="76" text-anchor="middle" style="color:var(--accent-blue)" font-size="12" font-weight="600">Step 1</text>
-      <text x="85" y="95" text-anchor="middle" style="color:var(--text)" font-size="10">Create Directory</text>
-
-      <!-- Arrow 1->2 -->
-      <line x1="145" y1="82" x2="165" y2="82" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowSlm1)"/>
-
-      <!-- Step 2 -->
-      <rect x="175" y="55" width="120" height="55" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
-      <text x="235" y="76" text-anchor="middle" style="color:var(--accent-blue)" font-size="12" font-weight="600">Step 2</text>
-      <text x="235" y="95" text-anchor="middle" style="color:var(--text)" font-size="10">Write Frontmatter</text>
-
-      <!-- Arrow 2->3 -->
-      <line x1="295" y1="82" x2="315" y2="82" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowSlm1)"/>
-
-      <!-- Step 3 -->
-      <rect x="325" y="55" width="120" height="55" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
-      <text x="385" y="76" text-anchor="middle" style="color:var(--accent-blue)" font-size="12" font-weight="600">Step 3</text>
-      <text x="385" y="95" text-anchor="middle" style="color:var(--text)" font-size="10">Write Body</text>
-
-      <!-- Arrow 3->4 -->
-      <line x1="445" y1="82" x2="465" y2="82" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowSlm1)"/>
-
-      <!-- Step 4 -->
-      <rect x="475" y="55" width="120" height="55" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
-      <text x="535" y="76" text-anchor="middle" style="color:var(--accent-blue)" font-size="12" font-weight="600">Step 4</text>
-      <text x="535" y="95" text-anchor="middle" style="color:var(--text)" font-size="10">Register</text>
-
-      <!-- Arrow 4->5 (down turn) -->
-      <line x1="535" y1="115" x2="535" y2="140" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowSlm1)"/>
-
-      <!-- Row 2: Steps 5-6 -->
-      <!-- Step 5 -->
-      <rect x="310" y="150" width="145" height="55" rx="8" fill="var(--accent-blue)" opacity="0.15" stroke="var(--accent-blue)" stroke-width="1.5"/>
-      <text x="382" y="171" text-anchor="middle" style="color:var(--accent-blue)" font-size="12" font-weight="600">Step 5</text>
-      <text x="382" y="190" text-anchor="middle" style="color:var(--text)" font-size="10">Validate</text>
-
-      <!-- Arrow 5->6 -->
-      <line x1="310" y1="177" x2="290" y2="177" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowSlm1)"/>
-
-      <!-- Step 6 -->
-      <rect x="165" y="150" width="145" height="55" rx="8" fill="var(--accent-green)" opacity="0.15" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="237" y="171" text-anchor="middle" style="color:var(--accent-green)" font-size="12" font-weight="600">Step 6</text>
-      <text x="237" y="190" text-anchor="middle" style="color:var(--text)" font-size="10">Test Activation</text>
-
-      <!-- Descripcións -->
-      <rect x="25" y="220" width="645" height="95" rx="8" fill="var(--surface-alt)" stroke="var(--border)" stroke-width="1"/>
-      <text x="45" y="242" style="color:var(--text-muted)" font-size="10"><tspan font-weight="600" style="color:var(--accent-blue)">Paso 1:</tspan> mkdir skills/&lt;name&gt; + touch SKILL.md</text>
-      <text x="45" y="260" style="color:var(--text-muted)" font-size="10"><tspan font-weight="600" style="color:var(--accent-blue)">Paso 2:</tspan> Fill name, status, description, owner, version, metadata.type, metadata.triggers</text>
-      <text x="45" y="278" style="color:var(--text-muted)" font-size="10"><tspan font-weight="600" style="color:var(--accent-blue)">Paso 3:</tspan> Write Overview, When to Use, Steps, Expected Resultados, Examples</text>
-      <text x="45" y="296" style="color:var(--text-muted)" font-size="10"><tspan font-weight="600" style="color:var(--accent-blue)">Paso 4:</tspan> Register in AGENTS.md + docs/context.md &middot; <tspan font-weight="600" style="color:var(--accent-blue)">Paso 5:</tspan> bun run verify-skills &middot; <tspan font-weight="600" style="color:var(--accent-green)">Paso 6:</tspan> Test with sample trigger</text>
     </svg>
   </div>
 
-  <h3>Step-by-Step Explanation</h3>
+  <h3>Guía detallada paso a paso</h3>
 
   <div class="step-list">
     <ol>
-      <li><strong>Crear el directorio</strong> — Cree <code>skills/&lt;name&gt;/SKILL.md</code> utilizando kebab-case para el nombre del directorio. El archivo debe llamarse exactamente <code>SKILL.md</code> (en mayúsculas).</li>
-      <li><strong>Escribir el frontmatter</strong> — Rellene todos los campos YAML requeridos: name, status, description, owner, version, metadata.type y metadata.triggers. El nombre del directorio y el campo <code>name</code> deben coincidir.</li>
-      <li><strong>Escribir el contenido del cuerpo</strong> — Redacte las instrucciones en Markdown cubriendo Visión general, Cuándo usar, Pasos (con puntos de control de validación), Resultados esperados y, opcionalmente, Ejemplos.</li>
-      <li><strong>Registrar en la documentación</strong> — Agregue la habilidad a la tabla de Habilidades en <code>AGENTS.md</code> y a la sección Skills en <code>docs/context.md</code>. Incluya la ruta del archivo y las condiciones de activación.</li>
-      <li><strong>Validar</strong> — Ejecute <code>bun run verify-skills</code> (o <code>bun scripts/validate-skills.ts</code>) para verificar que la habilidad pasa todas las comprobaciones estructurales y de contenido.</li>
-      <li><strong>Probar la activación</strong> — Intente cargar la habilidad a través de la herramienta de la plataforma (por ejemplo, la herramienta <code>Skill</code> en Claude Code) y verifique que el frontmatter se carga correctamente, que el contenido es accionable y que los activadores coinciden con los casos de uso esperados.</li>
+      <li>
+        <strong>Crea el directorio de la skill</strong> &mdash; haz la carpeta <code>skills/&lt;name&gt;/</code>. Usa kebab-case (minúsculas + guiones), por ejemplo: <code>skills/my-reviewer/</code>. Dentro crea un archivo <code>SKILL.md</code> vacío.
+      </li>
+      <li>
+        <strong>Escribe el frontmatter</strong> &mdash; rellena los campos obligatorios vistos antes (name, status, description, owner, version) más los opcionales (metadata.type, metadata.triggers). Pon status en <code>draft</code>al principio.
+      </li>
+      <li>
+        <strong>Escribe el cuerpo</strong> &mdash; redacta las secciones Overview, When to Use, Steps, Expected Outputs y Examples. Cuida especialmente que Steps sea claro y numerado.
+      </li>
+      <li>
+        <strong>Regístrala en el sistema</strong> &mdash; añade la skill a la tabla Skills de AGENTS.md (&sect;6) y anota su información de versión en <code>docs/VERSION_MANIFEST.md</code>. Solo tras este paso el sistema reconocerá la skill.
+      </li>
+      <li>
+        Valida &mdash; ejecuta <code>bun scripts/skill-lifecycle-audit.ts</code> para comprobar automáticamente campos ausentes del frontmatter, errores de estructura de archivos o secciones obligatorias faltantes. Corrige los errores y revalida.
+      </li>
+      <li>
+        <strong>Prueba de activación</strong> &mdash; prueba la skill vía PM con una petición real. Por ejemplo, pide "revisa la calidad de este documento" y comprueba que se dispara y se ejecuta bien. Cuando pase todas las pruebas, cambia status a <code>active</code>.
+      </li>
     </ol>
   </div>
 
-  <div class="tip-box">
-    <strong>Start Simple, Iterate</strong><br>
-    No necesita una habilidad perfecta desde el primer día. Cree una habilidad mínima viable con los campos de frontmatter requeridos y una sección Pasos básica. Establezca inicialmente <code>status: draft</code>. Pruébelo, refine la redacción basándose en cómo lo interpreta el modelo y luego promuévalo a <code>status: active</code> una vez que se comporte de manera consistente. El lifecycle-manager hace que la iteración sea segura: cada cambio puede validarse automáticamente antes de la promoción.
-  </div>
-
-
   <!-- ============================================================ -->
-  <!-- SECTION 6: skill-creator Plugin                              -->
+  <!-- SECTION 6: plugin skill-creator                               -->
   <!-- ============================================================ -->
-  <h2 id="skill-creator">skill-creator Plugin</h2>
+  <h2 id="skill-creator">El plugin skill-creator</h2>
 
-  <p>Además del proceso manual descrito anteriormente, Claude Code proporciona un plugin <strong>skill-creator</strong> que puede ayudar con la creación e iteración de archivos de habilidad. Este plugin está disponible en el mercado de plugins de Claude Code CLI.</p>
+  <h3>¿Qué es skill-creator?</h3>
 
-  <h3>What skill-creator Does</h3>
+  <p><code>skill-creator</code> es una <strong>herramienta avanzada de autoría de skills</strong> que se ofrece como plugin de Claude Code. Además de escribir SKILL.md a mano, este plugin te permite crear y mejorar skills con mayor eficiencia.</p>
 
-  <p>The <code>skill-creator</code> plugin helps with three key workflows:</p>
+  <h3>Funciones principales</h3>
 
-  <div class="step-list">
-    <ol>
-      <li><strong>Crear desde cero</strong> — Genera un nuevo archivo <code>SKILL.md</code> con el frontmatter y la estructura del cuerpo adecuados basados en su descripción del propósito de la habilidad.</li>
-      <li><strong>Edit existing skills</strong> &mdash; Refina la redacción, añade secciones faltantes o reestructura una skill existente para mejorar la fiabilidad de los triggers y la claridad de las instrucciones.</li>
-      <li><strong>Iterar redacción</strong> — Prueba diferentes frases para las condiciones de activación y las instrucciones de los pasos para encontrar lo que funciona mejor para un comportamiento consistente de la IA.</li>
-    </ol>
-  </div>
+  <p><code>skill-creator</code> ofrece estas capacidades.</p>
 
-  <h3>Test-Driven Iterative Authoring</h3>
+  <ul>
+    <li><strong>Creación de skills</strong> &mdash; escribe un SKILL.md nuevo desde cero mediante guía interactiva. Pregunta campo a campo del frontmatter y propone la estructura de las secciones del cuerpo.</li>
+    <li><strong>Edición de skills</strong> &mdash; mejora el contenido de skills existentes. Puedes hacer los triggers más específicos o afinar la sección Steps.</li>
+    <li><strong>Mejora de triggers</strong> &mdash; analiza las palabras clave de una skill y propone cambios para que coincidan con más precisión.</li>
+  </ul>
 
-  <p>El skill-creator sigue un enfoque <strong>basado en pruebas (test-driven)</strong>: escriba un borrador, pruebe el activador, observe cómo se comporta el modelo y luego refine la redacción. Este ciclo se repite hasta que la habilidad se activa de manera confiable y produce una salida consistente.</p>
+  <h3>Autoría iterativa guiada por pruebas</h3>
+
+  <p>La función más potente de <code>skill-creator</code> es la <strong>autoría iterativa guiada por pruebas (Test-Driven Iterative Authoring)</strong>. Funciona así:</p>
 
   <div class="flow-box">
-    <div class="step"><strong>1. Describir</strong> — Dígale a skill-creator qué quiere que haga la habilidad (propósito, frases activadoras, comportamiento esperado).</div>
-    <div class="step"><strong>2. Borrador</strong> — skill-creator genera el <code>SKILL.md</code> inicial con frontmatter y cuerpo.</div>
-    <div class="step"><strong>3. Probar</strong> — Cargue la habilidad en una sesión real e intente las frases activadoras. Observe la salida.</div>
-    <div class="step"><strong>4. Refine</strong> &mdash; Basado en the test results, adjust trigger keywords, clarify ambiguous steps, or add missing validation checkpoints.</div>
-    <div class="step"><strong>5. Validar</strong> — Ejecute la validación del skill-lifecycle-manager para asegurar el cumplimiento estructural antes de registrarla.</div>
+    <div class="step">1. <strong>Borrador de la skill</strong> &mdash; skill-creator genera de forma interactiva un borrador del frontmatter y del cuerpo.</div>
+    <div class="step">2. <strong>Prueba de triggers</strong> &mdash; con el borrador, comprueba si la skill coincide correctamente con tus palabras clave previstas.</div>
+    <div class="step">3. <strong>Análisis de resultados</strong> &mdash; revisa las coincidencias buscando falsos positivos (coincidencias no deseadas) o falsos negativos (coincidencias perdidas).</div>
+    <div class="step">4. <strong>Corrección de triggers</strong> &mdash; ajusta las palabras clave o la descripción según el análisis.</div>
+    <div class="step">5. <strong>Repetir pruebas</strong> &mdash; vuelve a probar con la versión corregida. Repite los pasos 2&ndash;5 hasta quedar satisfecho.</div>
+  </div>
+
+  <h3>Uso en el entorno Claude Code CLI</h3>
+
+  <p><code>skill-creator</code> funciona como plugin en el entorno de la línea de comandos de Claude Code. En el entorno de la Claude Desktop App puedes sustituirlo editando los archivos directamente.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Entorno Claude Code CLI</h4>
+      <ul>
+        <li>Plugin skill-creator disponible</li>
+        <li>Creación/edición interactiva de skills</li>
+        <li>Pruebas de triggers automatizadas</li>
+        <li>Flujo de autoría iterativa compatible</li>
+        <li>Consulta el Apéndice B</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Entorno Claude Desktop App</h4>
+      <ul>
+        <li>Sustitúyelo por edición directa de archivos</li>
+        <li>Usa el método manual aprendido en este capítulo</li>
+        <li>Pruebas vía PM</li>
+        <li>Ejecuta los scripts de validación manualmente</li>
+        <li>Recomendado para principiantes</li>
+      </ul>
+    </div>
   </div>
 
   <div class="note">
-    <strong>Claude Desktop Ap Alternative</strong><br>
-    Si está utilizando Claude Desktop App sin el mercado de plugins de Claude Code CLI, puede lograr el mismo flujo de trabajo pidiéndole directamente a Claude: «Crea una habilidad que revise documentos markdown en busca de problemas de formato». Claude redactará el archivo <code>SKILL.md</code> por usted. Luego puede registrarlo y validarlo manualmente utilizando los pasos del skill-lifecycle-manager descritos en la sección anterior. La diferencia clave es que el plugin skill-creator automatiza el ciclo de iteración; con Claude Desktop App, tú gestionas el ciclo probar-refinar manualmente.
+    skill-creator es una herramienta avanzada para el entorno Claude Code CLI. En la Claude Desktop App puedes sustituirla con la edición directa de archivos. El método manual enseñado en este capítulo (escribir tú mismo frontmatter + cuerpo) es la técnica básica válida en ambos entornos.
   </div>
-
-
   <!-- ============================================================ -->
-  <!-- SECTION 7: Registration & Deployment                          -->
+  <!-- SECTION 7: Registro y despliegue                              -->
   <!-- ============================================================ -->
-  <h2 id="register">Registration &amp; Deployment</h2>
+  <h2 id="register">Registro y despliegue</h2>
 
-  <p>Una habilidad que no está registrada es como una tarjeta de receta que nunca llegó al cuaderno de la cocina. El sistema no puede descubrirla, los agentes no pueden cargarla y los scripts de auditoría la marcarán como huérfana. El registro hace que su habilidad sea visible para todo el espacio de trabajo.</p>
+  <h3>Dónde registrar</h3>
 
-  <h3>Registration Locations</h3>
-
-  <p>Necesita registrar su habilidad en <strong>dos ubicaciones principales</strong>:</p>
+  <p>Una vez escrita la skill, debes <strong>registrarla en dos lugares</strong> para que el sistema pueda reconocerla. Si te saltas este paso, el PM no encontrará la skill y no la despachará.</p>
 
   <div class="step-list">
     <ol>
-      <li><strong>AGENTS.md — Tabla de Habilidades</strong> (&sect;6): Agregue una fila con el nombre de la habilidad, la ruta del archivo (<code>skills/&lt;name&gt;/SKILL.md</code>) y una breve descripción. Este es el registro principal al que hacen referencia las herramientas PM y de documentación.</li>
-      <li><strong>docs/context.md — Sección de Habilidades</strong>: Agregue el nombre, tipo y breve descripción de la habilidad en la sección de habilidades. Esto asegura que la habilidad aparezca en la documentación dirigida al desarrollador.</li>
+      <li>
+        <strong>Tabla Skills de AGENTS.md (&sect;6)</strong> &mdash; añade el nombre, la ubicación del archivo, la versión y el estado de la skill a la tabla Skills del AGENTS.md de la raíz del workspace. Esta tabla actúa como registro de skills.
+      </li>
+      <li>
+        <strong>docs/VERSION_MANIFEST.md</strong> &mdash; anota la información de versión y estado de la skill. Permite seguir el historial de versiones y ver de un vistazo qué skills están activas. VERSION_MANIFEST.md es la <strong>SSOT (Single Source of Truth)</strong> de las versiones de skills.
+      </li>
     </ol>
   </div>
 
-  <h3>Registration Example</h3>
+  <h3>Ejemplo de registro en AGENTS.md</h3>
 
-  <div class="code-block">
-    <div class="code-title">AGENTS.md &mdash; Skills table entry</div>
-<pre><code>| document-reviewer | `skills/document-reviewer/SKILL.md` | Reviews markdown documents for clarity, consistency, and formatting compliance |</code></pre>
+  <p>Añade una fila como esta a la tabla Skills de AGENTS.md.</p>
+
+  
+    
+    <div class="code-block">
+<pre><code>| my-reviewer | `skills/my-reviewer/SKILL.md` | quality | Checks readability, consistency, completeness | active | 1.0.0 |</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
-  </div>
-
-  <div class="code-block">
-    <div class="code-title">docs/context.md &mdash; Skills section entry</div>
-<pre><code>### document-reviewer
-- **File**: `skills/document-reviewer/SKILL.md`
-- **Type**: process
-- **Description**: Reviews markdown documents for clarity, consistency, and formatting compliance.</code></pre>
-<button type="button" class="copy-btn">Copiar</button>
-  </div>
-
-  <h3>Deploying with sync-skills.ts</h3>
-
-  <p>Después de crear o actualizar una habilidad, ejecute el script de sincronización para distribuirla a los directorios específicos de la plataforma:</p>
-
-  <div class="code-block">
-    <div class="code-title">Deploy skill to all platforms</div>
-<pre><code>bun scripts/sync-skills.ts</code></pre>
-<button type="button" class="copy-btn">Copiar</button>
-  </div>
-
-  <p>Este script copia la skill desde <code>skills/&lt;name&gt;/SKILL.md</code> hacia <code>.claude/skills/&lt;name&gt;/SKILL.md</code> y <code>.gemini/skills/&lt;name&gt;/SKILL.md</code> para que tanto Claude Code como Antigravity CLI puedan descubrirla y cargarla. Si estás en el workspace L0 y existe un directorio <code>templates/common/</code>, también debes propagar a la plantilla L1 ejecutando <code>bun run propagate:apply</code>.</p>
-
-  <div class="note"> 
-     <strong>L0 Accessibility</strong><br> 
-     Las skills a nivel de workspace (<code>skills/</code>) tienen la prioridad <em>highest</em> en el orden de resolución de skills (ver Capítulo 4). Esto significa que una skill que crees en L0 siempre tendrá precedencia sobre las skills a nivel de plataforma o de plugin con el mismo nombre. Usa este poder con responsabilidad &mdash; evita crear skills que dupliquen o eclipsen funcionalidades existentes de plugins, a menos que quieras anularlas intencionalmente. 
 </div>
 
+  <h3>Ejemplo de registro en VERSION_MANIFEST.md</h3>
 
-  <!-- ============================================================ -->
-  <!-- SECTION 8: Practice                                           -->
-  <!-- ============================================================ -->
-  <h2 id="practice">Practice: Build Your Own Custom Skill</h2>
+  
+    
+    <div class="code-block">
+<pre><code>- **name:** my-reviewer
+  **path:** skills/my-reviewer/SKILL.md
+  **version:** 1.0.0
+  **status:** active
+  **owner:** pm
+  **type:** quality</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
 
-  <p>Ahora es tu turno. En este ejercicio, crearás una skill <strong>document-reviewer</strong> desde cero &mdash; una receta reutilizable que revisa documentos markdown para verificar formato, estructura y calidad de escritura.</p>
+  <h3>Despliegue: sync-skills.ts</h3>
 
-  <div class="prompt-box">
-    <strong>Goal</strong>: Create a functional <code>document-reviewer</code> skill, register it in <code>AGENTS.md</code>, deploy it with <code>sync-skills.ts</code>, and test that it triggers correctly.
+  <p>Las skills L0 (workspace) pueden sincronizarse con todas las plantillas (L1) y proyectos (L2) mediante el script <code>sync-skills.ts</code>. Al ejecutarlo, las skills del workspace se clonan en todos los proyectos descendentes.</p>
+
+  
+    
+    <div class="code-block">
+<pre><code># Ejecutar el script de sincronización de skills
+bun scripts/sync-skills.ts</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+
+  <div class="note">
+    Las skills L0 (workspace) están disponibles en todos los proyectos. Las skills L2 (proyecto), en cambio, solo se usan dentro de su proyecto. Cuando crees tu primera skill, conviene registrarla en L0 para que todos los proyectos puedan aprovecharla.
   </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 8: Práctica                                           -->
+  <!-- ============================================================ -->
+  <h2 id="practice">Práctica: crea tu propia skill personalizada</h2>
+
+  <h3>Objetivo de la práctica</h3>
+
+  <p>En esta práctica construirás tú mismo una <strong>"skill de revisión documental (my-reviewer)"</strong>. Experimentarás de primera mano todo el proceso: redacción del frontmatter, del cuerpo, registro en el sistema y validación.</p>
+
+  <h3>Pasos de la práctica</h3>
 
   <div class="step-list">
     <ol>
-      <li> 
-         <strong>Crea el directorio y el archivo</strong><br> 
-         Crea el directorio <code>skills/document-reviewer/</code> y añade un archivo llamado <code>SKILL.md</code> dentro de él. 
-       </li>
       <li>
-        <strong>Escribe el frontmatter</strong><br>
-        Add the YAML frontmatter with all required fields. Here is the complete frontmatter for reference:
-        <div class="code-block">
-          <div class="code-title">skills/document-reviewer/SKILL.md &mdash; frontmatter</div>
-<pre><code>---
-name: document-reviewer
-status: draft
-scope: common
-description: >
-  Reviews markdown documents for clarity, consistency, and formatting
-  compliance. Checks heading hierarchy, link validity, and writing style.
-  Use when: "review this document", "check formatting", "proofread markdown".
-owner: pm
-version: 1.0.0
-last_reviewed: 2026-08-10
-prerequisites: none
-metadata:
-  type: process
-  triggers:
-    - review document
-    - check formatting
-    - proofread
-    - document quality
----</code></pre>
-<button type="button" class="copy-btn">Copiar</button>
-        </div>
+        <strong>Abre un proyecto en la Claude Desktop App</strong> &mdash; inicia la Claude Desktop App y abre el proyecto en el que trabajas. Comprueba si existe una carpeta <code>skills/</code> en la raíz del proyecto.
       </li>
       <li>
-        <strong>Escribe el cuerpo</strong><br>
-        Use la estructura de cinco secciones. Aquí está el cuerpo completo:
-        <div class="code-block">
-          <div class="code-title">skills/document-reviewer/SKILL.md &mdash; body</div>
-<pre><code>## Overview
+        <strong>Crea el directorio</strong> &mdash; crea la carpeta <code>skills/my-reviewer/</code> y dentro un archivo <code>SKILL.md</code>.
+      </li>
+      <li>
+        <strong>Escribe el frontmatter</strong> &mdash; escribe el frontmatter YAML al inicio del SKILL.md. Guíate por el ejemplo de abajo.
+      </li>
+      <li>
+        <strong>Escribe el cuerpo</strong> &mdash; bajo el frontmatter, escribe las secciones Overview, When to Use, Steps, Expected Outputs y Examples.
+      </li>
+      <li>
+        <strong>Regístrala en AGENTS.md</strong> &mdash; añade la skill <code>my-reviewer</code>a la tabla Skills de AGENTS.md.
+      </li>
+      <li>
+        <strong>Ejecuta el script de validación</strong> &mdash; ejecuta <code>bun scripts/skill-lifecycle-audit.ts</code> para validar la estructura de la skill. Corrige cualquier error.
+      </li>
+      <li>
+        <strong>Pruébala vía PM</strong> &mdash; pide a Claude que "revisar la calidad de este documento" y confirma que la skill funciona correctamente.
+      </li>
+    </ol>
+  </div>
 
-Reviews markdown documents for structural clarity, formatting
-consistency, and writing quality. Produces a structured review
-report with categorized findings and actionable fix suggestions.
+  <h3>Ejemplo del archivo completo</h3>
+
+  <p>A continuación tienes el contenido íntegro de <code>skills/my-reviewer/SKILL.md</code>. Úsalo tal cual o adáptalo a tus necesidades.</p>
+
+  
+    
+    <div class="code-block">
+<pre><code>---
+name: my-reviewer
+status: active
+description: >
+  Reviews document quality and provides structured feedback.
+  Checks readability, consistency, and completeness of
+  markdown documents. Outputs a structured review report
+  with severity levels and improvement suggestions.
+owner: pm
+version: "1.0.0"
+metadata:
+  type: quality
+  triggers:
+    - "review document"
+    - "check quality"
+    - "quality review"
+    - "문서 검토"
+    - "품질 확인"
+---
+
+## Overview
+
+This skill performs a comprehensive quality review of
+markdown documents. It evaluates documents from three
+perspectives: readability, consistency, and completeness,
+then provides structured feedback with actionable suggestions.
+
+Scope: markdown (.md) files in the project workspace.
 
 ## When to Use
 
-- User says "review this document" or "check formatting"
-- Before publishing a markdown file to catch issues
-- After a major edit to verify the document still meets standards
-- When quality-gating content before handoff to the next agent
+Activate this skill when:
+- The user requests a document review
+- A document has been newly created or significantly revised
+- PM dispatches quality review as part of a pipeline gate
+- The user asks to "check quality" or "review document"
 
 ## Steps
 
-### Step 1: Load and Parse
-- Read the target markdown file using the Read tool
-- Parse the document structure (headings, links, code blocks)
-- Count total lines and estimate word count
-
-### Step 2: Structural Checks
-- Verify heading hierarchy (no H3 before H2, exactly one H1)
-- Check that every internal link targets an existing file
-- Validate that code blocks specify a language tag
-- Ensure images have alt text
-
-### Step 3: Style Review
-- Flag passive voice overuse (more than 30% of sentences)
-- Check for run-on paragraphs (more than 5 sentences)
-- Verify consistent terminology (same term used throughout)
-- Check for redundant phrases or wordiness
-
-### Step 4: Generate Report
-- Create `review-report.md` in the same directory as the input
-- Structure the report with sections: Structure, Links, Style,
-  Terminology, Summary
-- Each finding includes severity (error/warning/info), location
-  (line reference), and suggested fix
+1. **Identify target file** — Confirm the file path of the
+   document to review. If not specified, ask the user.
+2. **Read the document** — Load the full content of the
+   target file.
+3. **Readability check** — Evaluate sentence length,
+   paragraph structure, heading hierarchy, and overall
+   flow. Flag sections that are hard to follow.
+4. **Consistency check** — Verify terminology usage, format
+   style, date format, heading capitalization, and list
+   formatting across the entire document.
+5. **Completeness check** — Identify missing sections,
+   incomplete sentences, broken references, and unresolved
+   TODO markers.
+6. **Generate review report** — Compile findings into a
+   structured report with severity levels:
+   - INFO: minor suggestions
+   - WARNING: recommended improvements
+   - ERROR: issues that must be fixed
 
 ## Expected Outputs
 
-- `review-report.md` in the same directory as the reviewed file
-- Sections: Structure, Links, Style, Terminology, Summary
-- Severity levels: error (must fix), warning (should fix),
-  info (suggestion)
-- Word count and line count summary at the top
+- Structured review report (stdout)
+- Issue count by severity (INFO / WARNING / ERROR)
+- Prioritized improvement suggestions
 
 ## Examples
 
-**Input**: "Review docs/ch02/02_Getting_Started.md"
-**Output**: Creates `docs/ch02/review-report.md` reporting
-  2 errors (broken link on line 45, missing H1), 4 warnings
-  (passive voice, long paragraphs), and 3 info items
-  (terminology suggestions).</code></pre>
+**Example 1:** User says "review document"
+→ Read the specified file, run all 3 checks,
+  output a structured review report.
+
+**Example 2:** PM dispatches after handbook chapter
+  completion
+→ Review the chapter HTML source, check authoring
+  guideline compliance, report findings.</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
-        </div>
-      </li>
-      <li>
-        <strong>Register in AGENTS.md</strong><br>
-        Agregue el document-reviewer a la tabla de Habilidades en <code>AGENTS.md</code> con la ruta del archivo y la descripción. Si su proyecto tiene un <code>docs/context.md</code>, agregue también una entrada allí.
-      </li>
-      <li>
-        <strong>Despliega con sync-skills.ts</strong><br>
-        Ejecute <code>bun scripts/sync-skills.ts</code> en su terminal para distribuir la habilidad a los directorios específicos de la plataforma (<code>.claude/skills/</code> y <code>.gemini/skills/</code>).
-      </li>
-      <li>
-        <strong>Validate</strong><br>
-        Ejecute <code>bun run verify-skills</code> (o <code>bun scripts/validate-skills.ts</code>) para verificar que la habilidad pasa todas las comprobaciones estructurales y de contenido. Corrija cualquier error informado.
-      </li>
-      <li>
-        <strong>Test activation</strong><br>
-        En Claude Code (o Claude Desktop App), intente decir: «Revisa el archivo README.md en busca de problemas de formato». Verifique que la habilidad se cargue, que los pasos se ejecuten y que el archivo <code>review-report.md</code> se cree con la estructura esperada.
-      </li>
-    </ol>
-  </div>
+</div>
 
   <div class="tip-box">
-    <strong>Probar Es Esencial</strong><br>
-    La verdadera prueba de una nueva habilidad no es si el script de validación pasa — sino si la habilidad produce una salida útil cuando se activa con una solicitud real del usuario. Después de que la validación pase, ejecute siempre al menos una prueba de extremo a extremo: active la habilidad con un prompt realista, revise la salida y refine las instrucciones del paso si los resultados son inconsistentes o pasan por alto comprobaciones importantes. Las habilidades son documentos vivos; espere iterar 2–3 veces antes de que el comportamiento sea confiablemente consistente.
+    <strong>Tras terminar la skill, pide al PM que "revise la calidad de este documento" y comprueba que funciona bien.</strong> Si la skill no se dispara, revisa que sus palabras clave aparecen en el campo triggers del frontmatter y que está registrada en AGENTS.md. La coincidencia de triggers funciona mejor cuanto más se acerca a la coincidencia exacta de palabra clave.
   </div>
 
+  <h3>Lista de verificación</h3>
+
+  <p>Al terminar la skill, haz una comprobación final con esta lista.</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+    <thead>
+      <tr>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">Punto de control</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">Qué verificar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Ubicación del archivo</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">¿Existe el archivo en <code>skills/my-reviewer/SKILL.md</code>?</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Campos obligatorios</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">¿Están rellenados name, status, description, owner y version?</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Secciones del cuerpo</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">¿Están Overview, When to Use, Steps, Expected Outputs y Examples?</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Registro en AGENTS.md</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">¿Se añadió la skill a la tabla Skills?</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">VERSION_MANIFEST</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">¿Se registró la información de versión?</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;">Prueba funcional</td>
+        <td style="padding:8px 12px;">¿Funciona correctamente con las palabras clave?</td>
+      </tr>
+    </tbody>
+  </table>
+
   <div class="keypoints">
-    <div class="kp-title">Key Takeaways</div>
+    <div class="kp-title">Resumen del capítulo</div>
     <ul>
-      <li>A skill is a reusable instruction recipe stored at <code>skills/&lt;name&gt;/SKILL.md</code></li>
-      <li>Skill file = YAML frontmatter (metadata + triggers) + Markdown body (instructions)</li>
-      <li>Frontmatter requires: name, status, description, owner, version, metadata.type, metadata.triggers</li>
-      <li>Body sections: Overview, When to Use, Steps, Expected Resultados, Examples</li>
-      <li>skill-lifecycle-manager provides a 6-step creation and validation process</li>
-      <li>skill-creator (Claude Code plugin) assists with test-driven iterative authoring</li>
-      <li>Registrar habilidades en AGENTS.md y docs/context.md, luego desplegar con <code>bun scripts/sync-skills.ts</code></li>
-      <li>Probar siempre la activación con una frase activadora real después de que haya pasado la validación</li>
-      <li>Comenzar con <code>status: draft</code>, promover a <code>active</code> después de que la habilidad se comporte consistentemente</li>
+      <li>Una skill es un flujo de trabajo reutilizable que ejecuta un agente. Si el agente es el "quién", la skill define el "qué se hace".</li>
+      <li><strong>SKILL.md</strong> se compone de frontmatter YAML (metadatos) y cuerpo markdown (instrucciones de ejecución).</li>
+      <li><strong>Campos del frontmatter:</strong> name, status, description, owner y version son obligatorios; metadata.type y metadata.triggers son opcionales.</li>
+      <li>El cuerpo debería organizarse en las secciones Overview, When to Use, Steps, Expected Outputs y Examples.</li>
+      <li><strong>skill-lifecycle-manager</strong> guía el proceso de 6 pasos: crear directorio → frontmatter → cuerpo → registro → validación → prueba.</li>
+      <li><strong>skill-creator</strong> es una herramienta avanzada de autoría iterativa guiada por pruebas en el entorno Claude Code CLI.</li>
+      <li>El registro se realiza en dos lugares: la tabla Skills de AGENTS.md y VERSION_MANIFEST.md.</li>
     </ul>
   </div>
 
+  <div class="tip-box">
+    <strong>Vista previa del próximo capítulo:</strong> en el capítulo 11 aprenderás a combinar los agentes y skills creados aquí para formar <strong>tu propio equipo de agentes</strong>. Practicarás todo el proceso: definir el propósito del equipo, combinar los agentes y skills necesarios, y diseñar su flujo de trabajo.
+  </div>
 
   <!-- ============================================================ -->
-  <!-- Chapter Navigation                                           -->
+  <!-- CHAPTER NAVIGATION                                            -->
   <!-- ============================================================ -->
   <div class="chapter-nav">
     <a href="../ch09/09_Creating_Agents_es.html" class="prev">

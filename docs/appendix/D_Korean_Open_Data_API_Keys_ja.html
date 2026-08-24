@@ -293,7 +293,7 @@
        ============================================================ -->
   <h2 id="env-config">6. 環境変数の設定</h2>
 
-  <p>発行されたキーは、プロジェクトルートの <code>.env.sample</code> を <code>.env</code> にコピーして設定します。韓国関連のキーは <code># &gt;&gt;&gt; country-scoped:KR</code> マーカーブロックにまとまっています。<code>DART_API_KEY</code> と <code>LAW_API_OC</code> はすでに記載されていますが、<strong><code>KOSIS_API_KEY</code> はまだ <code>.env.sample</code> にないため、行を手動で追加</strong>する必要があります。</p>
+  <p>発行されたキーは、プロジェクトルートの <code>.env.sample</code> を <code>.env</code> にコピーして設定します。韓国関連の3つのキー（<code>DART_API_KEY</code>、<code>LAW_API_OC</code>、<code>KOSIS_API_KEY</code>）は、いずれも <code># &gt;&gt;&gt; country-scoped:KR</code> マーカーブロックに最初から記載されています — <strong>値を埋めるだけで、行を重複して追加しないでください</strong>。</p>
 
   <div class="code-block">
 <pre><code>cp .env.sample .env

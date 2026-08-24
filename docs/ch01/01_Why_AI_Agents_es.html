@@ -2,10 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Cap. 1 · ¿Por qué equipos de AI agent? - Introducción a Claude Code y Multi-Agent Harness">
+  <meta name="description" content="Cap. 1 · ¿Por qué equipos de agentes de IA? - Introducción a Claude Code y Multi-Agent Harness">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
-  <title>Cap. 1 · ¿Por qué equipos de AI agent?</title>
+  <title>Cap. 1 · ¿Por qué equipos de agentes de IA?</title>
   <link rel="stylesheet" href="../assets/css/handbook-variables.css">
   <link rel="stylesheet" href="../assets/css/handbook-components.css">
 </head>
@@ -14,12 +14,12 @@
 
 <nav>
   <a href="../index_es.html" class="nav-home">&larr; Inicio del manual</a>
-  <div class="nav-title">Cap. 1 &middot; ¿Por qué equipos de AI agent?</div>
-  <a href="#ai-trends">Evolución rápida de la IA</a>
-  <a href="#single-vs-multi">IA individual vs. equipos de agentes</a>
+  <div class="nav-title">Cap. 1 &middot; ¿Por qué equipos de agentes de IA?</div>
+  <a href="#ai-trends">Avance acelerado de la IA</a>
+  <a href="#single-vs-multi">IA única vs. equipo de agentes</a>
   <a href="#what-is-harness">¿Qué es un harness?</a>
   <a href="#expected-benefits">Beneficios esperados</a>
-  <a href="#handbook-roadmap">Mapa del manual</a>
+  <a href="#handbook-roadmap">Hoja de ruta del manual</a>
   <div class="nav-section">Otros capítulos</div>
   <a href="../ch02/02_Claude_Desktop_App_es.html">Cap. 2 &middot; Comenzando con Claude Desktop App</a>
   <a href="../ch04/04_Harness_Concepts_es.html">Cap. 4 &middot; Conceptos del Multi-Agent Harness</a>
@@ -28,402 +28,417 @@
 <main>
  <article class="reading">
   <div class="chapter-eyebrow">Capítulo 1</div>
-  <h1>¿Por qué equipos de AI agent?</h1>
-  <p class="lead">La IA está transformando nuestro trabajo diario. Pero una sola IA tiene dificultades con problemas complejos. ¿Qué sucede cuando múltiples AI agent colaboran, cada uno con su propia especialidad? Este capítulo explora por qué se necesitan equipos de agentes y qué es un "harness".</p>
+  <h1>¿Por qué equipos de agentes de IA?</h1>
+  <p class="lead">La IA está transformando la vida cotidiana y el trabajo. Sin embargo, una sola IA tiene dificultades para resolver problemas complejos. ¿Qué ocurre cuando varios agentes de IA cooperan, cada uno con su propio papel? En este capítulo se explica por qué hacen falta equipos de agentes de IA y qué es un harness.</p>
 
   <div class="keypoints">
-    <div class="kp-title">Lo que cubre este capítulo</div>
+    <div class="kp-title">Lo que trata este capítulo</div>
     <ul>
-      <li>Tendencias recientes de desarrollo de IA y adopción en el trabajo</li>
-      <li>Diferencias entre una sola IA y los equipos multi-agente</li>
-      <li>El concepto y rol de un Harness</li>
-      <li>Beneficios esperados del uso de equipos de agentes</li>
-      <li>Mapa general de este manual</li>
+      <li>Tendencias recientes del desarrollo de la IA y su uso en el trabajo</li>
+      <li>Diferencias entre una IA única y un equipo multiagente</li>
+      <li>El concepto y el papel del harness</li>
+      <li>Beneficios esperados al usar equipos de agentes</li>
+      <li>Hoja de ruta completa de este manual</li>
     </ul>
   </div>
 
-  <!-- ============================================================
-       Sección 1: Evolución rápida de la IA
-       ============================================================ -->
-  <h2 id="ai-trends">1. Evolución rápida de la IA</h2>
+  <!-- ============================================================ -->
+  <!-- SECCIÓN 1: Avance acelerado de la IA                            -->
+  <!-- ============================================================ -->
+  <h2 id="ai-trends">Avance acelerado de la IA</h2>
 
-  <p>Los años entre 2023 y 2026 no han sido nada menos que revolucionarios para la inteligencia artificial. Cuando OpenAI lanzó <strong>ChatGPT</strong> a finales de 2022, capturó la atención mundial casi de la noche a la mañana. Para 2023, las grandes empresas tecnológicas competían por lanzar sus propios modelos de lenguaje grande (LLMs). <strong>Claude</strong> de Anthropic, <strong>Gemini</strong> de Google y <strong>Copilot</strong> de Microsoft aportaron cada uno fortalezas únicas. Estos no son solo chatbots — son capaces de escribir documentos, analizar datos, generar código e incluso razonar a través de problemas complejos paso a paso.</p>
+  <h3>Crecimiento explosivo desde 2023</h3>
 
-  <p>Lo que diferencia esta ola de los ciclos anteriores de hype de IA es la <em>accesibilidad</em>. Ya no necesitas un doctorado en aprendizaje automático para beneficiarte de la IA. Cualquier persona con un navegador web o una aplicación de escritorio puede escribir una pregunta en lenguaje natural y recibir una respuesta detallada y bien estructurada. Esto ha reducido drásticamente la barrera de entrada para profesionales de todas las industrias.</p>
+  <p>Con el lanzamiento de ChatGPT a finales de 2022, la inteligencia artificial pasó de ser una tecnología experimental dentro de los laboratorios de investigación a convertirse en una herramienta práctica de la vida diaria. En 2023 se lanzaron uno tras otro potentes modelos de IA como Claude de Anthropic, Gemini de Google y Llama de Meta. En 2024 aparecieron Claude 3.5 y GPT-4o, con mejoras drásticas en capacidad de razonamiento y procesamiento multilingüe. De 2025 a 2026, las <strong>herramientas de programación con IA</strong> como Claude Code, Antigravity CLI y Cursor se difundieron ampliamente, llegando no solo a desarrolladores sino también a usuarios generales.</p>
 
-  <h3>La IA en el lugar de trabajo</h3>
+  <p>Lo esencial de este cambio es que la IA está evolucionando más allá de una simple «IA conversacional» hacia un <strong>agente que actúa por sí mismo</strong>. La IA de antes se limitaba a responder preguntas; hoy puede crear archivos, escribir código, recopilar información de la web y realizar tareas de varios pasos por sí sola.</p>
 
-  <p>En prácticamente todas las industrias, las herramientas de IA están transformando la forma en que las personas trabajan. Aquí hay algunos de los cambios más visibles:</p>
+  <h3>Ámbitos de trabajo que la IA ya está transformando</h3>
+
+  <p>Actualmente la IA ya se utiliza activamente en ámbitos de trabajo como los siguientes.</p>
 
   <ul>
-    <li><strong>Escritura y edición de documentos</strong> — La IA puede redactar correos electrónicos, informes, propuestas y resúmenes de reuniones en segundos, y luego refinar el tono y la estructura según tus comentarios.</li>
-    <li><strong>Desarrollo de software</strong> — Asistentes de IA como Claude Code y GitHub Copilot pueden escribir, revisar y depurar código, reduciendo el tiempo que los desarrolladores dedican a tareas repetitivas hasta en un 40%.</li>
-    <li><strong>Análisis de datos</strong> — La IA puede procesar hojas de cálculo, identificar tendencias, generar gráficos y producir resúmenes ejecutivos que tomarían horas compilar manualmente.</li>
-    <li><strong>Presentaciones y elementos visuales</strong> — Las herramientas impulsadas por IA pueden generar presentaciones de diapositivas, diagramas e infografías a partir de una simple descripción de texto.</li>
-    <li><strong>Investigación y recopilación de datos</strong> — Los AI agent pueden buscar en la web, cruzar fuentes y compilar notas de investigación sobre prácticamente cualquier tema.</li>
+    <li><strong>Redacción de documentos</strong> — Informes, propuestas, borradores de correo electrónico y entradas de blog pueden redactarse y revisarse con rapidez. Se ha generalizado el flujo en el que la IA prepara un borrador y el usuario lo revisa y corrige.</li>
+    <li><strong>Programación y desarrollo</strong> — Con herramientas como Claude Code o GitHub Copilot, quienes se inician en la programación pueden crear programas sencillos, y los desarrolladores experimentados automatizan tareas repetitivas y aumentan mucho su productividad.</li>
+    <li><strong>Análisis de datos</strong> — La IA puede extraer conclusiones clave de grandes volúmenes de datos y visualizarlas mediante gráficos.</li>
+    <li><strong>Creación de presentaciones</strong> — Ya han aparecido sistemas en los que, al introducir un tema, la IA se encarga automáticamente de la composición de diapositivas, la redacción del contenido e incluso del diseño.</li>
+    <li><strong>Investigación</strong> — Con búsquedas web y resúmenes de documentos, la investigación sobre un tema concreto puede completarse en cuestión de minutos.</li>
   </ul>
 
-  <p>El hilo común en todos estos casos de uso es una reducción drástica del tiempo dedicado a tareas rutinarias, liberando a los profesionales para enfocarse en el pensamiento de alto nivel, las decisiones creativas y la planificación estratégica.</p>
+  <h3>Por qué los principiantes deberían aprender IA</h3>
+
+  <p>Las herramientas de IA ya no son «algo que solo usan los expertos técnicos». Redactores, planificadores, docentes, estudiantes, autónomos: sea cual sea tu ocupación, saber utilizar la IA es hoy una habilidad imprescindible. En particular, coordinar varios agentes de IA va más allá de «usar la IA»: equivale a <strong>«operar la IA como un equipo»</strong>. Esa es una competencia clave que mejora dramáticamente la eficiencia del trabajo.</p>
 
   <div class="tip-box">
-    Las herramientas de IA pueden usarse incluso sin conocimientos de programación. La mayoría de los asistentes de IA modernos entienden instrucciones en lenguaje natural. Simplemente describe lo que necesitas en español cotidiano (o inglés, coreano, japonés y muchos otros idiomas), y la IA hace el resto. Este manual está diseñado con ese principio en mente — no necesitas ser programador para seguirlo.
+    <strong>Consejo:</strong> Puedes usar herramientas de IA sin saber programar. Herramientas como Claude Desktop App funcionan con instrucciones en lenguaje natural (en coreano o inglés), así que cualquier persona sin experiencia en programación puede aprovecharlas al máximo.
   </div>
 
-  <h3>¿Por qué aprender sobre equipos de AI agent ahora?</h3>
+  <!-- ============================================================ -->
+  <!-- SECCIÓN 2: IA única vs. equipo de agentes                       -->
+  <!-- ============================================================ -->
+  <h2 id="single-vs-multi">IA única vs. equipo de agentes</h2>
 
-  <p>La transición de usar un solo chatbot de IA a orquestar un <em>equipo</em> de AI agent ya está en marcha. Los primeros adoptantes — consultores, investigadores, educadores y equipos de producto — están descubriendo que los flujos de trabajo multi-agente pueden producir resultados más rápidos, más exhaustivos y más confiables que lo que cualquier IA individual puede ofrecer. Aprender estos patrones ahora te pone por delante de la curva a medida que la tecnología madura.</p>
+  <p>Es la primera pregunta que surge al usar IA. <em>«¿No basta con una sola IA?»</em> Para decirlo desde el principio: en tareas sencillas basta una IA. Pero en proyectos complejos — por ejemplo, automatizar todo el proceso desde la investigación de mercado hasta la presentación final — resulta mucho más eficaz el enfoque de <strong>equipo de agentes (Agent Team)</strong>, en el que varias IA reparten los papeles y colaboran.</p>
 
-  <p>Piénsalo de esta manera: hace diez años, saber usar un buscador era una ventaja competitiva. Hoy es una habilidad básica. De la misma manera, comprender cómo coordinar múltiples AI agent pronto se convertirá en una expectativa básica para los trabajadores del conocimiento. Este manual te da esa habilidad, partiendo de cero.</p>
-
-  <!-- ============================================================
-       Sección 2: IA individual vs. equipos de agentes
-       ============================================================ -->
-  <h2 id="single-vs-multi">2. IA individual vs. equipos de agentes</h2>
-
-  <p>La mayoría de las personas interactúan con la IA una conversación a la vez. Abres Claude, escribes una pregunta y obtienes una respuesta. Este es el modelo de <strong>IA individual</strong>. Funciona bien para tareas sencillas, pero tiene limitaciones reales cuando los problemas se vuelven complejos, de múltiples pasos o requieren diferentes tipos de experiencia.</p>
-
-  <p>Un <strong>equipo multi-agente</strong> adopta un enfoque fundamentalmente diferente. En lugar de una sola IA haciéndolo todo, múltiples AI agent especializados trabajan juntos, cada uno enfocándose en lo que mejor sabe hacer. Un <em>agente Project Manager</em> descompone el problema y asigna tareas. Un <em>agente de investigación</em> recopila información. Un <em>agente de diseño</em> se encarga de las decisiones visuales. Un <em>agente de código</em> escribe código. Cada agente entrega su trabajo al siguiente, y una revisión de calidad verifica el resultado final.</p>
-
-  <p>El diagrama siguiente ilustra la diferencia de un vistazo:</p>
+  <h3>Diagrama comparativo</h3>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama comparando el enfoque de IA individual vs equipo de agentes">
-      <!-- Lado IA individual -->
-      <text x="160" y="28" text-anchor="middle" style="color:var(--text-dim);font-size:13px;font-weight:600;">IA individual</text>
-      <rect x="50" y="48" width="220" height="80" rx="12" fill="var(--bg-info)" stroke="var(--border)" stroke-width="1.5"/>
-      <text x="160" y="85" text-anchor="middle" style="color:var(--text);font-size:14px;font-weight:600;">Una IA</text>
-      <text x="160" y="105" text-anchor="middle" style="color:var(--text-dim);font-size:12px;">Hace todo</text>
-      <!-- Flecha hacia abajo -->
-      <line x1="160" y1="128" x2="160" y2="168" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSingle)"/>
-      <rect x="50" y="172" width="220" height="50" rx="10" fill="var(--bg3)" stroke="var(--border)" stroke-width="1"/>
-      <text x="160" y="202" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Resultado</text>
+    <svg width="100%" viewBox="0 0 660 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama que compara una IA única y un equipo de agentes">
+      <!-- ===== IZQUIERDA: IA única ===== -->
+      <rect x="10" y="20" width="200" height="280" rx="12" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="110" y="52" text-anchor="middle" font-size="16" font-weight="bold" style="fill:var(--text)">IA única</text>
 
-      <!-- Divisor -->
-      <line x1="340" y1="18" x2="340" y2="320" stroke="var(--border)" stroke-width="1" stroke-dasharray="6,4"/>
+      <!-- Usuario -->
+      <rect x="55" y="72" width="110" height="40" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="110" y="97" text-anchor="middle" font-size="13" style="fill:var(--text)">Usuario</text>
 
-      <!-- Lado equipo de agentes -->
-      <text x="520" y="28" text-anchor="middle" style="color:var(--text-dim);font-size:13px;font-weight:600;">Equipo de agentes</text>
+      <!-- Flecha -->
+      <line x1="110" y1="112" x2="110" y2="142" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSingle)"/>
 
-      <!-- PM Orquestador -->
-      <rect x="430" y="48" width="180" height="46" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="520" y="76" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:700;">PM Orquestador</text>
+      <!-- Caja IA única -->
+      <rect x="25" y="148" width="170" height="60" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="110" y="174" text-anchor="middle" font-size="12" style="fill:var(--text)">Una sola IA</text>
+      <text x="110" y="194" text-anchor="middle" font-size="12" style="fill:var(--text)">lo gestiona todo</text>
 
-      <!-- Flecha del PM a especialistas -->
-      <line x1="520" y1="94" x2="520" y2="118" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowTeam)"/>
+      <!-- Flecha -->
+      <line x1="110" y1="208" x2="110" y2="238" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSingle)"/>
 
-      <!-- Tres cajas de especialistas -->
-      <rect x="390" y="122" width="100" height="44" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="440" y="149" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:600;">Investigación</text>
+      <!-- Resultado -->
+      <rect x="55" y="244" width="110" height="40" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="110" y="269" text-anchor="middle" font-size="13" style="fill:var(--text)">Resultado</text>
 
-      <rect x="500" y="122" width="100" height="44" rx="8" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="1.5"/>
-      <text x="550" y="149" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:600;">Diseño</text>
+      <!-- ===== DERECHA: Equipo de agentes ===== -->
+      <rect x="430" y="20" width="220" height="280" rx="12" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="540" y="52" text-anchor="middle" font-size="16" font-weight="bold" style="fill:var(--text)">Equipo de agentes</text>
 
-      <rect x="610" y="122" width="56" height="44" rx="8" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="638" y="142" text-anchor="middle" style="color:var(--text);font-size:10px;font-weight:600;">Código</text>
-      <text x="638" y="155" text-anchor="middle" style="color:var(--text);font-size:10px;font-weight:600;">Especialista</text>
+      <!-- Usuario -->
+      <rect x="485" y="72" width="110" height="40" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="540" y="97" text-anchor="middle" font-size="13" style="fill:var(--text)">Usuario</text>
 
-      <!-- Flechas de especialistas convergen al resultado -->
-      <line x1="440" y1="166" x2="440" y2="196" stroke="var(--accent-green)" stroke-width="1.2"/>
-      <line x1="550" y1="166" x2="550" y2="196" stroke="var(--accent-purple)" stroke-width="1.2"/>
-      <line x1="638" y1="166" x2="638" y2="196" stroke="var(--accent-amber)" stroke-width="1.2"/>
-      <!-- Líneas de convergencia -->
-      <line x1="440" y1="196" x2="520" y2="218" stroke="var(--border)" stroke-width="1.2"/>
-      <line x1="550" y1="196" x2="520" y2="218" stroke="var(--border)" stroke-width="1.2"/>
-      <line x1="638" y1="196" x2="520" y2="218" stroke="var(--border)" stroke-width="1.2" marker-end="url(#arrowTeam)"/>
+      <!-- Flecha -->
+      <line x1="540" y1="112" x2="540" y2="142" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowTeam)"/>
 
-      <rect x="430" y="222" width="180" height="50" rx="10" fill="var(--bg3)" stroke="var(--border)" stroke-width="1"/>
-      <text x="520" y="252" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Resultado</text>
+      <!-- Orquestador PM -->
+      <rect x="455" y="148" width="170" height="36" rx="8" fill="var(--accent-purple)" stroke="none" opacity="0.85"/>
+      <text x="540" y="171" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-inverse)">Orquestador PM</text>
 
-      <!-- Anotación -->
-      <text x="520" y="310" text-anchor="middle" style="color:var(--text-dim);font-size:11px;font-style:italic;">Cada especialista se enfoca en su fortaleza</text>
+      <!-- Líneas del PM a los especialistas -->
+      <line x1="470" y1="184" x2="455" y2="212" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowTeam)"/>
+      <line x1="540" y1="184" x2="540" y2="212" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowTeam)"/>
+      <line x1="610" y1="184" x2="625" y2="212" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowTeam)"/>
 
-      <!-- Marcadores de flecha -->
+      <!-- Agentes especialistas -->
+      <rect x="455" y="218" width="55" height="36" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="482" y="240" text-anchor="middle" font-size="9" style="fill:var(--text)">Investigación</text>
+
+      <rect x="518" y="218" width="55" height="36" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="545" y="240" text-anchor="middle" font-size="9" style="fill:var(--text)">Diseño</text>
+
+      <rect x="581" y="218" width="55" height="36" rx="6" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="608" y="240" text-anchor="middle" font-size="9" style="fill:var(--text)">Código</text>
+
+      <!-- Especialistas al resultado -->
+      <line x1="482" y1="254" x2="520" y2="272" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowTeam)"/>
+      <line x1="545" y1="254" x2="540" y2="272" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowTeam)"/>
+      <line x1="608" y1="254" x2="560" y2="272" stroke="var(--accent)" stroke-width="1.2" marker-end="url(#arrowTeam)"/>
+
+      <!-- Resultado -->
+      <rect x="485" y="278" width="110" height="16" rx="4" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="540" y="290" text-anchor="middle" font-size="10" style="fill:var(--text)">Resultado integrado</text>
+
+      <!-- Distintivo VS -->
+      <text x="325" y="168" text-anchor="middle" font-size="28" font-weight="bold" style="fill:var(--text-dim)">vs</text>
+
+      <!-- Definiciones de puntas de flecha -->
       <defs>
-        <marker id="arrowSingle" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
+        <marker id="arrowSingle" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
         </marker>
-        <marker id="arrowTeam" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
+        <marker id="arrowTeam" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-purple)"/>
         </marker>
       </defs>
     </svg>
   </div>
 
-  <h3>Limitaciones de una sola IA</h3>
+  <h3>Limitaciones de una IA única</h3>
 
-  <p>Trabajar con una sola IA está perfectamente bien para preguntas rápidas o tareas simples. Sin embargo, a medida que crece la complejidad de tu tarea, se vuelven aparentes varias limitaciones estructurales:</p>
+  <p>Una IA única procesa todas las tareas con un solo modelo. Sirve para responder preguntas sencillas o escribir textos breves, pero en proyectos complejos aparecen las siguientes limitaciones.</p>
 
   <ul>
-    <li><strong>Límites de la ventana de contexto</strong> — Cada IA tiene una cantidad máxima de información que puede mantener en una sola conversación (llamada <em>ventana de contexto</em>). Cuando le pides que investigue un tema, diseñe una solución, escriba código y revise el resultado todo de una vez, la IA puede "olvidar" partes anteriores de la conversación o producir resultados de menor calidad a medida que el contexto se llena.</li>
-    <li><strong>Falta de especialización profunda</strong> — Una sola IA es generalista. Sabe un poco sobre muchos temas. Pero para tareas que requieren experiencia profunda — como seguir las pautas de marca de una empresa con precisión, escribir código de calidad de producción o aplicar métodos de investigación específicos de un dominio — un generalista a menudo no alcanza lo que un especialista puede ofrecer.</li>
-    <li><strong>Sin procesamiento en paralelo</strong> — Una sola IA trabaja secuencialmente. Si necesitas investigación <em>y</em> diseño <em>y</em> código, la IA debe manejar cada paso uno a la vez. Con un equipo de agentes, los agentes de investigación y diseño pueden trabajar en paralelo, reduciendo drásticamente el tiempo total.</li>
-    <li><strong>Sin control de calidad incorporado</strong> — Una sola IA revisa su propio trabajo, lo que significa que puede pasar por alto errores que un segundo revisor independiente detectaría. Los equipos de agentes naturalmente soportan la separación entre el trabajador y el revisor.</li>
+    <li><strong>Límites de la ventana de contexto (Context Window)</strong> — Una IA solo puede procesar cierta cantidad de información a la vez. Si maneja a la vez varios documentos largos y grandes volúmenes de datos, puede olvidar o confundir la información inicial. A ese límite se le llama <em>ventana de contexto</em>.</li>
+    <li><strong>Falta de especialización</strong> — Es difícil que una sola IA realice investigación, diseño, programación y revisión documental todos a alto nivel. Al repartir los papeles de experto, cada campo puede abordarse con mayor profundidad.</li>
+    <li><strong>Sin trabajo simultáneo</strong> — Una IA única ejecuta una tarea cada vez; primero debe acabar la investigación para empezar el diseño. En entornos reales de trabajo, lo habitual es que varias tareas avancen a la vez.</li>
+    <li><strong>Difícil control de calidad</strong> — Como la estructura hace que la IA revise su propia producción, sesgos y errores pasan fácilmente desapercibidos. Contar con una figura aparte de «revisor» mejora enormemente la calidad.</li>
   </ul>
 
   <h3>Ventajas de los equipos de agentes</h3>
 
-  <p>Los equipos multi-agente abordan cada una de esas limitaciones. La comparación a continuación resume las diferencias clave:</p>
+  <p>Cuando varios agentes de IA cooperan, cada uno con su papel de experto, estas limitaciones pueden superarse.</p>
 
   <div class="compare-grid">
-    <div class="compare-col">
-      <h4>IA individual</h4>
+    <div class="col">
+      <h4>IA única</h4>
       <ul>
-        <li>Un modelo maneja todas las tareas</li>
-        <li>Secuencial — un paso tras otro</li>
-        <li>Ventana de contexto limitada por conversación</li>
-        <li>Resultado generalista (bueno, no experto)</li>
-        <li>Sin revisión de calidad independiente</li>
-        <li>Ideal para tareas simples y rápidas</li>
+        <li>Un modelo gestiona todas las tareas</li>
+        <li>Cantidad de información procesable limitada</li>
+        <li>Las tareas avanzan de forma secuencial</li>
+        <li>Solo es posible la autorrevisión</li>
+        <li>Adecuada para tareas simples</li>
       </ul>
     </div>
-    <div class="compare-col">
+    <div class="col">
       <h4>Equipo de agentes</h4>
       <ul>
-        <li>División de roles — cada agente se especializa</li>
-        <li>Procesamiento en paralelo cuando es posible</li>
-        <li>Cada agente tiene su propio contexto enfocado</li>
-        <li>Resultado de nivel experto por dominio</li>
-        <li>Revisión y puertas de calidad incorporadas</li>
-        <li>Ideal para proyectos complejos y de múltiples pasos</li>
+        <li>Agentes especializados reparten los roles</li>
+        <li>Cada agente conserva su contexto independiente</li>
+        <li>Varios agentes trabajan en paralelo</li>
+        <li>Un agente revisor dedicado controla la calidad</li>
+        <li>Adecuado para proyectos complejos</li>
       </ul>
     </div>
   </div>
 
-  <p>La contrapartida es que los equipos de agentes requieren más configuración: necesitas un sistema que defina el rol de cada agente, establezca las reglas para las entregas entre agentes y aplique puntos de control de calidad. Ese sistema es lo que llamamos un <strong>harness</strong>, y es el tema de la siguiente sección.</p>
+  <p>La idea central de un equipo de agentes es <strong>trasladar la estructura organizativa humana al mundo de la IA</strong>. Igual que una empresa separa sus equipos de planificación, diseño, desarrollo y QA, los agentes de IA reparten los roles y obtienen mejores resultados.</p>
 
-  <!-- ============================================================
-       Sección 3: ¿Qué es un Harness?
-       ============================================================ -->
-  <h2 id="what-is-harness">3. ¿Qué es un Harness?</h2>
+  <!-- ============================================================ -->
+  <!-- SECCIÓN 3: ¿Qué es un Harness?                                  -->
+  <!-- ============================================================ -->
+  <h2 id="what-is-harness">¿Qué es un Harness?</h2>
 
-  <p>En el contexto de los equipos de AI agent, un <strong>harness</strong> es un sistema que controla y coordina múltiples AI agent para que puedan trabajar juntos de manera eficiente. Define quién hace qué, en qué orden y cómo se pasan los resultados de un agente al siguiente. Sin un harness, tendrías que copiar y pegar manualmente el resultado de una conversación de IA a otra — tedioso, propenso a errores e imposible de escalar.</p>
+  <p>Para que varios agentes de IA actúen como un «equipo», hay que decidir qué papel asume cada uno y en qué orden trabajan. Justo entonces es cuando hace falta un <strong>harness</strong>.</p>
 
-  <div class="note">
-    Un harness es como un "reglamento" que dice a los AI agent "qué hacer" y "cómo cooperar". Así como un director de proyecto da a cada miembro del equipo un brief claro, un harness da a cada AI agent un rol claro, una entrada definida y una salida definida.
-  </div>
+  <h3>Definición de harness</h3>
 
-  <h3>La analogía del mundo real</h3>
+  <p>Un harness es un sistema para controlar y coordinar múltiples agentes de IA. Dicho de forma sencilla, es el <strong>conjunto de reglas, secuencias y definiciones de roles</strong> que siguen los agentes de IA cuando colaboran en un proyecto.</p>
 
-  <p>La palabra "harness" proviene del equipo utilizado para enganchar caballos a un carruaje. Un solo caballo puede tirar de un carrito pequeño, pero si necesitas mover una carga pesada, necesitas múltiples caballos trabajando juntos. El <em>harness</em> es el sistema de riendas, correas y accesorios que distribuye la carga de trabajo, mantiene a todos los caballos moviéndose en la misma dirección y permite al conductor dirigir a todo el equipo.</p>
+  <h3>La metáfora: el arnés (Harness) del caballo</h3>
 
-  <p>La IA multi-agente funciona de la misma manera. Cada AI agent es como un caballo con una fortaleza específica — uno es rápido en la investigación, otro sobresale en el diseño, un tercero escribe código limpio. El harness los conecta, los dirige y asegura que el resultado final sea exactamente lo que necesitas.</p>
+  <p>En su sentido original, la palabra harness designa el <strong>arnés y los arreos que se colocan sobre el caballo</strong>. Cuando un caballo tira de un carruaje, el arnés cumple la función de guía para que avance en la dirección correcta y llegue con seguridad al destino.</p>
 
-  <h3>Cómo funciona un Harness: el flujo</h3>
+  <p>En el mundo de la IA ocurre igual. Si varios agentes de IA se mueven cada uno según su propio criterio, sobreviene la confusión. El harness entrega a cada agente instrucciones como «tú asumes este papel» o «cuando termines esta tarea, pasa los resultados a tal agente». Igual que el arnés guía al caballo hacia una dirección segura, el harness de IA conduce a sus agentes de forma <strong>armónica y productiva</strong>.</p>
 
-  <p>El diagrama a continuación muestra el flujo básico de un harness multi-agente en acción:</p>
+  <h3>Estructura de un harness</h3>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama mostrando el flujo de Usuario a PM Agent a Agentes Especialistas a Resultado">
+    <svg width="100%" viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de la estructura de un harness">
       <!-- Usuario -->
-      <rect x="20" y="90" width="80" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="60" y="120" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:700;">Usuario</text>
+      <rect x="265" y="10" width="130" height="44" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="330" y="37" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">Usuario</text>
 
-      <!-- Flecha: Usuario -> PM -->
-      <line x1="100" y1="115" x2="148" y2="115" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowH)"/>
-      <text x="124" y="108" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">tema</text>
+      <!-- Usuario → PM -->
+      <line x1="330" y1="54" x2="330" y2="84" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowHarness)"/>
+      <text x="345" y="74" font-size="11" style="fill:var(--text-dim)">Instrucción</text>
 
-      <!-- PM Agent -->
-      <rect x="150" y="80" width="120" height="70" rx="12" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="210" y="112" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:700;">PM Agent</text>
-      <text x="210" y="130" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">Orquestador</text>
+      <!-- Agente PM -->
+      <rect x="235" y="90" width="190" height="48" rx="10" fill="var(--accent-purple)" stroke="none" opacity="0.85"/>
+      <text x="330" y="119" text-anchor="middle" font-size="14" font-weight="bold" fill="var(--text-inverse)">Agente PM</text>
 
-      <!-- Flecha: PM -> Especialista A -->
-      <line x1="270" y1="100" x2="340" y2="55" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
-      <!-- Flecha: PM -> Especialista B -->
-      <line x1="270" y1="115" x2="340" y2="115" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
-      <!-- Flecha: PM -> Especialista C -->
-      <line x1="270" y1="130" x2="340" y2="175" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowAmber)"/>
+      <!-- PM → especialistas -->
+      <line x1="270" y1="138" x2="120" y2="178" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+      <line x1="330" y1="138" x2="330" y2="178" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowAmber)"/>
+      <line x1="390" y1="138" x2="540" y2="178" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowAccent)"/>
 
-      <!-- Especialista A -->
-      <rect x="342" y="30" width="120" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="402" y="60" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Especialista A</text>
+      <text x="180" y="164" font-size="10" style="fill:var(--text-dim)">Reparto de roles</text>
+      <text x="340" y="164" font-size="10" style="fill:var(--text-dim)">Reparto de roles</text>
+      <text x="460" y="164" font-size="10" style="fill:var(--text-dim)">Reparto de roles</text>
 
-      <!-- Especialista B -->
-      <rect x="342" y="90" width="120" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="1.5"/>
-      <text x="402" y="120" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Especialista B</text>
+      <!-- Agente especialista A -->
+      <rect x="40" y="184" width="160" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="120" y="211" text-anchor="middle" font-size="12" style="fill:var(--text)">Agente especialista A</text>
 
-      <!-- Especialista C -->
-      <rect x="342" y="150" width="120" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="402" y="180" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Especialista C</text>
+      <!-- Agente especialista B -->
+      <rect x="250" y="184" width="160" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="330" y="211" text-anchor="middle" font-size="12" style="fill:var(--text)">Agente especialista B</text>
 
-      <!-- Flechas de especialistas al resultado -->
-      <line x1="462" y1="55" x2="540" y2="95" stroke="var(--accent-green)" stroke-width="1.2"/>
-      <line x1="462" y1="115" x2="540" y2="115" stroke="var(--accent-purple)" stroke-width="1.2"/>
-      <line x1="462" y1="175" x2="540" y2="135" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowH)"/>
+      <!-- Agente especialista C -->
+      <rect x="460" y="184" width="160" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="540" y="211" text-anchor="middle" font-size="12" style="fill:var(--text)">Agente especialista C</text>
+
+      <!-- Especialistas → resultado -->
+      <line x1="120" y1="228" x2="280" y2="258" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowGreen)"/>
+      <line x1="330" y1="228" x2="330" y2="258" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowAmber)"/>
+      <line x1="540" y1="228" x2="380" y2="258" stroke="var(--accent)" stroke-width="1.2" marker-end="url(#arrowAccent)"/>
+
+      <text x="186" y="250" font-size="10" style="fill:var(--text-dim)">Entregable</text>
+      <text x="340" y="250" font-size="10" style="fill:var(--text-dim)">Entregable</text>
+      <text x="470" y="250" font-size="10" style="fill:var(--text-dim)">Entregable</text>
 
       <!-- Resultado -->
-      <rect x="542" y="85" width="130" height="60" rx="12" fill="var(--bg3)" stroke="var(--border)" stroke-width="1.5"/>
-      <text x="607" y="120" text-anchor="middle" style="color:var(--text);font-size:14px;font-weight:700;">Resultado</text>
+      <rect x="235" y="264" width="190" height="28" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="330" y="283" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">Entregable final</text>
 
-      <!-- Etiquetas -->
-      <text x="607" y="175" text-anchor="middle" style="color:var(--text-dim);font-size:10px;font-style:italic;">Investigación + Diseño + Código = Entregable completo</text>
-
-      <!-- Marcadores de flecha -->
       <defs>
-        <marker id="arrowH" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
+        <marker id="arrowHarness" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
         </marker>
-        <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-green)"/>
+        <marker id="arrowGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-green)"/>
         </marker>
-        <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-purple)"/>
+        <marker id="arrowAmber" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-amber)"/>
         </marker>
-        <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-amber)"/>
+        <marker id="arrowAccent" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent)"/>
         </marker>
       </defs>
     </svg>
   </div>
 
-  <h3>Tres funciones centrales de un Harness</h3>
+  <h3>Tres funciones centrales del harness</h3>
 
-  <p>Un harness bien diseñado proporciona tres capacidades esenciales que transforman una colección de AI agent individuales en un sistema de producción coherente y confiable:</p>
+  <p>El harness garantiza el funcionamiento del equipo de agentes mediante tres funciones centrales.</p>
 
   <div class="step-list">
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">Orquestación</div>
-        <p>El harness determina qué agente se ejecuta, en qué orden y con qué entradas. Piénsalo como el director de una orquesta — no toca ningún instrumento él mismo, pero se asegura de que cada músico interprete en el momento correcto y en la secuencia correcta. El agente orquestador (a menudo llamado PM Agent) recibe la solicitud del usuario, la descompone en tareas y despacha cada tarea al especialista apropiado.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">Contratos de entrega</div>
-        <p>Cuando un agente termina su trabajo, el harness define exactamente cómo se pasa ese resultado al siguiente agente. Esto se llama un <em>contrato de entrega</em>. Especifica el formato de archivo, la estructura de datos y cualquier regla de validación que debe cumplirse antes de que el siguiente agente pueda comenzar. Sin contratos de entrega, los agentes recibirían datos en formatos impredecibles y producirían resultados inconsistentes.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">Control de calidad</div>
-        <p>El harness incluye puntos de control (llamados <em>gates</em>) donde el trabajo se revisa antes de que el proceso continúe. Por ejemplo, después de que el agente de investigación produce sus hallazgos, un gate puede verificar que todas las fuentes sean accesibles y confiables. Después de que el agente de diseño crea una especificación visual, otro gate verifica que los colores y las fuentes sean consistentes. Esta revisión sistemática detecta errores temprano, antes de que se propaguen a las etapas posteriores.</p>
-      </div>
-    </div>
+    <ol>
+      <li>
+        <strong>Orquestación (Orchestration)</strong> — Gestiona el flujo global del trabajo. Decide qué agente arranca primero, qué se ejecuta en paralelo y qué avanza de forma secuencial. El orquestador (normalmente el agente PM) ejerce de director de orquesta.
+      </li>
+      <li>
+        <strong>Contratos de entrega (Handoff Contract)</strong> — Definen cómo y en qué formato se traspasan los resultados entre agentes. Si se acuerda de antemano dónde lee el agente B el archivo que terminó el agente A y en qué formato produce B su salida, los errores disminuyen.
+      </li>
+      <li>
+        <strong>Puertas de calidad (Quality Gate)</strong> — Al final de cada etapa comprueban si el resultado cumple los criterios. Un agente de calidad dedicado revisa por separado, detecta errores y solicita correcciones cuando algo no llega al nivel exigido.
+      </li>
+    </ol>
   </div>
 
-  <p>Juntas, estas tres funciones convierten el uso ad-hoc de la IA en un <strong>flujo de trabajo repetible y escalable</strong> — uno que puedes reutilizar en múltiples proyectos con confianza en la calidad del resultado.</p>
+  <div class="note">
+    El harness es una especie de «reglamento» que indica a los agentes de IA «qué deben hacer» y «cómo cooperar». Igual que un arnés real guía los movimientos del caballo, el harness de IA coordina las acciones de los agentes y ayuda a completar el proyecto con éxito.
+  </div>
 
-  <!-- ============================================================
-       Sección 4: Beneficios esperados
-       ============================================================ -->
-  <h2 id="expected-benefits">4. Beneficios esperados</h2>
+  <p>El <strong>co-deck</strong> tratado en este manual es una implementación real de un harness multiagente que funciona en el entorno de Claude Desktop App. Se compone de un pipeline de 11 etapas (Stage) y automatiza todo el proceso, desde la investigación hasta la salida del PDF de la presentación.</p>
 
-  <p>Usar un harness multi-agente no es solo una mejora teórica. Ofrece beneficios concretos y medibles que cambian la forma en que los equipos y las personas abordan su trabajo. Repasemos las tres ventajas más significativas.</p>
+  <!-- ============================================================ -->
+  <!-- SECCIÓN 4: Beneficios esperados                                 -->
+  <!-- ============================================================ -->
+  <h2 id="expected-benefits">Beneficios esperados</h2>
+
+  <p>¿Qué ventajas concretas aporta usar un equipo de agentes de IA? A continuación se muestran casos reales de uso y sus beneficios.</p>
 
   <h3>Ahorro de tiempo</h3>
 
-  <p>El beneficio más inmediato es la velocidad. Cuando tareas que solían requerir horas de esfuerzo manual son manejadas por agentes especializados trabajando en paralelo, el ahorro de tiempo puede ser dramático.</p>
+  <p>El beneficio más intuitivo es la <strong>reducción drástica del tiempo de trabajo</strong>. Por ejemplo, elaborar un informe de investigación de mercado de 50 páginas de forma tradicional — investigación, análisis, planificación, redacción, diseño — puede llevar unas <strong>8 horas</strong>. Con un equipo de agentes, en cambio, el trabajo avanza <strong>en paralelo</strong>: mientras el agente de investigación recopila material de la web, el agente de diseño prepara plantillas y el agente de storyline da forma a la estructura. Como resultado, todo el proceso puede reducirse a <strong>unos 45 minutos</strong>.</p>
 
-  <div class="stat-grid">
-    <div class="stat-card">
-      <div class="stat-num">8 hrs</div>
-      <div class="stat-label">Informe manual de investigación de mercado<br>(búsqueda, compilación, escritura, formato)</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">45 min</div>
-      <div class="stat-label">Mismo informe con equipo de agentes<br>(investigación + escritura + revisión)</div>
-    </div>
-  </div>
+  <p>Eso sí, se trata de tiempo puro de generación por la IA, sin contar el que el usuario dedica a revisar y corregir los borradores. Aun así, está claro que el tiempo invertido en investigar, en redactar borradores y en aplicar diseños puede reducirse en cada caso.</p>
 
-  <p>La razón es sencilla: los agentes pueden trabajar en diferentes partes de la tarea simultáneamente, y cada agente opera mucho más rápido que un humano en la subtarea en la que se especializa. El orquestador maneja la logística de combinar sus resultados, lo que toma una fracción del tiempo que un director de proyecto humano dedicaría a la coordinación.</p>
+  <h3>Mejora de la calidad</h3>
 
-  <h3>Mejora de calidad</h3>
+  <p>Como los equipos de agentes reparten roles especializados, cabe esperar resultados de <strong>nivel experto</strong> en cada ámbito. El especialista en investigación se centra en la búsqueda de información y la verificación de hechos, el especialista en diseño mantiene la coherencia visual y el agente de calidad dedicado detecta errores. Esta <strong>separación entre quien produce y quien revisa</strong> es también un principio básico de la mejora de calidad en las organizaciones humanas.</p>
 
-  <p>La especialización no se trata solo de velocidad — también se trata de calidad. Cuando una sola IA intenta hacerlo todo, produce resultados "aceptables" en todos los ámbitos. Cuando una IA especialista se enfoca en un dominio, produce resultados de <em>nivel experto</em> en ese dominio. Las puertas de calidad en el harness añaden otra capa de seguridad al detectar errores antes de que lleguen a ti.</p>
+  <h3>Reutilizabilidad</h3>
 
-  <p>Por ejemplo, a un especialista en investigación se le pueden dar instrucciones específicas sobre cómo evaluar la credibilidad de las fuentes. A un especialista en diseño se le puede limitar a usar solo colores de la paleta de marca de tu empresa. A un especialista en código se le puede instruir para seguir los estándares de codificación de tu equipo. Cada restricción sería demasiado detallada para incluir en un solo prompt de IA, pero se vuelve natural y efectiva cuando cada especialista tiene sus propias instrucciones enfocadas.</p>
+  <p>Un equipo de agentes configurado una vez puede reutilizarse en otros proyectos. Por ejemplo, si creas una configuración de equipo de agentes para «informes de investigación de mercado», el próximo informe sobre otro tema podrá aprovechar la misma estructura tal cual. Si guardas equipos de agentes como <strong>plantillas</strong> para distintos fines — escribir manuales, crear presentaciones, revisar código — no tendrás que montar uno desde cero cada vez que empiece un proyecto nuevo.</p>
 
-  <h3>Reutilización</h3>
+  <h3>Flujo de trabajo</h3>
 
-  <p>Tal vez el beneficio más subestimado es la reutilización. Una vez que has construido un equipo de agentes para un tipo de proyecto — por ejemplo, crear presentaciones — puedes reutilizar ese mismo equipo para la siguiente presentación con solo ajustes menores. El harness, las definiciones de agentes y las puertas de calidad son todas <em>portátiles</em>. Inviertes una vez y te beneficias en muchos proyectos.</p>
-
-  <p>Esto es análogo a crear una plantilla. La primera vez que configuras un harness, hay una curva de aprendizaje. Pero la segunda, tercera y décima vez, simplemente proporcionas el nuevo tema y dejas que el equipo de agentes haga el resto. Con el tiempo, el ahorro acumulado de tiempo se vuelve enorme.</p>
+  <p>Un flujo de trabajo típico con un equipo de agentes es el siguiente:</p>
 
   <div class="flow-box">
-    <strong>Flujo de trabajo de agentes de principio a fin:</strong> Proporcionas un tema de entrada &rarr; el PM Agent lo descompone &rarr; los agentes especializados se activan en paralelo &rarr; cada agente produce su entregable &rarr; las puertas de calidad validan cada etapa &rarr; el resultado final se ensambla y entrega. Todo el proceso se ejecuta automáticamente una vez que presionas inicio.
+    <div class="step">1. <strong>Entrada del tema</strong> — El usuario introduce el tema del proyecto, el público destinatario y los requisitos.</div>
+    <div class="step">2. <strong>Arranque automático del equipo</strong> — El agente PM analiza el tema y dispone los agentes especialistas adecuados de forma secuencial o paralela.</div>
+    <div class="step">3. <strong>Generación de entregables</strong> — Cada agente especialista desempeña su papel y el agente de calidad revisa los resultados.</div>
+    <div class="step">4. <strong>Entrega del resultado final</strong> — Cuando todas las etapas están completas, se genera el entregable final integrado (informe, presentación, manual, etc.).</div>
   </div>
 
-  <!-- ============================================================
-       Sección 5: Mapa del manual
-       ============================================================ -->
-  <h2 id="handbook-roadmap">5. Mapa del manual</h2>
+  <!-- ============================================================ -->
+  <!-- SECCIÓN 5: Hoja de ruta del manual                              -->
+  <!-- ============================================================ -->
+  <h2 id="handbook-roadmap">Hoja de ruta del manual</h2>
 
-  <p>Este manual está organizado en cuatro partes progresivas, cada una construyendo sobre la anterior. Al final, habrás pasado de comprender los conceptos básicos a crear y ejecutar tu propio harness multi-agente.</p>
+  <p>Este manual te guía paso a paso desde los conceptos básicos de los equipos de agentes de IA hasta su aplicación práctica. Todo el libro se divide en cuatro partes (Part).</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de mapa mostrando las cuatro partes del manual">
+    <svg width="100%" viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de la hoja de ruta del manual">
       <!-- Parte 1 -->
-      <rect x="20" y="60" width="145" height="90" rx="12" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="92" y="92" text-anchor="middle" style="color:var(--accent-green);font-size:12px;font-weight:700;">PARTE 1</text>
-      <text x="92" y="112" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Fundamentos</text>
-      <text x="92" y="130" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">Cap. 1 &ndash; 5</text>
+      <rect x="20" y="50" width="140" height="100" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="90" y="78" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">Parte 1</text>
+      <text x="90" y="98" text-anchor="middle" font-size="11" style="fill:var(--text)">Fundamentos</text>
+      <text x="90" y="116" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Cap. 1&ndash;5</text>
+      <text x="90" y="134" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Claude Desktop App, agentes,</text>
+      <text x="90" y="148" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">conceptos del harness</text>
 
-      <!-- Flecha 1->2 -->
-      <line x1="165" y1="105" x2="195" y2="105" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowR)"/>
+      <!-- Flecha 1→2 -->
+      <line x1="160" y1="100" x2="190" y2="100" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowRoad)"/>
 
       <!-- Parte 2 -->
-      <rect x="197" y="60" width="145" height="90" rx="12" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="270" y="92" text-anchor="middle" style="color:var(--accent);font-size:12px;font-weight:700;">PARTE 2</text>
-      <text x="270" y="112" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Práctica</text>
-      <text x="270" y="130" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">Cap. 6 &ndash; 8</text>
+      <rect x="196" y="50" width="140" height="100" rx="10" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="266" y="78" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">Parte 2</text>
+      <text x="266" y="98" text-anchor="middle" font-size="11" style="fill:var(--text)">Práctica</text>
+      <text x="266" y="116" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Cap. 6&ndash;8</text>
+      <text x="266" y="134" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Escritura de archivos de agente,</text>
+      <text x="266" y="148" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">ejecución de proyectos sencillos</text>
 
-      <!-- Flecha 2->3 -->
-      <line x1="342" y1="105" x2="372" y2="105" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowR)"/>
+      <!-- Flecha 2→3 -->
+      <line x1="336" y1="100" x2="366" y2="100" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowGreenRoad)"/>
 
       <!-- Parte 3 -->
-      <rect x="374" y="60" width="145" height="90" rx="12" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="2"/>
-      <text x="446" y="92" text-anchor="middle" style="color:var(--accent-purple);font-size:12px;font-weight:700;">PARTE 3</text>
-      <text x="446" y="112" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Creación</text>
-      <text x="446" y="130" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">Cap. 9 &ndash; 11</text>
+      <rect x="372" y="50" width="140" height="100" rx="10" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="442" y="78" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">Parte 3</text>
+      <text x="442" y="98" text-anchor="middle" font-size="11" style="fill:var(--text)">Creación</text>
+      <text x="442" y="116" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Cap. 9&ndash;11</text>
+      <text x="442" y="134" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Producción de presentaciones,</text>
+      <text x="442" y="148" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">automatización</text>
 
-      <!-- Flecha 3->4 -->
-      <line x1="519" y1="105" x2="549" y2="105" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowR)"/>
+      <!-- Flecha 3→4 -->
+      <line x1="512" y1="100" x2="542" y2="100" stroke="var(--accent-purple)" stroke-width="2" marker-end="url(#arrowPurpleRoad)"/>
 
       <!-- Parte 4 -->
-      <rect x="551" y="60" width="130" height="90" rx="12" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="2"/>
-      <text x="616" y="92" text-anchor="middle" style="color:var(--accent-amber);font-size:12px;font-weight:700;">PARTE 4</text>
-      <text x="616" y="112" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Automatización</text>
-      <text x="616" y="130" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">Cap. 12 &ndash; 13</text>
+      <rect x="548" y="50" width="100" height="100" rx="10" fill="var(--bg-success)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="598" y="78" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">Parte 4</text>
+      <text x="598" y="98" text-anchor="middle" font-size="11" style="fill:var(--text)">Automatización</text>
+      <text x="598" y="116" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Cap. 12&ndash;13</text>
+      <text x="598" y="134" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Operación, despliegue,</text>
+      <text x="598" y="148" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">cierre</text>
 
-      <!-- Marcador de flecha -->
+      <!-- Fondo de la barra de progreso -->
+      <rect x="20" y="170" width="628" height="6" rx="3" fill="var(--border)"/>
+      <!-- Relleno de la barra de progreso -->
+      <rect x="20" y="170" width="50" height="6" rx="3" fill="var(--accent)"/>
+
+      <text x="20" y="190" font-size="10" style="fill:var(--text-dim)">Estás aquí</text>
+
       <defs>
-        <marker id="arrowR" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
+        <marker id="arrowRoad" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowGreenRoad" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
+        </marker>
+        <marker id="arrowPurpleRoad" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-purple)"/>
         </marker>
       </defs>
     </svg>
   </div>
 
-  <h3>Parte 1: Fundamentos (Capítulos 1 -- 5)</h3>
-  <p>Aquí estás ahora. La Parte 1 cubre los conceptos fundamentales: qué son los equipos de AI agent, cómo usar Claude Desktop App, la anatomía de un harness y la terminología clave que encontrarás en el resto del manual. Al final de la Parte 1, tendrás un modelo mental sólido de cómo funcionan los sistemas multi-agente y por qué importan.</p>
+  <h3>Contenido de cada parte</h3>
 
-  <h3>Parte 2: Práctica (Capítulos 6 -- 8)</h3>
-  <p>La Parte 2 pasa de la teoría a los ejercicios prácticos. Ejecutarás un harness multi-agente existente paso a paso, observarás cómo se comunican los agentes y experimentarás con modificaciones simples. Estos capítulos están diseñados para construir confianza a través de la experiencia directa. Verás un equipo de agentes real en acción y aprenderás a leer su resultado.</p>
-
-  <h3>Parte 3: Creación (Capítulos 9 -- 11)</h3>
-  <p>En la Parte 3, construirás tu propio harness multi-agente desde cero. Comenzando con el diseño de los roles de los agentes, la definición de contratos de entrega y la implementación de puertas de calidad, construirás un flujo de trabajo completo que produzca un entregable tangible (como una presentación de diapositivas o un informe de investigación). Esta es la sección central de desarrollo de habilidades del manual.</p>
-
-  <h3>Parte 4: Automatización y cierre (Capítulos 12 -- 13)</h3>
-  <p>La parte final se centra en llevar tu harness al siguiente nivel. Aprenderás cómo automatizar flujos de trabajo recurrentes, personalizar el comportamiento de los agentes para casos de uso específicos e integrar tu harness en tu rutina diaria. El manual cierra con un resumen de mejores prácticas y un vistazo hacia dónde se dirige la tecnología de AI agent.</p>
-
-  <h3>Lo que serás capaz de hacer</h3>
+  <ul>
+    <li><strong>Parte 1 — Fundamentos (Cap. 1&ndash;5)</strong>: Construye la base, desde la instalación de Claude Desktop App hasta el concepto de agente de IA y la estructura del harness. Todos los términos se explican con detalle para que incluso quien nunca haya usado herramientas de IA pueda seguirlo.</li>
+    <li><strong>Parte 2 — Práctica (Cap. 6&ndash;8)</strong>: Escribirás tú mismo archivos de definición de agentes y ejecutarás proyectos sencillos. Es el paso de la teoría a la acción.</li>
+    <li><strong>Parte 3 — Creación (Cap. 9&ndash;11)</strong>: Experimentarás un pipeline que produce presentaciones de diapositivas de forma totalmente automática, siguiendo paso a paso el flujo real de 11 etapas de co-deck.</li>
+    <li><strong>Parte 4 — Automatización y cierre (Cap. 12&ndash;13)</strong>: Recopila consejos para operar equipos de agentes, métodos de resolución de problemas y rumbos futuros de aprendizaje.</li>
+  </ul>
 
   <div class="keypoints">
-    <div class="kp-title">Lo que serás capaz de hacer después de este manual</div>
+    <div class="kp-title">Lo que podrás hacer al terminar este manual</div>
     <ul>
-      <li>Explicar la diferencia entre los enfoques de IA individual y multi-agente a tus colegas</li>
-      <li>Instalar y configurar Claude Desktop App para flujos de trabajo multi-agente</li>
-      <li>Leer y comprender un archivo de configuración de harness (AGENTS.md, definiciones de agentes)</li>
-      <li>Ejecutar un harness multi-agente existente e interpretar su resultado</li>
-      <li>Diseñar y construir un harness multi-agente simple para tu propio proyecto</li>
-      <li>Aplicar puertas de calidad y contratos de entrega para asegurar resultados confiables</li>
-      <li>Reutilizar y personalizar equipos de agentes en múltiples proyectos</li>
+      <li>Definir y ejecutar agentes de IA en Claude Desktop App</li>
+      <li>Comprender los principios del harness en el que cooperan varios agentes de IA</li>
+      <li>Escribir tú mismo archivos de definición de agentes (agent.md)</li>
+      <li>Ejecutar paso a paso un pipeline de producción de presentaciones</li>
+      <li>Construir tu propio equipo de agentes y aplicarlo a proyectos</li>
     </ul>
   </div>
 
-  <!-- ============================================================
-       Navegación del capítulo
-       ============================================================ -->
+  <div class="note">
+    Este manual se ha escrito tomando como base Claude Desktop App y la estructura del proyecto <strong>ai-workspace-standards</strong>. El harness co-deck usado en los ejercicios está disponible públicamente en GitHub y cualquiera puede utilizarlo gratis.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- NAVEGACIÓN DEL CAPÍTULO                                         -->
+  <!-- ============================================================ -->
   <div class="chapter-nav">
     <a href="../index_es.html" class="prev">
       <div class="dir">&larr; Inicio del manual</div>

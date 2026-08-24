@@ -46,13 +46,13 @@
   <!-- ============================================================ -->
   <!-- SECTION 1: What Is Automation                                 -->
   <!-- ============================================================ -->
-  <h2 id="what-is-automation">What Is Automation</h2>
+  <h2 id="what-is-automation">¿Qué es la automatización?</h2>
 
   <p>Imagina que tuvieras que lavar cada prenda a mano — frotando, enjuagando y escurriendo cada artículo individualmente. Tomaría horas cada semana. Luego alguien inventó la lavadora: cargas la ropa, presionas un botón y la máquina maneja el ciclo completo automáticamente. Eso es <strong>la automatización</strong> — reemplazar los pasos manuales repetitivos con un sistema que los ejecuta por ti.</p>
 
   <p>El mismo principio se aplica al desarrollo de software y a los flujos de trabajo de agentes de IA. En los capítulos anteriores, aprendiste cómo colaboran los agentes para producir investigaciones, presentaciones y manuales. Pero, ¿qué sucede <em>después</em> de que un agente termina su trabajo? ¿Cómo se guardan, verifican y comparten los cambios? Ahí es donde entra en juego la <strong>automatización del flujo de trabajo</strong>.</p>
 
-  <h3>Manual vs. Automated</h3>
+  <h3>Manual frente a automatizado</h3>
 
   <p>Comparemos cómo se ve un flujo de trabajo típico con y sin automatización.</p>
 
@@ -83,7 +83,7 @@
     </div>
   </div>
 
-  <h3>The Washing Machine Analogy</h3>
+  <h3>La analogía de la lavadora</h3>
 
   <p>Piensa en el comando <code>/sync</code> como la lavadora de tu proyecto. En lugar de hacer manualmente cada paso del flujo de trabajo posterior (auditoría, actualización de versión, commit, push, creación de PR), ejecutas un solo comando y el sistema maneja todo el ciclo. Cargas la "ropa" (tus archivos modificados), presionas el botón (<code>/sync</code>) y la máquina se encarga del resto.</p>
 
@@ -169,11 +169,11 @@
   <!-- ============================================================ -->
   <!-- SECTION 2: Understanding the /sync Command                    -->
   <!-- ============================================================ -->
-  <h2 id="sync-command">Understanding the /sync Command</h2>
+  <h2 id="sync-command">Entendiendo el comando /sync</h2>
 
   <p>El comando <code>/sync</code> es el comando central de automatización en el harness de IA. Encapsula el flujo de trabajo posterior completo en una única invocación. Cada vez que terminas una tarea que modificó archivos — añadir un agente, actualizar una habilidad, cambiar un script — ejecutas <code>/sync</code> para finalizar el trabajo correctamente.</p>
 
-  <h3>The 5-Step Sync Pipeline</h3>
+  <h3>El pipeline de sync en 5 pasos</h3>
 
   <p>Cuando invocas <code>/sync</code>, el sistema ejecuta cinco pasos en secuencia. Cada paso depende de que el anterior haya finalizado con éxito.</p>
 
@@ -278,7 +278,18 @@
     <strong>Consejo:</strong> El comando <code>/sync</code> toma un mensaje de commit convencional como argumento, por ejemplo: <code>/sync "feat(pm): add meeting facilitation skill"</code>. El sistema utiliza este mensaje para el commit de git, por lo que escribir un mensaje claro y descriptivo es importante. El formato sigue el patrón <code>type(scope): description</code>.
   </div>
 
-  <h3>When to Run /sync</h3>
+  <div class="note">
+    <p><strong>Puertas de seguridad adicionales de /sync</strong> (a fecha de 2026-08-24) &mdash; además de los cinco pasos anteriores, las siguientes comprobaciones se ejecutan automáticamente dentro del pipeline. Normalmente, el usuario solo tiene que responder a los mensajes que aparecen.</p>
+    <ul>
+      <li><strong>Puerta de idioma</strong> &mdash; comprueba que los mensajes de commit y los títulos de PR cumplan la regla de solo inglés.</li>
+      <li><strong>Comprobación del registro de specs</strong> &mdash; <code>audit.ts --spec-check</code>: confirma que el trabajo está vinculado a un documento de diseño (spec) registrado en <code>docs/specs/registry.json</code>; si no, la sincronización se detiene (FATAL). Los cambios triviales como corregir erratas pueden exonerarse con los códigos E1&ndash;E5 (<code>--spec-exempt</code> o la variable de entorno <code>SYNC_SPEC_EXEMPT</code>).</li>
+      <li><strong>Puerta de reflexión de gobernanza (ADR-0059)</strong> &mdash; comprueba que los cambios estén vinculados a sus ADR relacionados (registros de decisiones de diseño).</li>
+      <li><strong>Puerta de grafo de skills (ADR-0060)</strong> &mdash; construye y verifica el grafo de dependencias entre skills, detectando pronto problemas como referencias circulares.</li>
+      <li><strong>Regeneración de VERSION_MANIFEST</strong> &mdash; regenera la lista de versiones de <code>docs/VERSION_MANIFEST.md</code> para reflejar el estado más reciente.</li>
+    </ul>
+  </div>
+
+  <h3>Cuándo ejecutar /sync</h3>
 
   <p>Debes ejecutar <code>/sync</code> al final de cualquier sesión de trabajo que haya modificado los archivos del proyecto. Específicamente:</p>
 
@@ -297,11 +308,11 @@
   <!-- ============================================================ -->
   <!-- SECTION 3: Git & GitHub PR                                     -->
   <!-- ============================================================ -->
-  <h2 id="git-github">Git &amp; GitHub PR</h2>
+  <h2 id="git-github">Git y PRs de GitHub</h2>
 
   <p>Para comprender cómo funciona la tubería de automatización, necesitas una comprensión básica de <strong>Git</strong> y de los <strong>Pull Requests de GitHub</strong>. Estas son las herramientas que sustentan cada paso del flujo de sync después de la auditoría.</p>
 
-  <h3>Git Basics</h3>
+  <h3>Conceptos básicos de Git</h3>
 
   <p><strong>Git</strong> es un sistema de control de versiones que rastrea cada cambio realizado en los archivos de un proyecto. Piénsalo como un diario detallado de la historia de tu proyecto. Cada vez que guardas un conjunto de cambios, Git registra quién hizo el cambio, cuándo se hizo y qué cambió exactamente.</p>
 
@@ -335,7 +346,7 @@ git log --oneline</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
 
-  <h3>GitHub Basics</h3>
+  <h3>Conceptos básicos de GitHub</h3>
 
   <p><strong>GitHub</strong> es una plataforma web que aloja repositorios Git. Añade funciones de colaboración sobre Git: gestión de acceso al equipo, herramientas de revisión de código, seguimiento de problemas y Pull Requests. Tu workspace de IA vive en GitHub, y la tubería sync interactúa con él para enviar cambios y crear PRs.</p>
 
@@ -447,7 +458,7 @@ git log --oneline</code></pre>
 
   <p>Un <strong>hook</strong> es un script que se ejecuta automáticamente cuando ocurre un evento específico. La palabra "hook" proviene de la pesca: al igual que un anzuelo atrapa a un pez cuando pasa, un hook de código captura un evento y ejecuta un script en respuesta.</p>
 
-  <h3>How Hooks Work</h3>
+  <h3>Cómo funcionan los hooks</h3>
 
   <p>En el harness de IA, los hooks se utilizan para hacer cumplir reglas y automatizar verificaciones en momentos clave. En lugar de depender de que los desarrolladores recuerden ejecutar las comprobaciones manualmente, los hooks aseguran que estas verificaciones ocurran automáticamente cada vez que se dispara el evento relevante.</p>
 
@@ -469,7 +480,7 @@ git log --oneline</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
 
-  <h3>The Alarm System Analogy</h3>
+  <h3>La analogía del sistema de alarma</h3>
 
   <p>Piensa en los hooks como un <strong>sistema de alarma</strong> en un edificio. No tienes que recordar cerrar cada puerta y ventana por la noche — el sistema de alarma los monitorea automáticamente. Si se abre una puerta sin autorización, la alarma se activa instantáneamente. De la misma manera, los hooks monitorean tu flujo de trabajo automáticamente:</p>
 
@@ -549,26 +560,69 @@ git log --oneline</code></pre>
 
   <p>En el harness de IA, también se pueden definir hooks a nivel de herramienta. Por ejemplo, los Claude Code hooks pueden activar scripts cuando un agente de IA intenta editar un archivo, proporcionando una capa adicional de cumplimiento más allá de lo que ofrecen los Git hooks.</p>
 
+  <p>Dicho de forma sencilla, los hooks a nivel de herramienta son <strong>dispositivos de seguridad automáticos</strong> para el agente de IA. Intervienen justo en el momento en que el agente está a punto de editar un archivo o llamar a otro agente, detectando los problemas antes de que crezcan. El <code>.claude/settings.json</code> de este workspace registra realmente los siguientes hooks de herramienta (a fecha de 2026-08-24).</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Script del hook</th>
+        <th>Evento disparador</th>
+        <th>Qué hace</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>gateguard-fact-force.ts</code></td>
+        <td>PreToolUse &middot; Edit/Write/MultiEdit</td>
+        <td><strong>Puerta de verificación previa</strong> &mdash; antes de cualquier edición de archivo, comprueba dónde se usa el archivo y verifica los hechos detrás del cambio.</td>
+      </tr>
+      <tr>
+        <td><code>agent-model-gate.ts</code></td>
+        <td>PreToolUse &middot; Agent</td>
+        <td><strong>Imposición del nivel de modelo</strong> &mdash; comprueba que los agentes despachados usen el nivel de modelo (High/Medium/Low) adecuado para la dificultad de la tarea.</td>
+      </tr>
+      <tr>
+        <td><code>post-write-lifecycle-check.ts</code></td>
+        <td>PostToolUse &middot; Write/Edit + TeammateIdle</td>
+        <td><strong>Comprobación de ciclo de vida tras escribir</strong> &mdash; después de que cambien los archivos, verifica si hay que actualizar los registros de versión o el CHANGELOG.</td>
+      </tr>
+      <tr>
+        <td><code>audit.ts</code></td>
+        <td>TaskCompleted</td>
+        <td><strong>Auditoría QA al completar</strong> &mdash; cada vez que termina una tarea de un agente, ejecuta automáticamente una auditoría completa del workspace.</td>
+      </tr>
+      <tr>
+        <td><code>git config core.hooksPath .githooks</code></td>
+        <td>SessionStart / WorktreeCreate</td>
+        <td><strong>Conexión de los Git hooks</strong> &mdash; cuando arranca una sesión o un worktree, apunta Git a la carpeta <code>.githooks</code> para que Git hooks como pre-commit funcionen siempre.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>No te asustes si un hook te bloquea.</strong> Los hooks no están para estorbar: detectan errores a tiempo. Cuando una comprobación falla, el hook explica por qué y cómo corregirlo; corrige el problema e inténtalo de nuevo.
+  </div>
+
   <!-- ============================================================ -->
   <!-- SECTION 5: CI/CD Basics                                        -->
   <!-- ============================================================ -->
-  <h2 id="cicd">CI/CD Basics</h2>
+  <h2 id="cicd">Fundamentos de CI/CD</h2>
 
   <p><strong>CI/CD</strong> significa <strong>Integración Continua / Entrega Continua</strong>. Estas son prácticas que automatizan el proceso de prueba y despliegue de cambios de código.</p>
 
-  <h3>Continuous Integration (CI)</h3>
+  <h3>Integración continua (CI)</h3>
 
   <p><strong>Integración Continua</strong> significa construir y probar el código automáticamente cada vez que alguien envía cambios. En lugar de esperar un "día de pruebas" designado, cada cambio se prueba inmediatamente. Esto detecta errores y problemas temprano, cuando son más fáciles de arreglar.</p>
 
   <p>En el contexto del harness de IA, CI significa ejecutar scripts de audit, comprobaciones de validación y pruebas automáticamente cada vez que se crea o actualiza un Pull Request.</p>
 
-  <h3>Continuous Delivery (CD)</h3>
+  <h3>Entrega continua (CD)</h3>
 
   <p><strong>Entrega Continua</strong> significa preparar automáticamente los cambios de código para su lanzamiento. Después de que las pruebas pasan, el sistema puede implementar los cambios en producción con una mínima intervención manual. La palabra clave es "entrega" — los cambios están preparados y listos para ser enviados, pero un humano aún aprueba el lanzamiento final.</p>
 
   <p>En el harness de IA, CD significa que una vez que un PR es aprobado y fusionado, el workspace actualizado está automáticamente disponible para todos los miembros del equipo y variantes.</p>
 
-  <h3>GitHub Actions Example</h3>
+  <h3>Ejemplo de GitHub Actions</h3>
 
   <p>La herramienta CI/CD más común utilizada con GitHub es <strong>GitHub Actions</strong>.</p>
 
@@ -665,15 +719,15 @@ jobs:
   <!-- ============================================================ -->
   <!-- SECTION 6: How dev-sync.ts Works                              -->
   <!-- ============================================================ -->
-  <h2 id="dev-sync">How dev-sync.ts Works</h2>
+  <h2 id="dev-sync">Cómo funciona dev-sync.ts</h2>
 
   <p>El script <code>scripts/dev-sync.ts</code> es la implementación en TypeScript que impulsa la tubería sync. Es el motor detrás del comando <code>/sync</code>.</p>
 
-  <h3>Purpose</h3>
+  <h3>Propósito</h3>
 
   <p><code>dev-sync.ts</code> sincroniza los cambios a través de la jerarquía de herencia de 3 niveles. Cuando modificas archivos en la raíz del workspace L0 o en la plantilla común L1, <code>dev-sync.ts</code> asegura que esos cambios se propaguen correctamente a todos los proyectos variante descendientes (L2). Esto es crítico porque las variantes L2 heredan su estructura base de L0 y L1.</p>
 
-  <h3>The 4-Step Process</h3>
+  <h3>El proceso de 4 pasos</h3>
 
   <div class="step-list">
     <ol>
@@ -700,7 +754,7 @@ jobs:
     <strong>Siempre haz commit de tu trabajo antes de ejecutar dev-sync.ts.</strong> El script sync opera sobre el estado confirmado del repositorio. Si tienes cambios sin confirmar, el script puede producir resultados inesperados.
   </div>
 
-  <h3>Running dev-sync.ts Manually</h3>
+  <h3>Ejecución manual de dev-sync.ts</h3>
 
   <p>Si bien <code>/sync</code> ejecuta la tubería completa automáticamente, también puedes ejecutar <code>dev-sync.ts</code> directamente cuando necesitas más control.</p>
 
@@ -727,7 +781,7 @@ bun scripts/dev-sync.ts --help</code></pre>
   <!-- ============================================================ -->
   <!-- SECTION 7: Practice: Walk Through a Workflow                   -->
   <!-- ============================================================ -->
-  <h2 id="practice">Practice: Walk Through a Workflow</h2>
+  <h2 id="practice">Práctica: Recorrido por un flujo de trabajo</h2>
 
   <p>Ahora pongamos todo junto recorriendo un flujo de trabajo realista de principio a fin. El objetivo: hacer un cambio en un archivo, hacerlo commit y ejecutar <code>/sync</code> para completar la tubería de automatización completa.</p>
 
@@ -776,7 +830,7 @@ git commit -m "feat(agent): update tier from low to medium"</code></pre>
     </ol>
   </div>
 
-  <h3>What Happens Behind the Scenes</h3>
+  <h3>Qué sucede detrás de escena</h3>
 
   <p>Cuando sigues este flujo de trabajo, esto es lo que el sistema hace en cada paso:</p>
 

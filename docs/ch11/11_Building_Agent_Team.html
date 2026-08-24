@@ -213,6 +213,16 @@
     <strong>중요:</strong> 스크립트 레이어는 사용자가 Step 5에서 <strong>명시적으로 승인</strong>한 경우에만 실행됩니다. AI 레이어는 제안만 하고, 실제 파일 생성은 스크립트가 담당합니다. 이 두 레이어의 분리는 안전 장치 역할을 합니다.
   </div>
 
+  <h3 id="why-two-layers">왜 두 개의 레이어인가?</h3>
+
+  <p>"모든 작업을 AI에게 맡기면 되지 않을까?"라고 궁금할 수 있습니다. 그 답은 <strong>신뢰성과 책임 소재</strong>에 있습니다.</p>
+
+  <ul>
+    <li><strong>AI가 잘하는 것</strong> &mdash; 의도 이해, 리서치 수행, 트레이드오프 평가, 창의적인 제안 생성입니다. Step 1~4는 바로 이러한 강점을 활용합니다.</li>
+    <li><strong>스크립트가 잘하는 것</strong> &mdash; 결정론적 파일 작업입니다. 디렉터리 생성, 정확한 형식으로 파일 작성, 상호 참조되는 여러 문서의 동시 업데이트, 매번 일관된 결과 산출이 여기에 해당합니다. Step 6~14는 바로 이런 신뢰성을 필요로 합니다.</li>
+    <li><strong>사용자가 게이트가 된다</strong> &mdash; Step 5에서 사용자가 동의 없이는 어떤 변경도 일어나지 않도록 보장합니다. 이를 통해 AI가 실수로 에이전트를 삭제하거나, 핸드오프 체인을 끊거나, 거버넌스 문서를 불일치시키는 사고를 예방합니다.</li>
+  </ul>
+
   <h3>기존 시스템의 4가지 팀 구성 패턴</h3>
 
   <p>co-consult 시스템에는 이미 검증된 4가지 팀 구성 패턴이 존재합니다. team-builder는 이 패턴들을 참고하여 새로운 팀을 제안합니다.</p>
@@ -548,6 +558,67 @@
     <strong>초보자 팁:</strong> 제안서 JSON은 Claude가 자동으로 생성하므로, 사용자가 직접 JSON을 작성할 필요는 없습니다. Claude가 보여주는 제안서 내용(에이전트 이름, 역할, 스킬 등)을 검토하고, 수정이 필요하면 요청하세요. 내용에 동의하면 &ldquo;approve&rdquo;라고 답변하면 됩니다.
   </div>
 
+  <h3 id="proposal-top-level-fields">최상위 필드</h3>
+
+  <p>제안서 JSON의 최상위 필드는 <strong>메타데이터 필드</strong>와 <code>changes</code> 객체 안의 <strong>변경 배열</strong>로 나뉩니다.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>메타데이터 필드</h4>
+      <ul>
+        <li><code>version</code> &mdash; 스키마 버전 (예: <code>"1.0.0"</code>)</li>
+        <li><code>timestamp</code> &mdash; 제안서가 생성된 시각</li>
+        <li><code>teamName</code> &mdash; 사람이 읽을 수 있는 팀 이름</li>
+        <li><code>benchmarkSources</code> &mdash; 참고한 URL 또는 인용 목록</li>
+        <li><code>changeHistoryEntry</code> &mdash; 한 문단 분량의 변경 요약</li>
+        <li><code>approvedBy</code> / <code>approvedAt</code> &mdash; 승인한 사용자와 승인 시각</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>변경 배열 (<code>changes</code> 내부)</h4>
+      <ul>
+        <li><code>agentsToCreate[]</code> &mdash; 추가할 새 에이전트</li>
+        <li><code>agentsToConvert[]</code> &mdash; 이름을 바꾸거나 용도를 전환할 기존 에이전트</li>
+        <li><code>agentsToDelete[]</code> &mdash; 제거할 에이전트</li>
+        <li><code>skillsToCreate[]</code> &mdash; 새로 작성할 스킬</li>
+        <li><code>skillsToModify[]</code> &mdash; 업데이트할 기존 스킬</li>
+        <li><code>skillsToReassign[]</code> &mdash; 소유권을 이전할 스킬</li>
+        <li><code>workflowPhases[]</code> &mdash; 단계 정의와 디스패치 순서</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 id="workflow-phase-entry">워크플로우 단계 항목</h3>
+
+  <p><code>workflowPhases</code> 배열은 프로젝트 라이프사이클 전반에서 에이전트들이 어떻게 협력하는지 정의합니다:</p>
+
+  <div class="code-block">
+<pre><code>{
+  "phase": 0,
+  "name": "Project Initiation",
+  "lead": "engagement-leader",
+  "supporting": ["strategy-analyst"]
+}</code></pre>
+<button type="button" class="copy-btn">복사</button>
+</div>
+
+  <p>각 단계는 오케스트레이션을 맡는 <strong>리드 에이전트(lead)</strong>와 선택적으로 기여하는 <strong>지원 에이전트(supporting)</strong>를 지정합니다. 이 구조는 앞 장에서 본 <code>AGENTS.md</code>의 디스패치 테이블과 직접 대응됩니다.</p>
+
+  <h3 id="skill-reassignment-entry">스킬 재할당 항목</h3>
+
+  <p>에이전트를 삭제할 때는 해당 에이전트가 소유한 스킬을 반드시 남아 있는 에이전트에게 이전해야 합니다. 제안서는 이 내용을 다음과 같이 기록합니다:</p>
+
+  <div class="code-block">
+<pre><code>{
+  "skill": "research",
+  "fromOwner": "old-analyst",
+  "toOwner": "strategy-analyst"
+}</code></pre>
+<button type="button" class="copy-btn">복사</button>
+</div>
+
+  <p>이를 통해 에이전트가 삭제되더라도 <strong>고아 스킬이 발생하지 않습니다</strong>. Step 3의 선제적 스킬 이전 계획은 삭제가 일어나기 전에 모든 스킬이 유효한 소유자를 갖도록 보장합니다.</p>
+
   <!-- ============================================================ -->
   <!-- SECTION 5: 스크립트 레이어                                      -->
   <!-- ============================================================ -->
@@ -589,6 +660,25 @@
 bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code></pre>
 <button type="button" class="copy-btn">복사</button>
 </div>
+
+  <h3 id="how-script-works">스크립트 동작 방식</h3>
+
+  <p>위 명령어로 스크립트를 실행하면, 제안서 JSON을 읽어 <strong>정해진 안전한 순서</strong>에 따라 변경을 실행하며 각 단계마다 체크포인트 로그를 기록합니다:</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>드라이런 검증</strong> &mdash; 변경 없이 JSON을 파싱하고 필수 필드를 모두 점검합니다.</li>
+      <li><strong>에이전트 삭제</strong> &mdash; 삭제 대상으로 표시된 에이전트 파일을 제거합니다 (스킬 이전 완료 후).</li>
+      <li><strong>에이전트 전환</strong> &mdash; 기존 에이전트의 이름을 바꾸고 용도를 변경합니다.</li>
+      <li><strong>에이전트 생성</strong> &mdash; 템플릿으로부터 새 <code>agents/&lt;name&gt;.md</code> 파일을 생성합니다.</li>
+      <li><strong>스킬 생성</strong> &mdash; 새 <code>skills/&lt;name&gt;/SKILL.md</code> 스텁 파일을 생성합니다.</li>
+      <li><strong>스킬 수정</strong> &mdash; 지정된 변경 사항을 기존 스킬 파일에 적용합니다.</li>
+      <li><strong>스킬 재할당</strong> &mdash; 스킬 프론트매터의 <code>owner</code> 필드를 갱신합니다.</li>
+      <li><strong>AGENTS.md 등록</strong> &mdash; 새 에이전트를 에이전트 로스터 테이블과 서브에이전트 디스패치 테이블에 추가합니다.</li>
+      <li><strong>단계 테이블 업데이트</strong> &mdash; 디스패치 트리거와 단계 게이트 매핑을 조정합니다.</li>
+      <li><strong>변경 이력 기록</strong> &mdash; 요약을 <code>memory/YYYY-MM-DD.md</code>에 기록합니다.</li>
+    </ol>
+  </div>
 
   <!-- 인라인 SVG: AI 레이어 → 스크립트 레이어 흐름도 -->
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
@@ -652,6 +742,14 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
     스크립트 레이어는 Claude가 아닌 <strong>TypeScript 스크립트</strong>가 실행합니다. 이렇게 AI와 스크립트의 역할을 분리하면, AI가 제안만 하고 실제 파일 조작은 검증된 스크립트가 담당하므로 안전성이 높아집니다. 사용자는 언제든 제안서를 수정하거나, 스크립트 실행 전에 JSON 내용을 확인할 수 있습니다.
   </div>
 
+  <h3 id="error-handling">문제가 발생하면 어떻게 되나요?</h3>
+
+  <p>스크립트는 모든 단계에서 <strong>체크포인트 로깅</strong>을 수행합니다. 도중에 오류가 발생하면(예: 파일이 이미 존재하거나 권한이 거부된 경우), 스크립트는 정확히 어떤 단계가 실패했고 무엇이 이미 완료되었는지 보고합니다. 문제를 수정한 뒤 스크립트를 다시 실행하면, 이미 성공적으로 완료된 단계는 건너뜁니다.</p>
+
+  <div class="warning-box">
+    <strong>실행 전 백업:</strong> 스크립트는 안전하게 설계되었지만, <code>team-builder.ts</code>를 실행하기 전에 현재 프로젝트 상태를 Git에 커밋해 두면 만일의 상황에서 깨끗한 롤백 지점을 확보할 수 있습니다.
+  </div>
+
   <!-- ============================================================ -->
   <!-- SECTION 6: 기존 팀 구성 패턴 참고                                 -->
   <!-- ============================================================ -->
@@ -701,6 +799,110 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
         <li><strong>적합한 경우:</strong> 특정 분야의 심층 분석</li>
         <li><strong>구성:</strong> PM + 3개 전문 에이전트</li>
         <li><strong>장점:</strong> 특정 분야에 깊이 있는 전문성 제공</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 id="pattern-rosters">패턴별 에이전트 로스터</h3>
+
+  <p>각 패턴을 구성하는 실제 에이전트 명단은 다음과 같습니다.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Quick Assessment</h4>
+      <p><strong>에이전트 수:</strong> 3개 &nbsp;|&nbsp; <strong>적합한 경우:</strong> 빠르고 집중적인 평가</p>
+      <ul>
+        <li>Engagement Leader (오케스트레이터)</li>
+        <li>Industry Expert (도메인 지식)</li>
+        <li>Strategy Analyst (조사 및 분석)</li>
+      </ul>
+      <p><strong>사용 시기:</strong> 한 번의 세션 안에서 빠른 시장 스캔, 경쟁 환경 개요, 초기 평가가 필요할 때.</p>
+    </div>
+    <div class="col">
+      <h4>Standard</h4>
+      <p><strong>에이전트 수:</strong> 5개 &nbsp;|&nbsp; <strong>적합한 경우:</strong> 일반적인 컨설팅 과제</p>
+      <ul>
+        <li>Engagement Leader (오케스트레이터)</li>
+        <li>Strategy Analyst (리서치)</li>
+        <li>Industry Expert (도메인)</li>
+        <li>Communications Lead (산출물)</li>
+        <li>Delivery Manager (운영)</li>
+      </ul>
+      <p><strong>사용 시기:</strong> 리서치, 산출물 작성, 프로젝트 조율이 모두 필요한 대부분의 표준 과제.</p>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Complex Transformation</h4>
+      <p><strong>에이전트 수:</strong> 8개 &nbsp;|&nbsp; <strong>적합한 경우:</strong> 대규모 조직 변화</p>
+      <ul>
+        <li>Engagement Leader (오케스트레이터)</li>
+        <li>Change Management Partner (전환 관리)</li>
+        <li>Strategy Analyst (리서치)</li>
+        <li>Industry Expert (도메인)</li>
+        <li>Solutions Architect (기술 설계)</li>
+        <li>Communications Lead (산출물)</li>
+        <li>Workstream Lead (조율)</li>
+        <li>Delivery Manager (운영)</li>
+      </ul>
+      <p><strong>사용 시기:</strong> 기술, 사람, 프로세스의 변화가 얽힌 다단계 전환 프로그램.</p>
+    </div>
+    <div class="col">
+      <h4>Specialized Expert</h4>
+      <p><strong>에이전트 수:</strong> 4개 &nbsp;|&nbsp; <strong>적합한 경우:</strong> 심층 도메인 기술 작업</p>
+      <ul>
+        <li>Engagement Leader (오케스트레이터)</li>
+        <li>Subject Matter Expert (기능 전문성)</li>
+        <li>Technology Specialist (도구 및 자동화)</li>
+        <li>Data Analyst (지표 및 모델링)</li>
+      </ul>
+      <p><strong>사용 시기:</strong> 재무 모델링, HR 분석, 기술 스택 평가처럼 고도로 전문화된 과제.</p>
+    </div>
+  </div>
+
+  <h3 id="pattern-selection-guide">패턴 선택 가이드</h3>
+
+  <p>상황에 맞는 패턴을 고를 때 다음 가이드를 활용하세요:</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>소규모 범위</h4>
+      <ul>
+        <li>단일 리서치 질문</li>
+        <li>일회성 분석 작업</li>
+        <li>촉박한 마감 (같은 세션 안에)</li>
+        <li>&rarr; <strong>Quick Assessment</strong></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>중간 규모</h4>
+      <ul>
+        <li>수주에 걸치는 과제</li>
+        <li>클라이언트 산출물 필요</li>
+        <li>리서치 + 작성 + 조율</li>
+        <li>&rarr; <strong>Standard</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>대규모</h4>
+      <ul>
+        <li>다단계 프로그램</li>
+        <li>이해관계자 관리 필요</li>
+        <li>기술 + 사람 + 프로세스</li>
+        <li>&rarr; <strong>Complex Transformation</strong></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>심층 도메인</h4>
+      <ul>
+        <li>데이터 분석 집중</li>
+        <li>전문 도구 필요</li>
+        <li>기능 전문성 요구</li>
+        <li>&rarr; <strong>Specialized Expert</strong></li>
       </ul>
     </div>
   </div>

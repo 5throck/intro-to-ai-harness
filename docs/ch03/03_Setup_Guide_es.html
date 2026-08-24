@@ -47,7 +47,7 @@
 
   <p>Antes de instalar cualquier cosa, asegúrate de que los siguientes elementos estén listos. Todos ellos son <strong>requeridos</strong> para usar el harness multi-agente.</p>
 
-  <h3>Required Subscriptions</h3>
+  <h3>Suscripciones requeridas</h3>
 
   <p>El harness multi-agente está construido sobre Claude Code, y usar Claude Code requiere una <strong>Claude Pro or Claude Max subscription</strong>.</p>
 
@@ -133,7 +133,7 @@
 
   <p>Crearemos una <strong>carpeta dedicada</strong> para almacenar los scripts y archivos de configuración utilizados durante la instalación. Esta carpeta servirá como base principal para todos los futuros ejercicios prácticos.</p>
 
-  <h3>Creating the Folder</h3>
+  <h3>Creación de la carpeta</h3>
 
   <p>Ejecuta el comando a continuación para tu sistema operativo. La carpeta <code>setup</code> debe crearse en el directorio donde almacenas tus proyectos de Git.</p>
 
@@ -155,7 +155,7 @@
 
   <p>Esta carpeta almacenará scripts de verificación de instalación, archivos de configuración y plantillas de proyecto de ahora en adelante. Puedes cambiar la ubicación de la carpeta en cualquier momento, pero este manual usa las rutas anteriores como estándar de referencia.</p>
 
-  <h3>Folder Structure</h3>
+  <h3>Estructura de la carpeta</h3>
 
   <p>La carpeta de configuración tendrá la siguiente estructura. Ahora mismo está vacía, pero cada elemento se irá llenando a medida que avances en la instalación.</p>
 
@@ -432,7 +432,7 @@
 
   <p>Ahora confirmemos que todas las herramientas se instalaron correctamente. Abre una terminal y ejecuta los siguientes comandos en orden.</p>
 
-  <h3>Version Check</h3>
+  <h3>Comprobación de versiones</h3>
 
   <p>Verifica que cada herramienta muestre un número de versión. Si aparece un número de versión, la instalación fue exitosa.</p>
 
@@ -454,7 +454,7 @@
 </div>
   <p>Expected result: <code>1.1.30</code> (version number may vary)</p>
 
-  <h3>Run the Verification Script</h3>
+  <h3>Ejecución del script de verificación</h3>
 
   <p>El script de verificación en la carpeta de configuración comprueba el estado de instalación de todas las herramientas a la vez.</p>
 
@@ -467,7 +467,7 @@ bun setup-common.ts       # Run the installation verification script</code></pre
 
   <p>El script de verificación comprueba si Git, GitHub CLI y Bun están instalados, muestra sus versiones y verifica tu estado de autenticación de GitHub.</p>
 
-  <h3>Sample Verification Results</h3>
+  <h3>Resultados de verificación de ejemplo</h3>
 
   <p>Cuando todas las herramientas estén instaladas correctamente, verás una salida como esta:</p>
 
@@ -545,7 +545,7 @@ bun setup-common.ts       # Run the installation verification script</code></pre
 
   <p>Aquí están los problemas de instalación más comunes y sus soluciones. Si algo sale mal, busca tu problema en la siguiente lista.</p>
 
-  <h3>Bun Installation Failed: <code>command not found: bun</code></h3>
+  <h3>Fallo en la instalación de Bun: <code>command not found: bun</code></h3>
 
   <p><strong>Causa:</strong> Bun se instaló, pero es posible que no haya sido añadido a la variable PATH del sistema.</p>
 
@@ -576,7 +576,7 @@ source ~/.bashrc</code></pre>
     </div>
   </div>
 
-  <h3>GitHub CLI Authentication Error: <code>gh auth status</code> fails</h3>
+  <h3>Error de autenticación de GitHub CLI: falla <code>gh auth status</code></h3>
 
   <p><strong>Cause:</strong> La autenticación del navegador de GitHub CLI no se completó, o el token de autenticación ha expirado.</p>
 
@@ -604,7 +604,7 @@ gh auth login</code></pre>
     </div>
   </div>
 
-  <h3>Claude Desktop Ap Connection Error</h3>
+  <h3>Error de conexión de Claude Desktop App</h3>
 
   <p><strong>Cause:</strong> Internet connectivity issues, Anthropic server outage, or an expired authentication token.</p>
 
@@ -625,7 +625,7 @@ gh auth login</code></pre>
     </div>
   </div>
 
-  <h3>Git Installed but <code>git</code> Command Not Recognized</h3>
+  <h3>Git instalado pero el comando <code>git</code> no se reconoce</h3>
 
   <p><strong>Causa:</strong> Git se instaló, pero su ruta no fue añadida a la variable PATH del sistema.</p>
 
@@ -645,7 +645,7 @@ gh auth login</code></pre>
     </div>
   </div>
 
-  <h3>Other Issues</h3>
+  <h3>Otros problemas</h3>
 
   <table>
     <thead>

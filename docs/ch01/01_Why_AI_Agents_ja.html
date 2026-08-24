@@ -14,12 +14,12 @@
 
 <nav>
   <a href="../index_ja.html" class="nav-home">&larr; ハンドブックホーム</a>
-  <div class="nav-title">第1章 &middot; なぜAIエージェントチームが必要なのか？</div>
+  <div class="nav-title">Ch 1 &middot; なぜAIエージェントチームが必要なのか？</div>
   <a href="#ai-trends">急速なAIの進化</a>
-  <a href="#single-vs-multi">単一AIとエージェントチームの比較</a>
-  <a href="#what-is-harness">ハーネスとは？</a>
+  <a href="#single-vs-multi">単一AI vs エージェントチーム</a>
+  <a href="#what-is-harness">ハーネスとは</a>
   <a href="#expected-benefits">期待される効果</a>
-  <a href="#handbook-roadmap">ハンドブックのロードマップ</a>
+  <a href="#handbook-roadmap">本ハンドブックのロードマップ</a>
   <div class="nav-section">他の章</div>
   <a href="../ch02/02_Claude_Desktop_App_ja.html">第2章 &middot; Claude Desktop Appの使い始め方</a>
   <a href="../ch04/04_Harness_Concepts_ja.html">第4章 &middot; マルチエージェントハーネスの概念</a>
@@ -29,248 +29,257 @@
  <article class="reading">
   <div class="chapter-eyebrow">第1章</div>
   <h1>なぜAIエージェントチームが必要なのか？</h1>
-  <p class="lead">AIは私たちの日常業務を変革しています。しかし、単一のAIでは複雑な問題に対応しきれません。それぞれが専門性を持つ複数のAIエージェントが協力したらどうなるでしょうか。この章では、エージェントチームがなぜ必要なのか、そして「ハーネス」とは何かを探ります。</p>
+  <p class="lead">AIは日常と仕事を変えつつあります。しかし単一のAIでは、複雑な問題を解決するのは容易ではありません。複数のAIエージェントがそれぞれの役割を持って協力すると、何が起こるのでしょうか。この章では、AIエージェントチームがなぜ必要なのか、ハーネスとは何かを学びます。</p>
 
   <div class="keypoints">
-    <div class="kp-title">本章の内容</div>
+    <div class="kp-title">この章で扱うこと</div>
     <ul>
-      <li>最近のAI開発トレンドと職場での導入状況</li>
+      <li>AIの最近の発展トレンドと業務での活用状況</li>
       <li>単一AIとマルチエージェントチームの違い</li>
-      <li>ハーネスの概念と役割</li>
-      <li>エージェントチームを使用する期待される効果</li>
-      <li>このハンドブック全体のロードマップ</li>
+      <li>ハーネス（Harness）の概念と役割</li>
+      <li>エージェントチームを活用する際の期待される効果</li>
+      <li>本ハンドブック全体のロードマップ</li>
     </ul>
   </div>
 
-  <!-- ============================================================
-       Section 1: Rapid AI Evolution
-       ============================================================ -->
-  <h2 id="ai-trends">1. 急速なAIの進化</h2>
+  <!-- ============================================================ -->
+  <!-- SECTION 1: 急速なAIの進化                                       -->
+  <!-- ============================================================ -->
+  <h2 id="ai-trends">急速なAIの進化</h2>
 
-  <p>2023年から2026年にかけての年月は、人工知能にとって革命的なものでした。OpenAIが2022年末に<strong>ChatGPT</strong>を発表すると、それは一夜にして世界中の注目を集めました。2023年までに、大手テクノロジー企業はこぞって独自の大規模言語モデル（LLM）をリリースする競争に突入しました。Anthropicの<strong>Claude</strong>、Googleの<strong>Gemini</strong>、Microsoftの<strong>Copilot</strong>がそれぞれ独自の強みを持ちました。これらは単なるチャットボットではありません — 文書の執筆、データ分析、コード生成、さらには複雑な問題を段階的に推論することも可能です。</p>
+  <h3>2023年以降、AIの爆発的な成長</h3>
 
-  <p>この波が以前のAIブームサイクルと異なるのは<em>アクセシビリティ</em>です。もう機械学習の博士号がなくてもAIの恩恵を受けることができます。ウェブブラウザまたはデスクトップアプリケーションがあれば、誰でも平易な言葉で質問を入力し、詳細で構造化された回答を得ることができます。これはあらゆる業界のプロフェッショナルにとって参入のハードルを劇的に下げました。</p>
+  <p>2022年末にChatGPTが公開されて以来、人工知能は研究所の中の実験的技術から、日常の中の実用的な道具へと姿を変えました。2023年にはAnthropicのClaude、GoogleのGemini、MetaのLlamaといった強力なAIモデルが相次いで登場しました。2024年にはClaude 3.5とGPT-4oが現れ、推論能力と多言語処理能力が飛躍的に向上しました。そして2025年から2026年にかけては、Claude Code、Antigravity CLI、Cursorのような<strong>AIコーディングツール</strong>が、開発者だけでなく一般ユーザーにも広く普及しました。</p>
 
-  <h3>職場におけるAI</h3>
+  <p>こうした変化の核心は、単なる「対話型AI」を超えて、AIが<strong>自ら行動するエージェント（Agent）</strong>へと進化しているという点です。以前のAIは質問に答えるにとどまっていましたが、今ではファイルを作成し、コードを書き、ウェブから情報を収集し、複数段階の作業を自力でこなせるようになりました。</p>
 
-  <p>事実上すべての業界で、AIツールが人々の働き方を再構築しています。以下に最も目立つ変化のいくつかを挙げます：</p>
+  <h3>AIが変えつつある仕事の領域</h3>
+
+  <p>現在、AIは次のような仕事の領域ですでに活発に活用されています。</p>
 
   <ul>
-    <li><strong>文書の執筆と編集</strong> — AIは数秒でメール、レポート、提案書、議事録を作成し、フィードバックに基づいてトーンと構成を調整できます。</li>
-    <li><strong>ソフトウェア開発</strong> — Claude CodeやGitHub CopilotのようなAIアシスタントは、コードの作成、レビュー、デバッグを行い、開発者が反復作業に費やす時間を最大40%削減できます。</li>
-    <li><strong>データ分析</strong> — AIはスプレッドシートを処理し、トレンドを特定し、チャートを生成し、手作業では何時間もかかるエグゼクティブサマリーを作成できます。</li>
-    <li><strong>プレゼンテーションとビジュアル</strong> — AIを活用したツールは、簡単なテキストの説明からスライドデッキ、図解、インフォグラフィックを生成できます。</li>
-    <li><strong>調査と情報収集</strong> — AIエージェントはウェブを検索し、情報源を相互参照し、ほぼあらゆるトピックの調査メモをまとめることができます。</li>
+    <li><strong>文書作成</strong> — 報告書、企画書、メールの下書き、ブログ記事を素早く作成・修正できます。AIが草案を作り、ユーザーがレビューして修正する方式が一般化しています。</li>
+    <li><strong>コーディングと開発</strong> — Claude CodeやGitHub Copilotなどのツールを使えば、コーディング初心者でも簡単なプログラムを作れますし、熟練開発者は繰り返し作業を自動化して生産性を大きく高められます。</li>
+    <li><strong>データ分析</strong> — 大量のデータから核心的なインサイトを抽出し、チャートやグラフとして可視化する作業をAIが行えます。</li>
+    <li><strong>プレゼンテーション制作</strong> — テーマを入力すれば、AIがスライド構成、内容の執筆、デザインの適用まで自動で行うシステムも登場しています。</li>
+    <li><strong>リサーチと調査</strong> — ウェブ検索と文書要約によって、特定のテーマに関する調査を数分で完了できます。</li>
   </ul>
 
-  <p>これらのユースケースに共通するのは、定型タスクに費やす時間が劇的に削減され、プロフェッショナルがより高次の思考、創造的な意思決定、戦略的計画に集中できるようになることです。</p>
+  <h3>初心者がAIを学ぶべき理由</h3>
+
+  <p>AIツールはもはや「技術専門家だけが使うもの」ではありません。文書作成者、プランナー、教師、学生、フリーランス — 職種を問わず、AIを活用する能力は今や必須スキルになりました。特に複数のAIエージェントを調整する技術は、単に「AIを使うこと」を超えて、<strong>「AIをチームのように運営すること」</strong>に相当します。これは業務効率を劇的に高める中核となる能力です。</p>
 
   <div class="tip-box">
-    AIツールはプログラミングの知識がなくても使用できます。最新のAIアシスタントの多くは自然言語の指示を理解します。日常の日本語（または英語、韓国語、その他多くの言語）で必要なことを説明するだけで、AIが残りの作業を行います。このハンドブックはその原則に基づいて設計されています — プログラマでなくても理解して進めることができます。
+    <strong>ヒント:</strong> AIツールはコーディングの知識がなくても使えます。Claude Desktop Appのようなツールは自然言語（日本語や英語）で指示すれば動作するので、プログラミング経験のない方でも十分に活用できます。
   </div>
 
-  <h3>なぜ今AIエージェントチームを学ぶのか？</h3>
+  <!-- ============================================================ -->
+  <!-- SECTION 2: 単一AI vs エージェントチーム                           -->
+  <!-- ============================================================ -->
+  <h2 id="single-vs-multi">単一AI vs エージェントチーム</h2>
 
-  <p>単一のAIチャットボットを使用することから、AIエージェントの<em>チーム</em>を編成することへの移行はすでに始まっています。早期採用者 — コンサルタント、研究者、教育者、プロダクトチーム — は、マルチエージェントワークフローが単一のAIが提供できるものよりも速く、より徹底して、より信頼性の高い結果を生み出すことを発見しています。技術が成熟する中、これらのパターンを今学ぶことで、あなたは一歩先を行くことになります。</p>
+  <p>AIを使い始めるとき、最初に直面する問いです。<em>「AIは1つで足りないのか？」</em>結論から言えば、簡単な作業なら1つのAIで十分です。しかし複雑なプロジェクト — 例えば市場調査からプレゼンテーションまでの全工程を自動化したい場合 — では、複数のAIが役割を分担して協力する<strong>エージェントチーム（Agent Team）</strong>方式の方がはるかに効果的です。</p>
 
-  <p>こう考えてみてください：10年前、検索エンジンの使い方を知っていることは競争力 advantageでした。今日ではそれは基本スキルです。同じように、複数のAIエージェントを調整する方法を理解することは、まもなく知識労働者にとって基本要件となるでしょう。このハンドブックはそのスキルをゼロから提供します。</p>
-
-  <!-- ============================================================
-       Section 2: Single AI vs. Agent Teams
-       ============================================================ -->
-  <h2 id="single-vs-multi">2. 単一AIとエージェントチームの比較</h2>
-
-  <p>ほとんどの人はAIと一度に一つの会話をします。Claudeを開き、質問を入力し、回答を得る。これが<strong>単一AI</strong>モデルです。単純なタスクにはうまく機能しますが、問題が複雑になったり、多段階になったり、異なる種類の専門知識が必要になったりすると、実質的な制限に直面します。</p>
-
-  <p><strong>マルチエージェントチーム</strong>は根本的に異なるアプローチをとります。一つのAIがすべてを行うのではなく、複数の専門AIエージェントが協力して、それぞれが最も得意なことに集中します。<em>PMエージェント</em>が問題を分解してタスクを割り当てます。<em>リサーチエージェント</em>が情報を収集します。<em>デザインエージェント</em>が視覚的な決定を担当します。<em>コーディングエージェント</em>がコードを書きます。各エージェントが作業を次に引き渡し、品質レビューが最終結果をチェックします。</p>
-
-  <p>以下の図は、その違いを一目で示しています：</p>
+  <h3>比較ダイアグラム</h3>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="単一AIとエージェントチームのアプローチを比較する図">
-      <!-- Single AI side -->
-      <text x="160" y="28" text-anchor="middle" style="color:var(--text-dim);font-size:13px;font-weight:600;">単一AI</text>
-      <rect x="50" y="48" width="220" height="80" rx="12" fill="var(--bg-info)" stroke="var(--border)" stroke-width="1.5"/>
-      <text x="160" y="85" text-anchor="middle" style="color:var(--text);font-size:14px;font-weight:600;">一つのAI</text>
-      <text x="160" y="105" text-anchor="middle" style="color:var(--text-dim);font-size:12px;">すべてを処理</text>
-      <!-- Arrow down to output -->
-      <line x1="160" y1="128" x2="160" y2="168" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSingle)"/>
-      <rect x="50" y="172" width="220" height="50" rx="10" fill="var(--bg3)" stroke="var(--border)" stroke-width="1"/>
-      <text x="160" y="202" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">出力</text>
+    <svg width="100%" viewBox="0 0 660 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="単一AIとエージェントチームを比較するダイアグラム">
+      <!-- ===== LEFT: 単一AI ===== -->
+      <rect x="10" y="20" width="200" height="280" rx="12" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="110" y="52" text-anchor="middle" font-size="16" font-weight="bold" style="fill:var(--text)">単一AI</text>
 
-      <!-- Divider -->
-      <line x1="340" y1="18" x2="340" y2="320" stroke="var(--border)" stroke-width="1" stroke-dasharray="6,4"/>
+      <!-- ユーザー -->
+      <rect x="55" y="72" width="110" height="40" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="110" y="97" text-anchor="middle" font-size="13" style="fill:var(--text)">ユーザー</text>
 
-      <!-- Agent Team side -->
-      <text x="520" y="28" text-anchor="middle" style="color:var(--text-dim);font-size:13px;font-weight:600;">エージェントチーム</text>
+      <!-- 矢印 -->
+      <line x1="110" y1="112" x2="110" y2="142" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSingle)"/>
 
-      <!-- PM Orchestrator -->
-      <rect x="430" y="48" width="180" height="46" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="520" y="76" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:700;">PMオーケストレーター</text>
+      <!-- 単一AIボックス -->
+      <rect x="25" y="148" width="170" height="60" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="110" y="174" text-anchor="middle" font-size="12" style="fill:var(--text)">すべてを</text>
+      <text x="110" y="194" text-anchor="middle" font-size="12" style="fill:var(--text)">1つのAIが処理</text>
 
-      <!-- Arrow from PM to specialists -->
-      <line x1="520" y1="94" x2="520" y2="118" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowTeam)"/>
+      <!-- 矢印 -->
+      <line x1="110" y1="208" x2="110" y2="238" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSingle)"/>
 
-      <!-- Three specialist boxes -->
-      <rect x="390" y="122" width="100" height="44" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="440" y="149" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:600;">リサーチ</text>
+      <!-- 成果物 -->
+      <rect x="55" y="244" width="110" height="40" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="110" y="269" text-anchor="middle" font-size="13" style="fill:var(--text)">成果物</text>
 
-      <rect x="500" y="122" width="100" height="44" rx="8" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="1.5"/>
-      <text x="550" y="149" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:600;">デザイン</text>
+      <!-- ===== RIGHT: エージェントチーム ===== -->
+      <rect x="430" y="20" width="220" height="280" rx="12" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="540" y="52" text-anchor="middle" font-size="16" font-weight="bold" style="fill:var(--text)">エージェントチーム</text>
 
-      <rect x="610" y="122" width="56" height="44" rx="8" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="638" y="142" text-anchor="middle" style="color:var(--text);font-size:10px;font-weight:600;">コーディング</text>
-      <text x="638" y="155" text-anchor="middle" style="color:var(--text);font-size:10px;font-weight:600;">スペシャリスト</text>
+      <!-- ユーザー -->
+      <rect x="485" y="72" width="110" height="40" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="540" y="97" text-anchor="middle" font-size="13" style="fill:var(--text)">ユーザー</text>
 
-      <!-- Arrows from specialists converge to output -->
-      <line x1="440" y1="166" x2="440" y2="196" stroke="var(--accent-green)" stroke-width="1.2"/>
-      <line x1="550" y1="166" x2="550" y2="196" stroke="var(--accent-purple)" stroke-width="1.2"/>
-      <line x1="638" y1="166" x2="638" y2="196" stroke="var(--accent-amber)" stroke-width="1.2"/>
-      <!-- Converge lines -->
-      <line x1="440" y1="196" x2="520" y2="218" stroke="var(--border)" stroke-width="1.2"/>
-      <line x1="550" y1="196" x2="520" y2="218" stroke="var(--border)" stroke-width="1.2"/>
-      <line x1="638" y1="196" x2="520" y2="218" stroke="var(--border)" stroke-width="1.2" marker-end="url(#arrowTeam)"/>
+      <!-- 矢印 -->
+      <line x1="540" y1="112" x2="540" y2="142" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowTeam)"/>
 
-      <rect x="430" y="222" width="180" height="50" rx="10" fill="var(--bg3)" stroke="var(--border)" stroke-width="1"/>
-      <text x="520" y="252" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">出力</text>
+      <!-- PMオーケストレーター -->
+      <rect x="455" y="148" width="170" height="36" rx="8" fill="var(--accent-purple)" stroke="none" opacity="0.85"/>
+      <text x="540" y="171" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-inverse)">PMオーケストレーター</text>
 
-      <!-- Annotation -->
-      <text x="520" y="310" text-anchor="middle" style="color:var(--text-dim);font-size:11px;font-style:italic;">各スペシャリストが得意分野に集中</text>
+      <!-- PMからスペシャリストへの線 -->
+      <line x1="470" y1="184" x2="455" y2="212" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowTeam)"/>
+      <line x1="540" y1="184" x2="540" y2="212" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowTeam)"/>
+      <line x1="610" y1="184" x2="625" y2="212" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowTeam)"/>
 
-      <!-- Arrow markers -->
+      <!-- 専門エージェント群 -->
+      <rect x="455" y="218" width="55" height="36" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="482" y="240" text-anchor="middle" font-size="9" style="fill:var(--text)">リサーチ</text>
+
+      <rect x="518" y="218" width="55" height="36" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="545" y="240" text-anchor="middle" font-size="9" style="fill:var(--text)">デザイン</text>
+
+      <rect x="581" y="218" width="55" height="36" rx="6" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="608" y="240" text-anchor="middle" font-size="9" style="fill:var(--text)">コーディング</text>
+
+      <!-- スペシャリストから成果物へ -->
+      <line x1="482" y1="254" x2="520" y2="272" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowTeam)"/>
+      <line x1="545" y1="254" x2="540" y2="272" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowTeam)"/>
+      <line x1="608" y1="254" x2="560" y2="272" stroke="var(--accent)" stroke-width="1.2" marker-end="url(#arrowTeam)"/>
+
+      <!-- 成果物 -->
+      <rect x="485" y="278" width="110" height="16" rx="4" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="540" y="290" text-anchor="middle" font-size="10" style="fill:var(--text)">統合成果物</text>
+
+      <!-- VS表示 -->
+      <text x="325" y="168" text-anchor="middle" font-size="28" font-weight="bold" style="fill:var(--text-dim)">vs</text>
+
+      <!-- 矢印の定義 -->
       <defs>
-        <marker id="arrowSingle" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
+        <marker id="arrowSingle" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
         </marker>
-        <marker id="arrowTeam" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
+        <marker id="arrowTeam" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-purple)"/>
         </marker>
       </defs>
     </svg>
   </div>
 
-  <h3>単一AIの制限</h3>
+  <h3>単一AIの限界</h3>
 
-  <p>単一AIでの作業は、簡単な質問や単純なタスクには全く問題ありません。しかし、タスクの複雑さが増すにつれて、いくつかの構造的な制限が明らかになります：</p>
+  <p>単一AIは1つのモデルですべての作業を処理します。簡単な質問への回答や短い文章を書くのには向いていますが、複雑なプロジェクトでは次のような限界が現れます。</p>
 
   <ul>
-    <li><strong>コンテキストウィンドウの制限</strong> — すべてのAIには、一度の会話で保持できる情報の最大量（<em>コンテキストウィンドウ</em>と呼ばれます）があります。トピックの調査、ソリューションの設計、コードの記述、結果のレビューを一度に頼むと、AIは会話の初期部分を「忘れる」か、コンテキストが一杯になると出力品質が低下する可能性があります。</li>
-    <li><strong>深い専門性の欠如</strong> — 単一AIはジェネラリストです。多くのトピックについて少しは知っていますが、企業のブランドガイドラインを正確に適用したり、本番品質のコードを書いたり、ドメイン固有の調査方法を適用したりするなど、深い専門知識を要するタスクでは、スペシャリストの成果には及びません。</li>
-    <li><strong>並列処理の不在</strong> — 単一AIは順次的に動作します。調査<em>と</em>デザイン<em>と</em>コーディングが必要な場合、AIは各ステップを一つずつ処理しなければなりません。エージェントチームでは、リサーチとデザインのエージェントが並列に作業でき、合計時間を大幅に短縮できます。</li>
-    <li><strong>組み込みの品質管理がない</strong> — 単一AIは自分の作業を自分でチェックするため、独立したレビューアーが気づくミスを見逃すことがあります。エージェントチームは、作業担当者とレビューアーの分離を自然にサポートします。</li>
+    <li><strong>コンテキストウィンドウ（Context Window）の限界</strong> — AIは一度に処理できる情報量に制限があります。長い文書を複数と大量のデータを同時に扱うと、最初の情報を忘れたり混同したりすることがあります。これを<em>コンテキストウィンドウ</em>と呼びます。</li>
+    <li><strong>専門性の不足</strong> — 1つのAIがリサーチ、デザイン、コーディング、文書レビューまで、すべての分野を高い水準でこなすのは困難です。専門家の役割を分ければ、それぞれの分野でより深い専門性を発揮できます。</li>
+    <li><strong>同時作業が不可能</strong> — 単一AIは一度に1つの作業しか行えません。リサーチが終わって初めてデザインに取りかかる、という具合です。実際の業務環境では、複数の作業が同時に進むのが普通です。</li>
+    <li><strong>品質管理の難しさ</strong> — 自分の書いた成果物を自分でレビューする構造のため、バイアスや誤りを見逃しやすくなります。別個の「レビュアー」役があれば品質は大きく向上します。</li>
   </ul>
 
   <h3>エージェントチームの利点</h3>
 
-  <p>マルチエージェントチームは、これらすべての制限に対処します。以下の比較は主要な違いをまとめたものです：</p>
+  <p>複数のAIエージェントがそれぞれの専門役割を持って協力すれば、こうした限界を克服できます。</p>
 
   <div class="compare-grid">
-    <div class="compare-col">
+    <div class="col">
       <h4>単一AI</h4>
       <ul>
-        <li>一つのモデルがすべてのタスクを処理</li>
-        <li>順次処理 — ステップごと</li>
-        <li>会話ごとのコンテキストウィンドウが制限</li>
-        <li>ジェネラリストの出力（良いが専門家レベルではない）</li>
-        <li>独立した品質レビューがない</li>
-        <li>シンプルで迅速なタスクに最適</li>
+        <li>すべての作業を1つのモデルが処理</li>
+        <li>処理できる情報量に制限</li>
+        <li>作業を順番に進行</li>
+        <li>自己レビューのみ可能</li>
+        <li>単純な作業に適している</li>
       </ul>
     </div>
-    <div class="compare-col">
+    <div class="col">
       <h4>エージェントチーム</h4>
       <ul>
-        <li>役割の分担 — 各エージェントが専門化</li>
-        <li>可能な限り並列処理</li>
-        <li>各エージェントが独自の集中コンテキストを持つ</li>
-        <li>ドメインごとの専門家レベルの出力</li>
-        <li>組み込みのレビューと品質ゲート</li>
-        <li>複雑な多段階プロジェクトに最適</li>
+        <li>役割ごとの専門エージェントが分担</li>
+        <li>各エージェントが独立したコンテキストを保持</li>
+        <li>複数のエージェントが並列処理</li>
+        <li>専任レビューエージェントが品質管理</li>
+        <li>複雑なプロジェクトに適している</li>
       </ul>
     </div>
   </div>
 
-  <p>トレードオフとして、エージェントチームはより多くのセットアップが必要です。各エージェントの役割を定義し、エージェント間の引き継ぎルールを設定し、品質チェックポイントを強制するシステムが必要です。そのシステムこそが<strong>ハーネス</strong>と呼ばれるものであり、次のセクションの主題です。</p>
+  <p>エージェントチームの核心的なアイデアは、<strong>人間の組織構造をそのままAIの世界に移したもの</strong>です。会社に企画チーム、デザインチーム、開発チーム、QAチームがあるように、AIエージェントも役割を分担して、より良い結果を生み出します。</p>
 
-  <!-- ============================================================
-       Section 3: What is a Harness?
-       ============================================================ -->
-  <h2 id="what-is-harness">3. ハーネスとは？</h2>
+  <!-- ============================================================ -->
+  <!-- SECTION 3: ハーネスとは                                          -->
+  <!-- ============================================================ -->
+  <h2 id="what-is-harness">ハーネスとは</h2>
 
-  <p>AIエージェントチームの文脈では、<strong>ハーネス</strong>は複数のAIエージェントを制御・調整して効率的に協力させるためのシステムです。誰が何を担当し、どの順番で、結果がどのように次のエージェントに渡されるかを定義します。ハーネスがなければ、あるAIの会話から別のAIの会話へ手動でコピーペーストしなければならず — 面倒でエラーが発生しやすく、スケール不可能です。</p>
+  <p>複数のAIエージェントを「チーム」のように動かすには、各自にどの役割を任せ、どんな順序で作業させるかを決めなければなりません。このとき必要になるのがまさしく<strong>ハーネス（Harness）</strong>です。</p>
 
-  <div class="note">
-    ハーネスはAIエージェントに「何をするか」「どのように協力するか」を伝える「ルールブック」のようなものです。プロジェクトマネージャーが各チームメンバーに明確な指示を出すのと同じように、ハーネスは各AIエージェントに明確な役割、定義された入力、定義された出力を与えます。
-  </div>
+  <h3>ハーネスの定義</h3>
 
-  <h3>現実世界の例え</h3>
+  <p>ハーネスとは、複数のAIエージェントを制御し調整する仕組み（system）のことです。わかりやすく言えば、AIエージェントたちが協力してプロジェクトを遂行するときに従う<strong>ルール・順序・役割定義の集合</strong>です。</p>
 
-  <p>「ハーネス」という言葉は、馬を馬車に繋ぐための装具に由来します。一頭の馬は小さな荷車を引けますが、重い荷物を動かすには複数の馬が協力する必要があります。<em>ハーネス</em>は、手綱、ストラップ、金具のシステムで、作業負荷を分配し、すべての馬を同じ方向に進ませ、運転者がチーム全体を操縦できるようにします。</p>
+  <h3>馬の手綱（Harness）から由来する比喩</h3>
 
-  <p>マルチエージェントAIも同じように機能します。各AIエージェントは、それぞれ特定の強みを持つ馬のようなものです — 一つは調査が速く、もう一つはデザインに優れ、三番目はクリーンなコードを書きます。ハーネスはそれらを接続し、指示し、最終的な出力がまさにあなたが必要とするものであることを保証します。</p>
+  <p>ハーネスという言葉の本来の意味は、<strong>馬の背に装着する手綱・馬具</strong>です。馬が馬車を引くとき、勝手な方向に走らず目的地まで安全に到達できるよう道案内の役割を果たすのがハーネスです。</p>
 
-  <h3>ハーネスの仕組み：フロー</h3>
+  <p>AIの世界でも同じです。複数のAIエージェントが各自の判断で動けば混乱が生じます。ハーネスは各エージェントに「あなたはこの役割を担う」「この作業が終わったらあのエージェントに結果を引き渡す」という指示を与えます。馬の手綱が馬を安全な方向へ導くように、AIハーネスはエージェントたちを<strong>調和的かつ生産的</strong>に導きます。</p>
 
-  <p>以下の図は、マルチエージェントハーネスの基本的なフローを示しています：</p>
+  <h3>ハーネスの構造</h3>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ユーザーからPMエージェント、スペシャリストエージェント、出力へのフローを示す図">
-      <!-- User -->
-      <rect x="20" y="90" width="80" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="60" y="120" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:700;">ユーザー</text>
+    <svg width="100%" viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ハーネスの構造を示すダイアグラム">
+      <!-- ユーザー -->
+      <rect x="265" y="10" width="130" height="44" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="330" y="37" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">ユーザー</text>
 
-      <!-- Arrow: User -> PM -->
-      <line x1="100" y1="115" x2="148" y2="115" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowH)"/>
-      <text x="124" y="108" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">トピック</text>
+      <!-- ユーザー → PM -->
+      <line x1="330" y1="54" x2="330" y2="84" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowHarness)"/>
+      <text x="345" y="74" font-size="11" style="fill:var(--text-dim)">指示</text>
 
-      <!-- PM Agent -->
-      <rect x="150" y="80" width="120" height="70" rx="12" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="210" y="112" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:700;">PMエージェント</text>
-      <text x="210" y="130" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">オーケストレーター</text>
+      <!-- PMエージェント -->
+      <rect x="235" y="90" width="190" height="48" rx="10" fill="var(--accent-purple)" stroke="none" opacity="0.85"/>
+      <text x="330" y="119" text-anchor="middle" font-size="14" font-weight="bold" fill="var(--text-inverse)">PMエージェント</text>
 
-      <!-- Arrow: PM -> Specialist A -->
-      <line x1="270" y1="100" x2="340" y2="55" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
-      <!-- Arrow: PM -> Specialist B -->
-      <line x1="270" y1="115" x2="340" y2="115" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
-      <!-- Arrow: PM -> Specialist C -->
-      <line x1="270" y1="130" x2="340" y2="175" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowAmber)"/>
+      <!-- PM → スペシャリスト -->
+      <line x1="270" y1="138" x2="120" y2="178" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+      <line x1="330" y1="138" x2="330" y2="178" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowAmber)"/>
+      <line x1="390" y1="138" x2="540" y2="178" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowAccent)"/>
 
-      <!-- Specialist A -->
-      <rect x="342" y="30" width="120" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="402" y="60" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">スペシャリストA</text>
+      <text x="180" y="164" font-size="10" style="fill:var(--text-dim)">役割分担</text>
+      <text x="340" y="164" font-size="10" style="fill:var(--text-dim)">役割分担</text>
+      <text x="460" y="164" font-size="10" style="fill:var(--text-dim)">役割分担</text>
 
-      <!-- Specialist B -->
-      <rect x="342" y="90" width="120" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="1.5"/>
-      <text x="402" y="120" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">スペシャリストB</text>
+      <!-- 専門エージェントA -->
+      <rect x="40" y="184" width="160" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="120" y="211" text-anchor="middle" font-size="12" style="fill:var(--text)">専門エージェントA</text>
 
-      <!-- Specialist C -->
-      <rect x="342" y="150" width="120" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="402" y="180" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">スペシャリストC</text>
+      <!-- 専門エージェントB -->
+      <rect x="250" y="184" width="160" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="330" y="211" text-anchor="middle" font-size="12" style="fill:var(--text)">専門エージェントB</text>
 
-      <!-- Arrows from specialists to output -->
-      <line x1="462" y1="55" x2="540" y2="95" stroke="var(--accent-green)" stroke-width="1.2"/>
-      <line x1="462" y1="115" x2="540" y2="115" stroke="var(--accent-purple)" stroke-width="1.2"/>
-      <line x1="462" y1="175" x2="540" y2="135" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowH)"/>
+      <!-- 専門エージェントC -->
+      <rect x="460" y="184" width="160" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="540" y="211" text-anchor="middle" font-size="12" style="fill:var(--text)">専門エージェントC</text>
 
-      <!-- Output -->
-      <rect x="542" y="85" width="130" height="60" rx="12" fill="var(--bg3)" stroke="var(--border)" stroke-width="1.5"/>
-      <text x="607" y="120" text-anchor="middle" style="color:var(--text);font-size:14px;font-weight:700;">出力</text>
+      <!-- スペシャリスト → 成果物 -->
+      <line x1="120" y1="228" x2="280" y2="258" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowGreen)"/>
+      <line x1="330" y1="228" x2="330" y2="258" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowAmber)"/>
+      <line x1="540" y1="228" x2="380" y2="258" stroke="var(--accent)" stroke-width="1.2" marker-end="url(#arrowAccent)"/>
 
-      <!-- Labels -->
-      <text x="607" y="175" text-anchor="middle" style="color:var(--text-dim);font-size:10px;font-style:italic;">調査 + デザイン + コード = 完成した成果物</text>
+      <text x="186" y="250" font-size="10" style="fill:var(--text-dim)">産出物</text>
+      <text x="340" y="250" font-size="10" style="fill:var(--text-dim)">産出物</text>
+      <text x="470" y="250" font-size="10" style="fill:var(--text-dim)">産出物</text>
 
-      <!-- Arrow markers -->
+      <!-- 成果物 -->
+      <rect x="235" y="264" width="190" height="28" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="330" y="283" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">最終成果物</text>
+
       <defs>
-        <marker id="arrowH" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
+        <marker id="arrowHarness" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
         </marker>
-        <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-green)"/>
+        <marker id="arrowGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-green)"/>
         </marker>
-        <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-purple)"/>
+        <marker id="arrowAmber" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-amber)"/>
         </marker>
-        <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-amber)"/>
+        <marker id="arrowAccent" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent)"/>
         </marker>
       </defs>
     </svg>
@@ -278,152 +287,158 @@
 
   <h3>ハーネスの3つのコア機能</h3>
 
-  <p>適切に設計されたハーネスは、個々のAIエージェントの集合を一貫性のある信頼性の高い本番システムに変える3つの不可欠な機能を提供します：</p>
+  <p>ハーネスは次の3つのコア機能を通じて、エージェントチームの動作を保証します。</p>
 
   <div class="step-list">
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">オーケストレーション</div>
-        <p>ハーネスは、どのエージェントを、どの順番で、どの入力で実行するかを決定します。オーケストラの指揮者のように — 自身は楽器を演奏しませんが、すべての奏者が適切なタイミングで正しい順序で演奏することを保証します。オーケストレーターエージェント（しばしばPMエージェントと呼ばれます）はユーザーのリクエストを受け取り、タスクに分解し、各タスクを適切なスペシャリストにディスパッチします。</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">引き継ぎコントラクト</div>
-        <p>一つのエージェントが作業を終えると、ハーネスはその出力が次のエージェントにどのように渡されるかを正確に定義します。これを<em>引き継ぎコントラクト</em>と呼びます。ファイル形式、データ構造、および次のエージェントが開始する前に満たす必要のある検証ルールを指定します。引き継ぎコントラクトがないと、エージェントは予測不可能な形式でデータを受け取り、不整合な結果を生み出します。</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">品質管理</div>
-        <p>ハーネスには、プロセスが続行する前に作業をレビューするチェックポイント（<em>ゲート</em>と呼ばれます）が含まれます。例えば、リサーチエージェントが調査結果を生成した後、ゲートですべての情報源がアクセス可能で信頼できることを検証します。デザインエージェントがビジュアル仕様を作成した後、別のゲートが色とフォントが一貫していることを確認します。この体系的なレビューは、エラーが後段のステージに伝播する前に早期に発見します。</p>
-      </div>
-    </div>
+    <ol>
+      <li>
+        <strong>オーケストレーション（Orchestration）</strong> — 全体の作業の流れを管理します。どのエージェントを先に稼働させ、何を並列に実行し、何を順次進めるかを決めます。オーケストレーター（主にPMエージェント）が指揮者の役割を果たします。
+      </li>
+      <li>
+        <strong>ハンドオフ契約（Handoff Contract）</strong> — エージェント間で作業結果を引き渡す方式と形式を定義します。Aエージェントが仕上げたファイルをBエージェントがどのパスで読み、どんな形式で出力するかをあらかじめ取り決めておけば、誤りが減ります。
+      </li>
+      <li>
+        <strong>品質管理（Quality Gate）</strong> — 各段階が終わるたびに、成果物が基準を満たしているか検査します。品質管理の専任エージェントが別個にレビューして誤りを捉え、基準に満たなければ修正を求めます。
+      </li>
+    </ol>
   </div>
 
-  <p>これら3つの機能が組み合わさって、アドホックなAI利用を<strong>再利用可能でスケーラブルなワークフロー</strong>に変えます — 出力品質に自信を持って複数のプロジェクトで再利用できるものです。</p>
-
-  <!-- ============================================================
-       Section 4: Expected Benefits
-       ============================================================ -->
-  <h2 id="expected-benefits">4. 期待される効果</h2>
-
-  <p>マルチエージェントハーネスの使用は理論上の改善ではありません。チームや個人の仕事の進め方を変える、具体的で測定可能な効果をもたらします。最も重要な3つの利点を見ていきましょう。</p>
-
-  <h3>時間の節約</h3>
-
-  <p>最も即効性のあるメリットはスピードです。かつて何時間もの手作業を要したタスクが、並列で作業する専門エージェントによって処理されると、時間の節約は劇的になります。</p>
-
-  <div class="stat-grid">
-    <div class="stat-card">
-      <div class="stat-num">8時間</div>
-      <div class="stat-label">手動での市場調査レポート<br>(検索、まとめ、執筆、フォーマット)</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">45分</div>
-      <div class="stat-label">エージェントチームでの同じレポート<br>(調査 + 執筆 + レビュー)</div>
-    </div>
+  <div class="note">
+    ハーネスは、AIエージェントに「何をすべきか」と「どう協力するか」を伝える一種の「ルールブック」です。実際の手綱が馬の動きを導くように、AIハーネスはエージェントたちの行動を調整し、プロジェクトの成功裏の完遂を助けます。
   </div>
 
-  <p>理由はシンプルです：エージェントはタスクの異なる部分を同時に処理でき、各エージェントは専門とするサブタスクにおいて人間よりはるかに速く動作します。オーケストレーターは出力を結合する手続きを処理し、人間のプロジェクトマネージャーが調整に費やす時間のほんの一部で済みます。</p>
+  <p>本ハンドブックで扱う<strong>co-deck</strong>は、Claude Desktop App環境で動作するマルチエージェントハーネスの実装です。11段階（Stage）のパイプラインで構成されており、リサーチからプレゼンテーションPDFの出力まで全工程を自動化します。</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: 期待される効果                                        -->
+  <!-- ============================================================ -->
+  <h2 id="expected-benefits">期待される効果</h2>
+
+  <p>AIエージェントチームを活用すると、具体的にどんなメリットがあるのでしょうか。以下は実際の活用事例と期待される効果です。</p>
+
+  <h3>時間の短縮</h3>
+
+  <p>最も直感的な効果は<strong>作業時間の劇的な短縮</strong>です。例えば、50ページ分量の市場調査報告書を従来の方式で作成すれば、リサーチ、分析、企画、執筆、デザインまで<strong>約8時間</strong>かかることがあります。しかしエージェントチームを活用すれば、リサーチエージェントがウェブから資料を収集している間に、デザインエージェントがテンプレートを準備し、ストーリーラインエージェントが構成を組みます。<strong>並列作業</strong>が可能になるためです。その結果、全工程を<strong>約45分前後</strong>に短縮できます。</p>
+
+  <p>もちろん、これはユーザーがAIの草案をレビュー・修正する時間を含まない、純粋なAI生成時間です。それでも、リサーチにかかる時間、草案作成にかかる時間、デザイン適用にかかる時間をそれぞれ削減できるという点は明らかです。</p>
 
   <h3>品質の向上</h3>
 
-  <p>専門化はスピードだけではありません — 品質にも関係します。単一のAIがすべてを行おうとすると、全体的に「まあまあ」の出力を生成します。専門AIが一つのドメインに集中すると、そのドメインで<em>専門家レベル</em>の出力を生成します。ハーネス内の品質ゲートは、ミスがあなたに届く前に発見するもう一つの保証層を追加します。</p>
-
-  <p>例えば、リサーチスペシャリストには情報源の信頼性を評価する方法についての具体的な指示を与えることができます。デザインスペシャリストには、会社のブランドパレットの色のみを使用するよう制約を設けられます。コードスペシャリストには、チームのコーディング標準に従うよう指示できます。それぞれの制約は単一のAIプロンプトに含めるには詳細すぎますが、各スペシャリストが独自の集中した指示を持てば自然で効果的になります。</p>
+  <p>エージェントチームは専門役割を分担するため、各分野で<strong>専門家レベルの成果物</strong>を期待できます。リサーチ専門エージェントは情報検索とファクトチェックに集中し、デザイン専門エージェントは視覚的な一貫性を管理し、品質管理の専任エージェントが誤りを検出します。このように<strong>制作者とレビュアーが分離される</strong>構造は、人間の組織においても品質向上の基本原則です。</p>
 
   <h3>再利用性</h3>
 
-  <p>おそらく最も過小評価されているメリットは再利用性です。ある種類のプロジェクト — 例えばプレゼンテーションデッキの作成 — に一度エージェントチームを構築すれば、少しの調整だけで次のプレゼンテーションに同じチームを再利用できます。ハーネス、エージェント定義、品質ゲートはすべて<em>ポータブル</em>です。一度投資し、複数のプロジェクトで恩恵を受けます。</p>
+  <p>一度構築したエージェントチームは、別のプロジェクトでも再利用できます。例えば「市場調査報告書」用のエージェントチーム構成を作っておけば、次に別のテーマの報告書を書くときにも同じ構造をそのまま活用できます。ハンドブックの執筆、プレゼンテーション制作、コードレビューなど、さまざまな用途に合わせてエージェントチームを<strong>テンプレート化</strong>して保存しておけば、新しいプロジェクトを始めるたびにゼロから構築する必要がありません。</p>
 
-  <p>これはテンプレートの作成に似ています。ハーネスを初めてセットアップするときには学習曲線があります。しかし2回目、3回目、10回目は、新しいトピックを提供するだけで、エージェントチームが残りの作業を処理します。時間が経つにつれ、累積的な時間の節約は莫大になります。</p>
+  <h3>作業の流れ</h3>
+
+  <p>エージェントチームを活用した典型的な作業の流れは次のとおりです。</p>
 
   <div class="flow-box">
-    <strong>エンドツーエンドのエージェントワークフロー：</strong> トピックを入力 &rarr; PMエージェントが分解 &rarr; スペシャリストエージェントが並列で起動 &rarr; 各エージェントが成果物を生成 &rarr; 品質ゲートが各ステージを検証 &rarr; 最終出力が組み立てられて納品。スタートを押せば全体が自動的に実行されます。
+    <div class="step">1. <strong>テーマ入力</strong> — ユーザーがプロジェクトのテーマ、対象読者、要件を入力します。</div>
+    <div class="step">2. <strong>エージェントチームの自動始動</strong> — PMエージェントがテーマを分析し、適切な専門エージェントを順次または並列に配置します。</div>
+    <div class="step">3. <strong>成果物の生成</strong> — 各専門エージェントが自らの役割を遂行し、品質管理エージェントが結果をレビューします。</div>
+    <div class="step">4. <strong>最終成果物の提供</strong> — すべての段階が完了すると、統合された最終成果物（報告書、プレゼンテーション、ハンドブックなど）が生成されます。</div>
   </div>
 
-  <!-- ============================================================
-       Section 5: Handbook Roadmap
-       ============================================================ -->
-  <h2 id="handbook-roadmap">5. ハンドブックのロードマップ</h2>
+  <!-- ============================================================ -->
+  <!-- SECTION 5: 本ハンドブックのロードマップ                            -->
+  <!-- ============================================================ -->
+  <h2 id="handbook-roadmap">本ハンドブックのロードマップ</h2>
 
-  <p>このハンドブックは4つの進行的なパートに構成されており、各パートは前のものの上に構築されます。最後には、基本概念の理解から、独自のマルチエージェントハーネスの作成と実行まで到達します。</p>
+  <p>本ハンドブックは、AIエージェントチームの基礎概念から実践的な活用まで、段階的に案内します。全体の構成は4つのパート（Part）に分かれています。</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ハンドブックの4つのパートを示すロードマップ図">
+    <svg width="100%" viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ハンドブックのロードマップを示すダイアグラム">
       <!-- Part 1 -->
-      <rect x="20" y="60" width="145" height="90" rx="12" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="92" y="92" text-anchor="middle" style="color:var(--accent-green);font-size:12px;font-weight:700;">パート1</text>
-      <text x="92" y="112" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">基礎</text>
-      <text x="92" y="130" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">第1〜5章</text>
+      <rect x="20" y="50" width="140" height="100" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="90" y="78" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">Part 1</text>
+      <text x="90" y="98" text-anchor="middle" font-size="11" style="fill:var(--text)">基礎概念</text>
+      <text x="90" y="116" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">第1〜5章</text>
+      <text x="90" y="134" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Claude Desktop App、エージェント、</text>
+      <text x="90" y="148" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">ハーネスの概念</text>
 
-      <!-- Arrow 1->2 -->
-      <line x1="165" y1="105" x2="195" y2="105" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowR)"/>
+      <!-- 矢印 1→2 -->
+      <line x1="160" y1="100" x2="190" y2="100" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowRoad)"/>
 
       <!-- Part 2 -->
-      <rect x="197" y="60" width="145" height="90" rx="12" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="270" y="92" text-anchor="middle" style="color:var(--accent);font-size:12px;font-weight:700;">パート2</text>
-      <text x="270" y="112" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">実践</text>
-      <text x="270" y="130" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">第6〜8章</text>
+      <rect x="196" y="50" width="140" height="100" rx="10" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="266" y="78" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">Part 2</text>
+      <text x="266" y="98" text-anchor="middle" font-size="11" style="fill:var(--text)">実践</text>
+      <text x="266" y="116" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">第6〜8章</text>
+      <text x="266" y="134" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">エージェントファイルの作成、</text>
+      <text x="266" y="148" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">簡単なプロジェクトの実行</text>
 
-      <!-- Arrow 2->3 -->
-      <line x1="342" y1="105" x2="372" y2="105" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowR)"/>
+      <!-- 矢印 2→3 -->
+      <line x1="336" y1="100" x2="366" y2="100" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowGreenRoad)"/>
 
       <!-- Part 3 -->
-      <rect x="374" y="60" width="145" height="90" rx="12" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="2"/>
-      <text x="446" y="92" text-anchor="middle" style="color:var(--accent-purple);font-size:12px;font-weight:700;">パート3</text>
-      <text x="446" y="112" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">作成</text>
-      <text x="446" y="130" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">第9〜11章</text>
+      <rect x="372" y="50" width="140" height="100" rx="10" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="442" y="78" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">Part 3</text>
+      <text x="442" y="98" text-anchor="middle" font-size="11" style="fill:var(--text)">創作</text>
+      <text x="442" y="116" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">第9〜11章</text>
+      <text x="442" y="134" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">スライドデッキの制作、</text>
+      <text x="442" y="148" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">プレゼンテーションの自動化</text>
 
-      <!-- Arrow 3->4 -->
-      <line x1="519" y1="105" x2="549" y2="105" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowR)"/>
+      <!-- 矢印 3→4 -->
+      <line x1="512" y1="100" x2="542" y2="100" stroke="var(--accent-purple)" stroke-width="2" marker-end="url(#arrowPurpleRoad)"/>
 
       <!-- Part 4 -->
-      <rect x="551" y="60" width="130" height="90" rx="12" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="2"/>
-      <text x="616" y="92" text-anchor="middle" style="color:var(--accent-amber);font-size:12px;font-weight:700;">パート4</text>
-      <text x="616" y="112" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">自動化</text>
-      <text x="616" y="130" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">第12〜13章</text>
+      <rect x="548" y="50" width="100" height="100" rx="10" fill="var(--bg-success)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="598" y="78" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">Part 4</text>
+      <text x="598" y="98" text-anchor="middle" font-size="11" style="fill:var(--text)">自動化</text>
+      <text x="598" y="116" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">第12〜13章</text>
+      <text x="598" y="134" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">運用、デプロイ、</text>
+      <text x="598" y="148" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">まとめ</text>
 
-      <!-- Arrow marker -->
+      <!-- 進捗バー背景 -->
+      <rect x="20" y="170" width="628" height="6" rx="3" fill="var(--border)"/>
+      <!-- 進捗バー塗り -->
+      <rect x="20" y="170" width="50" height="6" rx="3" fill="var(--accent)"/>
+
+      <text x="20" y="190" font-size="10" style="fill:var(--text-dim)">現在位置</text>
+
       <defs>
-        <marker id="arrowR" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
+        <marker id="arrowRoad" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowGreenRoad" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
+        </marker>
+        <marker id="arrowPurpleRoad" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-purple)"/>
         </marker>
       </defs>
     </svg>
   </div>
 
-  <h3>パート1：基礎（第1〜5章）</h3>
-  <p>ここが現在あなたがいる場所です。パート1では基礎概念を扱います：AIエージェントチームとは何か、Claude Desktop Appの使い方、ハーネスの構造、そしてこのハンドブック全体で出てくる重要な用語。パート1の終わりには、マルチエージェントシステムがどのように機能し、なぜ重要なのかについて確固としたメンタルモデルを持つことになります。</p>
+  <h3>各パートの内容</h3>
 
-  <h3>パート2：実践（第6〜8章）</h3>
-  <p>パート2は理論から実践演習へと移ります。既存のマルチエージェントハーネスをステップバイステップで実行し、エージェントがどのように通信するかを観察し、簡単な変更を試します。これらの章は直接的な経験を通じて自信を構築するよう設計されています。実際のエージェントチームをアクションで見て、出力の読み方を学びます。</p>
-
-  <h3>パート3：作成（第9〜11章）</h3>
-  <p>パート3では、ゼロから独自のマルチエージェントハーネスを構築します。エージェントの役割の設計、引き継ぎコントラクトの定義、品質ゲートの実装から始め、具体的な成果物（プレゼンテーションデッキや調査レポートなど）を生成する完全なワークフローを構築します。これがこのハンドブックのコアスキル構築セクションです。</p>
-
-  <h3>パート4：自動化とまとめ（第12〜13章）</h3>
-  <p>最後のパートは、ハーネスを次のレベルに引き上げることに焦点を当てます。反復ワークフローの自動化、特定のユースケースに向けたエージェントの動作のカスタマイズ、日常ルーチンへのハーネスの統合を学びます。ハンドブックはベストプラクティスのまとめと、AIエージェント技術の将来展望で締めくくります。</p>
-
-  <h3>あなたができるようになること</h3>
+  <ul>
+    <li><strong>Part 1 — 基礎概念（第1〜5章）</strong>: Claude Desktop Appのインストールから、AIエージェントの概念、ハーネスの構造まで、基盤となる知識を固めます。AIツールが初めての方でも理解できるよう、すべての用語を丁寧に説明します。</li>
+    <li><strong>Part 2 — 実践（第6〜8章）</strong>: エージェント定義ファイルを自分で書き、簡単なプロジェクトを実行してみます。理論から実践へ進む段階です。</li>
+    <li><strong>Part 3 — 創作（第9〜11章）</strong>: スライドプレゼンテーションを完全自動で制作するパイプラインを体験します。実際のco-deckの11段階ワークフローを段階ごとになぞります。</li>
+    <li><strong>Part 4 — 自動化とまとめ（第12〜13章）</strong>: エージェントチームの運営のコツ、問題解決の方法、そして今後の学習の方向性を整理します。</li>
+  </ul>
 
   <div class="keypoints">
-    <div class="kp-title">このハンドブック修了後にできるようになること</div>
+    <div class="kp-title">本ハンドブックを読み終えたらできること</div>
     <ul>
-      <li>単一AIとマルチエージェントアプローチの違いを同僚に説明する</li>
-      <li>Claude Desktop Appをマルチエージェントワークフロー用にインストール・設定する</li>
-      <li>ハーネス設定ファイル（AGENTS.md、エージェント定義）を読んで理解する</li>
-      <li>既存のマルチエージェントハーネスを実行し、その出力を解釈する</li>
-      <li>自分のプロジェクト用のシンプルなマルチエージェントハーネスを設計・構築する</li>
-      <li>品質ゲートと引き継ぎコントラクトを適用して信頼性の高い出力を確保する</li>
-      <li>エージェントチームを複数のプロジェクトで再利用・カスタマイズする</li>
+      <li>Claude Desktop AppでAIエージェントを定義し実行できる</li>
+      <li>複数のAIエージェントが協力するハーネスの原理を理解できる</li>
+      <li>エージェント定義ファイル（agent.md）を自分で書ける</li>
+      <li>プレゼンテーション制作パイプラインを段階的に実行できる</li>
+      <li>自分だけのエージェントチームを構成し、プロジェクトに適用できる</li>
     </ul>
   </div>
 
-  <!-- ============================================================
-       Chapter Navigation
-       ============================================================ -->
+  <div class="note">
+    本ハンドブックは、Claude Desktop Appと<strong>ai-workspace-standards</strong>プロジェクトの構造をもとに執筆されました。実習例として使われるco-deckハーネスはGitHubで公開されており、誰でも無料で利用できます。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER NAVIGATION                                             -->
+  <!-- ============================================================ -->
   <div class="chapter-nav">
     <a href="../index_ja.html" class="prev">
       <div class="dir">&larr; ハンドブックホーム</div>

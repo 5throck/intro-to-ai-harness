@@ -167,10 +167,10 @@
       <text x="490" y="140" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">L1 공통 + L2 variant</text>
       <text x="490" y="156" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">템플릿 폴더</text>
 
-      <!-- presentations/ -->
+      <!-- Projects/ -->
       <line x1="610" y1="68" x2="610" y2="88" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowTree)"/>
       <rect x="546" y="92" width="128" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="610" y="113" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">presentations/</text>
+      <text x="610" y="113" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Projects/</text>
       <text x="610" y="140" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">L3 프로젝트</text>
       <text x="610" y="156" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">작업 공간</text>
 
@@ -368,7 +368,7 @@
     <li>L1의 공통 템플릿 상속 (<code>variant.json</code>의 <code>inherits_common: "templates/common"</code>)</li>
   </ul>
 
-  <p>현재 10개의 variant 템플릿이 존재합니다: co-abap, co-consult, co-deck, co-design, co-develop, co-export, co-game, co-news, co-security, co-work.</p>
+  <p>현재 11개의 variant 템플릿이 존재합니다: co-abap, co-consult, co-deck, co-design, co-develop, co-export, co-game, co-hr, co-news, co-security, co-work.</p>
 
   <h3>L3 (Project) — 실제 프로젝트 레이어</h3>
 
@@ -497,7 +497,7 @@
     <li><code>docs/context.md</code> 등 프로젝트별 설정 파일 생성</li>
   </ul>
 
-  <p><code>--variant</code>에는 co-consult, co-deck을 포함해 현재 존재하는 9개 variant 중 하나를 지정할 수 있습니다. 6장·7장의 실습에서 사용하는 co-consult, co-deck 예제는 별도의 저장소를 클론하는 것이 아니라, 공개 저장소 <code>ai-workspace-standards</code> 안의 <code>templates/co-consult/</code>, <code>templates/co-deck/</code>(L2)를 위 명령으로 직접 스캐폴딩한 결과물입니다.</p>
+  <p><code>--variant</code>에는 co-consult, co-deck을 포함해 현재 존재하는 11개 variant 중 하나를 지정할 수 있습니다. 6장·7장의 실습에서 사용하는 co-consult, co-deck 예제는 별도의 저장소를 클론하는 것이 아니라, 공개 저장소 <code>ai-workspace-standards</code> 안의 <code>templates/co-consult/</code>, <code>templates/co-deck/</code>(L2)를 위 명령으로 직접 스캐폴딩한 결과물입니다.</p>
 
   <h3>덮어쓰기 규칙</h3>
 
@@ -591,7 +591,7 @@
   <p>이 명령은 <code>Projects/my-market-report/</code>를 독립된 새 Git 저장소로 생성하고, co-consult의 에이전트·스킬·설정을 복사한 뒤, 이 프로젝트만의 목표를 채워 넣을 수 있도록 비어 있는 <code>docs/context.md</code> 골격을 렌더링합니다. 전체 문법은 다음과 같습니다.</p>
 
   <div class="code-block">
-<pre><code>bun scripts/new-project.ts "&lt;프로젝트-이름&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|both] [--version X.Y.Z]</code></pre>
+<pre><code>bun scripts/new-project.ts "&lt;프로젝트-이름&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|both] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
 
@@ -600,6 +600,7 @@
     <li><strong><code>--variant &lt;variant&gt;</code></strong> — 필수. 어떤 L2 템플릿에서 스캐폴딩할지 지정합니다(<code>co-consult</code>, <code>co-deck</code>, <code>co-develop</code> 등).</li>
     <li><strong><code>--platform</code></strong> — 선택. 어떤 플랫폼 설정(<code>.claude/</code>, <code>.gemini/</code>)을 복사할지 제한합니다. 기본값은 <code>both</code>입니다.</li>
     <li><strong><code>--version</code></strong> — 선택. 원본 variant의 현재 버전 대신 특정 템플릿 버전을 고정해서 사용합니다.</li>
+    <li><strong><code>--country &lt;CODE&gt;</code></strong> — 선택. 한국 대상 프로젝트라면 <code>--country KR</code>을 지정하세요. 국가 프로파일이 k-dart·k-law·k-kosis 같은 한국 전용 스킬과 KR API 키 설정을 프로젝트에 함께 넣어 줍니다 (자세한 내용은 <a href="../appendix/D_Korean_Open_Data_API_Keys.html">별첨 D</a> 참조).</li>
   </ul>
 
   <div class="note">

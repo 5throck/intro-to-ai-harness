@@ -27,11 +27,11 @@
  <article class="reading">
   <div class="chapter-eyebrow">付録C</div>
   <h1>低コストAIバックエンド統合</h1>
-  <p class="lead">この付録では、Claude互換の低コストAIバックエンド &mdash; DeepSeek、GLM/ZhipuAI、LiteLLMプロキシ &mdash; の設定について説明します。プレミアムなClaude Proサブスクリプションなしでマルチエージェントハーネスを実行できます。</p>
+  <p class="lead">この付録では、Claude Codeと互換性のある低コストAIバックエンド — DeepSeek、GLM/ZhipuAI、LiteLLM — の設定方法を説明します。</p>
   <div class="keypoints">
     <div class="kp-title">この付録で扱う内容</div>
     <ul>
-      <li>低コストバックエンドが重要な理由</li>
+      <li>低コストバックエンドが必要な理由</li>
       <li>DeepSeekバックエンドの設定</li>
       <li>GLM/ZhipuAIバックエンドの設定</li>
       <li>LiteLLMプロキシの設定</li>
@@ -41,300 +41,317 @@
   </div>
 
   <!-- ============================================================
-       Section 1: Why Low-Cost Backends
+       SECTION 1: なぜ低コストバックエンドか
        ============================================================ -->
   <h2 id="why-low-cost">1. なぜ低コストバックエンドか</h2>
 
-  <p>AI APIの料金体系は携帯電話の料金プランに似ています。Claude Proは定額制プランのようなものです: 毎月固定料金（$20/月）を支払えば、広範に使用できます。低コストバックエンドは従量課金プランのようなものです: 実際に使った分だけ支払い、トークン単価は大幅に安くなります。多くの自動化エージェントタスクを実行する開発者にとって、従量課金モデルは大幅に安くなります。</p>
+  <p>Claude CodeはAnthropicのClaudeモデルをデフォルトで使用します。Claude Proサブスクリプションは月<strong>$20</strong>で、定額制として毎月決まった回数の質問を利用できます。しかし、プロジェクトを多数進めたり大量のコード生成が必要な場合には、コストが負担になることがあります。</p>
+
+  <p>APIベースの低コストバックエンドを使えば<strong>使用した分だけ課金</strong>されるため、使い方が少なければClaude Proよりはるかに安く済みます。特にClaude Code CLIは、環境変数を変えるだけで別のAIバックエンドへ簡単に切り替えられる柔軟性を提供します。</p>
+
+  <div class="flow-box">
+    Claude Proは<strong>『定額制料金プラン』</strong>、APIバックエンドは<strong>『従量課金制料金プラン』</strong>です。使う量が少ないほど安くなります。スマートフォンの料金プランを思い浮かべると分かりやすいでしょう — 毎月決まったデータを使う定額制と、使った分だけ支払う従量制の違いと同じです。
+  </div>
+
+  <div class="note">
+    Claude Code CLIが必要です。Claude Desktop Appはカスタムバックエンドに対応していません（<a href="B_Claude_Code_CLI_ja.html">付録B</a>を参照）。
+  </div>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="定額制Claude Proと従量課金低コストバックエンドの比較図">
-      <defs>
-        <marker id="arrowLC" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
-        </marker>
-      </defs>
+    <svg viewBox="0 0 660 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <!-- Background -->
+      <rect width="660" height="340" rx="10" fill="var(--bg2)"/>
 
       <!-- Title -->
-      <text x="340" y="28" text-anchor="middle" style="color:var(--text);font-size:15px;font-weight:700;">料金モデルの比較</text>
+      <text x="330" y="30" text-anchor="middle" font-size="15" font-weight="700" style="color:var(--text);">Claude Pro vs 低コストバックエンド比較</text>
 
-      <!-- Claude Pro (Flat-Rate) -->
-      <rect x="40" y="55" width="260" height="240" rx="14" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="170" y="88" text-anchor="middle" style="color:var(--accent);font-size:13px;font-weight:700;">定額プラン</text>
-      <text x="170" y="110" text-anchor="middle" style="color:var(--text);font-size:15px;font-weight:700;">Claude Pro</text>
+      <!-- Claude Pro column -->
+      <rect x="40" y="55" width="270" height="260" rx="8" fill="var(--bg3)" stroke="var(--border)"/>
+      <rect x="40" y="55" width="270" height="40" rx="8" fill="var(--accent)"/>
+      <rect x="40" y="85" width="270" height="10" fill="var(--accent)"/>
+      <text x="175" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-inverse)">Claude Pro（定額制）</text>
 
-      <rect x="70" y="128" width="200" height="40" rx="8" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
-      <text x="170" y="153" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">$20 / 月（固定）</text>
+      <circle cx="80" cy="125" r="14" fill="var(--accent)"/>
+      <text x="80" y="130" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">$</text>
+      <text x="104" y="130" font-size="13" style="color:var(--text);">月$20の定額</text>
 
-      <rect x="70" y="178" width="200" height="40" rx="8" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
-      <text x="170" y="197" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">寛大な1日あたりの使用上限</text>
-      <text x="170" y="210" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">（プランティアにより異なる）</text>
+      <circle cx="80" cy="165" r="14" fill="var(--accent-green)"/>
+      <text x="80" y="170" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">✓</text>
+      <text x="104" y="170" font-size="13" style="color:var(--text);">使用量に関係なく固定</text>
 
-      <rect x="70" y="228" width="200" height="36" rx="8" fill="var(--bg-success)" stroke="var(--border-success)" stroke-width="1"/>
-      <text x="170" y="251" text-anchor="middle" style="color:var(--accent-green);font-size:11px;font-weight:600;">最適: 日常的な定常利用</text>
+      <circle cx="80" cy="205" r="14" fill="var(--accent-purple)"/>
+      <text x="80" y="210" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">★</text>
+      <text x="104" y="210" font-size="13" style="color:var(--text);">韓国語・コード生成が優秀</text>
 
-      <!-- Low-Cost Backends (Pay-Per-Use) -->
-      <rect x="380" y="55" width="260" height="240" rx="14" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="510" y="88" text-anchor="middle" style="color:var(--accent-green);font-size:13px;font-weight:700;">従量課金プラン</text>
-      <text x="510" y="110" text-anchor="middle" style="color:var(--text);font-size:15px;font-weight:700;">低コストバックエンド</text>
+      <circle cx="80" cy="245" r="14" fill="var(--accent-amber)"/>
+      <text x="80" y="250" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">!</text>
+      <text x="104" y="250" font-size="13" style="color:var(--text);">インストール不要 — 最も簡単</text>
 
-      <rect x="410" y="128" width="200" height="40" rx="8" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
-      <text x="510" y="153" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">~$0.01 &ndash; $0.14 / 100万トークン</text>
+      <circle cx="80" cy="285" r="14" fill="var(--accent-red)"/>
+      <text x="80" y="290" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">!</text>
+      <text x="104" y="290" font-size="13" style="color:var(--text);">大量利用には非効率</text>
 
-      <rect x="410" y="178" width="200" height="40" rx="8" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
-      <text x="510" y="197" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">月額のコミットメントなし</text>
-      <text x="510" y="210" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">使用したトークン分だけ支払い</text>
+      <!-- Low-cost column -->
+      <rect x="350" y="55" width="270" height="260" rx="8" fill="var(--bg3)" stroke="var(--border)"/>
+      <rect x="350" y="55" width="270" height="40" rx="8" fill="var(--accent-green)"/>
+      <rect x="350" y="85" width="270" height="10" fill="var(--accent-green)"/>
+      <text x="485" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-inverse)">低コストバックエンド（従量制）</text>
 
-      <rect x="410" y="228" width="200" height="36" rx="8" fill="var(--bg-success)" stroke="var(--border-success)" stroke-width="1"/>
-      <text x="510" y="251" text-anchor="middle" style="color:var(--accent-green);font-size:11px;font-weight:600;">最適: 自動バッチ実行</text>
+      <circle cx="390" cy="125" r="14" fill="var(--accent-green)"/>
+      <text x="390" y="130" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">$</text>
+      <text x="414" y="130" font-size="13" style="color:var(--text);">使用した分だけ課金</text>
 
-      <!-- Connector arrow -->
-      <line x1="300" y1="175" x2="380" y2="175" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowLC)"/>
-      <text x="340" y="167" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">vs.</text>
+      <circle cx="390" cy="165" r="14" fill="var(--accent)"/>
+      <text x="390" y="170" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">↕</text>
+      <text x="414" y="170" font-size="13" style="color:var(--text);">少なく使えば非常に安い</text>
+
+      <circle cx="390" cy="205" r="14" fill="var(--accent-purple)"/>
+      <text x="390" y="210" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">★</text>
+      <text x="414" y="210" font-size="13" style="color:var(--text);">バックエンドにより性能差あり</text>
+
+      <circle cx="390" cy="245" r="14" fill="var(--accent-amber)"/>
+      <text x="390" y="250" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">⚙</text>
+      <text x="414" y="250" font-size="13" style="color:var(--text);">CLIインストール＋環境変数設定</text>
+
+      <circle cx="390" cy="285" r="14" fill="var(--accent-green)"/>
+      <text x="390" y="290" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">✓</text>
+      <text x="414" y="290" font-size="13" style="color:var(--text);">複数バックエンドへ切替可能</text>
+
+      <!-- VS divider -->
+      <text x="330" y="195" text-anchor="middle" font-size="20" font-weight="700" style="color:var(--accent);">VS</text>
     </svg>
   </div>
 
-  <h3>低コストバックエンドが適している場面</h3>
+  <h3>低コストバックエンドが適している場合</h3>
 
   <ul>
-    <li><strong>バッチ処理</strong> &mdash; 数十のエージェントタスクを立て続けに実行する場合（例: ハンドブックの複数章の生成）、トークン単価の pricing は定額サブスクリプションよりはるかに安価です。</li>
-    <li><strong>実験</strong> &mdash; 新しいハーネスをプロトタイピングしたり、エージェント設定をテストしたりする場合、試行で多くのトークンを消費することがあります。低コストバックエンドは実験のコストを削減します。</li>
-    <li><strong>チームや教室での利用</strong> &mdash; 複数の人がワークスペースを共有する場合、各人が独自の低コストAPIキーを使用でき、1つのClaude Proシートを共有する必要がありません。</li>
-    <li><strong>コスト管理</strong> &mdash; 従量課金では、支出上限を厳格に設定できます。暴走したエージェントループがAPIキーの残高以上に請求することはありません。</li>
+    <li><strong>大量作業（バッチ処理）</strong> — 数十個のエージェントジョブを連続して実行するとき（例：ハンドブックの複数章の生成）、従量課金は定額制サブスクリプションよりはるかに安くなります。</li>
+    <li><strong>実験とプロトタイピング</strong> — 新しいハーネスをプロトタイピングしたりエージェント設定をテストしたりするときは、試行錯誤の過程で多くのトークンを消費することがあります。低コストバックエンドは実験コストを抑えてくれます。</li>
+    <li><strong>チームや教室での利用</strong> — 複数人でひとつの作業空間を共有するときは、Claude Proのシート1つを分け合う代わりに、各自が自分の低コストAPIキーを使えます。</li>
+    <li><strong>コスト管理</strong> — 従量課金では支出上限を厳格に設定できます。エージェントループが無限に回っても、APIキーの残高を超えて請求されることはありません。</li>
   </ul>
 
   <div class="note">
-    低コストバックエンドはClaudeの完全な代替ではありません。Claude（Anthropic）モデルは、複雑な推論、ニュアンスのある文章、多段階の計画タスクでより良い出力を生む傾向があります。低コストバックエンドは、コード生成、要約、フォーマットなど、<em>大量の適度な複雑さのタスク</em>に最適です。
+    低コストバックエンドはClaudeの完全な代替ではありません。Claude（Anthropic）モデルは、複雑な推論、繊細な文章、多段階の計画立てといった作業でより良い結果を出す傾向があります。低コストバックエンドは、コード生成・要約・フォーマットのような<em>大量・中程度の複雑さ</em>の作業に最適です。
   </div>
 
   <!-- ============================================================
-       Section 2: DeepSeek Backend
+       SECTION 2: DeepSeekバックエンド
        ============================================================ -->
   <h2 id="deepseek">2. DeepSeekバックエンド</h2>
 
-  <p><strong>DeepSeek</strong>は、非常に競争力のある価格で高性能な言語モデルを提供する中国のAI研究ラボです。DeepSeek-V3とDeepSeek-R1は、多くのエージェントワークフローでClaudeの代替として広く使われています。</p>
+  <h3>DeepSeekとは？</h3>
+  <p>DeepSeekは中国の低価格・高性能AIプラットフォームです。DeepSeek-V3などの最新モデルは、コード生成、数学的推論、多言語理解など様々な分野で優れた性能を示します。Claude互換APIを提供しているため、Claude Codeでは<strong>環境変数を変えるだけ</strong>ですぐに使い始められます。</p>
 
-  <h3>なぜDeepSeek？</h3>
+  <h3>主な特徴</h3>
   <ul>
-    <li>極めて低コスト: 約$0.27 / 100万入力トークン、$1.10 / 100万出力トークン（DeepSeek-V3）。</li>
-    <li>強力なコーディングと推論能力。特にDeepSeek-R1はChain-of-Thoughtタスクに優れています。</li>
-    <li><code>deepseek-chat</code>モデルエンドポイント経由でClaude互換のAPI形式。</li>
+    <li><strong>Claude互換API</strong> — Anthropic API形式をそのままサポートし、Claude Codeとシームレスに連携</li>
+    <li><strong>手頃な価格</strong> — 月$20のClaude Proより少ない使用量ならはるかに安い</li>
+    <li><strong>極低料金</strong> — DeepSeek-V3基準で100万入力トークンあたり約$0.27、100万出力トークンあたり約$1.10</li>
+    <li><strong>強力なコード生成</strong> — プログラミング言語の理解とコード作成能力に優れる</li>
+    <li><strong>オープンソースモデル</strong> — DeepSeek-V3/R1系などオープンソースモデルも提供</li>
   </ul>
 
-  <h3>設定の概要</h3>
+  <h3>設定方法</h3>
+
+  <p><strong>ステップ1：DeepSeek APIキーの発行</strong></p>
+  <p><a href="https://platform.deepseek.com" target="_blank">https://platform.deepseek.com</a> にアクセスしてアカウントを作成し、APIキーを発行します。無料クレジットの提供有無はプラットフォームの方針によって異なる場合があります。</p>
+
+  <p><strong>ステップ2：環境変数の設定</strong></p>
+
+  <p>macOS / Linuxの場合:</p>
+  <div class="code-block">
+<pre><code>export ANTHROPIC_API_KEY="your-deepseek-api-key"
+export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <p>Windows (PowerShell)の場合:</p>
+  <div class="code-block">
+<pre><code>$env:ANTHROPIC_API_KEY="your-deepseek-api-key"
+$env:ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <p><strong>ステップ3：Claude Codeの実行</strong></p>
+  <p>環境変数を設定したら、通常どおりClaude Codeを実行します:</p>
+  <div class="code-block">
+<pre><code>claude</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <div class="tip-box">
+    DeepSeek APIキーは <a href="https://platform.deepseek.com" target="_blank">https://platform.deepseek.com</a> から無料で発行できます。無料クレジットの提供有無はプラットフォームの方針によって異なるため、実際に試してから判断してください。
+  </div>
+
+  <div class="warn">
+    APIキーは絶対にGitHubにコミットしないでください。<code>.env</code>ファイルまたはシステム環境変数を使用してください。APIキーが漏洩すると、他人があなたのアカウントを利用できてしまいます。
+  </div>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 660 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DeepSeekの設定フロー図">
+    <svg viewBox="0 0 660 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <!-- Background -->
+      <rect width="660" height="260" rx="10" fill="var(--bg2)"/>
+
+      <!-- Title -->
+      <text x="330" y="28" text-anchor="middle" font-size="15" font-weight="700" style="color:var(--text);">DeepSeek連携設定の流れ</text>
+
+      <!-- Step 1: API Key -->
+      <rect x="30" y="50" width="170" height="180" rx="8" fill="var(--bg3)" stroke="var(--accent)"/>
+      <rect x="30" y="50" width="170" height="36" rx="8" fill="var(--accent)"/>
+      <rect x="30" y="78" width="170" height="8" fill="var(--accent)"/>
+      <text x="115" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text-inverse)">1. APIキー発行</text>
+      <text x="115" y="112" text-anchor="middle" font-size="11" style="color:var(--text-dim);">platform.deepseek.com</text>
+      <text x="115" y="132" text-anchor="middle" font-size="11" style="color:var(--text-dim);">登録 → APIキー生成</text>
+      <rect x="50" y="150" width="130" height="24" rx="4" fill="var(--bg)" stroke="var(--border)"/>
+      <text x="115" y="166" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--accent);">sk-xxxx...</text>
+
+      <!-- Arrow 1→2 -->
+      <line x1="200" y1="140" x2="225" y2="140" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowDeep)"/>
+
+      <!-- Step 2: Env Vars -->
+      <rect x="230" y="50" width="170" height="180" rx="8" fill="var(--bg3)" stroke="var(--accent-green)"/>
+      <rect x="230" y="50" width="170" height="36" rx="8" fill="var(--accent-green)"/>
+      <rect x="230" y="78" width="170" height="8" fill="var(--accent-green)"/>
+      <text x="315" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text-inverse)">2. 環境変数の設定</text>
+      <text x="315" y="112" text-anchor="middle" font-size="10" style="color:var(--text-dim);">ANTHROPIC_API_KEY</text>
+      <rect x="250" y="122" width="130" height="20" rx="4" fill="var(--bg)" stroke="var(--border)"/>
+      <text x="315" y="137" text-anchor="middle" font-size="9" font-family="monospace" style="color:var(--accent-green);">= "sk-xxxx..."</text>
+      <text x="315" y="162" text-anchor="middle" font-size="10" style="color:var(--text-dim);">ANTHROPIC_BASE_URL</text>
+      <rect x="250" y="172" width="130" height="20" rx="4" fill="var(--bg)" stroke="var(--border)"/>
+      <text x="315" y="186" text-anchor="middle" font-size="8" font-family="monospace" style="color:var(--accent-green);">= "api.deepseek.com/..."</text>
+
+      <!-- Arrow 2→3 -->
+      <line x1="400" y1="140" x2="425" y2="140" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowDeep)"/>
+
+      <!-- Step 3: Run -->
+      <rect x="430" y="50" width="200" height="180" rx="8" fill="var(--bg3)" stroke="var(--accent-purple)"/>
+      <rect x="430" y="50" width="200" height="36" rx="8" fill="var(--accent-purple)"/>
+      <rect x="430" y="78" width="200" height="8" fill="var(--accent-purple)"/>
+      <text x="530" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text-inverse)">3. Claude Codeの実行</text>
+      <rect x="460" y="110" width="140" height="30" rx="6" fill="var(--bg)" stroke="var(--accent-purple)"/>
+      <text x="530" y="130" text-anchor="middle" font-size="12" font-family="monospace" font-weight="700" style="color:var(--accent-purple);">$ claude</text>
+      <text x="530" y="165" text-anchor="middle" font-size="11" style="color:var(--text);">DeepSeekバックエンドで</text>
+      <text x="530" y="185" text-anchor="middle" font-size="11" style="color:var(--text);">Claude Codeが起動します</text>
+
+      <!-- Arrow marker -->
       <defs>
-        <marker id="arrowDS" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-green)"/>
+        <marker id="arrowDeep" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)"/>
         </marker>
       </defs>
-
-      <!-- Step 1: Sign Up -->
-      <rect x="20" y="100" width="110" height="60" rx="10" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="75" y="125" text-anchor="middle" style="color:var(--accent-green);font-size:11px;font-weight:700;">ステップ1</text>
-      <text x="75" y="145" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">アカウント作成</text>
-
-      <!-- Arrow 1->2 -->
-      <line x1="130" y1="130" x2="175" y2="130" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowDS)"/>
-
-      <!-- Step 2: Get API Key -->
-      <rect x="177" y="100" width="130" height="60" rx="10" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="242" y="125" text-anchor="middle" style="color:var(--accent-green);font-size:11px;font-weight:700;">ステップ2</text>
-      <text x="242" y="145" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">APIキー取得</text>
-
-      <!-- Arrow 2->3 -->
-      <line x1="307" y1="130" x2="352" y2="130" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowDS)"/>
-
-      <!-- Step 3: Set Env Var -->
-      <rect x="354" y="100" width="140" height="60" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="424" y="125" text-anchor="middle" style="color:var(--accent);font-size:11px;font-weight:700;">ステップ3</text>
-      <text x="424" y="145" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">環境変数設定</text>
-
-      <!-- Arrow 3->4 -->
-      <line x1="494" y1="130" x2="539" y2="130" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowDS)"/>
-
-      <!-- Step 4: Use -->
-      <rect x="541" y="100" width="100" height="60" rx="10" fill="var(--bg-success)" stroke="var(--border-success)" stroke-width="2"/>
-      <text x="591" y="125" text-anchor="middle" style="color:var(--accent-green);font-size:11px;font-weight:700;">ステップ4</text>
-      <text x="591" y="145" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">利用開始</text>
-
-      <!-- Labels below steps -->
-      <text x="75" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">platform.deepseek.com</text>
-      <text x="242" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">API Keysページ</text>
-      <text x="424" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">ANTHROPIC_API_KEY</text>
-      <text x="591" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">エージェントを実行</text>
     </svg>
   </div>
 
-  <h3>ステップバイステップの設定</h3>
-
-  <p><strong>ステップ1 &mdash; アカウントの作成</strong>: <strong>platform.deepseek.com</strong>にアクセスし、メールまたは電話番号でサインアップして、登録を完了します。</p>
-
-  <p><strong>ステップ2 &mdash; APIキーの生成</strong>: アカウントダッシュボードのAPI Keysセクションに移動します。<strong>「Create API Key」</strong>をクリックし、キーをコピーして安全に保管してください。後で再表示することはできません。</p>
-
-  <p><strong>ステップ3 &mdash; 環境変数の設定</strong>:</p>
-
-  <p><em>Mac / Linux</em></p>
-  <div class="code-block">
-<pre><code># ~/.bashrc、~/.zshrc、または~/.profileに追加
-export ANTHROPIC_API_KEY="sk-your-api-key-here"
-
-# 即座に適用
-source ~/.bashrc</code></pre>
-<button type="button" class="copy-btn">コピー</button>
-</div>
-
-  <p><em>Windows（PowerShell）</em></p>
-  <div class="code-block">
-<pre><code># 現在のセッションに設定
-$env:ANTHROPIC_API_KEY = "sk-your-api-key-here"
-
-# 恒久的に設定（推奨）
-[System.Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", "sk-your-api-key-here", "User")</code></pre>
-<button type="button" class="copy-btn">コピー</button>
-</div>
-
-  <p><em>Windows（コマンドプロンプト）</em></p>
-  <div class="code-block">
-<pre><code># 現在のセッションに設定
-set ANTHROPIC_API_KEY=sk-your-api-key-here
-
-# 恒久的に設定（推奨 — システムのプロパティ経由）
-setx ANTHROPIC_API_KEY "sk-your-api-key-here"</code></pre>
-<button type="button" class="copy-btn">コピー</button>
-</div>
-
-  <div class="tip-box">
-    環境変数を設定した後は、新しい値が有効になるようにターミナル（またはIDE）を再起動してください。Claude Code CLIを使用している場合、APIキーは起動時に読み込まれます。
-  </div>
-
-  <p><strong>ステップ4 &mdash; Claude CodeにDeepSeekを使用するよう設定する</strong>: ワークスペース設定（<code>CLAUDE.md</code>または同等の設定ファイル）で、APIのベースURLとモデルをDeepSeekに指定します:</p>
-
-  <div class="code-block">
-<pre><code>ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
-ANTHROPIC_MODEL=deepseek-chat</code></pre>
-<button type="button" class="copy-btn">コピー</button>
-</div>
-
-  <p>これにより、Claude CodeはAnthropicのAPIエンドポイントではなくDeepSeekのAPIエンドポイントにリクエストを送信するようになります。レスポンス形式は互換性があるため、他の変更は不要です。</p>
-
   <!-- ============================================================
-       Section 3: GLM/ZhipuAI Backend
+       SECTION 3: GLM/ZhipuAIバックエンド
        ============================================================ -->
   <h2 id="glm">3. GLM/ZhipuAIバックエンド</h2>
 
-  <p><strong>ZhipuAI</strong>（旧称: GLM）は、清華大学の支援を受けている中国のAI企業です。<strong>GLM-4</strong>シリーズのモデルは、コーディング、推論、そして &mdash; 特筆すべきことに &mdash; 中国語タスクで優れた性能を発揮します。ZhipuAIは、海外向けのグローバル英語開発者プラットフォーム <strong>Z.ai</strong> も運営しています。</p>
+  <h3>GLM/ZhipuAIとは？</h3>
+  <p>ZhipuAIは中国のAI研究企業で、GLM（General Language Model）シリーズを開発しています。最新モデルのGLM-4は多言語処理能力に優れ、特に<strong>韓国語処理能力が高い</strong>ため韓国語プロジェクトに適しています。DeepSeekと同じくClaude互換APIを提供します。ZhipuAIはグローバルな英語開発者プラットフォーム<strong>Z.ai</strong>も一緒に運営しています。</p>
 
-  <h3>なぜGLM/ZhipuAI？</h3>
+  <h3>主な特徴</h3>
   <ul>
-    <li>競争力のある価格: GLM-4-Flashは約$0.10 / 100万入力トークン（無料ティアあり）。</li>
-    <li>優れた中国語サポート &mdash; 中国語のテキスト生成と理解で、ほとんどの西洋モデルより優れています。</li>
-    <li>GLM-4-PlusはGPT-4クラスのモデルに匹敵する性能を低コストで提供します。</li>
-    <li>OpenAIスタイルのエンドポイントによるClaude互換API。</li>
+    <li><strong>Claude互換API</strong> — Anthropic API形式をサポートし、Claude Codeと直接連携</li>
+    <li><strong>多言語対応</strong> — 韓国語・日本語・中国語などアジア言語の処理能力に優れる</li>
+    <li><strong>韓国語に最適化</strong> — 韓国語のコマンドと応答で高い品質を提供</li>
+    <li><strong>従量課金</strong> — 使用量に応じた課金でコスト効率が良い</li>
+    <li><strong>無料ティアあり</strong> — GLM-4-Flashは無料ティアがあり、有料でも100万入力トークンあたり約$0.10水準の競争力ある価格</li>
   </ul>
 
+  <h3>設定方法</h3>
+
+  <p><strong>ステップ1：ZhipuAI APIキーの発行</strong></p>
+  <p><a href="https://z.ai/model-api" target="_blank">https://z.ai/model-api</a>（Z.ai、ZhipuAIのグローバル英語開発者プラットフォーム）にアクセスしてアカウントを作成し、APIキーを発行します。</p>
+
+  <p><strong>ステップ2：環境変数の設定</strong></p>
+
+  <p>macOS / Linuxの場合:</p>
+  <div class="code-block">
+<pre><code>export ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
+export ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <p>Windows (PowerShell)の場合:</p>
+  <div class="code-block">
+<pre><code>$env:ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
+$env:ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <p><strong>ステップ3：Claude Codeの実行</strong></p>
+  <p>環境変数を設定したらClaude Codeを実行します。DeepSeekと同じ方法です:</p>
+  <div class="code-block">
+<pre><code>claude</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
   <div class="tip-box">
-    GLM/ZhipuAIモデルは韓国語と中国語のタスクに特に適しています。ハーネスが韓国語のコンテンツ（リサーチノート、ストーリーラインの草案、ハンドブックの章など）を処理する場合、GLM-4は西洋中心のモデルよりも自然で文法的に正確な出力を生成することが多いです。韓国語ワークフローのデフォルトバックエンドとしてGLM-4を使用することを検討してください。
+    GLMは韓国語処理能力が高いため、韓国語プロジェクトに適しています。韓国語で質問し韓国語で回答を受け取る作業では特に有利です。
   </div>
 
-  <h3>ステップバイステップの設定</h3>
+  <div class="note">
+    DeepSeekとGLMのどちらを選ぶかは<a href="#comparison">バックエンド比較</a>セクションを参照してください。どちらのバックエンドもClaude Codeと互換性がありますが、それぞれ異なる強みを持っています。
+  </div>
 
-  <p><strong>ステップ1 &mdash; アカウントの作成</strong>: <a href="https://z.ai/model-api" target="_blank">z.ai/model-api</a>（Z.ai、ZhipuAIのグローバル英語開発者プラットフォーム）にアクセスし、登録して電話番号を認証します。</p>
+  <h3>料金プラン: 従量課金APIと定額制GLM Coding Plan</h3>
+  <p>GLMバックエンドには2つの利用方法があります。上で設定した<strong>従量課金API</strong>はトークン使用量に応じて課金され、<a href="https://z.ai/model-api" target="_blank">z.ai/model-api</a> で発行したAPIキーを使用します。一方<strong>GLM Coding Plan</strong>はClaude Code、Cline、OpenCodeと互換性のある月額定額制サブスクリプションで、クレジットは5時間単位と週単位でリセットされます。</p>
 
-  <p><strong>ステップ2 &mdash; APIキーの生成</strong>: コンソールでAPI Keysセクションに移動し、新しいキーを作成します。</p>
+  <div class="table-compare">
+    <table>
+      <thead>
+        <tr>
+          <th>プラン</th>
+          <th>5時間クレジット</th>
+          <th>週間クレジット</th>
+          <th>備考</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lite</td>
+          <td>2,000</td>
+          <td>10,000</td>
+          <td>月$18から開始</td>
+        </tr>
+        <tr>
+          <td>Pro</td>
+          <td>12,000</td>
+          <td>60,000</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr>
+          <td>Max</td>
+          <td>28,000</td>
+          <td>140,000</td>
+          <td>&mdash;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <p><strong>ステップ3 &mdash; 環境変数の設定</strong>:</p>
-
-  <p><em>Mac / Linux</em></p>
-  <div class="code-block">
-<pre><code>export ANTHROPIC_AUTH_TOKEN="your-api-key-here"
-source ~/.bashrc</code></pre>
-<button type="button" class="copy-btn">コピー</button>
-</div>
-
-  <p><em>Windows（PowerShell）</em></p>
-  <div class="code-block">
-<pre><code>$env:ANTHROPIC_AUTH_TOKEN = "your-api-key-here"
-
-# 恒久的に設定
-[System.Environment]::SetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", "your-api-key-here", "User")</code></pre>
-<button type="button" class="copy-btn">コピー</button>
-</div>
-
-  <p><em>Windows（コマンドプロンプト）</em></p>
-  <div class="code-block">
-<pre><code>set ANTHROPIC_AUTH_TOKEN=your-api-key-here
-
-# 恒久的に設定
-setx ANTHROPIC_AUTH_TOKEN "your-api-key-here"</code></pre>
-<button type="button" class="copy-btn">コピー</button>
-</div>
-
-  <p><strong>ステップ4 &mdash; APIの設定</strong>:</p>
-
-  <div class="code-block">
-<pre><code>ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic</code></pre>
-<button type="button" class="copy-btn">コピー</button>
-</div>
-
-  <p><code>glm-4-flash</code>は最もコスト効率の良いオプションです。より高い推論品質や長いコンテキストウィンドウが必要なタスクには<code>glm-4-plus</code>または<code>glm-4-long</code>を使用してください。</p>
-
-  <h3>料金体系: 従量制APIと定額制GLM Coding Plan</h3>
-  <p>GLMの支払い方法は2つあります。上で設定した<strong>従量制API</strong>は、<a href="https://z.ai/model-api" target="_blank">z.ai/model-api</a> で発行したAPIキーを使い、トークン使用量に応じて課金されます。一方、<strong>GLM Coding Plan</strong>はClaude Code、Cline、OpenCodeと互換性のある月額定額制サブスクリプションで、クレジットは5時間ごとと週単位でリセットされます。</p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>プラン</th>
-        <th>5時間あたりクレジット</th>
-        <th>週間クレジット</th>
-        <th>備考</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Lite</td>
-        <td>2,000</td>
-        <td>10,000</td>
-        <td>サブスクリプションは$18/月から</td>
-      </tr>
-      <tr>
-        <td>Pro</td>
-        <td>12,000</td>
-        <td>60,000</td>
-        <td>&mdash;</td>
-      </tr>
-      <tr>
-        <td>Max</td>
-        <td>28,000</td>
-        <td>140,000</td>
-        <td>&mdash;</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <p>クレジットはトークンベースでモデルごとの倍率が適用され、5時間ごとと週単位でリセットされます。すべてのプランにGLM-5.3、GLM-5-Turbo、GLM-4.7モデルと、Vision、Web Search、Web Reader、ZreadのMCPサーバーが含まれます。最新の価格は購読ページで確認してください。オフピーク時間の利用は50%割引になります（ピークは月曜〜金曜 14:00〜18:00 UTC+8）。</p>
+  <p>クレジットはトークンベースでモデルごとの倍率が適用され、5時間ごとおよび毎週リセットされます。すべてのプランにはGLM-5.3、GLM-5-Turbo、GLM-4.7モデルとVision、Web Search、Web Reader、Zread MCPサーバーが含まれます。最新の価格はサブスクリプションページで確認してください。ピーク時間帯（月〜金 14:00-18:00、UTC+8）以外の利用では50%割引が適用されます。</p>
 
   <div class="code-block">
-<pre><code># Mac / Linux
+<pre><code># macOS / Linux
 export ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
 export ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"
 
-# Windows PowerShell
+# Windows (PowerShell)
 $env:ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
 $env:ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
-  <p>自動設定には <code>npx @z_ai/coding-helper</code> を実行する方法もあります。必要に応じて、<code>ANTHROPIC_DEFAULT_SONNET_MODEL</code> などの環境変数でモデルを指定できます。</p>
+  <p>設定を自動化するには <code>npx @z_ai/coding-helper</code> を実行する方法もあります。必要に応じて <code>ANTHROPIC_DEFAULT_SONNET_MODEL</code> のような環境変数でデフォルトモデルを指定できます。</p>
 
   <div class="tip-box">
-    Claude Codeを毎日大量に使うなら、コストを予測しやすい定額制のGLM Coding Planが有利です。たまに軽く使うだけなら従量制APIのほうが経済的です。なお、DeepSeekは従量制APIのみの提供で、定額制サブスクリプションはありません。
+    毎日Claude Codeをたくさん使うなら、コストが予測しやすいGLM Coding Plan（定額制）が有利です。たまに軽く使う程度なら従量課金APIの方が経済的です。なおDeepSeekは従量課金APIのみを提供しており、定額制サブスクリプションはありません。
   </div>
 
-  <p>詳しくは <a href="https://z.ai/subscribe" target="_blank">GLM Coding Planの購読ページ</a>、<a href="https://docs.z.ai/devpack/overview" target="_blank">公式プランドキュメント</a>、<a href="https://docs.z.ai/devpack/tool/claude" target="_blank">Claude Code連携ガイド</a>を参照してください。</p>
+  <p>詳細は<a href="https://z.ai/subscribe" target="_blank">GLM Coding Planサブスクリプションページ</a>、<a href="https://docs.z.ai/devpack/overview" target="_blank">公式料金プランドキュメント</a>、<a href="https://docs.z.ai/devpack/tool/claude" target="_blank">Claude Code連携ガイド</a>を参照してください。</p>
 
   <h3>モデル選択ガイド</h3>
 
@@ -343,16 +360,16 @@ $env:ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"</code></pre>
       <h4>GLM-4-Flash</h4>
       <ul>
         <li>最安コスト（無料ティアあり）</li>
-        <li>高速なレスポンス</li>
-        <li>シンプルなタスクに最適: フォーマット、要約、翻訳</li>
+        <li>高速な応答速度</li>
+        <li>簡単なタスクに最適: フォーマット、要約、翻訳</li>
         <li>8Kコンテキストウィンドウ</li>
       </ul>
     </div>
     <div class="compare-col">
       <h4>GLM-4-Plus</h4>
       <ul>
-        <li>やや高いが依然として手頃</li>
-        <li>強力な推論とコーディング</li>
+        <li>コストはやや高いが依然として妥当な価格</li>
+        <li>強力な推論・コーディング能力</li>
         <li>複雑なタスクに最適: 多段階の計画、コード生成</li>
         <li>128Kコンテキストウィンドウ</li>
       </ul>
@@ -360,275 +377,267 @@ $env:ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"</code></pre>
   </div>
 
   <!-- ============================================================
-       Section 4: LiteLLM Proxy
+       SECTION 4: LiteLLMプロキシ
        ============================================================ -->
   <h2 id="litellm">4. LiteLLMプロキシ</h2>
 
-  <p><strong>LiteLLM</strong>は、100以上のLLMプロバイダーのための<em>統合プロキシ</em>として機能するオープンソースのPythonライブラリです。各バックエンドを個別に設定する代わりに、LiteLLMを一度設定すれば、ClaudeスタイルのAPIコールを任意のプロバイダーに適切な形式に変換します。</p>
+  <h3>LiteLLMとは？</h3>
+  <p>LiteLLMは<strong>複数のAIバックエンドをひとつの統合APIで管理</strong>できるオープンソースプロキシです。複数のAIプロバイダ（OpenAI、Anthropic、DeepSeek、ZhipuAIなど）のAPIをひとつのエンドポイントに統合し、自動フェイルオーバー（failover）機能も提供します。</p>
 
-  <div class="note">
-    LiteLLMはユニバーサルアダプタと考えてください。旅行用アダプタが任意のデバイスを任意の国の電源コンセントに接続できるように、LiteLLMはClaude Code（またはClaude互換クライアント）を任意のLLMプロバイダー &mdash; DeepSeek、GLM、OpenAI、Mistral、Ollama（ローカル）、その他多数 &mdash; に接続させます。
-  </div>
-
-  <h3>なぜLiteLLMを使うのか</h3>
+  <h3>メリット</h3>
   <ul>
-    <li><strong>単一の設定</strong> &mdash; すべてのバックエンドを1つのYAMLファイルで定義。</li>
-    <li><strong>簡単な切り替え</strong> &mdash; 1行編集するだけでアクティブモデルを変更。環境変数の変更は不要。</li>
-    <li><strong>負荷分散</strong> &mdash; リクエストを複数のプロバイダーに自動的に分散。</li>
-    <li><strong>フェイルバック</strong> &mdash; あるプロバイダーがダウンすると、LiteLLMは自動的に次のプロバイダーにルーティング。</li>
-    <li><strong>コスト追跡</strong> &mdash; トークン使用量とリクエストごとのコストを組み込みでロギング。</li>
+    <li><strong>複数バックエンドの統合</strong> — ひとつのAPIエンドポイントで複数のAIプロバイダを利用</li>
+    <li><strong>自動フェイルオーバー</strong> — あるバックエンドが応答しないとき、自動的に別のバックエンドへ切替</li>
+    <li><strong>モデル単位のルーティング</strong> — リクエストごとに異なるバックエンド／モデルへルーティング可能</li>
+    <li><strong>負荷分散</strong> — 複数のプロバイダにわたってリクエストを自動分散</li>
+    <li><strong>コスト追跡</strong> — リクエスト単位のトークン使用量とコストを内蔵ログに記録</li>
+    <li><strong>無料のオープンソース</strong> — LiteLLM自体は無料（各バックエンドのAPI費用は別途）</li>
   </ul>
 
   <h3>インストール</h3>
 
+  <p>Python環境が必要です。次のコマンドでインストールします:</p>
   <div class="code-block">
-<pre><code># pipでLiteLLMをインストール
-pip install litellm[proxy]
-
-# またはuvで（より高速）
-uv pip install litellm[proxy]</code></pre>
+<pre><code>pip install litellm
+# または分離環境を好む場合
+pipx install litellm</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
-  <h3>設定</h3>
+  <h3>構成ファイルの作成</h3>
 
-  <p><code>litellm_config.yaml</code>という名前の設定ファイルを作成します:</p>
-
+  <p>プロジェクトディレクトリに <code>litellm_config.yaml</code> ファイルを作成します:</p>
   <div class="code-block">
-<pre><code># litellm_config.yaml
-model_list:
-  - model_name: claude-3-5-sonnet
+<pre><code>model_list:
+  - model_name: claude-sonnet
     litellm_params:
       model: deepseek/deepseek-chat
-      api_key: ${DEEPSEEK_API_KEY}
-
-  - model_name: claude-3-5-sonnet
+      api_key: os.environ/DEEPSEEK_API_KEY
+  - model_name: claude-opus
     litellm_params:
-      model: zhipu/glm-4-flash
-      api_key: ${ZHIPUAI_API_KEY}
-
-  - model_name: claude-3-5-sonnet
-    litellm_params:
-      model: openai/gpt-4o-mini
-      api_key: ${OPENAI_API_KEY}</code></pre>
+      model: zhipu/glm-4
+      api_key: os.environ/ZHIPU_API_KEY</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
-
-  <div class="tip-box">
-    3つのバックエンドすべてが同じ<code>model_name: claude-3-5-sonnet</code>にマッピングされていることに注意してください。つまり、Claude Codeは通常通り<code>claude-3-5-sonnet</code>にリクエストを送信し、LiteLLMが設定したバックエンドにルーティングします。コメントアウトやリストの並び替えでバックエンドの有効/無効を切り替えられます。
-  </div>
 
   <h3>プロキシの起動</h3>
 
   <div class="code-block">
-<pre><code># LiteLLMプロキシサーバーを起動
-litellm --config litellm_config.yaml --port 4000</code></pre>
+<pre><code>litellm --config litellm_config.yaml</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
+  <p>プロキシは <code>http://localhost:4000</code> で起動します。</p>
 
-  <p>その後、Claude Codeをローカルプロキシに向けるように設定します:</p>
-
+  <p>最後に、Claude Codeがこのプロキシを使うよう環境変数を設定して実行します:</p>
   <div class="code-block">
-<pre><code>ANTHROPIC_BASE_URL=http://localhost:4000
-ANTHROPIC_MODEL=claude-3-5-sonnet</code></pre>
+<pre><code>export ANTHROPIC_API_KEY="any-key"
+export ANTHROPIC_BASE_URL="http://localhost:4000"
+claude</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
-  <p>Claude CodeからのすべてのリクエストはLiteLLMを経由して設定したバックエンドに送られます。プロキシは認証、フォーマット変換、エラー処理を透過的に行います。</p>
+  <div class="note">
+    LiteLLMにはPythonが必要です。<a href="B_Claude_Code_CLI_ja.html">付録B</a>のClaude Code CLIインストールが先に完了している必要があります。Pythonがない場合は <a href="https://www.python.org" target="_blank">python.org</a> からインストールしてください。
+  </div>
 
-  <div class="flow-box">
-    <strong>リクエストフロー:</strong> Claude Code &rarr; <code>localhost:4000</code>（LiteLLM）&rarr; DeepSeek / GLM / OpenAI &rarr; レスポンスが同じパスを通って戻ります。Claude Codeはバックエンドが変更されたことを知りません &mdash; 常に同じAPIインターフェースを見ています。
+  <div class="tip-box">
+    LiteLLMは複数のバックエンドを同時に設定したいときに便利です。例えば、コード生成はDeepSeek、韓国語応答はGLMのようにそれぞれ割り当てられます。また、あるバックエンドで障害が発生すると、自動的に別のバックエンドへ切替わります。
   </div>
 
   <!-- ============================================================
-       Section 5: Backend Comparison
+       SECTION 5: バックエンド比較
        ============================================================ -->
   <h2 id="comparison">5. バックエンド比較</h2>
 
-  <p>以下の表は、マルチエージェントハーネスのワークフローに関連する重要な基準で、この付録で扱った4つの主要なオプションを比較しています。</p>
+  <p>各バックエンドの特徴をひと目で比較してみましょう。</p>
 
-  <div class="compare-grid">
-    <div class="compare-col">
-      <h4>Claude Pro（Anthropic）</h4>
-      <ul>
-        <li><strong>コスト</strong>: $20/月の定額</li>
-        <li><strong>最適</strong>: 複雑な推論、ニュアンスのある文章、多段階の計画</li>
-        <li><strong>品質</strong>: 最高（Anthropic独自のモデル）</li>
-        <li><strong>言語</strong>: 英語に強い；韓国語/中国語も良好</li>
-        <li><strong>設定</strong>: Claude Desktopをインストールしてサインイン</li>
-        <li><strong>レート制限</strong>: プランごとの寛大な1日上限</li>
-      </ul>
-    </div>
-    <div class="compare-col">
-      <h4>DeepSeek</h4>
-      <ul>
-        <li><strong>コスト</strong>: ~$0.27/100万入力トークン</li>
-        <li><strong>最適</strong>: コーディング、数学、バッチ処理</li>
-        <li><strong>品質</strong>: コード/推論では高い；創作では中程度</li>
-        <li><strong>言語</strong>: 英語と中国語に強い</li>
-        <li><strong>設定</strong>: APIキー + 環境変数 + ベースURL</li>
-        <li><strong>レート制限</strong>: アカウントティアによる</li>
-      </ul>
-    </div>
+  <div class="table-compare">
+    <table>
+      <thead>
+        <tr>
+          <th>項目</th>
+          <th>Claude Pro</th>
+          <th>DeepSeek API</th>
+          <th>GLM API</th>
+          <th>LiteLLM</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>費用体系</td>
+          <td>月定額（$20）</td>
+          <td>従量課金</td>
+          <td>従量課金＋定額制コーディングプラン</td>
+          <td>無料（プロキシ）</td>
+        </tr>
+        <tr>
+          <td>韓国語</td>
+          <td>優秀</td>
+          <td>良好</td>
+          <td>優秀</td>
+          <td>バックエンド依存</td>
+        </tr>
+        <tr>
+          <td>コード生成</td>
+          <td>優秀</td>
+          <td>優秀</td>
+          <td>良好</td>
+          <td>バックエンド依存</td>
+        </tr>
+        <tr>
+          <td>設定難易度</td>
+          <td>容易</td>
+          <td>普通</td>
+          <td>普通</td>
+          <td>難しい</td>
+        </tr>
+        <tr>
+          <td>Claude Code互換</td>
+          <td>ネイティブ</td>
+          <td>はい</td>
+          <td>はい</td>
+          <td>はい</td>
+        </tr>
+        <tr>
+          <td>料金制限</td>
+          <td>プラン別の寛大な1日上限</td>
+          <td>アカウント等級による差異</td>
+          <td>寛大な無料枠、有料時は拡張</td>
+          <td>バックエンドに分散</td>
+        </tr>
+        <tr>
+          <td>おすすめ</td>
+          <td>初心者</td>
+          <td>コスト重視</td>
+          <td>韓国語中心</td>
+          <td>複数バックエンド</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="compare-grid">
-    <div class="compare-col">
-      <h4>GLM/ZhipuAI</h4>
-      <ul>
-        <li><strong>コスト</strong>: 無料ティアあり; 有料は~$0.10/100万トークン; GLM Coding Planは$18/月から</li>
-        <li><strong>最適</strong>: 中国語/韓国語タスク、長文脈の作業</li>
-        <li><strong>品質</strong>: アジア言語では高い; コードも良好</li>
-        <li><strong>言語</strong>: 中国語/韓国語に最適; 英語も良好</li>
-        <li><strong>設定</strong>: APIキー + 環境変数 + ベースURL</li>
-        <li><strong>レート制限</strong>: 無料ティアは寛大; 有料は上限更高</li>
-      </ul>
-    </div>
-    <div class="compare-col">
-      <h4>LiteLLMプロキシ</h4>
-      <ul>
-        <li><strong>コスト</strong>: 選択したバックエンドによる</li>
-        <li><strong>最適</strong>: マルチバックエンド管理、簡単な切り替え</li>
-        <li><strong>品質</strong>: 設定したバックエンドと同じ</li>
-        <li><strong>言語</strong>: 設定したバックエンドと同じ</li>
-        <li><strong>設定</strong>: Pythonパッケージのインストール + YAML設定</li>
-        <li><strong>レート制限</strong>: バックエンド間で分散</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 660 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="コスト対品質の比較チャート">
-      <defs>
-        <marker id="arrowComp" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--text-dim)"/>
-        </marker>
-      </defs>
-
-      <!-- Axes -->
-      <line x1="80" y1="240" x2="620" y2="240" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arrowComp)"/>
-      <line x1="80" y1="240" x2="80" y2="30" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arrowComp)"/>
-
-      <!-- Axis labels -->
-      <text x="350" y="268" text-anchor="middle" style="color:var(--text-dim);font-size:12px;font-weight:600;">コスト（右ほど高価）</text>
-      <text x="40" y="140" text-anchor="middle" style="color:var(--text-dim);font-size:12px;font-weight:600;" transform="rotate(-90, 40, 140)">品質</text>
-
-      <!-- Grid lines -->
-      <line x1="80" y1="185" x2="620" y2="185" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
-      <line x1="80" y1="130" x2="620" y2="130" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
-      <line x1="80" y1="75" x2="620" y2="75" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
-
-      <!-- Claude Pro -->
-      <circle cx="540" cy="50" r="18" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2.5"/>
-      <text x="540" y="55" text-anchor="middle" style="color:var(--accent);font-size:10px;font-weight:700;">C</text>
-      <text x="540" y="30" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:600;">Claude Pro</text>
-
-      <!-- DeepSeek -->
-      <circle cx="170" cy="110" r="18" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2.5"/>
-      <text x="170" y="115" text-anchor="middle" style="color:var(--accent-green);font-size:10px;font-weight:700;">D</text>
-      <text x="170" y="92" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:600;">DeepSeek</text>
-
-      <!-- GLM/ZhipuAI -->
-      <circle cx="140" cy="130" r="18" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="2.5"/>
-      <text x="140" y="135" text-anchor="middle" style="color:var(--accent-purple);font-size:10px;font-weight:700;">G</text>
-      <text x="140" y="162" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:600;">GLM</text>
-
-      <!-- LiteLLM -->
-      <circle cx="250" cy="105" r="18" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="2.5"/>
-      <text x="250" y="110" text-anchor="middle" style="color:var(--accent-amber);font-size:10px;font-weight:700;">L</text>
-      <text x="250" y="85" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:600;">LiteLLM</text>
-
-      <!-- Legend note -->
-      <text x="350" y="290" text-anchor="middle" style="color:var(--text-dim);font-size:10px;font-style:italic;">位置は概算であり、タスクの種類によって異なります</text>
-    </svg>
-  </div>
-
-  <div class="note">
-    唯一の「最適な」バックエンドはありません。正しい選択は、タスク、予算、言語要件によって異なります。多くのチームは高品質の最終成果物にClaude Proを使用し、開発・テスト中の一括処理にはDeepSeekやGLMに切り替えています。
+  <div class="tip-box">
+    初心者はClaude Proから始めて、コストが負担になったらDeepSeekへ切替えましょう。韓国語の作業が中心ならGLMも良い選択です。複数のバックエンドを同時に使いたいならLiteLLMを検討してみてください。
   </div>
 
   <!-- ============================================================
-       Section 6: Practice: Switch Backends
+       SECTION 6: 実習: バックエンドの切り替え
        ============================================================ -->
   <h2 id="practice">6. 実習: バックエンドの切り替え</h2>
 
-  <p>この実践的な演習では、Claude Codeワークスペースをあるバックエンドから別のバックエンドに切り替える手順を体験します。最後には、少なくとも2つの異なるバックエンドを試し、それぞれが同じエージェントタスクをどのように処理するかを観察できます。</p>
+  <p>この実習では、Claude CodeのバックエンドをClaude ProからDeepSeekへ切り替える全過程を段階的に進めます。環境変数の設定だけでバックエンドを切り替えられることを、直接確認してみましょう。</p>
 
   <div class="step-list">
     <div class="step">
       <div class="step-content">
-        <div class="step-label">現在のバックエンドを確認する</div>
-        <p>ターミナルを開き、現在設定されている環境変数を確認します。Mac/Linuxの場合は <code>env | grep -i anthropic</code>、Windows PowerShellの場合は <code>dir env:ANTHROPIC*</code> を実行します。変数が設定されていない場合、Claude Proのデフォルトエンドポイントを使用しています。後で復元できるように、現在の値（もしあれば）をメモしてください。</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">ターゲットバックエンドを選ぶ</div>
-        <p>まず試すバックエンドを一つ選びます。コーディングタスクをテストしたい場合はDeepSeekを、コンテンツが主に韓国語または中国語の場合はGLMをお勧めします。プロバイダーのウェブサイトにアクセスし、アカウントを作成してAPIキーを生成します。</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">環境変数を設定する</div>
-        <p>選択したバックエンドのAPIキーとベースURLを設定します。Mac/LinuxのDeepSeekの場合:</p>
+        <div class="step-label">Claude Code CLIのインストール確認</div>
+        <p>付録Bを参照して、Claude Code CLIがインストールされているか確認します。ターミナルで次のコマンドを入力してください:</p>
         <div class="code-block">
-<pre><code>export ANTHROPIC_API_KEY="sk-your-key"
-export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
-export ANTHROPIC_MODEL="deepseek-chat"</code></pre>
+<pre><code>claude --version</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
-        <p>Windows PowerShellのGLMの場合:</p>
-        <div class="code-block">
-<pre><code>$env:ANTHROPIC_AUTH_TOKEN = "your-key"
-$env:ANTHROPIC_BASE_URL = "https://api.z.ai/api/anthropic"</code></pre>
-<button type="button" class="copy-btn">コピー</button>
-</div>
+        <p><strong>期待される結果:</strong> Claude Codeのバージョン番号が出力されます。エラーが出る場合は付録Bのインストールガイドに従ってください。</p>
       </div>
     </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">シンプルなエージェントタスクを実行する</div>
-        <p>CLIを開き、シンプルなタスクを実行します。「ワークスペース内のすべての.mdファイルをリストして、その目的を要約して」など。Claude Proと比較して、レスポンス速度、品質、フォーマットの違いを観察してください。コードスニペット、リスト、説明が明確で正確かどうかに注意してください。</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">出力を比較する</div>
-        <p>2番目のバックエンド（または低コストバックエンドから始めた場合はClaude Pro）で同じタスクを実行します。2つの出力を並べて配置し、以下の点での違いを確認します: レスポンス速度（秒）、出力品質（正確さ、明瞭さ、完全性）、トーン（フォーマル vs カジュアル）、ハルシネーションやエラー。</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">LiteLLMを試す（オプション）</div>
-        <p>Pythonがインストールされている場合、セクション4の手順に従ってLiteLLMを設定します。<code>litellm_config.yaml</code>に少なくとも2つのバックエンドを設定し、プロキシを起動し、Claude Codeを<code>localhost:4000</code>に向けてください。同じエージェントタスクを実行し、LiteLLMが正しいバックエンドにルーティングすることを確認します。</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">元の設定に戻す</div>
-        <p>実験が終わったら、元の環境変数に復元します。Claude Proを使用していた場合は、バックエンド変数をアンセットするだけです:</p>
-        <div class="code-block">
-<pre><code># Mac / Linux
-unset ANTHROPIC_BASE_URL
-unset ANTHROPIC_MODEL
 
-# Windows PowerShell
-Remove-Item Env:\ANTHROPIC_BASE_URL
-Remove-Item Env:\ANTHROPIC_MODEL</code></pre>
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">DeepSeek APIキーの発行</div>
+        <p><a href="https://platform.deepseek.com" target="_blank">https://platform.deepseek.com</a> にアクセスします:</p>
+        <ul>
+          <li>アカウント作成（メールまたはGoogleログイン）</li>
+          <li>API Keysページで「Create API Key」をクリック</li>
+          <li>発行されたキーを安全な場所に保存</li>
+        </ul>
+        <p><strong>期待される結果:</strong> <code>sk-</code>で始まるAPIキーが発行されます。</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">環境変数の設定（OS別）</div>
+        <p>OSに合ったコマンドをターミナルに入力します:</p>
+        <p><strong>macOS / Linux:</strong></p>
+        <div class="code-block">
+<pre><code>export ANTHROPIC_API_KEY="sk-your-deepseek-key"
+export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
-        <p>Claude Codeは次回の起動時にAnthropicのデフォルトエンドポイントに戻ります。</p>
+        <p><strong>Windows (PowerShell):</strong></p>
+        <div class="code-block">
+<pre><code>$env:ANTHROPIC_API_KEY="sk-your-deepseek-key"
+$env:ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+        <p><strong>永続設定（任意）:</strong> 毎回入力するのが面倒な場合は、シェルプロファイルに追加してください:</p>
+        <ul>
+          <li>macOS/Linux: <code>~/.bashrc</code>または<code>~/.zshrc</code>に<code>export</code>行を追加</li>
+          <li>Windows: システム環境変数の設定 → ユーザー変数に追加</li>
+        </ul>
+        <p><strong>期待される結果:</strong> エラーなくコマンドが実行されます。</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Claude Codeの実行</div>
+        <p>環境変数を設定したターミナルでClaude Codeを実行します:</p>
+        <div class="code-block">
+<pre><code>claude</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+        <p><strong>期待される結果:</strong> Claude Codeが正常に起動し、DeepSeekバックエンドを通じて応答します。</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">テスト質問で動作確認</div>
+        <p>Claude Codeに簡単な質問を入力して、DeepSeekバックエンドが正常に動作するか確認します:</p>
+        <div class="prompt-box">
+          <div class="prompt-text">1から10までの合計を求めるPython関数を書いてください</div>
+        </div>
+        <p><strong>期待される結果:</strong> DeepSeekがPythonコードを生成して応答します。応答速度と品質を確認してください。</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">（任意）GLMへの切替テスト</div>
+        <p>DeepSeekの代わりにGLMバックエンドへ切替えてみましょう。環境変数を変えるだけです:</p>
+        <div class="code-block">
+<pre><code># macOS / Linux
+export ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
+export ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"
+
+# Windows (PowerShell)
+$env:ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
+$env:ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+        <p><strong>期待される結果:</strong> 同じ <code>claude</code> コマンドでGLMバックエンドが起動します。韓国語応答の品質を比較してみてください。</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">（任意）LiteLLMプロキシの設定</div>
+        <p>複数のバックエンドを同時に使うには、LiteLLMプロキシを設定します。前述の<a href="#litellm">LiteLLMの設定方法</a>を参照して:</p>
+        <ul>
+          <li><code>litellm_config.yaml</code>ファイルを作成</li>
+          <li>各バックエンドのAPIキーを環境変数として設定</li>
+          <li><code>litellm --config litellm_config.yaml</code>を実行</li>
+          <li><code>ANTHROPIC_BASE_URL</code>を<code>http://localhost:4000</code>に変更</li>
+        </ul>
+        <p><strong>期待される結果:</strong> Claude CodeがLiteLLMプロキシを通じて複数バックエンドを使用します。</p>
       </div>
     </div>
   </div>
 
-  <div class="flow-box">
-    <strong>推奨戦略:</strong> 最終品質の成果物（ストーリーラインの執筆、設計決定、品質ゲート）にはClaude Proをプライマリバックエンドとして使用します。開発・テスト中の大量のタスク（コード生成、フォーマット、バッチ処理）には低コストバックエンド（DeepSeekまたはGLM）に切り替えます。このハイブリッドアプローチで、最も重要な場面で最高品質を維持しながら、コストを抑えられます。
+  <div class="warn">
+    環境変数の設定後は<strong>新しいターミナル</strong>を開かないと適用されません。既存のターミナルでは環境変数が反映されない場合があります。必ず新しいターミナルを開いてClaude Codeを実行してください。
   </div>
 
-  <!-- ============================================================
-       Chapter Navigation
-       ============================================================ -->
   <div class="chapter-nav">
     <a href="B_Claude_Code_CLI_ja.html" class="prev">
       <div class="dir">&larr; 付録B</div>

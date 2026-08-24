@@ -29,259 +29,259 @@
  <article class="reading">
   <div class="chapter-eyebrow">Chapter 2</div>
   <h1>Getting Started with Claude Desktop App</h1>
-  <p class="lead">Install and learn to use Claude Desktop App &mdash; the primary tool for this handbook. Claude Desktop App is the easiest way to chat with AI using just mouse clicks, without any terminal commands.</p>
+  <p class="lead">In this chapter you will install Claude Desktop App &mdash; the primary tool for this handbook &mdash; and learn how to use it. Claude Desktop App is the easiest way to converse with AI using nothing but mouse clicks, with no terminal commands required.</p>
   <div class="keypoints">
     <div class="kp-title">What This Chapter Covers</div>
     <ul>
       <li>Features and advantages of Claude Desktop App</li>
-      <li>Installation on MacOS, Windows, and Linux</li>
-      <li>Subscription plan selection guide</li>
-      <li>Your first conversation, projects, and Artifacts</li>
+      <li>Installation methods for MacOS, Windows, and Linux</li>
+      <li>A guide to choosing a subscription plan</li>
+      <li>Hands-on with your first conversation, Projects, and Artifacts</li>
       <li>Practical tips for beginners</li>
     </ul>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       SECTION: What is Claude Desktop App
-       ═══════════════════════════════════════════════════════════════ -->
+  <!-- ================================================================
+       SECTION 1: What is Claude Desktop App
+       ================================================================ -->
   <h2 id="what-is-claude-desktop">What is Claude Desktop App</h2>
 
-  <p>
-    Claude Desktop App is a dedicated desktop application built by <strong>Anthropic</strong>, the company behind the Claude AI model. It provides a native, standalone window on your computer where you can converse with Claude, attach local files, manage projects, and use advanced features like <strong>Artifacts</strong> &mdash; all without opening a web browser.
-  </p>
+  <p>Claude Desktop App is a <strong>desktop AI assistant</strong> developed by Anthropic. It is a program that lets you talk to the Claude AI right on your computer screen, without opening a web browser. Much like using a messenger app, you type a question into the chat window and Claude gives you an answer.</p>
 
-  <p>
-    Throughout this handbook, Claude Desktop App serves as the <strong>primary interface</strong> for interacting with AI. Even when we later explore multi-agent teams and command-line tools, the Desktop App remains your go-to environment for everyday AI conversations.
-  </p>
+  <h3>Differences from the Claude.ai Web Version</h3>
 
-  <h3>Three Ways to Use Claude</h3>
+  <p>Claude is also available in a web browser (<code>claude.ai</code>). Claude Desktop App has several important advantages over the web version:</p>
 
-  <p>
-    Anthropic offers several ways to interact with Claude. Understanding the differences helps you pick the right tool for each situation.
-  </p>
+  <ul>
+    <li><strong>Local file access</strong> &mdash; Claude can directly read and analyze files stored on your computer. For example, drag and drop a PDF document, a code file, or a text file and Claude will understand its contents and answer.</li>
+    <li><strong>Projects feature</strong> &mdash; You can group related conversations together and manage them as one project. You can also configure topic-specific settings differently for each project.</li>
+    <li><strong>Stability and speed</strong> &mdash; Because it runs as a standalone app, there is no browser tab management to worry about, and even a slightly unstable internet connection won't lose your conversation history.</li>
+    <li><strong>Keyboard shortcuts</strong> &mdash; Keyboard shortcuts let you quickly start new conversations or bring up previous ones.</li>
+  </ul>
 
-  <!-- INLINE SVG: Three Claude tools comparison diagram -->
-  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg viewBox="0 0 660 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
-      <!-- Background -->
-      <rect x="0" y="0" width="660" height="320" rx="12" fill="none"/>
+  <h3>Differences from the Claude Code CLI</h3>
 
-      <!-- Title -->
-      <text x="330" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="var(--accent)" style="font-family:var(--font-family);">Three Ways to Use Claude</text>
-
-      <!-- Column 1: Claude.ai -->
-      <rect x="20" y="50" width="195" height="250" rx="8" fill="var(--bg3)" stroke="var(--border)" stroke-width="1.5"/>
-      <text x="117" y="78" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text)" style="font-family:var(--font-family);">Claude.ai</text>
-      <text x="117" y="96" text-anchor="middle" font-size="11" fill="var(--text-dim)" style="font-family:var(--font-family);">(Web Browser)</text>
-      <line x1="40" y1="108" x2="195" y2="108" stroke="var(--border)" stroke-width="1"/>
-      <text x="40" y="130" font-size="11" fill="var(--text)" style="font-family:var(--font-family);">&#x2022; Browser-based chat</text>
-      <text x="40" y="150" font-size="11" fill="var(--text)" style="font-family:var(--font-family);">&#x2022; File upload (web)</text>
-      <text x="40" y="170" font-size="11" fill="var(--text)" style="font-family:var(--font-family);">&#x2022; Artifacts</text>
-      <text x="40" y="190" font-size="11" fill="var(--text)" style="font-family:var(--font-family);">&#x2022; Free tier available</text>
-      <rect x="40" y="260" width="155" height="24" rx="4" fill="var(--bg-warn)" opacity="0.15"/>
-      <text x="117" y="277" text-anchor="middle" font-size="10" fill="var(--text-dim)" style="font-family:var(--font-family);">No local file access</text>
-
-      <!-- Column 2: Claude Desktop App (highlighted) -->
-      <rect x="232" y="50" width="195" height="250" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
-      <rect x="232" y="50" width="195" height="32" rx="8" fill="var(--accent-green)" opacity="0.15"/>
-      <text x="329" y="72" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent-green)" style="font-family:var(--font-family);">&#9733; Claude Desktop App</text>
-      <line x1="252" y1="92" x2="407" y2="92" stroke="var(--accent-green)" stroke-width="1" opacity="0.4"/>
-      <text x="252" y="114" font-size="11" fill="var(--text)" style="font-family:var(--font-family);">&#x2022; Native desktop app</text>
-      <text x="252" y="134" font-size="11" fill="var(--text)" style="font-family:var(--font-family);">&#x2022; Local file access</text>
-      <text x="252" y="154" font-size="11" fill="var(--text)" style="font-family:var(--font-family);">&#x2022; Projects &amp; instructions</text>
-      <text x="252" y="174" font-size="11" fill="var(--text)" style="font-family:var(--font-family);">&#x2022; Artifacts</text>
-      <text x="252" y="194" font-size="11" fill="var(--text)" style="font-family:var(--font-family);">&#x2022; Stable &amp; responsive</text>
-      <rect x="252" y="220" width="155" height="24" rx="4" fill="var(--accent-green)" opacity="0.12"/>
-      <text x="329" y="237" text-anchor="middle" font-size="10" font-weight="600" fill="var(--accent-green)" style="font-family:var(--font-family);">&#9733; This handbook's tool</text>
-
-      <!-- Column 3: Claude Code CLI -->
-      <rect x="445" y="50" width="195" height="250" rx="8" fill="var(--bg3)" stroke="var(--border)" stroke-width="1.5"/>
-      <text x="542" y="78" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text)" style="font-family:var(--font-family);">Claude Code</text>
-      <text x="542" y="96" text-anchor="middle" font-size="11" fill="var(--text-dim)" style="font-family:var(--font-family);">(Terminal / CLI)</text>
-      <line x1="465" y1="108" x2="620" y2="108" stroke="var(--border)" stroke-width="1"/>
-      <text x="465" y="130" font-size="11" fill="var(--text)" style="font-family:var(--font-family);">&#x2022; Terminal-based</text>
-      <text x="465" y="150" font-size="11" fill="var(--text)" style="font-family:var(--font-family);">&#x2022; Full filesystem access</text>
-      <text x="465" y="170" font-size="11" fill="var(--text)" style="font-family:var(--font-family);">&#x2022; Git integration</text>
-      <text x="465" y="190" font-size="11" fill="var(--text)" style="font-family:var(--font-family);">&#x2022; Code editing</text>
-      <rect x="465" y="260" width="155" height="24" rx="4" fill="var(--bg-info)" opacity="0.15"/>
-      <text x="542" y="277" text-anchor="middle" font-size="10" fill="var(--text-dim)" style="font-family:var(--font-family);">See Appendix B</text>
-    </svg>
-  </div>
-  <p class="fig-caption">Figure 2-1: Comparison of the three Claude interfaces. Claude Desktop App (center) is the primary tool used throughout this handbook.</p>
-
-  <h3>Why Claude Desktop App Over the Web Version?</h3>
-
-  <div class="compare-grid">
-    <div class="compare-col">
-      <h4>Claude.ai (Web)</h4>
-      <ul>
-        <li>Accessible from any browser</li>
-        <li>No installation required</li>
-        <li>Can only read files you upload manually</li>
-        <li>No project-level custom instructions</li>
-        <li>Session resets on page refresh</li>
-      </ul>
-    </div>
-    <div class="compare-col">
-      <h4>Claude Desktop App</h4>
-      <ul>
-        <li>Runs as a native application</li>
-        <li>Can read files and folders on your computer</li>
-        <li>Supports project-level context and custom instructions</li>
-        <li>More stable connection and faster responses</li>
-        <li>Persistent conversation history</li>
-      </ul>
-    </div>
-  </div>
+  <p>The <strong>Claude Code CLI</strong> is a Claude tool used in a terminal (command window). It offers powerful capabilities for programmers to manipulate files directly while writing and modifying code. However, <strong>because it requires typing commands, it can be a high barrier to entry for beginners</strong>.</p>
 
   <div class="note">
-    <strong>Claude Code CLI</strong> is a terminal-based tool for developers who want AI to read, edit, and run code directly from the command line. It is covered in <a href="../appendix/B_Claude_Code_CLI_en.html">Appendix B</a>. For most beginners, Claude Desktop App is the recommended starting point.
+    Claude Code CLI is covered in detail in <strong>Appendix B</strong> of this handbook. CLI (Command Line Interface) means operating a program with keyboard commands instead of the mouse. You run it with the <code>claude</code> command in a terminal window (PowerShell on Windows, Terminal on MacOS, etc.).
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       SECTION: Installation
-       ═══════════════════════════════════════════════════════════════ -->
+  <!-- INLINE SVG: 3 Claude Tools Comparison Diagram -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg viewBox="0 0 660 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <!-- Title -->
+      <text x="330" y="30" text-anchor="middle" style="fill:var(--text);font-size:16px;font-weight:700;">Comparing the 3 Claude Tools</text>
+
+      <!-- Box 1: Claude Desktop App (highlighted as main tool) -->
+      <rect x="20" y="55" width="195" height="240" rx="12" style="fill:var(--bg-success);stroke:var(--accent-green);stroke-width:2.5;"/>
+      <rect x="60" y="70" width="115" height="28" rx="14" style="fill:var(--accent-green);"/>
+      <text x="117" y="89" text-anchor="middle" style="fill:var(--text-inverse);font-size:11px;font-weight:700;">This handbook's default</text>
+      <!-- Monitor icon -->
+      <rect x="85" y="115" width="64" height="44" rx="4" style="fill:none;stroke:var(--accent-green);stroke-width:2;"/>
+      <rect x="95" y="121" width="44" height="32" rx="2" style="fill:var(--accent-green);opacity:0.15;"/>
+      <line x1="117" y1="159" x2="117" y2="172" style="stroke:var(--accent-green);stroke-width:2;"/>
+      <line x1="100" y1="172" x2="134" y2="172" style="stroke:var(--accent-green);stroke-width:2;"/>
+      <text x="117" y="195" text-anchor="middle" style="fill:var(--text);font-size:13px;font-weight:700;">Claude Desktop App</text>
+      <text x="117" y="215" text-anchor="middle" style="fill:var(--text-dim);font-size:11px;">Desktop app</text>
+      <text x="117" y="235" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">GUI (graphical interface)</text>
+      <text x="117" y="255" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">Used with mouse clicks</text>
+      <text x="117" y="275" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">Recommended for beginners</text>
+
+      <!-- Box 2: Claude.ai -->
+      <rect x="232" y="55" width="195" height="240" rx="12" style="fill:var(--bg2);stroke:var(--border);stroke-width:1.5;"/>
+      <!-- Browser icon -->
+      <rect x="297" y="115" width="64" height="44" rx="4" style="fill:none;stroke:var(--text-dim);stroke-width:1.5;"/>
+      <rect x="301" y="119" width="56" height="10" rx="2" style="fill:var(--bg3);stroke:var(--text-dim);stroke-width:0.8;"/>
+      <circle cx="305" cy="124" r="2" style="fill:var(--accent-red);"/>
+      <circle cx="312" cy="124" r="2" style="fill:var(--accent-amber);"/>
+      <circle cx="319" cy="124" r="2" style="fill:var(--accent-green);"/>
+      <text x="329" y="195" text-anchor="middle" style="fill:var(--text);font-size:13px;font-weight:700;">Claude.ai</text>
+      <text x="329" y="215" text-anchor="middle" style="fill:var(--text-dim);font-size:11px;">Web version</text>
+      <text x="329" y="235" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">Accessed via browser</text>
+      <text x="329" y="255" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">No installation needed</text>
+      <text x="329" y="275" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">Lightweight use</text>
+
+      <!-- Box 3: Claude Code CLI -->
+      <rect x="444" y="55" width="195" height="240" rx="12" style="fill:var(--bg2);stroke:var(--border);stroke-width:1.5;"/>
+      <rect x="509" y="70" width="115" height="28" rx="14" style="fill:var(--bg3);"/>
+      <text x="566" y="89" text-anchor="middle" style="fill:var(--text-dim);font-size:11px;font-weight:700;">See Appendix B</text>
+      <!-- Terminal icon -->
+      <rect x="509" y="115" width="64" height="44" rx="4" style="fill:none;stroke:var(--text-dim);stroke-width:1.5;"/>
+      <text x="521" y="135" style="fill:var(--accent-green);font-size:9px;font-family:monospace;">$ claude</text>
+      <text x="521" y="149" style="fill:var(--text-dim);font-size:9px;font-family:monospace;">_</text>
+      <text x="541" y="195" text-anchor="middle" style="fill:var(--text);font-size:13px;font-weight:700;">Claude Code CLI</text>
+      <text x="541" y="215" text-anchor="middle" style="fill:var(--text-dim);font-size:11px;">Terminal tool</text>
+      <text x="541" y="235" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">Command-driven</text>
+      <text x="541" y="255" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">Direct file manipulation</text>
+      <text x="541" y="275" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;">For advanced users</text>
+    </svg>
+  </div>
+
+  <p>This handbook uses <strong>Claude Desktop App as its primary tool</strong>. Beginners can get started easily, and it covers all of Claude's core features. Once you become an advanced user, you can move on to the Claude Code CLI (Appendix B).</p>
+
+  <!-- ================================================================
+       SECTION 2: Installation
+       ================================================================ -->
   <h2 id="install">Installation</h2>
 
-  <p>
-    Claude Desktop App is available for <strong>MacOS</strong>, <strong>Windows</strong>, and <strong>Linux</strong>. Follow the instructions for your operating system below.
-  </p>
-
-  <!-- MacOS -->
-  <div class="platform-block claudeapp">
-    <div class="platform-block-title">MacOS</div>
-    <ol>
-      <li>Open the <strong>App Store</strong> on your Mac and search for <strong>"Claude"</strong>, or visit <code>claude.ai/download</code> in your browser.</li>
-      <li>Click <strong>Get</strong> (App Store) or <strong>Download for Mac</strong> (website) to download the installer.</li>
-      <li>Open the downloaded <code>.dmg</code> file and drag Claude to your <strong>Applications</strong> folder.</li>
-      <li>Launch Claude from your Applications folder or Spotlight (<code>Cmd + Space</code>, type "Claude").</li>
-    </ol>
-    <p class="text-dim">Supported: MacOS 12 (Monterey) or later. Apple Silicon (M1/M2/M3/M4) and Intel Macs are both supported.</p>
-  </div>
-
-  <!-- Windows -->
-  <div class="platform-block claudeapp">
-    <div class="platform-block-title">Windows</div>
-    <ol>
-      <li>Visit <code>claude.ai/download</code> in your browser, or use <strong>winget</strong> from a terminal:</li>
-    </ol>
-    <div class="code-block">
-<pre><code>winget install Anthropic.Claude</code></pre>
-<button type="button" class="copy-btn">Copy</button>
-</div>
-    <ol start="2">
-      <li>Run the downloaded <code>.exe</code> installer and follow the on-screen prompts.</li>
-      <li>Launch Claude from the Start Menu or desktop shortcut.</li>
-    </ol>
-    <p class="text-dim">Supported: Windows 10 (64-bit) or later.</p>
-  </div>
-
-  <!-- Linux -->
-  <div class="platform-block claudeapp">
-    <div class="platform-block-title">Linux</div>
-    <p>Anthropic provides packages for Debian/Ubuntu-based distributions. For other distros, a generic <code>.tar.gz</code> archive is available.</p>
-    <p><strong>Debian / Ubuntu (.deb):</strong></p>
-    <div class="code-block">
-<pre><code># Download the latest .deb package
-wget https://claude.ai/download/linux/deb -O claude-desktop.deb
-
-# Install
-sudo dpkg -i claude-desktop.deb
-
-# Fix any missing dependencies
-sudo apt-get install -f</code></pre>
-<button type="button" class="copy-btn">Copy</button>
-</div>
-    <p><strong>Generic Linux (.tar.gz):</strong></p>
-    <div class="code-block">
-<pre><code># Download and extract
-tar -xzf claude-desktop-linux.tar.gz
-
-# Run
-./claude-desktop</code></pre>
-<button type="button" class="copy-btn">Copy</button>
-</div>
-    <p class="text-dim">Supported: Ubuntu 20.04+ / Debian 11+ (64-bit). Other distributions may work with the tar.gz build.</p>
-  </div>
+  <p>Claude Desktop App supports all three operating systems: <strong>MacOS, Windows, and Linux</strong>. Follow the installation method that matches your computer's operating system.</p>
 
   <h3>System Requirements</h3>
 
   <table>
     <thead>
       <tr>
-        <th>Requirement</th>
+        <th>Item</th>
         <th>Minimum</th>
         <th>Recommended</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>Internet Connection</td>
-        <td>Broadband (any)</td>
-        <td>Stable broadband (5+ Mbps)</td>
+        <td>Operating system</td>
+        <td>macOS 12+, Windows 10 64-bit, Ubuntu 20.04+</td>
+        <td>macOS 14+, Windows 11, Ubuntu 22.04+</td>
       </tr>
       <tr>
-        <td>RAM</td>
-        <td>4 GB</td>
-        <td>8 GB or more</td>
+        <td>RAM (memory)</td>
+        <td>4GB</td>
+        <td>8GB or more</td>
       </tr>
       <tr>
-        <td>Disk Space</td>
-        <td>500 MB</td>
-        <td>1 GB (for cache and projects)</td>
+        <td>Disk space</td>
+        <td>500MB</td>
+        <td>1GB or more</td>
       </tr>
       <tr>
-        <td>Display</td>
-        <td>1280 &times; 720</td>
-        <td>1920 &times; 1080 or larger</td>
+        <td>Internet</td>
+        <td>Required (Claude runs in the cloud)</td>
+        <td>A stable broadband connection</td>
       </tr>
     </tbody>
   </table>
 
   <div class="tip-box">
-    Claude Desktop App requires a <strong>paid subscription</strong> (Claude Pro or Claude Max) to use. A free Claude.ai account will not work for Claude Desktop App login. If you have not yet subscribed, see the <a href="#subscription">Subscription Plans</a> section below.
+    Using Claude Desktop App requires a <strong>Claude Pro or Max subscription</strong>. With the free plan (Free tier) you can only use the Claude.ai web version; Desktop App login is restricted. For how to subscribe, see the "Subscription Plans" section below.
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       SECTION: Subscription Plans
-       ═══════════════════════════════════════════════════════════════ -->
+  <!-- MacOS -->
+  <div class="platform-block claude">
+    <div class="platform-block-title">Installing on MacOS</div>
+    <p>On MacOS there are two ways to install Claude Desktop App.</p>
+    <h4>Method 1: Install from the App Store (Recommended)</h4>
+    <ol>
+      <li>Open the <strong>App Store</strong> app on your Mac.</li>
+      <li>Type <code>Claude</code> into the search field.</li>
+      <li>Find the <strong>"Anthropic Claude"</strong> app and press the <strong>Download</strong> button.</li>
+      <li>Once installation completes, launch Claude from your Applications folder.</li>
+    </ol>
+    <h4>Method 2: Download from the Website</h4>
+    <ol>
+      <li>In your browser, visit <a href="https://claude.ai/download" target="_blank" rel="noopener noreferrer">claude.ai/download</a>.</li>
+      <li>Click the <strong>"Download for Mac"</strong> button.</li>
+      <li>Open the downloaded <code>.dmg</code> file and drag the Claude icon into your Applications folder.</li>
+      <li>If you see a "this application can't be opened" message the first time you run it, go to <strong>System Preferences &gt; Security &amp; Privacy</strong> and press "Open".</li>
+    </ol>
+  </div>
+
+  <!-- Windows -->
+  <div class="platform-block claude">
+    <div class="platform-block-title">Installing on Windows</div>
+    <p>There are also two ways to install on Windows.</p>
+    <h4>Method 1: Download from the Website (Recommended)</h4>
+    <ol>
+      <li>In your browser, visit <a href="https://claude.ai/download" target="_blank" rel="noopener noreferrer">claude.ai/download</a>.</li>
+      <li>Click the <strong>"Download for Windows"</strong> button.</li>
+      <li>Run the downloaded <code>.exe</code> installer.</li>
+      <li>Follow the installer wizard, pressing <strong>"Next"</strong> to complete the installation.</li>
+      <li>Double-click the Claude shortcut created on your desktop to launch it.</li>
+    </ol>
+    <h4>Method 2: Use winget (the Windows Package Manager)</h4>
+    <p>You can install it by entering the following command in a command window (PowerShell):</p>
+    <div class="code-block">
+<pre><code>winget install Anthropic.Claude</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+    <p>winget is the package manager built into Windows &mdash; a tool that installs and updates programs with a single command.</p>
+  </div>
+
+  <!-- Linux -->
+  <div class="platform-block claude">
+    <div class="platform-block-title">Installing on Linux</div>
+    <p>On Linux there are two installation methods depending on the package format.</p>
+    <h4>Method 1: .deb Package (Debian / Ubuntu)</h4>
+    <div class="code-block">
+<pre><code># 1. Download the .deb file from the download page
+# Get Claude-linux.deb from claude.ai/download
+
+# 2. Install it from the terminal
+sudo dpkg -i Claude-linux.deb
+
+# 3. If dependency problems occur, fix them with the command below
+sudo apt-get install -f</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+    <h4>Method 2: .tar.gz Archive (Other Linux)</h4>
+    <div class="code-block">
+<pre><code># 1. Get the .tar.gz file from the download page
+# Get Claude-linux.tar.gz from claude.ai/download
+
+# 2. Extract the archive
+tar xzf Claude-linux.tar.gz
+
+# 3. Run the Claude binary
+./claude</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+    <div class="note">
+      The Linux <code>.tar.gz</code> method places the Claude binary manually wherever you like. Put it in a directory such as <code>/opt/claude</code> and add it to PATH, and you can run it from anywhere in the terminal.
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SECTION 3: Subscription Plans
+       ================================================================ -->
   <h2 id="subscription">Subscription Plans</h2>
 
-  <p>
-    To use Claude Desktop App, you need an active subscription from Anthropic. Two plans are available for individual users.
-  </p>
+  <p>To use Claude Desktop App you need a paid subscription plan. Anthropic offers two paid plans.</p>
 
   <div class="compare-grid">
     <div class="compare-col">
-      <h4>Claude Pro &mdash; $20 / month</h4>
+      <h4>Claude Pro</h4>
+      <p style="font-size:var(--font-size-small);color:var(--text-dim);margin-bottom:12px;">$20 / month</p>
       <ul>
-        <li>Access to Claude Sonnet 4 models</li>
-        <li>5x usage multiplier compared to the free tier</li>
-        <li>Claude Desktop App access</li>
-        <li>Projects feature (up to 10 projects)</li>
-        <li>Artifacts</li>
-        <li>Higher message rate limits</li>
-        <li>Priority access during peak hours</li>
+        <li>Access to Claude Desktop App</li>
+        <li>Claude Sonnet 4 as the default model</li>
+        <li>5x more usage per day (compared to free)</li>
+        <li>Access to the Projects feature</li>
+        <li>Access to the Artifacts feature</li>
+        <li>File upload support</li>
       </ul>
     </div>
     <div class="compare-col">
-      <h4>Claude Max &mdash; $100 or $200 / month</h4>
+      <h4>Claude Max</h4>
+      <p style="font-size:var(--font-size-small);color:var(--text-dim);margin-bottom:12px;">$100 / month or $200 / month</p>
       <ul>
-        <li>Everything in Claude Pro</li>
-        <li>Significantly higher usage limits (5x&ndash;20x Pro)</li>
-        <li>Access to extended-thinking models (Claude Opus 4)</li>
-        <li>More projects (100+ projects)</li>
-        <li>Higher rate limits for intensive tasks</li>
-        <li>Best for power users and developers</li>
-        <li>Two tiers: $100 and $200 depending on usage needs</li>
+        <li>Access to Claude Desktop App</li>
+        <li>Priority access to the latest models</li>
+        <li>Far more usage than Pro</li>
+        <li>$200 plan: access to the Claude Opus model</li>
+        <li>Projects feature (more projects)</li>
+        <li>Artifacts feature</li>
+        <li>Priority customer support</li>
       </ul>
     </div>
   </div>
+
+  <h3 id="plan-comparison">Detailed Plan Comparison</h3>
+
+  <p>The table below compares the details of the two plans (3 configurations in total). Monthly fees, usage multipliers, project count limits, and the scope of Opus 4 model access can be checked at a glance.</p>
 
   <table>
     <thead>
       <tr>
-        <th>Feature</th>
+        <th>Item</th>
         <th>Claude Pro</th>
         <th>Claude Max ($100)</th>
         <th>Claude Max ($200)</th>
@@ -289,416 +289,403 @@ tar -xzf claude-desktop-linux.tar.gz
     </thead>
     <tbody>
       <tr>
-        <td>Monthly Price</td>
+        <td>Monthly fee</td>
         <td>$20</td>
         <td>$100</td>
         <td>$200</td>
       </tr>
       <tr>
-        <td>Desktop App</td>
+        <td>Desktop app</td>
         <td>Yes</td>
         <td>Yes</td>
         <td>Yes</td>
       </tr>
       <tr>
-        <td>Usage Multiplier</td>
+        <td>Usage multiplier</td>
         <td>5x free</td>
         <td>~20x free</td>
         <td>~45x free</td>
       </tr>
       <tr>
-        <td>Projects</td>
-        <td>10</td>
+        <td>Number of projects</td>
+        <td>Up to 10</td>
         <td>100+</td>
         <td>100+</td>
       </tr>
       <tr>
-        <td>Extended Thinking (Opus 4)</td>
+        <td>Extended thinking (Opus 4)</td>
         <td>Limited</td>
         <td>Expanded</td>
         <td>Maximum</td>
       </tr>
       <tr>
-        <td>Best For</td>
-        <td>Beginners, casual use</td>
+        <td>Recommended users</td>
+        <td>Beginners, everyday use</td>
         <td>Serious learners, professionals</td>
-        <td>Heavy daily users, teams</td>
+        <td>Heavy users, teams</td>
       </tr>
     </tbody>
   </table>
 
-  <div class="tip-box">
-    <strong>Recommendation for beginners:</strong> Start with <strong>Claude Pro ($20/month)</strong>. It provides everything you need to follow this handbook, including Claude Desktop App, Projects, and Artifacts. You can upgrade to Claude Max later if you find yourself hitting usage limits frequently. See <a href="../appendix/C_Low_Cost_Backends_en.html">Appendix C</a> for information about low-cost local model alternatives that can supplement your usage.
-  </div>
-
   <div class="warn">
-    Anthropic periodically adjusts pricing and plan details. Always verify the latest plans at <a href="https://claude.ai/plans" target="_blank">claude.ai/plans</a> before subscribing.
+    Anthropic periodically adjusts prices and plan details. Always check the latest plans at <a href="https://claude.ai/plans" target="_blank" rel="noopener noreferrer">claude.ai/plans</a> before subscribing.
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       SECTION: Starting Your First Conversation
-       ═══════════════════════════════════════════════════════════════ -->
+  <h3>Which Plan Should You Choose?</h3>
+
+  <p>To follow along with this handbook, <strong>Claude Pro ($20/month)</strong> is plenty. Claude Pro offers every core feature of Claude Desktop App and supports more than enough usage for a beginner to learn and practice with Claude.</p>
+
+  <div class="tip-box">
+    If you're just getting started, <strong>try Claude Pro first</strong>. When your usage grows and Pro starts to feel limiting, you can upgrade to Max. Subscriptions can be changed at any time.
+  </div>
+
+  <h3>Getting Your Subscription Started</h3>
+
+  <ol>
+    <li>Visit <a href="https://claude.ai" target="_blank" rel="noopener noreferrer">claude.ai</a> and create an Anthropic account (you can also sign up with a Google or Apple account).</li>
+    <li>After logging in, click the <strong>profile icon</strong> at the bottom-left of the screen.</li>
+    <li>Click the <strong>"Upgrade to Pro"</strong> or <strong>"Upgrade to Max"</strong> button.</li>
+    <li>Enter your payment information and complete the subscription.</li>
+  </ol>
+
+  <div class="note">
+    You can manage your subscription at <a href="https://claude.ai/subscribe" target="_blank" rel="noopener noreferrer">claude.ai/subscribe</a>. Changing plans, changing payment methods, and canceling are all handled on this page.
+  </div>
+
+  <!-- ================================================================
+       SECTION 4: Starting Your First Conversation
+       ================================================================ -->
   <h2 id="first-conversation">Starting Your First Conversation</h2>
 
-  <p>
-    Once Claude Desktop App is installed and you have logged in with your Anthropic account, you will see the main conversation screen. Let's walk through what you see and start your very first chat.
-  </p>
+  <p>Now that Claude Desktop App is installed and your subscription is complete, let's start a conversation with Claude.</p>
 
-  <!-- INLINE SVG: Claude Desktop App screen layout diagram -->
+  <h3>Launching Claude Desktop App</h3>
+
+  <p>Click the <strong>Claude icon</strong> on your desktop or in your Applications folder to launch the app. The first time you run it, a screen will ask you to log in with your Anthropic account. Log in with the account you created in Chapter 1 of this handbook (or a newly created one).</p>
+
+  <!-- INLINE SVG: Claude Desktop App Screen Layout Diagram -->
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg viewBox="0 0 660 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
-      <!-- Outer window frame -->
-      <rect x="30" y="20" width="600" height="340" rx="12" fill="var(--bg3)" stroke="var(--border)" stroke-width="2"/>
+    <svg viewBox="0 0 640 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <!-- Title -->
+      <text x="320" y="28" text-anchor="middle" style="fill:var(--text);font-size:15px;font-weight:700;">Claude Desktop App Screen Layout</text>
+
+      <!-- Window frame -->
+      <rect x="30" y="45" width="580" height="280" rx="8" style="fill:var(--bg);stroke:var(--border);stroke-width:1.5;"/>
+
       <!-- Title bar -->
-      <rect x="30" y="20" width="600" height="36" rx="12" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
-      <rect x="30" y="44" width="600" height="12" fill="var(--bg2)"/>
-      <circle cx="56" cy="38" r="6" fill="var(--accent-red)" opacity="0.7"/>
-      <circle cx="76" cy="38" r="6" fill="var(--accent-amber)" opacity="0.7"/>
-      <circle cx="96" cy="38" r="6" fill="var(--accent-green)" opacity="0.7"/>
-      <text x="330" y="42" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text-dim)" style="font-family:var(--font-family);">Claude</text>
+      <rect x="30" y="45" width="580" height="30" rx="8" style="fill:var(--bg3);"/>
+      <rect x="30" y="60" width="580" height="15" style="fill:var(--bg3);"/>
+      <circle cx="52" cy="60" r="5" style="fill:var(--accent-red);"/>
+      <circle cx="70" cy="60" r="5" style="fill:var(--accent-amber);"/>
+      <circle cx="88" cy="60" r="5" style="fill:var(--accent-green);"/>
+      <text x="320" y="64" text-anchor="middle" style="fill:var(--text-dim);font-size:11px;font-weight:600;">Claude</text>
 
       <!-- Sidebar -->
-      <rect x="30" y="56" width="130" height="304" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
-      <rect x="40" y="68" width="110" height="24" rx="4" fill="var(--accent)" opacity="0.15"/>
-      <text x="95" y="85" text-anchor="middle" font-size="10" font-weight="600" fill="var(--accent)" style="font-family:var(--font-family);">+ New Chat</text>
-      <text x="40" y="116" font-size="10" fill="var(--text-dim)" style="font-family:var(--font-family);">Recent</text>
-      <rect x="40" y="124" width="110" height="20" rx="3" fill="var(--bg3)"/>
-      <text x="50" y="138" font-size="9" fill="var(--text)" style="font-family:var(--font-family);">My first chat</text>
-      <rect x="40" y="150" width="110" height="20" rx="3" fill="transparent"/>
-      <text x="50" y="164" font-size="9" fill="var(--text-dim)" style="font-family:var(--font-family);">Recipe ideas</text>
-      <rect x="40" y="176" width="110" height="20" rx="3" fill="transparent"/>
-      <text x="50" y="190" font-size="9" fill="var(--text-dim)" style="font-family:var(--font-family);">Travel plan</text>
-      <text x="40" y="220" font-size="10" fill="var(--text-dim)" style="font-family:var(--font-family);">Projects</text>
-      <rect x="40" y="228" width="110" height="20" rx="3" fill="transparent"/>
-      <text x="50" y="242" font-size="9" fill="var(--text-dim)" style="font-family:var(--font-family);">My Project A</text>
+      <rect x="30" y="75" width="120" height="250" style="fill:var(--bg2);stroke:var(--border);stroke-width:0.5;"/>
+      <text x="90" y="100" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;font-weight:600;">Conversation list</text>
+      <rect x="42" y="115" width="96" height="20" rx="4" style="fill:var(--accent);opacity:0.15;stroke:var(--accent);stroke-width:0.5;"/>
+      <text x="90" y="129" text-anchor="middle" style="fill:var(--accent);font-size:9px;">New chat 1</text>
+      <rect x="42" y="142" width="96" height="20" rx="4" style="fill:var(--bg3);"/>
+      <text x="90" y="156" text-anchor="middle" style="fill:var(--text-dim);font-size:9px;">Chat 2</text>
+      <rect x="42" y="169" width="96" height="20" rx="4" style="fill:var(--bg3);"/>
+      <text x="90" y="183" text-anchor="middle" style="fill:var(--text-dim);font-size:9px;">Chat 3</text>
+      <!-- New chat button -->
+      <rect x="42" y="288" width="96" height="22" rx="4" style="fill:var(--accent);"/>
+      <text x="90" y="303" text-anchor="middle" style="fill:var(--text-inverse);font-size:9px;font-weight:600;">+ New Chat</text>
 
       <!-- Main chat area -->
-      <!-- Message bubbles -->
-      <rect x="180" y="80" width="380" height="56" rx="8" fill="var(--bg3)" stroke="var(--border)" stroke-width="0.5"/>
-      <text x="196" y="104" font-size="10" fill="var(--text)" style="font-family:var(--font-family);">Hello! I'm a beginner interested in AI.</text>
-      <text x="196" y="122" font-size="10" fill="var(--text)" style="font-family:var(--font-family);">Can you explain what AI agents are?</text>
+      <text x="340" y="105" text-anchor="middle" style="fill:var(--text-dim);font-size:10px;font-weight:600;">Chat area</text>
 
-      <rect x="180" y="152" width="380" height="76" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="0.5" opacity="0.2"/>
-      <text x="196" y="176" font-size="10" fill="var(--text)" style="font-family:var(--font-family);">Great question! An AI agent is like a smart assistant</text>
-      <text x="196" y="194" font-size="10" fill="var(--text)" style="font-family:var(--font-family);">that can perform tasks on your behalf. Unlike a simple</text>
-      <text x="196" y="212" font-size="10" fill="var(--text)" style="font-family:var(--font-family);">chatbot, an agent can take actions, use tools, and work...</text>
+      <!-- User message bubble -->
+      <rect x="170" y="120" width="280" height="36" rx="8" style="fill:var(--accent);opacity:0.12;"/>
+      <text x="184" y="135" style="fill:var(--text);font-size:10px;">Hello! Please explain in simple terms</text>
+      <text x="184" y="148" style="fill:var(--text);font-size:10px;">what an AI agent team is</text>
 
-      <!-- Artifact panel (right) -->
-      <rect x="570" y="56" width="60" height="304" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
-      <text x="600" y="80" text-anchor="middle" font-size="9" fill="var(--text-dim)" style="font-family:var(--font-family);">&#x25C0;</text>
+      <!-- Claude response bubble -->
+      <rect x="170" y="170" width="340" height="80" rx="8" style="fill:var(--bg2);stroke:var(--border);stroke-width:0.5;"/>
+      <text x="184" y="188" style="fill:var(--text);font-size:10px;font-weight:600;">Claude:</text>
+      <text x="184" y="204" style="fill:var(--text-dim);font-size:10px;">An AI agent team is a system where multiple</text>
+      <text x="184" y="218" style="fill:var(--text-dim);font-size:10px;">AIs cooperate while dividing up roles. For example,</text>
+      <text x="184" y="232" style="fill:var(--text-dim);font-size:10px;">one AI handles research, another writing...</text>
 
-      <!-- Input bar -->
-      <rect x="180" y="280" width="440" height="56" rx="8" fill="var(--bg3)" stroke="var(--border)" stroke-width="1"/>
-      <text x="200" y="304" font-size="10" fill="var(--text-dim)" style="font-family:var(--font-family);">Type your message...</text>
-      <rect x="580" y="290" width="28" height="28" rx="6" fill="var(--accent)" opacity="0.2"/>
-      <text x="594" y="309" text-anchor="middle" font-size="14" fill="var(--accent)" style="font-family:var(--font-family);">&#x25B6;</text>
+      <!-- Artifacts panel (right side) -->
+      <rect x="520" y="75" width="90" height="250" style="fill:var(--bg2);stroke:var(--border);stroke-width:0.5;"/>
+      <text x="565" y="100" text-anchor="middle" style="fill:var(--text-dim);font-size:9px;font-weight:600;">Artifacts</text>
+      <rect x="530" y="112" width="70" height="50" rx="4" style="fill:var(--bg);stroke:var(--accent-green);stroke-width:0.5;"/>
+      <text x="565" y="135" text-anchor="middle" style="fill:var(--accent-green);font-size:8px;">Code</text>
+      <rect x="530" y="170" width="70" height="50" rx="4" style="fill:var(--bg);stroke:var(--accent);stroke-width:0.5;"/>
+      <text x="565" y="193" text-anchor="middle" style="fill:var(--accent);font-size:8px;">Docs</text>
+
+      <!-- Input box -->
+      <rect x="155" y="270" width="350" height="40" rx="10" style="fill:var(--bg2);stroke:var(--border);stroke-width:1.5;"/>
+      <text x="175" y="294" style="fill:var(--text-dim);font-size:10px;">Type your message...</text>
+      <!-- Send button -->
+      <circle cx="488" cy="290" r="12" style="fill:var(--accent);"/>
+      <text x="488" y="294" text-anchor="middle" style="fill:var(--text-inverse);font-size:12px;font-weight:700;">&#8594;</text>
 
       <!-- Labels -->
-      <text x="95" y="345" text-anchor="middle" font-size="9" font-weight="600" fill="var(--text-dim)" style="font-family:var(--font-family);">Sidebar</text>
-      <text x="370" y="345" text-anchor="middle" font-size="9" font-weight="600" fill="var(--text-dim)" style="font-family:var(--font-family);">Chat Area</text>
-      <text x="600" y="345" text-anchor="middle" font-size="9" font-weight="600" fill="var(--text-dim)" style="font-family:var(--font-family);">Artifacts</text>
+      <text x="90" y="332" text-anchor="middle" style="fill:var(--text-dim);font-size:9px;">Sidebar</text>
+      <text x="340" y="332" text-anchor="middle" style="fill:var(--text-dim);font-size:9px;">Chat area + input box</text>
+      <text x="565" y="332" text-anchor="middle" style="fill:var(--text-dim);font-size:9px;">Artifacts panel</text>
     </svg>
   </div>
-  <p class="fig-caption">Figure 2-2: Claude Desktop App screen layout. The sidebar (left) shows recent chats and projects, the chat area (center) is where you converse, and the Artifacts panel (right) displays generated content like code or documents.</p>
 
-  <h3>Understanding the Interface</h3>
+  <h3>Screen Components</h3>
+
+  <p>As you can see in the diagram above, the Claude Desktop App screen is divided into three main parts:</p>
 
   <ul>
-    <li><strong>Sidebar (left)</strong> &mdash; Shows your recent conversations and projects. Click <strong>+ New Chat</strong> to start a fresh conversation.</li>
-    <li><strong>Chat Area (center)</strong> &mdash; This is where your conversation with Claude appears. Your messages appear on one side, and Claude's responses appear on the other.</li>
-    <li><strong>Artifacts Panel (right)</strong> &mdash; When Claude generates code, documents, or visual content, it appears here in a separate panel. You can expand or collapse this panel.</li>
-    <li><strong>Input Bar (bottom)</strong> &mdash; Type your message here and press <code>Enter</code> (or click the send button) to send it to Claude. You can also attach files by clicking the paperclip icon.</li>
+    <li><strong>Sidebar (left)</strong> &mdash; Shows your list of past conversations. Click a specific conversation to continue where it left off. Use the <strong>"+ New Chat"</strong> button at the bottom to start a new conversation.</li>
+    <li><strong>Chat area (center)</strong> &mdash; Where your conversation with Claude appears. Your sent messages and Claude's replies appear in order.</li>
+    <li><strong>Artifacts panel (right)</strong> &mdash; A separate panel where you can view the code, documents, diagrams, and other content Claude generates. (See the "Artifacts" section for details.)</li>
   </ul>
 
-  <h3>Try Your First Conversation</h3>
+  <h3>Sending Your First Message</h3>
 
-  <p>Start a new chat and try typing one of these beginner-friendly prompts:</p>
-
-  <div class="prompt-box">
-    <strong>Conversation Starter Ideas</strong>
-    <div class="prompt-text">"Hello! I'm new to Claude and AI in general. Can you explain what you can help me with in simple terms?"</div>
-  </div>
+  <p>Type a message into the <strong>text input box</strong> at the bottom of the chat area and press the Enter key (or the send button), and Claude will answer. Try entering the following example exactly:</p>
 
   <div class="prompt-box">
-    <strong>For Work and Productivity</strong>
-    <div class="prompt-text">"I need to write a professional email declining a meeting invitation politely. The meeting is about a project I'm no longer involved in."</div>
+    <div>Send the following message to Claude:</div>
+    <div class="prompt-text">Hello, I'm a beginner just starting to learn AI. Please explain what an AI agent team is in simple terms</div>
   </div>
 
-  <div class="prompt-box">
-    <strong>For Learning</strong>
-    <div class="prompt-text">"Can you explain the difference between machine learning and deep learning? Use simple analogies that a non-technical person would understand."</div>
-  </div>
+  <p>Claude will explain what an AI agent team is in easy language that even a beginner can understand. Read the answer, and if anything is unclear, try asking follow-up questions. For example:</p>
 
-  <div class="tip-box">
-    Claude remembers the context within a single conversation. If you ask follow-up questions, Claude will remember what you discussed earlier in the same chat. However, each new chat starts with a clean slate &mdash; Claude does not carry over information from previous conversations unless you use the Projects feature (see next section).
-  </div>
+  <ul>
+    <li>"So is an AI agent team similar to departments in a company?"</li>
+    <li>"Can a beginner build an AI agent team too?"</li>
+    <li>"What will I learn in this handbook?"</li>
+  </ul>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       SECTION: Projects Feature
-       ═══════════════════════════════════════════════════════════════ -->
+  <p>A conversation with Claude <strong>remembers the context of previous messages</strong>. So when you ask follow-up questions, you don't need to repeat earlier content. Just continue naturally, as if talking with a person.</p>
+
+  <!-- ================================================================
+       SECTION 5: Projects Feature
+       ================================================================ -->
   <h2 id="projects">Projects Feature</h2>
 
-  <p>
-    <strong>Projects</strong> are one of the most powerful features in Claude Desktop App. A project lets you group related conversations together and provide Claude with <strong>custom instructions</strong> and <strong>context files</strong> that persist across all chats within that project.
-  </p>
+  <h3>What Is a Project?</h3>
 
-  <h3>What Can Projects Do?</h3>
+  <p>A <strong>project</strong> is a feature in Claude Desktop App that groups related conversations together and manages them as one. In an ordinary conversation Claude remembers previous exchanges only up to a point, but when you use a project, all conversations within that project are maintained as a single <strong>context</strong>.</p>
+
+  <p>For example, suppose you talk with Claude over several days about the topic of "learning AI," asking questions and receiving answers. If you start a new conversation each time, Claude may forget what you learned before. But if you keep everything inside a project, Claude refers to all the conversations in that project and gives consistent answers.</p>
+
+  <h3>Key Project Features</h3>
 
   <ul>
-    <li><strong>Custom Instructions</strong> &mdash; Define how Claude should respond in this project (e.g., "Always respond in Korean," "You are a coding tutor," "Keep explanations at a beginner level").</li>
-    <li><strong>Context Files</strong> &mdash; Upload reference documents, code files, or notes that Claude can automatically refer to when answering questions in this project.</li>
-    <li><strong>Organized Conversations</strong> &mdash; Keep all chats related to a specific topic or task in one place, instead of scattered across your history.</li>
+    <li><strong>Project Knowledge</strong> &mdash; Attach relevant files (PDF, code, text) to a project and Claude will answer based on their contents. For example, attach a lecture PDF and Claude can read it and answer questions about it.</li>
+    <li><strong>Custom Instructions</strong> &mdash; You can set instructions for Claude per project. Example: "Please always answer in English", "Explain things for beginners", "Keep answers short, within 3 sentences".</li>
+    <li><strong>Conversation grouping</strong> &mdash; Within one project you can create multiple conversations, and each conversation shares the project's context.</li>
   </ul>
 
-  <h3>Creating a Project</h3>
+  <h3>Practice: Creating an "AI Study" Project</h3>
 
   <div class="step-list">
     <div class="step">
       <div class="step-content">
-        <span class="step-label">Open the Projects panel</span> &mdash; In the Claude Desktop App sidebar, find the <strong>Projects</strong> section and click the <strong>Create Project</strong> button (or the + icon next to Projects).
+        <div class="step-label">Create the project</div>
+        At the top of the sidebar in Claude Desktop App, click the icon next to the <strong>"+ New Chat"</strong> button and select <strong>"Create Project"</strong>.
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <span class="step-label">Name your project</span> &mdash; Give it a clear, descriptive name. For example: <em>"AI Study Notes"</em>, <em>"Work Reports"</em>, or <em>"Coding Practice"</em>.
+        <div class="step-label">Set the project name</div>
+        Enter <strong>"AI Study"</strong> as the project name. In the description field you can write something like "A project for learning about AI agent teams and how to use Claude".
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <span class="step-label">Write custom instructions</span> &mdash; In the <strong>Project Instructions</strong> text box, write a brief description of how Claude should behave in this project. For example:<br>
-        <em>"You are a helpful tutor for AI beginners. Explain concepts simply, use analogies, and always provide examples. When showing code, explain each line."</em>
+        <div class="step-label">Enter custom instructions</div>
+        In the Custom Instructions area, enter the following:
+        <div class="code-block" style="margin-top:8px;">
+<pre><code>Please answer in English.
+Please give easy explanations suited to beginners.
+Whenever an unfamiliar term appears, be sure to explain it.</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <span class="step-label">Add context files (optional)</span> &mdash; Click <strong>Add Files</strong> to upload documents, text files, or code that Claude should reference. You can add up to the plan's file limit.
+        <div class="step-label">Add files to the project (optional)</div>
+        If you downloaded the earlier part of this handbook (PDF, etc.), you can click the <strong>"Add files"</strong> button to add it to the project. Once added, Claude refers to the file's contents.
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <span class="step-label">Start chatting</span> &mdash; Click <strong>Create</strong> to finalize. Now every new conversation you start within this project will automatically use your custom instructions and have access to your context files.
+        <div class="step-label">Start the first conversation</div>
+        Start a new conversation inside the project and send the following message:
+        <div class="code-block" style="margin-top:8px;">
+<pre><code>I want to learn about Claude Desktop App and
+AI agent teams in this project.
+What would be the best thing to learn first?</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+        <p>Once you've set up a project like this, you can continue all the questions covered in later chapters inside it. Claude will provide deeper answers based on the earlier conversations.</p>
       </div>
     </div>
   </div>
 
-  <div class="tip-box">
-    <strong>Pro tip:</strong> Create a dedicated project for following this handbook. Name it something like <em>"AI Handbook Study"</em> and add a custom instruction: <em>"You are a study assistant helping me learn about Claude Desktop App and multi-agent AI systems. Reference the handbook concepts and explain things step by step."</em>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════════════
-       SECTION: Artifacts
-       ═══════════════════════════════════════════════════════════════ -->
+  <!-- ================================================================
+       SECTION 6: Artifacts
+       ================================================================ -->
   <h2 id="artifacts">Artifacts</h2>
 
-  <p>
-    <strong>Artifacts</strong> are a unique Claude feature that lets Claude generate standalone pieces of content &mdash; such as web pages, documents, code, diagrams, and interactive tools &mdash; and display them in a dedicated panel next to your conversation.
-  </p>
+  <h3>What Are Artifacts?</h3>
 
-  <p>
-    Instead of just describing a web page in text, Claude can <em>build</em> the actual page and show it to you right inside Claude Desktop App. You can see the result immediately, test it, iterate on it, and even copy the code.
-  </p>
+  <p><strong>Artifacts</strong> is a feature that displays <strong>code, documents, visualizations</strong>, and other content generated by Claude during a conversation in a separate panel outside the chat window. Normally when Claude writes code it appears as text inside the chat window, but with Artifacts <strong>you can view the code in an independent panel and even run it yourself.</strong></p>
 
-  <h3>What Can Artifacts Create?</h3>
+  <p>For example, if you ask Claude to "make a simple calculator web page," Claude writes HTML, CSS, and JavaScript code. When Artifacts is enabled, this code:</p>
 
   <ul>
-    <li><strong>Web Pages</strong> &mdash; HTML/CSS/JS mini-apps (calculators, quizzes, dashboards)</li>
-    <li><strong>Documents</strong> &mdash; formatted text with structure (reports, letters, guides)</li>
-    <li><strong>Code</strong> &mdash; syntax-highlighted code snippets with copy button</li>
-    <li><strong>Diagrams</strong> &mdash; SVG flowcharts, architecture diagrams, and visual explanations</li>
-    <li><strong>Interactive Tools</strong> &mdash; working prototypes with buttons, forms, and logic</li>
+    <li>Is displayed in the <strong>Artifacts panel</strong> next to the chat window</li>
+    <li>Lets you check what the web page actually looks like through a <strong>code preview</strong></li>
+    <li>Can be copied and saved as a file</li>
   </ul>
 
-  <h3>Example: Creating a Simple Calculator</h3>
+  <h3>Trying Out Artifacts</h3>
 
-  <p>Try this prompt in Claude Desktop App:</p>
+  <p>Try asking Claude the following:</p>
 
   <div class="prompt-box">
-    <strong>Artifact Prompt</strong>
-    <div class="prompt-text">"Please make a simple calculator web page. It should have buttons for digits 0-9, basic operations (+, -, &times;, &divide;), a display showing the current input and result, and a clear button. Style it nicely with a clean, modern look."</div>
+    <div>To experience the Artifacts feature, send the message below:</div>
+    <div class="prompt-text">Please make a simple calculator web page. All it needs is addition, subtraction, multiplication, and division.</div>
   </div>
 
-  <p>
-    Claude will generate the calculator as an <strong>Artifact</strong>. You should see it appear in the Artifacts panel on the right side of the screen. You can:
-  </p>
+  <p>When Claude writes the code, the Artifacts panel opens on the right side of the screen showing a <strong>live preview</strong> of the calculator web page. In the preview you can actually press the buttons and try doing calculations.</p>
 
-  <ul>
-    <li><strong>Use it</strong> &mdash; Click the buttons and test the calculator right there in the panel.</li>
-    <li><strong>Copy the code</strong> &mdash; Click the code icon to view and copy the full HTML/CSS/JS source.</li>
-    <li><strong>Iterate</strong> &mdash; Ask Claude to modify it: "Add a percentage button" or "Change the background color to light blue."</li>
-    <li><strong>Download</strong> &mdash; Copy the code and save it as an <code>.html</code> file on your computer to open in any browser.</li>
-  </ul>
-
-  <div class="tip-box">
-    Artifacts are an excellent way to <strong>learn to code interactively</strong>. Ask Claude to build something step by step &mdash; start with a simple version, then add features one at a time. You learn by seeing how each change affects the result. This "build-and-iterate" approach is much more effective than reading about code in a textbook. Try creating a to-do list app, a quiz, or a simple game!
-  </div>
-
-  <!-- INLINE SVG: Artifact workflow diagram -->
-  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg viewBox="0 0 660 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
-      <!-- Title -->
-      <text x="330" y="24" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)" style="font-family:var(--font-family);">Artifact Workflow</text>
-
-      <!-- Step 1: You type -->
-      <rect x="20" y="50" width="140" height="70" rx="8" fill="var(--bg3)" stroke="var(--border)" stroke-width="1.5"/>
-      <text x="90" y="78" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text)" style="font-family:var(--font-family);">You type</text>
-      <text x="90" y="96" text-anchor="middle" font-size="10" fill="var(--text-dim)" style="font-family:var(--font-family);">a prompt</text>
-
-      <!-- Arrow 1 -->
-      <line x1="160" y1="85" x2="200" y2="85" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowG)"/>
-      <defs><marker id="arrowG" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/></marker></defs>
-
-      <!-- Step 2: Claude generates -->
-      <rect x="200" y="50" width="160" height="70" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="280" y="78" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text)" style="font-family:var(--font-family);">Claude generates</text>
-      <text x="280" y="96" text-anchor="middle" font-size="10" fill="var(--text-dim)" style="font-family:var(--font-family);">HTML/CSS/JS</text>
-
-      <!-- Arrow 2 -->
-      <line x1="360" y1="85" x2="400" y2="85" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowG)"/>
-
-      <!-- Step 3: Artifact panel -->
-      <rect x="400" y="50" width="140" height="70" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="470" y="78" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text)" style="font-family:var(--font-family);">Artifact panel</text>
-      <text x="470" y="96" text-anchor="middle" font-size="10" fill="var(--text-dim)" style="font-family:var(--font-family);">Live preview</text>
-
-      <!-- Arrow 3 -->
-      <line x1="540" y1="85" x2="580" y2="85" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowG)"/>
-
-      <!-- Step 4: Iterate -->
-      <rect x="580" y="50" width="60" height="70" rx="8" fill="var(--bg3)" stroke="var(--border)" stroke-width="1.5"/>
-      <text x="610" y="82" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text)" style="font-family:var(--font-family);">Edit</text>
-      <text x="610" y="98" text-anchor="middle" font-size="10" fill="var(--text-dim)" style="font-family:var(--font-family);">&amp; iterate</text>
-
-      <!-- Feedback loop arrow (bottom) -->
-      <path d="M610,120 L610,140 L90,140 L90,120" fill="none" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <text x="350" y="155" text-anchor="middle" font-size="10" fill="var(--text-dim)" style="font-family:var(--font-family);">Ask for changes and iterate as many times as you like</text>
-    </svg>
-  </div>
-  <p class="fig-caption">Figure 2-3: The Artifact workflow loop. You describe what you want, Claude generates it as a live Artifact, you review it, and request changes until you are satisfied.</p>
-
-  <!-- ═══════════════════════════════════════════════════════════════
-       SECTION: Tips for Beginners
-       ═══════════════════════════════════════════════════════════════ -->
-  <h2 id="tips">Tips for Beginners</h2>
-
-  <p>
-    Getting good results from Claude is a skill that improves with practice. Here are practical tips to help you communicate more effectively from day one.
-  </p>
-
-  <h3>Write Clear Prompts</h3>
-
-  <p>The quality of Claude's response depends heavily on how you phrase your request. Here are some principles:</p>
+  <h3>What You Can Do with Artifacts</h3>
 
   <table>
     <thead>
       <tr>
-        <th>Principle</th>
-        <th>Instead of this...</th>
-        <th>Try this...</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Examples</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><strong>Be specific</strong></td>
-        <td>"Help me with email"</td>
-        <td>"Write a polite email to my manager requesting next Friday off for a personal matter"</td>
+        <td>Code</td>
+        <td>Programming code such as HTML, CSS, JavaScript, Python</td>
+        <td>Web pages, calculators, animations</td>
       </tr>
       <tr>
-        <td><strong>Provide context</strong></td>
-        <td>"Explain Python"</td>
-        <td>"I'm a complete beginner with no programming experience. Explain what Python is and what it's used for."</td>
+        <td>Document</td>
+        <td>Structured text documents (Markdown format)</td>
+        <td>Summaries, analysis reports, checklists</td>
       </tr>
       <tr>
-        <td><strong>Specify format</strong></td>
-        <td>"Summarize this article"</td>
-        <td>"Summarize this article in 3 bullet points, each under 20 words"</td>
+        <td>React component</td>
+        <td>Interactive UI elements (written in React)</td>
+        <td>Charts, quizzes, interactive forms</td>
       </tr>
       <tr>
-        <td><strong>Give examples</strong></td>
-        <td>"Write a recipe"</td>
-        <td>"Write a recipe for a simple pasta dish, like the one you'd find in an Italian cookbook for beginners"</td>
+        <td>SVG visualization</td>
+        <td>Vector graphics diagrams</td>
+        <td>Flowcharts, structure diagrams, charts</td>
       </tr>
     </tbody>
   </table>
 
-  <h3>Break Down Complex Requests</h3>
+  <div class="tip-box">
+    Code generated in Artifacts can be run immediately, which makes it extremely useful for learning to code. Ask Claude "What does this part of the code do?" and it will explain in detail what role each part plays. Ask it to modify the code and Claude updates it instantly, reflected right in the preview.
+  </div>
 
-  <p>
-    If you have a complex task, do not try to cram everything into one giant prompt. Instead, break it into smaller, sequential steps. Claude handles focused requests much better than overloaded ones.
-  </p>
+  <!-- ================================================================
+       SECTION 7: Tips for Beginners
+       ================================================================ -->
+  <h2 id="tips">Tips for Beginners</h2>
+
+  <p>Here are practical tips for using Claude Desktop App more effectively.</p>
+
+  <h3>Writing Good Prompts</h3>
+
+  <p>A <strong>prompt</strong> is the message you send to Claude &mdash; a question or request. Writing good prompts dramatically improves the quality of Claude's answers.</p>
 
   <div class="compare-grid">
     <div class="compare-col">
-      <h4>Overloaded Prompt</h4>
-      <p class="text-dim">"Write a 10-page business plan for a coffee shop, including market analysis, financial projections for 3 years, marketing strategy, competitor analysis, and a daily operations schedule."</p>
+      <h4>Weak Prompts</h4>
+      <ul>
+        <li>"Tell me about AI"</li>
+        <li>"Write me some code"</li>
+        <li>"How do I do this?"</li>
+      </ul>
     </div>
     <div class="compare-col">
-      <h4>Step-by-Step Approach</h4>
-      <p class="text-dim"><strong>Step 1:</strong> "I want to open a coffee shop. Help me brainstorm 5 unique selling points that would differentiate it from chain coffee shops."<br><br>
-      <strong>Step 2:</strong> "Based on those selling points, help me create a market analysis outline."<br><br>
-      <strong>Step 3:</strong> "Now help me build a simple 3-year revenue projection."</p>
+      <h4>Good Prompts</h4>
+      <ul>
+        <li>"Explain what an AI agent team is in 3 sentences a beginner can understand"</li>
+        <li>"Write a simple to-do list program in Python. It needs add, delete, and view-list features"</li>
+        <li>"Walk me through how to create a project in Claude Desktop App, step by step"</li>
+      </ul>
     </div>
   </div>
 
-  <div class="tip-box">
-    Think of Claude as a knowledgeable colleague, not a search engine. Have a <strong>conversation</strong> rather than firing off a single query. Start broad, then ask follow-up questions to drill into specifics.
-  </div>
-
-  <h3>Set Your Language Preference</h3>
-
-  <p>
-    Claude works in many languages. If you prefer responses in a specific language, simply tell Claude at the start of a conversation:
-  </p>
-
-  <div class="prompt-box">
-    <strong>Language Setting Prompt</strong>
-    <div class="prompt-text">"From now on, please respond to all my messages in Korean. If I ask about English content, explain it in Korean."</div>
-  </div>
-
-  <p>
-    Alternatively, set a <strong>Project-level instruction</strong> (see the <a href="#projects">Projects</a> section above) so that every conversation in that project automatically uses your preferred language.
-  </p>
-
-  <h3>Use Claude for Learning, Not Just Answers</h3>
+  <p>The key to a good prompt is making your request <strong>specific and clear</strong>:</p>
 
   <ul>
-    <li><strong>Ask for explanations, not just solutions.</strong> Instead of "What is the answer to X?", try "How would you approach solving X? Walk me through your reasoning."</li>
-    <li><strong>Ask Claude to quiz you.</strong> "I just learned about neural networks. Can you quiz me with 5 questions to test my understanding?"</li>
-    <li><strong>Request analogies.</strong> "Explain API integrations using a restaurant kitchen analogy."</li>
-    <li><strong>Build practice exercises.</strong> "Create 3 beginner Python exercises about loops, starting from easy to challenging."</li>
+    <li><strong>Give background</strong> &mdash; Tell Claude your level, e.g., "I'm a beginner" or "I have no programming experience"</li>
+    <li><strong>Clear goals</strong> &mdash; State specifically what result you want</li>
+    <li><strong>Specify the format</strong> &mdash; Tell Claude what shape you want the answer in, e.g., "in 3 sentences", "step by step", "as a table"</li>
+    <li><strong>Provide examples</strong> &mdash; Showing an example of the result you want helps Claude understand more precisely</li>
   </ul>
 
-  <h3>Common Beginner Mistakes to Avoid</h3>
+  <h3>Breaking Conversations into Steps</h3>
 
-  <div class="warning-box">
-    <strong>Avoid these common pitfalls:</strong>
-    <ul>
-      <li><strong>Assuming Claude is always right.</strong> Claude can make mistakes or "hallucinate" information. Always verify important facts, especially for medical, legal, or financial topics.</li>
-      <li><strong>Sharing sensitive information.</strong> Do not paste passwords, API keys, Social Security numbers, or other sensitive data into Claude. Anthropic may use conversation data to improve models (depending on your privacy settings).</li>
-      <li><strong>Expecting real-time data.</strong> Claude's knowledge has a cutoff date and it does not browse the web in real time (unless a specific tool or integration is enabled). For current events or live data, verify with web searches.</li>
-      <li><strong>Giving up after one try.</strong> If Claude's first response is not what you wanted, refine your prompt and try again. Iteration is part of the process.</li>
-    </ul>
+  <p>For complex requests, rather than asking everything at once, split your questions into <strong>steps</strong>. Conversations with Claude remember prior context, so even small units keep the overall context intact.</p>
+
+  <div class="flow-box">
+    <strong>Example: Learning about AI agent teams</strong><br>
+    Round 1: "Briefly explain what an AI agent team is"<br>
+    Round 2: "Then what kinds of roles does each agent take on?"<br>
+    Round 3: "Can a beginner put together an agent team too? How do I start?"<br>
+    Round 4: "Show me an example of assembling an agent team with Claude Desktop App"
   </div>
 
-  <h3>Next Steps</h3>
+  <h3>Language Settings</h3>
 
-  <p>
-    Congratulations on learning the basics of Claude Desktop App! Here is what to do next:
-  </p>
+  <p>Claude supports many languages, including Korean. If you set things up like the following early in a conversation, Claude will always answer in Korean:</p>
 
-  <ol>
-    <li><strong>Practice:</strong> Spend 15&ndash;30 minutes chatting with Claude about any topic. Try the calculator Artifact example above.</li>
-    <li><strong>Create a Project:</strong> Make a project for this handbook with custom instructions.</li>
-    <li><strong>Explore:</strong> Try attaching a file (a text document, a code snippet) and asking Claude to summarize or explain it.</li>
-    <li><strong>Move to Chapter 3:</strong> Set up your development lab for multi-agent work.</li>
-  </ol>
+  <div class="prompt-box">
+    <div>When starting a conversation, set it up like below:</div>
+    <div class="prompt-text">From now on, please answer all conversations in Korean.</div>
+  </div>
+
+  <p>Alternatively, if you write "Please answer in Korean" in the project's Custom Instructions (explained earlier in the "Projects Feature" section), you won't need to say it every time.</p>
+
+  <h3>Moving On to the Claude Code CLI</h3>
+
+  <p>Once you're comfortable with Claude Desktop App and find yourself needing more powerful features in a terminal environment, try the <strong>Claude Code CLI</strong>. With Claude Code CLI, Claude can create, modify, and execute files directly, making it far more efficient for programming work.</p>
 
   <div class="note">
-    <strong>Looking ahead:</strong> In later chapters, we will use Claude Desktop App as the gateway to multi-agent systems. Claude Desktop App will connect to agent orchestrators, code editors, and other tools that let you experience real AI agent teamwork. For the command-line enthusiasts, <a href="../appendix/B_Claude_Code_CLI_en.html">Appendix B</a> covers Claude Code CLI in detail, and <a href="../appendix/C_Low_Cost_Backends_en.html">Appendix C</a> explores low-cost local model backends.
+    For installing and using the Claude Code CLI, refer to <strong>Appendix B</strong> of this handbook. After you've thoroughly learned the fundamentals with Claude Desktop App, we recommend reading Appendix B.
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════════════
+  <h3>Local Models as a Low-Cost Backend</h3>
+
+  <p>Beyond a Claude Pro subscription, you can make use of AI without internet charges by using <strong>AI models running on your own computer</strong>. With tools like Ollama and LM Studio you can install AI models directly on your computer and converse with them just like Claude.</p>
+
+  <div class="note">
+    For installing and using local model backends, refer to <strong>Appendix C</strong> of this handbook. Using local models alongside Claude Desktop App lets you cut costs while still building a powerful AI environment.
+  </div>
+
+  <h3>Other Useful Tips</h3>
+
+  <ul>
+    <li><strong>Exporting conversations</strong> &mdash; You can save important conversations as text files using the Export feature in the Claude Desktop App menu. Use them as study notes.</li>
+    <li>Shortcuts &mdash; <code>Ctrl+N</code> (Windows) or <code>Cmd+N</code> (MacOS) starts a new conversation. <code>Ctrl+Shift+N</code> creates a new project.</li>
+    <li><strong>Regenerating answers</strong> &mdash; If you don't like Claude's answer, press the <strong>"Regenerate"</strong> button below it to get a different answer.</li>
+    <li><strong>Branching conversations</strong> &mdash; If you use <strong>"Edit message"</strong> on a particular answer to revise your question, Claude creates a new branch of answers tailored to the revised question. This lets you explore multiple directions within a single conversation.</li>
+  </ul>
+
+  <div class="tip-box">
+    Try asking Claude, "If my question or request just now was ambiguous, tell me how I could improve it." Claude will advise what additional information it needed and how the question could be refined. This alone will sharpen your prompt-writing skills considerably.
+  </div>
+
+  <!-- ================================================================
        CHAPTER NAVIGATION
-       ═══════════════════════════════════════════════════════════════ -->
+       ================================================================ -->
   <div class="chapter-nav">
     <a href="../ch01/01_Why_AI_Agents_en.html" class="prev">
       <div class="dir">&larr; Previous Chapter</div>

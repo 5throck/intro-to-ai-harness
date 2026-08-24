@@ -34,7 +34,7 @@
     <div class="kp-title">What This Chapter Covers</div>
     <ul>
       <li>co-consult system introduction and architecture</li>
-      <li>How the PM dispatches specialists (no fixed pipeline)</li>
+      <li>How the PM dispatches specialists (7-phase Phase 0&ndash;6 workflow)</li>
       <li>How to make requests to the PM agent</li>
       <li>4 team composition patterns</li>
       <li>Practice: simple market analysis project</li>
@@ -88,7 +88,7 @@
       <ul>
         <li>Strategic consulting analysis and reports</li>
         <li>strategy-analyst, industry-expert, sme, communications-lead, etc.</li>
-        <li>PM-dispatched, no fixed pipeline</li>
+        <li>PM-dispatched 7-phase (Phase 0&ndash;6) workflow</li>
         <li>Output: Analysis report HTML + PDF</li>
       </ul>
     </div>
@@ -176,7 +176,7 @@
 
   <h3>Specialist Agent Roles</h3>
 
-  <p>Here is a summary of each specialist agent's role. Unlike a fixed pipeline, any of these can be dispatched at any point in the engagement, as needed.</p>
+  <p>Here is a summary of each specialist agent's role. Each agent is brought in through a PM dispatch within the phase it is assigned to, and the ordering inside that phase flexes to fit the engagement.</p>
 
   <table>
     <thead>
@@ -249,7 +249,7 @@
   <!-- ============================================================ -->
   <h2 id="phases">How the PM Dispatches Specialists</h2>
 
-  <p>Unlike co-deck's fixed 11-stage pipeline, co-consult has <strong>no fixed phase sequence</strong>. The PM (Engagement Leader) analyzes your request, decides which specialists are needed, and dispatches them directly &mdash; activating more as the engagement's questions and deliverables require, rather than marching through numbered phases and gates.</p>
+  <p>Like co-deck's 11-stage pipeline, co-consult follows a <strong>fixed 7-phase workflow (Phase 0&ndash;6)</strong>: Initiation (Phase 0) &rarr; Research &amp; Analysis (Phase 1) &rarr; Cross-Validation (Phase 1.5) &rarr; Design Review &amp; Approval (Phase 2) &rarr; Content Creation (Phase 3) &rarr; Coordination &amp; Delivery (Phase 4) &rarr; Lifecycle Finalization (Phase 5) &rarr; Quality Assurance (Phase 6). Every specialist works within this flow, dispatched by the PM (Engagement Leader) at each phase (as of 2026-08-24). The flexibility lies in the <em>ordering of specialists</em>: within each phase, the PM decides which specialists to activate and in what order, as the engagement's questions and deliverables require. In addition, Phase 2 includes a gate that requires explicit user/client approval, and iteration loops allow the engagement to return to earlier phases when the analysis calls for it.</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
     <svg width="100%" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-consult PM dispatch diagram">
@@ -313,11 +313,11 @@
     <ol>
       <li>
         <strong>Kickoff</strong><br>
-        The PM talks with you to understand the topic, scope, target audience, and timeline. There is no separate "Phase 0" file format &mdash; the PM simply captures this context and decides which specialists the engagement calls for.
+        The PM talks with you to understand the topic, scope, target audience, and timeline. This is exactly the first step of the workflow &mdash; Initiation (Phase 0): the PM captures this context and decides which specialists the engagement calls for.
       </li>
       <li>
         <strong>Dispatch specialists as questions arise</strong><br>
-        The PM activates whichever specialists are relevant &mdash; for example <code>strategy-analyst</code> for market and competitive research, <code>industry-expert</code> for sector-specific context, or <code>sme</code> for a functional deep dive. There is no required order; the PM may dispatch several in parallel or bring in more mid-engagement if a gap appears.
+        The PM activates whichever specialists are relevant &mdash; for example <code>strategy-analyst</code> for market and competitive research, <code>industry-expert</code> for sector-specific context, or <code>sme</code> for a functional deep dive. Within the Research phase (Phase 1) there is no required <em>ordering</em>; the PM may dispatch several in parallel or bring in more mid-phase if a gap appears.
       </li>
       <li>
         <strong>Synthesis and reporting</strong><br>
@@ -331,7 +331,7 @@
   </div>
 
   <div class="note">
-    You <strong>define requirements at kickoff</strong> and review deliverables whenever the PM checks in with you. Because there is no fixed pipeline, checkpoints happen naturally at whatever points the PM judges useful &mdash; e.g., after a first round of research, or before finalizing a report &mdash; rather than at hardcoded numbered gates. You can redirect the engagement at any of these checkpoints.
+    You <strong>define requirements at kickoff</strong> and review deliverables whenever the PM checks in with you. Checkpoints happen at the workflow's phase boundaries &mdash; e.g., after a first round of research (Phase 1.5 Cross-Validation), and the design approval gate (Phase 2) requires explicit user/client approval. If the analysis does not support approval, iteration loops take the engagement back to earlier phases. You can redirect the engagement at any of these checkpoints.
   </div>
 
   <!-- ============================================================ -->
@@ -593,7 +593,7 @@
       </li>
       <li>
         <strong>Observe the specialist dispatch</strong><br>
-        The PM dispatches specialists directly &mdash; there is no fixed phase sequence. You will typically see something like the following.
+        The PM dispatches specialists at each phase &mdash; the ordering of specialists within a phase flexes with the engagement. You will typically see something like the following.
         <ul>
           <li>The <code>strategy-analyst</code> agent researches "South Korean coffee shop market trends" and produces a findings document with market size, growth, and competitive notes</li>
           <li>If the request calls for it, the PM also brings in <code>industry-expert</code> for sector-specific context</li>
@@ -603,7 +603,7 @@
       </li>
       <li>
         <strong>Review progress and give feedback</strong><br>
-        Since there is no fixed pipeline, the PM checks in with you whenever it judges there's something worth reviewing &mdash; typically after the first round of analysis, and again before finalizing the report.
+        The PM checks in with you at the workflow's checkpoints &mdash; typically after the first round of analysis (passing through cross-validation and the design approval gate), and again before finalizing the report.
         <ul>
           <li><strong>After analysis:</strong> Verify that the analysis direction and insights are appropriate. If adjustments are needed, this is the point to change course.</li>
           <li><strong>Before finalizing:</strong> Review the quality of the final report and approve turning it into a finished deliverable.</li>

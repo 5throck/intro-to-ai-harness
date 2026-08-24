@@ -34,7 +34,7 @@
     <div class="kp-title">Lo que cubre este capítulo</div>
     <ul>
       <li>co-consult system introduction and architecture</li>
-      <li>How the PM dispatches specialists (no fixed pipeline)</li>
+      <li>How the PM dispatches specialists (7-phase Phase 0&ndash;6 workflow)</li>
       <li>Cómo hacer solicitudes al agent PM</li>
       <li>4 team composition patterns</li>
       <li>Practice: simple market analysis project</li>
@@ -45,9 +45,9 @@
   <!-- ============================================================ -->
   <!-- SECTION 1: What is co-consult                                  -->
   <!-- ============================================================ -->
-  <h2 id="what-is-coconsult">What is co-consult</h2>
+  <h2 id="what-is-coconsult">¿Qué es co-consult?</h2>
 
-  <h3>Definition</h3>
+  <h3>Definición</h3>
 
   <p><strong>co-consult</strong> es un sistema en el que <strong>AI agent teams carry out strategic consulting projects</strong>. Como una de las variantes de ai-workspace-standards que exploramos en el Capítulo 5, múltiples agents de IA colaboran para automatizar tareas de consultoría como análisis de mercado, análisis competitivo, desarrollo de estrategias de entrada y revisión de modelos de negocio.</p>
 
@@ -69,7 +69,7 @@
      <strong>Beginner analogy:</strong> co-consult es como una "consultora" virtual. El PM (Project Manager) celebra una reunión con el socio (tú) para entender tus requisitos, y los agents especializados realizan cada uno el análisis que se le asignó. La estructura es similar a cómo un consultor senior dirige a consultores junior en una consultora real. 
    </div>
 
-  <h3>Difference from co-deck</h3>
+  <h3>Diferencia con co-deck</h3>
 
   <p>Mientras que co-deck está especializado en <strong>presentation (slide) production</strong>, co-consult está especializado en <strong>strategic analysis and report writing</strong>. Ambos sistemas están construidos sobre ai-workspace-standards, pero difieren en propósito y composición de agents.</p>
 
@@ -88,7 +88,7 @@
       <ul>
         <li>Strategic consulting analysis and reports</li>
         <li>strategy-analyst, industry-expert, sme, communications-lead, etc.</li>
-        <li>PM-dispatched, no fixed pipeline</li>
+        <li>PM-dispatched 7-Phase workflow (Phases 0-6)</li>
         <li>Resultado: Analysis report HTML + PDF</li>
       </ul>
     </div>
@@ -97,9 +97,9 @@
   <!-- ============================================================ -->
   <!-- SECTION 2: System Architecture                                 -->
   <!-- ============================================================ -->
-  <h2 id="architecture">System Architecture</h2>
+  <h2 id="architecture">Arquitectura del sistema</h2>
 
-  <h3>Agent Composition</h3>
+  <h3>Composición de agents</h3>
 
   <p>co-consult consiste en <strong>un agent PM (el Engagement Leader) y 10 agents especializados</strong>. El PM se sitúa en el centro, orquestando todo el engagement, mientras los agents especializados realizan el trabajo en sus respectivos dominios.</p>
 
@@ -174,9 +174,9 @@
     </svg>
   </div>
 
-  <h3>Specialist Agent Roles</h3>
+  <h3>Roles de los agents especialistas</h3>
 
-  <p>Aquí tienes un resumen del rol de cada agent especializado. A diferencia de un pipeline fijo, cualquiera de ellos puede ser despachado en cualquier momento del engagement, según sea necesario.</p>
+  <p>Aquí tienes un resumen del rol de cada agent especializado. Cada agent se incorpora mediante un despacho del PM dentro de la fase que tiene asignada, y el orden dentro de esa fase se ajusta con flexibilidad al engagement.</p>
 
   <table>
     <thead>
@@ -247,9 +247,9 @@
   <!-- ============================================================ -->
   <!-- SECTION 3: How the PM Dispatches Specialists                     -->
   <!-- ============================================================ -->
-  <h2 id="phases">How the PM Dispatches Specialists</h2>
+  <h2 id="phases">Cómo despacha el PM a los especialistas</h2>
 
-  <p>A diferencia del pipeline fijo de 11 etapas de co-deck, co-consult tiene <strong>no fixed phase sequence</strong>. El PM (Engagement Leader) analiza tu solicitud, decide qué especialistas se necesitan y los despacha directamente &mdash; activando más a medida que las preguntas y entregables del engagement lo requieran, en lugar de avanzar por fases numeradas y gates.</p>
+  <p>Al igual que el pipeline de 11 etapas de co-deck, co-consult sigue un <strong>flujo de trabajo fijo de 7 fases (Phases 0-6)</strong>: Inicio (Phase 0) &rarr; Investigación y análisis (Phase 1) &rarr; Validación cruzada (Phase 1.5) &rarr; Revisión y aprobación del diseño (Phase 2) &rarr; Creación de contenido (Phase 3) &rarr; Coordinación y entrega (Phase 4) &rarr; Finalización del ciclo de vida (Phase 5) &rarr; Aseguramiento de calidad (Phase 6). Todos los especialistas trabajan dentro de este flujo, despachados por el PM (Engagement Leader) en cada fase (a fecha de 2026-08-24). La flexibilidad está en el <em>orden de los especialistas</em>: dentro de cada fase, el PM decide qué especialistas activar y en qué orden, según lo que requieran las preguntas y los entregables del engagement. Además, la Phase 2 incluye una puerta de aprobación (Gate) que exige la aprobación explícita del usuario/cliente, y los bucles de iteración permiten volver a fases anteriores cuando el análisis lo requiere.</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
     <svg width="100%" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="co-consult PM dispatch diagram">
@@ -307,17 +307,17 @@
     </svg>
   </div>
 
-  <h3>How an Engagement Actually Proceeds</h3>
+  <h3>Cómo procede realmente un engagement</h3>
 
   <div class="step-list">
     <ol>
       <li> 
          <strong>Kickoff</strong><br> 
-         El PM habla contigo para comprender el tema, el alcance, la audiencia objetivo y el cronograma. No hay un formato de archivo separado para la "Phase 0" &mdash; el PM simplemente captura este contexto y decide qué especialistas requiere el engagement. 
+         El PM habla contigo para comprender el tema, el alcance, la audiencia objetivo y el cronograma. Esto es exactamente el primer paso del flujo de trabajo &mdash; el Inicio (Phase 0): el PM captura este contexto y decide qué especialistas requiere el engagement. 
        </li>
       <li> 
          <strong>Dispatch specialists as questions arise</strong><br> 
-         El PM activa a los especialistas que sean relevantes &mdash; por ejemplo <code>strategy-analyst</code> para investigación de mercado y competencia, <code>industry-expert</code> para contexto específico del sector, o <code>sme</code> para un análisis funcional profundo. No hay un orden requerido; el PM puede despachar varios en paralelo o incorporar más a mitad del engagement si aparece una laguna. 
+         El PM activa a los especialistas que sean relevantes &mdash; por ejemplo <code>strategy-analyst</code> para investigación de mercado y competencia, <code>industry-expert</code> para contexto específico del sector, o <code>sme</code> para un análisis funcional profundo. Dentro de la fase de investigación (Phase 1) no hay un <em>orden</em> requerido; el PM puede despachar varios en paralelo o incorporar más a mitad de fase si aparece una laguna. 
        </li>
       <li> 
          <strong>Synthesis and reporting</strong><br> 
@@ -331,7 +331,7 @@
   </div>
 
   <div class="note"> 
-     Tú <strong>define requirements at kickoff</strong> y revisas los entregables cada vez que el PM se pone en contacto contigo. Como no hay un pipeline fijo, los puntos de control ocurren naturalmente en los momentos que el PM juzgue útiles &mdash; p. ej., después de una primera ronda de investigación o antes de finalizar un informe &mdash; en lugar de en gates numerados predefinidos. Puedas redireccionar el engagement en cualquiera de estos puntos de control. 
+     Tú <strong>defines los requisitos en el kickoff</strong> y revisas los entregables cada vez que el PM se pone en contacto contigo. Los puntos de control ocurren en los límites de fase del flujo de trabajo &mdash; p. ej., después de una primera ronda de investigación (Phase 1.5 Validación cruzada), y la puerta de aprobación del diseño (Phase 2) exige la aprobación explícita del usuario/cliente. Si el análisis no respalda la aprobación, los bucles de iteración llevan el engagement de vuelta a fases anteriores. Puedes redireccionar el engagement en cualquiera de estos puntos de control. 
    </div>
 
   <!-- ============================================================ -->
@@ -341,7 +341,7 @@
 
   <p>Para usar co-consult, necesitas abrir el proyecto co-consult en Claude Desktop App y enviar una solicitud al agent PM. Una solicitud efectiva mejora significativamente la calidad del resultado del proyecto.</p>
 
-  <h3>The 4 Key Elements of a Good Request</h3>
+  <h3>Los 4 elementos clave de una buena solicitud</h3>
 
   <p>A good request includes the following four elements.</p>
 
@@ -354,7 +354,7 @@
     </ol>
   </div>
 
-  <h3>Request Examples</h3>
+  <h3>Ejemplos de solicitudes</h3>
 
   <div class="prompt-box">
     <strong>Example 1: Market Analysis</strong><br>
@@ -374,7 +374,7 @@
     <button type="button" class="copy-btn">Copiar</button>
   </div>
 
-  <h3>Good Requests vs. Poor Requests</h3>
+  <h3>Buenas solicitudes frente a solicitudes deficientes</h3>
 
   <div class="compare-grid">
     <div class="col">
@@ -406,11 +406,11 @@
   <!-- ============================================================ -->
   <!-- SECTION 5: Team Composition Patterns                            -->
   <!-- ============================================================ -->
-  <h2 id="team-patterns">Team Composition Patterns</h2>
+  <h2 id="team-patterns">Patrones de composición del equipo</h2>
 
   <p>co-consult ofrece <strong>4 team composition patterns</strong> dependiendo de la escala y complejidad del proyecto. El PM analiza los requisitos del proyecto y selecciona el patrón más apropiado.</p>
 
-  <h3>The 4 Team Composition Patterns</h3>
+  <h3>Los 4 patrones de composición del equipo</h3>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
     <svg width="100%" viewBox="0 0 680 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Team composition patterns diagram">
@@ -532,11 +532,11 @@
   <!-- ============================================================ -->
   <!-- SECTION 6: Practice: Simple Market Analysis                     -->
   <!-- ============================================================ -->
-  <h2 id="practice">Practice: Simple Market Analysis</h2>
+  <h2 id="practice">Práctica: Análisis simple de mercado</h2>
 
   <p>En este ejercicio práctico, usarás co-consult para llevar a cabo un proyecto simple de análisis de mercado. Usaremos el patrón Quick Assessment y analizaremos las tendencias clave del mercado de cafeterías de Corea del Sur.</p>
 
-  <h3>Exercise Objectives</h3>
+  <h3>Objetivos del ejercicio</h3>
 
   <ul>
     <li>Clona el repositorio de co-consult y configura el proyecto</li>
@@ -546,7 +546,7 @@
     <li>Review the final deliverables</li>
   </ul>
 
-  <h3>Prerequisites</h3>
+  <h3>Requisitos previos</h3>
 
   <p>Asegúrate de que las herramientas instaladas en el Capítulo 3 funcionen correctamente.</p>
 
@@ -558,7 +558,7 @@
     </ol>
   </div>
 
-  <h3>Exercise Steps</h3>
+  <h3>Pasos del ejercicio</h3>
 
   <div class="step-list">
     <ol>
@@ -593,7 +593,7 @@
       </li>
       <li>
         <strong>Observa el despacho de especialistas</strong><br>
-        The PM dispatches specialists directly &mdash; there is no fixed phase sequence. You will typically see something like the following.
+        El PM despacha especialistas en cada fase &mdash; el orden de los especialistas dentro de una fase se adapta con flexibilidad al engagement. Normalmente verás algo como lo siguiente.
         <ul>
           <li>The <code>strategy-analyst</code> agent researches "South Korean coffee shop market trends" and produces a findings document with market size, growth, and competitive notes</li>
           <li>Si la solicitud lo requiere, el PM también incorpora a <code>industry-expert</code> para el contexto específico del sector</li>
@@ -603,7 +603,7 @@
       </li>
       <li>
         <strong>Review progress and give feedback</strong><br>
-        Since there is no fixed pipeline, the PM checks in with you whenever it judges there's something worth reviewing &mdash; typically after the first round of analysis, and again before finalizing the report.
+        El PM se pone en contacto contigo en los puntos de control del flujo de trabajo &mdash; normalmente después de la primera ronda de análisis (pasando por la validación cruzada y la puerta de aprobación del diseño), y otra vez antes de finalizar el informe.
         <ul>
           <li><strong>Después del análisis:</strong> Verifica que la dirección del análisis y las ideas sean apropiadas. Si se necesitan ajustes, este es el momento de cambiar de rumbo.</li>
           <li><strong>Before finalizing:</strong> Revisa la calidad del informe final y aprueba convertirlo en un entregable terminado.</li>
@@ -637,11 +637,11 @@
   <!-- ============================================================ -->
   <!-- SECTION 7: Reviewing Resultados                                   -->
   <!-- ============================================================ -->
-  <h2 id="outputs">Reviewing Resultados</h2>
+  <h2 id="outputs">Revisión de los resultados</h2>
 
   <p>Cuando se completa un proyecto de co-consult, se generan varios entregables. Esta sección explica dónde se encuentra cada entregable y cómo revisarlo.</p>
 
-  <h3>Resultado Location</h3>
+  <h3>Ubicación de los resultados</h3>
 
   <p>Todos los entregables se almacenan en el directorio <code>deliverables/reports/</code>. Desde la raíz del proyecto, accede a él mediante la siguiente ruta.</p>
 
@@ -650,7 +650,7 @@
     <button type="button" class="copy-btn">Copiar</button>
   </div>
 
-  <h3>Key Deliverables</h3>
+  <h3>Entregables clave</h3>
 
   <table>
     <thead>
@@ -689,7 +689,7 @@
     </tbody>
   </table>
 
-  <h3>How to Review Deliverables</h3>
+  <h3>Cómo revisar los entregables</h3>
 
   <div class="step-list">
     <ol>
@@ -734,7 +734,7 @@
     </ol>
   </div>
 
-  <h3>File Structure Summary</h3>
+  <h3>Resumen de la estructura de archivos</h3>
 
   <div class="flow-box">
     <div class="code-block">

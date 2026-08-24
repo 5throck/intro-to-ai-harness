@@ -117,13 +117,13 @@
   }
 
   /**
-   * Resolves the URL to use for Korean. Most page families have a
-   * suffix-less file for Korean, but some (docs/setup/SETUP_*,
-   * SETUP_CHECKLIST_*) ship only `_en`/`_ja`/`_ko` variants with no
-   * suffix-less file. Deriving the scheme from the CURRENT page's own
-   * suffix breaks when switching directly from `_en`/`_ja` to Korean (e.g.
-   * from SETUP_CHECKLIST_en.html the plain SETUP_CHECKLIST.html 404s), so
-   * instead probe the plain file first and fall back to the `_ko` file.
+   * Resolves the URL to use for Korean. Every page group ships a
+   * suffix-less file as the Korean canonical variant (including
+   * docs/setup/SETUP_* and SETUP_CHECKLIST_*), so the plain target URL
+   * is normally correct. As a defensive fallback — e.g. if a future
+   * page family ever shipped suffixed variants without a suffix-less
+   * file — probe the plain file first and fall back to the `_ko` file
+   * rather than deriving the scheme from the CURRENT page's own suffix.
    * @param {function(string)} callback — invoked with the resolved URL
    */
   // Most browsers refuse fetch() against file:// URLs (opaque-origin CORS

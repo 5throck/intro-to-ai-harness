@@ -28,12 +28,12 @@
  <article class="reading">
   <div class="chapter-eyebrow">Appendix B</div>
   <h1>Claude Code CLI Guide</h1>
-  <p class="lead">This appendix covers the Claude Code CLI &mdash; installation, basic usage, key commands, and project mode. While this handbook primarily uses Claude Desktop App, the CLI offers more powerful automation capabilities.</p>
+  <p class="lead">This appendix explains how to install the Claude Code CLI (command-line interface), how to use it day to day, and its key commands. The main tool of this handbook is the Claude Desktop App, but the CLI unlocks more powerful automation.</p>
   <div class="keypoints">
     <div class="kp-title">What This Appendix Covers</div>
     <ul>
       <li>CLI vs Desktop App comparison</li>
-      <li>Claude Code CLI installation</li>
+      <li>Installing the Claude Code CLI</li>
       <li>Basic usage (terminal conversation)</li>
       <li>Key commands</li>
       <li>Project mode</li>
@@ -44,526 +44,675 @@
   <!-- ============================================================
        SECTION 1: CLI vs Desktop App
        ============================================================ -->
-  <h2 id="cli-vs-desktop">CLI vs Desktop App</h2>
+  <h2 id="cli-vs-desktop">1. CLI vs Desktop App</h2>
 
-  <p>Anthropic provides two ways to interact with Claude for development work: the <strong>Claude Desktop App</strong> (a graphical application you have been using throughout this handbook) and the <strong>Claude Code CLI</strong> (a command-line tool that runs in your terminal). Both connect to the same Claude model, but they serve different purposes.</p>
+  <p>There are two ways to use Claude. One is the <strong>Claude Desktop App</strong> (a desktop application), and the other is the <strong>Claude Code CLI</strong> (command-line interface). The two differ in purpose and in how you use them, and each has its own strengths and weaknesses.</p>
 
-  <p>The Desktop App is ideal for conversations, brainstorming, and interactive tasks. The CLI, on the other hand, is designed for <strong>direct integration with your codebase</strong> &mdash; it can read your files, run commands, edit code, and execute scripts &mdash; all from the terminal. For multi-agent harness workflows, the CLI is the engine that powers agent execution.</p>
-
-  <div class="compare-grid">
-    <div class="compare-col">
-      <h4>Claude Desktop App</h4>
-      <ul>
-        <li>Graphical interface (GUI)</li>
-        <li>Conversational chat experience</li>
-        <li>Artifacts for previewing code and documents</li>
-        <li>Best for learning, brainstorming, and exploration</li>
-        <li>No direct file system access</li>
-        <li>Easier for beginners</li>
-      </ul>
-    </div>
-    <div class="compare-col">
-      <h4>Claude Code CLI</h4>
-      <ul>
-        <li>Terminal-based interface</li>
-        <li>Direct file read/write and code editing</li>
-        <li>Runs shell commands and scripts</li>
-        <li>Best for automation, CI/CD, and agent workflows</li>
-        <li>Full access to your local project files</li>
-        <li>More powerful for advanced users</li>
-      </ul>
-    </div>
+  <div class="table-compare">
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Claude Desktop App</th>
+          <th>Claude Code CLI</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Interface</td>
+          <td>GUI (graphical)</td>
+          <td>Terminal (command line)</td>
+        </tr>
+        <tr>
+          <td>Difficulty</td>
+          <td>Easy</td>
+          <td>Intermediate</td>
+        </tr>
+        <tr>
+          <td>Automation</td>
+          <td>Limited</td>
+          <td>Powerful (script integration)</td>
+        </tr>
+        <tr>
+          <td>File access</td>
+          <td>Project folder</td>
+          <td>Entire system</td>
+        </tr>
+        <tr>
+          <td>Agent support</td>
+          <td>Claude only</td>
+          <td>Claude + third-party backends</td>
+        </tr>
+        <tr>
+          <td>Recommended for</td>
+          <td>Beginners</td>
+          <td>Intermediate and above</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="tip-box">
-    <strong>Which one should you use?</strong> Start with the Desktop App if you are new to Claude &mdash; it is the most approachable. Once you are comfortable and want to run multi-agent harness workflows (co-consult, co-deck), the CLI becomes essential. Many users end up using both: the Desktop App for exploration and the CLI for execution.
+  <div class="flow-box">
+    The Desktop App is like <strong>'automatic mode'</strong> in a car, and the CLI is <strong>'manual mode'</strong>. The CLI gives you more control but requires learning. It is like learning to drive an automatic and switching to manual once you are comfortable.
   </div>
 
   <div class="note">
-    The Claude Code CLI requires a <strong>Claude Pro or Claude Max subscription</strong>, the same as the Desktop App. Your subscription covers both interfaces. If you can use the Desktop App, you can use the CLI.
+    Every exercise in this handbook can be done with the Claude Desktop App. The CLI is optional. If you need the CLI, this appendix will walk you through installing and using it.
+  </div>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <!-- Background -->
+      <rect width="660" height="300" rx="10" fill="var(--bg2)"/>
+
+      <!-- Title -->
+      <text x="330" y="30" text-anchor="middle" font-size="15" font-weight="700" style="color:var(--text);">Desktop App vs CLI Comparison</text>
+
+      <!-- Desktop App column -->
+      <rect x="30" y="55" width="280" height="220" rx="8" fill="var(--bg3)" stroke="var(--border)"/>
+      <rect x="30" y="55" width="280" height="40" rx="8" fill="var(--accent-green)"/>
+      <rect x="30" y="85" width="280" height="10" fill="var(--accent-green)"/>
+      <text x="170" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-inverse)">Claude Desktop App</text>
+
+      <circle cx="65" cy="120" r="12" fill="var(--accent-green)"/>
+      <text x="65" y="125" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">&#10003;</text>
+      <text x="88" y="125" font-size="12" style="color:var(--text);">Easy to use with mouse clicks</text>
+
+      <circle cx="65" cy="155" r="12" fill="var(--accent-green)"/>
+      <text x="65" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">&#10003;</text>
+      <text x="88" y="160" font-size="12" style="color:var(--text);">No separate installation</text>
+
+      <circle cx="65" cy="190" r="12" fill="var(--accent-amber)"/>
+      <text x="65" y="195" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">!</text>
+      <text x="88" y="195" font-size="12" style="color:var(--text);">Limited automation features</text>
+
+      <circle cx="65" cy="225" r="12" fill="var(--accent-amber)"/>
+      <text x="65" y="230" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">!</text>
+      <text x="88" y="230" font-size="12" style="color:var(--text);">Claude models only</text>
+
+      <!-- VS divider -->
+      <text x="330" y="175" text-anchor="middle" font-size="20" font-weight="700" style="color:var(--accent);">VS</text>
+
+      <!-- CLI column -->
+      <rect x="350" y="55" width="280" height="220" rx="8" fill="var(--bg3)" stroke="var(--border)"/>
+      <rect x="350" y="55" width="280" height="40" rx="8" fill="var(--accent-purple)"/>
+      <rect x="350" y="85" width="280" height="10" fill="var(--accent-purple)"/>
+      <text x="490" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-inverse)">Claude Code CLI</text>
+
+      <circle cx="385" cy="120" r="12" fill="var(--accent-purple)"/>
+      <text x="385" y="125" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">&#9733;</text>
+      <text x="408" y="125" font-size="12" style="color:var(--text);">Scriptable automation</text>
+
+      <circle cx="385" cy="155" r="12" fill="var(--accent-purple)"/>
+      <text x="385" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">&#9733;</text>
+      <text x="408" y="160" font-size="12" style="color:var(--text);">Third-party backend support</text>
+
+      <circle cx="385" cy="190" r="12" fill="var(--accent-purple)"/>
+      <text x="385" y="195" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">&#9733;</text>
+      <text x="408" y="195" font-size="12" style="color:var(--text);">Full system file access</text>
+
+      <circle cx="385" cy="225" r="12" fill="var(--accent-red)"/>
+      <text x="385" y="230" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">!</text>
+      <text x="408" y="230" font-size="12" style="color:var(--text);">Terminal experience required</text>
+    </svg>
   </div>
 
   <!-- ============================================================
        SECTION 2: Installing Claude Code CLI
        ============================================================ -->
-  <h2 id="install">Installing Claude Code CLI</h2>
+  <h2 id="install">2. Installing the Claude Code CLI</h2>
 
-  <p>The Claude Code CLI is installed via <strong>npm</strong> (Node Package Manager). Before installing Claude Code CLI itself, make sure you have Node.js installed on your system.</p>
+  <p>Installing the Claude Code CLI requires a few prerequisites. Once you are ready, follow the steps in order.</p>
+
+  <h3>Prerequisites</h3>
+  <ul>
+    <li><strong>Node.js 18 or later</strong> &mdash; the Claude Code CLI runs on Node.js</li>
+    <li><strong>A Claude Pro or Max subscription</strong> &mdash; a paid Anthropic Claude account is required</li>
+    <li><strong>A terminal app</strong> &mdash; macOS Terminal, Windows PowerShell, Linux Bash, etc.</li>
+  </ul>
 
   <div class="step-list">
     <div class="step">
-      <span class="step-label">Step 1: Install Node.js</span>
-      &mdash; Claude Code CLI requires Node.js version 18 or later.
-      <div class="platform-block claude">
-        <div class="platform-block-title">Windows</div>
+      <div class="step-content">
+        <div class="step-label">Step 1: Check that Node.js is installed</div>
+        <p>Open a terminal and enter the following command to check whether Node.js is installed:</p>
         <div class="code-block">
-<pre><code>winget install OpenJS.NodeJS.LTS</code></pre>
-<button class="copy-btn">Copy</button>
+<pre><code>node --version</code></pre>
+<button type="button" class="copy-btn">Copy</button>
 </div>
-        <p>Or download the installer from <a href="https://nodejs.org" target="_blank" rel="noopener noreferrer">nodejs.org</a>.</p>
-      </div>
-      <div class="platform-block claude">
-        <div class="platform-block-title">macOS</div>
-        <div class="code-block">
-<pre><code>brew install node</code></pre>
-<button class="copy-btn">Copy</button>
-</div>
-      </div>
-      <div class="platform-block claude">
-        <div class="platform-block-title">Linux (Ubuntu/Debian)</div>
-        <div class="code-block">
-<pre><code>sudo apt update &amp;&amp; sudo apt install -y nodejs npm</code></pre>
-<button class="copy-btn">Copy</button>
-</div>
+        <p><strong>Expected result:</strong> a version number such as <code>v18.x.x</code> or higher is printed. If the version is below 18 or you get a "command not found" message, install the latest LTS version from <a href="https://nodejs.org" target="_blank">nodejs.org</a>.</p>
       </div>
     </div>
+
     <div class="step">
-      <span class="step-label">Step 2: Verify Node.js installation</span>
-      &mdash; Confirm that Node.js and npm are properly installed.
-      <div class="code-block">
-<pre><code>node --version
-npm --version</code></pre>
-<button class="copy-btn">Copy</button>
-</div>
-      <p>Expected result: <code>v20.x.x</code> or higher for Node.js, <code>10.x.x</code> or higher for npm.</p>
-    </div>
-    <div class="step">
-      <span class="step-label">Step 3: Install Claude Code CLI</span>
-      &mdash; Install the Claude Code CLI globally using npm.
-      <div class="code-block">
+      <div class="step-content">
+        <div class="step-label">Step 2: Install the Claude Code CLI</div>
+        <p>Once Node.js is confirmed, install the Claude Code CLI globally using npm:</p>
+        <div class="code-block">
 <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
-<button class="copy-btn">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
 </div>
+        <p><strong>Expected result:</strong> the package downloads and installation completes. It may take a few minutes.</p>
+      </div>
     </div>
+
     <div class="step">
-      <span class="step-label">Step 4: Verify the installation</span>
-      &mdash; Check that Claude Code CLI is available.
-      <div class="code-block">
+      <div class="step-content">
+        <div class="step-label">Step 3: Verify the installation</div>
+        <p>When installation finishes, check the version to confirm it was installed correctly:</p>
+        <div class="code-block">
 <pre><code>claude --version</code></pre>
-<button class="copy-btn">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
 </div>
-      <p>If a version number is displayed, the installation was successful.</p>
+        <p><strong>Expected result:</strong> the Claude Code version number is printed (e.g., <code>1.0.x</code>). If you get an error, retry step 2.</p>
+      </div>
     </div>
+
     <div class="step">
-      <span class="step-label">Step 5: Authenticate</span>
-      &mdash; Before using Claude Code CLI for the first time, you must authenticate with your Anthropic account.
-      <div class="code-block">
-<pre><code>claude auth login</code></pre>
-<button class="copy-btn">Copy</button>
+      <div class="step-content">
+        <div class="step-label">Step 4: Authenticate with your Claude account</div>
+        <p>The first time you run <code>claude</code> in a terminal, you will be asked to log in with your Anthropic account:</p>
+        <div class="code-block">
+<pre><code>claude</code></pre>
+<button type="button" class="copy-btn">Copy</button>
 </div>
-      <p>A browser window will open. Log in with the same Anthropic account you use for Claude Desktop App. Once authentication is complete, you can start using Claude Code CLI.</p>
+        <p>A browser opens and takes you to the Anthropic login page. Log in with your Claude Pro or Max subscription account. Once authentication completes, you can use Claude Code from the terminal.</p>
+      </div>
     </div>
   </div>
 
+  <h3>Notes per operating system</h3>
+
+  <div class="platform-block">
+    <p><strong>Windows:</strong></p>
+    <ul>
+      <li>Run PowerShell as administrator</li>
+      <li>Be sure to check the "Add to PATH" option when installing Node.js</li>
+      <li>Open a new PowerShell window after installation so PATH takes effect</li>
+    </ul>
+    <p><strong>macOS:</strong></p>
+    <ul>
+      <li>Use the default Terminal app or iTerm2</li>
+      <li>If you have Homebrew, you can also install Node.js with <code>brew install node</code></li>
+    </ul>
+    <p><strong>Linux (Ubuntu/Debian):</strong></p>
+    <ul>
+      <li>Use <code>sudo apt install nodejs npm</code> or nvm (Node Version Manager)</li>
+      <li>Global installs may require <code>sudo</code>: <code>sudo npm install -g @anthropic-ai/claude-code</code></li>
+    </ul>
+  </div>
+
+  <div class="tip-box">
+    On Windows, run PowerShell <strong>as administrator</strong> to install it. Global package installation can fail with ordinary user privileges. Right-click the PowerShell icon and choose "Run as administrator".
+  </div>
+
   <div class="warn">
-    On Windows, if you see a <code>"claude is not recognized"</code> error after installation, restart your terminal. If the issue persists, verify that the npm global bin directory (usually <code>%APPDATA%\npm</code>) is in your system <code>PATH</code> environment variable.
+    Without a Claude Pro or Max subscription you cannot use the CLI. Free Claude accounts work only in the Claude.ai web interface. You can subscribe at <a href="https://claude.ai" target="_blank">claude.ai</a>.
   </div>
 
   <!-- ============================================================
        SECTION 3: Basic Usage
        ============================================================ -->
-  <h2 id="basic-usage">Basic Usage</h2>
+  <h2 id="basic-usage">3. Basic Usage</h2>
 
-  <p>Once Claude Code CLI is installed and authenticated, you can start a conversation directly in your terminal. The basic flow is simple: navigate to your project folder, launch Claude, and start chatting.</p>
+  <p>Let's look at the basics of the Claude Code CLI. Unlike the Desktop App, this is a text-based conversation in the terminal.</p>
 
+  <h3>Starting Claude Code</h3>
+  <p>Open a terminal and enter the following command:</p>
+  <div class="code-block">
+<pre><code>claude</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+  <p>When Claude Code starts, a prompt (the <code>&gt;</code> symbol) appears; type your questions or instructions there.</p>
+
+  <h3>How to converse</h3>
+  <p>Just type your question at the prompt in natural language. As with the Desktop App, both Korean and English work.</p>
+
+  <div class="prompt-box">
+    <div class="prompt-text">Show me the list of files in the current folder</div>
+  </div>
+
+  <p>Because Claude Code can access the file system, it can also handle requests like "read the files in the current folder" or "find the bug in this file".</p>
+
+  <h3>Reading/writing file example</h3>
+
+  <p><strong>Reading a file:</strong></p>
+  <div class="prompt-box">
+    <div class="prompt-text">Read the contents of README.md and summarize it</div>
+  </div>
+
+  <p><strong>Writing a file:</strong></p>
+  <div class="prompt-box">
+    <div class="prompt-text">Create hello.py and write Python code that prints "Hello, World!"</div>
+  </div>
+
+  <p>Claude Code can create and modify files directly. Before doing so, it always explains what changes it will make and asks for approval.</p>
+
+  <h3>Exiting</h3>
+  <p>There are two ways to exit Claude Code:</p>
+  <div class="code-block">
+<pre><code># Method 1: exit with a command
+/exit
+
+# Method 2: exit with a shortcut
+Ctrl + C</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+
+  <!-- Inline SVG: CLI basic usage flow diagram -->
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing Claude Code CLI basic usage flow">
+    <svg viewBox="0 0 660 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <!-- Background -->
+      <rect width="660" height="380" rx="10" fill="var(--bg2)"/>
+
+      <!-- Title -->
+      <text x="330" y="28" text-anchor="middle" font-size="15" font-weight="700" style="color:var(--text);">Claude Code CLI Basic Usage Flow</text>
+
+      <!-- Step 1: Open Terminal -->
+      <rect x="30" y="50" width="130" height="90" rx="8" fill="var(--bg3)" stroke="var(--accent)"/>
+      <rect x="30" y="50" width="130" height="30" rx="8" fill="var(--accent)"/>
+      <rect x="30" y="72" width="130" height="8" fill="var(--accent)"/>
+      <text x="95" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">1. Open a terminal</text>
+      <text x="95" y="100" text-anchor="middle" font-size="10" style="color:var(--text-dim);">Terminal.app</text>
+      <text x="95" y="115" text-anchor="middle" font-size="10" style="color:var(--text-dim);">PowerShell</text>
+      <text x="95" y="130" text-anchor="middle" font-size="10" style="color:var(--text-dim);">Bash</text>
+
+      <!-- Arrow 1→2 -->
+      <line x1="160" y1="95" x2="185" y2="95" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowCLI)"/>
+
+      <!-- Step 2: Run claude -->
+      <rect x="190" y="50" width="130" height="90" rx="8" fill="var(--bg3)" stroke="var(--accent-green)"/>
+      <rect x="190" y="50" width="130" height="30" rx="8" fill="var(--accent-green)"/>
+      <rect x="190" y="72" width="130" height="8" fill="var(--accent-green)"/>
+      <text x="255" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">2. Run claude</text>
+      <rect x="205" y="95" width="100" height="24" rx="4" fill="var(--bg)" stroke="var(--border)"/>
+      <text x="255" y="112" text-anchor="middle" font-size="11" font-family="monospace" font-weight="700" style="color:var(--accent-green);">$ claude</text>
+
+      <!-- Arrow 2→3 -->
+      <line x1="320" y1="95" x2="345" y2="95" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowCLI)"/>
+
+      <!-- Step 3: Chat -->
+      <rect x="350" y="50" width="130" height="90" rx="8" fill="var(--bg3)" stroke="var(--accent-purple)"/>
+      <rect x="350" y="50" width="130" height="30" rx="8" fill="var(--accent-purple)"/>
+      <rect x="350" y="72" width="130" height="8" fill="var(--accent-purple)"/>
+      <text x="415" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">3. Ask a question</text>
+      <text x="415" y="100" text-anchor="middle" font-size="10" style="color:var(--text-dim);">Type your question</text>
+      <text x="415" y="115" text-anchor="middle" font-size="10" style="color:var(--text-dim);">or instruction</text>
+      <text x="415" y="130" text-anchor="middle" font-size="10" style="color:var(--text-dim);">in natural language</text>
+
+      <!-- Arrow 3→4 -->
+      <line x1="480" y1="95" x2="505" y2="95" stroke="var(--accent-purple)" stroke-width="2" marker-end="url(#arrowCLI)"/>
+
+      <!-- Step 4: Response -->
+      <rect x="510" y="50" width="130" height="90" rx="8" fill="var(--bg3)" stroke="var(--accent-amber)"/>
+      <rect x="510" y="50" width="130" height="30" rx="8" fill="var(--accent-amber)"/>
+      <rect x="510" y="72" width="130" height="8" fill="var(--accent-amber)"/>
+      <text x="575" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">4. Get a response</text>
+      <text x="575" y="100" text-anchor="middle" font-size="10" style="color:var(--text-dim);">Claude runs code,</text>
+      <text x="575" y="115" text-anchor="middle" font-size="10" style="color:var(--text-dim);">modifies files,</text>
+      <text x="575" y="130" text-anchor="middle" font-size="10" style="color:var(--text-dim);">and responds</text>
+
+      <!-- Loop arrow from 4 back to 3 -->
+      <path d="M 415 140 L 415 170 Q 415 185 430 185 L 560 185 Q 575 185 575 170 L 575 145" fill="none" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowCLI)"/>
+      <text x="495" y="200" text-anchor="middle" font-size="10" style="color:var(--text-dim);">Keep chatting</text>
+
+      <!-- Step 5: Exit -->
+      <rect x="230" y="230" width="200" height="70" rx="8" fill="var(--bg3)" stroke="var(--accent-red)"/>
+      <rect x="230" y="230" width="200" height="30" rx="8" fill="var(--accent-red)"/>
+      <rect x="230" y="252" width="200" height="8" fill="var(--accent-red)"/>
+      <text x="330" y="250" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">5. Exit</text>
+      <text x="330" y="280" text-anchor="middle" font-size="11" font-family="monospace" style="color:var(--accent-red);">/exit  or  Ctrl+C</text>
+
+      <!-- Arrow from loop area to exit -->
+      <path d="M 330 200 L 330 225" fill="none" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arrowCLI)"/>
+
+      <!-- Tip box at bottom -->
+      <rect x="30" y="320" width="600" height="45" rx="6" fill="var(--bg3)" stroke="var(--accent)"/>
+      <text x="45" y="340" font-size="11" font-weight="700" style="color:var(--accent);">&#9733; Tip:</text>
+      <text x="85" y="340" font-size="11" style="color:var(--text);">Start with one claude command and exit cleanly with /exit</text>
+      <text x="85" y="355" font-size="11" style="color:var(--text);">Conversations are saved automatically, so you can pick up where you left off next time</text>
+
+      <!-- Arrow marker -->
       <defs>
-        <marker id="arrowB1" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
-        </marker>
-        <marker id="arrowBgreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-green)"/>
-        </marker>
-        <marker id="arrowBpurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-purple)"/>
-        </marker>
-        <marker id="arrowBamber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-amber)"/>
+        <marker id="arrowCLI" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)"/>
         </marker>
       </defs>
-
-      <!-- Step 1: Terminal -->
-      <rect x="20" y="40" width="130" height="56" rx="10" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="85" y="62" text-anchor="middle" style="color:var(--accent-green);font-size:11px;font-weight:700;">STEP 1</text>
-      <text x="85" y="82" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Open Terminal</text>
-
-      <!-- Arrow 1->2 -->
-      <line x1="150" y1="68" x2="188" y2="68" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowB1)"/>
-
-      <!-- Step 2: cd -->
-      <rect x="190" y="40" width="130" height="56" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="255" y="62" text-anchor="middle" style="color:var(--accent);font-size:11px;font-weight:700;">STEP 2</text>
-      <text x="255" y="82" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">cd to Project</text>
-
-      <!-- Arrow 2->3 -->
-      <line x1="320" y1="68" x2="358" y2="68" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowB1)"/>
-
-      <!-- Step 3: claude -->
-      <rect x="360" y="40" width="130" height="56" rx="10" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="1.5"/>
-      <text x="425" y="62" text-anchor="middle" style="color:var(--accent-purple);font-size:11px;font-weight:700;">STEP 3</text>
-      <text x="425" y="82" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Run claude</text>
-
-      <!-- Arrow 3->4 -->
-      <line x1="490" y1="68" x2="528" y2="68" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowB1)"/>
-
-      <!-- Step 4: Chat -->
-      <rect x="530" y="40" width="130" height="56" rx="10" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="595" y="62" text-anchor="middle" style="color:var(--accent-amber);font-size:11px;font-weight:700;">STEP 4</text>
-      <text x="595" y="82" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Chat with Claude</text>
-
-      <!-- Terminal mockup below -->
-      <rect x="40" y="130" width="600" height="190" rx="10" fill="var(--bg3)" stroke="var(--border)" stroke-width="2"/>
-      <!-- Title bar -->
-      <rect x="40" y="130" width="600" height="30" rx="10" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
-      <rect x="40" y="150" width="600" height="10" fill="var(--bg2)"/>
-      <circle cx="62" cy="145" r="5" fill="var(--accent-red)" opacity="0.7"/>
-      <circle cx="78" cy="145" r="5" fill="var(--accent-amber)" opacity="0.7"/>
-      <circle cx="94" cy="145" r="5" fill="var(--accent-green)" opacity="0.7"/>
-      <text x="340" y="149" text-anchor="middle" style="color:var(--text-dim);font-size:11px;font-weight:600;">Terminal &mdash; Claude Code CLI</text>
-
-      <!-- Terminal content -->
-      <rect x="50" y="166" width="580" height="144" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
-
-      <!-- Prompt line 1 -->
-      <text x="64" y="190" style="color:var(--accent-green);font-size:12px;font-family:var(--font-mono);">$</text>
-      <text x="80" y="190" style="color:var(--text);font-size:12px;font-family:var(--font-mono);">cd ~/git/project/my-harness</text>
-
-      <!-- Prompt line 2 -->
-      <text x="64" y="212" style="color:var(--accent-green);font-size:12px;font-family:var(--font-mono);">$</text>
-      <text x="80" y="212" style="color:var(--text);font-size:12px;font-family:var(--font-mono);">claude</text>
-
-      <!-- Claude response area -->
-      <text x="64" y="238" style="color:var(--accent-purple);font-size:12px;font-family:var(--font-mono);font-weight:700;">Claude:</text>
-      <text x="120" y="238" style="color:var(--text-dim);font-size:12px;font-family:var(--font-mono);">Welcome! I have access to your project files.</text>
-      <text x="80" y="256" style="color:var(--text-dim);font-size:12px;font-family:var(--font-mono);">How can I help you today?</text>
-
-      <!-- User input line -->
-      <text x="64" y="282" style="color:var(--accent-green);font-size:12px;font-family:var(--font-mono);">&gt;</text>
-      <text x="78" y="282" style="color:var(--text);font-size:12px;font-family:var(--font-mono);">List all agent files in the workspace_</text>
-      <text x="78" y="298" style="color:var(--text);font-size:12px;font-family:var(--font-mono);">standard format</text>
-
-      <!-- Cursor blink -->
-      <rect x="78" y="302" width="7" height="14" fill="var(--accent)" opacity="0.7"/>
     </svg>
-  </div>
-
-  <h3>Starting a Session</h3>
-
-  <p>To start using Claude Code CLI, open a terminal and follow these steps:</p>
-
-  <div class="step-list">
-    <div class="step">
-      <span class="step-label">Navigate to your project folder</span>
-      &mdash; Use <code>cd</code> to move to the directory containing your project files.
-      <div class="code-block">
-<pre><code>cd ~/git/project/my-harness</code></pre>
-<button class="copy-btn">Copy</button>
-</div>
-    </div>
-    <div class="step">
-      <span class="step-label">Launch Claude Code</span>
-      &mdash; Type <code>claude</code> and press Enter.
-      <div class="code-block">
-<pre><code>claude</code></pre>
-<button class="copy-btn">Copy</button>
-</div>
-      Claude will load your project context and display a welcome message. You can now type your request in natural language, just like chatting with Claude Desktop App.
-    </div>
-    <div class="step">
-      <span class="step-label">Interact with Claude</span>
-      &mdash; Type your question or instruction and press Enter. Claude can read files, edit code, run terminal commands, and explain its reasoning. When Claude needs permission to execute a command or modify a file, it will ask you first.
-    </div>
-    <div class="step">
-      <span class="step-label">End the session</span>
-      &mdash; Type <code>/exit</code> or press <code>Ctrl+C</code> to end the Claude Code session.
-    </div>
-  </div>
-
-  <div class="note">
-    When you start Claude Code CLI in a project directory, Claude automatically reads the project structure and configuration files (such as <code>CLAUDE.md</code>, <code>AGENTS.md</code>, or <code>.claude/</code> directories). This context helps Claude understand your project and follow your workspace rules.
   </div>
 
   <!-- ============================================================
        SECTION 4: Key Commands
        ============================================================ -->
-  <h2 id="commands">Key Commands</h2>
+  <h2 id="commands">4. Key Commands</h2>
 
-  <p>Claude Code CLI provides a set of slash commands that give you quick access to common actions. These commands are typed at the Claude prompt (prefixed with <code>/</code>).</p>
+  <p>Here are the main commands available in the Claude Code CLI. You enter them in the Claude Code conversation, starting with <code>/</code>.</p>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Command</th>
-        <th>Description</th>
-        <th>Example</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>/help</code></td>
-        <td>Display a list of all available commands and their descriptions</td>
-        <td><code>/help</code></td>
-      </tr>
-      <tr>
-        <td><code>/exit</code></td>
-        <td>End the current Claude Code session and return to the terminal</td>
-        <td><code>/exit</code></td>
-      </tr>
-      <tr>
-        <td><code>/clear</code></td>
-        <td>Clear the conversation history within the current session</td>
-        <td><code>/clear</code></td>
-      </tr>
-      <tr>
-        <td><code>/compact</code></td>
-        <td>Summarize the conversation so far to free up context window space</td>
-        <td><code>/compact</code></td>
-      </tr>
-      <tr>
-        <td><code>/model</code></td>
-        <td>Switch to a different Claude model (e.g., Claude Sonnet, Claude Opus)</td>
-        <td><code>/model claude-sonnet-5</code></td>
-      </tr>
-      <tr>
-        <td><code>/cost</code></td>
-        <td>Display token usage and estimated cost for the current session</td>
-        <td><code>/cost</code></td>
-      </tr>
-      <tr>
-        <td><code>/config</code></td>
-        <td>View or modify Claude Code configuration settings</td>
-        <td><code>/config</code></td>
-      </tr>
-      <tr>
-        <td><code>/doctor</code></td>
-        <td>Run diagnostics to check Claude Code health and configuration</td>
-        <td><code>/doctor</code></td>
-      </tr>
-      <tr>
-        <td><code>/login</code></td>
-        <td>Re-authenticate with your Anthropic account</td>
-        <td><code>/login</code></td>
-      </tr>
-      <tr>
-        <td><code>/logout</code></td>
-        <td>Sign out of your Anthropic account</td>
-        <td><code>/logout</code></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3>Common Usage Patterns</h3>
-
-  <p>Beyond slash commands, the most common way to use Claude Code CLI is through natural language instructions. Here are some typical patterns:</p>
-
-  <div class="step-list">
-    <div class="step">
-      <span class="step-label">Reading project files</span>
-      &mdash; Ask Claude to read and explain any file in your project.
-      <div class="code-block">
-<pre><code>Read agents/pm.md and explain the PM Agent's role</code></pre>
-<button class="copy-btn">Copy</button>
-</div>
-    </div>
-    <div class="step">
-      <span class="step-label">Editing files</span>
-      &mdash; Ask Claude to make changes to your code or configuration files.
-      <div class="code-block">
-<pre><code>Add a new agent entry for "translator" to the AGENTS.md roster table</code></pre>
-<button class="copy-btn">Copy</button>
-</div>
-    </div>
-    <div class="step">
-      <span class="step-label">Running commands</span>
-      &mdash; Claude can execute terminal commands on your behalf.
-      <div class="code-block">
-<pre><code>Run bun scripts/audit.ts and show me the results</code></pre>
-<button class="copy-btn">Copy</button>
-</div>
-      Claude will ask for your permission before executing any command.
-    </div>
-    <div class="step">
-      <span class="step-label">Debugging</span>
-      &mdash; Paste error messages and ask Claude to diagnose and fix the issue.
-      <div class="code-block">
-<pre><code>I get a "module not found" error when running the audit script.
-  Check the dependencies and suggest a fix.</code></pre>
-<button class="copy-btn">Copy</button>
-</div>
-    </div>
+  <div class="table-compare">
+    <table>
+      <thead>
+        <tr>
+          <th>Command</th>
+          <th>Description</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>claude</code></td>
+          <td>Start Claude Code</td>
+          <td><code>claude</code></td>
+        </tr>
+        <tr>
+          <td><code>/help</code></td>
+          <td>Show help</td>
+          <td><code>/help</code></td>
+        </tr>
+        <tr>
+          <td><code>/clear</code></td>
+          <td>Reset the conversation</td>
+          <td><code>/clear</code></td>
+        </tr>
+        <tr>
+          <td><code>/exit</code></td>
+          <td>Exit Claude Code</td>
+          <td><code>/exit</code></td>
+        </tr>
+        <tr>
+          <td><code>/model</code></td>
+          <td>Change the model in use</td>
+          <td><code>/model claude-sonnet-5</code></td>
+        </tr>
+        <tr>
+          <td><code>/cost</code></td>
+          <td>Check the current session's cost</td>
+          <td><code>/cost</code></td>
+        </tr>
+        <tr>
+          <td><code>/compact</code></td>
+          <td>Compress context (summarize conversation)</td>
+          <td><code>/compact</code></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="flow-box">
-    <strong>Permission model</strong>: Claude Code CLI asks for your permission before performing potentially destructive actions such as writing files, executing shell commands, or making network requests. You can grant or deny each request individually. This gives you full control over what Claude does in your project.
+  <h3>Command usage examples</h3>
+
+  <p><strong>/help — Help</strong></p>
+  <p>Displays the list of all available commands with brief descriptions:</p>
+  <div class="code-block">
+<pre><code>/help</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+
+  <p><strong>/clear — Reset the conversation</strong></p>
+  <p>Erases the current conversation and starts a new one. Useful when the context grows long and response quality drops:</p>
+  <div class="code-block">
+<pre><code>/clear</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+
+  <p><strong>/model — Change the model</strong></p>
+  <p>Changes the Claude model used in the current session. The available model list depends on your Claude subscription level:</p>
+  <div class="code-block">
+<pre><code># Switch to the Sonnet model (fast and cost-efficient)
+/model claude-sonnet-5
+
+# Switch to the Opus model (most powerful, higher cost)
+/model claude-opus-5</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+
+  <p><strong>/cost — Check cost</strong></p>
+  <p>Shows the number of tokens used and the estimated cost for the current session. Useful for monitoring API usage:</p>
+  <div class="code-block">
+<pre><code>/cost</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+
+  <p><strong>/compact — Compress context</strong></p>
+  <p>As a conversation gets longer, Claude's context window — its "memory capacity" — fills up. <code>/compact</code> summarizes the previous conversation to free up space:</p>
+  <div class="code-block">
+<pre><code>/compact</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+
+  <div class="tip-box">
+    <strong>/compact</strong> is one of the most important commands when using Claude Code. Run it regularly whenever the conversation gets long. Otherwise Claude may forget earlier parts of the conversation or response quality may degrade.
   </div>
 
   <!-- ============================================================
        SECTION 5: Project Mode
        ============================================================ -->
-  <h2 id="project-mode">Project Mode</h2>
+  <h2 id="project-mode">5. Project Mode</h2>
 
-  <p>When you launch Claude Code CLI inside a project directory, it automatically enters <strong>project mode</strong>. This is the most important concept for multi-agent harness users to understand.</p>
+  <p>The true strength of the Claude Code CLI shows in <strong>project mode</strong>. When you run Claude Code in a project folder, Claude understands the project's file structure and configuration and performs context-aware work.</p>
 
-  <h3>What is Project Mode?</h3>
+  <h3>Running Claude Code in a project</h3>
 
-  <p>In project mode, Claude Code reads configuration files that define how it should behave within your project. These files act as "instructions" that Claude follows for every interaction in that project. The key files are:</p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>File</th>
-        <th>Purpose</th>
-        <th>Read by</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>CLAUDE.md</code></td>
-        <td>Main instruction file for Claude &mdash; contains project rules, coding standards, and workflow definitions</td>
-        <td>Claude Code CLI</td>
-      </tr>
-      <tr>
-        <td><code>AGENTS.md</code></td>
-        <td>Agent ecosystem registry &mdash; defines all agents, their roles, phases, and dispatch rules</td>
-        <td>PM Agent (orchestrator)</td>
-      </tr>
-      <tr>
-        <td><code>agents/*.md</code></td>
-        <td>Individual agent definition files &mdash; each agent's detailed instructions and scope</td>
-        <td>Respective specialist agent</td>
-      </tr>
-      <tr>
-        <td><code>.claude/commands/*.md</code></td>
-        <td>Custom slash commands &mdash; reusable prompt templates you can invoke</td>
-        <td>Claude Code CLI</td>
-      </tr>
-      <tr>
-        <td><code>.claude/skills/*/SKILL.md</code></td>
-        <td>Skill definitions &mdash; specialized capabilities loaded on demand</td>
-        <td>Claude Code CLI</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing Claude Code CLI project mode architecture">
-      <defs>
-        <marker id="arrowP" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
-        </marker>
-        <marker id="arrowPgreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-green)"/>
-        </marker>
-      </defs>
-
-      <!-- Claude Code CLI box -->
-      <rect x="230" y="20" width="220" height="60" rx="12" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="340" y="45" text-anchor="middle" style="color:var(--accent);font-size:12px;font-weight:700;">CLAUDE CODE CLI</text>
-      <text x="340" y="65" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">Terminal Interface</text>
-
-      <!-- Arrow down -->
-      <line x1="340" y1="80" x2="340" y2="110" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowP)"/>
-
-      <!-- Configuration layer -->
-      <rect x="140" y="112" width="400" height="50" rx="10" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="340" y="133" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Configuration Layer (Auto-loaded on start)</text>
-      <text x="340" y="150" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">CLAUDE.md &middot; AGENTS.md &middot; .claude/</text>
-
-      <!-- Arrow down splits into three -->
-      <line x1="340" y1="162" x2="340" y2="182" stroke="var(--accent)" stroke-width="1.5"/>
-      <line x1="160" y1="182" x2="520" y2="182" stroke="var(--accent)" stroke-width="1.5"/>
-      <line x1="160" y1="182" x2="160" y2="202" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowPgreen)"/>
-      <line x1="340" y1="182" x2="340" y2="202" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowP)"/>
-      <line x1="520" y1="182" x2="520" y2="202" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowPgreen)"/>
-
-      <!-- Three project areas -->
-      <rect x="80" y="204" width="160" height="70" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="160" y="228" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Agent Files</text>
-      <text x="160" y="246" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">agents/*.md</text>
-      <text x="160" y="260" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">Roles, phases, scope</text>
-
-      <rect x="260" y="204" width="160" height="70" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="340" y="228" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Source Code</text>
-      <text x="340" y="246" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">scripts/, src/</text>
-      <text x="340" y="260" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">Bun/TypeScript</text>
-
-      <rect x="440" y="204" width="160" height="70" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="520" y="228" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Project Output</text>
-      <text x="520" y="246" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">docs/, presentations/</text>
-      <text x="520" y="260" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">Generated deliverables</text>
-    </svg>
-  </div>
-
-  <h3>Why Project Mode Matters for Harness Users</h3>
-
-  <p>When you run a multi-agent harness (such as co-consult or co-deck), Claude Code CLI reads the project configuration files and automatically:</p>
-
-  <ul>
-    <li><strong>Loads agent definitions</strong> &mdash; It knows which agents exist, what they do, and when to dispatch them.</li>
-    <li><strong>Follows workflow rules</strong> &mdash; It respects the phase gates, quality checks, and handoff contracts defined in your configuration.</li>
-    <li><strong>Applies coding standards</strong> &mdash; It follows the coding conventions and file organization rules specified in your project.</li>
-    <li><strong>Enforces permissions</strong> &mdash; It understands which agents can edit which files, preventing unauthorized modifications.</li>
-  </ul>
-
-  <div class="tip-box">
-    <strong>Key insight</strong>: The power of Claude Code CLI comes from the combination of the CLI itself and the project configuration files. Without configuration files, Claude Code CLI is a general-purpose coding assistant. <em>With</em> configuration files, it becomes a specialized orchestrator that follows your team's rules and workflows automatically.
-  </div>
-
-  <h3>Launching with a Specific Prompt</h3>
-
-  <p>You can pass an initial prompt directly when launching Claude Code CLI, which is useful for automation and scripting:</p>
-
-  <div class="code-block">
-<pre><code># Start Claude with an initial prompt
-claude "Run the audit script and report any issues"
-
-# Start Claude in non-interactive mode (for automation)
-claude -p "Generate a summary of all agent definitions"</code></pre>
-<button class="copy-btn">Copy</button>
+  <div class="step-list">
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Step 1: Move into the project folder</div>
+        <p>In the terminal, move into the project folder you want to work on:</p>
+        <div class="code-block">
+<pre><code>cd ~/my-project</code></pre>
+<button type="button" class="copy-btn">Copy</button>
 </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Step 2: Start Claude Code</div>
+        <p>Run Claude Code inside the project folder:</p>
+        <div class="code-block">
+<pre><code>claude</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Step 3: Project context recognition</div>
+        <p>Claude Code automatically analyzes the project's file structure. You can now ask questions about the project:</p>
+        <div class="prompt-box">
+          <div class="prompt-text">Explain the structure of this project</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Step 4: Agent dispatch</div>
+        <p>In projects that have an AGENTS.md, Claude Code recognizes your agents and delegates specialized tasks to the appropriate agent (dispatch):</p>
+        <div class="prompt-box">
+          <div class="prompt-text">Generate the design_spec.md for this project</div>
+        </div>
+        <p>Claude Code dispatches the <code>design</code> agent through the PM gateway and carries out the task.</p>
+      </div>
+    </div>
+  </div>
 
   <div class="note">
-    The <code>-p</code> (print) flag runs Claude in non-interactive mode. Claude processes the prompt, outputs its response, and exits. This is especially useful for scripting and CI/CD integration.
+    In project mode, Claude Code reads <strong>AGENTS.md</strong> and recognizes the agents. Work is distributed automatically according to the agent rules, permissions, and workflows defined in AGENTS.md. This is one of the biggest reasons to use the Claude Code CLI.
+  </div>
+
+  <h3>Advantages of project mode</h3>
+  <ul>
+    <li><strong>File context awareness</strong> &mdash; automatically analyzes the project's file structure, dependencies, and config files</li>
+    <li><strong>Agent workflows</strong> &mdash; Claude automatically leverages the multi-agent system defined in AGENTS.md</li>
+    <li><strong>Script integration</strong> &mdash; Claude Code can be included in CI/CD pipelines and automation scripts</li>
+    <li><strong>Third-party backends</strong> &mdash; switch to DeepSeek, GLM, etc. to cut costs (see <a href="C_Low_Cost_Backends_en.html">Appendix C</a>)</li>
+  </ul>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg viewBox="0 0 660 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <!-- Background -->
+      <rect width="660" height="280" rx="10" fill="var(--bg2)"/>
+
+      <!-- Title -->
+      <text x="330" y="28" text-anchor="middle" font-size="15" font-weight="700" style="color:var(--text);">How Project Mode Works</text>
+
+      <!-- User -->
+      <rect x="20" y="80" width="120" height="160" rx="8" fill="var(--bg3)" stroke="var(--accent)"/>
+      <rect x="20" y="80" width="120" height="32" rx="8" fill="var(--accent)"/>
+      <rect x="20" y="104" width="120" height="8" fill="var(--accent)"/>
+      <text x="80" y="100" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text-inverse)">User</text>
+      <text x="80" y="140" text-anchor="middle" font-size="10" style="color:var(--text-dim);">Runs claude in</text>
+      <text x="80" y="155" text-anchor="middle" font-size="10" style="color:var(--text-dim);">the terminal and</text>
+      <text x="80" y="170" text-anchor="middle" font-size="10" style="color:var(--text-dim);">enters prompts</text>
+
+      <!-- Arrow User→Claude Code -->
+      <line x1="140" y1="160" x2="170" y2="160" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowProj)"/>
+
+      <!-- Claude Code (center) -->
+      <rect x="175" y="55" width="140" height="210" rx="8" fill="var(--bg3)" stroke="var(--accent-green)"/>
+      <rect x="175" y="55" width="140" height="32" rx="8" fill="var(--accent-green)"/>
+      <rect x="175" y="79" width="140" height="8" fill="var(--accent-green)"/>
+      <text x="245" y="75" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text-inverse)">Claude Code</text>
+      <text x="245" y="110" text-anchor="middle" font-size="10" style="color:var(--text-dim);">Project folder</text>
+      <text x="245" y="125" text-anchor="middle" font-size="10" style="color:var(--text-dim);">File structure analysis</text>
+      <text x="245" y="140" text-anchor="middle" font-size="10" style="color:var(--text-dim);">Reads AGENTS.md</text>
+      <line x1="195" y1="155" x2="295" y2="155" stroke="var(--border)" stroke-width="1"/>
+      <text x="245" y="175" text-anchor="middle" font-size="10" style="color:var(--text);">PM gateway</text>
+      <text x="245" y="190" text-anchor="middle" font-size="10" style="color:var(--text);">Agent dispatch</text>
+      <text x="245" y="210" text-anchor="middle" font-size="10" style="color:var(--text);">Performs tasks</text>
+      <text x="245" y="230" text-anchor="middle" font-size="10" style="color:var(--text);">Returns results</text>
+
+      <!-- Arrow Claude Code→Agents -->
+      <line x1="315" y1="120" x2="345" y2="100" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowProj)"/>
+      <line x1="315" y1="180" x2="345" y2="180" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowProj)"/>
+      <line x1="315" y1="210" x2="345" y2="230" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowProj)"/>
+
+      <!-- Agent boxes -->
+      <rect x="350" y="70" width="130" height="50" rx="6" fill="var(--bg3)" stroke="var(--accent-purple)"/>
+      <text x="415" y="92" text-anchor="middle" font-size="11" font-weight="700" style="color:var(--accent-purple);">design</text>
+      <text x="415" y="108" text-anchor="middle" font-size="9" style="color:var(--text-dim);">Design agent</text>
+
+      <rect x="350" y="150" width="130" height="50" rx="6" fill="var(--bg3)" stroke="var(--accent-amber)"/>
+      <text x="415" y="172" text-anchor="middle" font-size="11" font-weight="700" style="color:var(--accent-amber);">storyline</text>
+      <text x="415" y="188" text-anchor="middle" font-size="9" style="color:var(--text-dim);">Storyline agent</text>
+
+      <rect x="350" y="210" width="130" height="50" rx="6" fill="var(--bg3)" stroke="var(--accent)"/>
+      <text x="415" y="232" text-anchor="middle" font-size="11" font-weight="700" style="color:var(--accent);">html-build</text>
+      <text x="415" y="248" text-anchor="middle" font-size="9" style="color:var(--text-dim);">HTML build agent</text>
+
+      <!-- Arrow Agents→Project Files -->
+      <line x1="480" y1="95" x2="510" y2="95" stroke="var(--accent-purple)" stroke-width="2" marker-end="url(#arrowProj)"/>
+      <line x1="480" y1="175" x2="510" y2="175" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowProj)"/>
+      <line x1="480" y1="235" x2="510" y2="235" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowProj)"/>
+
+      <!-- Project Files -->
+      <rect x="515" y="55" width="125" height="210" rx="8" fill="var(--bg3)" stroke="var(--border)"/>
+      <rect x="515" y="55" width="125" height="32" rx="8" fill="var(--border)"/>
+      <rect x="515" y="79" width="125" height="8" fill="var(--border)"/>
+      <text x="577" y="75" text-anchor="middle" font-size="12" font-weight="700" style="color:var(--text);">Project files</text>
+      <text x="577" y="110" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--text-dim);">AGENTS.md</text>
+      <text x="577" y="130" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--text-dim);">design_spec.md</text>
+      <text x="577" y="150" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--text-dim);">slide_deck.md</text>
+      <text x="577" y="170" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--text-dim);">storyline.md</text>
+      <line x1="535" y1="185" x2="620" y2="185" stroke="var(--border)" stroke-width="1"/>
+      <text x="577" y="205" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--text-dim);">lecture.html</text>
+      <text x="577" y="225" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--text-dim);">project_state.json</text>
+      <text x="577" y="245" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--text-dim);">image-manifest.json</text>
+
+      <!-- Arrow marker -->
+      <defs>
+        <marker id="arrowProj" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)"/>
+        </marker>
+      </defs>
+    </svg>
   </div>
 
   <!-- ============================================================
        SECTION 6: Practical Tips
        ============================================================ -->
-  <h2 id="tips">Practical Tips</h2>
+  <h2 id="tips">6. Practical Tips</h2>
 
-  <p>Here are five practical tips to help you get the most out of Claude Code CLI, based on common patterns from multi-agent harness users.</p>
+  <p>Here are five practical tips for getting more out of the Claude Code CLI.</p>
 
   <div class="step-list">
     <div class="step">
-      <span class="step-label">Tip 1: Keep CLAUDE.md Updated</span>
-      &mdash; Your <code>CLAUDE.md</code> file is Claude's primary instruction set for your project. Keep it current with your latest coding standards, workflow rules, and project conventions. An outdated <code>CLAUDE.md</code> leads to inconsistent behavior. Whenever you change your project structure or agent definitions, review and update <code>CLAUDE.md</code> accordingly.
+      <div class="step-content">
+        <div class="step-label">Tip 1: Always start from the project folder</div>
+        <p>Before running Claude Code, move into the project folder with the <code>cd</code> command. Run it outside the project folder and Claude cannot grasp the file context:</p>
+        <div class="code-block">
+<pre><code># Good example
+cd ~/my-project
+claude
+
+# Bad example — running from the home directory
+claude</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+      </div>
     </div>
+
     <div class="step">
-      <span class="step-label">Tip 2: Use /compact When Context Fills Up</span>
-      &mdash; Long conversations consume the context window. When you notice Claude starting to "forget" earlier parts of the conversation or its responses becoming less accurate, type <code>/compact</code>. This summarizes the conversation history so far, freeing up space for new interactions without losing the essential context.
+      <div class="step-content">
+        <div class="step-label">Tip 2: Manage context with /compact</div>
+        <p>Long conversations fill up Claude's context window. Run <code>/compact</code> periodically to summarize the conversation and free up space. It is especially effective after file analysis or code review:</p>
+        <div class="code-block">
+<pre><code># Run every 10-15 conversation turns
+/compact</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+      </div>
     </div>
+
     <div class="step">
-      <span class="step-label">Tip 3: Grant Permissions Wisely</span>
-      &mdash; Claude Code CLI asks for permission before executing commands and modifying files. While it is tempting to always approve, take a moment to review what Claude is about to do, especially for <code>rm</code>, <code>git push</code>, or other irreversible operations. This habit prevents accidental data loss.
+      <div class="step-content">
+        <div class="step-label">Tip 3: Monitor cost with /cost</div>
+        <p>Keep an eye on how much cost accrues while using Claude Code. This is especially useful for managing Claude Pro subscription limits:</p>
+        <div class="code-block">
+<pre><code># Check the session cost
+/cost</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+      </div>
     </div>
+
     <div class="step">
-      <span class="step-label">Tip 4: Leverage Non-Interactive Mode for Automation</span>
-      &mdash; Use <code>claude -p "your prompt"</code> to run Claude in non-interactive mode within shell scripts. This enables powerful automation patterns, such as running quality checks, generating documentation, or triggering agent workflows as part of a CI/CD pipeline. Combine this with shell pipes and redirection to integrate Claude's output into your existing toolchain.
+      <div class="step-content">
+        <div class="step-label">Tip 4: Keep AGENTS.md up to date</div>
+        <p>Your project's <strong>AGENTS.md</strong> file is Claude Code's "instruction manual". Agent definitions, permissions, and workflows are defined there. If AGENTS.md is out of date, Claude may invoke the wrong agents:</p>
+        <div class="code-block">
+<pre><code># Check AGENTS.md
+claude
+# "Show me the list of agents in the current project"</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+      </div>
     </div>
+
     <div class="step">
-      <span class="step-label">Tip 5: Use the /cost Command to Monitor Usage</span>
-      &mdash; Claude Code CLI tracks token usage for each session. Type <code>/cost</code> at any time to see how many tokens you have consumed and the estimated cost. This helps you stay within your subscription limits and understand which types of tasks consume the most resources. If a session is getting expensive, consider starting a fresh session with <code>/clear</code>.
+      <div class="step-content">
+        <div class="step-label">Tip 5: Combine the Claude Code CLI with a low-cost backend</div>
+        <p>The CLI's biggest advantage is that it works with third-party backends. Hooking up low-cost backends such as DeepSeek, GLM, or LiteLLM lets you run Claude Code for less than a Claude Pro subscription:</p>
+        <div class="code-block">
+<pre><code># Example of switching to the DeepSeek backend
+export ANTHROPIC_API_KEY="your-deepseek-key"
+export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
+claude</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+        <p>For detailed setup instructions, see <a href="C_Low_Cost_Backends_en.html">Appendix C: Low-Cost AI Backend Integration</a>.</p>
+      </div>
     </div>
+  </div>
+
+  <div class="tip-box">
+    When starting out with the CLI, begin with simple questions. Learn how Claude Code behaves with simple requests like "show me the file structure of the current folder" or "find the problems in this code", then gradually expand to more complex tasks.
   </div>
 
   <div class="flow-box">
-    <strong>Getting help</strong>: If you run into issues with Claude Code CLI, the official documentation is at <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer">docs.anthropic.com/en/docs/claude-code</a>. You can also type <code>/help</code> within Claude Code CLI for a quick reference of available commands, or run <code>/doctor</code> to diagnose common configuration problems.
+    The Claude Code CLI can feel difficult if you are not used to terminal environments at first. But knowing just a few basic commands is enough. All you really need to remember is: start with <code>claude</code>, exit with <code>/exit</code>, and maintain with <code>/compact</code>.
   </div>
 
-  <!-- ============================================================
-       Chapter Navigation
-       ============================================================ -->
   <div class="chapter-nav">
     <a href="A_Remote_Access_en.html" class="prev">
       <div class="dir">&larr; Appendix A</div>

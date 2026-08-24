@@ -280,6 +280,17 @@
     <strong>Tip:</strong> <code>/sync</code> 명령어는 컨벤셔널 커밋 메시지를 인수로 받습니다. 예: <code>/sync "feat(pm): add meeting facilitation skill"</code>. 시스템은 이 메시지를 git 커밋에 사용하므로, 명확하고 설명적인 메시지를 작성하는 것이 중요합니다. 형식은 <code>type(scope): description</code> 패턴을 따릅니다.
   </div>
 
+  <div class="note">
+    <p><strong>/sync 추가 안전 게이트</strong>(2026-08-24 기준) &mdash; 위의 5단계 외에도 파이프라인 안에서 아래 검사들이 자동으로 실행됩니다. 사용자는 보통 프롬프트가 표시되면 답하기만 하면 됩니다.</p>
+    <ul>
+      <li><strong>언어 게이트</strong> &mdash; 커밋 메시지와 PR 제목이 영어 규칙에 맞는지 검사합니다.</li>
+      <li><strong>스펙 레지스트리 검사</strong> &mdash; <code>audit.ts --spec-check</code>: 이번 작업이 <code>docs/specs/registry.json</code>에 등록된 설계 문서(스펙)와 연결돼 있는지 확인하고, 없으면 동기화가 중단됩니다(FATAL). 오타 수정 같은 사소한 변경은 예외 코드 E1~E5(<code>--spec-exempt</code> 또는 <code>SYNC_SPEC_EXEMPT</code>)로 면제할 수 있습니다.</li>
+      <li><strong>거버넌스 반영 게이트(ADR-0059)</strong> &mdash; 변경 내용이 관련 ADR(설계 결정 기록)과 연결돼 있는지 검사합니다.</li>
+      <li><strong>스킬 그래프 게이트(ADR-0060)</strong> &mdash; 스킬 간 의존 관계 그래프를 만들고 검증해 순환 참조 같은 문제를 미리 잡아 냅니다.</li>
+      <li><strong>VERSION_MANIFEST 재생성</strong> &mdash; <code>docs/VERSION_MANIFEST.md</code> 버전 목록을 최신 상태로 다시 생성합니다.</li>
+    </ul>
+  </div>
+
   <h3>언제 /sync를 실행해야 할까</h3>
 
   <p>프로젝트 파일을 수정한 모든 작업 세션의 끝에서 <code>/sync</code>를 실행해야 합니다. 구체적으로 다음과 같은 경우입니다.</p>
@@ -565,6 +576,49 @@ git log --oneline</code></pre>
   </div>
 
   <p>AI 하니스에서는 도구 수준에서도 훅을 정의할 수 있습니다. 예를 들어 Claude Code 훅은 AI 에이전트가 파일을 수정하려고 할 때 스크립트를 트리거할 수 있어, Git 훅 이상의 추가 강제 레이어를 제공합니다.</p>
+
+  <p>쉽게 말해 도구 수준 훅은 AI 에이전트를 위한 <strong>자동 안전장치</strong>입니다. 에이전트가 파일을 고치려 하거나 다른 에이전트를 부르는 그 순간에 끼어들어, 문제가 커지기 전에 잡아 줍니다. 실제로 이 워크스페이스의 <code>.claude/settings.json</code>에는 아래와 같은 도구 훅이 등록되어 있습니다(2026-08-24 기준).</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>훅 스크립트</th>
+        <th>실행 시점</th>
+        <th>하는 일</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>gateguard-fact-force.ts</code></td>
+        <td>PreToolUse &middot; Edit/Write/MultiEdit</td>
+        <td><strong>사전 검증 게이트</strong> &mdash; 파일을 수정하기 전에 이 파일을 참조하는 곳과 변경의 사실 관계를 먼저 확인합니다.</td>
+      </tr>
+      <tr>
+        <td><code>agent-model-gate.ts</code></td>
+        <td>PreToolUse &middot; Agent</td>
+        <td><strong>모델 등급 강제</strong> &mdash; 에이전트를 호출할 때 작업 난이도에 맞는 모델 등급(High/Medium/Low)을 쓰는지 검사합니다.</td>
+      </tr>
+      <tr>
+        <td><code>post-write-lifecycle-check.ts</code></td>
+        <td>PostToolUse &middot; Write/Edit + TeammateIdle</td>
+        <td><strong>사후 라이프사이클 검사</strong> &mdash; 파일이 수정된 후 버전 기록이나 CHANGELOG 갱신이 필요한지 확인합니다.</td>
+      </tr>
+      <tr>
+        <td><code>audit.ts</code></td>
+        <td>TaskCompleted</td>
+        <td><strong>작업 완료 QA 감사</strong> &mdash; 에이전트의 작업이 끝날 때마다 워크스페이스 전체 감사를 자동으로 실행합니다.</td>
+      </tr>
+      <tr>
+        <td><code>git config core.hooksPath .githooks</code></td>
+        <td>SessionStart / WorktreeCreate</td>
+        <td><strong>Git 훅 연결</strong> &mdash; 세션 또는 작업트리(worktree) 시작 시 Git 훅 폴더(<code>.githooks</code>)를 연결해 pre-commit 같은 Git 훅이 항상 작동하게 만듭니다.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>훅에 막혔다고 놀랄 필요 없습니다.</strong> 훅은 여러분을 가로막기 위한 것이 아니라 실수를 일찍 알려 주는 보호 장치입니다. 검사에 걸리면 훅이 이유와 수정 힌트를 알려 주므로, 안내대로 고친 뒤 다시 시도하면 됩니다.
+  </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 5: CI/CD Basics                                        -->

@@ -278,6 +278,17 @@
     <strong>Tip:</strong> The <code>/sync</code> command takes a conventional commit message as its argument, for example: <code>/sync "feat(pm): add meeting facilitation skill"</code>. The system uses this message for the git commit, so writing a clear, descriptive message is important. The format follows the pattern <code>type(scope): description</code>.
   </div>
 
+  <div class="note">
+    <p><strong>Extra /sync safety gates</strong> (as of 2026-08-24) &mdash; beyond the five steps above, the following checks run automatically inside the pipeline. Users normally just answer the prompts as they appear.</p>
+    <ul>
+      <li><strong>Language gate</strong> &mdash; verifies that commit messages and PR titles follow the English-only rule.</li>
+      <li><strong>Spec registry check</strong> &mdash; <code>audit.ts --spec-check</code>: confirms the work is linked to a design doc (spec) registered in <code>docs/specs/registry.json</code>; if not, the sync halts (FATAL). Trivial changes like typo fixes can be exempted with codes E1&ndash;E5 (<code>--spec-exempt</code> or the <code>SYNC_SPEC_EXEMPT</code> env var).</li>
+      <li><strong>Governance reflection gate (ADR-0059)</strong> &mdash; checks that changes are linked to their related ADRs (design decision records).</li>
+      <li><strong>Skill graph gate (ADR-0060)</strong> &mdash; builds and verifies the skill dependency graph, catching issues such as circular references early.</li>
+      <li><strong>VERSION_MANIFEST regeneration</strong> &mdash; regenerates the <code>docs/VERSION_MANIFEST.md</code> version list to reflect the latest state.</li>
+    </ul>
+  </div>
+
   <h3>When to Run /sync</h3>
 
   <p>You should run <code>/sync</code> at the end of any work session that modified project files. Specifically:</p>
@@ -548,6 +559,49 @@ git log --oneline</code></pre>
   </div>
 
   <p>In the AI harness, hooks can also be defined at the tool level. For example, Claude Code hooks can trigger scripts when an AI agent attempts to edit a file, providing an additional layer of enforcement beyond what Git hooks offer.</p>
+
+  <p>In plain terms, tool-level hooks are <strong>automatic safety devices</strong> for the AI agent. They step in at the exact moment the agent is about to edit a file or dispatch another agent, catching problems before they grow. This workspace's <code>.claude/settings.json</code> actually registers the following tool hooks (as of 2026-08-24).</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Hook Script</th>
+        <th>Trigger Event</th>
+        <th>What It Does</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>gateguard-fact-force.ts</code></td>
+        <td>PreToolUse &middot; Edit/Write/MultiEdit</td>
+        <td><strong>Pre-edit fact-check gate</strong> &mdash; before any file edit, checks where the file is used and verifies the facts behind the change.</td>
+      </tr>
+      <tr>
+        <td><code>agent-model-gate.ts</code></td>
+        <td>PreToolUse &middot; Agent</td>
+        <td><strong>Model-tier enforcement</strong> &mdash; checks that dispatched agents use the model tier (High/Medium/Low) appropriate for the task's difficulty.</td>
+      </tr>
+      <tr>
+        <td><code>post-write-lifecycle-check.ts</code></td>
+        <td>PostToolUse &middot; Write/Edit + TeammateIdle</td>
+        <td><strong>Post-write lifecycle check</strong> &mdash; after files change, checks whether version records or CHANGELOG entries need updating.</td>
+      </tr>
+      <tr>
+        <td><code>audit.ts</code></td>
+        <td>TaskCompleted</td>
+        <td><strong>Completion QA audit</strong> &mdash; whenever an agent task finishes, automatically runs a full workspace audit.</td>
+      </tr>
+      <tr>
+        <td><code>git config core.hooksPath .githooks</code></td>
+        <td>SessionStart / WorktreeCreate</td>
+        <td><strong>Git hook wiring</strong> &mdash; when a session or worktree starts, points Git at the <code>.githooks</code> folder so Git hooks like pre-commit always work.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>Don't panic if a hook blocks you.</strong> Hooks are not there to get in your way &mdash; they catch mistakes early. When a check fails, the hook explains why and how to fix it, so correct the issue and try again.
+  </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 5: CI/CD Basics                                        -->

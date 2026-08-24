@@ -14,12 +14,12 @@
 <nav>
   <a href="../index_es.html" class="nav-home">&larr; Inicio del manual</a>
   <div class="nav-title">Apéndice C &middot; Integración de backends de IA de bajo costo</div>
-  <a href="#why-low-cost">Why Backends de bajo costo</a>
-  <a href="#deepseek">DeepSeek Backend</a>
-  <a href="#glm">GLM/ZhipuAI Backend</a>
-  <a href="#litellm">LiteLLM Proxy</a>
-  <a href="#comparison">Backend Comparison</a>
-  <a href="#practice">Practice: Switch Backends</a>
+  <a href="#why-low-cost">¿Por qué backends de bajo costo?</a>
+  <a href="#deepseek">Backend de DeepSeek</a>
+  <a href="#glm">Backend de GLM/ZhipuAI</a>
+  <a href="#litellm">Proxy de LiteLLM</a>
+  <a href="#comparison">Comparación de backends</a>
+  <a href="#practice">Práctica: cambio de backends</a>
   <div class="nav-section">Otros capítulos</div>
   <a href="B_Claude_Code_CLI_es.html">Apéndice B &middot; Guía de Claude Code CLI</a>
 </nav>
@@ -27,608 +27,617 @@
  <article class="reading">
   <div class="chapter-eyebrow">Apéndice C</div>
   <h1>Integración de backends de IA de bajo costo</h1>
-  <p class="lead">Este apéndice cubre la configuración de backends de IA compatibles con Claude y de bajo costo — DeepSeek, GLM/ZhipuAI y el proxy LiteLLM — para que puedas ejecutar harness multi-agente sin una suscripción premium de Claude Pro.</p>
+  <p class="lead">Este apéndice explica cómo configurar backends de IA de bajo costo compatibles con Claude Code — DeepSeek, GLM/ZhipuAI y LiteLLM.</p>
   <div class="keypoints">
-    <div class="kp-title">What This Apéndice Covers</div>
+    <div class="kp-title">Qué cubre este apéndice</div>
     <ul>
-      <li>Why low-cost backends matter</li>
-      <li>DeepSeek backend setup</li>
-      <li>GLM/ZhipuAI backend setup</li>
-      <li>LiteLLM proxy setup</li>
-      <li>Backend comparison</li>
-      <li>Practice: switch backends</li>
+      <li>Por qué hacen falta backends de bajo costo</li>
+      <li>Configuración del backend de DeepSeek</li>
+      <li>Configuración del backend de GLM/ZhipuAI</li>
+      <li>Configuración del proxy de LiteLLM</li>
+      <li>Comparación de backends</li>
+      <li>Práctica: cambio de backends</li>
     </ul>
   </div>
 
   <!-- ============================================================
-       Section 1: Why Backends de bajo costo
+       SECTION 1: ¿Por qué backends de bajo costo?
        ============================================================ -->
-  <h2 id="why-low-cost">1. Why Backends de bajo costo?</h2>
+  <h2 id="why-low-cost">1. ¿Por qué backends de bajo costo?</h2>
 
-  <p>Piensa en la fijación de precios de las API de IA como un plan de teléfono móvil. Claude Pro es como un plan ilimitado a tarifa plana: pagas una tarifa mensual fija ($20/mes) y puedes usarlo extensivamente. Los backends de bajo costo son como planes de pago por uso: solo pagas por lo que realmente utilizas, a menudo una fracción del costo por token. Para los desarrolladores que ejecutan muchas tareas automatizadas de agentes, el modelo de pago por uso puede ser significativamente más barato.</p>
+  <p>Claude Code usa por defecto los modelos Claude de Anthropic. La suscripción Claude Pro cuesta <strong>$20</strong> al mes y, como plan de tarifa plana, permite un número fijo de preguntas cada mes. Pero si llevas muchos proyectos adelante o necesitas generar grandes volúmenes de código, el costo puede convertirse en una carga.</p>
+
+  <p>Con un backend de bajo costo basado en API se factura <strong>solo lo que usas</strong>, así que con poco uso sale mucho más barato que Claude Pro. En particular, la CLI de Claude Code ofrece la flexibilidad de cambiar a otro backend de IA con solo modificar variables de entorno.</p>
+
+  <div class="flow-box">
+    Claude Pro es un <strong>«plan de tarifa plana»</strong> y los backends de API son <strong>«planes de pago por uso»</strong>. Cuanto menos usas, menos pagas. Se entiende fácil si piensas en un plan de teléfono móvil — es como la diferencia entre un plan de tarifa plana con datos fijos cada mes y un plan de pago por uso donde pagas solo lo que consumas.
+  </div>
+
+  <div class="note">
+    Necesitas la CLI de Claude Code. La app de escritorio de Claude (Claude Desktop App) no admite backends personalizados (consulta el <a href="B_Claude_Code_CLI_es.html">Apéndice B</a>).
+  </div>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram comparing flat-rate Claude Pro vs pay-per-use low-cost backends">
-      <defs>
-        <marker id="arrowLC" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
-        </marker>
-      </defs>
+    <svg viewBox="0 0 660 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <!-- Background -->
+      <rect width="660" height="340" rx="10" fill="var(--bg2)"/>
 
       <!-- Title -->
-      <text x="340" y="28" text-anchor="middle" style="color:var(--text);font-size:15px;font-weight:700;">Pricing Model Comparison</text>
+      <text x="330" y="30" text-anchor="middle" font-size="15" font-weight="700" style="color:var(--text);">Claude Pro frente a backends de bajo costo</text>
 
-      <!-- Claude Pro (Flat-Rate) -->
-      <rect x="40" y="55" width="260" height="240" rx="14" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="170" y="88" text-anchor="middle" style="color:var(--accent);font-size:13px;font-weight:700;">Flat-Rate Plan</text>
-      <text x="170" y="110" text-anchor="middle" style="color:var(--text);font-size:15px;font-weight:700;">Claude Pro</text>
+      <!-- Claude Pro column -->
+      <rect x="40" y="55" width="270" height="260" rx="8" fill="var(--bg3)" stroke="var(--border)"/>
+      <rect x="40" y="55" width="270" height="40" rx="8" fill="var(--accent)"/>
+      <rect x="40" y="85" width="270" height="10" fill="var(--accent)"/>
+      <text x="175" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-inverse)">Claude Pro (tarifa plana)</text>
 
-      <rect x="70" y="128" width="200" height="40" rx="8" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
-      <text x="170" y="153" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">$20 / month (fixed)</text>
+      <circle cx="80" cy="125" r="14" fill="var(--accent)"/>
+      <text x="80" y="130" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">$</text>
+      <text x="104" y="130" font-size="13" style="color:var(--text);">$20 al mes fijos</text>
 
-      <rect x="70" y="178" width="200" height="40" rx="8" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
-      <text x="170" y="197" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">Generous daily usage cap</text>
-      <text x="170" y="210" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">(varies by plan tier)</text>
+      <circle cx="80" cy="165" r="14" fill="var(--accent-green)"/>
+      <text x="80" y="170" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">✓</text>
+      <text x="104" y="170" font-size="13" style="color:var(--text);">Fijo sin importar el uso</text>
 
-      <rect x="70" y="228" width="200" height="36" rx="8" fill="var(--bg-success)" stroke="var(--border-success)" stroke-width="1"/>
-      <text x="170" y="251" text-anchor="middle" style="color:var(--accent-green);font-size:11px;font-weight:600;">Best for: regular daily use</text>
+      <circle cx="80" cy="205" r="14" fill="var(--accent-purple)"/>
+      <text x="80" y="210" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">★</text>
+      <text x="104" y="210" font-size="13" style="color:var(--text);">Coreano · generación de código excelentes</text>
 
-      <!-- Backends de bajo costo (Pay-Per-Use) -->
-      <rect x="380" y="55" width="260" height="240" rx="14" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="510" y="88" text-anchor="middle" style="color:var(--accent-green);font-size:13px;font-weight:700;">Pay-Per-Use Plan</text>
-      <text x="510" y="110" text-anchor="middle" style="color:var(--text);font-size:15px;font-weight:700;">Backends de bajo costo</text>
+      <circle cx="80" cy="245" r="14" fill="var(--accent-amber)"/>
+      <text x="80" y="250" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">!</text>
+      <text x="104" y="250" font-size="13" style="color:var(--text);">Sin instalación — el más fácil</text>
 
-      <rect x="410" y="128" width="200" height="40" rx="8" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
-      <text x="510" y="153" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">~$0.01 &ndash; $0.14 / 1M tokens</text>
+      <circle cx="80" cy="285" r="14" fill="var(--accent-red)"/>
+      <text x="80" y="290" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">!</text>
+      <text x="104" y="290" font-size="13" style="color:var(--text);">Ineficiente con mucho uso</text>
 
-      <rect x="410" y="178" width="200" height="40" rx="8" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
-      <text x="510" y="197" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">No monthly commitment</text>
-      <text x="510" y="210" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">Paga solo por los tokens utilizados</text>
+      <!-- Low-cost column -->
+      <rect x="350" y="55" width="270" height="260" rx="8" fill="var(--bg3)" stroke="var(--border)"/>
+      <rect x="350" y="55" width="270" height="40" rx="8" fill="var(--accent-green)"/>
+      <rect x="350" y="85" width="270" height="10" fill="var(--accent-green)"/>
+      <text x="485" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-inverse)">Backends de bajo costo (pago por uso)</text>
 
-      <rect x="410" y="228" width="200" height="36" rx="8" fill="var(--bg-success)" stroke="var(--border-success)" stroke-width="1"/>
-      <text x="510" y="251" text-anchor="middle" style="color:var(--accent-green);font-size:11px;font-weight:600;">Best for: automated batch runs</text>
+      <circle cx="390" cy="125" r="14" fill="var(--accent-green)"/>
+      <text x="390" y="130" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">$</text>
+      <text x="414" y="130" font-size="13" style="color:var(--text);">Se factura solo el uso</text>
 
-      <!-- Connector arrow -->
-      <line x1="300" y1="175" x2="380" y2="175" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowLC)"/>
-      <text x="340" y="167" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">vs.</text>
+      <circle cx="390" cy="165" r="14" fill="var(--accent)"/>
+      <text x="390" y="170" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">↕</text>
+      <text x="414" y="170" font-size="13" style="color:var(--text);">Muy barato si usas poco</text>
+
+      <circle cx="390" cy="205" r="14" fill="var(--accent-purple)"/>
+      <text x="390" y="210" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">★</text>
+      <text x="414" y="210" font-size="13" style="color:var(--text);">El rendimiento varía según el backend</text>
+
+      <circle cx="390" cy="245" r="14" fill="var(--accent-amber)"/>
+      <text x="390" y="250" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">⚙</text>
+      <text x="414" y="250" font-size="13" style="color:var(--text);">Instalación de CLI + variables de entorno</text>
+
+      <circle cx="390" cy="285" r="14" fill="var(--accent-green)"/>
+      <text x="390" y="290" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">✓</text>
+      <text x="414" y="290" font-size="13" style="color:var(--text);">Cambio entre varios backends posible</text>
+
+      <!-- VS divider -->
+      <text x="330" y="195" text-anchor="middle" font-size="20" font-weight="700" style="color:var(--accent);">VS</text>
     </svg>
   </div>
 
-  <h3>When Backends de bajo costo Make Sense</h3>
+  <h3>Cuándo conviene un backend de bajo costo</h3>
 
   <ul>
-    <li><strong>Procesamiento por lotes</strong> &mdash; Cuando ejecutas docenas de tareas de agentes consecutivamente (por ejemplo, generar múltiples capítulos de un manual), el precio por token es mucho más barato que una suscripción a tarifa plana.</li>
-    <li><strong>Experimentación</strong> &mdash; Cuando estás prototipando un nuevo harness o probando configuraciones de agentes, puedes consumir muchos tokens en pruebas. Los backends de bajo costo reducen el coste de la experimentación.</li>
-    <li><strong>Uso en equipo o aula</strong> &mdash; Cuando varias personas comparten un workspace, cada persona puede usar su propia clave API de bajo costo en lugar de compartir un único asiento de Claude Pro.</li>
-    <li><strong>Control de costes</strong> &mdash; Con el pago por uso, puedes establecer límites de gasto estrictos. Un bucle de agente descontrolado no te cobrará más allá del saldo de tu clave API.</li>
+    <li><strong>Trabajo masivo (procesamiento por lotes)</strong> — Cuando ejecutas decenas de tareas de agentes una tras otra (por ejemplo, generar varios capítulos del manual), el pago por uso sale mucho más barato que una suscripción de tarifa plana.</li>
+    <li><strong>Experimentación y prototipado</strong> — Al prototipar un nuevo harness o probar configuraciones de agentes, el proceso de ensayo y error puede consumir muchos tokens. Los backends de bajo costo reducen el costo de experimentar.</li>
+    <li><strong>Uso en equipo o en clase</strong> — Cuando varias personas comparten un mismo espacio de trabajo, cada quien puede usar su propia clave API de bajo costo en lugar de repartirse un único asiento de Claude Pro.</li>
+    <li><strong>Control de costos</strong> — Con el pago por uso puedes fijar límites de gasto estrictos. Aunque un bucle de agente quede corriendo sin fin, nunca se facturará más allá del saldo de tu clave API.</li>
   </ul>
 
   <div class="note">
-    Los backends de bajo costo no son un reemplazo perfecto para Claude. Los modelos de Claude (Anthropic) tienden a producir mejores resultados para tareas complejas de razonamiento, escritura matizada y planificación en múltiples pasos. Los backends de bajo costo son ideales para tareas de <em>alto volumen y complejidad moderada</em>, como generación de código, resumen y formato.
+    Un backend de bajo costo no es un reemplazo perfecto de Claude. Los modelos de Claude (Anthropic) tienden a dar mejores resultados en razonamiento complejo, escritura cuidada y planificación de múltiples pasos. Los backends de bajo costo son ideales para trabajo de <em>gran volumen y complejidad media</em>, como generación de código, resúmenes y formato.
   </div>
 
   <!-- ============================================================
-       Section 2: DeepSeek Backend
+       SECTION 2: Backend de DeepSeek
        ============================================================ -->
-  <h2 id="deepseek">2. DeepSeek Backend</h2>
+  <h2 id="deepseek">2. Backend de DeepSeek</h2>
 
-  <p><strong>DeepSeek</strong> es un laboratorio de investigación de IA chino que ofrece modelos lingüísticos de alto rendimiento a precios muy competitivos. DeepSeek-V3 y DeepSeek-R1 se utilizan ampliamente como reemplazos directos de Claude en muchos flujos de trabajo de agentes.</p>
+  <h3>¿Qué es DeepSeek?</h3>
+  <p>DeepSeek es una plataforma china de IA de bajo costo y alto rendimiento. Sus modelos más recientes, como DeepSeek-V3, muestran un rendimiento sobresaliente en generación de código, razonamiento matemático, comprensión multilingüe y más. Como ofrece una API compatible con Claude, puedes usarlo en Claude Code con solo <strong>cambiar variables de entorno</strong>.</p>
 
-  <h3>Why DeepSeek?</h3>
+  <h3>Características principales</h3>
   <ul>
-    <li>Extremely low cost: approximately $0.27 per 1M input tokens and $1.10 per 1M output tokens (DeepSeek-V3).</li>
-    <li>Capacidades sólidas de codificación y razonamiento, especialmente DeepSeek-R1 para tareas de cadena de pensamiento.</li>
-    <li>Claude-compatible API format via the <code>deepseek-chat</code> model endpoint.</li>
+    <li><strong>API compatible con Claude</strong> — Admite el formato de la API de Anthropic tal cual, integrándose sin fricciones con Claude Code</li>
+    <li><strong>Precio accesible</strong> — Con poco uso, mucho más barato que Claude Pro a $20 al mes</li>
+    <li><strong>Tarifas ultrabajas</strong> — En DeepSeek-V3, unos $0.27 por 1M de tokens de entrada y $1.10 por 1M de tokens de salida</li>
+    <li><strong>Poderosa generación de código</strong> — Excelente comprensión de lenguajes de programación y capacidad de escritura de código</li>
+    <li><strong>Modelos de código abierto</strong> — También ofrece modelos abiertos como la familia DeepSeek-V3/R1</li>
   </ul>
 
-  <h3>Setup Overview</h3>
+  <h3>Configuración</h3>
+
+  <p><strong>Paso 1: Emitir una clave API de DeepSeek</strong></p>
+  <p>Accede a <a href="https://platform.deepseek.com" target="_blank">https://platform.deepseek.com</a>, crea una cuenta y emite una clave API. La disponibilidad de crédito gratuito puede variar según la política de la plataforma.</p>
+
+  <p><strong>Paso 2: Configurar las variables de entorno</strong></p>
+
+  <p>En macOS / Linux:</p>
+  <div class="code-block">
+<pre><code>export ANTHROPIC_API_KEY="your-deepseek-api-key"
+export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+
+  <p>En Windows (PowerShell):</p>
+  <div class="code-block">
+<pre><code>$env:ANTHROPIC_API_KEY="your-deepseek-api-key"
+$env:ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+
+  <p><strong>Paso 3: Ejecutar Claude Code</strong></p>
+  <p>Tras configurar las variables de entorno, ejecuta Claude Code como de costumbre:</p>
+  <div class="code-block">
+<pre><code>claude</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+
+  <div class="tip-box">
+    Puedes obtener gratis una clave API de DeepSeek en <a href="https://platform.deepseek.com" target="_blank">https://platform.deepseek.com</a>. La disponibilidad de crédito gratuito depende de la política de la plataforma, así que pruébalo tú mismo antes de decidir.
+  </div>
+
+  <div class="warn">
+    Nunca subas claves API a GitHub. Usa un archivo <code>.env</code> o las variables de entorno del sistema. Si una clave API se filtra, otras personas podrían usar tu cuenta.
+  </div>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 660 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DeepSeek setup flow diagram">
+    <svg viewBox="0 0 660 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <!-- Background -->
+      <rect width="660" height="260" rx="10" fill="var(--bg2)"/>
+
+      <!-- Title -->
+      <text x="330" y="28" text-anchor="middle" font-size="15" font-weight="700" style="color:var(--text);">Flujo de configuración de la integración con DeepSeek</text>
+
+      <!-- Step 1: API Key -->
+      <rect x="30" y="50" width="170" height="180" rx="8" fill="var(--bg3)" stroke="var(--accent)"/>
+      <rect x="30" y="50" width="170" height="36" rx="8" fill="var(--accent)"/>
+      <rect x="30" y="78" width="170" height="8" fill="var(--accent)"/>
+      <text x="115" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text-inverse)">1. Emisión de clave API</text>
+      <text x="115" y="112" text-anchor="middle" font-size="11" style="color:var(--text-dim);">platform.deepseek.com</text>
+      <text x="115" y="132" text-anchor="middle" font-size="11" style="color:var(--text-dim);">Registro → crear clave API</text>
+      <rect x="50" y="150" width="130" height="24" rx="4" fill="var(--bg)" stroke="var(--border)"/>
+      <text x="115" y="166" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--accent);">sk-xxxx...</text>
+
+      <!-- Arrow 1→2 -->
+      <line x1="200" y1="140" x2="225" y2="140" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowDeep)"/>
+
+      <!-- Step 2: Env Vars -->
+      <rect x="230" y="50" width="170" height="180" rx="8" fill="var(--bg3)" stroke="var(--accent-green)"/>
+      <rect x="230" y="50" width="170" height="36" rx="8" fill="var(--accent-green)"/>
+      <rect x="230" y="78" width="170" height="8" fill="var(--accent-green)"/>
+      <text x="315" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text-inverse)">2. Variables de entorno</text>
+      <text x="315" y="112" text-anchor="middle" font-size="10" style="color:var(--text-dim);">ANTHROPIC_API_KEY</text>
+      <rect x="250" y="122" width="130" height="20" rx="4" fill="var(--bg)" stroke="var(--border)"/>
+      <text x="315" y="137" text-anchor="middle" font-size="9" font-family="monospace" style="color:var(--accent-green);">= "sk-xxxx..."</text>
+      <text x="315" y="162" text-anchor="middle" font-size="10" style="color:var(--text-dim);">ANTHROPIC_BASE_URL</text>
+      <rect x="250" y="172" width="130" height="20" rx="4" fill="var(--bg)" stroke="var(--border)"/>
+      <text x="315" y="186" text-anchor="middle" font-size="8" font-family="monospace" style="color:var(--accent-green);">= "api.deepseek.com/..."</text>
+
+      <!-- Arrow 2→3 -->
+      <line x1="400" y1="140" x2="425" y2="140" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowDeep)"/>
+
+      <!-- Step 3: Run -->
+      <rect x="430" y="50" width="200" height="180" rx="8" fill="var(--bg3)" stroke="var(--accent-purple)"/>
+      <rect x="430" y="50" width="200" height="36" rx="8" fill="var(--accent-purple)"/>
+      <rect x="430" y="78" width="200" height="8" fill="var(--accent-purple)"/>
+      <text x="530" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text-inverse)">3. Ejecutar Claude Code</text>
+      <rect x="460" y="110" width="140" height="30" rx="6" fill="var(--bg)" stroke="var(--accent-purple)"/>
+      <text x="530" y="130" text-anchor="middle" font-size="12" font-family="monospace" font-weight="700" style="color:var(--accent-purple);">$ claude</text>
+      <text x="530" y="165" text-anchor="middle" font-size="11" style="color:var(--text);">Claude Code se ejecuta</text>
+      <text x="530" y="185" text-anchor="middle" font-size="11" style="color:var(--text);">con el backend de DeepSeek</text>
+
+      <!-- Arrow marker -->
       <defs>
-        <marker id="arrowDS" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-green)"/>
+        <marker id="arrowDeep" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)"/>
         </marker>
       </defs>
-
-      <!-- Paso 1: Sign Up -->
-      <rect x="20" y="100" width="110" height="60" rx="10" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="75" y="125" text-anchor="middle" style="color:var(--accent-green);font-size:11px;font-weight:700;">Step 1</text>
-      <text x="75" y="145" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Sign Up</text>
-
-      <!-- Arrow 1->2 -->
-      <line x1="130" y1="130" x2="175" y2="130" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowDS)"/>
-
-      <!-- Paso 2: Get API Key -->
-      <rect x="177" y="100" width="130" height="60" rx="10" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="242" y="125" text-anchor="middle" style="color:var(--accent-green);font-size:11px;font-weight:700;">Step 2</text>
-      <text x="242" y="145" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Get API Key</text>
-
-      <!-- Arrow 2->3 -->
-      <line x1="307" y1="130" x2="352" y2="130" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowDS)"/>
-
-      <!-- Paso 3: Set Env Var -->
-      <rect x="354" y="100" width="140" height="60" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="424" y="125" text-anchor="middle" style="color:var(--accent);font-size:11px;font-weight:700;">Step 3</text>
-      <text x="424" y="145" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Set Env Var</text>
-
-      <!-- Arrow 3->4 -->
-      <line x1="494" y1="130" x2="539" y2="130" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowDS)"/>
-
-      <!-- Paso 4: Use -->
-      <rect x="541" y="100" width="100" height="60" rx="10" fill="var(--bg-success)" stroke="var(--border-success)" stroke-width="2"/>
-      <text x="591" y="125" text-anchor="middle" style="color:var(--accent-green);font-size:11px;font-weight:700;">Step 4</text>
-      <text x="591" y="145" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">Use</text>
-
-      <!-- Labels below steps -->
-      <text x="75" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">platform.deepseek.com</text>
-      <text x="242" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">API Keys page</text>
-      <text x="424" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">ANTHROPIC_API_KEY</text>
-      <text x="591" y="185" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">Run agents</text>
     </svg>
   </div>
 
-  <h3>Step-by-Step Setup</h3>
-
-  <p><strong>Paso 1 — Crear una cuenta</strong>: Visita <strong>platform.deepseek.com</strong>, regístrate con tu correo electrónico o número de teléfono y completa el registro.</p>
-
-  <p><strong>Paso 2 — Generar una clave API</strong>: Navega a la sección de Claves API en el panel de control de tu cuenta. Haz clic en <strong>"Create API Key"</strong>, copia la clave y guárdala de forma segura. No podrás verla de nuevo.</p>
-
-  <p><strong>Paso 3 &mdash; Establece la variable de entorno</strong>:</p>
-
-  <p><em>Mac / Linux</em></p>
-  <div class="code-block">
-<pre><code># Add to your ~/.bashrc, ~/.zshrc, or ~/.profile
-export ANTHROPIC_API_KEY="sk-your-api-key-here"
-
-# Apply immediately
-source ~/.bashrc</code></pre>
-<button type="button" class="copy-btn">Copiar</button>
-</div>
-
-  <p><em>Windows (PowerShell)</em></p>
-  <div class="code-block">
-<pre><code># Set for the current session
-$env:ANTHROPIC_API_KEY = "sk-your-api-key-here"
-
-# Set permanently (recommended)
-[System.Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", "sk-your-api-key-here", "User")</code></pre>
-<button type="button" class="copy-btn">Copiar</button>
-</div>
-
-  <p><em>Windows (Command Prompt)</em></p>
-  <div class="code-block">
-<pre><code># Set for the current session
-set ANTHROPIC_API_KEY=sk-your-api-key-here
-
-# Set permanently (recommended &mdash; via System Properties)
-setx ANTHROPIC_API_KEY "sk-your-api-key-here"</code></pre>
-<button type="button" class="copy-btn">Copiar</button>
-</div>
-
-  <div class="tip-box">
-    Reinicia tu terminal (o IDE) después de establecer las variables de entorno para que los nuevos valores surtan efecto. Si estás utilizando Claude Code CLI, lee la clave API al iniciar.
-  </div>
-
-  <p><strong>Paso 4 — Configurar Claude Code para usar DeepSeek</strong>: En la configuración de tu workspace (por ejemplo, <code>CLAUDE.md</code> o el archivo de configuración equivalente), apunta la URL base de la API y el modelo a DeepSeek:</p>
-
-  <div class="code-block">
-<pre><code>ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
-ANTHROPIC_MODEL=deepseek-chat</code></pre>
-<button type="button" class="copy-btn">Copiar</button>
-</div>
-
-  <p>Esto le indica a Claude Code que envíe solicitudes al endpoint de la API de DeepSeek en lugar del de Anthropic. El formato de respuesta es compatible, por lo que no se necesitan otros cambios.</p>
-
   <!-- ============================================================
-       Section 3: GLM/ZhipuAI Backend
+       SECTION 3: Backend de GLM/ZhipuAI
        ============================================================ -->
-  <h2 id="glm">3. GLM/ZhipuAI Backend</h2>
+  <h2 id="glm">3. Backend de GLM/ZhipuAI</h2>
 
-  <p><strong>ZhipuAI</strong> (anteriormente conocido como GLM) es una empresa de IA china respaldada por la Universidad de Tsinghua. Su serie de modelos <strong>GLM-4</strong> ofrece un sólido rendimiento para tareas de codificación, razonamiento y — notablemente — lenguaje chino. ZhipuAI también opera <strong>Z.ai</strong>, su plataforma global de desarrolladores en inglés para usuarios internacionales.</p>
+  <h3>¿Qué es GLM/ZhipuAI?</h3>
+  <p>ZhipuAI es una empresa china de investigación en IA que desarrolla la serie GLM (General Language Model). Su modelo más reciente, GLM-4, destaca en procesamiento multilingüe y su <strong>capacidad para el coreano es excelente</strong>, lo que lo hace adecuado para proyectos en coreano. Igual que DeepSeek, ofrece una API compatible con Claude. ZhipuAI también opera <strong>Z.ai</strong>, su plataforma global para desarrolladores en inglés.</p>
 
-  <h3>Why GLM/ZhipuAI?</h3>
+  <h3>Características principales</h3>
   <ul>
-    <li>Competitive pricing: roughly $0.10 per 1M input tokens for GLM-4-Flash (free tier available).</li>
-    <li>Excelente soporte para el idioma chino — mejor que la mayoría de los modelos occidentales para generación y comprensión de texto en chino.</li>
-    <li>GLM-4-Plus ofrece un rendimiento comparable a los modelos clase GPT-4 por una fracción del costo.</li>
-    <li>Claude-compatible API with OpenAI-style endpoints.</li>
+    <li><strong>API compatible con Claude</strong> — Admite el formato de la API de Anthropic para integrarse directamente con Claude Code</li>
+    <li><strong>Soporte multilingüe</strong> — Gran capacidad de procesamiento de lenguas asiáticas como el coreano, el japonés y el chino</li>
+    <li><strong>Optimizado para el coreano</strong> — Ofrece alta calidad en instrucciones y respuestas en coreano</li>
+    <li><strong>Facturación por uso</strong> — Costos eficientes calculados según el consumo</li>
+    <li><strong>Nivel gratuito disponible</strong> — GLM-4-Flash tiene nivel gratuito e incluso pagando compite con un precio de unos $0.10 por 1M de tokens de entrada</li>
   </ul>
 
+  <h3>Configuración</h3>
+
+  <p><strong>Paso 1: Emitir una clave API de ZhipuAI</strong></p>
+  <p>Accede a <a href="https://z.ai/model-api" target="_blank">https://z.ai/model-api</a> (Z.ai, la plataforma global para desarrolladores en inglés de ZhipuAI), crea una cuenta y emite una clave API.</p>
+
+  <p><strong>Paso 2: Configurar las variables de entorno</strong></p>
+
+  <p>En macOS / Linux:</p>
+  <div class="code-block">
+<pre><code>export ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
+export ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+
+  <p>En Windows (PowerShell):</p>
+  <div class="code-block">
+<pre><code>$env:ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
+$env:ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+
+  <p><strong>Paso 3: Ejecutar Claude Code</strong></p>
+  <p>Tras configurar las variables de entorno, ejecuta Claude Code. Es idéntico al método de DeepSeek:</p>
+  <div class="code-block">
+<pre><code>claude</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+
   <div class="tip-box">
-    Los modelos GLM/ZhipuAI son particularmente adecuados para tareas en idiomas coreano y chino. Si tu harness procesa contenido en coreano (notas de investigación, borradores de la trama, capítulos del manual), GLM-4 a menudo produce un resultado más natural y gramaticalmente correcto que los modelos centrados en Occidente. Considera usar GLM-4 como backend predeterminado para flujos de trabajo en idioma coreano.
+    La gran capacidad de GLM para el coreano lo hace ideal para proyectos en ese idioma. Resulta especialmente ventajoso cuando preguntas en coreano y recibes respuestas en coreano.
   </div>
 
-  <h3>Step-by-Step Setup</h3>
+  <div class="note">
+    Para elegir entre DeepSeek y GLM, consulta la sección <a href="#comparison">Comparación de backends</a>. Ambos backends son compatibles con Claude Code, pero cada uno tiene fortalezas distintas.
+  </div>
 
-  <p><strong>Paso 1 — Crear una cuenta</strong>: Visita <a href="https://z.ai/model-api" target="_blank">z.ai/model-api</a> (Z.ai, la plataforma global de desarrolladores en inglés de ZhipuAI), regístrate y verifica tu número de teléfono.</p>
+  <h3>Precios: API de pago por uso y GLM Coding Plan de tarifa plana</h3>
+  <p>El backend de GLM puede usarse de dos maneras. La <strong>API de pago por uso</strong> configurada arriba factura según el consumo de tokens y usa una clave API emitida en <a href="https://z.ai/model-api" target="_blank">z.ai/model-api</a>. En cambio, el <strong>GLM Coding Plan</strong> es una suscripción mensual de tarifa plana compatible con Claude Code, Cline y OpenCode, cuyos créditos se reinician cada 5 horas y cada semana.</p>
 
-  <p><strong>Paso 2 — Generar una clave API</strong>: En la consola, navega a la sección de Claves API y crea una nueva clave.</p>
+  <div class="table-compare">
+    <table>
+      <thead>
+        <tr>
+          <th>Plan</th>
+          <th>Créditos de 5 horas</th>
+          <th>Créditos semanales</th>
+          <th>Notas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lite</td>
+          <td>2,000</td>
+          <td>10,000</td>
+          <td>Desde $18 al mes</td>
+        </tr>
+        <tr>
+          <td>Pro</td>
+          <td>12,000</td>
+          <td>60,000</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr>
+          <td>Max</td>
+          <td>28,000</td>
+          <td>140,000</td>
+          <td>&mdash;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <p><strong>Paso 3 &mdash; Establece la variable de entorno</strong>:</p>
-
-  <p><em>Mac / Linux</em></p>
-  <div class="code-block">
-<pre><code>export ANTHROPIC_AUTH_TOKEN="your-api-key-here"
-source ~/.bashrc</code></pre>
-<button type="button" class="copy-btn">Copiar</button>
-</div>
-
-  <p><em>Windows (PowerShell)</em></p>
-  <div class="code-block">
-<pre><code>$env:ANTHROPIC_AUTH_TOKEN = "your-api-key-here"
-
-# Permanent
-[System.Environment]::SetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", "your-api-key-here", "User")</code></pre>
-<button type="button" class="copy-btn">Copiar</button>
-</div>
-
-  <p><em>Windows (Command Prompt)</em></p>
-  <div class="code-block">
-<pre><code>set ANTHROPIC_AUTH_TOKEN=your-api-key-here
-
-# Permanent
-setx ANTHROPIC_AUTH_TOKEN "your-api-key-here"</code></pre>
-<button type="button" class="copy-btn">Copiar</button>
-</div>
-
-  <p><strong>Paso 4 &mdash; Configura la API</strong>:</p>
-
-  <div class="code-block">
-<pre><code>ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic</code></pre>
-<button type="button" class="copy-btn">Copiar</button>
-</div>
-
-  <p><code>glm-4-flash</code> es la opción más rentable. Utiliza <code>glm-4-plus</code> o <code>glm-4-long</code> para tareas que requieran una mayor calidad de razonamiento o ventanas de contexto más largas.</p>
-
-  <h3>Precios: API de pago por uso frente a la suscripción GLM Coding Plan</h3>
-  <p>Hay dos formas de pagar por GLM. La <strong>API de pago por uso</strong> configurada anteriormente factura por token con una clave API de <a href="https://z.ai/model-api" target="_blank">z.ai/model-api</a>. El <strong>GLM Coding Plan</strong> es una suscripción mensual para programación con IA, compatible con Claude Code, Cline y OpenCode; sus créditos se reinician cada 5 horas y semanalmente.</p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Plan</th>
-        <th>Créditos por 5 horas</th>
-        <th>Créditos semanales</th>
-        <th>Notas</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Lite</td>
-        <td>2,000</td>
-        <td>10,000</td>
-        <td>Suscripción desde $18/mes</td>
-      </tr>
-      <tr>
-        <td>Pro</td>
-        <td>12,000</td>
-        <td>60,000</td>
-        <td>&mdash;</td>
-      </tr>
-      <tr>
-        <td>Max</td>
-        <td>28,000</td>
-        <td>140,000</td>
-        <td>&mdash;</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <p>Los créditos se basan en tokens con multiplicadores por modelo y se reinician cada 5 horas y semanalmente. Todos los planes incluyen los modelos GLM-5.3, GLM-5-Turbo y GLM-4.7, además de los servidores MCP Vision, Web Search, Web Reader y Zread. Consulta los precios actuales en la página de suscripción &mdash; el uso fuera de las horas pico tiene un descuento del 50% (las horas pico son de lunes a viernes de 14:00 a 18:00 UTC+8).</p>
+  <p>Los créditos se basan en tokens, aplican multiplicadores por modelo y se reinician cada 5 horas y cada semana. Todos los planes incluyen los modelos GLM-5.3, GLM-5-Turbo y GLM-4.7 además de los servidores MCP Vision, Web Search, Web Reader y Zread. Consulta los precios vigentes en la página de suscripción. El uso fuera de las horas pico (lunes-viernes 14:00-18:00, UTC+8) recibe un descuento del 50%.</p>
 
   <div class="code-block">
-<pre><code># Mac / Linux
+<pre><code># macOS / Linux
 export ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
 export ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"
 
-# Windows PowerShell
+# Windows (PowerShell)
 $env:ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
 $env:ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
 
-  <p>Para configurarlo automáticamente, ejecuta <code>npx @z_ai/coding-helper</code>. Opcionalmente, puedes fijar modelos concretos mediante variables como <code>ANTHROPIC_DEFAULT_SONNET_MODEL</code>.</p>
+  <p>Para automatizar la configuración también puedes ejecutar <code>npx @z_ai/coding-helper</code>. Si hace falta, puedes fijar el modelo predeterminado con variables de entorno como <code>ANTHROPIC_DEFAULT_SONNET_MODEL</code>.</p>
 
   <div class="tip-box">
-    Si usas Claude Code a diario o de forma intensiva, el GLM Coding Plan mantiene los costes predecibles. Para un uso ocasional o ligero, la API de pago por uso suele ser más económica. Ten en cuenta que DeepSeek solo ofrece API de pago por uso &mdash; no tiene plan de suscripción.
+    Si usas Claude Code intensivamente todos los días, te conviene el GLM Coding Plan (tarifa plana) por su costo predecible. Para un uso ocasional y ligero, la API de pago por uso resulta más económica. Ten en cuenta que DeepSeek solo ofrece API de pago por uso y no tiene suscripción de tarifa plana.
   </div>
 
-  <p>Consulta la <a href="https://z.ai/subscribe" target="_blank">página de suscripción del GLM Coding Plan</a>, la <a href="https://docs.z.ai/devpack/overview" target="_blank">documentación oficial del plan</a> y la <a href="https://docs.z.ai/devpack/tool/claude" target="_blank">guía de integración con Claude Code</a> para más detalles.</p>
+  <p>Para más detalles consulta la <a href="https://z.ai/subscribe" target="_blank">página de suscripción del GLM Coding Plan</a>, la <a href="https://docs.z.ai/devpack/overview" target="_blank">documentación oficial del plan</a> y la <a href="https://docs.z.ai/devpack/tool/claude" target="_blank">guía de integración con Claude Code</a>.</p>
 
-  <h3>Model Selection Guide</h3>
+  <h3>Guía de selección de modelos</h3>
 
   <div class="compare-grid">
     <div class="compare-col">
       <h4>GLM-4-Flash</h4>
       <ul>
-        <li>Lowest cost (free tier available)</li>
-        <li>Fast response time</li>
-        <li>Good for simple tasks: formatting, summarization, translation</li>
-        <li>8K context window</li>
+        <li>El costo más bajo (hay nivel gratuito)</li>
+        <li>Respuestas rápidas</li>
+        <li>Apto para tareas simples: formato, resúmenes, traducción</li>
+        <li>Ventana de contexto de 8K</li>
       </ul>
     </div>
     <div class="compare-col">
       <h4>GLM-4-Plus</h4>
       <ul>
-        <li>Higher cost but still affordable</li>
-        <li>Strong reasoning and coding</li>
-        <li>Better for complex tasks: multi-step planning, code generation</li>
-        <li>128K context window</li>
+        <li>Más caro, pero aún a un precio razonable</li>
+        <li>Potente razonamiento y capacidad de código</li>
+        <li>Apto para tareas complejas: planificación de varios pasos, generación de código</li>
+        <li>Ventana de contexto de 128K</li>
       </ul>
     </div>
   </div>
 
   <!-- ============================================================
-       Section 4: LiteLLM Proxy
+       SECTION 4: Proxy de LiteLLM
        ============================================================ -->
-  <h2 id="litellm">4. LiteLLM Proxy</h2>
+  <h2 id="litellm">4. Proxy de LiteLLM</h2>
 
-  <p><strong>LiteLLM</strong> es una biblioteca Python de código abierto que actúa como un <em>proxy unificado</em> para más de 100 proveedores de LLM. En lugar de configurar cada backend por separado, configuras LiteLLM una vez y traduce las llamadas API al estilo Claude al formato correcto para cualquier proveedor que elijas.</p>
+  <h3>¿Qué es LiteLLM?</h3>
+  <p>LiteLLM es un proxy de código abierto que permite <strong>gestionar varios backends de IA con una única API unificada</strong>. Integra las API de varios proveedores (OpenAI, Anthropic, DeepSeek, ZhipuAI, etc.) en un solo endpoint y además ofrece conmutación automática ante fallos (failover).</p>
 
-  <div class="note">
-    Piensa en LiteLLM como un adaptador universal. Así como un adaptador de viaje te permite enchufar cualquier dispositivo en el tomacorriente eléctrico de cualquier país, LiteLLM permite que Claude Code (o cualquier cliente compatible con Claude) se comunique con cualquier proveedor de LLM — DeepSeek, GLM, OpenAI, Mistral, Ollama (local) y muchos más.
-  </div>
-
-  <h3>Why Use LiteLLM?</h3>
+  <h3>Ventajas</h3>
   <ul>
-    <li><strong>Single configuration</strong> &mdash; Define all backends in one YAML file.</li>
-    <li><strong>Easy switching</strong> &mdash; Change the active model by editing one line, no environment variable changes needed.</li>
-    <li><strong>Load balancing</strong> &mdash; Distribute requests across multiple providers automatically.</li>
-    <li><strong>Soporte de respaldo (fallback)</strong> &mdash; Si un proveedor está caído, LiteLLM enruta automáticamente al siguiente.</li>
-    <li><strong>Cost tracking</strong> &mdash; Registro integrado del uso de tokens y el costo por solicitud.</li>
+    <li><strong>Integración de varios backends</strong> — Usa varios proveedores de IA tras un único endpoint de API</li>
+    <li><strong>Failover automático</strong> — Si un backend deja de responder, cambia automáticamente a otro</li>
+    <li><strong>Enrutado por modelo</strong> — Cada solicitud puede dirigirse a distintos backends/modelos</li>
+    <li><strong>Balanceo de carga</strong> — Reparte las solicitudes automáticamente entre proveedores</li>
+    <li><strong>Seguimiento de costos</strong> — Registra en bitácoras integradas el consumo de tokens y el costo por solicitud</li>
+    <li><strong>Gratis y de código abierto</strong> — LiteLLM en sí es gratuito (los costos de API de cada backend van aparte)</li>
   </ul>
 
-  <h3>Installation</h3>
+  <h3>Instalación</h3>
 
+  <p>Se necesita un entorno de Python. Instala con el siguiente comando:</p>
   <div class="code-block">
-<pre><code># Install LiteLLM via pip
-pip install litellm[proxy]
-
-# Or via uv (faster)
-uv pip install litellm[proxy]</code></pre>
+<pre><code>pip install litellm
+# O si prefieres un entorno aislado
+pipx install litellm</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
 
-  <h3>Configuration</h3>
+  <h3>Creación del archivo de configuración</h3>
 
-  <p>Create a configuration file called <code>litellm_config.yaml</code>:</p>
-
+  <p>Crea un archivo <code>litellm_config.yaml</code> en el directorio de tu proyecto:</p>
   <div class="code-block">
-<pre><code># litellm_config.yaml
-model_list:
-  - model_name: claude-3-5-sonnet
+<pre><code>model_list:
+  - model_name: claude-sonnet
     litellm_params:
       model: deepseek/deepseek-chat
-      api_key: ${DEEPSEEK_API_KEY}
-
-  - model_name: claude-3-5-sonnet
+      api_key: os.environ/DEEPSEEK_API_KEY
+  - model_name: claude-opus
     litellm_params:
-      model: zhipu/glm-4-flash
-      api_key: ${ZHIPUAI_API_KEY}
-
-  - model_name: claude-3-5-sonnet
-    litellm_params:
-      model: openai/gpt-4o-mini
-      api_key: ${OPENAI_API_KEY}</code></pre>
+      model: zhipu/glm-4
+      api_key: os.environ/ZHIPU_API_KEY</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
 
-  <div class="tip-box">
-    Observa que los tres backends están mapeados al mismo <code>model_name: claude-3-5-sonnet</code>. Esto significa que Claude Code envía solicitudes a <code>claude-3-5-sonnet</code> como de costumbre, y LiteLLM las enruta al backend que hayas configurado. Puedes activar o desactivar backends comentándolos o reordenando la lista.
-  </div>
-
-  <h3>Starting the Proxy</h3>
+  <h3>Inicio del proxy</h3>
 
   <div class="code-block">
-<pre><code># Start the LiteLLM proxy server
-litellm --config litellm_config.yaml --port 4000</code></pre>
+<pre><code>litellm --config litellm_config.yaml</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
+  <p>El proxy queda corriendo en <code>http://localhost:4000</code>.</p>
 
-  <p>Luego apunta Claude Code al proxy local:</p>
-
+  <p>Por último, configura las variables de entorno para que Claude Code use este proxy y ejecútalo:</p>
   <div class="code-block">
-<pre><code>ANTHROPIC_BASE_URL=http://localhost:4000
-ANTHROPIC_MODEL=claude-3-5-sonnet</code></pre>
+<pre><code>export ANTHROPIC_API_KEY="any-key"
+export ANTHROPIC_BASE_URL="http://localhost:4000"
+claude</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
-
-  <p>Todas las solicitudes de Claude Code fluirán a través de LiteLLM hasta tu backend configurado. El proxy maneja la autenticación, la traducción de formato y el manejo de errores de forma transparente.</p>
-
-  <div class="flow-box">
-    <strong>Flujo de la solicitud:</strong> Claude Code &rarr; <code>localhost:4000</code> (LiteLLM) &rarr; DeepSeek / GLM / OpenAI &rarr; La respuesta fluye de regreso por la misma ruta. Claude Code no sabe que el backend ha cambiado — ve la misma interfaz API como siempre.
-  </div>
-
-  <!-- ============================================================
-       Section 5: Backend Comparison
-       ============================================================ -->
-  <h2 id="comparison">5. Backend Comparison</h2>
-
-  <p>La siguiente tabla compara las cuatro opciones principales cubiertas en este apéndice según criterios clave que son importantes para los flujos de trabajo multi-agente de harness.</p>
-
-  <div class="compare-grid">
-    <div class="compare-col">
-      <h4>Claude Pro (Anthropic)</h4>
-      <ul>
-        <li><strong>Cost</strong>: $20/month flat rate</li>
-        <li><strong>Best for</strong>: complex reasoning, nuanced writing, multi-step planning</li>
-        <li><strong>Quality</strong>: highest (Anthropic's own models)</li>
-        <li><strong>Languages</strong>: strong English; good Korean/Chinese</li>
-        <li><strong>Setup</strong>: install Claude Desktop, sign in</li>
-        <li><strong>Rate limits</strong>: generous daily cap per plan</li>
-      </ul>
-    </div>
-    <div class="compare-col">
-      <h4>DeepSeek</h4>
-      <ul>
-        <li><strong>Cost</strong>: ~$0.27/1M input tokens</li>
-        <li><strong>Best for</strong>: coding, math, batch processing</li>
-        <li><strong>Quality</strong>: high for code/reasoning; moderate for creative writing</li>
-        <li><strong>Languages</strong>: strong English and Chinese</li>
-        <li><strong>Setup</strong>: API key + env var + base URL</li>
-        <li><strong>Rate limits</strong>: depends on account tier</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="compare-grid">
-    <div class="compare-col">
-      <h4>GLM/ZhipuAI</h4>
-      <ul>
-        <li><strong>Cost</strong>: free tier available; ~$0.10/1M tokens paid; GLM Coding Plan desde $18/mes</li>
-        <li><strong>Best for</strong>: Chinese/Korean tasks, long-context work</li>
-        <li><strong>Calidad</strong>: alta para idiomas asiáticos; buena para código</li>
-        <li><strong>Languages</strong>: excellent Chinese/Korean; good English</li>
-        <li><strong>Setup</strong>: API key + env var + base URL</li>
-        <li><strong>Rate limits</strong>: generous free tier; higher limits paid</li>
-      </ul>
-    </div>
-    <div class="compare-col">
-      <h4>LiteLLM Proxy</h4>
-      <ul>
-        <li><strong>Cost</strong>: depends on backend(s) chosen</li>
-        <li><strong>Best for</strong>: multi-backend management, easy switching</li>
-        <li><strong>Quality</strong>: igual que el backend configurado</li>
-        <li><strong>Languages</strong>: same as the configured backend</li>
-        <li><strong>Setup</strong>: install Python package + YAML config</li>
-        <li><strong>Rate limits</strong>: distributed across backends</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 660 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparison chart of cost vs quality for each backend option">
-      <defs>
-        <marker id="arrowComp" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--text-dim)"/>
-        </marker>
-      </defs>
-
-      <!-- Axes -->
-      <line x1="80" y1="240" x2="620" y2="240" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arrowComp)"/>
-      <line x1="80" y1="240" x2="80" y2="30" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arrowComp)"/>
-
-      <!-- Axis labels -->
-      <text x="350" y="268" text-anchor="middle" style="color:var(--text-dim);font-size:12px;font-weight:600;">Cost (higher = more expensive)</text>
-      <text x="40" y="140" text-anchor="middle" style="color:var(--text-dim);font-size:12px;font-weight:600;" transform="rotate(-90, 40, 140)">Quality</text>
-
-      <!-- Grid lines -->
-      <line x1="80" y1="185" x2="620" y2="185" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
-      <line x1="80" y1="130" x2="620" y2="130" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
-      <line x1="80" y1="75" x2="620" y2="75" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
-
-      <!-- Claude Pro -->
-      <circle cx="540" cy="50" r="18" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2.5"/>
-      <text x="540" y="55" text-anchor="middle" style="color:var(--accent);font-size:10px;font-weight:700;">C</text>
-      <text x="540" y="30" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:600;">Claude Pro</text>
-
-      <!-- DeepSeek -->
-      <circle cx="170" cy="110" r="18" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2.5"/>
-      <text x="170" y="115" text-anchor="middle" style="color:var(--accent-green);font-size:10px;font-weight:700;">D</text>
-      <text x="170" y="92" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:600;">DeepSeek</text>
-
-      <!-- GLM/ZhipuAI -->
-      <circle cx="140" cy="130" r="18" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="2.5"/>
-      <text x="140" y="135" text-anchor="middle" style="color:var(--accent-purple);font-size:10px;font-weight:700;">G</text>
-      <text x="140" y="162" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:600;">GLM</text>
-
-      <!-- LiteLLM -->
-      <circle cx="250" cy="105" r="18" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="2.5"/>
-      <text x="250" y="110" text-anchor="middle" style="color:var(--accent-amber);font-size:10px;font-weight:700;">L</text>
-      <text x="250" y="85" text-anchor="middle" style="color:var(--text);font-size:11px;font-weight:600;">LiteLLM</text>
-
-      <!-- Legend note -->
-      <text x="350" y="290" text-anchor="middle" style="color:var(--text-dim);font-size:10px;font-style:italic;">Position is approximate and depends on task type</text>
-    </svg>
-  </div>
 
   <div class="note">
-    No existe un único backend "mejor". La elección correcta depende de tu tarea, presupuesto y requisitos lingüísticos. Muchos equipos utilizan Claude Pro para obtener resultados finales de alta calidad y cambian a DeepSeek o GLM para el procesamiento por lotes durante el desarrollo y las pruebas.
+    LiteLLM requiere Python. Primero debe estar instalada la CLI de Claude Code del <a href="B_Claude_Code_CLI_es.html">Apéndice B</a>. Si no tienes Python, instálalo desde <a href="https://www.python.org" target="_blank">python.org</a>.
+  </div>
+
+  <div class="tip-box">
+    LiteLLM resulta útil cuando quieres tener varios backends configurados a la vez. Por ejemplo, puedes asignar la generación de código a DeepSeek y las respuestas en coreano a GLM. Además, si un backend falla, cambia automáticamente a otro.
   </div>
 
   <!-- ============================================================
-       Section 6: Practice: Switch Backends
+       SECTION 5: Comparación de backends
        ============================================================ -->
-  <h2 id="practice">6. Practice: Switch Backends</h2>
+  <h2 id="comparison">5. Comparación de backends</h2>
 
-  <p>Este ejercicio práctico te guiará a través del cambio de tu workspace de Claude Code de un backend a otro. Al final, habrás probado al menos dos backends diferentes y observado cómo cada uno maneja la misma tarea del agente.</p>
+  <p>Comparemos de un vistazo las características de cada backend.</p>
+
+  <div class="table-compare">
+    <table>
+      <thead>
+        <tr>
+          <th>Aspecto</th>
+          <th>Claude Pro</th>
+          <th>API de DeepSeek</th>
+          <th>API de GLM</th>
+          <th>LiteLLM</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Esquema de costos</td>
+          <td>Tarifa plana mensual ($20)</td>
+          <td>Pago por uso</td>
+          <td>Pago por uso + plan de código de tarifa plana</td>
+          <td>Gratis (proxy)</td>
+        </tr>
+        <tr>
+          <td>Coreano</td>
+          <td>Excelente</td>
+          <td>Bueno</td>
+          <td>Excelente</td>
+          <td>Depende del backend</td>
+        </tr>
+        <tr>
+          <td>Generación de código</td>
+          <td>Excelente</td>
+          <td>Excelente</td>
+          <td>Bueno</td>
+          <td>Depende del backend</td>
+        </tr>
+        <tr>
+          <td>Dificultad de configuración</td>
+          <td>Fácil</td>
+          <td>Media</td>
+          <td>Media</td>
+          <td>Difícil</td>
+        </tr>
+        <tr>
+          <td>Compatibilidad con Claude Code</td>
+          <td>Nativa</td>
+          <td>Sí</td>
+          <td>Sí</td>
+          <td>Sí</td>
+        </tr>
+        <tr>
+          <td>Límites de tarifa</td>
+          <td>Amplio límite diario según el plan</td>
+          <td>Varía según el nivel de la cuenta</td>
+          <td>Amplio límite gratuito, ampliable al pagar</td>
+          <td>Repartido entre backends</td>
+        </tr>
+        <tr>
+          <td>Recomendado para</td>
+          <td>Principiantes</td>
+          <td>Quien prioriza el costo</td>
+          <td>Trabajo centrado en coreano</td>
+          <td>Varios backends</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip-box">
+    Los principiantes deberían empezar con Claude Pro y cambiar a DeepSeek cuando el costo pese. Si el trabajo en coreano domina, GLM también es una buena elección. Para usar varios backends a la vez, considera LiteLLM.
+  </div>
+
+  <!-- ============================================================
+       SECTION 6: Práctica: cambio de backends
+       ============================================================ -->
+  <h2 id="practice">6. Práctica: cambio de backends</h2>
+
+  <p>En esta práctica recorremos paso a paso todo el proceso de cambiar el backend de Claude Code de Claude Pro a DeepSeek. Comprueba por ti mismo que basta con ajustar variables de entorno para cambiar de backend.</p>
 
   <div class="step-list">
     <div class="step">
       <div class="step-content">
-        <div class="step-label">Check Your Current Backend</div>
-        <p>Abre tu terminal y comprueba qué variables de entorno están configuradas actualmente. En Mac/Linux, ejecuta <code>env | grep -i anthropic</code>. En Windows PowerShell, ejecuta <code>dir env:ANTHROPIC*</code>. Si no hay variables configuradas, estás utilizando el endpoint predeterminado de Claude Pro. Anota los valores actuales (si los hay) para poder restaurarlos más tarde.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">Choose a Target Backend</div>
-        <p>Elige un backend para probar primero. Para este ejercicio, recomendamos DeepSeek si quieres probar tareas de codificación, o GLM si tu contenido es principalmente en coreano o chino. Visita el sitio web del proveedor, crea una cuenta y genera una clave API.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">Set the Environment Variables</div>
-        <p>Establece la clave API y la URL base para tu backend elegido. Para DeepSeek en Mac/Linux:</p>
+        <div class="step-label">Verificar la instalación de la CLI de Claude Code</div>
+        <p>Consulta el Apéndice B para confirmar que la CLI de Claude Code está instalada. Escribe el siguiente comando en tu terminal:</p>
         <div class="code-block">
-<pre><code>export ANTHROPIC_API_KEY="sk-your-key"
-export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
-export ANTHROPIC_MODEL="deepseek-chat"</code></pre>
+<pre><code>claude --version</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
-        <p>For GLM on Windows PowerShell:</p>
-        <div class="code-block">
-<pre><code>$env:ANTHROPIC_AUTH_TOKEN = "your-key"
-$env:ANTHROPIC_BASE_URL = "https://api.z.ai/api/anthropic"</code></pre>
-<button type="button" class="copy-btn">Copiar</button>
-</div>
+        <p><strong>Resultado esperado:</strong> Se muestra el número de versión de Claude Code. Si aparece un error, sigue la guía de instalación del Apéndice B.</p>
       </div>
     </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">Run a Simple Agent Task</div>
-        <p>Abre tu CLI y ejecuta una tarea sencilla, como "Lista todos los archivos .md en el workspace y resume su propósito." Observa la velocidad de respuesta, la calidad y cualquier diferencia de formato con respecto a Claude Pro. Presta atención a si los fragmentos de código, las listas y las explicaciones son claros y precisos.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">Compare the Resultado</div>
-        <p>Ejecuta la misma tarea en un segundo backend (o en Claude Pro si comenzaste con un backend de bajo costo). Coloca los dos resultados uno al lado del otro. Anota las diferencias en: velocidad de respuesta (segundos), calidad de la salida (precisión, claridad, integridad), tono (formal vs. informal) y cualquier alucinación o error.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">Try LiteLLM (Optional)</div>
-        <p>Si tienes Python instalado, configura LiteLLM siguiendo las instrucciones de la Sección 4. Configura al menos dos backends en <code>litellm_config.yaml</code>, inicia el proxy y apunta Claude Code a <code>localhost:4000</code>. Ejecuta la misma tarea del agente y verifica que LiteLLM enrute al backend correcto.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <div class="step-label">Restore Your Original Settings</div>
-        <p>Cuando termines la experimentación, restaura tus variables de entorno originales. Si estabas usando Claude Pro, simplemente desactiva las variables del backend:</p>
-        <div class="code-block">
-<pre><code># Mac / Linux
-unset ANTHROPIC_BASE_URL
-unset ANTHROPIC_MODEL
 
-# Windows PowerShell
-Remove-Item Env:\ANTHROPIC_BASE_URL
-Remove-Item Env:\ANTHROPIC_MODEL</code></pre>
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Emitir una clave API de DeepSeek</div>
+        <p>Accede a <a href="https://platform.deepseek.com" target="_blank">https://platform.deepseek.com</a>:</p>
+        <ul>
+          <li>Crear una cuenta (correo electrónico o inicio de sesión con Google)</li>
+          <li>Hacer clic en "Create API Key" en la página de API Keys</li>
+          <li>Guardar la clave emitida en un lugar seguro</li>
+        </ul>
+        <p><strong>Resultado esperado:</strong> Se emite una clave API que empieza por <code>sk-</code>.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Configurar las variables de entorno (según el SO)</div>
+        <p>Escribe en la terminal el comando correspondiente a tu sistema operativo:</p>
+        <p><strong>macOS / Linux:</strong></p>
+        <div class="code-block">
+<pre><code>export ANTHROPIC_API_KEY="sk-your-deepseek-key"
+export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
-        <p>Claude Code volverá a usar el endpoint predeterminado de Anthropic en el próximo inicio.</p>
+        <p><strong>Windows (PowerShell):</strong></p>
+        <div class="code-block">
+<pre><code>$env:ANTHROPIC_API_KEY="sk-your-deepseek-key"
+$env:ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+        <p><strong>Configuración permanente (opcional):</strong> Si te molesta escribirlo cada vez, añádelo a tu perfil de shell:</p>
+        <ul>
+          <li>macOS/Linux: añadir las líneas <code>export</code> a <code>~/.bashrc</code> o <code>~/.zshrc</code></li>
+          <li>Windows: configuración de variables de entorno del sistema → añadir en las variables de usuario</li>
+        </ul>
+        <p><strong>Resultado esperado:</strong> Los comandos se ejecutan sin errores.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Ejecutar Claude Code</div>
+        <p>Desde la terminal donde configuraste las variables de entorno, ejecuta Claude Code:</p>
+        <div class="code-block">
+<pre><code>claude</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+        <p><strong>Resultado esperado:</strong> Claude Code arranca con normalidad y responde a través del backend de DeepSeek.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Comprobar el funcionamiento con una pregunta de prueba</div>
+        <p>Escribe una pregunta sencilla en Claude Code para verificar que el backend de DeepSeek funciona correctamente:</p>
+        <div class="prompt-box">
+          <div class="prompt-text">Escribe una función en Python que calcule la suma de los números del 1 al 10</div>
+        </div>
+        <p><strong>Resultado esperado:</strong> DeepSeek responde generando código Python. Comprueba la velocidad y la calidad de la respuesta.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">(Opcional) Probar el cambio a GLM</div>
+        <p>Prueba a cambiar al backend de GLM en lugar de DeepSeek. Solo hay que cambiar las variables de entorno:</p>
+        <div class="code-block">
+<pre><code># macOS / Linux
+export ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
+export ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"
+
+# Windows (PowerShell)
+$env:ANTHROPIC_AUTH_TOKEN="your-zai-api-key"
+$env:ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+        <p><strong>Resultado esperado:</strong> Con el mismo comando <code>claude</code> se ejecuta el backend de GLM. Compara la calidad de las respuestas en coreano.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">(Opcional) Configurar el proxy de LiteLLM</div>
+        <p>Para usar varios backends al mismo tiempo, configura el proxy de LiteLLM. Siguiendo el <a href="#litellm">método de configuración de LiteLLM</a> explicado antes:</p>
+        <ul>
+          <li>Crear el archivo <code>litellm_config.yaml</code></li>
+          <li>Definir como variables de entorno las claves API de cada backend</li>
+          <li>Ejecutar <code>litellm --config litellm_config.yaml</code></li>
+          <li>Cambiar <code>ANTHROPIC_BASE_URL</code> a <code>http://localhost:4000</code></li>
+        </ul>
+        <p><strong>Resultado esperado:</strong> Claude Code usa varios backends a través del proxy de LiteLLM.</p>
       </div>
     </div>
   </div>
 
-  <div class="flow-box">
-    <strong>Estrategia recomendada:</strong> Utiliza Claude Pro como tu backend principal para la salida de calidad final (escritura de la trama, decisiones de diseño, puertas de calidad). Cambia a un backend de bajo costo (DeepSeek o GLM) para tareas de alto volumen durante el desarrollo y las pruebas. Este enfoque híbrido te brinda la mejor calidad donde más importa mientras mantienes los costes bajo control.
+  <div class="warn">
+    Después de configurar las variables de entorno hay que abrir una <strong>terminal nueva</strong> para que surtan efecto. En una terminal ya abierta puede que no se reflejen. Abre siempre una terminal nueva antes de ejecutar Claude Code.
   </div>
 
-  <!-- ============================================================
-       Chapter Navigation
-       ============================================================ -->
   <div class="chapter-nav">
     <a href="B_Claude_Code_CLI_es.html" class="prev">
       <div class="dir">&larr; Apéndice B</div>

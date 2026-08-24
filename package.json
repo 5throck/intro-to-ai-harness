@@ -18,6 +18,7 @@
     "check-external-links": "bun run scripts/check-external-links.ts --docs-dir docs",
     "check-symmetry": "bun run scripts/check-symmetry.ts --docs-dir docs",
     "check-links": "bun run scripts/check-links.ts --docs-dir docs",
+    "check-i18n": "bun run scripts/check-i18n-parity.ts --docs-dir docs",
     "check-labels": "bun run scripts/check-labels.ts --docs-dir docs",
     "check-search": "bun run scripts/check-search.ts --docs-dir docs",
     "build-search-index": "bun run scripts/build-search-index.ts --docs-dir docs",

@@ -28,13 +28,13 @@
  <article class="reading">
   <div class="chapter-eyebrow">付録B</div>
   <h1>Claude Code CLIガイド</h1>
-  <p class="lead">この付録ではClaude Code CLIの &mdash; インストール、基本的な使い方、主要コマンド、プロジェクトモードについて説明します。このハンドブックでは主にClaude Desktop Appを使用していますが、CLIはより強力な自動化機能を提供します。</p>
+  <p class="lead">この付録では、Claude Code CLI（コマンドラインインターフェース）のインストール、基本的な使い方、主要なコマンドについて説明します。本ハンドブックのメインツールはClaude Desktop Appですが、CLIを使うとより強力な自動化が可能になります。</p>
   <div class="keypoints">
     <div class="kp-title">この付録で扱う内容</div>
     <ul>
       <li>CLIとDesktop Appの比較</li>
       <li>Claude Code CLIのインストール</li>
-      <li>基本的な使い方（ターミナルでの会話）</li>
+      <li>基本的な使い方（ターミナルでの対話）</li>
       <li>主要なコマンド</li>
       <li>プロジェクトモード</li>
       <li>実践的なヒント</li>
@@ -44,526 +44,675 @@
   <!-- ============================================================
        SECTION 1: CLI vs Desktop App
        ============================================================ -->
-  <h2 id="cli-vs-desktop">CLIとDesktop Appの比較</h2>
+  <h2 id="cli-vs-desktop">1. CLIとDesktop Appの比較</h2>
 
-  <p>Anthropicは開発作業用にClaudeと対話する2つの方法を提供しています:<strong>Claude Desktop App</strong>（このハンドブックで使ってきたグラフィカルアプリケーション）と<strong>Claude Code CLI</strong>（ターミナルで動作するコマンドラインツール）です。両方とも同じClaudeモデルに接続しますが、用途が異なります。</p>
+  <p>Claudeの使い方には2つあります。1つは<strong>Claude Desktop App</strong>（デスクトップアプリケーション）、もう1つは<strong>Claude Code CLI</strong>（コマンドラインインターフェース）です。両者は目的も使い方も異なり、それぞれに長所と短所があります。</p>
 
-  <p>Desktop Appは会話、ブレインストーミング、インタラクティブなタスクに最適です。一方、CLIは<strong>コードベースとの直接的な統合</strong>のために設計されています &mdash; ファイルの読み取り、コマンドの実行、コードの編集、スクリプトの実行をすべてターミナルから行えます。マルチエージェントハーネスのワークフローでは、CLIがエージェント実行を駆動するエンジンです。</p>
-
-  <div class="compare-grid">
-    <div class="compare-col">
-      <h4>Claude Desktop App</h4>
-      <ul>
-        <li>グラフィカルインターフェース（GUI）</li>
-        <li>会話型チャット体験</li>
-        <li>コードやドキュメントのプレビュー用アーティファクト</li>
-        <li>学習、ブレインストーミング、探索に最適</li>
-        <li>ファイルシステムへの直接アクセスなし</li>
-        <li>初心者向けで使いやすい</li>
-      </ul>
-    </div>
-    <div class="compare-col">
-      <h4>Claude Code CLI</h4>
-      <ul>
-        <li>ターミナルベースのインターフェース</li>
-        <li>ファイルの直接読み書きとコード編集</li>
-        <li>シェルコマンドとスクリプトの実行</li>
-        <li>自動化、CI/CD、エージェントワークフローに最適</li>
-        <li>ローカルプロジェクトファイルへのフルアクセス</li>
-        <li>上級者により強力</li>
-      </ul>
-    </div>
+  <div class="table-compare">
+    <table>
+      <thead>
+        <tr>
+          <th>項目</th>
+          <th>Claude Desktop App</th>
+          <th>Claude Code CLI</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>インターフェース</td>
+          <td>GUI（グラフィカル）</td>
+          <td>ターミナル（コマンドライン）</td>
+        </tr>
+        <tr>
+          <td>難易度</td>
+          <td>簡単</td>
+          <td>中級</td>
+        </tr>
+        <tr>
+          <td>自動化</td>
+          <td>限定的</td>
+          <td>強力（スクリプト統合）</td>
+        </tr>
+        <tr>
+          <td>ファイルアクセス</td>
+          <td>プロジェクトフォルダ</td>
+          <td>システム全体</td>
+        </tr>
+        <tr>
+          <td>エージェント対応</td>
+          <td>Claudeのみ</td>
+          <td>Claude + サードパーティバックエンド</td>
+        </tr>
+        <tr>
+          <td>おすすめ対象</td>
+          <td>初心者</td>
+          <td>中級以上</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="tip-box">
-    <strong>どちらを使うべき？</strong> Claudeに不慣れな場合はDesktop Appから始めるのが最もアプローチしやすいです。マルチエージェントハーネスのワークフロー（co-consult、co-deck）を実行できるようになったら、CLIが必須になります。多くのユーザーは両方を使い分けています: 探索にはDesktop App、実行にはCLI。
+  <div class="flow-box">
+    Desktop Appは<strong>「車のオートマチックモード」</strong>、CLIは<strong>「マニュアルモード」</strong>です。CLIはより細かく制御できる代わりに習得が必要です。オートマチックで運転を覚えて、慣れてきたらマニュアルに乗り換えるようなものです。
   </div>
 
   <div class="note">
-    Claude Code CLIには<strong>Claude ProまたはClaude Maxサブスクリプション</strong>が必要です。Desktop Appと同じです。サブスクリプションは両方のインターフェースで利用できます。Desktop Appが使えれば、CLIも使えます。
+    本ハンドブックのすべての実習はClaude Desktop Appで行えます。CLIは任意です。CLIが必要になった場合は、この付録でインストール方法と使い方を案内します。
+  </div>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <!-- 背景 -->
+      <rect width="660" height="300" rx="10" fill="var(--bg2)"/>
+
+      <!-- タイトル -->
+      <text x="330" y="30" text-anchor="middle" font-size="15" font-weight="700" style="color:var(--text);">Desktop AppとCLIの比較</text>
+
+      <!-- Desktop App列 -->
+      <rect x="30" y="55" width="280" height="220" rx="8" fill="var(--bg3)" stroke="var(--border)"/>
+      <rect x="30" y="55" width="280" height="40" rx="8" fill="var(--accent-green)"/>
+      <rect x="30" y="85" width="280" height="10" fill="var(--accent-green)"/>
+      <text x="170" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-inverse)">Claude Desktop App</text>
+
+      <circle cx="65" cy="120" r="12" fill="var(--accent-green)"/>
+      <text x="65" y="125" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">&#10003;</text>
+      <text x="88" y="125" font-size="12" style="color:var(--text);">マウスクリックで簡単に使える</text>
+
+      <circle cx="65" cy="155" r="12" fill="var(--accent-green)"/>
+      <text x="65" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">&#10003;</text>
+      <text x="88" y="160" font-size="12" style="color:var(--text);">別途インストール不要</text>
+
+      <circle cx="65" cy="190" r="12" fill="var(--accent-amber)"/>
+      <text x="65" y="195" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">!</text>
+      <text x="88" y="195" font-size="12" style="color:var(--text);">自動化機能は限定的</text>
+
+      <circle cx="65" cy="225" r="12" fill="var(--accent-amber)"/>
+      <text x="65" y="230" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">!</text>
+      <text x="88" y="230" font-size="12" style="color:var(--text);">Claudeモデルのみ使用可能</text>
+
+      <!-- VS仕切り -->
+      <text x="330" y="175" text-anchor="middle" font-size="20" font-weight="700" style="color:var(--accent);">VS</text>
+
+      <!-- CLI列 -->
+      <rect x="350" y="55" width="280" height="220" rx="8" fill="var(--bg3)" stroke="var(--border)"/>
+      <rect x="350" y="55" width="280" height="40" rx="8" fill="var(--accent-purple)"/>
+      <rect x="350" y="85" width="280" height="10" fill="var(--accent-purple)"/>
+      <text x="490" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-inverse)">Claude Code CLI</text>
+
+      <circle cx="385" cy="120" r="12" fill="var(--accent-purple)"/>
+      <text x="385" y="125" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">&#9733;</text>
+      <text x="408" y="125" font-size="12" style="color:var(--text);">スクリプトによる自動化が可能</text>
+
+      <circle cx="385" cy="155" r="12" fill="var(--accent-purple)"/>
+      <text x="385" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">&#9733;</text>
+      <text x="408" y="160" font-size="12" style="color:var(--text);">サードパーティバックエンド対応</text>
+
+      <circle cx="385" cy="190" r="12" fill="var(--accent-purple)"/>
+      <text x="385" y="195" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">&#9733;</text>
+      <text x="408" y="195" font-size="12" style="color:var(--text);">システム全体のファイルアクセス</text>
+
+      <circle cx="385" cy="225" r="12" fill="var(--accent-red)"/>
+      <text x="385" y="230" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text-inverse)">!</text>
+      <text x="408" y="230" font-size="12" style="color:var(--text);">ターミナルの使用経験が必要</text>
+    </svg>
   </div>
 
   <!-- ============================================================
-       SECTION 2: Installing Claude Code CLI
+       SECTION 2: Claude Code CLIのインストール
        ============================================================ -->
-  <h2 id="install">Claude Code CLIのインストール</h2>
+  <h2 id="install">2. Claude Code CLIのインストール</h2>
 
-  <p>Claude Code CLIは<strong>npm</strong>（Node Package Manager）経由でインストールします。Claude Code CLI自体をインストールする前に、システムにNode.jsがインストールされていることを確認してください。</p>
+  <p>Claude Code CLIをインストールするには、いくつかの前提条件があります。準備ができたら順番に進めていきましょう。</p>
+
+  <h3>前提条件</h3>
+  <ul>
+    <li><strong>Node.js 18以降</strong> &mdash; Claude Code CLIはNode.js環境で動作します</li>
+    <li><strong>Claude ProまたはMaxサブスクリプション</strong> &mdash; Anthropic Claudeの有料サブスクリプションアカウントが必要です</li>
+    <li><strong>ターミナルアプリ</strong> &mdash; macOS Terminal、Windows PowerShell、Linux Bashなど</li>
+  </ul>
 
   <div class="step-list">
     <div class="step">
-      <span class="step-label">ステップ1: Node.jsをインストールする</span>
-      &mdash; Claude Code CLIにはNode.jsバージョン18以降が必要です。
-      <div class="platform-block claude">
-        <div class="platform-block-title">Windows</div>
+      <div class="step-content">
+        <div class="step-label">ステップ1: Node.jsのインストール確認</div>
+        <p>ターミナルを開き、次のコマンドを入力してNode.jsがインストールされているか確認します:</p>
         <div class="code-block">
-<pre><code>winget install OpenJS.NodeJS.LTS</code></pre>
-<button class="copy-btn">コピー</button>
+<pre><code>node --version</code></pre>
+<button type="button" class="copy-btn">コピー</button>
 </div>
-        <p>または<a href="https://nodejs.org" target="_blank" rel="noopener noreferrer">nodejs.org</a>からインストーラーをダウンロードします。</p>
-      </div>
-      <div class="platform-block claude">
-        <div class="platform-block-title">macOS</div>
-        <div class="code-block">
-<pre><code>brew install node</code></pre>
-<button class="copy-btn">コピー</button>
-</div>
-      </div>
-      <div class="platform-block claude">
-        <div class="platform-block-title">Linux (Ubuntu/Debian)</div>
-        <div class="code-block">
-<pre><code>sudo apt update &amp;&amp; sudo apt install -y nodejs npm</code></pre>
-<button class="copy-btn">コピー</button>
-</div>
+        <p><strong>期待される結果:</strong> <code>v18.x.x</code> 以上のバージョン番号が出力されます。バージョンが18未満の場合や「コマンドが見つからない」というメッセージが出る場合は、<a href="https://nodejs.org" target="_blank">nodejs.org</a>から最新のLTS版をインストールしてください。</p>
       </div>
     </div>
+
     <div class="step">
-      <span class="step-label">ステップ2: Node.jsのインストールを確認する</span>
-      &mdash; Node.jsとnpmが正しくインストールされていることを確認します。
-      <div class="code-block">
-<pre><code>node --version
-npm --version</code></pre>
-<button class="copy-btn">コピー</button>
-</div>
-      <p>期待される結果: Node.jsが <code>v20.x.x</code> 以上、npmが <code>10.x.x</code> 以上。</p>
-    </div>
-    <div class="step">
-      <span class="step-label">ステップ3: Claude Code CLIをインストールする</span>
-      &mdash; npmを使用してClaude Code CLIをグローバルにインストールします。
-      <div class="code-block">
+      <div class="step-content">
+        <div class="step-label">ステップ2: Claude Code CLIのインストール</div>
+        <p>Node.jsが確認できたら、npmを使ってClaude Code CLIをグローバルインストールします:</p>
+        <div class="code-block">
 <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
-<button class="copy-btn">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
+        <p><strong>期待される結果:</strong> パッケージがダウンロードされ、インストールが完了します。数分かかることがあります。</p>
+      </div>
     </div>
+
     <div class="step">
-      <span class="step-label">ステップ4: インストールを確認する</span>
-      &mdash; Claude Code CLIが利用可能であることを確認します。
-      <div class="code-block">
+      <div class="step-content">
+        <div class="step-label">ステップ3: インストール確認</div>
+        <p>インストールが完了したら、バージョンを確認して正常にインストールされたか検証します:</p>
+        <div class="code-block">
 <pre><code>claude --version</code></pre>
-<button class="copy-btn">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
-      <p>バージョン番号が表示されれば、インストールは成功しています。</p>
+        <p><strong>期待される結果:</strong> Claude Codeのバージョン番号が出力されます（例: <code>1.0.x</code>）。エラーが出た場合はステップ2をやり直してください。</p>
+      </div>
     </div>
+
     <div class="step">
-      <span class="step-label">ステップ5: 認証する</span>
-      &mdash; Claude Code CLIを初めて使用する前に、Anthropicアカウントで認証する必要があります。
-      <div class="code-block">
-<pre><code>claude auth login</code></pre>
-<button class="copy-btn">コピー</button>
+      <div class="step-content">
+        <div class="step-label">ステップ4: Claudeアカウント認証</div>
+        <p>ターミナルで <code>claude</code> を初めて実行すると、Anthropicアカウントでのログインを求められます:</p>
+        <div class="code-block">
+<pre><code>claude</code></pre>
+<button type="button" class="copy-btn">コピー</button>
 </div>
-      <p>ブラウザウィンドウが開きます。Claude Desktop Appで使用しているのと同じAnthropicアカウントでログインしてください。認証が完了すると、Claude Code CLIを使い始めることができます。</p>
+        <p>ブラウザが開き、Anthropicのログインページに移動します。Claude ProまたはMaxサブスクリプションのアカウントでログインしてください。認証が完了すると、ターミナルからClaude Codeを使えるようになります。</p>
+      </div>
     </div>
+  </div>
+
+  <h3>OSごとの注意点</h3>
+
+  <div class="platform-block">
+    <p><strong>Windows:</strong></p>
+    <ul>
+      <li>PowerShellを管理者権限で実行してください</li>
+      <li>Node.jsのインストール時は「Add to PATH」オプションに必ずチェックを入れてください</li>
+      <li>インストール後は新しいPowerShellウィンドウを開かないとPATHが反映されません</li>
+    </ul>
+    <p><strong>macOS:</strong></p>
+    <ul>
+      <li>標準のTerminalアプリまたはiTerm2を使用してください</li>
+      <li>Homebrewが入っていれば <code>brew install node</code> でもNode.jsをインストールできます</li>
+    </ul>
+    <p><strong>Linux (Ubuntu/Debian):</strong></p>
+    <ul>
+      <li><code>sudo apt install nodejs npm</code> またはnvm（Node Version Manager）を使用してください</li>
+      <li>グローバルインストールには <code>sudo</code> が必要な場合があります: <code>sudo npm install -g @anthropic-ai/claude-code</code></li>
+    </ul>
+  </div>
+
+  <div class="tip-box">
+    WindowsではPowerShellを<strong>管理者権限</strong>で起動してインストールしてください。通常のユーザー権限ではグローバルパッケージのインストールに失敗することがあります。PowerShellアイコンを右クリックし、「管理者として実行」を選択してください。
   </div>
 
   <div class="warn">
-    Windowsでインストール後に<code>"claude is not recognized"</code>エラーが出る場合は、ターミナルを再起動してください。問題が解決しない場合、npmのグローバルbinディレクトリ（通常は <code>%APPDATA%\npm</code>）がシステムの<code>PATH</code>環境変数に含まれていることを確認してください。
+    Claude ProまたはMaxサブスクリプションがない場合、CLIは使えません。無料のClaudeアカウントはClaude.aiのWebインターフェースでのみ利用できます。サブスクリプションは<a href="https://claude.ai" target="_blank">claude.ai</a>で申し込めます。
   </div>
 
   <!-- ============================================================
-       SECTION 3: Basic Usage
+       SECTION 3: 基本的な使い方
        ============================================================ -->
-  <h2 id="basic-usage">基本的な使い方</h2>
+  <h2 id="basic-usage">3. 基本的な使い方</h2>
 
-  <p>Claude Code CLIがインストールされ、認証が完了したら、ターミナルで直接会話を始めることができます。基本的な流れはシンプルです: プロジェクトフォルダに移動し、Claudeを起動し、チャットを始めます。</p>
+  <p>Claude Code CLIの基本的な使い方を見ていきましょう。Desktop Appとは違い、ターミナル上でテキストによる対話を行う方式です。</p>
 
-  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Claude Code CLIの基本的な使い方のフロー図">
-      <defs>
-        <marker id="arrowB1" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
-        </marker>
-        <marker id="arrowBgreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-green)"/>
-        </marker>
-        <marker id="arrowBpurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-purple)"/>
-        </marker>
-        <marker id="arrowBamber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-amber)"/>
-        </marker>
-      </defs>
-
-      <!-- Step 1: Terminal -->
-      <rect x="20" y="40" width="130" height="56" rx="10" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="85" y="62" text-anchor="middle" style="color:var(--accent-green);font-size:11px;font-weight:700;">ステップ1</text>
-      <text x="85" y="82" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">ターミナルを開く</text>
-
-      <!-- Arrow 1->2 -->
-      <line x1="150" y1="68" x2="188" y2="68" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowB1)"/>
-
-      <!-- Step 2: cd -->
-      <rect x="190" y="40" width="130" height="56" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="255" y="62" text-anchor="middle" style="color:var(--accent);font-size:11px;font-weight:700;">ステップ2</text>
-      <text x="255" y="82" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">プロジェクトにcd</text>
-
-      <!-- Arrow 2->3 -->
-      <line x1="320" y1="68" x2="358" y2="68" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowB1)"/>
-
-      <!-- Step 3: claude -->
-      <rect x="360" y="40" width="130" height="56" rx="10" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="1.5"/>
-      <text x="425" y="62" text-anchor="middle" style="color:var(--accent-purple);font-size:11px;font-weight:700;">ステップ3</text>
-      <text x="425" y="82" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">claudeを実行</text>
-
-      <!-- Arrow 3->4 -->
-      <line x1="490" y1="68" x2="528" y2="68" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowB1)"/>
-
-      <!-- Step 4: Chat -->
-      <rect x="530" y="40" width="130" height="56" rx="10" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="595" y="62" text-anchor="middle" style="color:var(--accent-amber);font-size:11px;font-weight:700;">ステップ4</text>
-      <text x="595" y="82" text-anchor="middle" style="color:var(--text);font-size:13px;font-weight:600;">Claudeと会話</text>
-
-      <!-- Terminal mockup below -->
-      <rect x="40" y="130" width="600" height="190" rx="10" fill="var(--bg3)" stroke="var(--border)" stroke-width="2"/>
-      <!-- Title bar -->
-      <rect x="40" y="130" width="600" height="30" rx="10" fill="var(--bg2)" stroke="var(--border)" stroke-width="1"/>
-      <rect x="40" y="150" width="600" height="10" fill="var(--bg2)"/>
-      <circle cx="62" cy="145" r="5" fill="var(--accent-red)" opacity="0.7"/>
-      <circle cx="78" cy="145" r="5" fill="var(--accent-amber)" opacity="0.7"/>
-      <circle cx="94" cy="145" r="5" fill="var(--accent-green)" opacity="0.7"/>
-      <text x="340" y="149" text-anchor="middle" style="color:var(--text-dim);font-size:11px;font-weight:600;">ターミナル &mdash; Claude Code CLI</text>
-
-      <!-- Terminal content -->
-      <rect x="50" y="166" width="580" height="144" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
-
-      <!-- Prompt line 1 -->
-      <text x="64" y="190" style="color:var(--accent-green);font-size:12px;font-family:var(--font-mono);">$</text>
-      <text x="80" y="190" style="color:var(--text);font-size:12px;font-family:var(--font-mono);">cd ~/git/project/my-harness</text>
-
-      <!-- Prompt line 2 -->
-      <text x="64" y="212" style="color:var(--accent-green);font-size:12px;font-family:var(--font-mono);">$</text>
-      <text x="80" y="212" style="color:var(--text);font-size:12px;font-family:var(--font-mono);">claude</text>
-
-      <!-- Claude response area -->
-      <text x="64" y="238" style="color:var(--accent-purple);font-size:12px;font-family:var(--font-mono);font-weight:700;">Claude:</text>
-      <text x="120" y="238" style="color:var(--text-dim);font-size:12px;font-family:var(--font-mono);">ようこそ！プロジェクトファイルにアクセスできます。</text>
-      <text x="80" y="256" style="color:var(--text-dim);font-size:12px;font-family:var(--font-mono);">何をお手伝いしましょうか？</text>
-
-      <!-- User input line -->
-      <text x="64" y="282" style="color:var(--accent-green);font-size:12px;font-family:var(--font-mono);">&gt;</text>
-      <text x="78" y="282" style="color:var(--text);font-size:12px;font-family:var(--font-mono);">workspaceのすべてのエージェントファイルを</text>
-      <text x="78" y="298" style="color:var(--text);font-size:12px;font-family:var(--font-mono);">標準フォーマットでリストして</text>
-
-      <!-- Cursor blink -->
-      <rect x="78" y="302" width="7" height="14" fill="var(--accent)" opacity="0.7"/>
-    </svg>
-  </div>
-
-  <h3>セッションの開始</h3>
-
-  <p>Claude Code CLIを使い始めるには、ターミナルを開き、以下の手順に従います:</p>
-
-  <div class="step-list">
-    <div class="step">
-      <span class="step-label">プロジェクトフォルダに移動する</span>
-      &mdash; <code>cd</code>を使ってプロジェクトファイルがあるディレクトリに移動します。
-      <div class="code-block">
-<pre><code>cd ~/git/project/my-harness</code></pre>
-<button class="copy-btn">コピー</button>
-</div>
-    </div>
-    <div class="step">
-      <span class="step-label">Claude Codeを起動する</span>
-      &mdash; <code>claude</code>と入力してEnterを押します。
-      <div class="code-block">
+  <h3>Claude Codeの起動</h3>
+  <p>ターミナルを開いて次のコマンドを入力します:</p>
+  <div class="code-block">
 <pre><code>claude</code></pre>
-<button class="copy-btn">コピー</button>
+<button type="button" class="copy-btn">コピー</button>
 </div>
-      Claudeがプロジェクトコンテキストを読み込み、ウェルカムメッセージを表示します。Claude Desktop Appとチャットするのと同じように、自然言語でリクエストを入力できます。
-    </div>
-    <div class="step">
-      <span class="step-label">Claudeと対話する</span>
-      &mdash; 質問や指示を入力してEnterを押します。Claudeはファイルの読み取り、コードの編集、ターミナルコマンドの実行、推論の説明を行えます。Claudeがコマンドの実行やファイルの変更に許可が必要な場合は、事前に尋ねます。
-    </div>
-    <div class="step">
-      <span class="step-label">セッションを終了する</span>
-      &mdash; <code>/exit</code>と入力するか、<code>Ctrl+C</code>を押してClaude Codeセッションを終了します。
-    </div>
+  <p>Claude Codeが起動するとプロンプト（<code>&gt;</code> 記号）が表示され、そこに質問や指示を入力します。</p>
+
+  <h3>対話の方法</h3>
+  <p>プロンプトに自然言語で質問を入力するだけです。Desktop Appと同じように、韓国語も英語も使えます。</p>
+
+  <div class="prompt-box">
+    <div class="prompt-text">現在のフォルダにあるファイル一覧を見せて</div>
   </div>
 
-  <div class="note">
-    プロジェクトディレクトリでClaude Code CLIを起動すると、Claudeは自動的にプロジェクト構造と設定ファイル（<code>CLAUDE.md</code>、<code>AGENTS.md</code>、<code>.claude/</code>ディレクトリなど）を読み込みます。このコンテキストはClaudeがプロジェクトを理解し、ワークスペースのルールに従うのに役立ちます。
+  <p>Claude Codeはファイルシステムにアクセスできるので、「現在のフォルダのファイルを読んで」「このファイルのバグを見つけて」といった依頼も処理できます。</p>
+
+  <h3>ファイル読み書きの例</h3>
+
+  <p><strong>ファイルの読み取り:</strong></p>
+  <div class="prompt-box">
+    <div class="prompt-text">README.mdファイルの内容を読んで要約して</div>
   </div>
 
-  <!-- ============================================================
-       SECTION 4: Key Commands
-       ============================================================ -->
-  <h2 id="commands">主要なコマンド</h2>
-
-  <p>Claude Code CLIは、一般的なアクションに素早くアクセスできるスラッシュコマンドセットを提供します。これらのコマンドはClaudeプロンプトで入力します（<code>/</code>プレフィックス付き）。</p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>コマンド</th>
-        <th>説明</th>
-        <th>例</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>/help</code></td>
-        <td>利用可能なすべてのコマンドとその説明を表示する</td>
-        <td><code>/help</code></td>
-      </tr>
-      <tr>
-        <td><code>/exit</code></td>
-        <td>現在のClaude Codeセッションを終了してターミナルに戻る</td>
-        <td><code>/exit</code></td>
-      </tr>
-      <tr>
-        <td><code>/clear</code></td>
-        <td>現在のセッション内の会話履歴をクリアする</td>
-        <td><code>/clear</code></td>
-      </tr>
-      <tr>
-        <td><code>/compact</code></td>
-        <td>これまでの会話を要約してコンテキストウィンドウの空きを確保する</td>
-        <td><code>/compact</code></td>
-      </tr>
-      <tr>
-        <td><code>/model</code></td>
-        <td>別のClaudeモデルに切り替える（例: Claude Sonnet、Claude Opus）</td>
-        <td><code>/model claude-sonnet-5</code></td>
-      </tr>
-      <tr>
-        <td><code>/cost</code></td>
-        <td>現在のセッションのトークン使用量と推定コストを表示する</td>
-        <td><code>/cost</code></td>
-      </tr>
-      <tr>
-        <td><code>/config</code></td>
-        <td>Claude Codeの設定を表示または変更する</td>
-        <td><code>/config</code></td>
-      </tr>
-      <tr>
-        <td><code>/doctor</code></td>
-        <td>Claude Codeのヘルスチェックと設定診断を実行する</td>
-        <td><code>/doctor</code></td>
-      </tr>
-      <tr>
-        <td><code>/login</code></td>
-        <td>Anthropicアカウントで再認証する</td>
-        <td><code>/login</code></td>
-      </tr>
-      <tr>
-        <td><code>/logout</code></td>
-        <td>Anthropicアカウントからサインアウトする</td>
-        <td><code>/logout</code></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3>よく使うパターン</h3>
-
-  <p>スラッシュコマンド以外に、Claude Code CLIを自然言語の指示で使うのが最も一般的です。以下に典型的なパターンを示します:</p>
-
-  <div class="step-list">
-    <div class="step">
-      <span class="step-label">プロジェクトファイルの読み取り</span>
-      &mdash; Claudeにプロジェクト内の任意のファイルを読み取って説明してもらいます。
-      <div class="code-block">
-<pre><code>agents/pm.mdを読んで、PMエージェントの役割を説明して</code></pre>
-<button class="copy-btn">コピー</button>
-</div>
-    </div>
-    <div class="step">
-      <span class="step-label">ファイルの編集</span>
-      &mdash; Claudeにコードや設定ファイルの変更を依頼します。
-      <div class="code-block">
-<pre><code>AGENTS.mdのロスターテーブルに「translator」の新しいエージェントエントリを追加して</code></pre>
-<button class="copy-btn">コピー</button>
-</div>
-    </div>
-    <div class="step">
-      <span class="step-label">コマンドの実行</span>
-      &mdash; Claudeはあなたに代わってターミナルコマンドを実行できます。
-      <div class="code-block">
-<pre><code>bun scripts/audit.tsを実行して結果を表示して</code></pre>
-<button class="copy-btn">コピー</button>
-</div>
-      Claudeはコマンドを実行する前に許可を求めます。
-    </div>
-    <div class="step">
-      <span class="step-label">デバッグ</span>
-      &mdash; エラーメッセージを貼り付け、Claudeに診断と修正を依頼します。
-      <div class="code-block">
-<pre><code>監査スクリプトを実行すると「module not found」エラーになります。
-  依存関係をチェックして修正案を提案して。</code></pre>
-<button class="copy-btn">コピー</button>
-</div>
-    </div>
+  <p><strong>ファイルの書き込み:</strong></p>
+  <div class="prompt-box">
+    <div class="prompt-text">hello.pyファイルを作成して、「Hello, World!」と出力するPythonコードを書いて</div>
   </div>
 
-  <div class="flow-box">
-    <strong>パーミッションモデル</strong>: Claude Code CLIは、ファイルの書き込み、シェルコマンドの実行、ネットワークリクエストの送信など、破壊的な可能性のあるアクションを実行する前に許可を求めます。各リクエストを個別に許可または拒否できます。これにより、Claudeがプロジェクトで行うことを完全に制御できます。
-  </div>
+  <p>Claude Codeはファイルを直接作成・修正できます。作業の前に、必ずどんな変更をするのか説明し、承認を求めます。</p>
 
-  <!-- ============================================================
-       SECTION 5: Project Mode
-       ============================================================ -->
-  <h2 id="project-mode">プロジェクトモード</h2>
+  <h3>終了方法</h3>
+  <p>Claude Codeの終了方法は2つあります:</p>
+  <div class="code-block">
+<pre><code># 方法1: コマンドで終了
+/exit
 
-  <p>プロジェクトディレクトリ内でClaude Code CLIを起動すると、自動的に<strong>プロジェクトモード</strong>に入ります。これはマルチエージェントハーネスユーザーが理解すべき最も重要な概念です。</p>
+# 方法2: ショートカットキーで終了
+Ctrl + C</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
 
-  <h3>プロジェクトモードとは？</h3>
-
-  <p>プロジェクトモードでは、Claude Codeはプロジェクト内での動作方法を定義する設定ファイルを読み込みます。これらのファイルはClaudeがそのプロジェクトのすべての対話で従う「指示」として機能します。主要なファイルは以下の通りです:</p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>ファイル</th>
-        <th>目的</th>
-        <th>読み取り元</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>CLAUDE.md</code></td>
-        <td>Claude用のメイン指示ファイル &mdash; プロジェクトルール、コーディング規格、ワークフロー定義を含む</td>
-        <td>Claude Code CLI</td>
-      </tr>
-      <tr>
-        <td><code>AGENTS.md</code></td>
-        <td>エージェントエコシステムレジストリ &mdash; すべてのエージェント、その役割、フェーズ、ディスパッチルールを定義</td>
-        <td>PMエージェント（オーケストレーター）</td>
-      </tr>
-      <tr>
-        <td><code>agents/*.md</code></td>
-        <td>個別のエージェント定義ファイル &mdash; 各エージェントの詳細な指示とスコープ</td>
-        <td>各スペシャリストエージェント</td>
-      </tr>
-      <tr>
-        <td><code>.claude/commands/*.md</code></td>
-        <td>カスタムスラッシュコマンド &mdash; 呼び出せる再利用可能なプロンプトテンプレート</td>
-        <td>Claude Code CLI</td>
-      </tr>
-      <tr>
-        <td><code>.claude/skills/*/SKILL.md</code></td>
-        <td>スキル定義 &mdash; オンデマンドで読み込まれる専門的な機能</td>
-        <td>Claude Code CLI</td>
-      </tr>
-    </tbody>
-  </table>
-
+  <!-- インラインSVG：CLI基本使用フロー図 -->
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Claude Code CLIのプロジェクトモードアーキテクチャ図">
+    <svg viewBox="0 0 660 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <!-- 背景 -->
+      <rect width="660" height="380" rx="10" fill="var(--bg2)"/>
+
+      <!-- タイトル -->
+      <text x="330" y="28" text-anchor="middle" font-size="15" font-weight="700" style="color:var(--text);">Claude Code CLI基本使用フロー</text>
+
+      <!-- ステップ1: ターミナルを開く -->
+      <rect x="30" y="50" width="130" height="90" rx="8" fill="var(--bg3)" stroke="var(--accent)"/>
+      <rect x="30" y="50" width="130" height="30" rx="8" fill="var(--accent)"/>
+      <rect x="30" y="72" width="130" height="8" fill="var(--accent)"/>
+      <text x="95" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">1. ターミナルを開く</text>
+      <text x="95" y="100" text-anchor="middle" font-size="10" style="color:var(--text-dim);">Terminal.app</text>
+      <text x="95" y="115" text-anchor="middle" font-size="10" style="color:var(--text-dim);">PowerShell</text>
+      <text x="95" y="130" text-anchor="middle" font-size="10" style="color:var(--text-dim);">Bash</text>
+
+      <!-- 矢印 1→2 -->
+      <line x1="160" y1="95" x2="185" y2="95" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowCLI)"/>
+
+      <!-- ステップ2: claudeを実行 -->
+      <rect x="190" y="50" width="130" height="90" rx="8" fill="var(--bg3)" stroke="var(--accent-green)"/>
+      <rect x="190" y="50" width="130" height="30" rx="8" fill="var(--accent-green)"/>
+      <rect x="190" y="72" width="130" height="8" fill="var(--accent-green)"/>
+      <text x="255" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">2. claudeを実行</text>
+      <rect x="205" y="95" width="100" height="24" rx="4" fill="var(--bg)" stroke="var(--border)"/>
+      <text x="255" y="112" text-anchor="middle" font-size="11" font-family="monospace" font-weight="700" style="color:var(--accent-green);">$ claude</text>
+
+      <!-- 矢印 2→3 -->
+      <line x1="320" y1="95" x2="345" y2="95" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowCLI)"/>
+
+      <!-- ステップ3: 質問入力 -->
+      <rect x="350" y="50" width="130" height="90" rx="8" fill="var(--bg3)" stroke="var(--accent-purple)"/>
+      <rect x="350" y="50" width="130" height="30" rx="8" fill="var(--accent-purple)"/>
+      <rect x="350" y="72" width="130" height="8" fill="var(--accent-purple)"/>
+      <text x="415" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">3. 質問を入力</text>
+      <text x="415" y="100" text-anchor="middle" font-size="10" style="color:var(--text-dim);">自然言語で質問や</text>
+      <text x="415" y="115" text-anchor="middle" font-size="10" style="color:var(--text-dim);">指示をプロンプトに</text>
+      <text x="415" y="130" text-anchor="middle" font-size="10" style="color:var(--text-dim);">入力します</text>
+
+      <!-- 矢印 3→4 -->
+      <line x1="480" y1="95" x2="505" y2="95" stroke="var(--accent-purple)" stroke-width="2" marker-end="url(#arrowCLI)"/>
+
+      <!-- ステップ4: 応答を受け取る -->
+      <rect x="510" y="50" width="130" height="90" rx="8" fill="var(--bg3)" stroke="var(--accent-amber)"/>
+      <rect x="510" y="50" width="130" height="30" rx="8" fill="var(--accent-amber)"/>
+      <rect x="510" y="72" width="130" height="8" fill="var(--accent-amber)"/>
+      <text x="575" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">4. 応答を受け取る</text>
+      <text x="575" y="100" text-anchor="middle" font-size="10" style="color:var(--text-dim);">Claudeがコードを実行</text>
+      <text x="575" y="115" text-anchor="middle" font-size="10" style="color:var(--text-dim);">したりファイルを修正</text>
+      <text x="575" y="130" text-anchor="middle" font-size="10" style="color:var(--text-dim);">したりして応答します</text>
+
+      <!-- 4から3へのループ矢印 -->
+      <path d="M 415 140 L 415 170 Q 415 185 430 185 L 560 185 Q 575 185 575 170 L 575 145" fill="none" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowCLI)"/>
+      <text x="495" y="200" text-anchor="middle" font-size="10" style="color:var(--text-dim);">対話は続けられます</text>
+
+      <!-- ステップ5: 終了 -->
+      <rect x="230" y="230" width="200" height="70" rx="8" fill="var(--bg3)" stroke="var(--accent-red)"/>
+      <rect x="230" y="230" width="200" height="30" rx="8" fill="var(--accent-red)"/>
+      <rect x="230" y="252" width="200" height="8" fill="var(--accent-red)"/>
+      <text x="330" y="250" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-inverse)">5. 終了</text>
+      <text x="330" y="280" text-anchor="middle" font-size="11" font-family="monospace" style="color:var(--accent-red);">/exit  または  Ctrl+C</text>
+
+      <!-- ループ領域から終了への矢印 -->
+      <path d="M 330 200 L 330 225" fill="none" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arrowCLI)"/>
+
+      <!-- 下部のヒントボックス -->
+      <rect x="30" y="320" width="600" height="45" rx="6" fill="var(--bg3)" stroke="var(--accent)"/>
+      <text x="45" y="340" font-size="11" font-weight="700" style="color:var(--accent);">&#9733; ヒント:</text>
+      <text x="85" y="340" font-size="11" style="color:var(--text);">claudeコマンド一発で始めて、/exitできれいに終了しましょう</text>
+      <text x="85" y="355" font-size="11" style="color:var(--text);">会話内容は自動保存されるので、次回も続きから作業できます</text>
+
+      <!-- 矢印マーカー -->
       <defs>
-        <marker id="arrowP" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/>
-        </marker>
-        <marker id="arrowPgreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent-green)"/>
+        <marker id="arrowCLI" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)"/>
         </marker>
       </defs>
-
-      <!-- Claude Code CLI box -->
-      <rect x="230" y="20" width="220" height="60" rx="12" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="340" y="45" text-anchor="middle" style="color:var(--accent);font-size:12px;font-weight:700;">CLAUDE CODE CLI</text>
-      <text x="340" y="65" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">ターミナルインターフェース</text>
-
-      <!-- Arrow down -->
-      <line x1="340" y1="80" x2="340" y2="110" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowP)"/>
-
-      <!-- Configuration layer -->
-      <rect x="140" y="112" width="400" height="50" rx="10" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="340" y="133" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">設定レイヤー（起動時に自動読み込み）</text>
-      <text x="340" y="150" text-anchor="middle" style="color:var(--text-dim);font-size:11px;">CLAUDE.md &middot; AGENTS.md &middot; .claude/</text>
-
-      <!-- Arrow down splits into three -->
-      <line x1="340" y1="162" x2="340" y2="182" stroke="var(--accent)" stroke-width="1.5"/>
-      <line x1="160" y1="182" x2="520" y2="182" stroke="var(--accent)" stroke-width="1.5"/>
-      <line x1="160" y1="182" x2="160" y2="202" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowPgreen)"/>
-      <line x1="340" y1="182" x2="340" y2="202" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowP)"/>
-      <line x1="520" y1="182" x2="520" y2="202" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowPgreen)"/>
-
-      <!-- Three project areas -->
-      <rect x="80" y="204" width="160" height="70" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="160" y="228" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">エージェントファイル</text>
-      <text x="160" y="246" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">agents/*.md</text>
-      <text x="160" y="260" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">役割、フェーズ、スコープ</text>
-
-      <rect x="260" y="204" width="160" height="70" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="340" y="228" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">ソースコード</text>
-      <text x="340" y="246" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">scripts/, src/</text>
-      <text x="340" y="260" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">Bun/TypeScript</text>
-
-      <rect x="440" y="204" width="160" height="70" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="520" y="228" text-anchor="middle" style="color:var(--text);font-size:12px;font-weight:600;">プロジェクト出力</text>
-      <text x="520" y="246" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">docs/, presentations/</text>
-      <text x="520" y="260" text-anchor="middle" style="color:var(--text-dim);font-size:10px;">生成された成果物</text>
     </svg>
   </div>
 
-  <h3>ハーネスユーザーにとってプロジェクトモードが重要な理由</h3>
+  <!-- ============================================================
+       SECTION 4: 主要なコマンド
+       ============================================================ -->
+  <h2 id="commands">4. 主要なコマンド</h2>
 
-  <p>マルチエージェントハーネス（co-consultやco-deckなど）を実行すると、Claude Code CLIはプロジェクト設定ファイルを読み込み、自動的に以下を行います:</p>
+  <p>Claude Code CLIで使える主なコマンドを紹介します。これらのコマンドはClaude Codeの会話画面で <code>/</code> から始めて入力します。</p>
 
-  <ul>
-    <li><strong>エージェント定義の読み込み</strong> &mdash; どのエージェントが存在し、何を行い、いつディスパッチされるかを把握します。</li>
-    <li><strong>ワークフロールールの遵守</strong> &mdash; 設定で定義されたフェーズゲート、品質チェック、引き継ぎコントラクトを尊重します。</li>
-    <li><strong>コーディング規格の適用</strong> &mdash; プロジェクトで指定されたコーディング規約とファイル編成ルールに従います。</li>
-    <li><strong>権限の強制</strong> &mdash; どのエージェントがどのファイルを編集できるかを理解し、不正な変更を防止します。</li>
-  </ul>
+  <div class="table-compare">
+    <table>
+      <thead>
+        <tr>
+          <th>コマンド</th>
+          <th>説明</th>
+          <th>例</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>claude</code></td>
+          <td>Claude Codeを起動</td>
+          <td><code>claude</code></td>
+        </tr>
+        <tr>
+          <td><code>/help</code></td>
+          <td>ヘルプを表示</td>
+          <td><code>/help</code></td>
+        </tr>
+        <tr>
+          <td><code>/clear</code></td>
+          <td>会話内容をリセット</td>
+          <td><code>/clear</code></td>
+        </tr>
+        <tr>
+          <td><code>/exit</code></td>
+          <td>Claude Codeを終了</td>
+          <td><code>/exit</code></td>
+        </tr>
+        <tr>
+          <td><code>/model</code></td>
+          <td>使用モデルを変更</td>
+          <td><code>/model claude-sonnet-5</code></td>
+        </tr>
+        <tr>
+          <td><code>/cost</code></td>
+          <td>現在のセッション費用を確認</td>
+          <td><code>/cost</code></td>
+        </tr>
+        <tr>
+          <td><code>/compact</code></td>
+          <td>コンテキスト圧縮（会話の要約）</td>
+          <td><code>/compact</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>コマンド使用例</h3>
+
+  <p><strong>/help — ヘルプ</strong></p>
+  <p>利用可能なすべてのコマンドの一覧と簡単な説明を表示します:</p>
+  <div class="code-block">
+<pre><code>/help</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <p><strong>/clear — 会話のリセット</strong></p>
+  <p>現在の会話内容をすべて消去し、新しい会話を始めます。コンテキストが長くなって応答品質が落ちてきたときに便利です:</p>
+  <div class="code-block">
+<pre><code>/clear</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <p><strong>/model — モデル変更</strong></p>
+  <p>現在のセッションで使用するClaudeモデルを変更します。利用可能なモデル一覧はClaudeのサブスクリプションレベルによって異なります:</p>
+  <div class="code-block">
+<pre><code># Sonnetモデルに変更（高速・低コスト）
+/model claude-sonnet-5
+
+# Opusモデルに変更（最も強力・高コスト）
+/model claude-opus-5</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <p><strong>/cost — 費用確認</strong></p>
+  <p>現在のセッションで使用したトークン数と推定費用を表示します。API使用量のモニタリングに便利です:</p>
+  <div class="code-block">
+<pre><code>/cost</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <p><strong>/compact — コンテキスト圧縮</strong></p>
+  <p>会話が長くなると、Claudeの「記憶容量」であるコンテキストウィンドウがいっぱいになります。<code>/compact</code> はそれまでの会話を要約して空きを作ります:</p>
+  <div class="code-block">
+<pre><code>/compact</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
 
   <div class="tip-box">
-    <strong>重要なポイント</strong>: Claude Code CLIの力は、CLI自体とプロジェクト設定ファイルの組み合わせから来ます。設定ファイルがなければ、Claude Code CLIは汎用的なコーディングアシスタントです。設定ファイル<em>があれば</em>、チームのルールとワークフローを自動的に従う専門のオーケストレーターになります。
-  </div>
-
-  <h3>初期プロンプトを指定して起動する</h3>
-
-  <p>Claude Code CLIを起動する際に初期プロンプトを直接渡すことができます。これは自動化やスクリプティングに便利です:</p>
-
-  <div class="code-block">
-<pre class="code-block"><code># 初期プロンプト付きでClaudeを起動
-claude "監査スクリプトを実行して問題を報告して"
-
-# 非対話モードでClaudeを起動（自動化用）
-claude -p "すべてのエージェント定義の要約を生成して"</code></pre>
-<button class="copy-btn">コピー</button>
-</div>
-
-  <div class="note">
-    <code>-p</code>（print）フラグはClaudeを非対話モードで実行します。Claudeはプロンプトを処理し、レスポンスを出力して終了します。スクリプティングやCI/CD統合に特に便利です。
+    <strong>/compact</strong> はClaude Code使用において最も重要なコマンドの一つです。会話が長くなってきたら定期的に実行してください。そうしないと、Claudeが以前の会話内容を忘れたり、応答品質が低下したりすることがあります。
   </div>
 
   <!-- ============================================================
-       SECTION 6: Practical Tips
+       SECTION 5: プロジェクトモード
        ============================================================ -->
-  <h2 id="tips">実践的なヒント</h2>
+  <h2 id="project-mode">5. プロジェクトモード</h2>
 
-  <p>マルチエージェントハーネスユーザーの一般的なパターンに基づいた、Claude Code CLIを最大限に活用するための5つの実践的なヒントを紹介します。</p>
+  <p>Claude Code CLIの真の強みは<strong>プロジェクトモード</strong>で発揮されます。プロジェクトフォルダ内でClaude Codeを実行すると、Claudeがプロジェクトのファイル構造や設定を理解し、文脈に合った作業を行えるようになります。</p>
+
+  <h3>プロジェクトでClaude Codeを実行する</h3>
 
   <div class="step-list">
     <div class="step">
-      <span class="step-label">ヒント1: CLAUDE.mdを常に最新に保つ</span>
-      &mdash; <code>CLAUDE.md</code>ファイルはClaudeにとってプロジェクトの主要な指示セットです。最新のコーディング規格、ワークフロールール、プロジェクト規約で常に最新の状態を保ってください。古い<code>CLAUDE.md</code>は動作の不整合を招きます。プロジェクト構造やエージェント定義を変更した場合は、<code>CLAUDE.md</code>を見直して更新してください。
+      <div class="step-content">
+        <div class="step-label">ステップ1: プロジェクトフォルダへ移動</div>
+        <p>ターミナルで、作業したいプロジェクトフォルダへ移動します:</p>
+        <div class="code-block">
+<pre><code>cd ~/my-project</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+      </div>
     </div>
+
     <div class="step">
-      <span class="step-label">ヒント2: コンテキストがいっぱいになったら/compactを使う</span>
-      &mdash; 長い会話はコンテキストウィンドウを消費します。Claudeが会話の最初の部分を「忘れ」始めたり、レスポンスの精度が落ちたりしたら、<code>/compact</code>と入力してください。これまでの会話履歴を要約し、重要なコンテキストを失わずに新しい対話のための空きを作ります。
+      <div class="step-content">
+        <div class="step-label">ステップ2: Claude Codeを実行</div>
+        <p>プロジェクトフォルダ内でClaude Codeを実行します:</p>
+        <div class="code-block">
+<pre><code>claude</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+      </div>
     </div>
+
     <div class="step">
-      <span class="step-label">ヒント3: パーミッションは慎重に許可する</span>
-      &mdash; Claude Code CLIはコマンドの実行やファイルの変更の前に許可を求めます。常に承認するのは魅力的ですが、<code>rm</code>、<code>git push</code>、その他の不可逆的な操作の前に、Claudeが何をしようとしているかを確認する時間を取ってください。この習慣で誤ったデータ損失を防げます。
+      <div class="step-content">
+        <div class="step-label">ステップ3: プロジェクトコンテキストの認識</div>
+        <p>Claude Codeが自動的にプロジェクトのファイル構造を分析します。これでプロジェクトに関する質問ができます:</p>
+        <div class="prompt-box">
+          <div class="prompt-text">このプロジェクトの構造を説明して</div>
+        </div>
+      </div>
     </div>
+
     <div class="step">
-      <span class="step-label">ヒント4: 非対話モードを自動化に活用する</span>
-      &mdash; <code>claude -p "プロンプト"</code>を使用して、シェルスクリプト内でClaudeを非対話モードで実行します。これにより、品質チェックの実行、ドキュメントの生成、エージェントワークフローのトリガーなど、強力な自動化パターンが可能になります。シェルパイプとリダイレクションと組み合わせて、Claudeの出力を既存のツールチェーンに統合できます。
-    </div>
-    <div class="step">
-      <span class="step-label">ヒント5: /costコマンドで使用量を監視する</span>
-      &mdash; Claude Code CLIは各セッションのトークン使用量を追跡します。いつでも<code>/cost</code>と入力して、消費したトークン数と推定コストを確認できます。サブスクリプション制限内に収まるようにし、どの種類のタスクが最もリソースを消費するかを理解するのに役立ちます。セッションが高額になりそうな場合は、<code>/clear</code>で新しいセッションを開始することを検討してください。
+      <div class="step-content">
+        <div class="step-label">ステップ4: エージェントのディスパッチ</div>
+        <p>AGENTS.mdがあるプロジェクトでは、Claude Codeがエージェントを認識し、専門作業を適切なエージェントに委譲（ディスパッチ）します:</p>
+        <div class="prompt-box">
+          <div class="prompt-text">このプロジェクトのdesign_spec.mdを作成して</div>
+        </div>
+        <p>Claude CodeはPMゲートウェイを通じて <code>design</code> エージェントをディスパッチし、作業を実行します。</p>
+      </div>
     </div>
   </div>
 
-  <div class="flow-box">
-    <strong>ヘルプの取得</strong>: Claude Code CLIで問題が発生した場合は、公式ドキュメントは<a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer">docs.anthropic.com/en/docs/claude-code</a>にあります。Claude Code CLI内で<code>/help</code>と入力すると利用可能なコマンドのクイックリファレンスが表示され、<code>/doctor</code>を実行すると一般的な設定問題を診断できます。
+  <div class="note">
+    プロジェクトモードでは、Claude Codeが<strong>AGENTS.md</strong>を読んでエージェントを認識します。AGENTS.mdに定義されたエージェントのルール・権限・ワークフローに従って、作業が自動的に割り当てられます。これこそClaude Code CLIを使う最大の理由の一つです。
+  </div>
+
+  <h3>プロジェクトモードのメリット</h3>
+  <ul>
+    <li><strong>ファイルコンテキストの理解</strong> &mdash; プロジェクトのファイル構造、依存関係、設定ファイルを自動的に分析します</li>
+    <li><strong>エージェントワークフロー</strong> &mdash; AGENTS.mdに定義されたマルチエージェントシステムをClaudeが自動的に活用します</li>
+    <li><strong>スクリプト統合</strong> &mdash; CI/CDパイプラインや自動化スクリプトにClaude Codeを組み込めます</li>
+    <li><strong>サードパーティバックエンド</strong> &mdash; DeepSeek、GLMなど別のAIバックエンドに切り替えてコストを削減できます（<a href="C_Low_Cost_Backends_ja.html">付録C</a>参照）</li>
+  </ul>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg viewBox="0 0 660 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <!-- 背景 -->
+      <rect width="660" height="280" rx="10" fill="var(--bg2)"/>
+
+      <!-- タイトル -->
+      <text x="330" y="28" text-anchor="middle" font-size="15" font-weight="700" style="color:var(--text);">プロジェクトモードの動作原理</text>
+
+      <!-- ユーザー -->
+      <rect x="20" y="80" width="120" height="160" rx="8" fill="var(--bg3)" stroke="var(--accent)"/>
+      <rect x="20" y="80" width="120" height="32" rx="8" fill="var(--accent)"/>
+      <rect x="20" y="104" width="120" height="8" fill="var(--accent)"/>
+      <text x="80" y="100" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text-inverse)">ユーザー</text>
+      <text x="80" y="140" text-anchor="middle" font-size="10" style="color:var(--text-dim);">ターミナルで</text>
+      <text x="80" y="155" text-anchor="middle" font-size="10" style="color:var(--text-dim);">claudeを実行し</text>
+      <text x="80" y="170" text-anchor="middle" font-size="10" style="color:var(--text-dim);">プロンプト入力</text>
+
+      <!-- 矢印 ユーザー→Claude Code -->
+      <line x1="140" y1="160" x2="170" y2="160" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowProj)"/>
+
+      <!-- Claude Code（中央） -->
+      <rect x="175" y="55" width="140" height="210" rx="8" fill="var(--bg3)" stroke="var(--accent-green)"/>
+      <rect x="175" y="55" width="140" height="32" rx="8" fill="var(--accent-green)"/>
+      <rect x="175" y="79" width="140" height="8" fill="var(--accent-green)"/>
+      <text x="245" y="75" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text-inverse)">Claude Code</text>
+      <text x="245" y="110" text-anchor="middle" font-size="10" style="color:var(--text-dim);">プロジェクトフォルダ</text>
+      <text x="245" y="125" text-anchor="middle" font-size="10" style="color:var(--text-dim);">ファイル構造の分析</text>
+      <text x="245" y="140" text-anchor="middle" font-size="10" style="color:var(--text-dim);">AGENTS.mdの読み込み</text>
+      <line x1="195" y1="155" x2="295" y2="155" stroke="var(--border)" stroke-width="1"/>
+      <text x="245" y="175" text-anchor="middle" font-size="10" style="color:var(--text);">PMゲートウェイ</text>
+      <text x="245" y="190" text-anchor="middle" font-size="10" style="color:var(--text);">エージェントディスパッチ</text>
+      <text x="245" y="210" text-anchor="middle" font-size="10" style="color:var(--text);">作業の実行</text>
+      <text x="245" y="230" text-anchor="middle" font-size="10" style="color:var(--text);">結果の返却</text>
+
+      <!-- 矢印 Claude Code→エージェント -->
+      <line x1="315" y1="120" x2="345" y2="100" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowProj)"/>
+      <line x1="315" y1="180" x2="345" y2="180" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowProj)"/>
+      <line x1="315" y1="210" x2="345" y2="230" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowProj)"/>
+
+      <!-- エージェントボックス -->
+      <rect x="350" y="70" width="130" height="50" rx="6" fill="var(--bg3)" stroke="var(--accent-purple)"/>
+      <text x="415" y="92" text-anchor="middle" font-size="11" font-weight="700" style="color:var(--accent-purple);">design</text>
+      <text x="415" y="108" text-anchor="middle" font-size="9" style="color:var(--text-dim);">デザインエージェント</text>
+
+      <rect x="350" y="150" width="130" height="50" rx="6" fill="var(--bg3)" stroke="var(--accent-amber)"/>
+      <text x="415" y="172" text-anchor="middle" font-size="11" font-weight="700" style="color:var(--accent-amber);">storyline</text>
+      <text x="415" y="188" text-anchor="middle" font-size="9" style="color:var(--text-dim);">ストーリーラインエージェント</text>
+
+      <rect x="350" y="210" width="130" height="50" rx="6" fill="var(--bg3)" stroke="var(--accent)"/>
+      <text x="415" y="232" text-anchor="middle" font-size="11" font-weight="700" style="color:var(--accent);">html-build</text>
+      <text x="415" y="248" text-anchor="middle" font-size="9" style="color:var(--text-dim);">HTMLビルドエージェント</text>
+
+      <!-- 矢印 エージェント→プロジェクトファイル -->
+      <line x1="480" y1="95" x2="510" y2="95" stroke="var(--accent-purple)" stroke-width="2" marker-end="url(#arrowProj)"/>
+      <line x1="480" y1="175" x2="510" y2="175" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowProj)"/>
+      <line x1="480" y1="235" x2="510" y2="235" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowProj)"/>
+
+      <!-- プロジェクトファイル -->
+      <rect x="515" y="55" width="125" height="210" rx="8" fill="var(--bg3)" stroke="var(--border)"/>
+      <rect x="515" y="55" width="125" height="32" rx="8" fill="var(--border)"/>
+      <rect x="515" y="79" width="125" height="8" fill="var(--border)"/>
+      <text x="577" y="75" text-anchor="middle" font-size="12" font-weight="700" style="color:var(--text);">プロジェクトファイル</text>
+      <text x="577" y="110" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--text-dim);">AGENTS.md</text>
+      <text x="577" y="130" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--text-dim);">design_spec.md</text>
+      <text x="577" y="150" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--text-dim);">slide_deck.md</text>
+      <text x="577" y="170" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--text-dim);">storyline.md</text>
+      <line x1="535" y1="185" x2="620" y2="185" stroke="var(--border)" stroke-width="1"/>
+      <text x="577" y="205" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--text-dim);">lecture.html</text>
+      <text x="577" y="225" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--text-dim);">project_state.json</text>
+      <text x="577" y="245" text-anchor="middle" font-size="10" font-family="monospace" style="color:var(--text-dim);">image-manifest.json</text>
+
+      <!-- 矢印マーカー -->
+      <defs>
+        <marker id="arrowProj" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)"/>
+        </marker>
+      </defs>
+    </svg>
   </div>
 
   <!-- ============================================================
-       Chapter Navigation
+       SECTION 6: 実践的なヒント
        ============================================================ -->
+  <h2 id="tips">6. 実践的なヒント</h2>
+
+  <p>Claude Code CLIをもっと効果的に使うための5つの実践的ヒントを紹介します。</p>
+
+  <div class="step-list">
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">ヒント1: 必ずプロジェクトフォルダから始める</div>
+        <p>Claude Codeを実行する前に、<code>cd</code> コマンドでプロジェクトフォルダへ移動してください。プロジェクトフォルダの外で実行すると、Claudeはファイルのコンテキストをつかめません:</p>
+        <div class="code-block">
+<pre><code># 良い例
+cd ~/my-project
+claude
+
+# 悪い例 — ホームディレクトリで実行
+claude</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">ヒント2: /compactでコンテキストを管理する</div>
+        <p>会話が長くなるとClaudeのコンテキストウィンドウがいっぱいになります。<code>/compact</code> を定期的に実行して会話を要約し、空きを確保しましょう。特にファイル分析やコードレビューの後に実行すると効果的です:</p>
+        <div class="code-block">
+<pre><code># 会話10〜15回ごとに実行
+/compact</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">ヒント3: /costで費用をモニタリングする</div>
+        <p>Claude Codeの使用中にどれくらい費用が発生しているか確認しましょう。特にClaude Proサブスクリプションの利用制限を管理するときに役立ちます:</p>
+        <div class="code-block">
+<pre><code># セッション費用の確認
+/cost</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">ヒント4: AGENTS.mdを最新に保つ</div>
+        <p>プロジェクトの<strong>AGENTS.md</strong>ファイルはClaude Codeの「取扱説明書」です。エージェントの定義、権限、ワークフローがこのファイルに定義されています。AGENTS.mdが古いままだと、Claudeが誤ったエージェントを呼び出す可能性があります:</p>
+        <div class="code-block">
+<pre><code># AGENTS.mdの確認
+claude
+# 「現在のプロジェクトのエージェント一覧を見せて」</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">ヒント5: Claude Code CLI + 低コストバックエンドの組み合わせ</div>
+        <p>Claude Code CLI最大の強みは、サードパーティバックエンドを使えることです。DeepSeek、GLM、LiteLLMなどの低コストバックエンドをつなげば、Claude Proサブスクリプションよりも安くClaude Codeを運用できます:</p>
+        <div class="code-block">
+<pre><code># DeepSeekバックエンドへの切り替え例
+export ANTHROPIC_API_KEY="your-deepseek-key"
+export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
+claude</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+        <p>詳しい設定方法は<a href="C_Low_Cost_Backends_ja.html">付録C: 低コストAIバックエンド統合</a>を参照してください。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    CLIを初めて使うときは、簡単な質問から始めましょう。「現在のフォルダのファイル構成を見せて」「このコードの問題点を見つけて」のような簡単な依頼でClaude Codeの動きに慣れてから、少しずつ複雑な作業へ広げていくのがおすすめです。
+  </div>
+
+  <div class="flow-box">
+    Claude Code CLIは、最初はターミナル環境に慣れていないと難しく感じるかもしれません。しかし基本のコマンドをいくつか知っていれば十分に活用できます。覚えておくべきは、<code>claude</code> で始めて、<code>/exit</code> で終了し、<code>/compact</code> で管理することだけです。
+  </div>
+
   <div class="chapter-nav">
     <a href="A_Remote_Access_ja.html" class="prev">
       <div class="dir">&larr; 付録A</div>

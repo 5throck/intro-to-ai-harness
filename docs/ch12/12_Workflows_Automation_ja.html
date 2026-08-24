@@ -278,6 +278,17 @@
     <strong>ヒント:</strong> <code>/sync</code>コマンドは引数としてコンベンショナルコミットメッセージを受け取ります。例: <code>/sync "feat(pm): ミーティングファシリテーションスキルを追加"</code>。システムはこのメッセージをgitコミットに使用するため、明確で説明的なメッセージを書くことが重要です。形式は<code>type(scope): description</code>のパターンに従います。
   </div>
 
+  <div class="note">
+    <p><strong>/syncの追加安全ゲート</strong>（2026-08-24時点）&mdash; 上記の5ステップに加えて、パイプライン内で以下のチェックが自動的に実行されます。ユーザーは通常、プロンプトが表示されたら答えるだけで大丈夫です。</p>
+    <ul>
+      <li><strong>言語ゲート</strong> &mdash; コミットメッセージとPRタイトルが英語ルールに合っているか検査します。</li>
+      <li><strong>スペックレジストリチェック</strong> &mdash; <code>audit.ts --spec-check</code>: 今回の作業が<code>docs/specs/registry.json</code>に登録された設計ドキュメント（スペック）と紐付いているか確認し、なければ同期を中断します（FATAL）。タイポ修正などの軽微な変更は、例外コードE1〜E5（<code>--spec-exempt</code>または<code>SYNC_SPEC_EXEMPT</code>）で免除できます。</li>
+      <li><strong>ガバナンス反映ゲート（ADR-0059）</strong> &mdash; 変更内容が関連するADR（設計決定記録）と紐付いているか検査します。</li>
+      <li><strong>スキルグラフゲート（ADR-0060）</strong> &mdash; スキル間の依存関係グラフを作成・検証し、循環参照などの問題を早期に発見します。</li>
+      <li><strong>VERSION_MANIFEST再生成</strong> &mdash; <code>docs/VERSION_MANIFEST.md</code>のバージョン一覧を最新状態で作り直します。</li>
+    </ul>
+  </div>
+
   <h3>いつ/syncを実行するか</h3>
 
   <p>プロジェクトファイルを変更した作業セッションの終わりに<code>/sync</code>を実行する必要があります。具体的には:</p>
@@ -548,6 +559,49 @@ git log --oneline</code></pre>
   </div>
 
   <p>AIハーネスでは、フックはツールレベルでも定義できます。例えば、Claude Codeのフックは、AIエージェントがファイルを編集しようとした時にスクリプトをトリガーでき、Gitフック以上の追加の強制レイヤーを提供します。</p>
+
+  <p>簡単に言えば、ツールレベルのフックはAIエージェントのための<strong>自動安全装置</strong>です。エージェントがファイルを編集しようとする瞬間や、別のエージェントを呼び出す瞬間に割り込んで、問題が大きくなる前に捕まえます。実際にこのワークスペースの<code>.claude/settings.json</code>には、以下のようなツールフックが登録されています（2026-08-24時点）。</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>フックスクリプト</th>
+        <th>実行タイミング</th>
+        <th>役割</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>gateguard-fact-force.ts</code></td>
+        <td>PreToolUse &middot; Edit/Write/MultiEdit</td>
+        <td><strong>事前検証ゲート</strong> &mdash; ファイルを編集する前に、そのファイルが使われている場所と変更の事実関係を先に確認します。</td>
+      </tr>
+      <tr>
+        <td><code>agent-model-gate.ts</code></td>
+        <td>PreToolUse &middot; Agent</td>
+        <td><strong>モデル等級の強制</strong> &mdash; エージェントを呼び出す際に、タスクの難易度に合ったモデル等級（High/Medium/Low）を使っているか検査します。</td>
+      </tr>
+      <tr>
+        <td><code>post-write-lifecycle-check.ts</code></td>
+        <td>PostToolUse &middot; Write/Edit + TeammateIdle</td>
+        <td><strong>事後ライフサイクルチェック</strong> &mdash; ファイル変更の後、バージョン記録やCHANGELOGの更新が必要かどうかを確認します。</td>
+      </tr>
+      <tr>
+        <td><code>audit.ts</code></td>
+        <td>TaskCompleted</td>
+        <td><strong>タスク完了時のQA監査</strong> &mdash; エージェントのタスクが終わるたびに、ワークスペース全体の監査を自動実行します。</td>
+      </tr>
+      <tr>
+        <td><code>git config core.hooksPath .githooks</code></td>
+        <td>SessionStart / WorktreeCreate</td>
+        <td><strong>Gitフックの接続</strong> &mdash; セッションやワークツリー（worktree）の開始時にGitフックフォルダ（<code>.githooks</code>）を接続し、pre-commitなどのGitフックが常に動くようにします。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>フックに止められても慌てないでください。</strong>フックは邪魔をするためではなく、ミスを早めに知らせるための保護装置です。チェックに引っかかった場合は、理由と修正のヒントが表示されるので、案内に従って直してから再度試しましょう。
+  </div>
 
   <!-- ============================================================ -->
   <!-- SECTION 5: CI/CD Basics                                        -->

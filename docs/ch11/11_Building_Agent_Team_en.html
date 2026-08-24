@@ -29,14 +29,13 @@
 <article class="reading">
   <div class="chapter-eyebrow">Chapter 11</div>
   <h1>Building Your Own Agent Team</h1>
-  <p class="lead">So far you have learned how to create individual agents and skills. In this chapter, you will discover how to compose multiple agents into a <strong>coordinated team</strong> &mdash; and use the <code>team-builder</code> skill to automate the entire process from requirements interview to fully registered agent roster.</p>
+  <p class="lead">By now you know how to create agents (Chapter 9), author skills (Chapter 10), and understand the overall harness structure (Chapters 3&ndash;4). In this chapter, you will learn how to bring all of these pieces together into <strong>your own agent team</strong>. We will walk through, step by step, how the team-builder skill collects requirements, benchmarks industry practices, and generates a proposal &mdash; and then you will ask Claude to build a team yourself.</p>
   <div class="keypoints">
-    <div class="kp-title">What You&rsquo;ll Learn</div>
+    <h3>What You&rsquo;ll Learn in This Chapter</h3>
     <ul>
-      <li>Why agent team composition matters</li>
-      <li>team-builder skill: AI layer and Script layer</li>
-      <li>5-step workflow: Interview &rarr; Benchmark &rarr; Diagnose &rarr; Propose &rarr; Approve</li>
-      <li>Proposal JSON structure and field meanings</li>
+      <li>Why agent team composition is needed</li>
+      <li>The team-builder skill&rsquo;s AI layer and Script layer</li>
+      <li>The 5-step workflow: Interview &rarr; Benchmarking &rarr; Diagnosis &rarr; Proposal &rarr; Approval</li>
       <li>Hands-on: Build your own custom agent team</li>
     </ul>
   </div>
@@ -46,27 +45,25 @@
   <!-- ============================================================ -->
   <h2 id="team-why">Why Build an Agent Team?</h2>
 
-  <p>A single AI assistant is powerful, but real-world work rarely fits into one role. A marketing team needs a strategist, a copywriter, a data analyst, and a designer working together. A research lab needs a literature reviewer, a hypothesis tester, and a report writer. In each case, the <strong>team composition</strong> &mdash; who does what and in what order &mdash; determines the quality of the final output.</p>
-
   <h3>Real-World Scenarios</h3>
 
-  <p>Consider these three scenarios where a team of specialized agents outperforms a single generalist:</p>
+  <p>AI agents are used across many fields. Composing agents to match the characteristics of each field lets you build a far more powerful system. Let&rsquo;s look at a few real-world scenarios.</p>
 
   <div class="compare-grid">
     <div class="col">
       <h4>Marketing Team</h4>
       <ul>
-        <li><strong>Strategy Analyst</strong> &mdash; market research, competitor analysis</li>
-        <li><strong>Content Writer</strong> &mdash; blog posts, ad copy, social media</li>
-        <li><strong>Data Analyst</strong> &mdash; campaign metrics, A/B test results</li>
+        <li>Market research, content planning, design, review</li>
+        <li>Brand guideline compliance</li>
+        <li>Campaign performance analysis</li>
       </ul>
     </div>
     <div class="col">
       <h4>Research Lab</h4>
       <ul>
-        <li><strong>Literature Reviewer</strong> &mdash; paper search and synthesis</li>
-        <li><strong>Experiment Designer</strong> &mdash; methodology and protocols</li>
-        <li><strong>Report Writer</strong> &mdash; findings and publication drafts</li>
+        <li>Literature search, data analysis, paper drafting</li>
+        <li>Source verification and citation management</li>
+        <li>Peer review</li>
       </ul>
     </div>
   </div>
@@ -75,324 +72,495 @@
     <div class="col">
       <h4>Education Institution</h4>
       <ul>
-        <li><strong>Curriculum Designer</strong> &mdash; course structure and learning objectives</li>
-        <li><strong>Content Author</strong> &mdash; lecture materials and textbooks</li>
-        <li><strong>Assessment Creator</strong> &mdash; quizzes, exams, and rubrics</li>
-        <li><strong>QA Reviewer</strong> &mdash; quality checks and accessibility compliance</li>
+        <li>Lecture material creation, exam question writing, learning analytics</li>
+        <li>Curriculum design</li>
+        <li>Student feedback collection and analysis</li>
       </ul>
     </div>
     <div class="col">
-      <h4>Benefits of Team Composition</h4>
+      <h4>Software Development</h4>
       <ul>
-        <li>Each agent holds <strong>focused context</strong> &mdash; no information overload</li>
-        <li><strong>Separation of concerns</strong> &mdash; writer does not review their own work</li>
-        <li><strong>Parallel execution</strong> &mdash; independent agents run simultaneously</li>
-        <li><strong>Easy to extend</strong> &mdash; add a new specialist without touching others</li>
-        <li><strong>Consistent quality</strong> &mdash; specialist depth in each role</li>
+        <li>Code writing, testing, code review</li>
+        <li>Documentation and deployment automation</li>
+        <li>Security checks and quality management</li>
       </ul>
     </div>
   </div>
 
   <h3>Limitations of a Single AI</h3>
 
-  <p>When you rely on a single AI agent for everything, you run into several problems:</p>
+  <p>A single AI assistant can accomplish a great deal. On complex projects, however, the <strong>limitations of a single AI</strong> become clear.</p>
 
   <ul>
-    <li><strong>Context overload</strong> &mdash; one agent must hold all domain knowledge, instructions, and intermediate results at once.</li>
-    <li><strong>No separation of concerns</strong> &mdash; the same agent writes code, reviews it, and tests it, which reduces quality.</li>
-    <li><strong>Hard to scale</strong> &mdash; adding a new capability means rewriting the entire agent definition.</li>
-    <li><strong>No specialization</strong> &mdash; a generalist agent cannot match the depth of a specialist focused on one task.</li>
+    <li><strong>Difficult to separate roles</strong> &mdash; when one AI plans, writes, and reviews everything, quality drops in every role. Having it &ldquo;review its own writing&rdquo; invites bias.</li>
+    <li><strong>Lack of specialization</strong> &mdash; tasks that require domain expertise, such as security checks, documentation quality review, and performance analysis, are handled better by dedicated specialist agents.</li>
+    <li><strong>Scalability</strong> &mdash; as a project grows, a single AI must process work sequentially, which takes time. A team composition enables parallel processing.</li>
   </ul>
 
-  <h3>Single AI vs. Agent Team</h3>
+  <h3>Benefits of an Agent Team</h3>
 
-  <div class="diagram-frame">
-    <svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;">
-      <!-- Single AI side -->
-      <rect x="20" y="30" width="290" height="200" rx="12" fill="var(--bg-info)" stroke="var(--border)" stroke-width="1.5"/>
-      <text x="165" y="58" text-anchor="middle" style="fill:var(--text);font-family:var(--font-family);font-weight:600;font-size:14px;">Single AI Agent</text>
-      <rect x="60" y="75" width="210" height="36" rx="6" fill="var(--code-bg)" stroke="var(--border)" stroke-width="1"/>
-      <text x="165" y="98" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:12px;">Research + Write + Review + Test</text>
-      <rect x="60" y="125" width="210" height="36" rx="6" fill="var(--code-bg)" stroke="var(--border)" stroke-width="1"/>
-      <text x="165" y="148" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:12px;">All context in one place</text>
-      <rect x="60" y="175" width="210" height="36" rx="6" fill="var(--code-bg)" stroke="var(--border)" stroke-width="1"/>
-      <text x="165" y="198" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:12px;">Hard to extend, easy to break</text>
+  <p>When multiple specialist agents cooperate, you gain the following benefits:</p>
 
-      <!-- Arrow -->
-      <text x="340" y="135" text-anchor="middle" style="fill:var(--accent);font-family:var(--font-family);font-size:28px;font-weight:700;">&rarr;</text>
+  <ul>
+    <li><strong>Division of labor</strong> &mdash; each agent focuses solely on its own specialty, raising output quality.</li>
+    <li><strong>Quality gates</strong> &mdash; writer and reviewer agents are separated, enabling objective quality review.</li>
+    <li><strong>Reusability</strong> &mdash; skills can be shared across agents, reducing duplicated work and producing consistent results.</li>
+    <li><strong>Parallel processing</strong> &mdash; independent tasks run simultaneously, shortening overall project time.</li>
+  </ul>
 
-      <!-- Agent Team side -->
-      <rect x="370" y="30" width="290" height="200" rx="12" fill="var(--bg-success)" stroke="var(--border)" stroke-width="1.5"/>
-      <text x="515" y="58" text-anchor="middle" style="fill:var(--text);font-family:var(--font-family);font-weight:600;font-size:14px;">Agent Team</text>
-      <rect x="385" y="75" width="120" height="30" rx="6" fill="var(--accent)" stroke="none"/>
-      <text x="445" y="95" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">Researcher</text>
-      <rect x="520" y="75" width="120" height="30" rx="6" fill="var(--accent-green)" stroke="none"/>
-      <text x="580" y="95" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">Writer</text>
-      <rect x="385" y="115" width="120" height="30" rx="6" fill="var(--accent-purple)" stroke="none"/>
-      <text x="445" y="135" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">Reviewer</text>
-      <rect x="520" y="115" width="120" height="30" rx="6" fill="var(--accent-amber)" stroke="none"/>
-      <text x="580" y="135" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">Tester</text>
-      <!-- Handoff arrows -->
-      <line x1="505" y1="90" x2="520" y2="90" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowGray)"/>
-      <line x1="505" y1="130" x2="520" y2="130" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowGray)"/>
-      <line x1="445" y1="105" x2="445" y2="115" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowGray)"/>
-      <line x1="580" y1="105" x2="580" y2="115" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowGray)"/>
-      <text x="515" y="175" text-anchor="middle" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">Each role = focused context</text>
-      <text x="515" y="195" text-anchor="middle" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">Easy to extend, hard to break</text>
+  <!-- Inline SVG: single AI vs agent team comparison -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparison diagram: single AI vs agent team">
       <defs>
-        <marker id="arrowGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)"/>
+        <marker id="arrowCmp1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowCmp2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
         </marker>
       </defs>
+
+      <!-- Left: single AI -->
+      <rect x="20" y="20" width="300" height="320" rx="14" fill="var(--bg-note)" stroke="var(--border)" stroke-width="2"/>
+      <text x="170" y="50" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">Single AI</text>
+
+      <!-- Single AI box -->
+      <rect x="100" y="72" width="140" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="170" y="102" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">AI Assistant</text>
+
+      <!-- Tasks -->
+      <rect x="50" y="150" width="80" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="90" y="173" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Plan</text>
+      <line x1="170" y1="122" x2="90" y2="150" stroke="var(--text-dim)" stroke-width="1.5"/>
+
+      <rect x="150" y="150" width="80" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="190" y="173" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Write</text>
+      <line x1="170" y1="122" x2="190" y2="150" stroke="var(--text-dim)" stroke-width="1.5"/>
+
+      <rect x="250" y="150" width="60" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="280" y="173" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Review</text>
+      <line x1="170" y1="122" x2="280" y2="150" stroke="var(--text-dim)" stroke-width="1.5"/>
+
+      <!-- Problems -->
+      <text x="170" y="210" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--accent-amber);font-family:var(--font-family);">Problems</text>
+      <text x="170" y="230" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">One agent handles every task</text>
+      <text x="170" y="248" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">Self-review introduces bias</text>
+      <text x="170" y="266" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">Sequential processing adds delay</text>
+
+      <!-- Bottleneck -->
+      <rect x="100" y="286" width="140" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="170" y="309" text-anchor="middle" font-size="10" style="fill:var(--accent-amber);font-family:var(--font-family);">Bottleneck</text>
+
+      <!-- Right: agent team -->
+      <rect x="360" y="20" width="300" height="320" rx="14" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="510" y="50" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">Agent Team</text>
+
+      <!-- PM -->
+      <rect x="460" y="68" width="100" height="40" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="510" y="93" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">PM (Orchestrator)</text>
+
+      <!-- Specialist agents -->
+      <rect x="378" y="130" width="70" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="413" y="155" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Researcher</text>
+      <line x1="490" y1="108" x2="413" y2="130" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowCmp2)"/>
+
+      <rect x="458" y="130" width="70" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="493" y="155" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Writer</text>
+      <line x1="510" y1="108" x2="493" y2="130" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowCmp2)"/>
+
+      <rect x="538" y="130" width="70" height="40" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="573" y="155" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Reviewer</text>
+      <line x1="530" y1="108" x2="573" y2="130" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowCmp2)"/>
+
+      <!-- Collaboration arrows -->
+      <line x1="448" y1="150" x2="458" y2="150" stroke="var(--accent-green)" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="528" y1="150" x2="538" y2="150" stroke="var(--accent-green)" stroke-width="1" stroke-dasharray="3,2"/>
+
+      <!-- Strengths -->
+      <text x="510" y="200" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--accent-green);font-family:var(--font-family);">Advantages</text>
+      <text x="510" y="220" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Role division secures expertise</text>
+      <text x="510" y="238" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Independent review keeps objectivity</text>
+      <text x="510" y="256" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Parallel processing adds speed</text>
+
+      <!-- Result -->
+      <rect x="430" y="280" width="160" height="42" rx="10" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="510" y="305" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--accent-green);font-family:var(--font-family);">High-Quality Output</text>
+      <line x1="510" y1="170" x2="510" y2="280" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowCmp2)"/>
     </svg>
   </div>
 
   <div class="tip-box">
-    <h4>The Key Insight</h4>
-    <p>Just like a real organization, an <strong>agent team</strong> assigns each AI a clear role, a defined set of skills, and explicit handoff relationships with other agents. This separation of concerns produces higher-quality outputs that are easier to maintain and extend.</p>
+    <strong>Analogy:</strong> A single AI is like an &ldquo;all-purpose chef.&rdquo; One person doing ingredient prep, cooking, plating, and tasting has a hard limit on quality. An agent team is a &ldquo;kitchen brigade&rdquo; where each member owns a specialty: the head chef (PM) coordinates, each chef focuses on their own station, and a taster reviews quality objectively.
   </div>
 
   <!-- ============================================================ -->
-  <!-- SECTION 2: Introducing the team-builder Skill                -->
+  <!-- SECTION 2: Introducing the team-builder Skill                 -->
   <!-- ============================================================ -->
   <h2 id="team-builder-intro">Introducing the team-builder Skill</h2>
 
-  <p>The <code>team-builder</code> skill automates the entire process of designing and deploying a new agent team. It uses a <strong>two-layer architecture</strong>: an AI-driven planning layer and an automated script execution layer.</p>
+  <h3>What Is team-builder?</h3>
 
-  <h3>AI Layer + Script Layer</h3>
+  <p><code>team-builder</code> is a skill that composes a <strong>custom agent team</strong> matched to your project&rsquo;s purpose and requirements. It collects requirements through an interview with you, consults industry benchmarks via web search, diagnoses the current state of your existing team, and then proposes the optimal team composition.</p>
+
+  <p>This skill consists of <strong>two layers</strong>:</p>
 
   <ul>
-    <li><strong>AI Layer (Steps 1&ndash;5)</strong> &mdash; The AI conducts a requirements interview, benchmarks against industry team structures, diagnoses your current agent setup, generates a proposal, and presents it for your approval.</li>
-    <li><strong>Script Layer (Steps 6&ndash;14)</strong> &mdash; After you approve the proposal, <code>bun scripts/team-builder.ts</code> executes all changes automatically: creating agent files, registering agents in <code>AGENTS.md</code>, installing skills, and updating governance documents.</li>
+    <li><strong>AI Layer (Steps 1&ndash;5)</strong> &mdash; Steps performed directly by Claude (the AI). Includes the requirements interview, benchmarking, diagnosis, proposal generation, and the user approval gate.</li>
+    <li><strong>Script Layer (Steps 6&ndash;14)</strong> &mdash; Based on the proposal JSON you approved, the <code>bun scripts/team-builder.ts</code> script automatically creates agent files and registers them into the system.</li>
   </ul>
 
-  <div class="note">
-    <strong>Important:</strong> The script layer <em>never runs</em> without your explicit approval at Step 5. This is a mandatory safety gate. Even if the AI could technically run the script, the workflow is designed so that <strong>you</strong> execute the terminal command yourself.
+  <div class="warning-box">
+    <strong>Important:</strong> The script layer runs only when you <strong>explicitly approve</strong> at Step 5. The AI layer merely proposes; the actual file creation is handled by the script. This separation of the two layers serves as a safety mechanism.
   </div>
 
-  <h3>Why Two Layers?</h3>
+  <h3 id="why-two-layers">Why Two Layers?</h3>
 
-  <p>You might wonder: why not let the AI do everything? The answer comes down to <strong>reliability and accountability</strong>.</p>
-
-  <ul>
-    <li><strong>AI excels at</strong> understanding intent, conducting research, evaluating trade-offs, and generating creative proposals. Steps 1&ndash;4 leverage exactly these strengths.</li>
-    <li><strong>Scripts excel at</strong> deterministic file operations: creating directories, writing files with exact formatting, updating multiple cross-referenced documents simultaneously, and producing consistent output every time. Steps 6&ndash;14 need this reliability.</li>
-    <li><strong>You provide the gate</strong> at Step 5, ensuring no changes are made without your informed consent. This prevents the AI from accidentally deleting agents, breaking handoff chains, or creating inconsistent governance documents.</li>
-  </ul>
-
-  <h3>Existing System: co-consult</h3>
-
-  <p>The <strong>co-consult</strong> project is a real-world example of an agent team built for management consulting engagements. It includes 11 specialist agents (Engagement Leader, Strategy Analyst, Industry Expert, Solutions Architect, and more) organized into 4 predefined composition patterns:</p>
+  <p>You might wonder: &ldquo;Couldn&rsquo;t we just leave everything to the AI?&rdquo; The answer comes down to <strong>reliability and accountability</strong>.</p>
 
   <ul>
-    <li><strong>Quick Assessment</strong> &mdash; 3 agents for rapid, focused evaluations</li>
-    <li><strong>Standard</strong> &mdash; 5 agents for typical consulting engagements</li>
-    <li><strong>Complex Transformation</strong> &mdash; 8 agents for large-scale organizational change</li>
-    <li><strong>Specialized Expert</strong> &mdash; 4 agents for deep-domain technical work</li>
+    <li><strong>What AI excels at</strong> &mdash; understanding intent, conducting research, evaluating trade-offs, and generating creative proposals. Steps 1&ndash;4 leverage exactly these strengths.</li>
+    <li><strong>What scripts excel at</strong> &mdash; deterministic file operations: creating directories, writing files in exact formats, updating multiple cross-referenced documents simultaneously, and producing consistent results every time. Steps 6&ndash;14 require exactly this reliability.</li>
+    <li><strong>You are the gate</strong> &mdash; Step 5 guarantees that no change occurs without your consent. This prevents accidents where the AI deletes agents by mistake, breaks handoff chains, or leaves governance documents inconsistent.</li>
   </ul>
 
-  <h3>Layer Architecture Diagram</h3>
+  <h3>4 Team Composition Patterns in the Existing System</h3>
 
-  <div class="diagram-frame">
-    <svg viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;">
-      <!-- AI Layer box -->
-      <rect x="20" y="20" width="620" height="120" rx="12" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="40" y="48" style="fill:var(--accent);font-family:var(--font-family);font-weight:700;font-size:14px;">AI Layer (Skill Layer)</text>
-      <text x="40" y="68" style="fill:var(--text-dim);font-family:var(--font-family);font-size:12px;">team-builder skill &mdash; Steps 1 through 5</text>
-      <!-- Step boxes -->
-      <rect x="40" y="82" width="100" height="32" rx="6" fill="var(--accent)" stroke="none"/>
-      <text x="90" y="103" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">1. Interview</text>
-      <rect x="155" y="82" width="100" height="32" rx="6" fill="var(--accent)" stroke="none"/>
-      <text x="205" y="103" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">2. Benchmark</text>
-      <rect x="270" y="82" width="100" height="32" rx="6" fill="var(--accent)" stroke="none"/>
-      <text x="320" y="103" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">3. Diagnose</text>
-      <rect x="385" y="82" width="100" height="32" rx="6" fill="var(--accent)" stroke="none"/>
-      <text x="435" y="103" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">4. Propose</text>
-      <rect x="500" y="82" width="120" height="32" rx="6" fill="var(--accent-amber)" stroke="none"/>
-      <text x="560" y="103" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">5. Approve</text>
-      <!-- Arrows between steps -->
-      <line x1="140" y1="98" x2="155" y2="98" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowG2)"/>
-      <line x1="255" y1="98" x2="270" y2="98" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowG2)"/>
-      <line x1="370" y1="98" x2="385" y2="98" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowG2)"/>
-      <line x1="485" y1="98" x2="500" y2="98" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#arrowG2)"/>
+  <p>The co-consult system already ships with 4 proven team composition patterns. team-builder references these patterns when proposing a new team.</p>
 
-      <!-- Down arrow -->
-      <line x1="330" y1="140" x2="330" y2="170" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowAcc)"/>
-      <text x="370" y="162" style="fill:var(--accent-amber);font-family:var(--font-family);font-weight:700;font-size:12px;">User approves</text>
+  <div class="step-list">
+    <ol>
+      <li><strong>Quick Assessment</strong> &mdash; a lightweight evaluation team of 3 agents. Suited to small projects and quick diagnostics.</li>
+      <li><strong>Standard</strong> &mdash; a standard team of 5 agents. Suited to most general projects.</li>
+      <li><strong>Complex Transformation</strong> &mdash; a large-scale team of 8 agents. Suited to complex organizational change and large projects.</li>
+      <li><strong>Specialized Expert</strong> &mdash; an expert team of 4 agents. Suited to deep analysis in a specific domain.</li>
+    </ol>
+  </div>
 
-      <!-- Script Layer box -->
-      <rect x="20" y="175" width="620" height="105" rx="12" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="40" y="203" style="fill:var(--accent-green);font-family:var(--font-family);font-weight:700;font-size:14px;">Script Layer (Execution Layer)</text>
-      <text x="40" y="223" style="fill:var(--text-dim);font-family:var(--font-family);font-size:12px;">bun scripts/team-builder.ts &mdash; Steps 6 through 14</text>
-      <rect x="40" y="235" width="130" height="28" rx="6" fill="var(--accent-green)" stroke="none"/>
-      <text x="105" y="254" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">Create agents</text>
-      <rect x="185" y="235" width="130" height="28" rx="6" fill="var(--accent-green)" stroke="none"/>
-      <text x="250" y="254" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">Register AGENTS.md</text>
-      <rect x="330" y="235" width="130" height="28" rx="6" fill="var(--accent-green)" stroke="none"/>
-      <text x="395" y="254" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">Install skills</text>
-      <rect x="475" y="235" width="145" height="28" rx="6" fill="var(--accent-green)" stroke="none"/>
-      <text x="548" y="254" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:11px;font-weight:600;">Update governance</text>
-
+  <!-- Inline SVG: team-builder layer architecture -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="team-builder layer architecture diagram">
       <defs>
-        <marker id="arrowG2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)"/>
-        </marker>
-        <marker id="arrowAcc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)"/>
+        <marker id="arrowLyr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
         </marker>
       </defs>
+
+      <!-- Title -->
+      <text x="340" y="28" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--accent-purple);font-family:var(--font-family);">team-builder 2-Layer Architecture</text>
+
+      <!-- AI layer -->
+      <rect x="30" y="50" width="620" height="120" rx="12" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="50" y="74" font-size="13" font-weight="bold" style="fill:var(--accent-purple);font-family:var(--font-family);">AI Layer (performed directly by Claude)</text>
+
+      <rect x="50" y="90" width="100" height="60" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="100" y="113" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--accent);font-family:var(--font-family);">Step 1</text>
+      <text x="100" y="128" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">Requirements Interview</text>
+
+      <rect x="162" y="90" width="100" height="60" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="212" y="113" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--accent-green);font-family:var(--font-family);">Step 2</text>
+      <text x="212" y="128" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">Benchmarking</text>
+
+      <rect x="274" y="90" width="100" height="60" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="324" y="113" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--accent-amber);font-family:var(--font-family);">Step 3</text>
+      <text x="324" y="128" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">Current Team Diagnosis</text>
+
+      <rect x="386" y="90" width="100" height="60" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="436" y="113" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--accent-purple);font-family:var(--font-family);">Step 4</text>
+      <text x="436" y="128" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">Proposal Generation</text>
+
+      <rect x="498" y="90" width="130" height="60" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="563" y="113" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--accent);font-family:var(--font-family);">Step 5</text>
+      <text x="563" y="128" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">User Approval Gate</text>
+
+      <!-- Arrows -->
+      <line x1="150" y1="120" x2="162" y2="120" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowLyr)"/>
+      <line x1="262" y1="120" x2="274" y2="120" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowLyr)"/>
+      <line x1="374" y1="120" x2="386" y2="120" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowLyr)"/>
+      <line x1="486" y1="120" x2="498" y2="120" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowLyr)"/>
+
+      <!-- Approval gate marker -->
+      <rect x="490" y="86" width="6" height="68" rx="3" fill="var(--accent-amber)"/>
+
+      <!-- Bottom script layer -->
+      <rect x="30" y="200" width="620" height="100" rx="12" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="50" y="224" font-size="13" font-weight="bold" style="fill:var(--accent-green);font-family:var(--font-family);">Script Layer (bun scripts/team-builder.ts)</text>
+
+      <rect x="50" y="240" width="110" height="42" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="105" y="265" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Create agent files</text>
+
+      <rect x="172" y="240" width="110" height="42" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="227" y="265" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Register AGENTS.md</text>
+
+      <rect x="294" y="240" width="110" height="42" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="349" y="265" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Install skills</text>
+
+      <rect x="416" y="240" width="110" height="42" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="471" y="265" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Configure workflows</text>
+
+      <rect x="538" y="240" width="90" height="42" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="583" y="265" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">Validate</text>
+
+      <!-- Arrow connecting the two layers -->
+      <line x1="340" y1="170" x2="340" y2="200" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowLyr)"/>
+      <text x="360" y="190" font-size="10" font-weight="bold" style="fill:var(--accent-amber);font-family:var(--font-family);">Runs after approval</text>
     </svg>
   </div>
 
   <!-- ============================================================ -->
-  <!-- SECTION 3: AI Layer 5-Step Workflow                            -->
+  <!-- SECTION 3: AI Layer 5-step workflow                           -->
   <!-- ============================================================ -->
-  <h2 id="five-steps">AI Layer 5-Step Workflow</h2>
+  <h2 id="five-steps">AI Layer 5-step Workflow</h2>
 
-  <p>The AI layer follows a rigorous five-step process to ensure the proposed team is well-designed, benchmarked against real-world standards, and tailored to your specific needs. Let&rsquo;s walk through each step in detail.</p>
+  <p>The AI layer proceeds through the following 5 steps. Follow each step in order: Claude converses with you while proposing the optimal team composition.</p>
 
   <h3>Step 1: Requirements Interview</h3>
 
-  <p>The AI asks you <strong>six mandatory questions</strong> before doing anything else. Your answers define the entire team design.</p>
+  <p>In the first step, Claude asks you <strong>6 mandatory questions</strong>. Your answers to these questions become the baseline for the team design.</p>
 
-  <div class="compare-grid">
-    <div class="col">
-      <h4>The 6 Mandatory Questions</h4>
-      <ol>
-        <li><strong>Domain/Purpose</strong> &mdash; What is the primary domain or purpose of the new team? (e.g., consulting, education, software development)</li>
-        <li><strong>Team Size</strong> &mdash; How many agents do you expect the team to have? (3, 5, 8+)</li>
-        <li><strong>Primary Tasks</strong> &mdash; What types of projects will this team handle?</li>
-        <li><strong>Tech Stack</strong> &mdash; What tools, platforms, or frameworks will the team work with?</li>
-        <li><strong>Collaboration Style</strong> &mdash; Sequential handoffs, parallel execution, or a mix?</li>
-        <li><strong>Success Metrics</strong> &mdash; What quality or delivery standards must the team meet?</li>
-      </ol>
-    </div>
-    <div class="col">
-      <h4>Why All Six Matter</h4>
-      <ul>
-        <li><strong>Domain</strong> determines specialist roles</li>
-        <li><strong>Size</strong> affects budget and tier planning</li>
-        <li><strong>Tasks</strong> shape required skills</li>
-        <li><strong>Tech Stack</strong> informs tool configuration</li>
-        <li><strong>Collaboration</strong> defines handoff chains</li>
-        <li><strong>Metrics</strong> set quality gates</li>
-      </ul>
-    </div>
-  </div>
+  <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+    <thead>
+      <tr>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">Question</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">Purpose</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">Example Answer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Domain/Purpose</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Identify the team&rsquo;s area of activity</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Digital marketing agency</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Team Size</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Plan the number of agents</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">4&ndash;6 agents</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Primary Tasks</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Identify the specialist roles needed</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Content production, SEO, analytics</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Tech Stack</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Determine required skills and tools</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Google Analytics, WordPress</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Collaboration Style</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Design handoffs between agents</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Sequential pipeline</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;">Success Metrics</td>
+        <td style="padding:8px 12px;">Set quality gate criteria</td>
+        <td style="padding:8px 12px;">Conversion rate, content quality score</td>
+      </tr>
+    </tbody>
+  </table>
 
   <div class="note">
-    The AI summarizes your answers back to you and asks for confirmation before proceeding to Step 2. <strong>No benchmarking begins until you confirm.</strong>
+    All 6 questions must be answered before moving on to Step 2. Claude summarizes your answers back to you and asks for confirmation. Defining requirements clearly at this stage determines the quality of the entire team design.
   </div>
 
   <h3>Step 2: Benchmarking</h3>
 
-  <p>The AI uses web search to find real-world team structures similar to your requirements. It consults authoritative sources such as McKinsey, BCG, Gartner, Forrester, or peer-reviewed research.</p>
-
-  <p>For each reference team, the AI documents:</p>
+  <p>Once your requirements are confirmed, Claude researches industry-standard team structures via <strong>web search</strong>. It consults at least 2 authoritative sources (McKinsey, BCG, Gartner, Forrester, etc.) and scores each reference team&rsquo;s fit on a 1&ndash;5 scale.</p>
 
   <ul>
-    <li>Team name and source</li>
-    <li>Roles and responsibilities</li>
-    <li>Hierarchy and reporting structure</li>
-    <li>Typical project types</li>
-    <li>Known strengths and weaknesses</li>
-    <li>Fit score against your requirements (1&ndash;5 per criterion)</li>
+    <li>Source reliability verification (published within the last 5 years, official domains)</li>
+    <li>Analysis of each reference team&rsquo;s roles, hierarchy, and strengths/weaknesses</li>
+    <li>Fit score calculation against your requirements</li>
   </ul>
-
-  <p>The highest-scoring reference becomes the <strong>design template</strong> for your proposal. This evidence-based approach means your team is not designed from pure imagination &mdash; it is grounded in real-world organizational patterns that have been proven effective.</p>
-
-  <div class="tip-box">
-    <h4>Source Quality Matters</h4>
-    <p>The AI validates each benchmarking source against three criteria: (1) published within the last 5 years, (2) from an official organizational domain or peer-reviewed journal, and (3) a primary source whenever possible. If a source fails any check, the AI notes it explicitly and looks for an alternative.</p>
-  </div>
 
   <h3>Step 3: Current Team Diagnosis</h3>
 
-  <p>Before proposing any changes, the AI maps your <strong>existing</strong> agent and skill landscape:</p>
+  <p>Based on the benchmarking results, Claude <strong>diagnoses the current state of your team</strong>. It inventories the agents, skills, and dependencies already present in your project to avoid unnecessary duplication and make maximum use of existing assets.</p>
 
-  <ol>
-    <li><strong>Agent inventory</strong> &mdash; Lists all <code>agents/*.md</code> files with name, tier, phases, and skills.</li>
-    <li><strong>Skill inventory</strong> &mdash; Lists all <code>skills/*/SKILL.md</code> files with owner and status.</li>
-    <li><strong>Dependency map</strong> &mdash; For each agent that might be removed, identifies which skills it owns and which agents hand off to/from it.</li>
-    <li><strong>Proactive skill transfer plan</strong> &mdash; Assigns each orphaned skill to a valid remaining or new agent before any deletion occurs.</li>
-  </ol>
+  <ul>
+    <li><strong>Agent inventory</strong> &mdash; the list and status of existing <code>agents/*.md</code> files</li>
+    <li><strong>Skill inventory</strong> &mdash; the list and owners of existing <code>skills/*/SKILL.md</code> files</li>
+    <li><strong>Dependency map</strong> &mdash; handoff relationships between agents, and skill ownership relationships</li>
+    <li><strong>Skill transfer plan</strong> &mdash; the plan that moves a deleted agent&rsquo;s skills to another agent</li>
+  </ul>
 
   <h3>Step 4: Proposal Generation</h3>
 
-  <p>The AI generates a structured proposal containing:</p>
-
-  <ul>
-    <li><strong>Team comparison table</strong> &mdash; current vs. proposed agents with change type (Create / Convert / Delete / Keep)</li>
-    <li><strong>Agent change details</strong> &mdash; name, tier, phases, skills, rationale for each change</li>
-    <li><strong>Skill change plan</strong> &mdash; new skills, modified skills, and skill owner reassignments</li>
-    <li><strong>Workflow design</strong> &mdash; phase definitions, dispatch order, and handoff chains</li>
-    <li><strong>Benchmarking evidence</strong> &mdash; sources used and fit rationale</li>
-  </ul>
+  <p>Synthesizing the diagnosis with the benchmarking, Claude generates a <strong>structured proposal</strong>. The proposal contains a team comparison table, agent change details, a skill change plan, workflow design, and benchmarking evidence.</p>
 
   <h3>Step 5: User Approval (MANDATORY GATE)</h3>
 
+  <p>When the proposal is ready, Claude shows you the full proposal and requests <strong>explicit approval</strong>. Because this step is a <strong>mandatory gate</strong>, nothing proceeds until you explicitly reply &ldquo;approve&rdquo;.</p>
+
   <div class="warning-box">
-    <h4>Mandatory Stop</h4>
-    <p>This is a <strong>hard gate</strong>. The AI presents the full proposal and waits for your explicit reply. It does <em>not</em> proceed to script execution on its own.</p>
-    <ul>
-      <li><strong>Reply &ldquo;approve&rdquo;</strong> &mdash; saves proposal JSON to <code>memory/</code> and instructs you to run the script</li>
-      <li><strong>Reply with change requests</strong> &mdash; revises the proposal and returns to your review</li>
-      <li><strong>Reply &ldquo;cancel&rdquo;</strong> &mdash; stops the entire process</li>
-    </ul>
+    <strong>Approval gate rule:</strong> After presenting the proposal, Claude guides you to choose one of three replies: approve, revise, or cancel. When you reply &ldquo;approve&rdquo;, Claude saves the proposal as a JSON file and instructs you to run <code>bun scripts/team-builder.ts</code>. Claude never runs the script itself.
   </div>
 
-  <h3>5-Step Workflow Diagram</h3>
-
-  <div class="diagram-frame">
-    <svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;">
-      <!-- Step 1 -->
-      <rect x="10" y="40" width="115" height="80" rx="10" fill="var(--accent)" stroke="none"/>
-      <text x="68" y="72" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:13px;font-weight:600;">Step 1</text>
-      <text x="68" y="92" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">Requirements</text>
-      <text x="68" y="106" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">Interview</text>
-      <!-- Step 2 -->
-      <rect x="143" y="40" width="115" height="80" rx="10" fill="var(--accent)" stroke="none"/>
-      <text x="200" y="72" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:13px;font-weight:600;">Step 2</text>
-      <text x="200" y="92" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">Web</text>
-      <text x="200" y="106" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">Benchmarking</text>
-      <!-- Step 3 -->
-      <rect x="276" y="40" width="115" height="80" rx="10" fill="var(--accent)" stroke="none"/>
-      <text x="334" y="72" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:13px;font-weight:600;">Step 3</text>
-      <text x="334" y="92" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">Current Team</text>
-      <text x="334" y="106" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">Diagnosis</text>
-      <!-- Step 4 -->
-      <rect x="409" y="40" width="115" height="80" rx="10" fill="var(--accent)" stroke="none"/>
-      <text x="467" y="72" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:13px;font-weight:600;">Step 4</text>
-      <text x="467" y="92" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">Proposal</text>
-      <text x="467" y="106" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">Generation</text>
-      <!-- Step 5 (gate) -->
-      <rect x="542" y="40" width="128" height="80" rx="10" fill="var(--accent-amber)" stroke="var(--accent-amber)" stroke-width="2" stroke-dasharray="6,3"/>
-      <text x="606" y="72" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:13px;font-weight:700;">Step 5</text>
-      <text x="606" y="92" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;">User Approval</text>
-      <text x="606" y="106" text-anchor="middle" style="fill:var(--text-inverse);font-family:var(--font-family);font-size:10px;font-weight:700;">MANDATORY</text>
-      <!-- Arrows -->
-      <line x1="125" y1="80" x2="143" y2="80" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#a3)"/>
-      <line x1="258" y1="80" x2="276" y2="80" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#a3)"/>
-      <line x1="391" y1="80" x2="409" y2="80" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#a3)"/>
-      <line x1="524" y1="80" x2="542" y2="80" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#a3)"/>
-      <!-- Label -->
-      <text x="340" y="160" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:12px;">AI Layer (Skill Layer) &mdash; all steps driven by the team-builder skill</text>
+  <!-- Inline SVG: 5-step workflow diagram -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="5-step workflow diagram">
       <defs>
-        <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)"/>
+        <marker id="arrowFs" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
         </marker>
       </defs>
+
+      <text x="340" y="28" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--accent);font-family:var(--font-family);">AI Layer 5-Step Workflow</text>
+
+      <!-- Step 1 -->
+      <rect x="30" y="50" width="200" height="70" rx="12" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="50" y="74" font-size="11" font-weight="bold" style="fill:var(--accent);font-family:var(--font-family);">Step 1</text>
+      <text x="130" y="94" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">Requirements Interview</text>
+      <text x="130" y="112" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">Collects 6 mandatory answers</text>
+
+      <!-- Arrow 1&rarr;2 -->
+      <line x1="230" y1="85" x2="262" y2="85" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowFs)"/>
+
+      <!-- Step 2 -->
+      <rect x="265" y="50" width="180" height="70" rx="12" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="285" y="74" font-size="11" font-weight="bold" style="fill:var(--accent-green);font-family:var(--font-family);">Step 2</text>
+      <text x="355" y="94" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">Benchmarking</text>
+      <text x="355" y="112" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">Web search of industry references</text>
+
+      <!-- Arrow 2&rarr;3 -->
+      <path d="M355,120 L355,145 L200,145 L200,170" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowFs)"/>
+
+      <!-- Step 3 -->
+      <rect x="80" y="173" width="240" height="70" rx="12" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="100" y="197" font-size="11" font-weight="bold" style="fill:var(--accent-amber);font-family:var(--font-family);">Step 3</text>
+      <text x="200" y="217" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">Current Team Diagnosis</text>
+      <text x="200" y="235" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">Agents/skills/dependencies analysis</text>
+
+      <!-- Arrow 3&rarr;4 -->
+      <line x1="320" y1="208" x2="352" y2="208" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowFs)"/>
+
+      <!-- Step 4 -->
+      <rect x="355" y="173" width="240" height="70" rx="12" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="375" y="197" font-size="11" font-weight="bold" style="fill:var(--accent-purple);font-family:var(--font-family);">Step 4</text>
+      <text x="475" y="217" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">Proposal Generation</text>
+      <text x="475" y="235" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">Agents/skills/workflow design</text>
+
+      <!-- Arrow 4&rarr;5 -->
+      <path d="M475,243 L475,278 L340,278 L340,300" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowFs)"/>
+
+      <!-- Step 5 (approval gate) -->
+      <rect x="170" y="303" width="340" height="80" rx="12" fill="var(--bg-success)" stroke="var(--accent)" stroke-width="3"/>
+      <rect x="170" y="303" width="340" height="80" rx="12" fill="none" stroke="var(--accent-amber)" stroke-width="3" stroke-dasharray="8,4"/>
+      <text x="190" y="330" font-size="11" font-weight="bold" style="fill:var(--accent);font-family:var(--font-family);">Step 5 &mdash; MANDATORY GATE</text>
+      <text x="340" y="352" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text);font-family:var(--font-family);">User Approval</text>
+      <text x="340" y="372" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">"approve" / "request changes" / "cancel"</text>
+
+      <!-- Bottom caption -->
+      <text x="340" y="408" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">On approval: proposal JSON saved to memory/ &rarr; user runs bun scripts/team-builder.ts</text>
     </svg>
   </div>
 
   <!-- ============================================================ -->
-  <!-- SECTION 4: Proposal Format                                     -->
+  <!-- SECTION 4: Proposal Format                                    -->
   <!-- ============================================================ -->
   <h2 id="proposal">Proposal Format</h2>
 
-  <p>At Step 5, the AI saves a <strong>proposal JSON</strong> file to <code>memory/team-builder-proposal-YYYY-MM-DD.json</code>. This JSON is the input that the script layer (<code>bun scripts/team-builder.ts</code>) reads to execute all changes. Let&rsquo;s break down the structure.</p>
+  <h3>Proposal JSON Structure</h3>
 
-  <h3>Top-Level Fields</h3>
+  <p>The proposal generated by team-builder is saved in <strong>JSON format</strong>. This JSON serves as the input to the script layer (<code>bun scripts/team-builder.ts</code>). The main fields of the proposal are as follows.</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+    <thead>
+      <tr>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">Field</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">teamName</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Name of the team</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">benchmarkSources</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">List of source URLs referenced during benchmarking</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">agentsToCreate[]</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Agents to create (name, role, tier, skills, etc.)</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">agentsToConvert[]</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Existing agents to convert to different roles</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">agentsToDelete[]</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Agents to delete along with the skills to transfer</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">skillsToCreate[]</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">New skills to create</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">skillsToReassign[]</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Skills to transfer to another agent</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);font-family:monospace;font-size:12px;">workflowPhases[]</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">Definitions of the team&rsquo;s pipeline phases</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;">changeHistoryEntry</td>
+        <td style="padding:8px 12px;">Summary to record in the change history</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Proposal JSON Example</h3>
+
+  <p>Here is an abbreviated example of the proposal JSON.</p>
+
+  <div class="code-block">
+<pre><code>{
+  "version": "1.0.0",
+  "timestamp": "2026-08-10T14:30:00Z",
+  "teamName": "digital-marketing",
+  "benchmarkSources": [
+    "https://www.mckinsey.com/.../marketing-operations"
+  ],
+  "changes": {
+    "agentsToCreate": [
+      {
+        "name": "content-strategist",
+        "formalName": "Content Strategist",
+        "tier": { "claude": "medium" },
+        "description": "Plans and outlines content strategy",
+        "phases": ["1", "2"],
+        "requiredSkills": ["research", "seo-analysis"],
+        "rationale": "Benchmarking: a content strategy role is essential"
+      }
+    ],
+    "agentsToDelete": [],
+    "skillsToCreate": [
+      {
+        "name": "seo-analysis",
+        "owner": "content-strategist",
+        "description": "Performs SEO keyword and trend analysis"
+      }
+    ],
+    "workflowPhases": [
+      { "phase": 0, "name": "Initiation", "lead": "pm" },
+      { "phase": 1, "name": "Research", "lead": "content-strategist" }
+    ]
+  },
+  "approvedBy": "user",
+  "approvedAt": "2026-08-10T15:00:00Z"
+}</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
+
+  <div class="tip-box">
+    <strong>Beginner Tip:</strong> Claude generates the proposal JSON automatically, so you never write JSON by hand. Review the proposal contents Claude presents (agent names, roles, skills, etc.), request changes if needed, and simply reply &ldquo;approve&rdquo; when you agree with the content.
+  </div>
+
+  <h3 id="proposal-top-level-fields">Top-Level Fields</h3>
+
+  <p>The top-level fields of the proposal JSON divide into <strong>metadata fields</strong> and the <strong>change arrays</strong> inside the <code>changes</code> object.</p>
 
   <div class="compare-grid">
     <div class="col">
@@ -401,8 +569,8 @@
         <li><code>version</code> &mdash; Schema version (e.g., <code>"1.0.0"</code>)</li>
         <li><code>timestamp</code> &mdash; When the proposal was generated</li>
         <li><code>teamName</code> &mdash; Human-readable team name</li>
-        <li><code>benchmarkSources</code> &mdash; URLs or citations used</li>
-        <li><code>changeHistoryEntry</code> &mdash; One-paragraph summary</li>
+        <li><code>benchmarkSources</code> &mdash; URLs or citations referenced</li>
+        <li><code>changeHistoryEntry</code> &mdash; One-paragraph change summary</li>
         <li><code>approvedBy</code> / <code>approvedAt</code> &mdash; Who approved and when</li>
       </ul>
     </div>
@@ -410,37 +578,17 @@
       <h4>Change Arrays (inside <code>changes</code>)</h4>
       <ul>
         <li><code>agentsToCreate[]</code> &mdash; New agents to add</li>
-        <li><code>agentsToConvert[]</code> &mdash; Existing agents to rename/repurpose</li>
+        <li><code>agentsToConvert[]</code> &mdash; Existing agents to rename or repurpose</li>
         <li><code>agentsToDelete[]</code> &mdash; Agents to remove</li>
         <li><code>skillsToCreate[]</code> &mdash; New skills to author</li>
         <li><code>skillsToModify[]</code> &mdash; Existing skills to update</li>
-        <li><code>skillsToReassign[]</code> &mdash; Skill ownership transfers</li>
+        <li><code>skillsToReassign[]</code> &mdash; Skills whose ownership will transfer</li>
         <li><code>workflowPhases[]</code> &mdash; Phase definitions and dispatch order</li>
       </ul>
     </div>
   </div>
 
-  <h3>Example: Agent Creation Entry</h3>
-
-  <div class="code-block">
-<pre><code>{
-  "name": "strategy-analyst",
-  "formalName": "Strategy Analyst",
-  "tier": { "claude": "medium" },
-  "color": "blue",
-  "description": "Market analysis and competitive research",
-  "phases": ["1", "2"],
-  "handoffTo": ["communications-lead"],
-  "handoffFrom": ["engagement-leader"],
-  "requiredSkills": ["research", "insight-synthesis"],
-  "rationale": "Benchmarking shows McKinsey teams include a dedicated strategy role"
-}</code></pre>
-<button class="copy-btn">Copy</button>
-</div>
-
-  <p>Each field maps directly to agent frontmatter properties you learned in Chapter 9. The <code>rationale</code> field is especially important &mdash; it links every design decision back to the benchmarking evidence from Step 2.</p>
-
-  <h3>Workflow Phase Entry</h3>
+  <h3 id="workflow-phase-entry">Workflow Phase Entry</h3>
 
   <p>The <code>workflowPhases</code> array defines how agents coordinate across the project lifecycle:</p>
 
@@ -451,14 +599,14 @@
   "lead": "engagement-leader",
   "supporting": ["strategy-analyst"]
 }</code></pre>
-<button class="copy-btn">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
 </div>
 
-  <p>Each phase specifies a <strong>lead agent</strong> (who orchestrates) and optional <strong>supporting agents</strong> (who contribute). This structure directly mirrors the dispatch tables you saw in <code>AGENTS.md</code>.</p>
+  <p>Each phase specifies a <strong>lead agent</strong> who orchestrates the work and optional <strong>supporting agents</strong> who contribute. This structure maps directly onto the dispatch tables in <code>AGENTS.md</code> you saw in earlier chapters.</p>
 
-  <h3>Skill Reassignment Entry</h3>
+  <h3 id="skill-reassignment-entry">Skill Reassignment Entry</h3>
 
-  <p>When an agent is deleted, its skills must be transferred to a remaining agent. The proposal captures this as:</p>
+  <p>Whenever an agent is deleted, the skills it owns must be transferred to a remaining agent. The proposal records this as follows:</p>
 
   <div class="code-block">
 <pre><code>{
@@ -466,104 +614,140 @@
   "fromOwner": "old-analyst",
   "toOwner": "strategy-analyst"
 }</code></pre>
-<button class="copy-btn">Copy</button>
+<button type="button" class="copy-btn">Copy</button>
 </div>
 
-  <p>This ensures <strong>no skill is orphaned</strong> when an agent is removed. The proactive skill transfer plan from Step 3 guarantees that every skill has a valid owner before any deletion occurs.</p>
+  <p>This ensures that <strong>no orphaned skills</strong> are left behind even when an agent is removed. The proactive skill transfer plan from Step 3 guarantees that every skill has a valid owner before any deletion occurs.</p>
 
   <!-- ============================================================ -->
   <!-- SECTION 5: Script Layer                                       -->
   <!-- ============================================================ -->
   <h2 id="script-layer">Script Layer</h2>
 
-  <p>Once you approve the proposal, the execution shifts from the AI to a <strong>TypeScript script</strong>. This is deliberate: complex file operations (creating, renaming, deleting, and updating governance documents) are more reliable when handled by deterministic code rather than AI generation.</p>
+  <h3>From Proposal JSON to Real Files</h3>
 
-  <h3>How the Script Works</h3>
-
-  <p>You run the script from your terminal:</p>
-
-  <div class="code-block">
-<pre><code>bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code></pre>
-<button class="copy-btn">Copy</button>
-</div>
-
-  <p>The script reads the proposal JSON and executes changes in a <strong>fixed, safe order</strong> with checkpoint logging at each step:</p>
+  <p>Once you approve the proposal at Step 5, Claude saves it to a JSON file (<code>memory/team-builder-proposal-YYYY-MM-DD.json</code>). When you then run the <code>bun scripts/team-builder.ts</code> script, it reads the JSON and <strong>automatically performs the following tasks</strong>.</p>
 
   <div class="step-list">
     <ol>
-      <li><strong>Dry-run validation</strong> &mdash; Parses the JSON and checks all required fields without making changes</li>
-      <li><strong>Delete agents</strong> &mdash; Removes agent files marked for deletion (after skill transfers)</li>
-      <li><strong>Convert agents</strong> &mdash; Renames and repurposes existing agents</li>
-      <li><strong>Create agents</strong> &mdash; Generates new <code>agents/&lt;name&gt;.md</code> files from templates</li>
-      <li><strong>Create skills</strong> &mdash; Generates new <code>skills/&lt;name&gt;/SKILL.md</code> stub files</li>
-      <li><strong>Modify skills</strong> &mdash; Applies specified changes to existing skill files</li>
-      <li><strong>Reassign skills</strong> &mdash; Updates <code>owner</code> fields in skill frontmatter</li>
-      <li><strong>Register in AGENTS.md</strong> &mdash; Adds new agents to the Agent Roster and Subagent Roster tables</li>
-      <li><strong>Update phase tables</strong> &mdash; Adjusts dispatch triggers and phase-gate mappings</li>
-      <li><strong>Log change history</strong> &mdash; Writes summary to <code>memory/YYYY-MM-DD.md</code></li>
+      <li>
+        <strong>Create agent files</strong> &mdash; Generates the <code>agents/&lt;name&gt;.md</code> file for each agent in the <code>agentsToCreate</code> list, including frontmatter (name, tier, role, skills) and body.
+      </li>
+      <li>
+        <strong>Convert agents</strong> &mdash; Renames the agent files in the <code>agentsToConvert</code> list and updates their roles and skills.
+      </li>
+      <li>
+        <strong>Delete agents</strong> &mdash; Before deleting the agent files in the <code>agentsToDelete</code> list, transfers the skills they own to their new owners.
+      </li>
+      <li>
+        <strong>Register in AGENTS.md</strong> &mdash; Registers the created agents in the Agent Roster table and Subagent dispatch table of AGENTS.md.
+      </li>
+      <li>
+        <strong>Install skills</strong> &mdash; Creates the skill directories and SKILL.md files from the <code>skillsToCreate</code> list and registers them in VERSION_MANIFEST.md.
+      </li>
+      <li>
+        <strong>Configure workflows</strong> &mdash; Defines pipeline phases and agent dispatch order based on <code>workflowPhases</code>.
+      </li>
+      <li>
+        Validation &mdash; Runs validation scripts to verify every file was created correctly.
+      </li>
     </ol>
   </div>
 
-  <h3>AI Layer &rarr; Script Layer Flow</h3>
 
-  <div class="diagram-frame">
-    <svg viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;">
-      <!-- Proposal JSON -->
-      <rect x="10" y="30" width="200" height="140" rx="10" fill="var(--code-bg)" stroke="var(--border)" stroke-width="1.5"/>
-      <text x="110" y="58" text-anchor="middle" style="fill:var(--text);font-family:var(--font-family);font-weight:600;font-size:13px;">Proposal JSON</text>
-      <text x="110" y="78" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:11px;">memory/team-builder-</text>
-      <text x="110" y="93" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:11px;">proposal-YYYY-MM-DD.json</text>
-      <rect x="30" y="108" width="160" height="24" rx="4" fill="var(--bg-info)" stroke="var(--border)" stroke-width="1"/>
-      <text x="110" y="125" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:10px;">agents + skills + workflows</text>
-      <rect x="30" y="138" width="160" height="20" rx="4" fill="var(--bg-note)" stroke="var(--border)" stroke-width="1"/>
-      <text x="110" y="153" text-anchor="middle" style="fill:var(--text-dim);font-family:var(--font-family);font-size:10px;">approvedBy: "user"</text>
+    <div class="code-block">
+<pre><code># Script layer execution command
+bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code></pre>
+<button type="button" class="copy-btn">Copy</button>
+</div>
 
-      <!-- Arrow -->
-      <line x1="210" y1="100" x2="280" y2="100" stroke="var(--accent)" stroke-width="2" marker-end="url(#aBlue)"/>
-      <text x="245" y="90" text-anchor="middle" style="fill:var(--accent);font-family:var(--font-family);font-size:11px;font-weight:600;">bun run</text>
+  <h3 id="how-script-works">How the Script Works</h3>
 
-      <!-- Script box -->
-      <rect x="280" y="30" width="180" height="140" rx="10" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="370" y="58" text-anchor="middle" style="fill:var(--accent-green);font-family:var(--font-family);font-weight:600;font-size:13px;">team-builder.ts</text>
-      <text x="295" y="80" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">1. Validate JSON</text>
-      <text x="295" y="96" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">2. Delete agents</text>
-      <text x="295" y="112" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">3. Convert agents</text>
-      <text x="295" y="128" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">4. Create agents</text>
-      <text x="295" y="144" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">5. Install skills</text>
-      <text x="295" y="160" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">6. Update governance</text>
+  <p>Running the script with the command above reads the proposal JSON and applies changes in a <strong>fixed, safe order</strong>, logging a checkpoint at every step:</p>
 
-      <!-- Arrow to outputs -->
-      <line x1="460" y1="100" x2="510" y2="100" stroke="var(--accent)" stroke-width="2" marker-end="url(#aBlue)"/>
+  <div class="step-list">
+    <ol>
+      <li><strong>Dry-run validation</strong> &mdash; Parses the JSON and checks all required fields without making changes.</li>
+      <li><strong>Delete agents</strong> &mdash; Removes agent files marked for deletion (after skill transfers complete).</li>
+      <li><strong>Convert agents</strong> &mdash; Renames and repurposes existing agents.</li>
+      <li><strong>Create agents</strong> &mdash; Generates new <code>agents/&lt;name&gt;.md</code> files from templates.</li>
+      <li><strong>Create skills</strong> &mdash; Generates new <code>skills/&lt;name&gt;/SKILL.md</code> stub files.</li>
+      <li><strong>Modify skills</strong> &mdash; Applies specified changes to existing skill files.</li>
+      <li><strong>Reassign skills</strong> &mdash; Updates the <code>owner</code> fields in skill frontmatter.</li>
+      <li><strong>Register in AGENTS.md</strong> &mdash; Adds new agents to the Agent Roster table and Subagent dispatch table.</li>
+      <li><strong>Update phase tables</strong> &mdash; Adjusts dispatch triggers and phase-gate mappings.</li>
+      <li><strong>Log change history</strong> &mdash; Writes the summary to <code>memory/YYYY-MM-DD.md</code>.</li>
+    </ol>
+  </div>
 
-      <!-- Outputs -->
-      <rect x="510" y="30" width="140" height="140" rx="10" fill="var(--bg-note)" stroke="var(--border)" stroke-width="1.5"/>
-      <text x="580" y="55" text-anchor="middle" style="fill:var(--text);font-family:var(--font-family);font-weight:600;font-size:12px;">Outputs</text>
-      <text x="525" y="78" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">agents/*.md</text>
-      <text x="525" y="96" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">skills/*/SKILL.md</text>
-      <text x="525" y="114" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">AGENTS.md</text>
-      <text x="525" y="132" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">memory/*.md</text>
-      <text x="525" y="150" style="fill:var(--text);font-family:var(--font-family);font-size:11px;">CHANGELOG.md</text>
-
+  <!-- Inline SVG: flow from AI layer to script layer -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Flow diagram from the AI layer to the script layer">
       <defs>
-        <marker id="aBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-auto">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)"/>
+        <marker id="arrowSl" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
         </marker>
       </defs>
+
+      <!-- AI layer output -->
+      <rect x="20" y="30" width="280" height="200" rx="12" fill="var(--bg-info)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="40" y="56" font-size="13" font-weight="bold" style="fill:var(--accent-purple);font-family:var(--font-family);">AI Layer (completed)</text>
+
+      <rect x="40" y="72" width="240" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="160" y="92" text-anchor="middle" font-size="11" style="fill:var(--text);font-family:var(--font-family);">Requirements + benchmarking + diagnosis</text>
+      <text x="160" y="108" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">Performed by Claude through conversation</text>
+
+      <rect x="40" y="128" width="240" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="160" y="148" text-anchor="middle" font-size="11" style="fill:var(--text);font-family:var(--font-family);">Proposal JSON generated</text>
+      <text x="160" y="164" text-anchor="middle" font-size="10" style="fill:var(--text-dim);font-family:var(--font-family);">memory/team-builder-proposal-YYYY-MM-DD.json</text>
+
+      <rect x="40" y="184" width="240" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="160" y="207" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--accent-amber);font-family:var(--font-family);">User approval ("approve")</text>
+
+      <!-- Arrow -->
+      <line x1="300" y1="150" x2="340" y2="150" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowSl)"/>
+      <text x="320" y="140" text-anchor="middle" font-size="9" style="fill:var(--text-dim);font-family:var(--font-family);">JSON</text>
+
+      <!-- Script layer -->
+      <rect x="345" y="30" width="310" height="200" rx="12" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="365" y="56" font-size="13" font-weight="bold" style="fill:var(--accent-green);font-family:var(--font-family);">Script Layer</text>
+
+      <rect x="365" y="72" width="270" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="500" y="93" text-anchor="middle" font-size="10" style="fill:var(--text);font-family:var(--font-family);">bun scripts/team-builder.ts</text>
+
+      <rect x="365" y="114" width="125" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="427" y="135" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">Create agent files</text>
+
+      <rect x="500" y="114" width="135" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="567" y="135" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">Register AGENTS.md</text>
+
+      <rect x="365" y="154" width="125" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="427" y="175" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">Install skills</text>
+
+      <rect x="500" y="154" width="135" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="567" y="175" text-anchor="middle" font-size="9" style="fill:var(--text);font-family:var(--font-family);">Configure workflows</text>
+
+      <rect x="365" y="194" width="270" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.2"/>
+      <text x="500" y="213" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--accent-green);font-family:var(--font-family);">Validation passed &rarr; team ready</text>
+
+      <!-- Internal script arrows -->
+      <line x1="500" y1="88" x2="500" y2="114" stroke="var(--accent-green)" stroke-width="1" marker-end="url(#arrowSl)"/>
+      <line x1="365" y1="130" x2="365" y2="114" stroke="var(--accent-green)" stroke-width="1"/>
+      <line x1="500" y1="146" x2="500" y2="154" stroke="var(--accent-green)" stroke-width="1"/>
+      <line x1="365" y1="186" x2="365" y2="194" stroke="var(--accent-green)" stroke-width="1"/>
     </svg>
   </div>
 
-  <div class="tip-box">
-    <h4>Dry-Run First</h4>
-    <p>Add the <code>--dry-run</code> flag to preview what the script <em>would</em> do without making any changes: <code>bun scripts/team-builder.ts proposal.json --dry-run</code>. This is highly recommended before your first real execution.</p>
+  <div class="note">
+    The script layer runs as a <strong>TypeScript script</strong>, not through Claude. Separating the roles this way &mdash; the AI only proposes while a validated script performs the actual file manipulation &mdash; greatly improves safety. At any time, you can revise the proposal or inspect the JSON contents before running the script.
   </div>
 
-  <h3>What Happens If Something Goes Wrong?</h3>
+  <h3 id="error-handling">What Happens If Something Goes Wrong?</h3>
 
-  <p>The script includes <strong>checkpoint logging</strong> at every step. If an error occurs midway (for example, a file already exists or a permission is denied), the script reports exactly which step failed and what was already completed. You can fix the issue and re-run the script &mdash; it will skip steps that were already successfully completed.</p>
+  <p>The script performs <strong>checkpoint logging</strong> at every step. If an error occurs midway (for example, a file already exists or a permission is denied), the script reports exactly which step failed and what had already completed. Fix the problem and re-run the script &mdash; it skips the steps that already completed successfully.</p>
 
   <div class="warning-box">
-    <h4>Backup Before Running</h4>
-    <p>Although the script is designed to be safe, it is good practice to commit your current project state to Git before running <code>team-builder.ts</code>. This gives you a clean rollback point if anything unexpected happens.</p>
+    <strong>Backup before running:</strong> The script is designed to be safe, but committing your current project state to Git before running <code>team-builder.ts</code> gives you a clean rollback point if anything unexpected happens.
   </div>
 
   <!-- ============================================================ -->
@@ -571,7 +755,57 @@
   <!-- ============================================================ -->
   <h2 id="patterns">Existing Team Composition Patterns</h2>
 
-  <p>The co-consult project ships with <strong>four predefined composition patterns</strong> that you can use as-is or customize. Each pattern is optimized for a different engagement type and complexity level.</p>
+  <p>The co-consult system ships with 4 proven team composition patterns. Referencing these patterns lets you start building a new team quickly.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Quick Assessment</h4>
+      <ul>
+        <li><strong>Agents:</strong> 3</li>
+        <li><strong>Characteristics:</strong> Lightweight evaluation team</li>
+        <li><strong>Best for:</strong> Small projects, quick diagnostics</li>
+        <li><strong>Composition:</strong> PM + 2 specialist agents</li>
+        <li><strong>Advantage:</strong> Simple composition and a fast start</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Standard</h4>
+      <ul>
+        <li><strong>Agents:</strong> 5</li>
+        <li><strong>Characteristics:</strong> Standard multi-purpose team</li>
+        <li><strong>Best for:</strong> Most general projects</li>
+        <li><strong>Composition:</strong> PM + 4 specialist agents</li>
+        <li><strong>Advantage:</strong> Clear role division and high extensibility</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Complex Transformation</h4>
+      <ul>
+        <li><strong>Agents:</strong> 8</li>
+        <li><strong>Characteristics:</strong> Large-scale composite team</li>
+        <li><strong>Best for:</strong> Organizational change, large projects</li>
+        <li><strong>Composition:</strong> PM + 7 specialist agents</li>
+        <li><strong>Advantage:</strong> Handles complex work systematically, phase by phase</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Specialized Expert</h4>
+      <ul>
+        <li><strong>Agents:</strong> 4</li>
+        <li><strong>Characteristics:</strong> Deep-dive expert team</li>
+        <li><strong>Best for:</strong> Deep analysis in a specific domain</li>
+        <li><strong>Composition:</strong> PM + 3 specialist agents</li>
+        <li><strong>Advantage:</strong> Deep, focused expertise in one domain</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 id="pattern-rosters">Pattern Agent Rosters</h3>
+
+  <p>The actual agent rosters that make up each pattern are as follows.</p>
 
   <div class="compare-grid">
     <div class="col">
@@ -604,7 +838,7 @@
       <p><strong>Agents:</strong> 8 &nbsp;|&nbsp; <strong>Best for:</strong> Large-scale organizational change</p>
       <ul>
         <li>Engagement Leader (orchestrator)</li>
-        <li>Change Management Partner (transformation)</li>
+        <li>Change Management Partner (change management)</li>
         <li>Strategy Analyst (research)</li>
         <li>Industry Expert (domain)</li>
         <li>Solutions Architect (technical design)</li>
@@ -627,13 +861,9 @@
     </div>
   </div>
 
-  <div class="note">
-    <strong>Customization:</strong> You are not limited to these four patterns. The <code>team-builder</code> skill can design a team from scratch based on your unique requirements. The patterns above serve as starting points and benchmarking references. During the benchmarking step (Step 2), the AI will evaluate these patterns against your specific needs and recommend the best fit or a hybrid approach.
-  </div>
+  <h3 id="pattern-selection-guide">Pattern Selection Guide</h3>
 
-  <h3>Pattern Selection Guide</h3>
-
-  <p>Use this quick guide to decide which pattern is right for your situation:</p>
+  <p>Use this guide when choosing the pattern that fits your situation:</p>
 
   <div class="compare-grid">
     <div class="col">
@@ -654,12 +884,15 @@
         <li>&rarr; <strong>Standard</strong></li>
       </ul>
     </div>
+  </div>
+
+  <div class="compare-grid">
     <div class="col">
       <h4>Large Scope</h4>
       <ul>
         <li>Multi-phase program</li>
         <li>Stakeholder management needed</li>
-        <li>Technical + people + process</li>
+        <li>Technology + people + process</li>
         <li>&rarr; <strong>Complex Transformation</strong></li>
       </ul>
     </div>
@@ -674,85 +907,87 @@
     </div>
   </div>
 
+  <div class="tip-box">
+    <strong>Pattern Selection Guide:</strong> If you are building a team for the first time, we recommend starting from the <strong>Standard (5 agents)</strong> pattern. It provides the basic structure of a PM, researcher, writer, reviewer, and automation lead, and you can customize it by adding or removing agents as needed.
+  </div>
+
   <!-- ============================================================ -->
-  <!-- SECTION 7: Hands-On Practice                                   -->
+  <!-- SECTION 7: Hands-On Practice                                  -->
   <!-- ============================================================ -->
   <h2 id="practice">Hands-On: Build Your Own Agent Team</h2>
 
-  <p>Now let&rsquo;s put everything together. In this exercise, you will use Claude Desktop App with the <code>/team-builder</code> command to design and deploy a custom agent team for a domain of your choice.</p>
+  <h3>Practice Goal</h3>
+
+  <p>In this exercise, you will use the <code>/team-builder</code> command in the Claude Desktop App to compose <strong>your own custom agent team</strong>. Pick a domain you care about, prepare your requirements, and ask Claude to build the team.</p>
+
+  <h3>Practice Steps</h3>
 
   <div class="step-list">
     <ol>
-      <li><strong>Choose your domain</strong> &mdash; Pick a real project or use case: education, software development, content production, legal research, healthcare administration, or anything else. Write down one sentence describing what your team will do.</li>
-      <li><strong>Prepare your requirements</strong> &mdash; Answer the 6 mandatory questions on paper before starting Claude. This makes the interview step much faster:
-        <ul>
-          <li>Domain/purpose of the team</li>
-          <li>Expected team size (number of agents)</li>
-          <li>Primary tasks and project types</li>
-          <li>Tech stack (tools and platforms)</li>
-          <li>Collaboration style (sequential, parallel, or mixed)</li>
-          <li>Success metrics and quality standards</li>
-        </ul>
+      <li>
+        <strong>Choose your domain</strong> &mdash; Pick a single field you are interested in. Examples: educational content production, software development, marketing campaigns, research projects. The domain determines which agents and skills you need.
       </li>
-      <li><strong>Ask Claude to build the team</strong> &mdash; Open Claude Desktop App and invoke the team-builder skill. Provide your pre-prepared answers. Claude will walk through Steps 1&ndash;4 automatically.</li>
-      <li><strong>Review the proposal</strong> &mdash; At Step 5, Claude presents the full proposal. Read through every section: agent changes, skill plans, workflow phases, and benchmarking evidence. Check that the rationale makes sense for your domain.</li>
-      <li><strong>Approve or revise</strong> &mdash; If the proposal looks good, reply <strong>&ldquo;approve&rdquo;</strong>. If you want changes, describe what you want modified and Claude will regenerate. You can iterate as many times as needed.</li>
-      <li><strong>Verify the results</strong> &mdash; After approval, Claude saves the proposal JSON. Run the script from your terminal:
-        <code>bun scripts/team-builder.ts memory/team-builder-proposal-YYYY-MM-DD.json</code>
-        Then verify that the new agent files, skill files, and updated <code>AGENTS.md</code> all look correct.</li>
+      <li>
+        <strong>Prepare your requirements</strong> &mdash; Prepare answers to the 6 questions from Step 1 in advance. Thinking through the domain, team size, primary tasks, tech stack, collaboration style, and success metrics makes your conversation with Claude far more efficient.
+      </li>
+      <li>
+        <strong>Ask Claude to build the team</strong> &mdash; In the Claude Desktop App, send a request similar to the example prompt below. Claude activates the team-builder skill and starts the 5-step workflow.
+      </li>
+      <li>
+        <strong>Review the proposal</strong> &mdash; Carefully review the proposal Claude generates. Check that the agent names, roles, tiers, skills, and workflow match your requirements. Tell Claude what to change if anything needs adjustment.
+      </li>
+      <li>
+        Approve &mdash; If you agree with the proposal, reply &ldquo;approve&rdquo;. Claude saves the proposal to a JSON file.
+      </li>
+      <li>
+        <strong>Verify the results</strong> &mdash; Follow Claude&rsquo;s guidance to run <code>bun scripts/team-builder.ts</code>, then check the generated agent files and the AGENTS.md updates.
+      </li>
     </ol>
   </div>
 
   <h3>Example Prompt</h3>
 
   <div class="prompt-box">
+    <strong>Example message to send to Claude:</strong>
     <div class="code-block">
 <pre><code>/team-builder
 
-I need an agent team for a university course production workflow.
+I want to build an agent team for educational content production.
 
-Domain: Higher education &mdash; creating online course materials (lecture slides, 
-handbook chapters, quiz questions, and assessment rubrics)
-
-Team size: 5 agents
-
-Primary tasks: Research topics, write lecture content, generate assessment materials,
-produce HTML output, and review quality.
-
-Tech stack: Markdown, HTML/CSS, Bun/TypeScript scripts
-
-Collaboration style: Sequential with a quality review gate before final output
-
-Success metrics: All content must pass a quality checklist; HTML output must be 
-accessible (WCAG 2.1 AA compliant)</code></pre>
+1. Domain: Online educational content production
+2. Team size: 4-5 agents
+3. Primary tasks: Lecture material planning, slide creation, quiz writing, quality review
+4. Tech stack: Markdown, HTML, Claude Code
+5. Collaboration style: Sequential pipeline (plan &rarr; write &rarr; review &rarr; finalize)
+6. Success metrics: Completeness, consistency, learning goal achievement rate</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
   </div>
 
   <div class="tip-box">
-    <h4>Tip: Start Small</h4>
-    <p>If this is your first time, start with the <strong>Quick Assessment</strong> pattern (3 agents) and modify it slightly. This gives you a working reference to compare against. Once you understand the full cycle, try designing a larger team from scratch.</p>
+    <strong>Practice Tip:</strong> Start with the Standard (5 agents) pattern, then add or remove agents as needed once you are comfortable with team composition. team-builder reuses existing agents wherever possible, so any agents you have already created can be kept without deletion or conversion.
   </div>
 
   <!-- ============================================================ -->
-  <!-- SECTION 8: Summary                                           -->
+  <!-- SECTION 8: Summary                                            -->
   <!-- ============================================================ -->
   <h2 id="summary">Summary</h2>
 
   <div class="keypoints">
-    <div class="kp-title">Key Takeaways</div>
+    <h3>Key Takeaways</h3>
     <ul>
-      <li>An <strong>agent team</strong> assigns each AI a focused role, clear skills, and explicit handoff relationships &mdash; producing higher-quality outputs than a single generalist agent.</li>
-      <li>The <code>team-builder</code> skill uses a <strong>two-layer architecture</strong>: an AI layer for intelligent planning (Steps 1&ndash;5) and a Script layer for reliable automated execution (Steps 6&ndash;14).</li>
-      <li>The AI layer follows a rigorous <strong>5-step workflow</strong>: Requirements Interview &rarr; Benchmarking &rarr; Current Team Diagnosis &rarr; Proposal Generation &rarr; User Approval.</li>
-      <li><strong>Step 5 is a mandatory gate</strong> &mdash; the script layer never executes without your explicit approval.</li>
-      <li>The <strong>proposal JSON</strong> is the contract between the AI layer and Script layer. It contains all agent changes, skill plans, workflow phases, and benchmarking evidence.</li>
-      <li>The <code>co-consult</code> project provides <strong>4 predefined patterns</strong> (Quick Assessment, Standard, Complex Transformation, Specialized Expert) that serve as starting points and benchmarking references.</li>
-      <li>Always use <code>--dry-run</code> to preview script execution before committing changes to your project.</li>
+      <li>An <strong>agent team</strong> is a system where multiple specialist agents collaborate. It overcomes the limitations of a single AI (no role separation, bias, sequential processing) and produces high-quality output.</li>
+      <li>The <strong>team-builder</strong> skill consists of two layers: an AI layer (performed by Claude) and a script layer (performed by an automated script). For safety, no files are created without user approval.</li>
+      <li><strong>5-step workflow:</strong> requirements interview (6 mandatory questions) &rarr; benchmarking (web search) &rarr; current team diagnosis (agents/skills/dependencies) &rarr; proposal generation (JSON) &rarr; user approval (mandatory gate).</li>
+      <li>The <strong>proposal JSON</strong> holds the agents to create/convert/delete, the skills to create, the workflow phases, and more. Claude generates it automatically, so you never write it yourself.</li>
+      <li>The <strong>script layer</strong> runs <code>bun scripts/team-builder.ts</code>, which reads the proposal JSON and automatically creates agent files, registers them in AGENTS.md, installs skills, configures workflows, and validates the result.</li>
+      <li>The existing <strong>patterns</strong> (Quick Assessment, Standard, Complex Transformation, Specialized Expert) provide excellent starting points for designing a new team.</li>
     </ul>
   </div>
 
-  <p>In the next chapter, we will explore <strong>Workflows and Automation</strong> &mdash; how to define multi-step processes that chain agents together into repeatable, efficient production pipelines.</p>
+  <div class="tip-box">
+    <strong>Next chapter preview:</strong> Chapter 12 covers <strong>how agent teams collaborate and automate work</strong>. You will learn handoff chains between agents, pipeline workflows, and parallel/sequential execution patterns, then simulate a team carrying out a real project.
+  </div>
 
   <!-- ============================================================ -->
   <!-- Chapter Navigation                                            -->

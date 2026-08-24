@@ -29,141 +29,133 @@
  <article class="reading">
   <div class="chapter-eyebrow">第4章</div>
   <h1>マルチエージェントハーネスの概念</h1>
-  <p class="lead">マルチエージェントハーネスのコア概念を学びます：エージェント、スキル、PMオーケストレーション、3ティア戦略、PM Gateway、ディスパッチフロー、引き継ぎコントラクト。この章でハーネスアーキテクチャ全体への理解を深めます。</p>
+  <p class="lead">マルチエージェントハーネスのコア概念を学びます。エージェント、スキル、PMオーケストレーション、3ティア戦略、PM Gateway、ディスパッチフロー、引き継ぎコントラクト &mdash; この章でハーネスの骨格のすべてを理解します。</p>
   <div class="keypoints">
-    <div class="kp-title">本章の内容</div>
+    <div class="kp-title">本章で扱う内容</div>
     <ul>
       <li>エージェントとスキルの定義</li>
       <li>PMオーケストレーションとPM Gatewayの役割</li>
-      <li>3ティア戦略（高 / 中 / 低）</li>
+      <li>3ティア戦略（High/Medium/Low）</li>
       <li>ディスパッチフローと引き継ぎコントラクト</li>
-      <li>ハーネスアーキテクチャ全体の図解</li>
+      <li>ハーネスアーキテクチャ全体図</li>
     </ul>
   </div>
 
   <!-- ============================================================ -->
-  <!-- SECTION 1: What Are Agents                                     -->
+  <!-- SECTION 1: エージェントとは                                    -->
   <!-- ============================================================ -->
   <h2 id="agents">エージェントとは</h2>
 
-  <p>第1章では単一AIとスペシャリストチーム全体を比較しました。ここでは、そのチームの構成要素を見ていきましょう。最初の最も重要な概念が<strong>エージェント</strong>です。</p>
-
   <h3>エージェントの定義</h3>
 
-  <p><strong>エージェント</strong>は、明確に定義された<em>役割</em>、使用可能な<em>ツール</em>のセット、従わなければならない<em>ルール</em>のセットを持つAIエンティティです。エージェントを会社のデジタル従業員と考えてください：職位があり、操作を許可されたツールを知り、会社のポリシーで設定された境界内で動作します。</p>
+  <p><strong>エージェント</strong>とは、<strong>特定の役割を与えられ、定められた行動指針に従ってタスクを実行するAIアシスタント</strong>です。一般的なチャットボットとは異なり、エージェントは固有の名前・役割・行動ルールを持ち、ファイルの読み書きやツールの使用を許可されます。</p>
 
-  <p>各エージェントはMarkdownファイル（例えば<code>agents/research.md</code>や<code>agents/design.md</code>）で記述されます。そのファイルには、AIがエージェントとして動作するために必要なすべてが含まれています：名前、ティア、フェーズ割り当て、詳細な指示、ツールの権限、PMにいつディスパッチすべきかを伝えるトリガーです。</p>
+  <p>第1章で例えたように、エージェントは<strong>会社の従業員</strong>のようなものです。PMはチームリーダーであり、スペシャリストエージェントは各部署の専門家です。企画担当エージェント、デザイン担当エージェント、コーディング担当エージェントがそれぞれの持ち場を果たせば、プロジェクト全体が効率よく進みます。</p>
 
   <h3>エージェントの構成要素</h3>
 
-  <p>すべてのエージェントは4つのコアコンポーネントで構築されます。</p>
+  <p>各エージェントは4つのコア要素で構成されます。この4つが揃って1つのエージェントを定義します。</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 660 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="4つのコア部分を示すエージェント構成要素図">
-      <!-- Central agent box -->
-      <rect x="215" y="10" width="230" height="52" rx="12" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
-      <text x="330" y="42" text-anchor="middle" font-size="16" font-weight="bold" fill="var(--text-inverse)">エージェント</text>
+    <svg width="100%" viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="エージェントを構成する4つの要素を示すダイアグラム">
+      <!-- エージェントボックス（外枠） -->
+      <rect x="60" y="20" width="480" height="300" rx="16" fill="none" stroke="var(--accent-purple)" stroke-width="2.5" stroke-dasharray="8,4"/>
+      <text x="300" y="50" text-anchor="middle" font-size="16" font-weight="bold" style="fill:var(--accent-purple)">エージェント（Agent）</text>
 
-      <!-- Arrow down from center -->
-      <line x1="330" y1="62" x2="330" y2="92" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowAgent)"/>
+      <!-- 1. Name -->
+      <rect x="90" y="70" width="200" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="110" y="92" font-size="11" font-weight="bold" style="fill:var(--text)">1. 識別子（name）</text>
+      <text x="110" y="108" font-size="10" style="fill:var(--text-dim)">例：research、design、storyline</text>
 
-      <!-- Component 1: Role -->
-      <rect x="30" y="100" width="145" height="110" rx="10" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
-      <text x="102" y="126" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">1. 役割</text>
-      <text x="102" y="148" text-anchor="middle" font-size="11" style="fill:var(--text)">エージェントの役割</text>
-      <text x="102" y="168" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">例：「トピックを調査し、</text>
-      <text x="102" y="182" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">情報源を収集する」</text>
-      <text x="102" y="200" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">agents/*.mdで定義</text>
+      <!-- 2. Role -->
+      <rect x="310" y="70" width="200" height="50" rx="10" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="330" y="92" font-size="11" font-weight="bold" style="fill:var(--text)">2. 役割（role）</text>
+      <text x="330" y="108" font-size="10" style="fill:var(--text-dim)">例：情報収集の専門家、デザイナー</text>
 
-      <!-- Component 2: Tools -->
-      <rect x="195" y="100" width="145" height="110" rx="10" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="267" y="126" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">2. ツール</text>
-      <text x="267" y="148" text-anchor="middle" font-size="11" style="fill:var(--text)">使用可能なもの</text>
-      <text x="267" y="168" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Read, Write, Edit,</text>
-      <text x="267" y="182" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Bash, WebSearch,</text>
-      <text x="267" y="200" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Agent（サブディスパッチ）</text>
+      <!-- 3. Instructions -->
+      <rect x="90" y="140" width="200" height="70" rx="10" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="110" y="162" font-size="11" font-weight="bold" style="fill:var(--text)">3. 行動指針（instructions）</text>
+      <text x="110" y="180" font-size="10" style="fill:var(--text-dim)">エージェントが従うべき</text>
+      <text x="110" y="196" font-size="10" style="fill:var(--text-dim)">ルールと制約</text>
 
-      <!-- Component 3: Rules -->
-      <rect x="360" y="100" width="145" height="110" rx="10" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
-      <text x="432" y="126" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">3. ルール</text>
-      <text x="432" y="148" text-anchor="middle" font-size="11" style="fill:var(--text)">従うべき境界</text>
-      <text x="432" y="168" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">PM経由のみの起動、</text>
-      <text x="432" y="182" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">書き込みパスの制限、</text>
-      <text x="432" y="200" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">品質基準</text>
+      <!-- 4. Tools -->
+      <rect x="310" y="140" width="200" height="70" rx="10" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="330" y="162" font-size="11" font-weight="bold" style="fill:var(--text)">4. ツール（tools）</text>
+      <text x="330" y="180" font-size="10" style="fill:var(--text-dim)">Read、Write、Edit、Bash、</text>
+      <text x="330" y="196" font-size="10" style="fill:var(--text-dim)">WebSearch など</text>
 
-      <!-- Component 4: Tier -->
-      <rect x="525" y="100" width="120" height="110" rx="10" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
-      <text x="585" y="126" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">4. ティア</text>
-      <text x="585" y="148" text-anchor="middle" font-size="11" style="fill:var(--text)">複雑度レベル</text>
-      <text x="585" y="168" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">High（計画）</text>
-      <text x="585" y="182" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Medium（レビュー）</text>
-      <text x="585" y="200" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Low（実行）</text>
+      <!-- ファイルパスの案内 -->
+      <rect x="90" y="230" width="420" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="300" y="253" text-anchor="middle" font-size="12" style="fill:var(--text)">実際の定義ファイル：agents/&lt;name&gt;.md</text>
 
-      <!-- Connecting lines from center to components -->
-      <line x1="280" y1="92" x2="102" y2="100" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <line x1="330" y1="92" x2="267" y2="100" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <line x1="380" y1="92" x2="432" y2="100" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <line x1="420" y1="92" x2="585" y2="100" stroke="var(--accent-purple)" stroke-width="1.5" stroke-dasharray="4,3"/>
-
-      <!-- Analogy box at bottom -->
-      <rect x="60" y="240" width="540" height="100" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5" opacity="0.7"/>
-      <text x="330" y="266" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">例え：エージェントは会社の従業員</text>
-      <text x="330" y="290" text-anchor="middle" font-size="11" style="fill:var(--text)">役割 = 職位（研究者、デザイナー、開発者）</text>
-      <text x="330" y="310" text-anchor="middle" font-size="11" style="fill:var(--text)">ツール = 機器とソフトウェアへのアクセス（ワープロ、デザインツール、ターミナル）</text>
-      <text x="330" y="330" text-anchor="middle" font-size="11" style="fill:var(--text)">ルール = 会社のポリシーとセキュリティクリアランス（誰がどのファイルを編集できるか）</text>
-
-      <defs>
-        <marker id="arrowAgent" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
-        </marker>
-      </defs>
+      <!-- 中央ラベル -->
+      <text x="300" y="296" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">この4つの要素が揃って1つの完全なエージェントになります</text>
     </svg>
+  </div>
+
+  <p>具体的には次のとおりです。</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>識別子（name）</strong> &mdash; エージェントを区別する一意の名前です。co-deckでは <code>research</code>、<code>design</code>、<code>storyline</code>、<code>html-build</code> のような短い英語名を使います。ファイル名がそのままエージェント名になります（例：<code>agents/research.md</code>）。
+      </li>
+      <li>
+        <strong>役割（role）</strong> &mdash; このエージェントが何をするのかを一文にまとめたものです。たとえばresearchエージェントの役割は「ウェブから情報を収集し、research_notes.mdに整理すること」です。役割が明確であるほど、PMは適切なエージェントを選べます。
+      </li>
+      <li>
+        <strong>行動指針（instructions）</strong> &mdash; エージェントがタスクを実行するときに従うべき詳細なルールです。「この形式でファイルを書け」「この場合はユーザーに確認しろ」といった指示が含まれます。行動指針が具体的であるほど、エージェントの出力は一貫性があり予測しやすくなります。
+      </li>
+      <li>
+        <strong>ツール（tools）</strong> &mdash; エージェントが使用できるツールの一覧です。ファイル読み取り（Read）、ファイル書き込み（Write）、編集（Edit）、シェルコマンド（Bash）、ウェブ検索（WebSearch）などがあります。すべてのエージェントがすべてのツールを使えるわけではありません。たとえばPMエージェントはファイルを直接修正できないよう、ツールが制限されています。
+      </li>
+    </ol>
   </div>
 
   <h3>ハーネス内のエージェントタイプ</h3>
 
-  <p>co-deckハーネスでは、プレゼンテーションパイプラインの各段階を担当する複数のスペシャリストエージェントを定義しています。</p>
+  <p>co-deckハーネスは、プレゼンテーションパイプラインの各段階ごとに責任を持つ複数のスペシャリストエージェントを定義しています。</p>
 
   <div class="compare-grid">
     <div class="col">
       <h4>オーケストレーター</h4>
       <ul>
-        <li><strong>PMエージェント</strong> &mdash; プロジェクトマネージャー。コードを書いたりファイルを直接編集したりすることはありません。設定を読み、実行を計画し、スペシャリストエージェントをディスパッチします。</li>
+        <li><strong>PMエージェント</strong> &mdash; プロジェクトマネージャーです。このエージェントはコードを書いたりファイルを直接編集したりしません。設定を読み、実行を計画し、スペシャリストエージェントを配置します。</li>
       </ul>
     </div>
     <div class="col">
       <h4>コンテンツエージェント</h4>
       <ul>
-        <li><strong>research</strong> &mdash; ウェブソースを収集し、<code>research_notes.md</code>を作成</li>
-        <li><strong>storyline</strong> &mdash; ナラティブ構造とスライドごとのコンテンツを作成</li>
-        <li><strong>source-verifier</strong> &mdash; URLを検証し、情報源の信頼性をチェック</li>
+        <li><strong>research</strong> &mdash; ウェブソースを収集し、<code>research_notes.md</code>を作成します。</li>
+        <li><strong>storyline</strong> &mdash; ナラティブ構造とスライドごとのコンテンツを作成します。</li>
+        <li><strong>source-verifier</strong> &mdash; URLを検証し、ソースの信頼性を確認します。</li>
       </ul>
     </div>
     <div class="col">
-      <h4>制作エージェント</h4>
+      <h4>プロダクションエージェント</h4>
       <ul>
-        <li><strong>design</strong> &mdash; ビジュアルテーマ（色、フォント、レイアウト）を固定</li>
-        <li><strong>html-build</strong> &mdash; デッキ仕様からHTMLスライドを生成</li>
-        <li><strong>pdf-export</strong> &mdash; スライドをPDF出力に変換</li>
+        <li><strong>design</strong> &mdash; ビジュアルテーマ（色・フォント・レイアウト）を確定します。</li>
+        <li><strong>html-build</strong> &mdash; デッキ仕様からHTMLスライドを生成します。</li>
+        <li><strong>pdf-export</strong> &mdash; スライドをPDF出力に変換します。</li>
       </ul>
     </div>
     <div class="col">
       <h4>アセットエージェント</h4>
       <ul>
-        <li><strong>image-curator</strong> &mdash; スライド画像を検索・ダウンロード</li>
-        <li><strong>diagram-specialist</strong> &mdash; SVG図やチャートを生成</li>
-        <li><strong>measure</strong> &mdash; PDF用のレイアウト座標を測定</li>
+        <li><strong>image-curator</strong> &mdash; スライド画像を検索してダウンロードします。</li>
+        <li><strong>diagram-specialist</strong> &mdash; SVGダイアグラムやチャートを生成します。</li>
+        <li><strong>measure</strong> &mdash; PDF用のレイアウト座標を測定します。</li>
       </ul>
     </div>
   </div>
 
   <div class="note">
-    <strong>version</strong>エージェントもあり、すべての編集前にファイルのスナップショットを取る安全ネットとして機能します。すべてのステージ（0〜6）で実行されるため、問題が発生した場合にいつでも以前のバージョンにロールバックできます。
+    さらに、すべての編集前にファイルのスナップショットを取って安全網となる<strong>version</strong>エージェントもあります。このエージェントはすべての段階（0〜6）で実行されるため、問題が起きてもいつでも以前のバージョンに戻せます。
   </div>
 
   <h3>エージェントファイルの例</h3>
 
-  <p>以下はエージェント定義ファイルの簡略化された例です。実際のファイルはより詳細ですが、基本的な考え方がわかります。</p>
+  <p>以下は、エージェント定義ファイルがどのようなものかを示す簡略化した例です。実際のファイルにははるかに多くの詳細が含まれますが、この例で全体のイメージをつかめます。</p>
 
   <div class="code-block">
 <pre><code># agents/research.md
@@ -172,272 +164,365 @@ name: research
 tier: medium
 phases: 1
 role: >
-  ウェブソースを収集し、ストーリーライン
-  デザイン用のresearch_notes.mdを作成する。
+  ウェブ資料を収集し、ストーリーライン設計のための
+  research_notes.mdを作成します。
 dispatch_triggers:
-  - "research the topic"
-  - "collect sources"
-  - "write research notes"
+  - "トピックを調査して"
+  - "資料を収集して"
+  - "リサーチノートを書いて"
 ---
 ## Instructions
-- Search the web in both Korean and English.
-- Write findings to research_notes.md.
-- Include URLs, key facts, and source credibility notes.
-- Do NOT create slide content &mdash; that is the storyline agent's job.</code></pre>
-<button type="button" class="copy-btn">Copy</button>
+- 韓国語と英語の資料を両方検索します。
+- 調査結果をresearch_notes.mdに書きます。
+- URL、重要な事実、ソースの信頼性メモを含めます。
+- スライドコンテンツは作りません &mdash; それはstorylineエージェントの役目です。</code></pre>
+<button type="button" class="copy-btn">コピー</button>
 </div>
 
-  <p>ファイルが<em>エージェントの役割</em>（role）、<em>いつディスパッチするか</em>（triggers）、<em>何をしてはいけないか</em>（rules）を明確に定義していることに注目してください。この明確さがマルチエージェントの協力を確実に機能させます。</p>
+  <p>このファイルが、エージェントが何をするのか（role）、いつディスパッチされるのか（dispatch_triggers）、何をしてはいけないのか（Instructionsの禁止ルール）を明確に定義している点に注目してください。この明確さこそが、マルチエージェント協調を安定して機能させる核心です。</p>
 
   <!-- ============================================================ -->
-  <!-- SECTION 2: What Are Skills                                    -->
+  <!-- SECTION 2: スキルとは                                         -->
   <!-- ============================================================ -->
   <h2 id="skills">スキルとは</h2>
 
-  <p>エージェントが従業員なら、<strong>スキル</strong>は彼らが従うレシピブックです。スキルは、エージェントに特定の種類の作業を<em>どのように</em>実行するかを指示する再利用可能な命令のセットです。</p>
-
   <h3>スキルの定義</h3>
 
-  <p><strong>スキル</strong>は（<code>SKILL.md</code>として保存される）パッケージ化された命令文書で、反復可能なワークフローを定義します。スキルは必要な任意のエージェントがロードできます。例えば、<code>research</code>エージェントは<code>research</code>スキルをロードして、ウェブを検索し、結果を構造化する方法を正確に知ります。</p>
+  <p><strong>スキル</strong>とは、<strong>エージェントが実行できる再利用可能なワークフロー</strong>です。エージェントが「誰」であるなら、スキルはそのエージェントが「何をするか」を定義します。1つのスキルは複数のステップからなる作業手順であり、特定のトリガーによって自動的に有効化されます。</p>
+
+  <p>わかりやすく言えば、エージェントが料理人ならスキルは<strong>料理のレシピ</strong>です。料理人（エージェント）は複数のレシピ（スキル）を持っており、注文が入ると（トリガー）該当するレシピに沿って料理を準備します。</p>
 
   <h3>スキルの構成要素</h3>
 
-  <p>各スキルには以下の部分が含まれます。</p>
+  <p>各スキルは次の4つの要素で構成されます。</p>
 
-  <ul>
-    <li><strong>メタデータ</strong> &mdash; YAMLフロントマターに保存されるスキル名、バージョン、オーナー（メンテナー）、ステータス、トリガーフレーズ。</li>
-    <li><strong>トリガー</strong> &mdash; システムにいつこのスキルをアクティブにするかを伝える自然言語フレーズ（例：「research topic」「generate PDF」）。</li>
-    <li><strong>指示</strong> &mdash; エージェントがタスクを完了するために従うステップバイステップのガイダンス。</li>
-    <li><strong>入力/出力コントラクト</strong> &mdash; スキルが読み取るファイルと生成するファイル。パイプラインの次のエージェントがどこから受け取るかを知るため。</li>
-    <li><strong>品質チェック</strong> &mdash; エージェントがタスク完了宣言前に適用する検証ルール。</li>
-  </ul>
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>名前（name）</strong> &mdash; スキルを識別する一意の名前です。<code>research</code>、<code>html-build</code>、<code>pdf-export</code> のように、エージェント名と関連していることが多いです。
+      </li>
+      <li>
+        <strong>説明（description）</strong> &mdash; このスキルが何をするのか、どのステップを経るのかを説明します。PMはどのスキルをディスパッチするか決めるとき、この説明を参考にします。
+      </li>
+      <li>
+        <strong>トリガー（trigger）</strong> &mdash; スキルが自動的に有効化される条件です。たとえばユーザーが「リサーチして」と言えば、researchスキルがトリガーされます。トリガーはキーワード、コマンドパターン、あるいはパイプラインの特定段階の場合があります。
+      </li>
+      <li>
+        <strong>ステップ（steps）</strong> &mdash; スキルが実行される具体的な手順です。「1. ユーザーにトピックを確認 &rarr; 2. ウェブ検索を実行 &rarr; 3. 結果をresearch_notes.mdに書く」のように順番に定義されます。
+      </li>
+    </ol>
+  </div>
 
-  <h3>エージェントとスキルの比較</h3>
+  <h3>スキル vs エージェント</h3>
+
+  <p>エージェントとスキルは混同されがちですが、明確な違いがあります。</p>
 
   <div class="compare-grid">
     <div class="col">
-      <h4>エージェント</h4>
+      <h4>エージェント（Agent）</h4>
       <ul>
-        <li><strong>なに：</strong> 固定アイデンティティを持つデジタル従業員</li>
-        <li><strong>例え：</strong> 従業員自身</li>
-        <li><strong>ファイル：</strong> <code>agents/&lt;name&gt;.md</code></li>
-        <li><strong>スコープ：</strong> プロジェクト全体で永続的な役割</li>
-        <li><strong>ライフサイクル：</strong> 一度作成され、時間とともに更新</li>
-        <li><strong>例：</strong> リサーチエージェントはどのプロジェクトでもウェブ調査を担当</li>
+        <li>タスクを遂行する<strong>「誰が」</strong></li>
+        <li>役割・権限・ツールを持つAIアシスタント</li>
+        <li>識別子（name）・役割（role）・指示・ツールで構成</li>
+        <li>1つのエージェントが複数のスキルを持てる</li>
+        <li>例え：料理人</li>
       </ul>
     </div>
     <div class="col">
-      <h4>スキル</h4>
+      <h4>スキル（Skill）</h4>
       <ul>
-        <li><strong>なに：</strong> 再利用可能な命令レシピ</li>
-        <li><strong>例え：</strong> 従業員が従うレシピブック</li>
-        <li><strong>ファイル：</strong> <code>skills/&lt;name&gt;/SKILL.md</code></li>
-        <li><strong>スコープ：</strong> 特定のタスクが必要なときにオンデマンドで呼び出される</li>
-        <li><strong>ライフサイクル：</strong> 独立してバージョン管理。複数のエージェントが同じスキルを共有可能</li>
-        <li><strong>例：</strong> 「source-verification」スキルはリサーチエージェントがロードしたり、スタンドアロンチェックとして実行したりできる</li>
+        <li>遂行される<strong>「何を」</strong></li>
+        <li>再利用可能なワークフロー手順</li>
+        <li>名前・説明・トリガー・ステップで構成</li>
+        <li>1つのスキルを複数のエージェントが共有できる</li>
+        <li>例え：<strong>料理のレシピ</strong></li>
       </ul>
     </div>
   </div>
 
   <div class="note">
-    <strong>例え：</strong> こう考えてください &mdash; シェフ（エージェント）は、客が注文した料理に応じて異なるレシピ（スキル）を使います。シェフのアイデンティティは変わりませんが、レシピが各料理の正確な調理方法を教えます。同様に、<code>html-build</code>エージェントは常にHTMLスライドを構築しますが、<code>html-build</code>スキルがスライドデッキファイルの読み方、テーマの適用方法、出力の生成方法を正確に指示します。
+    エージェントが料理人なら、スキルは料理のレシピです。1人の料理人がパスタのレシピ（スキル）とステーキのレシピ（スキル）を両方持てる一方で、同じパスタのレシピを複数の料理人が共有することもできます。
   </div>
 
-  <h3>スキル解決の優先順位</h3>
+  <h3>スキルの階層構造</h3>
 
-  <p>ユーザーリクエストがスキルトリガーに一致すると、システムは3つの場所を優先順位でチェックします。</p>
+  <p>co-deckでは、スキルは3つの場所で定義でき、それぞれ<strong>優先順位</strong>が異なります。</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>優先順位</h4>
+      <ul>
+        <li><strong>優先度1</strong> &mdash; ワークスペーススキル（<code>skills/</code>）</li>
+        <li><strong>優先度2</strong> &mdash; プラットフォームスキル（<code>.claude/skills/</code>、<code>.gemini/skills/</code>）</li>
+        <li><strong>優先度3</strong> &mdash; グローバルプラグインスキル</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>核心ルール</h4>
+      <ul>
+        <li>同じスキルが複数の場所にあれば優先度1を使用</li>
+        <li>ワークスペーススキルは<code>skills/</code>フォルダのみに置く</li>
+        <li>プラットフォームスキルはClaude/Gemini専用フック</li>
+        <li>重複定義は避けるのが原則</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>初心者向けヒント：</strong>最初はスキルの内部構造をすべて理解する必要はありません。「エージェントに何かをできるようにしてくれるレシピ」だと覚えておけば十分です。後の実習の章（第6〜8章）で実際のスキルファイルを開けば、自然に理解できます。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: PMオーケストレーション                              -->
+  <!-- ============================================================ -->
+  <h2 id="pm-orchestration">PMオーケストレーション</h2>
+
+  <h3>PM（Project Manager）エージェントの役割</h3>
+
+  <p>PMエージェントはマルチエージェントハーネスの<strong>中心であり単一窓口（Single Point of Entry）</strong>です。ユーザーはPMにだけ直接リクエストを行い、PMがリクエストを分析して適切なスペシャリストエージェントを選び、作業を割り当てます。</p>
+
+  <p>PMの核心的な役割を段階ごとに整理すると次のとおりです。</p>
 
   <div class="step-list">
     <ol>
       <li>
-        <strong>ワークスペースレベルのスキル</strong>（<code>skills/&lt;name&gt;/SKILL.md</code>) &mdash; スキャフォールディング、バリデーション、監査などのコアワークスペース機能。<em>最も高い</em>優先順位。
+        <strong>リクエスト分析</strong> &mdash; ユーザーのリクエストを理解し、どの作業が必要か判断します。「新しいプレゼンテーションを作って」という依頼が来れば、それがリサーチ &rarr; ストーリーライン &rarr; デザイン &rarr; HTMLビルド &rarr; PDF出力という一連の段階で構成されることを把握します。
       </li>
       <li>
-        <strong>プラットフォーム設定スキル</strong>（<code>.claude/skills/</code>または<code>.gemini/skills/</code>） &mdash; プラットフォーム固有のフック、コマンド、ライフサイクル管理。
+        <strong>スペシャリストエージェントの選択</strong> &mdash; リクエストの内容に応じて最も適したスペシャリストエージェントを決めます。リサーチが必要なら <code>research</code> エージェントを、デザインが必要なら <code>design</code> エージェントを選びます。
       </li>
       <li>
-        <strong>グローバルプラグインスキル</strong> &mdash; 外部プラグインの汎用開発ワークフロー。<em>最も低い</em>優先順位。
+        <strong>作業割り当て（ディスパッチ）</strong> &mdash; 選ばれたスペシャリストエージェントに具体的な作業指示を下します。このとき、読み取り作業か書き込み作業かに応じて並列または順次で実行します。
+      </li>
+      <li>
+        <strong>結果の取りまとめ</strong> &mdash; 各スペシャリストエージェントが完了した作業結果を収集し、次の段階へ引き渡す準備をします。
+      </li>
+      <li>
+        <strong>品質レビュー</strong> &mdash; 主要な段階で成果物が品質基準を満たすか確認します。基準に満たなければ修正を要求します。
       </li>
     </ol>
   </div>
 
-  <div class="tip-box">
-    <strong>ヒント：</strong> 一つのスキルを複数のエージェント間で共有できます。「version」スキルは、すべてのエージェントが編集前にファイルをスナップショットする必要があるため、<em>すべての</em>エージェントによってロードされます。この再利用性がスキルを強力にしています &mdash; 一度書けば、どこでも使えます。
-  </div>
-
-  <!-- ============================================================ -->
-  <!-- SECTION 3: PM Orchestration                                    -->
-  <!-- ============================================================ -->
-  <h2 id="pm-orchestration">PMオーケストレーション</h2>
-
-  <p>エージェントとスキルを紹介しました。次の疑問は：<em>どのエージェントをいつ、どの順番で、どのリソースで実行するかを決めるのは誰か？</em>答えは<strong>PM（プロジェクトマネージャー）エージェント</strong>であり、それが管理するプロセスを<strong>PMオーケストレーション</strong>と呼びます。</p>
-
-  <h3>PMの役割</h3>
-
-  <p>PMエージェントはマルチエージェントワークフロー全体の<strong>オーケストレーター</strong>です。階層のトップに位置し、以下のタスクを担当します。</p>
-
-  <ul>
-    <li><strong>ユーザーリクエストのトリアージ</strong> &mdash; 「気候変動についてプレゼンテーションを作って」といったコマンドを入力すると、PMがあなたのニーズを分析し、どのエージェントを関与させるべきかを決定します。</li>
-    <li><strong>実行計画の作成</strong> &mdash; PMはステップバイステップの計画をマッピングします：まずリサーチエージェント、次にストーリーラインエージェント、次にデザインエージェントという順序です。</li>
-    <li><strong>スペシャリストエージェントのディスパッチ</strong> &mdash; PMは各ジョブに適切なエージェントを送ります。自身で作業をすることはありません &mdash; 調整のみです。</li>
-    <li><strong>品質ゲートの強制</strong> &mdash; 特定のチェックポイント（「ゲート」と呼ばれる）で、PMはパイプラインを一時停止し、続行前に出力のレビューを求めます。</li>
-    <li><strong>進捗の追跡</strong> &mdash; PMは<code>project_state.json</code>を維持し、どのステージが完了し、どれが保留中かを記録します。</li>
-    <li><strong>修正の管理</strong> &mdash; ステージ完了後に変更を要求すると、PMはどの下流ステージを再実行する必要があるかを特定し、修正を適用するための最小限のエージェントセットをディスパッチします。</li>
-  </ul>
-
-  <h3>PMがしないこと</h3>
-
-  <p>これも同じくらい重要です。PMはプロジェクトファイル（メモリログとチェンジログを除く）を直接編集<em>せず</em>、コードを書かず、スペシャリスト作業を実行しません。PMがリサーチエージェントの仕事をしようとすれば、システムの信頼性を保つ関心の分離に違反することになります。</p>
+  <h3>PMオーケストレーションフロー図</h3>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 660 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PMオーケストレーションフロー図">
-      <!-- User -->
-      <rect x="255" y="8" width="150" height="44" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="330" y="35" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">ユーザー</text>
+    <svg width="100%" viewBox="0 0 660 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PMオーケストレーションのフロー図">
+      <!-- ユーザー -->
+      <rect x="245" y="10" width="170" height="44" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="330" y="37" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">ユーザー</text>
 
-      <!-- User to PM -->
-      <line x1="330" y1="52" x2="330" y2="78" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowPm1)"/>
-      <text x="345" y="70" font-size="10" style="fill:var(--text-dim)">リクエスト</text>
+      <!-- ユーザー → PM -->
+      <line x1="330" y1="54" x2="330" y2="82" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowOrc)"/>
+      <text x="348" y="73" font-size="11" style="fill:var(--text-dim)">リクエスト</text>
 
-      <!-- PM Agent -->
-      <rect x="210" y="84" width="240" height="48" rx="10" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
-      <text x="330" y="113" text-anchor="middle" font-size="14" font-weight="bold" fill="var(--text-inverse)">PMエージェント（オーケストレーター）</text>
+      <!-- PMエージェント（大きな箱） -->
+      <rect x="200" y="88" width="260" height="56" rx="12" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="330" y="113" text-anchor="middle" font-size="14" font-weight="bold" fill="var(--text-inverse)">PMエージェント</text>
+      <text x="330" y="132" text-anchor="middle" font-size="11" style="fill:rgba(255,255,255,0.8)">リクエスト分析 → エージェント選択 → 割り当て</text>
 
-      <!-- PM to Gate 2 -->
-      <line x1="330" y1="132" x2="330" y2="158" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowPm1)"/>
-      <text x="345" y="150" font-size="10" style="fill:var(--text-dim)">計画</text>
+      <!-- PM → 分配矢印 -->
+      <line x1="260" y1="144" x2="110" y2="178" stroke="var(--accent-green)" stroke-width="1.8" marker-end="url(#arrowOrcGreen)"/>
+      <line x1="330" y1="144" x2="330" y2="178" stroke="var(--accent-amber)" stroke-width="1.8" marker-end="url(#arrowOrcAmber)"/>
+      <line x1="400" y1="144" x2="550" y2="178" stroke="var(--accent)" stroke-width="1.8" marker-end="url(#arrowOrcAccent)"/>
 
-      <!-- Gate 2 -->
-      <rect x="255" y="164" width="150" height="32" rx="8" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="330" y="184" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">ゲート2（必須）</text>
+      <!-- スペシャリストエージェント群 -->
+      <rect x="30" y="184" width="160" height="48" rx="10" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="110" y="204" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">research</text>
+      <text x="110" y="220" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">情報収集担当</text>
 
-      <!-- Gate 2 to Agents -->
-      <line x1="255" y1="180" x2="180" y2="218" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowPmGreen)"/>
-      <line x1="330" y1="196" x2="330" y2="218" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowPmAmber)"/>
-      <line x1="405" y1="180" x2="480" y2="218" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowPmAccent)"/>
+      <rect x="250" y="184" width="160" height="48" rx="10" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="330" y="204" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">design</text>
+      <text x="330" y="220" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">デザイン担当</text>
 
-      <!-- Agent A -->
-      <rect x="60" y="224" width="140" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="130" y="247" text-anchor="middle" font-size="11" style="fill:var(--text)">リサーチエージェント</text>
+      <rect x="470" y="184" width="160" height="48" rx="10" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="550" y="204" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">html-build</text>
+      <text x="550" y="220" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">HTMLビルド担当</text>
 
-      <!-- Agent B -->
-      <rect x="260" y="224" width="140" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="330" y="247" text-anchor="middle" font-size="11" style="fill:var(--text)">ストーリーラインエージェント</text>
+      <!-- 専門家 → 成果物 -->
+      <line x1="110" y1="232" x2="280" y2="268" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowOrcGreen)"/>
+      <line x1="330" y1="232" x2="330" y2="268" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowOrcAmber)"/>
+      <line x1="550" y1="232" x2="380" y2="268" stroke="var(--accent)" stroke-width="1.2" marker-end="url(#arrowOrcAccent)"/>
 
-      <!-- Agent C -->
-      <rect x="460" y="224" width="140" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="530" y="247" text-anchor="middle" font-size="11" style="fill:var(--text)">デザインエージェント</text>
+      <!-- 成果物 -->
+      <rect x="230" y="274" width="200" height="36" rx="10" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="330" y="296" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">成果物の取りまとめ</text>
 
-      <!-- Agents to output -->
-      <line x1="130" y1="260" x2="130" y2="290" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowPmGreen)"/>
-      <line x1="330" y1="260" x2="330" y2="290" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowPmAmber)"/>
-      <line x1="530" y1="260" x2="530" y2="290" stroke="var(--accent)" stroke-width="1.2" marker-end="url(#arrowPmAccent)"/>
+      <!-- 成果物 → PM -->
+      <path d="M230,292 L170,292 L170,116 L200,116" fill="none" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowOrcPurple)" stroke-dasharray="5,3"/>
+      <text x="130" y="210" font-size="10" style="fill:var(--text-dim)">結果の報告</text>
 
-      <!-- Output files -->
-      <rect x="55" y="296" width="150" height="28" rx="6" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.2"/>
-      <text x="130" y="315" text-anchor="middle" font-size="10" style="fill:var(--text)">research_notes.md</text>
+      <!-- PM → ユーザー（最終） -->
+      <path d="M460,116 L500,116 L500,292 L490,292" fill="none" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowOrc)" stroke-dasharray="5,3"/>
+      <text x="510" y="210" font-size="10" style="fill:var(--text-dim)">最終結果</text>
 
-      <rect x="255" y="296" width="150" height="28" rx="6" fill="var(--bg-success)" stroke="var(--accent-amber)" stroke-width="1.2"/>
-      <text x="330" y="315" text-anchor="middle" font-size="10" style="fill:var(--text)">slide_deck.md</text>
-
-      <rect x="455" y="296" width="150" height="28" rx="6" fill="var(--bg-success)" stroke="var(--accent)" stroke-width="1.2"/>
-      <text x="530" y="315" text-anchor="middle" font-size="10" style="fill:var(--text)">design_spec.md</text>
-
-      <!-- Outputs merge to Gate 5 -->
-      <line x1="130" y1="324" x2="280" y2="356" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowPmGreen)"/>
-      <line x1="330" y1="324" x2="330" y2="356" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowPmAmber)"/>
-      <line x1="530" y1="324" x2="380" y2="356" stroke="var(--accent)" stroke-width="1.2" marker-end="url(#arrowPmAccent)"/>
-
-      <!-- Gate 5 -->
-      <rect x="255" y="358" width="150" height="32" rx="8" fill="var(--bg-info)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="330" y="378" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">ゲート5（必須）</text>
+      <!-- 下部の説明 -->
+      <rect x="120" y="330" width="420" height="34" rx="8" fill="var(--bg-note)" stroke="var(--border)" stroke-width="1"/>
+      <text x="330" y="351" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">PMはすべてのリクエストの単一窓口であり、直接実行せず調整だけを担います</text>
 
       <defs>
-        <marker id="arrowPm1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+        <marker id="arrowOrc" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
           <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
         </marker>
-        <marker id="arrowPmGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+        <marker id="arrowOrcGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
           <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-green)"/>
         </marker>
-        <marker id="arrowPmAmber" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+        <marker id="arrowOrcAmber" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
           <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-amber)"/>
         </marker>
-        <marker id="arrowPmAccent" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+        <marker id="arrowOrcAccent" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
           <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowOrcPurple" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-purple)"/>
         </marker>
       </defs>
     </svg>
   </div>
 
+  <h3>PMは直接実行しない</h3>
+
+  <p>PMの最も重要な特徴は、<strong>ファイルを直接書いたりコードを実行したりしない</strong>ことです。PMはオーケストレーター（指揮者）としてスペシャリストエージェントに作業を指示するだけで、自ら成果物を作りません。</p>
+
+  <p>このルールが重要な理由は次のとおりです。</p>
+
+  <ul>
+    <li><strong>責任所在の明確化</strong> &mdash; 成果物に問題があれば、その分野のスペシャリストエージェントが修正します。PMが直接作ったファイルなら「PMが直すべきか、スペシャリストが直すべきか」で混乱が生じます。</li>
+    <li><strong>専門性の保証</strong> &mdash; 各分野はスペシャリストエージェントが最もよく知っています。PMがデザインファイルを直接作れば、専門性が落ちるおそれがあります。</li>
+    <li><strong>ガバナンスの分離</strong> &mdash; 調整（管理）と実行（作業）を分けると、システムはより安定して動きます。人間の組織でも管理者と実務者の役割が分かれているのと同じ原理です。</li>
+  </ul>
+
   <div class="note">
-    <strong>例え &mdash; 指揮者：</strong>PMエージェントをオーケストラの指揮者と考えてください。指揮者は楽器を演奏しません。代わりに、スコア（実行計画）を読み、適切なタイミングで各セクションに合図を出し（ディスパッチ）、演奏全体が調和して進むようにします。実際に音楽を生み出すのは演奏家（スペシャリストエージェント）です。
+    PMはオーケストラの指揮者です。自分では楽器を演奏せず、<strong>誰がどの楽器をいつ演奏するかを指示</strong>します。バイオリンはバイオリン担当が、チェロはチェロ担当が演奏し、指揮者が全体を調和へと導きます。
   </div>
 
   <h3>品質ゲート</h3>
 
-  <p>パイプラインの特定のポイントで、PMは一時停止し、出力をあなたにレビューのために提示します。これらのチェックポイントを<strong>ゲート</strong>と呼びます。2つのタイプがあります。</p>
+  <p>パイプラインの特定の地点で、PMは作業を一時停止し、レビューのため成果物を提示します。こうしたチェックポイントを<strong>ゲート</strong>と呼びます。ゲートには2種類あります。</p>
 
   <ul>
-    <li><strong>必須ゲート</strong> &mdash; あなたが明示的に承認するまでパイプラインは<em>続行できません</em>。ゲート2（コンテンツ準備後）とゲート5（サンプルPDF生成後）が必須です。</li>
-    <li><strong>オプショナルゲート</strong> &mdash; PMがサマリーを表示し、その後自動的に続行します。ゲート1.5（情報源検証）、ゲート3（デザイン仕様）、ゲート4（HTML下書き）がオプショナルです。</li>
+    <li><strong>必須ゲート</strong> &mdash; 明示的に承認するまでパイプラインは進めません。ゲート2（コンテンツ準備完了後）とゲート5（サンプルPDF生成後）は必須です。</li>
+    <li><strong>任意ゲート</strong> &mdash; PMがサマリーを見せた後、自動的に続行します。ゲート1.5（ソース検証）、ゲート3（デザイン仕様）、そしてゲート4（HTMLドラフト）は任意です。</li>
   </ul>
 
   <div class="tip-box">
-    <strong>ゲートが重要な理由：</strong>ゲートがないと、パイプラインは方向修正の機会を与えずに研究からPDFまで一直線に実行されます。ゲートにより、デザインがロックされる前にストーリーラインをレビューし、フルPDFが生成される前にレイアウトをプレビューでき、時間の節約と無駄な作業の防止になります。
+    <strong>ゲートが重要な理由：</strong>ゲートがなければ、パイプラインは調査段階からPDFまで方向修正の機会なしに一気に進んでしまいます。ゲートがあれば、デザイン確定前にストーリーラインをレビューし、PDF全体の生成前にレイアウトをプレビューできるため、時間と無駄な労力を節約できます。
   </div>
 
   <!-- ============================================================ -->
-  <!-- SECTION 4: 3-Tier Strategy                                    -->
+  <!-- SECTION 4: 3ティア戦略                                        -->
   <!-- ============================================================ -->
   <h2 id="three-tier">3ティア戦略</h2>
 
-  <p>すべてのタスクが同じレベルのAI推論を必要とするわけではありません。深いアーキテクチャ思考が必要なタスクもあれば、単純で反復的なタスクもあります。ハーネスは<strong>3ティア戦略</strong>を使用して、品質とコストのバランスを取りながら各タスクに適切なモデルを割り当てます。</p>
+  <h3>なぜ複数のAIモデルが必要なのか？</h3>
+
+  <p>AIモデルは性能が高いほどコストも高くなります。複雑な設計作業に最上位モデルを使えば良い結果が得られますが、簡単なファイル検索やスクリプト実行にも最上位モデルを使うのは<strong>非効率</strong>です。</p>
+
+  <p>このコストと性能のバランスを取るため、ハーネスはAIモデルを3つの階層（ティア）に分けて割り当てます。会社にプリンシパルエンジニア、シニア、ジュニアがいるように、<strong>タスクの複雑さに応じて適切なモデルを選ぶ</strong>のです。</p>
 
   <h3>3つのティア</h3>
 
   <div class="compare-grid">
     <div class="col">
-      <h4>Highティア（計画）</h4>
+      <h4>Highティア（高性能）</h4>
       <ul>
-        <li><strong>モデル：</strong> Claude Opus 4、Gemini 3.1 Pro</li>
-        <li><strong>用途：</strong> 複雑な推論、アーキテクチャ設計、計画、正確なエージェントプロンプトの作成</li>
-        <li><strong>使用者：</strong> PMエージェント（オーケストレーター）</li>
-        <li><strong>コスト：</strong> 最高</li>
-        <li><strong>例：</strong> ユーザーのリクエストを分析し、どのエージェントをディスパッチするかを決定し、マルチステップの実行計画を作成する</li>
+        <li><strong>目的：</strong>複雑な推論、アーキテクチャ設計、計画立案</li>
+        <li><strong>対象：</strong>PMエージェント（オーケストレーション）</li>
+        <li><strong>コスト：</strong>高い</li>
+        <li><strong>例え：</strong>プリンシパルエンジニア</li>
+        <li>プロジェクト全体の方向性を決める複雑な判断に使われます</li>
       </ul>
     </div>
     <div class="col">
-      <h4>Mediumティア（レビュー）</h4>
+      <h4>Mediumティア（均衡）</h4>
       <ul>
-        <li><strong>モデル：</strong> Claude Sonnet 4、Gemini 3.5 Flash</li>
-        <li><strong>用途：</strong> コードレビュー、テスト、品質ゲート、コンプライアンスチェック</li>
-        <li><strong>使用者：</strong> 監査人とQAエージェント</li>
-        <li><strong>コスト：</strong> 中程度</li>
-        <li><strong>例：</strong> ストーリーラインエージェントの出力の事実正確性をレビューし、デザイン仕様の内部一貫性をチェックする</li>
-      </ul>
-    </div>
-    <div class="col">
-      <h4>Lowティア（実行）</h4>
-      <ul>
-        <li><strong>モデル：</strong> Claude Haiku 4、Gemini 3.5 Flash</li>
-        <li><strong>用途：</strong> 高速な反復コーディング、単純なファイル操作、定型タスク</li>
-        <li><strong>使用者：</strong> 実行エージェント（バージョンスナップショット、ファイル編集）</li>
-        <li><strong>コスト：</strong> 最低</li>
-        <li><strong>例：</strong> 編集前のファイルスナップショット、設定ファイルの文字列置換</li>
+        <li><strong>目的：</strong>コードレビュー、品質チェック、QA</li>
+        <li><strong>対象：</strong>スペシャリストエージェント（大部分）</li>
+        <li><strong>コスト：</strong>中程度</li>
+        <li><strong>例え：</strong>シニアエンジニア</li>
+        <li>専門分野の実務作業と品質レビューに使われます</li>
       </ul>
     </div>
   </div>
 
-  <h3>重要ルール</h3>
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Lowティア（高効率）</h4>
+      <ul>
+        <li><strong>目的：</strong>単純な反復作業、スクリプト保守</li>
+        <li><strong>対象：</strong>versionエージェントなどの軽量作業</li>
+        <li><strong>コスト：</strong>低い</li>
+        <li><strong>例え：</strong>ジュニアエンジニア</li>
+        <li>パターンが決まった反復作業に使われます</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>ティア調整ルール</h4>
+      <ul>
+        <li>PMは簡単な作業のティアを下げてコスト削減できる</li>
+        <li>ただし基本ティアより上げることはできない</li>
+        <li>下げたティアで作業が失敗したら元に戻す</li>
+        <li>初心者はデフォルト設定のまま推奨</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>3ティア比較表</h3>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+    <thead>
+      <tr>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-size:13px;">項目</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--accent);font-size:13px;">High-Tier</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--accent-green);font-size:13px;">Medium-Tier</th>
+        <th style="text-align:left;padding:10px 12px;border-bottom:2px solid var(--accent-amber);font-size:13px;">Low-Tier</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">役割</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">設計、計画、推論</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">レビュー、品質チェック、QA</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">単純なコーディング、スクリプト</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">コスト</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">高い</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">中程度</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">低い</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">例え</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">プリンシパルエンジニア</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">シニアエンジニア</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">ジュニアエンジニア</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">対象エージェント</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">PM</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">ほとんどのスペシャリストエージェント</td>
+        <td style="padding:8px 12px;border-bottom:1px solid var(--border);">versionなど軽量作業</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;">モデル例</td>
+        <td style="padding:8px 12px;">claude-opus-5-0、gemini-3.1-pro</td>
+        <td style="padding:8px 12px;">claude-sonnet-5-0、gemini-3.7-flash</td>
+        <td style="padding:8px 12px;">claude-haiku-4-5、gemini-3.7-flash</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 id="tier-key-rules">核心ルール</h3>
+
+  <p>上の比較表と合わせて、3ティア戦略で覚えておくべき核心ルールは次のとおりです。</p>
 
   <ul>
-    <li><strong>ティアはダウングレード可能、アップグレード不可。</strong> PMはコスト節約のために低いティアのモデルを単純なタスクに割り当てることができますが、エージェントの定義済みベースラインティアを超えるモデルを割り当てることはできません。ダウングレードしたタスクが失敗した場合は、リトライ時にベースラインティアを復元する必要があります。</li>
-    <li><strong>オーケストレーターは常にHighティアを使用。</strong> PMは最も重要な決定（どのエージェントをディスパッチするか、どの順番で実行するか）を行うため、常に最高の推論レベルで動作します。</li>
-    <li><strong>レビューアーは独立していなければならない。</strong> 作業を生産したエージェントとそれをレビューするエージェントは別です。この分離が、独立したQAチームと同じように、本物の品質管理を保証します。</li>
+    <li><strong>ティアは下げられても上げられることはない。</strong>PMは単純な作業のコストを節約するため、より低いティアのモデルを割り当てられますが、エージェントに定義された基本ティアより高いモデルを割り当てることはできません。下げたティアで作業が失敗した場合は、再試行時に必ずエージェントの基本ティアを復元します。</li>
+    <li><strong>オーケストレーターは常にHighティアを使う。</strong>PMはどのエージェントをディスパッチするか、どんな順序で実行するかといった最も重要な決定を下すため、常に最高レベルの推論で動作します。</li>
+    <li><strong>レビューアーは独立していなければならない。</strong>作業を遂行したエージェントがその成果物をレビューすることはありません。この分離は専任のQAチームを置くのと同じ原理で、実質的な品質管理を保証します。</li>
   </ul>
 
   <div class="tip-box">
-    <strong>初心者へ：</strong> 自分でモデルを選択する必要はありません。ハーネスがタスクに基づいて適切なティアを自動的に割り当てます。経験を積むと、エージェント設定ファイルでティア割り当てを調整し、特定のプロジェクトに合わせてコストと品質を最適化できるようになります。
+    <strong>初心者向けヒント：</strong>3ティア戦略は上級トピックです。最初はデフォルト設定をそのまま使えば十分です。co-deckの基本構成はすでに各エージェントに適切なティアを割り当てているので、自分で調整する必要はありません。コスト最適化が必要になった時点で、ティア調整を学べばよいのです。
   </div>
 
   <!-- ============================================================ -->
@@ -445,36 +530,140 @@ dispatch_triggers:
   <!-- ============================================================ -->
   <h2 id="pm-gateway">PM Gateway</h2>
 
-  <p><strong>PM Gateway</strong>は、すべてのユーザーリクエストが通過する単一のエントリポイントです。スペシャリストエージェントがユーザーから直接呼び出されることがないことを保証します &mdash; すべてのやり取りはまずPMを通過します。</p>
+  <h3>PM Gatewayの定義</h3>
 
-  <h3>なぜゲートウェイなのか？</h3>
+  <p>PM Gatewayとは、<strong>すべてのスペシャリストエージェントがPMを通じてのみ呼び出されるよう強制するルール</strong>です。ユーザーはPMにだけリクエストし、PMが適切なスペシャリストエージェントを選んで作業を委任します。スペシャリストエージェント（例：research、design）への直接リクエストは許されません。</p>
 
-  <p>従業員が誰でもCEOに直接歩み寄って命令を出せる会社を想像してみてください。カオスでしょう？同じ原則がここにも適用されます。ユーザーがデザインエージェントやリサーチエージェントを直接呼び出せると、PMはワークフローの計画、順序付け、品質チェックの能力を失います。ゲートウェイはこれを防ぎます。</p>
+  <p>このルールは「なぜ」必要なのでしょうか？　3つの核心的理由があります。</p>
 
-  <h3>ゲートウェイの仕組み</h3>
+  <ul>
+    <li><strong>統制（Control）</strong> &mdash; すべてのリクエストがPMを経由すれば、作業全体の流れを一箇所で管理できます。複数のスペシャリストエージェントが同じファイルを同時に修正したり、衝突する作業を行ったりするのを防ぎます。</li>
+    <li><strong>一貫性（Consistency）</strong> &mdash; PMがリクエストの優先順位を決め、適切な順序でエージェントを配置します。これによりプロジェクト全体が一貫した流れを保ちます。</li>
+    <li><strong>品質（Quality）</strong> &mdash; 各段階でPMが成果物をレビューし、次の段階へ進むか修正を求めるかを判断します。これにより最終成果物の品質が保証されます。</li>
+  </ul>
 
-  <p>PM Gatewayは4つのレイヤーで強制され、深い防御を提供します。</p>
+  <h3 id="why-gateway">なぜゲートウェイなのか？</h3>
+
+  <p>すべての社員が自由にCEOのもとへ行って指示を出せる会社を想像してください。大きな混乱が生じるでしょう。ハーネスでも同じです。ユーザーがdesignやresearchのようなスペシャリストエージェントを直接呼び出せてしまうと、PMはワークフローを計画し、順序を決め、品質をレビューする能力を失います。ゲートウェイはまさにこれを防ぐために存在します。</p>
+
+  <h3 id="gateway-how-it-works">ゲートウェイの動作方式</h3>
+
+  <p>PM Gatewayは4重の防御線で強制されます。多層防御（defense in depth）が互いを補完します。</p>
 
   <div class="step-list">
     <ol>
       <li>
-        <strong>ツールレベルの強制</strong> &mdash; エージェントツール自体がPMをバイパスする呼び出しを拒否します。これが最も厳しい強制レイヤーで、正しいキーでのみ開く鍵のかかったドアのようなものです。
+        <strong>Tool-Level（ツールレベル）</strong> &mdash; エージェントツール自体がPMを迂回する呼び出しを拒否します。最も強力な強制層で、正しい鍵でのみ開く施錠された扉のようなものです。
       </li>
       <li>
-        <strong>システムプロンプトレベルの強制</strong> &mdash; プラットフォーム（Claude CodeまたはAntigravity CLI）がPMのルールを最初にロードするため、AIは最初からPMを経由してルーティングする必要があることを知ります。
+        <strong>System Prompt-Level（システムプロンプトレベル）</strong> &mdash; プラットフォーム（Claude CodeまたはAntigravity CLI）がPMのルールを最初に読み込むため、AIは最初からリクエストをPM経由にすべきだと認識します。
       </li>
       <li>
-        <strong>エージェントファイルレベルの強制</strong> &mdash; すべてのスペシャリストエージェントファイルには「PM-ONLY INVOCATION」セクションが含まれ、PMのみがディスパッチできることを明示的に記載しています。
+        <strong>Agent File-Level（エージェントファイルレベル）</strong> &mdash; すべてのスペシャリストエージェント定義ファイルには、PMだけが自分をディスパッチできると明記した「PM-ONLY INVOCATION」セクションが含まれています。
       </li>
       <li>
-        <strong>QAゲートレベルの強制</strong> &mdash; 監査エージェントがフェーズ6の品質監査中にPMバイパスの試みを検出し、違反として報告します。
+        <strong>QA Gate-Level（品質レビューレベル）</strong> &mdash; 監査（auditor）エージェントがフェーズ6の品質監査でPM迂回の試みを検出し、違反として報告します。
       </li>
     </ol>
   </div>
 
-  <h3>PMの直接実行スコープ</h3>
+  <p>すぐ次のセクションで、この4段階の強制層をダイアグラムで確認できます。</p>
 
-  <p>PM自身にも直接実行できることの制限があります。</p>
+  <h3>4段階強制レイヤー</h3>
+
+  <p>PM Gatewayは4つの水準で強制されます。このうちどれか1つでも違反されれば、スペシャリストエージェントは実行されません。</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Tool-Level（ツールレベル）</strong> &mdash; エージェントツール自体がPM以外の呼び出しを拒否します。技術的に最も強力な強制水準です。
+      </li>
+      <li>
+        <strong>System-Level（システムプロンプトレベル）</strong> &mdash; CLAUDE.md、GEMINI.mdなどのシステム設定ファイルにPM Gatewayルールが明記されており、AIモデルは最初からこのルールを認識します。
+      </li>
+      <li>
+        <strong>Agent-Level（エージェントファイルレベル）</strong> &mdash; 各スペシャリストエージェントの定義ファイルに「PM-ONLY INVOCATION」セクションが含まれ、エージェント自身も直接呼び出しを拒否します。
+      </li>
+      <li>
+        <strong>QA-Level（品質レビューレベル）</strong> &mdash; 最終段階の品質レビューで、PM Gateway迂回の事例がないか監査します。
+      </li>
+    </ol>
+  </div>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PM Gatewayの4段階強制レイヤーのダイアグラム">
+      <!-- ユーザー -->
+      <rect x="20" y="75" width="120" height="50" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="80" y="98" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">ユーザー</text>
+      <text x="80" y="115" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">リクエストはここだけ</text>
+
+      <!-- 矢印：ユーザー → PM -->
+      <line x1="140" y1="100" x2="195" y2="100" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arrowGw)"/>
+      <text x="167" y="92" text-anchor="middle" font-size="10" style="fill:var(--accent)">OK</text>
+
+      <!-- PM -->
+      <rect x="200" y="60" width="140" height="80" rx="12" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="270" y="92" text-anchor="middle" font-size="14" font-weight="bold" fill="var(--text-inverse)">PM</text>
+      <text x="270" y="112" text-anchor="middle" font-size="11" style="fill:rgba(255,255,255,0.8)">単一窓口</text>
+
+      <!-- 矢印：PM → 専門家群 -->
+      <line x1="340" y1="85" x2="395" y2="65" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowGwGreen)"/>
+      <line x1="340" y1="100" x2="395" y2="100" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowGwAmber)"/>
+      <line x1="340" y1="115" x2="395" y2="135" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowGwAccent)"/>
+
+      <!-- スペシャリストエージェント群 -->
+      <rect x="400" y="40" width="120" height="42" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="460" y="65" text-anchor="middle" font-size="11" style="fill:var(--text)">research</text>
+
+      <rect x="400" y="80" width="120" height="42" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="460" y="105" text-anchor="middle" font-size="11" style="fill:var(--text)">design</text>
+
+      <rect x="400" y="120" width="120" height="42" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="460" y="145" text-anchor="middle" font-size="11" style="fill:var(--text)">html-build</text>
+
+      <!-- 直接呼び出し禁止（ユーザー → 専門家） -->
+      <line x1="80" y1="130" x2="395" y2="160" stroke="var(--warn)" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowGwWarn)"/>
+      <text x="220" y="155" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--warn)">X 直接呼び出し禁止</text>
+
+      <!-- 4段階ラベル -->
+      <rect x="540" y="40" width="110" height="122" rx="8" fill="var(--bg-note)" stroke="var(--border)" stroke-width="1"/>
+      <text x="595" y="60" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">4段階強制</text>
+      <text x="595" y="78" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">1. Tool-Level</text>
+      <text x="595" y="94" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">2. System-Level</text>
+      <text x="595" y="110" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">3. Agent-Level</text>
+      <text x="595" y="126" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">4. QA-Level</text>
+
+      <defs>
+        <marker id="arrowGw" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowGwGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-green)"/>
+        </marker>
+        <marker id="arrowGwAmber" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-amber)"/>
+        </marker>
+        <marker id="arrowGwAccent" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowGwWarn" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--warn)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="warn">
+    スペシャリストエージェントを直接呼び出してはいけません。research、design、html-buildなどのスペシャリストエージェントにユーザーが直接依頼すると、PM Gatewayルールに違反します。スペシャリストエージェントは<strong>必ずPMを通してのみ</strong>呼び出してください。
+  </div>
+
+  <div class="note">
+    PM Gatewayは会社の組織体系に似ています。一般社員は他部署のメンバーに直接業務を指示せず、必ず自分のチームリーダーを通じて伝えるのと同じです。これにより業務の重複・漏れ・衝突を防ぎます。
+  </div>
+
+  <h3>PMの直接実行範囲</h3>
+
+  <p>PM自身にも、直接実行できる作業に関する制限があります。</p>
 
   <div class="compare-grid">
     <div class="col">
@@ -484,232 +673,374 @@ dispatch_triggers:
         <li>検索（glob、grep）</li>
         <li>タスクの作成とステータス更新</li>
         <li>ユーザーへの質問</li>
-        <li>読み取り専用のbashコマンド（<code>git status</code>、<code>ls</code>）</li>
+        <li>読み取り専用bashコマンドの実行（<code>git status</code>、<code>ls</code>）</li>
       </ul>
     </div>
     <div class="col">
       <h4>制限されるもの</h4>
       <ul>
-        <li>Write/Edit &mdash; <code>memory/*.md</code>と<code>CHANGELOG.md</code>のみ</li>
-        <li>Bash書き込みコマンド &mdash; スペシャリストに委譲が必要</li>
-        <li>コードの実装 &mdash; スペシャリストに委譲が必要</li>
-        <li>設計作業 &mdash; スペシャリストに委譲が必要</li>
+        <li>ファイルの書き込み/編集 &mdash; <code>memory/*.md</code> と <code>CHANGELOG.md</code>のみ</li>
+        <li>Bash書き込みコマンド &mdash; スペシャリストに委任が必要</li>
+        <li>コード実装 &mdash; スペシャリストに委任が必要</li>
+        <li>デザイン作業 &mdash; スペシャリストに委任が必要</li>
       </ul>
     </div>
   </div>
 
   <div class="warn">
-    <strong>重要：</strong>スペシャリストエージェントを直接呼び出そうとしないでください。常にPMを通してください。PMワークフローを経由せずに「research topic X」と入力すると、リクエストはツールレベルで拒否されます。これは設計通りです &mdash; ゲートウェイはすべてのアクションが計画され、追跡され、品質チェックされることを保証します。
+    <strong>重要：</strong>スペシャリストエージェントを直接呼び出そうとしないでください。常にPMを通して進めてください。PMワークフローを経由せず直接依頼すると、その要求はツールレベルで拒否されます。これは意図された設計です。ゲートウェイはすべての行動が計画され、追跡され、品質検査を経ることを保証します。
   </div>
 
   <!-- ============================================================ -->
-  <!-- SECTION 6: Dispatch Flow                                      -->
+  <!-- SECTION 6: ディスパッチフロー                                  -->
   <!-- ============================================================ -->
   <h2 id="dispatch-flow">ディスパッチフロー</h2>
 
-  <p>PMがどのエージェントを実行し、どの順番で実行するかを決定するとき、構造化された<strong>ディスパッチフロー</strong>に従います。重要な決定は、エージェントを<em>並列</em>にするか<em>直列</em>にするかです。</p>
+  <h3>ディスパッチとは？</h3>
 
-  <h3>並列と直列のディスパッチ</h3>
+  <p>ディスパッチ（Dispatch）とは、<strong>PMがスペシャリストエージェントに作業を割り当てる過程</strong>を意味します。ユーザーのリクエストが入ると、PMはリクエストの性質を分析（トリアージ）し、適切なスペシャリストエージェントを選んで作業を指示します。</p>
+
+  <h3>並列ディスパッチ vs 順次ディスパッチ</h3>
+
+  <p>ディスパッチには2つのモードがあります。作業の性質に応じて適切なモードが選ばれます。</p>
 
   <div class="compare-grid">
     <div class="col">
-      <h4>並列ディスパッチ</h4>
+      <h4>並列ディスパッチ（Parallel）</h4>
       <ul>
-        <li>複数のエージェントが<strong>同時に</strong>実行</li>
-        <li>読み取り専用タスク（リサーチ、分析、検査）に使用</li>
-        <li>全体が速い &mdash; 一つのエージェントの終了を待つ必要がない</li>
-        <li>例：<code>image-curator</code>と<code>diagram-specialist</code>はステージ3.5で並列に実行。互いの出力に依存しないため</li>
+        <li><strong>対象：</strong>読み取り専用作業</li>
+        <li>複数のエージェントを同時に実行</li>
+        <li>リサーチ、分析、検査など相互干渉しない作業</li>
+        <li><strong>利点：</strong>時間短縮</li>
+        <li>例：research + source-verifier を同時実行</li>
+        <li>ファイル競合の恐れがない作業に適合</li>
       </ul>
     </div>
     <div class="col">
-      <h4>直列ディスパッチ</h4>
+      <h4>順次ディスパッチ（Serial）</h4>
       <ul>
-        <li>エージェントが<strong>順番に一つずつ</strong>実行</li>
-        <li>ファイル競合を防ぐための書き込みタスクに使用</li>
-        <li>遅いが安全 &mdash; 次のエージェントの開始前に前のエージェントの出力が利用可能</li>
-        <li>例：リサーチエージェントが<code>research_notes.md</code>を完了するまで、ストーリーラインエージェントはそれを使用できません</li>
+        <li><strong>対象：</strong>書き込み作業</li>
+        <li>エージェントを1つずつ順番に実行</li>
+        <li>ファイル生成・編集など衝突の可能性がある作業</li>
+        <li><strong>利点：</strong>安全性の確保</li>
+        <li>例：design 完了後に html-build を実行</li>
+        <li>前段の成果物が次段の入力になる作業に適合</li>
       </ul>
     </div>
   </div>
 
+  <h3>ディスパッチフロー図</h3>
+
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 660 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="並列と直列パスを示すディスパッチフロー図">
-      <!-- Request -->
-      <rect x="255" y="8" width="150" height="40" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="330" y="33" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">ユーザーリクエスト</text>
+    <svg width="100%" viewBox="0 0 660 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ディスパッチのフロー図">
+      <!-- ユーザーリクエスト -->
+      <rect x="230" y="10" width="200" height="40" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="330" y="35" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">ユーザーリクエスト（User Request）</text>
 
-      <!-- PM Triage -->
-      <line x1="330" y1="48" x2="330" y2="72" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowD1)"/>
-      <rect x="230" y="78" width="200" height="36" rx="8" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
-      <text x="330" y="101" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--text-inverse)">PMトリアージ</text>
+      <!-- 矢印 -->
+      <line x1="330" y1="50" x2="330" y2="72" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowDsp)"/>
 
-      <!-- Decision diamond -->
-      <line x1="330" y1="114" x2="330" y2="138" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowD1)"/>
-      <polygon points="330,142 385,170 330,198 275,170" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
-      <text x="330" y="174" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">読み取り専用？</text>
+      <!-- PMトリアージ -->
+      <rect x="220" y="78" width="220" height="40" rx="10" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="330" y="103" text-anchor="middle" font-size="13" font-weight="bold" fill="var(--text-inverse)">PMトリアージ（リクエスト分析）</text>
 
-      <!-- NO branch (left) — Serial -->
-      <line x1="275" y1="170" x2="160" y2="170" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="218" y="163" font-size="10" font-weight="bold" style="fill:var(--accent)">いいえ（書き込み）</text>
+      <!-- 分岐矢印 -->
+      <line x1="270" y1="118" x2="120" y2="148" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowDspGreen)"/>
+      <line x1="390" y1="118" x2="540" y2="148" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowDspAmber)"/>
 
-      <rect x="40" y="152" width="120" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="100" y="175" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">直列</text>
+      <text x="175" y="140" font-size="10" style="fill:var(--text-dim)">読み取り専用？</text>
+      <text x="470" y="140" font-size="10" style="fill:var(--text-dim)">書き込み作業？</text>
 
-      <!-- Serial chain -->
-      <line x1="100" y1="188" x2="100" y2="218" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowD1)"/>
-      <rect x="40" y="224" width="120" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="100" y="244" text-anchor="middle" font-size="10" style="fill:var(--text)">エージェントA</text>
+      <!-- 並列パス -->
+      <rect x="40" y="154" width="160" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="120" y="177" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">並列（Parallel）</text>
 
-      <line x1="100" y1="256" x2="100" y2="270" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowDGreen)"/>
-      <rect x="40" y="276" width="120" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="100" y="296" text-anchor="middle" font-size="10" style="fill:var(--text)">エージェントB</text>
+      <!-- 並列エージェント群 -->
+      <rect x="20" y="204" width="80" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="60" y="224" text-anchor="middle" font-size="9" style="fill:var(--text)">Agent A</text>
 
-      <!-- YES branch (right) — Parallel -->
-      <line x1="385" y1="170" x2="500" y2="170" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="440" y="163" font-size="10" font-weight="bold" style="fill:var(--accent-green)">はい（読み取り）</text>
+      <rect x="110" y="204" width="80" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="150" y="224" text-anchor="middle" font-size="9" style="fill:var(--text)">Agent B</text>
 
-      <rect x="500" y="152" width="120" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="560" y="175" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">並列</text>
+      <line x1="60" y1="190" x2="60" y2="204" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowDspGreen)"/>
+      <line x1="150" y1="190" x2="150" y2="204" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowDspGreen)"/>
 
-      <!-- Parallel chain -->
-      <line x1="520" y1="188" x2="480" y2="218" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowDGreen)"/>
-      <line x1="560" y1="188" x2="560" y2="218" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowDGreen)"/>
-      <line x1="600" y1="188" x2="640" y2="218" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowDGreen)"/>
+      <!-- 順次パス -->
+      <rect x="460" y="154" width="160" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="540" y="177" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">順次（Serial）</text>
 
-      <rect x="430" y="224" width="100" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="480" y="244" text-anchor="middle" font-size="10" style="fill:var(--text)">エージェントX</text>
+      <!-- 順次エージェント群 -->
+      <rect x="480" y="204" width="120" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="540" y="223" text-anchor="middle" font-size="9" style="fill:var(--text)">Agent C</text>
 
-      <rect x="510" y="224" width="100" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="560" y="244" text-anchor="middle" font-size="10" style="fill:var(--text)">エージェントY</text>
+      <line x1="540" y1="190" x2="540" y2="204" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowDspAmber)"/>
 
-      <rect x="590" y="224" width="60" height="32" rx="6" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="620" y="244" text-anchor="middle" font-size="10" style="fill:var(--text)">Z</text>
+      <!-- 順次矢印 -->
+      <line x1="540" y1="232" x2="540" y2="250" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowDspAmber)"/>
 
-      <text x="480" y="276" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">すべて同時に実行</text>
-      <text x="480" y="292" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">（ファイル競合なし）</text>
+      <rect x="480" y="256" width="120" height="28" rx="6" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="540" y="275" text-anchor="middle" font-size="9" style="fill:var(--text)">Agent D</text>
 
-      <!-- Merge back to QA -->
-      <rect x="250" y="318" width="160" height="18" rx="4" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.2"/>
-      <text x="330" y="331" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">QAゲート &rarr; 最終化</text>
+      <!-- 成果物の収集 -->
+      <line x1="60" y1="236" x2="280" y2="308" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowDspGreen)"/>
+      <line x1="150" y1="236" x2="310" y2="308" stroke="var(--accent-green)" stroke-width="1.2" marker-end="url(#arrowDspGreen)"/>
+      <line x1="540" y1="284" x2="360" y2="308" stroke="var(--accent-amber)" stroke-width="1.2" marker-end="url(#arrowDspAmber)"/>
 
-      <line x1="100" y1="308" x2="250" y2="327" stroke="var(--accent)" stroke-width="1" marker-end="url(#arrowD1)" stroke-dasharray="4,3"/>
-      <line x1="560" y1="256" x2="410" y2="327" stroke="var(--accent-green)" stroke-width="1" marker-end="url(#arrowDGreen)" stroke-dasharray="4,3"/>
+      <text x="180" y="278" font-size="9" style="fill:var(--text-dim)">結果</text>
+      <text x="470" y="300" font-size="9" style="fill:var(--text-dim)">結果</text>
+
+      <!-- Results -->
+      <rect x="240" y="314" width="180" height="36" rx="10" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="330" y="337" text-anchor="middle" font-size="13" font-weight="bold" style="fill:var(--text)">Results（成果物）</text>
+
+      <!-- QAゲート -->
+      <line x1="330" y1="350" x2="330" y2="370" stroke="var(--accent-purple)" stroke-width="2" marker-end="url(#arrowDspPurple)"/>
+      <rect x="240" y="376" width="180" height="32" rx="10" fill="var(--accent-purple)" stroke="none" opacity="0.85"/>
+      <text x="330" y="397" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--text-inverse)">QA Gate → 最終化</text>
 
       <defs>
-        <marker id="arrowD1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+        <marker id="arrowDsp" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
           <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
         </marker>
-        <marker id="arrowDGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+        <marker id="arrowDspGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
           <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-green)"/>
+        </marker>
+        <marker id="arrowDspAmber" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-amber)"/>
+        </marker>
+        <marker id="arrowDspPurple" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-purple)"/>
         </marker>
       </defs>
     </svg>
   </div>
 
-  <h3>ディスパッチの決定</h3>
+  <h3>ディスパッチの意思決定フロー</h3>
 
-  <p>PMがリクエストを受信すると、シンプルな決定ツリーに従います。</p>
+  <p>PMがリクエストを受けた後、どの方式でディスパッチするかを決める過程は次のとおりです。</p>
 
   <div class="flow-box">
-    <div class="step">1. <strong>リクエストの受信</strong> &mdash; ユーザーがコマンドを入力するか、パイプラインが次のステージに進みます。</div>
-    <div class="step">2. <strong>成果物タイプの分類</strong> &mdash; PMがどの種類の出力が必要か（リサーチノート、デザイン仕様、HTMLスライド、PDFなど）を特定し、正しいエージェントにマッピングします。</div>
-    <div class="step">3. <strong>並列か直列かの決定</strong> &mdash; タスクがファイルの書き込みを伴う場合は直列にディスパッチ。読み取りと分析のみの場合は、関連するすべてのエージェントを並列にディスパッチ。</div>
-    <div class="step">4. <strong>エージェントのディスパッチ</strong> &mdash; 適切なティアモデルでタスクをスペシャリストエージェントに送信します。</div>
-    <div class="step">5. <strong>収集と検証</strong> &mdash; すべてのエージェントが完了するのを待ち、次のゲートで品質チェックを実行します。</div>
+    <div class="step">1. <strong>リクエスト受信</strong> &mdash; ユーザーのリクエストをPMが受け取ります。</div>
+    <div class="step">2. <strong>作業の性質分析</strong> &mdash; リクエストが読み取り専用か書き込み作業かを判断します。</div>
+    <div class="step">3. <strong>読み取り専用なら → 並列ディスパッチ</strong> &mdash; 複数のエージェントを一度に実行します。例：リサーチとソース検証を同時に進行。</div>
+    <div class="step">4. <strong>書き込み作業なら → 順次ディスパッチ</strong> &mdash; エージェントを1つずつ順番に実行します。前のエージェントの出力が次のエージェントの入力になるため、順序が重要です。</div>
+    <div class="step">5. <strong>結果収集 → QA Gate → 最終完成</strong> &mdash; すべてのエージェントの成果物を取りまとめた後、品質レビューを経て最終結果をユーザーに渡します。</div>
   </div>
 
-  <div class="tip-box">
-    <strong>初心者へのヒント：</strong>この決定ツリーを暗記する必要はありません。PMが自動的に処理します。経験を積むと、どのステージが並列で、どれが直列で実行されるかを認識し、パイプラインの動作をより正確に予測できるようになります。
+  <div class="note">
+    並列ディスパッチは、まるで複数のチームが同時に各自の調査を進めるようなものです。あるチームが市場調査をし、別のチームが競合分析をする、という具合です。一方、順次ディスパッチは組み立てラインのようなものです。企画が終わってからデザインを始め、デザインが終わってから開発を始める、という具合です。
   </div>
 
   <!-- ============================================================ -->
-  <!-- SECTION 7: Handoff Contracts                                   -->
+  <!-- SECTION 7: 引き継ぎコントラクト                                -->
   <!-- ============================================================ -->
   <h2 id="handoff">引き継ぎコントラクト</h2>
 
-  <p>マルチエージェントシステムでは、あるエージェントの作業成果物が次のエージェントの入力になります。この受け渡しを確実にするメカニズムを<strong>引き継ぎコントラクト</strong>と呼びます。</p>
+  <h3>引き継ぎとは？</h3>
 
-  <h3>引き継ぎコントラクトとは？</h3>
+  <p>引き継ぎ（Handoff）とは、<strong>エージェント間で作業結果を受け渡す方式</strong>を意味します。マルチエージェントハーネスでは、あるエージェントが完了させた成果物が次のエージェントの入力として使われます。このとき「どの形式で」「どのパスに」「どの品質基準を満たして」引き渡すかをあらかじめ定義しておく必要があります。この取り決めを<strong>引き継ぎコントラクト（Handoff Contract）</strong>と呼びます。</p>
 
-  <p><strong>引き継ぎコントラクト</strong>は、2つのエージェント間の取り決めで、3つのことを指定します。</p>
+  <h3>引き継ぎコントラクトの3要素</h3>
+
+  <p>引き継ぎコントラクトは3つのコア要素で構成されます。</p>
 
   <div class="step-list">
     <ol>
       <li>
-        <strong>出力ファイル</strong> &mdash; 送信側エージェントが生成するファイル。例えば、リサーチエージェントは<code>research_notes.md</code>を生成します。
+        <strong>入力形式（Input Format）</strong> &mdash; エージェントが作業を始めるのに必要な入力の形式と場所です。たとえばstorylineエージェントは <code>research_notes.md</code> ファイルを入力として受け取ります。入力ファイルがどこにあるのか、どの構造なのかが明示されていなければなりません。
       </li>
       <li>
-        <strong>ファイルの場所</strong> &mdash; ファイルが配置される場所。受信側エージェントが正確にどこで見つけるかを知るため。例：<code>presentations/&lt;project&gt;/research_notes.md</code>。
+        <strong>出力形式（Output Format）</strong> &mdash; エージェントが作業を終えた後に生成する成果物の形式と場所です。たとえばresearchエージェントは <code>research_notes.md</code> を生成し、storylineエージェントは <code>storyline.md</code> と <code>slide_deck.md</code> を生成します。ファイル名・パス・内部構造が決まっていなければ、次のエージェントが読めません。
       </li>
       <li>
-        <strong>フォーマットと構造</strong> &mdash; 期待されるフォーマット（Markdown、JSONなど）と、ファイルに含まれるべきセクションやフィールド。受信側エージェントが確実に解析できるようにするため。
+        <strong>品質基準（Quality Criteria）</strong> &mdash; 出力が満たすべき最低限の基準です。たとえば「research_notes.mdには最低10個以上のソースが含まれていなければならない」「slide_deck.mdの各スライドにはタイトルと本文がなければならない」といった基準がこれに当たります。この基準を満たさない出力は次の段階へ進めません。
       </li>
     </ol>
   </div>
 
-  <p>この3つの要素が明確に定義されると、引き継ぎは<em>コントラクト的</em>になります &mdash; 受信側エージェントは何を期待し、データをどのように消費するかを正確に知ります。これにより、推測が排除され、エラーが削減されます。</p>
+  <h3>引き継ぎの例：research → storyline</h3>
 
-  <h3>例：リサーチからストーリーラインへ</h3>
+  <p>co-deckで最も代表的な引き継ぎは、researchエージェントからstorylineエージェントへの引き渡しです。</p>
 
-  <p>co-deckパイプラインからの実際の引き継ぎコントラクトです。</p>
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="引き継ぎコントラクトの例を示すダイアグラム">
+      <!-- researchエージェント -->
+      <rect x="30" y="40" width="200" height="200" rx="12" fill="none" stroke="var(--accent-green)" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="130" y="68" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--accent-green)">researchエージェント</text>
 
-  <div class="compare-grid">
-    <div class="col">
-      <h4>送信エージェント：リサーチ</h4>
-      <ul>
-        <li><strong>生成：</strong> <code>research_notes.md</code></li>
-        <li><strong>場所：</strong> <code>presentations/&lt;name&gt;/</code></li>
-        <li><strong>フォーマット：</strong> セクション付きMarkdown（Sources、Key Facts、Credibility Notes）</li>
-        <li><strong>トリガー：</strong> "research the topic"</li>
-      </ul>
-    </div>
-    <div class="col">
-      <h4>受信エージェント：ストーリーライン</h4>
-      <ul>
-        <li><strong>消費：</strong> <code>research_notes.md</code></li>
-        <li><strong>読み取り元：</strong> 同じプロジェクトディレクトリ</li>
-        <li><strong>期待：</strong> 主要事実と情報源URLを解析できる構造化Markdown</li>
-        <li><strong>生成：</strong> <code>storyline.md</code> + <code>slide_deck.md</code></li>
-      </ul>
-    </div>
+      <!-- 入力 -->
+      <rect x="50" y="82" width="160" height="34" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="130" y="104" text-anchor="middle" font-size="11" style="fill:var(--text)">入力：ユーザーリクエスト（トピック）</text>
+
+      <!-- 作業 -->
+      <rect x="50" y="126" width="160" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="130" y="148" text-anchor="middle" font-size="11" style="fill:var(--text)">作業：ウェブ検索、資料収集</text>
+
+      <!-- 出力 -->
+      <rect x="50" y="170" width="160" height="56" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="130" y="192" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">出力：</text>
+      <text x="130" y="210" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">research_notes.md</text>
+
+      <!-- 引き継ぎ矢印 -->
+      <line x1="230" y1="198" x2="428" y2="198" stroke="var(--accent-purple)" stroke-width="2.5" marker-end="url(#arrowHo)"/>
+      <rect x="290" y="178" width="100" height="22" rx="6" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="340" y="193" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">引き継ぎ</text>
+
+      <!-- 引き継ぎコントラクトラベル -->
+      <text x="340" y="222" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">ファイルパス、形式、品質基準</text>
+
+      <!-- storylineエージェント -->
+      <rect x="434" y="40" width="200" height="200" rx="12" fill="none" stroke="var(--accent-amber)" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="534" y="68" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--accent-amber)">storylineエージェント</text>
+
+      <!-- 入力 -->
+      <rect x="454" y="82" width="160" height="56" rx="8" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="534" y="104" text-anchor="middle" font-size="11" style="fill:var(--text)">入力：</text>
+      <text x="534" y="122" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">research_notes.md</text>
+
+      <!-- 作業 -->
+      <rect x="454" y="148" width="160" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="534" y="170" text-anchor="middle" font-size="11" style="fill:var(--text)">作業：ストーリー、スライド構成</text>
+
+      <!-- 出力 -->
+      <rect x="454" y="192" width="160" height="38" rx="8" fill="var(--bg-success)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="534" y="215" text-anchor="middle" font-size="11" style="fill:var(--text)">出力：storyline.md + slide_deck.md</text>
+
+      <defs>
+        <marker id="arrowHo" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-purple)"/>
+        </marker>
+      </defs>
+    </svg>
   </div>
 
-  <p>コントラクトは両方のエージェントファイルで明示的です。リサーチエージェントの指示には「write findings to <code>research_notes.md</code>」と書かれ、ストーリーラインエージェントの指示には「read <code>research_notes.md</code> as input」と書かれています。コントラクトがエージェント定義に記載されているため、曖昧さはありません。</p>
+  <p>ダイアグラムが示すように、researchエージェントが <code>research_notes.md</code> という形で出力すれば、storylineエージェントが同じファイルを入力として受け取り、自身の作業を行います。このとき <code>research_notes.md</code> のパス・ファイル名・内部構造（マークダウン形式、セクション構成など）が引き継ぎコントラクトによってあらかじめ定義されていなければなりません。</p>
 
   <h3>引き継ぎコントラクトが重要な理由</h3>
 
-  <p>引き継ぎコントラクトがないと、エージェントは入力をどこで見つけるか、何のフォーマットか、準備ができているかを推測する必要があります。これは3つの一般的な障害モードにつながります。</p>
-
   <ul>
-    <li><strong>ファイルが見つからない</strong> &mdash; 受信側エージェントが、作成されなかったファイルや別の場所に保存されたファイルを探す。</li>
-    <li><strong>フォーマットの不一致</strong> &mdash; 送信側がJSONを出力するが、受信側がMarkdownを期待している。</li>
-    <li><strong>早すぎる消費</strong> &mdash; 送信側の書き込みが完了する前に受信側が開始し、不完全または破損したデータになる。</li>
+    <li><strong>誤りの防止</strong> &mdash; ファイル名が間違っていたりパスが誤っていたりすると、次のエージェントが入力を見つけられず、パイプライン全体が止まります。引き継ぎコントラクトがあれば、こうしたミスを防げます。</li>
+    <li><strong>独立性の保証</strong> &mdash; エージェント間の依存関係が明確になると、各エージェントを独立に開発・テストできます。「入力がAなら出力はB」という約束だけ守ればよいので、内部実装は自由に変更できます。</li>
+    <li><strong>交換可能性</strong> &mdash; 引き継ぎコントラクトさえ守れば、特定のエージェントを別のエージェントに置き換えられます。たとえばresearchエージェントをもっと性能の高いバージョンに変えても、出力形式が同じならstorylineエージェントは一切変更せずにそのまま動きます。</li>
   </ul>
 
-  <p>引き継ぎコントラクトは、受け渡しの期待を明示的、検証可能、強制可能にすることで、これら3つの問題すべてを防ぎます。</p>
-
   <div class="note">
-    <strong>例え &mdash; 引継ぎマニュアル：</strong>引き継ぎコントラクトを、病院や工場のシフト交代で使われる引継ぎマニュアルと考えてください。日勤が終わるとき、退勤する看護師が構造化されたフォームに記入します：どの患者を治療したか、どの薬を投与したか、どの問題が未解決か。入勤する看護師はこのフォームを読み、前のシフトが終わったところから正確にピックアップできます。このマニュアルがなければ、重要な情報が失われる可能性があります。同じ原則がAIエージェントにも適用されます。
+    引き継ぎコントラクトは、エージェント間の<strong>「引継ぎマニュアル」</strong>です。会社である部署から別の部署へ業務を引き渡すとき、引継ぎ文書の様式と基準をあらかじめ決めておくのと同じです。このマニュアルがあれば、業務の引き継ぎは円滑で漏れがありません。
   </div>
 
-  <h3>フルパイプラインの引き継ぎチェーン</h3>
+  <h3>ハーネスアーキテクチャ全体図</h3>
 
-  <p>co-deckプレゼンテーションパイプラインの完全な引き継ぎチェーンです。各矢印は引き継ぎコントラクトを表します。</p>
+  <p>この章で説明したすべての概念を1枚の図にまとめてみましょう。以下はco-deckハーネスの全体的なアーキテクチャを表すダイアグラムです。</p>
 
-  <div class="flow-box">
-    <div class="step"><strong>ステージ0：</strong>PMが<code>lecture-profile.md</code>を読み取り &rarr; <code>project_state.json</code>を初期化</div>
-    <div class="step"><strong>ステージ1：</strong> research &rarr; <code>research_notes.md</code>を生成</div>
-    <div class="step"><strong>ステージ1.5：</strong> source-verifier &rarr; <code>research_notes.md</code>を読み取り、<code>source-verification.md</code>を生成</div>
-    <div class="step"><strong>ステージ2-3：</strong> storyline &rarr; <code>research_notes.md</code>を読み取り、<code>storyline.md</code> + <code>slide_deck.md</code>を生成</div>
-    <div class="step"><strong>ステージ3：</strong> design &rarr; <code>slide_deck.md</code>を読み取り、<code>design_spec.md</code>を生成</div>
-    <div class="step"><strong>ステージ3.5：</strong> image-curator &rarr; <code>slide_deck.md</code>を読み取り、<code>image-manifest.json</code> + 画像を生成</div>
-    <div class="step"><strong>ステージ3.5：</strong> diagram-specialist &rarr; <code>slide_deck.md</code>を読み取り、<code>diagram-manifest.json</code> + SVGを生成</div>
-    <div class="step"><strong>ステージ5-8：</strong> html-build &rarr; <code>slide_deck.md</code> + <code>design_spec.md</code> + マニフェストを読み取り、<code>lecture_vN.html</code>を生成</div>
-    <div class="step"><strong>ステージ9-10：</strong> measure &rarr; HTMLを読み取り、<code>pdf_layout_spec.md</code>を生成</div>
-    <div class="step"><strong>ステージ11：</strong> pdf-export &rarr; すべての仕様を読み取り、<code>&lt;project&gt;.pdf</code>を生成</div>
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 660 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ハーネスアーキテクチャの全体図">
+      <!-- ユーザー -->
+      <rect x="255" y="8" width="150" height="40" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="330" y="33" text-anchor="middle" font-size="14" font-weight="bold" style="fill:var(--text)">ユーザー</text>
+
+      <!-- ユーザー → PM -->
+      <line x1="330" y1="48" x2="330" y2="72" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowArch)"/>
+
+      <!-- PM Gateway境界線 -->
+      <rect x="15" y="65" width="630" height="370" rx="16" fill="none" stroke="var(--accent-purple)" stroke-width="2" stroke-dasharray="8,4"/>
+      <text x="625" y="86" text-anchor="end" font-size="10" font-weight="bold" style="fill:var(--accent-purple)">PM Gateway</text>
+
+      <!-- PM -->
+      <rect x="210" y="76" width="240" height="48" rx="12" fill="var(--accent-purple)" stroke="none" opacity="0.9"/>
+      <text x="330" y="98" text-anchor="middle" font-size="13" font-weight="bold" fill="var(--text-inverse)">PMエージェント（3ティア：High）</text>
+      <text x="330" y="115" text-anchor="middle" font-size="10" style="fill:rgba(255,255,255,0.8)">オーケストレーション · Gateway強制 · 品質管理</text>
+
+      <!-- PM → 専門家群（ディスパッチ） -->
+      <line x1="250" y1="124" x2="100" y2="158" stroke="var(--accent-green)" stroke-width="1.8" marker-end="url(#arrowArchGreen)"/>
+      <line x1="330" y1="124" x2="330" y2="158" stroke="var(--accent-amber)" stroke-width="1.8" marker-end="url(#arrowArchAmber)"/>
+      <line x1="410" y1="124" x2="560" y2="158" stroke="var(--accent)" stroke-width="1.8" marker-end="url(#arrowArchAccent)"/>
+
+      <!-- スペシャリストエージェント1：research -->
+      <rect x="30" y="164" width="140" height="52" rx="10" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="100" y="184" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">research</text>
+      <text x="100" y="202" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Medium-Tier</text>
+
+      <!-- スペシャリストエージェント2：storyline -->
+      <rect x="260" y="164" width="140" height="52" rx="10" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="330" y="184" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">storyline</text>
+      <text x="330" y="202" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Medium-Tier</text>
+
+      <!-- スペシャリストエージェント3：html-build -->
+      <rect x="490" y="164" width="140" height="52" rx="10" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="560" y="184" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">html-build</text>
+      <text x="560" y="202" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Medium-Tier</text>
+
+      <!-- 引き継ぎ1：research → storyline -->
+      <line x1="170" y1="190" x2="260" y2="190" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowArchGreen)"/>
+      <text x="215" y="184" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">引き継ぎ</text>
+
+      <!-- 引き継ぎ2：storyline → html-build -->
+      <line x1="400" y1="190" x2="490" y2="190" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowArchAmber)"/>
+      <text x="445" y="184" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">引き継ぎ</text>
+
+      <!-- スキルラベル -->
+      <rect x="30" y="228" width="140" height="24" rx="6" fill="var(--bg-info)" stroke="var(--border)" stroke-width="1"/>
+      <text x="100" y="244" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">スキル：research.md</text>
+
+      <rect x="260" y="228" width="140" height="24" rx="6" fill="var(--bg-info)" stroke="var(--border)" stroke-width="1"/>
+      <text x="330" y="244" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">スキル：storyline.md</text>
+
+      <rect x="490" y="228" width="140" height="24" rx="6" fill="var(--bg-info)" stroke="var(--border)" stroke-width="1"/>
+      <text x="560" y="244" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">スキル：html-build.md</text>
+
+      <!-- 成果物 -->
+      <rect x="140" y="280" width="380" height="44" rx="10" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="330" y="300" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">最終成果物</text>
+      <text x="330" y="316" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">research_notes.md → storyline.md → slide_deck.md → lecture.html → PDF</text>
+
+      <!-- QAゲート -->
+      <rect x="230" y="340" width="200" height="36" rx="10" fill="var(--accent-purple)" stroke="none" opacity="0.85"/>
+      <text x="330" y="363" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--text-inverse)">QA Gate（品質レビュー）</text>
+
+      <!-- 成果物 → QA -->
+      <line x1="330" y1="324" x2="330" y2="340" stroke="var(--accent-purple)" stroke-width="2" marker-end="url(#arrowArchPurple)"/>
+
+      <!-- 最終的なユーザーへの引き渡し -->
+      <rect x="230" y="392" width="200" height="32" rx="10" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="330" y="413" text-anchor="middle" font-size="11" style="fill:var(--text)">ユーザーへ最終結果を引き渡し</text>
+      <line x1="330" y1="376" x2="330" y2="392" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowArch)"/>
+
+      <defs>
+        <marker id="arrowArch" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowArchGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-green)"/>
+        </marker>
+        <marker id="arrowArchAmber" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-amber)"/>
+        </marker>
+        <marker id="arrowArchAccent" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent)"/>
+        </marker>
+        <marker id="arrowArchPurple" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <path d="M0,0 L7,2.5 L0,5 Z" fill="var(--accent-purple)"/>
+        </marker>
+      </defs>
+    </svg>
   </div>
 
-  <p>各エージェントが必要なものだけを読み取り、明確に定義された出力を生成することに注目してください。チェーンはユーザーリクエストから最終PDFまでの明確なデータフローを形成し、すべての引き継ぎポイントがエージェントとスキル定義に記載されています。</p>
+  <div class="keypoints">
+    <div class="kp-title">本章のまとめ</div>
+    <ul>
+      <li><strong>エージェント</strong>は役割・指示・ツールを持つAIアシスタントです。PMはオーケストレーター、スペシャリストエージェントは実行者です。</li>
+      <li>スキルはエージェントが実行する再利用可能なワークフローです。エージェントが「誰」なら、スキルは「何をするか」です。</li>
+      <li><strong>PMオーケストレーション</strong>は、リクエスト分析 → エージェント選択 → 作業割り当て → 結果取りまとめ → 品質レビューの流れです。</li>
+      <li><strong>3ティア戦略</strong>は、コストと性能のバランスを取るためのモデル階層化方式です。High（設計）、Medium（実務）、Low（単純作業）です。</li>
+      <li><strong>PM Gateway</strong>は、すべてのスペシャリストエージェントがPMを通してのみ呼び出されるよう強制する4段階ルールです。</li>
+      <li><strong>ディスパッチ</strong>は、読み取り専用 → 並列、書き込み作業 → 順次に分かれます。</li>
+      <li><strong>引き継ぎコントラクト</strong>は、エージェント間の出力引き渡しの入力形式・出力形式・品質基準を定義します。</li>
+    </ul>
+  </div>
+
+  <div class="tip-box">
+    <strong>次章の予告：</strong>第5章では、これらの概念が実際のプロジェクトリポジトリ（ai-workspace-standards）でどう実装されているかを見ていきます。AGENTS.md、agents/フォルダ、skills/フォルダの実際のファイルを開き、この章で学んだ概念がコードとしてどう表現されているか確認してみてください。
+  </div>
 
   <!-- ============================================================ -->
   <!-- CHAPTER NAVIGATION                                            -->

@@ -2,6 +2,19 @@
 
 All notable changes to this handbook will be documented in this file.
 
+## [2026-08-24] — Four-Language Content Parity & Workspace Accuracy
+
+### Added
+- **`scripts/check-i18n-parity.ts`** — new cross-language content gate: FAIL on heading/code-block count mismatches, missing language variants, and wrong-language internal links; WARN on >15% list/table drift and numeric-token divergence. Wired into `handbook-doctor` (Check 13) and `package.json` (`bun run check-i18n`).
+
+### Changed
+- **Regenerated en/ja/es editions from the Korean canonical** for ch01, ch02, ch04, ch05, ch07, ch08, ch09, ch10, ch11, ch13, Appendix A, Appendix B, Appendix C — structure now identical across languages: ch09/ch10 practice labs restored (were empty), ch13 FAQ set unified at 12 questions, ch02 plan-comparison table, ch04 gateway sections + 3-Tier table, ch08 handoff procedure & timeline, ch11 team-builder internals (+202 lines of backported sections), App A/B install details and full command sets, App C z.ai/GLM pricing.
+- README_ko/ja/es re-aligned to the README.md section structure.
+- Workspace-accuracy fixes carried into all four languages: 11 variants incl. co-hr, `--country <CODE>` option, Phase 0–6 pipeline model (ch06), corrected agent frontmatter spec with nested tier map + lifecycle governance record (ch09), tool-hook chain & /sync safety gates documented (ch12), KOSIS_API_KEY pre-listed in `.env.sample` country-scoped block (App D).
+
+### Fixed
+- Spanish headings translated in ch03/ch06/ch12 (54 headings) plus index/ch04 titles; ch13_es FAQ numbering normalized to P1–P11; SETUP_CHECKLIST_ja wrong-language link retargeted; stale `lang-switcher.js` comment corrected; ch07_es `70 %`→`70%` formatting.
+
 ## [2026-08-23] — Copy Button CSP Compliance
 
 ### Bug Fix

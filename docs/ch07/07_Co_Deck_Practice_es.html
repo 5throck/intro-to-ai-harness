@@ -2,10 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Cap. 7 · co-deck: AI Presentation in Practice - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="description" content="Cap. 7 · co-deck: presentaciones con IA en la práctica - Introducción a Claude Code y Multi-Agent Harness">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
-  <title>Cap. 7 · co-deck: AI Presentation in Practice</title>
+  <title>Cap. 7 · co-deck: presentaciones con IA en la práctica</title>
   <link rel="stylesheet" href="../assets/css/handbook-variables.css">
   <link rel="stylesheet" href="../assets/css/handbook-components.css">
 </head>
@@ -13,15 +13,15 @@
 <div class="layout">
 <nav>
   <a href="../index_es.html" class="nav-home">&larr; Inicio del manual</a>
-  <div class="nav-title">Cap. 7 &middot; co-deck: AI Presentation in Practice</div>
-  <a href="#what-is-codeck">What is co-deck</a>
-  <a href="#architecture">System Architecture</a>
-  <a href="#11-stages">11-Stage Pipeline</a>
-  <a href="#theme-style">Themes and Styles</a>
-  <a href="#gates">Gate Approvals</a>
-  <a href="#how-to-talk">How to Talk to the PM</a>
-  <a href="#practice">Practice: Create a Mini Presentation</a>
-  <a href="#outputs">Reviewing Resultados</a>
+  <div class="nav-title">Cap. 7 &middot; co-deck: presentaciones con IA en la práctica</div>
+  <a href="#what-is-codeck">Qué es co-deck</a>
+  <a href="#architecture">Arquitectura del sistema</a>
+  <a href="#11-stages">Pipeline de 11 etapas</a>
+  <a href="#theme-style">Temas y estilos</a>
+  <a href="#gates">Aprobaciones Gate</a>
+  <a href="#how-to-talk">Cómo hablarle al PM</a>
+  <a href="#practice">Práctica: crear una minipresentación</a>
+  <a href="#outputs">Revisión de los resultados</a>
   <div class="nav-section">Otros capítulos</div>
   <a href="../ch06/06_Co_Consult_Practice_es.html">Cap. 6 &middot; co-consult: AI Consulting in Practice</a>
   <a href="../ch08/08_Integrated_Pipeline_es.html">Cap. 8 &middot; Pipeline combinado co-consult + co-deck</a>
@@ -29,807 +29,1028 @@
 <main>
  <article class="reading">
   <div class="chapter-eyebrow">Capítulo 7</div>
-  <h1>co-deck: AI Presentation in Practice</h1>
-  <p class="lead">co-deck es un sistema donde los equipos de agents de IA producen presentaciones (materiales de clase, presentaciones de diapositivas). Este capítulo cubre el pipeline de 11 etapas y te guía en la creación de una mini presentación.</p>
+  <h1>co-deck: presentaciones con IA en la práctica</h1>
+  <p class="lead">co-deck es el sistema con el que un equipo de agentes de IA produce presentaciones (material docente, diapositivas de exposición). En este capítulo comprenderás el pipeline de 11 etapas (Stage) de co-deck y crearás realmente una minipresentación.</p>
   <div class="keypoints">
-    <div class="kp-title">Lo que cubre este capítulo</div>
+    <div class="kp-title">Lo que trata este capítulo</div>
     <ul>
-      <li>co-deck system introduction and architecture</li>
-      <li>11-Stage pipeline</li>
-      <li>Theme and Style selection</li>
-      <li>Gate approvals (Gate 2: content, Gate 5: sample PDF)</li>
-      <li>Practice: create a mini presentation</li>
-      <li>HTML and PDF output review</li>
+      <li>Presentación del sistema co-deck y su arquitectura</li>
+      <li>Comprensión del pipeline de 11 etapas</li>
+      <li>Elección del Theme y el Style</li>
+      <li>Aprobaciones Gate (Gate 2: contenido, Gate 5: PDF de muestra)</li>
+      <li>Práctica: crear una minipresentación</li>
+      <li>Comprobación de los resultados en HTML y PDF</li>
     </ul>
   </div>
 
   <!-- ============================================================ -->
-  <!-- SECTION 1: What is co-deck                                     -->
+  <!-- SECCIÓN 1: Qué es co-deck                                       -->
   <!-- ============================================================ -->
-  <h2 id="what-is-codeck">What is co-deck</h2>
+  <h2 id="what-is-codeck">Qué es co-deck</h2>
 
-  <h3>Definition</h3>
+  <h3>Definición</h3>
 
-  <p><strong>co-deck</strong> es una variante del ecosistema ai-workspace-standards especializada en producir <em>lecture materials and presentation slide decks</em>. Es un proyecto variante L2 que hereda la estructura común del workspace (agents, skills, reglas de gobernanza) y añade sus propios agents especializados y un pipeline de producción de 11 etapas.</p>
+  <p>co-deck es un <strong>sistema en el que un equipo de agentes de IA produce presentaciones</strong>. Es una de las variantes de ai-workspace-standards que exploramos en el capítulo 5: varios agentes de IA colaboran para generar automáticamente presentaciones de alta calidad, como material docente, exposiciones de empresa o diapositivas de conferencia.</p>
 
-  <p>El nombre "co-deck" significa <strong>co</strong>llaborative <strong>deck</strong> &mdash; una presentación producida mediante la colaboración entre un presentador humano y un equipo de agents de IA.</p>
+  <p>Ubicación: <code>templates/co-deck/</code> dentro de <a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">ai-workspace-standards</a> — genera tu propia copia con <code>bun scripts/new-project.ts "&lt;name&gt;" --variant co-deck</code>.</p>
 
-  <h3>What co-deck Produces</h3>
+  <h3>¿Qué resultados produce?</h3>
 
-  <p>co-deck produces two primary output types:</p>
+  <p>co-deck genera dos formas de resultado:</p>
 
-  <div class="compare-grid">
-    <div class="col">
-      <h4>Single-File HTML Slide Deck</h4>
-      <ul>
-        <li>Un archivo <code>.html</code> autónomo con todas las diapositivas, CSS, imágenes y JavaScript incrustados</li>
-        <li>Open in any browser &mdash; no installation required</li>
-        <li>Supports presenter mode, TTS narration, keyboard navigation, and fullscreen</li>
-        <li>Five HTML themes available (outline, vertical, pitch-enhanced, outlook, zen)</li>
-      </ul>
-    </div>
-    <div class="col">
-      <h4>Print-Ready PDF</h4>
-      <ul>
-        <li>A pixel-perfect PDF suitable for printing or distribution</li>
-        <li>16:9 aspect ratio, matched to the HTML layout</li>
-        <li>Generado a partir de los mismos datos de diapositivas que la versión HTML</li>
-        <li>PDF de muestra (5 diapositivas) para revisión, luego exportación del PDF completo tras la aprobación</li>
-      </ul>
-    </div>
+  <ul>
+    <li><strong>Mazo de diapositivas HTML en un único archivo</strong> — Una presentación web autosuficiente con todas las diapositivas, imágenes y estilos incluidos en un solo archivo HTML. Se abre directamente en el navegador para exponer, y admite diseño adaptable y funciones interactivas.</li>
+    <li><strong>PDF</strong> — Archivos PDF para impresión y distribución. Conservan el diseño, las fuentes y los colores, por lo que resultan ideales para compartir y archivar.</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>Analogía para principiantes:</strong> co-deck es una «productora de presentaciones» virtual. El PM (project manager) se reúne con el cliente (el usuario), y los agentes especialistas se encargan de cada fase (investigación, planificación, diseño, producción). Es parecido a la estructura de una agencia de diseño real, donde un planificador dirige a diseñadores, ilustradores y desarrolladores.
   </div>
 
-  <h3>The Presentation Production Company Analogy</h3>
+  <h3>Diferencias con co-consult</h3>
 
-  <p>Imagina que diriges una <strong>presentation production company</strong>. Tú eres el productor ejecutivo (el humano) y tienes un equipo de especialistas trabajando bajo un gestor de proyecto. Así se mapea la analogía:</p>
+  <p>Si co-consult, visto en el capítulo 6, está especializado en análisis estratégico y redacción de informes, co-deck está especializado en la <strong>producción de diapositivas de presentación</strong>. Ambos sistemas se apoyan en ai-workspace-standards, pero difieren en propósito y composición de agentes.</p>
 
   <div class="compare-grid">
-    <div class="col">
-      <h4>Presentation Company</h4>
-      <ul>
-        <li><strong>Executive Producer</strong> (you) &mdash; defines the topic, reviews drafts, gives final approval</li>
-        <li><strong>Project Manager</strong> &mdash; orchestrates the team, schedules tasks, enforces quality</li>
-        <li><strong>Research Team</strong> &mdash; gathers sources and fact-checks</li>
-        <li><strong>Content Writer</strong> &mdash; structures the narrative and writes slide content</li>
-        <li><strong>Art Director</strong> &mdash; picks colors, fonts, and visual style</li>
-        <li><strong>Photographer</strong> &mdash; finds and downloads images</li>
-        <li><strong>Graphics Team</strong> &mdash; creates diagrams and charts</li>
-        <li><strong>Web Developer</strong> &mdash; builds the HTML slide deck</li>
-        <li><strong>Print Specialist</strong> &mdash; produces the final PDF</li>
-      </ul>
-    </div>
     <div class="col">
       <h4>co-deck</h4>
       <ul>
-        <li><strong>Tú (el usuario)</strong> &mdash; proporciona el tema, revisa el contenido en el Gate 2, aprueba el PDF en el Gate 5</li>
-        <li><strong>PM Agent</strong> &mdash; orchestrates all specialist agents, manages pipeline stages</li>
-        <li><strong>research + source-verifier</strong> &mdash; web research and URL validation</li>
-        <li><strong>storyline</strong> &mdash; creates storyline.md and slide_deck.md</li>
-        <li><strong>design</strong> &mdash; writes design_spec.md with color palette and fonts</li>
-        <li><strong>image-curator</strong> &mdash; searches Pixabay, Unsplash, Pexels for images</li>
-        <li><strong>diagram-specialist</strong> &mdash; generates SVG diagrams and data charts</li>
-        <li><strong>html-build</strong> &mdash; generates the single-file HTML slide deck</li>
-        <li><strong>pdf-export</strong> &mdash; produces sample and full PDF output</li>
+        <li>Producción de diapositivas de presentación</li>
+        <li>research, storyline, html-build, pdf-export, etc.</li>
+        <li>Pipeline de 11 etapas (Stage)</li>
+        <li>Resultados: diapositivas HTML + PDF</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>co-consult</h4>
+      <ul>
+        <li>Análisis estratégico e informes de consultoría</li>
+        <li>research, data-analyst, market-analyst, strategy, etc.</li>
+        <li>Flujo de consultoría de 7 fases despachadas por el PM (Phase 0&ndash;6)</li>
+        <li>Resultados: informe HTML + PDF</li>
       </ul>
     </div>
   </div>
 
-  <div class="note"> 
-     <strong>El control de versiones está integrado.</strong> El agent <code>version</code> actúa como el gestor del archivo documental de una empresa &mdash; toma una instantánea de cada archivo antes de cualquier cambio, de modo que siempre puedas revertir a un estado anterior. Piénsalo como un "Guardar como" automático antes de cada edición. 
-   </div>
-
   <!-- ============================================================ -->
-  <!-- SECTION 2: System Architecture                                -->
+  <!-- SECCIÓN 2: Arquitectura del sistema                             -->
   <!-- ============================================================ -->
-  <h2 id="architecture">System Architecture</h2>
+  <h2 id="architecture">Arquitectura del sistema</h2>
 
-  <p>La arquitectura de co-deck sigue el <strong>PM + Specialist Agent pattern</strong> de ai-workspace-standards. El Agent PM actúa como orquestador central, y un equipo de agents especializados maneja cada aspecto de la producción de la presentación.</p>
+  <h3>Composición de agentes</h3>
 
-  <h3>Agent Roles Table</h3>
+  <p>co-deck se compone de <strong>un agente PM y diez agentes especialistas</strong>. El PM coordina todo el proyecto desde el centro, mientras que cada agente especialista realiza el trabajo de su ámbito.</p>
+
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg width="100%" viewBox="0 0 680 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de la composición de agentes de co-deck">
+      <!-- Fondo -->
+      <rect x="0" y="0" width="680" height="540" rx="12" fill="var(--bg2)"/>
+
+      <!-- PM (centro) -->
+      <circle cx="340" cy="270" r="56" fill="var(--accent)" opacity="0.15"/>
+      <circle cx="340" cy="270" r="56" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <text x="340" y="264" text-anchor="middle" font-size="15" font-weight="bold" style="fill:var(--text)">PM</text>
+      <text x="340" y="282" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Project Manager</text>
+
+      <!-- Líneas de conexión - fila superior -->
+      <line x1="340" y1="214" x2="160" y2="90" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="340" y1="214" x2="340" y2="60" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="340" y1="214" x2="520" y2="90" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+
+      <!-- Líneas de conexión - izquierda/derecha -->
+      <line x1="284" y1="270" x2="140" y2="190" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="270" x2="140" y2="270" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="284" y1="270" x2="140" y2="350" stroke="var(--accent-purple)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="270" x2="540" y2="190" stroke="var(--accent-purple)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="270" x2="540" y2="270" stroke="var(--accent-purple)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="396" y1="270" x2="540" y2="350" stroke="var(--accent-red)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+
+      <!-- Líneas de conexión - fila inferior -->
+      <line x1="340" y1="326" x2="160" y2="440" stroke="var(--accent-red)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="340" y1="326" x2="340" y2="460" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="340" y1="326" x2="520" y2="440" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+
+      <!-- Fila superior: zona Stage 0-1 -->
+      <rect x="85" y="56" width="150" height="36" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="160" y="79" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">research</text>
+
+      <rect x="280" y="26" width="120" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="340" y="49" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">source-verifier</text>
+
+      <rect x="445" y="56" width="150" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="520" y="79" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">storyline</text>
+
+      <!-- Columna izquierda: zona Stage 3-5 -->
+      <rect x="35" y="168" width="150" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="110" y="191" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">design</text>
+
+      <rect x="35" y="248" width="150" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="110" y="271" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">image-curator</text>
+
+      <rect x="35" y="328" width="150" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="110" y="351" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">diagram-specialist</text>
+
+      <!-- Columna derecha: zona Stage 5-11 -->
+      <rect x="475" y="168" width="170" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="560" y="191" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">html-build</text>
+
+      <rect x="475" y="248" width="170" height="36" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="560" y="271" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">measure</text>
+
+      <rect x="475" y="328" width="170" height="36" rx="8" fill="var(--bg-warn)" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="560" y="351" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">pdf-export</text>
+
+      <!-- Fila inferior: agentes de apoyo -->
+      <rect x="85" y="418" width="150" height="36" rx="8" fill="var(--bg-warn)" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="160" y="441" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">version</text>
+
+      <rect x="280" y="440" width="120" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="340" y="463" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">Usuario</text>
+
+      <rect x="445" y="418" width="150" height="36" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="520" y="441" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">auditor</text>
+
+      <!-- Leyenda -->
+      <rect x="120" y="500" width="12" height="12" rx="2" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="138" y="510" font-size="9" style="fill:var(--text-dim)">Investigación</text>
+      <rect x="200" y="500" width="12" height="12" rx="2" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
+      <text x="218" y="510" font-size="9" style="fill:var(--text-dim)">Planificación/diseño</text>
+      <rect x="310" y="500" width="12" height="12" rx="2" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
+      <text x="328" y="510" font-size="9" style="fill:var(--text-dim)">Producción/medición</text>
+      <rect x="410" y="500" width="12" height="12" rx="2" fill="var(--bg-warn)" stroke="var(--accent-red)" stroke-width="1.5"/>
+      <text x="428" y="510" font-size="9" style="fill:var(--text-dim)">Salida/apoyo</text>
+      <rect x="500" y="500" width="12" height="12" rx="2" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="1.5"/>
+      <text x="518" y="510" font-size="9" style="fill:var(--text-dim)">Usuario/calidad</text>
+    </svg>
+  </div>
+
+  <h3>Roles de los agentes especialistas</h3>
+
+  <p>El rol de cada agente especialista se resume así:</p>
 
   <table>
     <thead>
       <tr>
-        <th>Agent</th>
-        <th>Tier</th>
-        <th>Stage</th>
-        <th>Role</th>
+        <th>Agente</th>
+        <th>Rol</th>
+        <th>Descripción</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><strong>PM</strong></td>
-        <td>High</td>
-        <td>0 &ndash; 11</td>
-        <td>Orchestrates the entire pipeline, dispatches specialists, enforces gates</td>
+        <td><code>research</code></td>
+        <td>Especialista en investigación</td>
+        <td>Recopila materiales, estadísticas y fuentes sobre el tema desde la web y los organiza en <code>research_notes.md</code></td>
       </tr>
       <tr>
-        <td><strong>research</strong></td>
-        <td>Medium</td>
-        <td>1</td>
-        <td>Gathers web sources and writes <code>research_notes.md</code></td>
+        <td><code>source-verifier</code></td>
+        <td>Verificador de fuentes</td>
+        <td>Verifica la accesibilidad de las URL de las fuentes recopiladas y si su contenido coincide, produciendo una puntuación de confianza (Trust Score) (opcional)</td>
       </tr>
       <tr>
-        <td><strong>source-verifier</strong></td>
-        <td>Medium</td>
-        <td>1.5</td>
-        <td>Validates URLs and produces <code>source-verification.md</code> with Trust Score</td>
+        <td><code>storyline</code></td>
+        <td>Storyliner</td>
+        <td>Diseña la estructura general y la narrativa de las diapositivas a partir de los resultados de investigación. Crea <code>storyline.md</code> y <code>slide_deck.md</code></td>
       </tr>
       <tr>
-        <td><strong>storyline</strong></td>
-        <td>Medium</td>
-        <td>2 &ndash; 3</td>
-        <td>Writes <code>storyline.md</code> and <code>slide_deck.md</code></td>
+        <td><code>design</code></td>
+        <td>Diseñador</td>
+        <td>Decide el estilo visual — colores, fuentes, maquetación — y lo organiza en <code>design_spec.md</code></td>
       </tr>
       <tr>
-        <td><strong>design</strong></td>
-        <td>Medium</td>
-        <td>4</td>
-        <td>Locks visual design &mdash; color palette, fonts, layout into <code>design_spec.md</code></td>
+        <td><code>image-curator</code></td>
+        <td>Curator de imágenes</td>
+        <td>Busca y descarga imágenes de uso comercial en Pixabay, Unsplash y Pexels (opcional)</td>
       </tr>
       <tr>
-        <td><strong>image-curator</strong></td>
-        <td>Medium</td>
-        <td>3.5</td>
-        <td>Searches and downloads commercial-use images to <code>assets/images/</code></td>
+        <td><code>diagram-specialist</code></td>
+        <td>Especialista en diagramas</td>
+        <td>Genera diagramas conceptuales y gráficos de datos en formato SVG (opcional)</td>
       </tr>
       <tr>
-        <td><strong>diagram-specialist</strong></td>
-        <td>Medium</td>
-        <td>3.5</td>
-        <td>Generates SVG concept diagrams and data charts to <code>assets/diagrams/</code></td>
+        <td><code>html-build</code></td>
+        <td>Constructor HTML</td>
+        <td>A partir de <code>slide_deck.md</code> y <code>design_spec.md</code>, genera el mazo de diapositivas HTML en un único archivo</td>
       </tr>
       <tr>
-        <td><strong>html-build</strong></td>
-        <td>Medium</td>
-        <td>5 &ndash; 8</td>
-        <td>Generates the single-file HTML slide deck from <code>slide_deck.md</code></td>
+        <td><code>measure</code></td>
+        <td>Medidor de maquetación</td>
+        <td>Mide coordenadas de píxeles, fuentes y colores de las diapositivas HTML para reunir la información de maquetación necesaria para generar el PDF</td>
       </tr>
       <tr>
-        <td><strong>measure</strong></td>
-        <td>Medium</td>
-        <td>9 &ndash; 10</td>
-        <td>Auto-measures HTML layout with Playwright, downloads TTF fonts for PDF</td>
+        <td><code>pdf-export</code></td>
+        <td>Exportador PDF</td>
+        <td>Genera primero el PDF de muestra de 5 páginas y después el PDF completo. Requiere aprobación del usuario en el Gate 5</td>
       </tr>
       <tr>
-        <td><strong>pdf-export</strong></td>
-        <td>Medium</td>
-        <td>11</td>
-        <td>Generates sample and full PDF from slide data</td>
-      </tr>
-      <tr>
-        <td><strong>version</strong></td>
-        <td>Low</td>
-        <td>0 &ndash; 11</td>
-        <td>Snapshots files before every edit; restores prior states on demand</td>
+        <td><code>version</code></td>
+        <td>Gestor de versiones</td>
+        <td>Realiza copias de seguridad automáticas antes de modificar archivos. También puede restaurar versiones anteriores</td>
       </tr>
     </tbody>
   </table>
 
-  <h3>Agent Composition Diagram</h3>
-
-  <p>El diagrama de abajo muestra cómo el Agent PM se sitúa en el centro, despachando a los agents especializados para cada etapa del pipeline. El agent version se ejecuta en paralelo como una preocupación transversal.</p>
-
-  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 660 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agent composition diagram showing PM at center with specialist agents around it">
-      <!-- Arrowhead definitions -->
-      <defs>
-        <marker id="arrowArch" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
-        </marker>
-        <marker id="arrowArchG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
-        </marker>
-      </defs>
-
-      <!-- PM Agent (center) -->
-      <rect x="220" y="185" width="220" height="60" rx="14" fill="var(--accent-purple)" stroke="none" opacity="0.95"/>
-      <text x="330" y="212" text-anchor="middle" font-size="15" font-weight="bold" fill="var(--text-inverse)">PM Agent</text>
-      <text x="330" y="232" text-anchor="middle" font-size="10" fill="var(--text-inverse)">High Tier &middot; Orchestrator</text>
-
-      <!-- research (top-left) -->
-      <rect x="30" y="30" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="115" y="50" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">research</text>
-      <text x="115" y="64" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 1 &middot; Web research</text>
-      <line x1="200" y1="60" x2="245" y2="185" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowArch)"/>
-
-      <!-- source-verifier (top) -->
-      <rect x="270" y="10" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="355" y="30" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">source-verifier</text>
-      <text x="355" y="44" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 1.5 &middot; URL validation</text>
-      <line x1="355" y1="54" x2="340" y2="185" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowArchG)"/>
-
-      <!-- storyline (top-right) -->
-      <rect x="470" y="40" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="555" y="60" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">storyline</text>
-      <text x="555" y="74" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 2&ndash;3 &middot; Content design</text>
-      <line x1="470" y1="68" x2="435" y2="185" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowArch)"/>
-
-      <!-- design (right) -->
-      <rect x="480" y="160" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
-      <text x="565" y="180" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">design</text>
-      <text x="565" y="194" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 4 &middot; Visual style</text>
-      <line x1="480" y1="182" x2="440" y2="205" stroke="var(--accent-purple)" stroke-width="1.5" marker-end="url(#arrowArch)"/>
-
-      <!-- image-curator (bottom-right) -->
-      <rect x="470" y="290" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="555" y="310" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">image-curator</text>
-      <text x="555" y="324" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 3.5 &middot; Image search</text>
-      <line x1="470" y1="305" x2="435" y2="240" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowArch)"/>
-
-      <!-- diagram-specialist (bottom) -->
-      <rect x="250" y="330" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="335" y="350" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">diagram-specialist</text>
-      <text x="335" y="364" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 3.5 &middot; SVG diagrams</text>
-      <line x1="335" y1="330" x2="330" y2="245" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arrowArchG)"/>
-
-      <!-- html-build (bottom-left) -->
-      <rect x="30" y="300" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="115" y="320" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">html-build</text>
-      <text x="115" y="334" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 5&ndash;8 &middot; HTML slides</text>
-      <line x1="200" y1="312" x2="235" y2="245" stroke="var(--accent-amber)" stroke-width="1.5" marker-end="url(#arrowArch)"/>
-
-      <!-- pdf-export (left) -->
-      <rect x="10" y="180" width="170" height="44" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="95" y="200" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">pdf-export</text>
-      <text x="95" y="214" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Stage 11 &middot; PDF output</text>
-      <line x1="180" y1="202" x2="220" y2="210" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowArch)"/>
-
-      <!-- version (floating bottom-right corner) -->
-      <rect x="20" y="395" width="160" height="36" rx="8" fill="var(--bg-info)" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="5,3"/>
-      <text x="100" y="418" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text-dim)">version (cross-cutting)</text>
-
-      <!-- User (top center) -->
-      <rect x="130" y="115" width="140" height="36" rx="18" fill="var(--bg-warn)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="200" y="138" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">You (User)</text>
-      <line x1="220" y1="133" x2="260" y2="190" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowArch)"/>
-      <text x="225" y="155" font-size="9" font-style="italic" style="fill:var(--text-dim)">requests &amp; approvals</text>
-    </svg>
+  <div class="note">
+    El agente PM no ejecuta directamente los agentes especialistas anteriores. El PM solo ejerce de orquestador: analiza la petición del usuario y despacha instrucciones a cada agente especialista. Consulta la sección PM Gateway del capítulo 4.
   </div>
 
-  <div class="note"> 
-     <strong>El usuario solo habla con el PM.</strong> Nunca instruyes directamente a los agents especializados. Le dices al PM lo que quieres (por ejemplo, "haz una presentación sobre el cambio climático"), y el PM despacha a los agents adecuados en el orden correcto. Este es el patrón <em>PM Gateway</em> que aprendimos en el Capítulo 4. 
-   </div>
-
   <!-- ============================================================ -->
-  <!-- SECTION 3: 11-Stage Pipeline                                  -->
+  <!-- SECCIÓN 3: Pipeline de 11 etapas                                -->
   <!-- ============================================================ -->
-  <h2 id="11-stages">11-Stage Pipeline</h2>
+  <h2 id="11-stages">Pipeline de 11 etapas</h2>
 
-  <p>El pipeline de co-deck consta de <strong>11 stages</strong>, cada una manejada por un agent especialista específico (o por el PM directamente). Las etapas se ejecutan secuencialmente, con algunos gates de revisión opcionales en el camino. Aquí tienes un recorrido detallado de cada etapa.</p>
-
-  <h3>Stage 0 &mdash; Config (Mandatory)</h3>
-  <p>El PM lee el <code>docs/lecture-profile.md</code> maestro, lo copia a <code>presentations/&lt;name&gt;/lecture-profile.md</code> y te pide que completes los detalles específicos de la clase: <strong>title, audience, level, keywords</strong>. También debes confirmar el <strong>rendering theme</strong>, <strong>visual style</strong>, si <strong>source verification</strong> está habilitado, <strong>divider mode</strong> y las preferencias <strong>background image</strong>. El PM inicializa <code>project_state.json</code> y <code>memory/keywords.md</code>.</p>
-
-  <h3>Stage 1 &mdash; Research</h3>
-  <p>El <strong>research agent</strong> realiza investigación web sobre el tema (en coreano e inglés si es necesario), recopilando fuentes y escribiendo <code>research_notes.md</code> con secciones para fuentes, hechos clave y notas de credibilidad. Esto se convierte en la base de conocimiento de toda la presentación.</p>
-
-  <h3>Stage 1.5 &mdash; Source Verification (Optional)</h3>
-  <p>Si la verificación de fuentes está habilitada (el valor predeterminado), el <strong>source-verifier agent</strong> valida cada URL de <code>research_notes.md</code> mediante comprobación HTTP y verificación cruzada de contenido, produciendo <code>source-verification.md</code> con un <strong>Trust Score</strong>. El pipeline se detiene solo si el Trust Score cae por debajo del 70%.</p>
-
-  <h3>Stage 2 &ndash; 3 &mdash; Content (Storyline + Slide Deck)</h3>
-  <p>El <strong>storyline agent</strong> diseña el arco narrativo y escribe <code>storyline.md</code>, luego compone <code>slide_deck.md</code> con contenido por diapositiva que incluye títulos, viñetas, notas del orador y campos de rol/consulta de imagen para cada diapositiva.</p>
-
-  <h3>Stage 4 &mdash; Design</h3>
-  <p>El <strong>design agent</strong> fija el estilo de diseño visual: paleta de colores, familias de fuentes, espaciado y reglas de disposición. Produce <code>design_spec.md</code> con todas las variables CSS y decisiones tipográficas.</p>
-
-  <h3>Stage 3.5 &mdash; Image Curation + Diagram Generation</h3>
-  <p>Los agents <strong>image-curator</strong> y <strong>diagram-specialist</strong> se ejecutan en paralelo. Image-curator busca imágenes de uso comercial en Pixabay, Unsplash y Pexels. Diagram-specialist genera diagramas conceptuales SVG y gráficos de datos. Ambos producen archivos manifiesto (<code>image-manifest.json</code> y <code>diagram-manifest.json</code>).</p>
-
-  <h3>Stage 5 &ndash; 8 &mdash; HTML Build</h3>
-  <p>El <strong>html-build agent</strong> genera la presentación HTML de archivo único combinando el contenido de <code>slide_deck.md</code> con la plantilla de tema seleccionada, la especificación de diseño, las imágenes y los diagramas. El resultado es un archivo <code>.html</code> autónomo que funciona en cualquier navegador.</p>
-
-  <h3>Stage 9 &ndash; 10 &mdash; Layout Measure</h3>
-  <p>El <strong>measure agent</strong> usa Playwright para medir automáticamente las diapositivas HTML renderizadas, extrayendo coordenadas de píxeles, fuentes y colores para una generación precisa del PDF. También descarga las fuentes TTF necesarias.</p>
-
-  <h3>Stage 11 &mdash; PDF Export</h3>
-  <p>El <strong>pdf-export agent</strong> primero genera un <strong>sample PDF</strong> (5 diapositivas) para tu revisión. Una vez que lo apruebas, genera el <strong>full PDF</strong> a partir de los datos completos de las diapositivas.</p>
-
-  <h3>Pipeline Flow Diagram</h3>
+  <p>co-deck produce presentaciones siguiendo un pipeline compuesto por <strong>once etapas (Stage)</strong>. Cada etapa tiene agentes asignados que emiten entregables definidos. Entre etapas hay puntos de aprobación llamados <strong>Gate</strong>, que permiten al usuario revisar el contenido a mitad de camino y corregir el rumbo.</p>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
-    <svg width="100%" viewBox="0 0 680 660" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="11-stage pipeline flow diagram with gate markers">
+    <svg width="100%" viewBox="0 0 700 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de flujo del pipeline de 11 etapas de co-deck">
+      <!-- Fondo -->
+      <rect x="0" y="0" width="700" height="460" rx="12" fill="var(--bg2)"/>
+
+      <!-- Definiciones de marcadores de flecha -->
       <defs>
-        <marker id="arrowPipe" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        <marker id="arrowhead2" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+          <polygon points="0 0, 6 2, 0 4" style="fill:var(--text-dim)"/>
         </marker>
-        <marker id="arrowPipeG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-green)"/>
-        </marker>
-        <marker id="arrowPipeA" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-amber)"/>
+        <marker id="arrow-red" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+          <polygon points="0 0, 6 2, 0 4" style="fill:var(--accent-red)"/>
         </marker>
       </defs>
+
+      <!-- Stage 0: Config -->
+      <rect x="10" y="30" width="76" height="88" rx="8" fill="var(--bg-success)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="48" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">Stage 0</text>
+      <text x="48" y="66" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Config</text>
+      <text x="48" y="82" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Ajuste del</text>
+      <text x="48" y="94" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">proyecto</text>
+      <text x="48" y="112" text-anchor="middle" font-size="7" style="fill:var(--accent)">PM</text>
+
+      <!-- Flecha 0→1 -->
+      <path d="M88 74 L100 74" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+      <!-- Stage 1: Research -->
+      <rect x="102" y="30" width="76" height="88" rx="8" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="140" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">Stage 1</text>
+      <text x="140" y="66" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Research</text>
+      <text x="140" y="82" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Investi-</text>
+      <text x="140" y="94" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">gación</text>
+      <text x="140" y="112" text-anchor="middle" font-size="7" style="fill:var(--accent-green)">research</text>
+
+      <!-- Flecha 1→1.5 -->
+      <path d="M180 74 L192 74" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+      <!-- Stage 1.5: Source Verifier (opcional) -->
+      <rect x="194" y="30" width="70" height="88" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="229" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">1.5</text>
+      <text x="229" y="66" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Source</text>
+      <text x="229" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Verify</text>
+      <text x="229" y="112" text-anchor="middle" font-size="7" style="fill:var(--accent-amber)">(opcional)</text>
+
+      <!-- Flecha 1.5→2-3 -->
+      <path d="M266 74 L278 74" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+      <!-- Stage 2-3: Content -->
+      <rect x="280" y="30" width="76" height="88" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="2"/>
+      <text x="318" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">Stage</text>
+      <text x="318" y="62" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">2-3</text>
+      <text x="318" y="78" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Content</text>
+      <text x="318" y="94" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Storyline</text>
+      <text x="318" y="112" text-anchor="middle" font-size="7" style="fill:var(--accent-amber)">storyline</text>
+
+      <!-- Marca Gate 2 -->
+      <rect x="354" y="58" width="24" height="32" rx="4" fill="var(--accent-red)" opacity="0.15" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="366" y="72" text-anchor="middle" font-size="7" font-weight="bold" style="fill:var(--accent-red)">GATE</text>
+      <text x="366" y="83" text-anchor="middle" font-size="6" font-weight="bold" style="fill:var(--accent-red)">2</text>
+
+      <!-- Flecha 2-3→4 (pasando el gate) -->
+      <path d="M380 74 L392 74" stroke="var(--accent-red)" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+      <!-- Stage 4: Design -->
+      <rect x="394" y="30" width="70" height="88" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="429" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">Stage 4</text>
+      <text x="429" y="66" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Design</text>
+      <text x="429" y="82" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Diseño</text>
+      <text x="429" y="112" text-anchor="middle" font-size="7" style="fill:var(--accent-purple)">design</text>
+
+      <!-- Flecha 4→3.5 -->
+      <path d="M466 74 L478 74" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+      <!-- Stage 3.5: Image + Diagram (paralelo, opcional) -->
+      <rect x="480" y="30" width="70" height="88" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="515" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">3.5</text>
+      <text x="515" y="66" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Image</text>
+      <text x="515" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">+ Diagram</text>
+      <text x="515" y="112" text-anchor="middle" font-size="7" style="fill:var(--accent-amber)">(paralelo)</text>
+
+      <!-- Flecha 3.5→5-8 -->
+      <path d="M552 74 L564 74" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+      <!-- Stage 5-8: HTML Build -->
+      <rect x="566" y="30" width="76" height="88" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="604" y="50" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">Stage</text>
+      <text x="604" y="62" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">5-8</text>
+      <text x="604" y="78" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">HTML</text>
+      <text x="604" y="94" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Build</text>
+      <text x="604" y="112" text-anchor="middle" font-size="7" style="fill:var(--accent-purple)">html-build</text>
+
+      <!-- Segunda columna: Stage 9-10, 11 -->
+      <!-- Flecha 5-8→9-10 (hacia abajo) -->
+      <path d="M604 120 L604 140" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+      <!-- Stage 9-10: Layout Measure -->
+      <rect x="566" y="142" width="76" height="68" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="604" y="162" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">Stage</text>
+      <text x="604" y="174" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">9-10</text>
+      <text x="604" y="190" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Measure</text>
+      <text x="604" y="204" text-anchor="middle" font-size="7" style="fill:var(--accent-purple)">measure</text>
+
+      <!-- Flecha 9-10→11 -->
+      <path d="M604 212 L604 232" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+      <!-- Stage 11: PDF Export -->
+      <rect x="566" y="234" width="76" height="68" rx="8" fill="var(--bg-warn)" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="604" y="254" text-anchor="middle" font-size="10" font-weight="bold" style="fill:var(--text)">Stage 11</text>
+      <text x="604" y="270" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">PDF</text>
+      <text x="604" y="286" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Export</text>
+      <text x="604" y="298" text-anchor="middle" font-size="7" style="fill:var(--accent-red)">pdf-export</text>
+
+      <!-- Marca Gate 5 -->
+      <rect x="644" y="255" width="24" height="26" rx="4" fill="var(--accent-red)" opacity="0.15" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="656" y="268" text-anchor="middle" font-size="7" font-weight="bold" style="fill:var(--accent-red)">GATE</text>
+      <text x="656" y="278" text-anchor="middle" font-size="6" font-weight="bold" style="fill:var(--accent-red)">5</text>
+
+      <!-- Parte inferior: caja con detalle por Stage -->
+      <rect x="10" y="150" width="548" height="300" rx="8" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+      <text x="284" y="172" text-anchor="middle" font-size="11" font-weight="bold" style="fill:var(--text)">Detalle de cada Stage</text>
 
       <!-- Stage 0 -->
-      <rect x="210" y="8" width="260" height="34" rx="8" fill="var(--accent-purple)" stroke="none"/>
-      <text x="340" y="30" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--text-inverse)">[0] Config</text>
-      <line x1="340" y1="42" x2="340" y2="62" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowPipe)"/>
+      <text x="24" y="196" font-size="9" font-weight="bold" style="fill:var(--accent-green)">Stage 0 — Config</text>
+      <text x="24" y="210" font-size="9" style="fill:var(--text-dim)">El PM se reúne con el usuario y configura el proyecto. Decide tema, público,</text>
+      <text x="24" y="222" font-size="9" style="fill:var(--text-dim)">idioma, Theme y Style, y crea lecture-profile.md y project_state.json.</text>
 
       <!-- Stage 1 -->
-      <rect x="210" y="66" width="260" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="340" y="88" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">[1] Research</text>
-      <line x1="340" y1="100" x2="340" y2="120" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowPipe)"/>
-
-      <!-- Gate 1.5 -->
-      <rect x="290" y="124" width="100" height="24" rx="12" fill="var(--accent-green)" stroke="none" opacity="0.8"/>
-      <text x="340" y="140" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">Gate 1.5</text>
-      <text x="400" y="140" font-size="9" style="fill:var(--text-dim)">(optional)</text>
-      <line x1="340" y1="148" x2="340" y2="168" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowPipeG)"/>
+      <text x="24" y="244" font-size="9" font-weight="bold" style="fill:var(--accent-green)">Stage 1 — Research</text>
+      <text x="24" y="258" font-size="9" style="fill:var(--text-dim)">El agente research hace búsquedas web y redacta research_notes.md.</text>
+      <text x="24" y="270" font-size="9" style="fill:var(--text-dim)">Reúne fuentes en coreano e inglés, base informativa de toda la presentación.</text>
 
       <!-- Stage 1.5 -->
-      <rect x="210" y="172" width="260" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="340" y="194" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">[1.5] Source Verification</text>
-      <line x1="340" y1="206" x2="340" y2="226" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowPipeG)"/>
-
-      <!-- Gate 2 (mandatory) -->
-      <rect x="270" y="230" width="140" height="26" rx="13" fill="var(--accent-amber)" stroke="none"/>
-      <text x="340" y="248" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">Gate 2 (mandatory)</text>
-      <line x1="340" y1="256" x2="340" y2="276" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowPipeA)"/>
+      <text x="24" y="292" font-size="9" font-weight="bold" style="fill:var(--accent-amber)">Stage 1.5 — Source Verifier (opcional)</text>
+      <text x="24" y="306" font-size="9" style="fill:var(--text-dim)">source-verifier comprueba la accesibilidad de URL y la coincidencia de contenido.</text>
+      <text x="24" y="318" font-size="9" style="fill:var(--text-dim)">Produce un Trust Score; si baja del 70%, el proyecto se pausa.</text>
 
       <!-- Stage 2-3 -->
-      <rect x="210" y="280" width="260" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="340" y="302" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">[2&ndash;3] Content (Storyline)</text>
-      <line x1="340" y1="314" x2="340" y2="334" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowPipeA)"/>
+      <text x="24" y="340" font-size="9" font-weight="bold" style="fill:var(--accent-amber)">Stage 2-3 — Content</text>
+      <text x="24" y="354" font-size="9" style="fill:var(--text-dim)">El agente storyline diseña la estructura de las diapositivas a partir de la investigación.</text>
+      <text x="24" y="366" font-size="9" style="fill:var(--text-dim)">Crea storyline.md (narrativa global) y slide_deck.md (contenido por diapositiva).</text>
+      <text x="24" y="378" font-size="9" style="fill:var(--text-dim)">Aquí se requiere el Gate 2 — avanza tras revisar el contenido de las diapositivas.</text>
 
       <!-- Stage 4 -->
-      <rect x="210" y="338" width="260" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent-purple)" stroke-width="1.5"/>
-      <text x="340" y="360" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">[4] Design</text>
-      <line x1="340" y1="372" x2="340" y2="392" stroke="var(--accent-purple)" stroke-width="2" marker-end="url(#arrowPipe)"/>
-
-      <!-- Gate 3 -->
-      <rect x="290" y="396" width="100" height="24" rx="12" fill="var(--accent)" stroke="none" opacity="0.8"/>
-      <text x="340" y="412" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">Gate 3</text>
-      <text x="400" y="412" font-size="9" style="fill:var(--text-dim)">(optional)</text>
-      <line x1="340" y1="420" x2="340" y2="440" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowPipe)"/>
+      <text x="24" y="400" font-size="9" font-weight="bold" style="fill:var(--accent-purple)">Stage 4 — Design</text>
+      <text x="24" y="414" font-size="9" style="fill:var(--text-dim)">El agente design fija la paleta de colores, las fuentes y el maquetado para crear design_spec.md.</text>
 
       <!-- Stage 3.5 -->
-      <rect x="210" y="444" width="260" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="340" y="466" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">[3.5] Images + Diagrams</text>
-      <line x1="340" y1="478" x2="340" y2="498" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowPipe)"/>
+      <text x="280" y="196" font-size="9" font-weight="bold" style="fill:var(--accent-amber)">Stage 3.5 — Image + Diagram (opcional, paralelo)</text>
+      <text x="280" y="210" font-size="9" style="fill:var(--text-dim)">image-curator y diagram-specialist se ejecutan en paralelo.</text>
+      <text x="280" y="222" font-size="9" style="fill:var(--text-dim)">Buscan/descargan imágenes y generan diagramas y gráficos SVG.</text>
 
       <!-- Stage 5-8 -->
-      <rect x="210" y="502" width="260" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <text x="340" y="524" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">[5&ndash;8] HTML Build</text>
-      <line x1="340" y1="536" x2="340" y2="556" stroke="var(--accent-green)" stroke-width="2" marker-end="url(#arrowPipeG)"/>
+      <text x="280" y="244" font-size="9" font-weight="bold" style="fill:var(--accent-purple)">Stage 5-8 — HTML Build</text>
+      <text x="280" y="258" font-size="9" style="fill:var(--text-dim)">Con slide_deck.md y design_spec.md, el agente html-build crea</text>
+      <text x="280" y="270" font-size="9" style="fill:var(--text-dim)">el mazo de diapositivas HTML en un solo archivo (lecture_v1.html).</text>
 
       <!-- Stage 9-10 -->
-      <rect x="210" y="560" width="260" height="34" rx="8" fill="var(--bg-note)" stroke="var(--accent-amber)" stroke-width="1.5"/>
-      <text x="340" y="582" text-anchor="middle" font-size="12" font-weight="bold" style="fill:var(--text)">[9&ndash;10] Layout Measure</text>
-      <line x1="340" y1="594" x2="340" y2="614" stroke="var(--accent-amber)" stroke-width="2" marker-end="url(#arrowPipeA)"/>
-
-      <!-- Gate 5 (mandatory) -->
-      <rect x="270" y="618" width="140" height="26" rx="13" fill="var(--accent-amber)" stroke="none"/>
-      <text x="340" y="636" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-inverse)">Gate 5 (mandatory)</text>
+      <text x="280" y="292" font-size="9" font-weight="bold" style="fill:var(--accent-purple)">Stage 9-10 — Layout Measure</text>
+      <text x="280" y="306" font-size="9" style="fill:var(--text-dim)">El agente measure mide posiciones en píxeles, fuentes y colores de las diapositivas HTML.</text>
+      <text x="280" y="318" font-size="9" style="fill:var(--text-dim)">Las mediciones se usan para generar el PDF.</text>
 
       <!-- Stage 11 -->
-      <rect x="210" y="622" width="260" height="34" rx="0 0 8 8" fill="none" stroke="none"/>
+      <text x="280" y="340" font-size="9" font-weight="bold" style="fill:var(--accent-red)">Stage 11 — PDF Export</text>
+      <text x="280" y="354" font-size="9" style="fill:var(--text-dim)">El agente pdf-export crea primero un PDF de muestra de 5 páginas.</text>
+      <text x="280" y="366" font-size="9" style="fill:var(--text-dim)">Tras la aprobación del Gate 5, genera el PDF completo.</text>
 
-      <!-- Parallel fork for 3.5 -->
-      <line x1="210" y1="461" x2="140" y2="461" stroke="var(--accent)" stroke-width="1.5"/>
-      <rect x="20" y="448" width="120" height="26" rx="6" fill="var(--bg-info)" stroke="var(--accent)" stroke-width="1"/>
-      <text x="80" y="465" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">image-curator</text>
+      <!-- Nota version -->
+      <text x="280" y="396" font-size="9" font-weight="bold" style="fill:var(--text-dim)">agente version</text>
+      <text x="380" y="396" font-size="9" style="fill:var(--text-dim)">— realiza copias de seguridad automáticas antes de cualquier cambio de archivo en todos los Stages (transversal).</text>
 
-      <line x1="210" y1="461" x2="140" y2="478" stroke="var(--accent-green)" stroke-width="1.5"/>
-      <rect x="20" y="466" width="120" height="26" rx="6" fill="var(--bg-info)" stroke="var(--accent-green)" stroke-width="1"/>
-      <text x="80" y="483" text-anchor="middle" font-size="9" font-weight="bold" style="fill:var(--text)">diagram-specialist</text>
-
-      <text x="170" y="458" font-size="8" style="fill:var(--text-dim)">parallel</text>
-
-      <!-- Legend -->
-      <rect x="480" y="20" width="14" height="14" rx="3" fill="var(--accent-amber)"/>
-      <text x="500" y="32" font-size="9" style="fill:var(--text-dim)">Mandatory gate (your approval)</text>
-
-      <rect x="480" y="42" width="14" height="14" rx="3" fill="var(--accent)" opacity="0.8"/>
-      <text x="500" y="54" font-size="9" style="fill:var(--text-dim)">Optional gate (review-only)</text>
-
-      <rect x="480" y="64" width="14" height="14" rx="3" fill="var(--accent-purple)"/>
-      <text x="500" y="76" font-size="9" style="fill:var(--text-dim)">PM / Config stage</text>
-
-      <rect x="480" y="86" width="14" height="14" rx="3" fill="var(--bg-note)" stroke="var(--accent-green)" stroke-width="1"/>
-      <text x="500" y="98" font-size="9" style="fill:var(--text-dim)">Specialist agent stage</text>
+      <!-- Leyenda inferior -->
+      <rect x="10" y="440" width="12" height="12" rx="2" fill="none" stroke="var(--accent-red)" stroke-width="2"/>
+      <text x="28" y="450" font-size="8" style="fill:var(--text-dim)">Línea continua = Stage obligatorio</text>
+      <rect x="140" y="440" width="12" height="12" rx="2" fill="none" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4,2"/>
+      <text x="158" y="450" font-size="8" style="fill:var(--text-dim)">Línea discontinua = Stage opcional</text>
+      <rect x="280" y="440" width="12" height="12" rx="2" fill="var(--accent-red)" opacity="0.15" stroke="var(--accent-red)" stroke-width="1.5"/>
+      <text x="298" y="450" font-size="8" style="fill:var(--text-dim)">GATE = requiere aprobación del usuario</text>
     </svg>
   </div>
 
-  <div class="note"> 
-     <strong>Gates Obligatorios vs. Opcionales:</strong> Solo <strong>Gate 2</strong> (aprobación del contenido) y <strong>Gate 5</strong> (aprobación del PDF de muestra) requieren tu aprobación explícita. Los Gates 1.5, 3 y 4 son opcionales &mdash; el PM puede avanzar automáticamente tras una breve revisión. El pipeline se detiene en el Gate 1.5 solo si el Trust Score cae por debajo del 70%. 
-   </div>
-
-  <!-- ============================================================ -->
-  <!-- SECTION 4: Themes and Styles                                   -->
-  <!-- ============================================================ -->
-  <h2 id="theme-style">Themes and Styles</h2>
-
-  <p>Una de las características más poderosas de co-deck es la separación de <strong>themes</strong> y <strong>styles</strong>. Estos dos conceptos trabajan juntos para darte control total sobre el aspecto de tu presentación, sin tocar una sola línea de código.</p>
-
-  <h3>Theme vs. Style</h3>
-
-  <div class="compare-grid">
-    <div class="col">
-      <h4>Theme (Rendering Paradigm)</h4>
-      <ul>
-        <li><strong>What:</strong> El motor de renderizado HTML y la estructura de las diapositivas</li>
-        <li><strong>Controls:</strong> Cómo se disponen las diapositivas, el comportamiento de la navegación, los efectos de transición, la estructura del TOC</li>
-        <li><strong>Examples:</strong> <code>outline</code> (vertical outline), <code>vertical</code> (scroll-based), <code>pitch-enhanced</code> (PPT-style), <code>outlook</code> (horizontal scroll), <code>zen</code> (minimal zen)</li>
-        <li><strong>Packaged as:</strong> 4 files &mdash; <code>template.html</code>, <code>theme.json</code>, <code>theme.css</code>, <code>pdf_layout_spec.json</code></li>
-        <li><strong>Analogía:</strong> El <em>floor plan</em> de una casa &mdash; determina la forma y el flujo de las habitaciones</li>
-      </ul>
-    </div>
-    <div class="col">
-      <h4>Style (Visual Appearance)</h4>
-      <ul>
-        <li><strong>What:</strong> El conjunto de variables CSS que define colores, fuentes y ambiente visual</li>
-        <li><strong>Controls:</strong> Background color, text color, accent color, heading fonts, border styles, shadows, and other visual properties</li>
-        <li><strong>Examples:</strong> <code>classic</code> (light, professional), <code>premium-dark</code> (dark, sleek), <code>minimal</code> (ultra-clean), <code>academic</code> (scholarly), <code>visual-heavy</code> (image-forward)</li>
-        <li><strong>Packaged as:</strong> Single <code>style.css</code> file defining CSS variable overrides</li>
-        <li><strong>Analogía:</strong> El <em>interior design</em> de una casa &mdash; mismo plano, aspecto y sensación completamente diferentes</li>
-      </ul>
-    </div>
+  <div class="note">
+    Las etapas 1.5, 3.5 y 4 son <strong>opcionales/automáticas</strong>. El usuario solo aprueba en el <strong>Gate 2 (aprobación del contenido)</strong> y en el <strong>Gate 5 (aprobación del PDF de muestra)</strong>. Las demás etapas avanzan con el PM despachando agentes automáticamente.
   </div>
 
-  <h3>Compatibility Matrix</h3>
-
-  <p>No todos los estilos funcionan con todos los temas. Cada tema declara sus <strong>compatible styles</strong> en <code>theme.json</code>. Por ejemplo, el tema <code>pitch</code> solo soporta <code>classic</code>, <code>minimal</code> y <code>premium-dark</code>, mientras que el tema <code>outline</code> soporta los cinco estilos.</p>
-
-  <p>La matriz de compatibilidad está documentada en <code>docs/html-themes/THEMES.md</code> y la aplica el PM en el Stage 0. Si intentas combinar un tema y un estilo incompatibles, el PM rechazará la combinación y explicará por qué.</p>
-
-  <div class="compare-grid">
-    <div class="col">
-      <h4>Wide Compatibility</h4>
-      <ul>
-        <li><strong>outline</strong> &mdash; classic, minimal, premium-dark, academic, visual-heavy (5 styles)</li>
-        <li><strong>vertical</strong> &mdash; classic, minimal, premium-dark, academic, visual-heavy (5 styles)</li>
-        <li><strong>zen</strong> &mdash; classic, minimal, premium-dark, academic (4 styles)</li>
-      </ul>
-    </div>
-    <div class="col">
-      <h4>Narrower Compatibility</h4>
-      <ul>
-        <li><strong>pitch-enhanced</strong> &mdash; classic, minimal, premium-dark, academic, visual-heavy (5, but visual-heavy is partial)</li>
-        <li><strong>pitch</strong> &mdash; classic, minimal, premium-dark (3 styles)</li>
-        <li><strong>outlook</strong> &mdash; classic, minimal, premium-dark, academic, visual-heavy (5 styles)</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="tip-box"> 
-     <strong>Consejo para principiantes:</strong> Si no estás seguro de qué tema y estilo elegir, empieza con el tema <strong><code>outline</code> + estilo <code>classic</code></strong>. Esta combinación tiene la mayor compatibilidad, produce una disposición vertical limpia y funciona bien para la mayoría de los tipos de presentación. Siempre puedes cambiarlo más tarde sin rehacer tu contenido. 
-   </div>
-
-  <!-- ============================================================ -->
-  <!-- SECTION 5: Gate Approvals                                      -->
-  <!-- ============================================================ -->
-  <h2 id="gates">Gate Approvals</h2>
-
-  <p>Los gates son puntos de control del pipeline donde el flujo de trabajo hace una pausa para tu revisión. Existen para que <strong>tú mantienes el control</strong> de la presentación en los puntos de decisión críticos. El PM nunca avanza más allá de un gate obligatorio sin tu aprobación explícita.</p>
-
-  <h3>Mandatory Gates</h3>
-
-  <p>Dos gates son <strong>mandatory</strong> &mdash; debes aprobar explícitamente antes de que el pipeline continúe.</p>
-
-  <div class="compare-grid">
-    <div class="col">
-      <h4>Gate 2 &mdash; Content Approval</h4>
-      <ul>
-        <li><strong>When:</strong> Después de que el agent de storyline termina <code>storyline.md</code> y <code>slide_deck.md</code></li>
-        <li><strong>Lo que revisas:</strong> La estructura narrativa, el esquema de capítulos, los títulos de las diapositivas, el contenido de las viñetas y las ubicaciones de las imágenes</li>
-        <li><strong>Why it matters:</strong> Una vez que apruebas, los agents de diseño, imagen y construcción comienzan a trabajar basándose en este contenido. Cambiar el contenido más tarde significa re-ejecutar múltiples etapas</li>
-        <li><strong>PM message:</strong> "Approving starts design and HTML. Approve?"</li>
-      </ul>
-    </div>
-    <div class="col">
-      <h4>Gate 5 &mdash; Sample PDF Approval</h4>
-      <ul>
-        <li><strong>When:</strong> After the pdf-export agent generates a 5-slide sample PDF</li>
-        <li><strong>Lo que revisas:</strong> Disposición, fuentes, colores, espaciado y calidad visual general de la muestra</li>
-        <li><strong>Why it matters:</strong> Esta es tu oportunidad de detectar problemas visuales antes de que se genere el PDF completo</li>
-        <li><strong>PM message:</strong> "Check layout and fonts. Generate full PDF? Approve?"</li>
-      </ul>
-    </div>
-  </div>
-
-  <h3>Optional Gates</h3>
-
-  <p>Tres gates son <strong>optional</strong> &mdash; el PM revisa el resultado y avanza automáticamente a menos que haya un problema.</p>
-
-  <ul>
-    <li><strong>Gate 1.5 (Source Verification)</strong> &mdash; Después de que source-verifier produce <code>source-verification.md</code>. El PM muestra el Trust Score y continúa automáticamente. Se detiene solo si el Trust Score &amp;lt; 70%.</li>
-    <li><strong>Gate 3 (Design Spec)</strong> &mdash; Después de que el agent de diseño produce <code>design_spec.md</code>. El PM muestra un resumen del tema y la especificación visual, luego continúa.</li>
-    <li><strong>Gate 4 (HTML Draft)</strong> &mdash; After the html-build agent generates the HTML slide deck. The PM outputs built file details, then proceeds.</li>
-  </ul>
-
-  <div class="warn"> 
-     <strong>El Gate 2 es el punto de decisión más importante.</strong> Aprobar el Gate 2 dispara las etapas de diseño, curación de imágenes, generación de diagramas, construcción HTML y exportación a PDF. Si más adelante quieres cambiar la estructura del contenido (por ejemplo, añadir un capítulo, eliminar diapositivas o reorganizar el flujo), el PM tendrá que reiniciar las etapas posteriores y re-ejecutarlas. Revisa el contenido cuidadosamente antes de aprobar. 
-   </div>
-
-  <div class="note"> 
-     <strong>Rework rules:</strong> Si solicitas cambios después de un gate, el PM identifica qué etapas posteriores necesitan re-ejecutarse, llama al agent version para tomar instantáneas de los archivos actuales, despacha al especialista apropiado y restablece las etapas afectadas a "pendiente" en <code>project_state.json</code>. Las etapas cuyo resultado no cambia (por ejemplo, la investigación) se omiten. 
-   </div>
-
-  <!-- ============================================================ -->
-  <!-- SECTION 6: How to Talk to the PM                                -->
-  <!-- ============================================================ -->
-  <h2 id="how-to-talk">Cómo hablar con el PM</h2>
-
-  <p>Dado que el Agent PM es tu punto único de contacto, saber comunicarte eficazmente hace que todo el proceso sea más fluido. Interactúas con el PM mediante lenguaje natural en tu sesión de Claude Code o Antigravity CLI.</p>
-
-  <h3>Starting a New Presentation</h3>
-
-  <p>Para iniciar una nueva presentación, simplemente dile al PM qué quieres crear. Aquí tienes algunos prompts de ejemplo.</p>
-
-  <div class="prompt-box">
-    <strong>Example prompts for starting a presentation:</strong>
-    <ul>
-      <li>"Create a presentation about renewable energy for university students."</li>
-      <li>"Make a 20-slide lecture deck on machine learning basics for beginners."</li>
-      <li>"Necesito una presentación sobre el cambio climático con muchos diagramas y gráficos de datos."</li>
-      <li>"Crea una presentación sobre la historia de internet para una audiencia de bachillerato."</li>
-    </ul>
-  </div>
-
-  <h3>Good vs. Bad Requests</h3>
-
-  <p>La calidad de tu solicitud afecta la calidad del resultado. Aquí tienes una comparación para ayudarte a formular solicitudes eficaces.</p>
-
-  <div class="compare-grid">
-    <div class="col">
-      <h4>Good Requests</h4>
-      <ul>
-        <li>"Create a presentation about <strong>renewable energy</strong> for <strong>university students</strong>. Include <strong>data charts</strong> showing growth trends."</li>
-        <li>"Haz una clase <strong>15-slide</strong> sobre <strong>AI ethics</strong> para un <strong>general audience</strong>. Usa el <strong>outline theme</strong> con <strong>premium-dark style</strong>."</li>
-        <li>"Quiero una presentación sobre <strong>space exploration</strong> con <strong>chapter dividers</strong> y <strong>speaker notes</strong> en cada diapositiva."</li>
-      </ul>
-    </div>
-    <div class="col">
-      <h4>Requests That Need Improvement</h4>
-      <ul>
-        <li>"Haz una presentación." &mdash; <em>Demasiado vago. El PM necesita un tema y una audiencia.</em></li>
-        <li>"Hazlo todo." &mdash; <em>El PM necesita detalles específicos para despachar a los agents correctos.</em></li>
-        <li>"Que se vea bien." &mdash; <em>Especifica un tema y estilo, o deja que el PM sugiera uno basándose en tu contenido.</em></li>
-      </ul>
-    </div>
-  </div>
-
-  <h3>Requesting Changes</h3>
-
-  <p>Después de revisar los resultados de los gates, puedes solicitar cambios en lenguaje natural. El PM determinará qué agents re-despachar y qué etapas re-ejecutar.</p>
-
-  <div class="prompt-box">
-    <strong>Example prompts for requesting changes:</strong>
-    <ul>
-      <li>"La storyline tiene demasiadas diapositivas en el Capítulo 2. Fusiona algunas."</li>
-      <li>"¿Puedes cambiar el color de acento a azul en la especificación de diseño?"</li>
-      <li>"I want to add a comparison diagram on slide 8."</li>
-      <li>"Las fuentes del PDF de muestra se ven mal. ¿Puedes volver a medir?"</li>
-    </ul>
-  </div>
-
-  <div class="tip-box"> 
-     <strong>Tip:</strong> No necesitas saber qué agent maneja tu solicitud. Simplemente describe lo que quieres cambiar, y el PM se encargará del resto. Por ejemplo, decir "añade más imágenes al Capítulo 3" activa automáticamente el agent image-curator &mdash; no necesitas mencionar el agent por su nombre. 
-   </div>
-
-  <!-- ============================================================ -->
-  <!-- SECTION 7: Practice — Create a Mini Presentation               -->
-  <!-- ============================================================ -->
-  <h2 id="practice">Practice: Create a Mini Presentation</h2>
-
-  <p>En este ejercicio, usarás co-deck para construir una mini presentación de 5 diapositivas. El tema es "5 Conceptos Clave del Machine Learning" &mdash; una presentación simple dirigida a principiantes.</p>
-
-  <h3>Practice Objectives</h3>
-
-  <ul>
-    <li>Clona el repositorio de co-deck y configura el proyecto</li>
-    <li>Envía una solicitud al Agent PM desde Claude Desktop App</li>
-    <li>Observe the 11-Stage pipeline in action</li>
-    <li>Experience the Gate 2 and Gate 5 approval process</li>
-    <li>Review the final outputs (HTML and PDF)</li>
-  </ul>
-
-  <h3>Prerequisites</h3>
-
-  <p>Asegúrate de que las herramientas que instalaste en el Capítulo 3 funcionen correctamente.</p>
-
-  <div class="step-list">
-    <ol>
-      <li><strong>Claude Desktop App</strong> &mdash; debe poder mantener una conversación con Claude</li>
-      <li><strong>Git</strong> &mdash; must be able to clone repositories</li>
-      <li><strong>Browser</strong> &mdash; un navegador que pueda abrir la presentación HTML</li>
-    </ol>
-  </div>
-
-  <h3>Step-by-Step Walkthrough</h3>
+  <h3>Entregables clave por etapa</h3>
 
   <div class="step-list">
     <ol>
       <li>
-        <strong>Clona el workspace y genera el proyecto</strong><br>
-        If you haven't already cloned the workspace in an earlier chapter, do that first, then scaffold a new project from the co-deck variant using <code>new-project.ts</code>.
+        <strong>Stage 0 — Config (configuración del proyecto)</strong><br>
+        El PM se reúne con el usuario y confirma el tema, el público destinatario, el idioma, el Theme y el Style del proyecto. En esta etapa se crean <code>lecture-profile.md</code> y <code>project_state.json</code>.
+      </li>
+      <li>
+        <strong>Stage 1 — Research (investigación)</strong><br>
+        El agente <code>research</code> reúne materiales, estadísticas y fuentes relacionadas mediante búsquedas web. Su resultado, <code>research_notes.md</code>, será la base informativa de todo el mazo.
+      </li>
+      <li>
+        <strong>Stage 1.5 — Source Verifier (verificación de fuentes, opcional)</strong><br>
+        El agente <code>source-verifier</code> verifica la accesibilidad de las URL y la coincidencia de contenido de las fuentes recopiladas. Produce un Trust Score; si queda por debajo del 70%, el proyecto se detiene temporalmente.
+      </li>
+      <li>
+        <strong>Stage 2-3 — Content (storyline + mazo de diapositivas)</strong><br>
+        A partir de los resultados de investigación, el agente <code>storyline</code> diseña la estructura global (<code>storyline.md</code>) y el contenido por diapositiva (<code>slide_deck.md</code>). En el <strong>Gate 2</strong> el usuario aprueba el contenido de las diapositivas.
+      </li>
+      <li>
+        <strong>Stage 4 — Design (especificación de diseño)</strong><br>
+        El agente <code>design</code> decide el estilo visual — paleta de colores, fuentes, maquetación — y lo organiza en <code>design_spec.md</code>.
+      </li>
+      <li>
+        <strong>Stage 3.5 — Image Curation + Diagram Generation (en paralelo)</strong><br>
+        <code>image-curator</code> y <code>diagram-specialist</code> se ejecutan en paralelo. Buscan y descargan las imágenes para las diapositivas y generan diagramas y gráficos SVG.
+      </li>
+      <li>
+        <strong>Stage 5-8 — HTML Build (generación de las diapositivas HTML)</strong><br>
+        Con <code>slide_deck.md</code> y <code>design_spec.md</code>, el agente <code>html-build</code> genera el mazo de diapositivas HTML en un único archivo (<code>lecture_v1.html</code>).
+      </li>
+      <li>
+        <strong>Stage 9-10 — Layout Measure (medición de maquetación)</strong><br>
+        El agente <code>measure</code> mide coordenadas de píxeles, fuentes y colores de las diapositivas HTML y reúne la información de maquetación necesaria para generar el PDF.
+      </li>
+      <li>
+        <strong>Stage 11 — PDF Export (generación del PDF)</strong><br>
+        El agente <code>pdf-export</code> genera primero el PDF de muestra de 5 páginas. Cuando el usuario lo revisa y lo aprueba en el <strong>Gate 5</strong>, se genera el PDF completo.
+      </li>
+    </ol>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECCIÓN 4: Temas y estilos                                      -->
+  <!-- ============================================================ -->
+  <h2 id="theme-style">Theme y Style</h2>
+
+  <p>co-deck controla el aspecto de la presentación mediante dos conceptos: <strong>Theme</strong> y <strong>Style</strong>. Pueden elegirse de forma independiente, pero existen combinaciones compatibles entre sí.</p>
+
+  <h3>Theme — estructura de renderizado HTML</h3>
+
+  <p>Un Theme determina la <strong>estructura de renderizado HTML</strong> de las diapositivas. El método de maquetación, la estructura de navegación, los efectos de transición, cómo se muestra el índice (TOC), etc., varían según el Theme.</p>
+
+  <p>Los Themes disponibles son:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Theme</th>
+        <th>Paradigma</th>
+        <th>Características</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>pitch</code></td>
+        <td>ppt-engine</td>
+        <td>Estilo PPT tradicional. Barra de pie inferior, botones anterior/siguiente, cajón de TOC</td>
+      </tr>
+      <tr>
+        <td><code>pitch-enhanced</code></td>
+        <td>ppt-presenter</td>
+        <td>Estilo PPT avanzado. Selección de transiciones, guion desplegable, temporizador, soporte TTS</td>
+      </tr>
+      <tr>
+        <td><code>outline</code></td>
+        <td>outline</td>
+        <td>Formato de esquema. Cajón de TOC + barra inferior, varios tipos de diapositiva</td>
+      </tr>
+      <tr>
+        <td><code>vertical</code></td>
+        <td>vertical-scroll</td>
+        <td>Desplazamiento vertical. Barra superior fija, avance automático, barra de progreso</td>
+      </tr>
+      <tr>
+        <td><code>zen</code></td>
+        <td>zen</td>
+        <td>Estilo minimalista. Cajón de TOC + barra inferior, selección de transiciones</td>
+      </tr>
+      <tr>
+        <td><code>outlook</code></td>
+        <td>horizontal-scroll</td>
+        <td>Desplazamiento horizontal. Panel superpuesto de TOC, reproducción automática</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Style — conjunto de variables CSS</h3>
+
+  <p>Un Style determina el <strong>conjunto de variables CSS</strong> de las diapositivas. La paleta de colores, las fuentes, los márgenes, los colores de fondo y demás estilo visual cambian según el Style.</p>
+
+  <p>Los Styles disponibles son:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Style</th>
+        <th>Características</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>classic</code></td>
+        <td>Estilo claro y limpio. Fondo luminoso, texto oscuro. La mayor compatibilidad</td>
+      </tr>
+      <tr>
+        <td><code>minimal</code></td>
+        <td>Estilo minimalista. Decoración mínima, centrado en el contenido</td>
+      </tr>
+      <tr>
+        <td><code>premium-dark</code></td>
+        <td>Estilo oscuro premium. Fondo oscuro, texto claro, acabado refinado</td>
+      </tr>
+      <tr>
+        <td><code>academic</code></td>
+        <td>Estilo académico. Adecuado para presentaciones educativas</td>
+      </tr>
+      <tr>
+        <td><code>visual-heavy</code></td>
+        <td>Estilo centrado en lo visual. Adecuado para presentaciones con muchas imágenes</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Compatibilidad Theme × Style</h3>
+
+  <p>No todos los Theme combinan con todos los Style. Hay que seguir la matriz de compatibilidad definida en <code>THEMES.md</code>. El PM comprueba la compatibilidad automáticamente en el Stage 0.</p>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Theme (estructura)</h4>
+      <ul>
+        <li>Determina la estructura de renderizado HTML</li>
+        <li>Método de maquetación (PPT, vertical, horizontal, etc.)</li>
+        <li>Estructura de navegación</li>
+        <li>Efectos de transición de diapositivas</li>
+        <li>Modo de mostrar el TOC</li>
+        <li>Archivos: template.html, theme.json, theme.css</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Style (apariencia)</h4>
+      <ul>
+        <li>Determina el conjunto de variables CSS</li>
+        <li>Paleta de colores (clara/oscura)</li>
+        <li>Familias y tamaños tipográficos</li>
+        <li>Márgenes y espaciados</li>
+        <li>Colores de fondo y de texto</li>
+        <li>Archivo: style.css</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>Empieza con la combinación predeterminada.</strong> El Theme <code>pitch-enhanced</code> + el Style <code>classic</code> forman una pareja estable que encaja con la mayoría de las presentaciones. Prueba otros Themes y Styles cuando ya tengas soltura.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECCIÓN 5: Aprobaciones Gate                                    -->
+  <!-- ============================================================ -->
+  <h2 id="gates">Aprobaciones Gate</h2>
+
+  <p>El pipeline de co-deck incluye puntos de aprobación llamados <strong>Gate</strong>. Un Gate es un «checkpoint» donde el usuario revisa los resultados a mitad de camino y corrige el rumbo. Hay que pasar todos los Gate para avanzar a la siguiente etapa.</p>
+
+  <h3>Gates obligatorios</h3>
+
+  <p>Los dos siguientes Gates son obligatorios y exigen aprobación explícita del usuario.</p>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Gate 2 (obligatorio) — aprobación del contenido de las diapositivas</strong><br>
+        Al terminar el Stage 2-3 se han creado <code>storyline.md</code> y <code>slide_deck.md</code>. El PM solicita la aprobación así:
+        <div class="prompt-box">
+          <code>«⚠️ Si apruebas, comenzarán el diseño y la producción del HTML. ¿Apruebas?»</code>
+          <button type="button" class="copy-btn">Copiar</button>
+        </div>
+        En este punto puedes revisar la estructura general de las diapositivas, el contenido de cada una, el plan de imágenes y el plan de diagramas. Si hay que cambiar algo, ajusta el rumbo aquí.
+      </li>
+      <li>
+        <strong>Gate 5 (obligatorio) — aprobación del PDF de muestra</strong><br>
+        En el Stage 11, el agente <code>pdf-export</code> crea primero el <code>sample_5slides.pdf</code> de 5 páginas. El PM solicita la aprobación así:
+        <div class="prompt-box">
+          <code>«Revisa la maquetación y las fuentes. ¿Genero el PDF completo?»</code>
+          <button type="button" class="copy-btn">Copiar</button>
+        </div>
+        En el PDF de muestra comprueba el renderizado de fuentes, la colocación del diseño, la reproducción de colores, etc. Si algo falla, pide correcciones.
+      </li>
+    </ol>
+  </div>
+
+  <h3>Gates opcionales</h3>
+
+  <p>Los siguientes Gates son opcionales; el PM avanza automáticamente o tras una revisión:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Gate</th>
+        <th>Momento</th>
+        <th>Contenido revisado</th>
+        <th>Forma de avanzar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gate 1.5</td>
+        <td>Tras el Stage 1.5</td>
+        <td>Trust Score de source-verification.md</td>
+        <td>Muestra el Trust Score y avanza automáticamente si es del 70% o más</td>
+      </tr>
+      <tr>
+        <td>Gate 3</td>
+        <td>Tras el Stage 4</td>
+        <td>Resumen de tema/estilo de design_spec.md</td>
+        <td>Muestra el resumen y avanza automáticamente</td>
+      </tr>
+      <tr>
+        <td>Gate 4</td>
+        <td>Tras el Stage 5-8</td>
+        <td>Archivo del mazo de diapositivas HTML</td>
+        <td>Muestra la información del archivo y avanza automáticamente</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Condiciones para superar un Gate</h3>
+
+  <ul>
+    <li><strong>Gate 2:</strong> el usuario revisa el contenido de las diapositivas (estructura, textos de cada una, planes de imagen/diagramas) y «aprueba» explícitamente. Si pide cambios, esas partes se corrigen y se vuelve a solicitar la aprobación.</li>
+    <li><strong>Gate 5:</strong> el usuario revisa la maquetación del PDF de muestra (fuentes, márgenes, colores, colocación) y «aprueba» explícitamente. Si hay problemas de maquetación, se corrigen y se vuelve a pedir la aprobación.</li>
+    <li><strong>Gate 1.5:</strong> se supera automáticamente si el Trust Score es del 70% o más. Por debajo del 70%, el proyecto se detiene y el PM avisa al usuario.</li>
+  </ul>
+
+  <div class="warn">
+    <strong>Atención:</strong> aprobar en el Gate 2 pone en marcha trabajo pesado (diseño, búsqueda de imágenes, producción HTML, generación del PDF). Revisa muy bien el contenido de las diapositivas. Si cambias el contenido después del Gate 2, puede que haya que reejecutar desde esa fase.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECCIÓN 6: Cómo hablarle al PM                                  -->
+  <!-- ============================================================ -->
+  <h2 id="how-to-talk">Cómo hablarle al PM</h2>
+
+  <p>Para usar co-deck, abre el proyecto co-deck en Claude Desktop App y envía una petición al agente PM. Una petición eficaz eleva mucho la calidad de la presentación.</p>
+
+  <h3>Los cinco elementos clave de una petición</h3>
+
+  <p>Una buena petición contiene estos cinco elementos.</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Tema (Topic)</strong> — ¿Sobre qué trata la presentación?</li>
+      <li><strong>Público (Audience)</strong> — ¿Para quién es la presentación?</li>
+      <li><strong>Nivel (Level)</strong> — ¿Nivel principiante o nivel experto?</li>
+      <li><strong>Extensión (Volume)</strong> — ¿Cuántas diapositivas hacen falta?</li>
+      <li><strong>Idioma (Language)</strong> — ¿Coreano, inglés o ambos?</li>
+    </ol>
+  </div>
+
+  <h3>Ejemplos de peticiones</h3>
+
+  <div class="prompt-box">
+    <strong>Ejemplo 1: material docente universitario</strong><br>
+    <code>«Prepárame el material de la asignatura Introducción a la IA. Nivel universitario, unas 20 diapositivas. En coreano.»</code>
+  </div>
+
+  <div class="prompt-box">
+    <strong>Ejemplo 2: presentación de resultados trimestrales</strong><br>
+    <code>«Prepárame la presentación de resultados Q3 de nuestra empresa. Para inversores. Unas 15 diapositivas. En coreano.»</code>
+  </div>
+
+  <div class="prompt-box">
+    <strong>Ejemplo 3: seminario técnico</strong><br>
+    <code>«Prepárame el material de un seminario básico de arquitectura cloud. Para personal nuevo del departamento de TI, unas 10 diapositivas. En inglés.»</code>
+  </div>
+
+  <div class="prompt-box">
+    <strong>Ejemplo 4: minipresentación sencilla</strong><br>
+    <code>«Prepárame una minipresentación sobre los 5 conceptos clave del machine learning. 5 diapositivas. Para principiantes. En coreano.»</code>
+  </div>
+
+  <h3>Buenas peticiones vs. peticiones flojas</h3>
+
+  <div class="compare-grid">
+    <div class="col">
+      <h4>Buena petición</h4>
+      <ul>
+        <li>Tema claro: «Introducción a la IA»</li>
+        <li>Público concreto: «estudiantes universitarios»</li>
+        <li>Nivel declarado: «nivel introductorio»</li>
+        <li>Extensión indicada: «unas 20 diapositivas»</li>
+        <li>Idioma declarado: «coreano»</li>
+        <li>El PM puede despachar agentes de inmediato</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Petición floja</h4>
+      <ul>
+        <li>Tema vago: «hazme algo»</li>
+        <li>Sin público: no se sabe ante quién se expondrá</li>
+        <li>Nivel ambiguo: no se sabe si es para expertos o principiantes</li>
+        <li>Sin extensión: imposible distinguir 5 de 50 diapositivas</li>
+        <li>Sin idioma: coreano o inglés sin especificar</li>
+        <li>El PM tiene que hacer preguntas adicionales al usuario</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>Empieza con un tema sencillo.</strong> Recomendamos familiarizarte con el funcionamiento de co-deck mediante una petición simple como «conceptos básicos de machine learning, 5 diapositivas, para principiantes, en coreano».
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECCIÓN 7: Práctica: crear una minipresentación                  -->
+  <!-- ============================================================ -->
+  <h2 id="practice">Práctica: crear una minipresentación</h2>
+
+  <p>En este ejercicio usarás co-deck para crear una minipresentación de 5 páginas. El tema es «los 5 conceptos clave del machine learning», un material sencillo dirigido a principiantes.</p>
+
+  <h3>Objetivos del ejercicio</h3>
+
+  <ul>
+    <li>Clonar el repositorio del workspace y configurar el proyecto</li>
+    <li>Enviar una petición al agente PM desde Claude Desktop App</li>
+    <li>Observar el avance del pipeline de 11 etapas</li>
+    <li>Experimentar las aprobaciones del Gate 2 y del Gate 5</li>
+    <li>Comprobar los resultados finales (HTML y PDF)</li>
+  </ul>
+
+  <h3>Requisitos previos</h3>
+
+  <p>Comprueba que las herramientas instaladas en el capítulo 3 funcionan correctamente.</p>
+
+  <div class="step-list">
+    <ol>
+      <li><strong>Claude Desktop App</strong> — debe poder conversar con Claude AI</li>
+      <li><strong>Git</strong> — debe poder clonar repositorios</li>
+      <li><strong>Navegador</strong> — un navegador capaz de abrir el mazo de diapositivas HTML</li>
+    </ol>
+  </div>
+
+  <h3>Pasos del ejercicio</h3>
+
+  <div class="step-list">
+    <ol>
+      <li>
+        <strong>Clonar el workspace y generar el proyecto</strong><br>
+        Si todavía no has clonado el workspace en capítulos anteriores, clónalo primero; después, genera un proyecto nuevo desde la variante co-deck con <code>new-project.ts</code>.
         <div class="prompt-box">
           <code>git clone https://github.com/5throck/ai-workspace-standards.git</code><br>
           <code>cd ai-workspace-standards</code><br>
           <code>bun scripts/new-project.ts "co-deck" --variant co-deck</code>
           <button type="button" class="copy-btn">Copiar</button>
         </div>
-        This creates <code>Proyectos/co-deck/</code> as its own independent Git repository, with the co-deck variant's agents, skills, and configuration already copied in.
+        Este comando crea <code>Projects/co-deck/</code> como repositorio Git independiente, ya poblado con los agentes, skills y configuraciones de la variante co-deck.
       </li>
       <li>
-        <strong>Abre el proyecto en Claude Desktop App</strong><br>
-        Launch Claude Desktop App and open the <code>Proyectos/co-deck/</code> folder as a project. Start the PM by telling Claude the following.
+        <strong>Abrir el proyecto en Claude Desktop App</strong><br>
+        Inicia Claude Desktop App y abre la carpeta <code>Projects/co-deck/</code> como proyecto. Dile a Claude lo siguiente para arrancar el PM:
         <div class="prompt-box">
-          <code>"Let's start a new project."</code>
-          <button type="button" class="copy-btn">Copiar</button>
+          <code>«Quiero empezar un proyecto nuevo.»</code>
         </div>
-        The PM enters Stage 0 (project configuration) and asks about the topic, audience, theme, and style.
+        El PM entra en el Stage 0 (configuración del proyecto) y pregunta por el tema, el público, el Theme, el Style, etc.
       </li>
       <li>
-        <strong>Talk to the PM</strong><br>
-        Answer the PM's questions to configure the project. Try responding like this.
+        <strong>Hacer la petición al PM</strong><br>
+        Responde a las preguntas del PM para configurar el proyecto. Contesta así:
         <div class="prompt-box">
-          <code>"Create a mini presentation about the 5 core concepts of machine learning. 5 slides. For beginners. In English."</code>
-          <button type="button" class="copy-btn">Copiar</button>
+          <code>«Prepárame una minipresentación sobre los 5 conceptos clave del machine learning. 5 diapositivas. Para principiantes. En coreano.»</code>
         </div>
-        The PM analyzes your request and walks you through the configuration fields in <code>lecture-profile.md</code> (theme, style, source_verification, etc.).
+        El PM analiza la petición y te guía por los ajustes de lecture-profile.md (Theme, Style, source_verification, etc.).
       </li>
       <li>
-        <strong>Stage 0 configuration (topic, audience, language)</strong><br>
-        The PM confirms the following items. Beginners should stick with the defaults.
+        <strong>Configuración del Stage 0 (tema, público, idioma)</strong><br>
+        El PM confirma los siguientes elementos. A los principiantes les recomendamos mantener los valores predeterminados:
         <ul>
-          <li><strong>Rendering theme:</strong> pitch-enhanced (default)</li>
-          <li><strong>Visual style:</strong> classic (default)</li>
-          <li><strong>Source verification:</strong> true (default)</li>
-          <li><strong>Divider mode:</strong> auto (default)</li>
+          <li><strong>Rendering theme:</strong> pitch-enhanced (predeterminado)</li>
+          <li><strong>Visual style:</strong> classic (predeterminado)</li>
+          <li><strong>Source verification:</strong> true (predeterminado)</li>
+          <li><strong>Divider mode:</strong> auto (predeterminado)</li>
         </ul>
-        Confirm all the settings and tell the PM to proceed.
+        Confirma todos los ajustes e indica al PM que continúe.
       </li>
       <li>
-        <strong>Approve Gate 2 (review slide content)</strong><br>
-        Once Stage 1 (research) and Stage 2&ndash;3 (content) finish, the PM asks for your approval at Gate 2. Review <code>slide_deck.md</code> and check the following.
+        <strong>Aprobar el Gate 2 (revisar el contenido de las diapositivas)</strong><br>
+        Cuando terminan el Stage 1 (investigación) y el Stage 2-3 (contenido), el PM solicita la aprobación en el Gate 2. Abre <code>slide_deck.md</code> y comprueba lo siguiente:
         <ul>
-          <li>Is the slide structure logical?</li>
-          <li>¿Es preciso el contenido de cada diapositiva?</li>
-          <li>¿Son apropiadas la diapositiva de portada y la de cierre?</li>
+          <li>¿La estructura de las diapositivas es lógica?</li>
+          <li>¿El contenido de cada diapositiva es correcto?</li>
+          <li>¿La portada y la diapositiva de cierre son adecuadas?</li>
         </ul>
-        After reviewing, respond like this.
+        Tras la revisión, contesta así:
         <div class="prompt-box">
-          <code>"I've reviewed the slide content. Please proceed to the next stage."</code>
+          <code>«He revisado el contenido de las diapositivas. Continúa con la siguiente fase.»</code>
         </div>
-        If changes are needed, be specific.
+        Si necesitas cambios, indícalos con concreción:
         <div class="prompt-box">
-          <code>"Please explain slide 3's content in simpler terms."</code>
+          <code>«Explica la diapositiva 3 de forma más sencilla.»</code>
         </div>
       </li>
       <li>
-        <strong>Approve Gate 5 (review the sample PDF)</strong><br>
-        Once Stage 11 produces <code>sample_5slides.pdf</code>, the PM asks for your approval at Gate 5. In the sample PDF, check the following.
+        <strong>Aprobar el Gate 5 (revisar el PDF de muestra)</strong><br>
+        Cuando se genere el <code>sample_5slides.pdf</code> en el Stage 11, el PM solicitará la aprobación en el Gate 5. Comprueba esto en el PDF de muestra:
         <ul>
-          <li>Do the fonts render correctly without breaking?</li>
-          <li>Is the layout well arranged?</li>
-          <li>¿Aparecen los colores como se pretendía?</li>
+          <li>¿Las fuentes se ven bien y sin romperse?</li>
+          <li>¿La colocación de la maquetación es adecuada?</li>
+          <li>¿Los colores se reproducen tal como estaban pensados?</li>
         </ul>
-        After reviewing, respond like this.
+        Tras la revisión, contesta así:
         <div class="prompt-box">
-          <code>"I've reviewed the sample PDF. Please generate the full PDF."</code>
+          <code>«El PDF de muestra está bien. Genera el PDF completo.»</code>
         </div>
       </li>
-      <li> 
-         <strong>Review the final outputs</strong><br> 
-         Una vez completadas todas las etapas, puedes encontrar los resultados finales en la carpeta <code>presentations/&lt;project&gt;/</code>. La siguiente sección explica exactamente cómo revisarlos. 
-       </li>
+      <li>
+        <strong>Comprobar los resultados finales</strong><br>
+        Cuando todas las etapas terminen, encontrarás los resultados finales en la carpeta <code>presentations/&lt;project&gt;/</code>. La sección siguiente explica exactamente cómo inspeccionarlos.
+      </li>
     </ol>
   </div>
 
-  <div class="tip-box"> 
-     <strong>Start with a short 5&ndash;10 slide presentation.</strong> Una presentación más pequeña permite que todo el pipeline termine rápidamente para que te familiarices con cómo funciona co-deck. Una vez que te sientas cómodo, prueba una presentación completa de 20&ndash;30+ diapositivas. 
-   </div>
+  <div class="tip-box">
+    <strong>Empieza con presentaciones cortas de 5-10 páginas.</strong> Con menos diapositivas el pipeline completo termina pronto y entenderás rápido cómo funciona co-deck. Cuando ganes experiencia, atrévete con material docente serio de 20-30 páginas o más.
+  </div>
 
-  <div class="warn"> 
-     <strong>Note:</strong> Los agents de co-deck se ejecutan a través de la API de Claude. Las respuestas de Claude pueden ralentizarse o agotar el tiempo de espera durante el ejercicio. Las presentaciones con muchas imágenes o diagramas pueden tardar más &mdash; este es un comportamiento esperado. 
-   </div>
+  <div class="warn">
+    <strong>Atención:</strong> los agentes de co-deck funcionan a través de la API de Claude. Durante el ejercicio, la velocidad de respuesta de Claude puede bajar u ocasionales tiempos de espera agotados. Las presentaciones complejas (con muchas imágenes o diagramas) tardan más — es un comportamiento normal.
+  </div>
 
   <!-- ============================================================ -->
-  <!-- SECTION 8: Reviewing Resultados                                  -->
+  <!-- SECCIÓN 8: Revisión de los resultados                            -->
   <!-- ============================================================ -->
-  <h2 id="outputs">Reviewing Resultados</h2>
+  <h2 id="outputs">Revisión de los resultados</h2>
 
-  <p>Después de que el pipeline termina, los resultados de tu presentación viven en el directorio del proyecto. Veamos dónde encontrarlos y cómo revisar cada tipo de resultado.</p>
+  <p>Cuando el proyecto co-deck termina, se han generado varios tipos de resultado. Esta sección explica dónde está cada uno y cómo examinarlo.</p>
 
-  <h3>Resultado Locations</h3>
+  <h3>Dónde están los resultados</h3>
 
-  <p>Todos los resultados de tu presentación se almacenan bajo <code>presentations/&lt;project-name&gt;/</code>. Aquí tienes la disposición de directorios que verás después de una ejecución completa del pipeline.</p>
+  <p>Todos los resultados se guardan en el directorio <code>presentations/&lt;project&gt;/</code>. Desde la raíz del proyecto se accede por la ruta siguiente.</p>
 
   <div class="prompt-box">
-    <code>Proyectos/co-deck/presentations/&lt;project-name&gt;/</code>
+    <code>Projects/co-deck/presentations/&lt;project-name&gt;/</code>
     <button type="button" class="copy-btn">Copiar</button>
   </div>
+
+  <h3>Entregables principales</h3>
 
   <table>
     <thead>
       <tr>
-        <th>File / Directory</th>
+        <th>Archivo</th>
         <th>Descripción</th>
+        <th>Etapa que lo genera</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td><code>lecture-profile.md</code></td>
-        <td>Your project configuration (topic, audience, theme, style)</td>
-      </tr>
-      <tr>
-        <td><code>research_notes.md</code></td>
-        <td>Fuentes de investigación web y hechos clave recopilados por el agent de investigación</td>
-      </tr>
-      <tr>
-        <td><code>storyline.md</code></td>
-        <td>Arco narrativo y estructura de capítulos diseñados por el agent de storyline</td>
-      </tr>
-      <tr>
-        <td><code>slide_deck.md</code></td>
-        <td>Per-slide content: titles, bullets, speaker notes, image roles</td>
-      </tr>
-      <tr>
-        <td><code>design_spec.md</code></td>
-        <td>Visual design: color palette, fonts, CSS variables</td>
-      </tr>
-      <tr>
-        <td><code>assets/images/</code></td>
-        <td>Downloaded commercial-use images + <code>image-manifest.json</code></td>
-      </tr>
-      <tr>
-        <td><code>assets/diagrams/</code></td>
-        <td>Generated SVG diagrams + <code>diagram-manifest.json</code></td>
-      </tr>
-      <tr>
-        <td><code>lecture_v1.html</code></td>
-        <td>The final single-file HTML slide deck</td>
-      </tr>
-      <tr>
-        <td><code>&lt;project&gt;.pdf</code></td>
-        <td>The final print-ready PDF</td>
-      </tr>
-      <tr>
-        <td><code>sample_5slides.pdf</code></td>
-        <td>The 5-slide sample PDF used for Gate 5 review</td>
+        <td>Archivo de configuración del proyecto (tema, público, Theme, Style, etc.)</td>
+        <td>Stage 0</td>
       </tr>
       <tr>
         <td><code>project_state.json</code></td>
-        <td>Pipeline progress tracker (status of each stage)</td>
+        <td>Estado de avance del proyecto (finalización por etapa, estado de aprobación de los Gate)</td>
+        <td>Stage 0+</td>
+      </tr>
+      <tr>
+        <td><code>research_notes.md</code></td>
+        <td>Organización de los materiales, estadísticas y fuentes recogidas por búsqueda web</td>
+        <td>Stage 1</td>
+      </tr>
+      <tr>
+        <td><code>source-verification.md</code></td>
+        <td>Resultado de la verificación de credibilidad de fuentes y Trust Score (opcional)</td>
+        <td>Stage 1.5</td>
+      </tr>
+      <tr>
+        <td><code>storyline.md</code></td>
+        <td>Estructura global y diseño narrativo de las diapositivas</td>
+        <td>Stage 2-3</td>
+      </tr>
+      <tr>
+        <td><code>slide_deck.md</code></td>
+        <td>Contenido por diapositiva (títulos, texto, plan de imágenes, plan de diagramas)</td>
+        <td>Stage 2-3</td>
+      </tr>
+      <tr>
+        <td><code>design_spec.md</code></td>
+        <td>Especificación de diseño (colores, fuentes, variables CSS de maquetación)</td>
+        <td>Stage 4</td>
+      </tr>
+      <tr>
+        <td><code>image-manifest.json</code></td>
+        <td>Lista y metadatos de las imágenes descargadas (opcional)</td>
+        <td>Stage 3.5</td>
+      </tr>
+      <tr>
+        <td><code>diagram-manifest.json</code></td>
+        <td>Lista y metadatos de los diagramas generados (opcional)</td>
+        <td>Stage 3.5</td>
+      </tr>
+      <tr>
+        <td><code>lecture_v1.html</code></td>
+        <td>Mazo de diapositivas HTML en un único archivo (interactivo, adaptable)</td>
+        <td>Stage 5-8</td>
+      </tr>
+      <tr>
+        <td><code>sample_5slides.pdf</code></td>
+        <td>PDF de muestra de 5 páginas (para aprobar en el Gate 5)</td>
+        <td>Stage 11</td>
+      </tr>
+      <tr>
+        <td><code>&lt;project&gt;.pdf</code></td>
+        <td>PDF completo (generado tras la aprobación del Gate 5)</td>
+        <td>Stage 11</td>
       </tr>
     </tbody>
   </table>
 
-  <h3>Opening and Reviewing Your Resultados</h3>
+  <h3>Rasgos del mazo de diapositivas HTML</h3>
+
+  <p><code>lecture_v1.html</code> es el resultado central de co-deck. Tiene estas características:</p>
+
+  <ul>
+    <li><strong>Un solo archivo:</strong> todas las diapositivas, imágenes (codificadas), CSS y JavaScript van dentro de un único archivo HTML. Basta enviar ese archivo para abrirlo en cualquier sitio.</li>
+    <li><strong>Interactivo:</strong> admite transiciones de diapositivas, navegación con teclado, cajón de índice (TOC), modo presentador, TTS (texto a voz) y más.</li>
+    <li><strong>Adaptable:</strong> la maquetación se ajusta automáticamente al tamaño de pantalla. Sirve tanto en escritorio como en móvil.</li>
+    <li><strong>Sin conexión:</strong> ábrelo directamente en el navegador y presenta sin conexión a internet.</li>
+  </ul>
+
+  <h3>Rasgos del PDF</h3>
+
+  <p><code>&lt;project&gt;.pdf</code> es el resultado orientado a impresión:</p>
+
+  <ul>
+    <li><strong>Para imprimir:</strong> conserva maquetación, fuentes y colores; ideal para imprimir en papel A4 o Letter.</li>
+    <li><strong>Para distribuir:</strong> fácil de compartir por correo o plataformas de documentos.</li>
+    <li><strong>Para archivar:</strong> para conservación a largo plazo, el formato PDF es el más estable.</li>
+  </ul>
+
+  <h3>Cómo abrir los resultados</h3>
 
   <div class="step-list">
     <ol>
-      <li class="step"> 
-         <strong>Open the HTML slide deck.</strong> 
-         Navega a <code>presentations/&lt;project-name&gt;/lecture_v1.html</code> y ábrelo en tu navegador web. Deberías ver tu presentación completa con todas las diapositivas, imágenes, diagramas y navegación. Prueba a hacer clic por las diapositivas, usar las flechas del teclado y alternar el panel de notas del orador. 
-       </li>
-      <li class="step"> 
-         <strong>Test HTML features.</strong> 
-         Presiona <kbd>F</kbd> para pantalla completa, <kbd>T</kbd> para abrir la tabla de contenidos, <kbd>S</kbd> para ver las notas del orador y <kbd>Escape</kbd> para salir. Estos controles te permiten practicar tu presentación igual que en una aplicación real de diapositivas. 
-       </li>
-      <li class="step"> 
-         <strong>Open the PDF.</strong> 
-         Navega a <code>presentations/&lt;project-name&gt;/&lt;project&gt;.pdf</code> y ábrelo en tu visor de PDF. Compara la disposición del PDF con la versión HTML &mdash; deberían coincidir estrechamente en colores, fuentes y espaciado. 
-       </li>
-      <li class="step"> 
-         <strong>Review intermediate files (optional).</strong> 
-         Si quieres entender cómo funciona el pipeline, abre <code>research_notes.md</code> para ver lo que encontró el agent de investigación, <code>slide_deck.md</code> para ver el contenido estructurado y <code>design_spec.md</code> para ver las decisiones de diseño visual. Estos archivos te dan total visibilidad sobre cada decisión que tomaron los agents de IA. 
-</li>
+      <li>
+        <strong>Abrir la carpeta del proyecto</strong><br>
+        Muévete a la carpeta del proyecto en la terminal.
+        <div class="prompt-box">
+          <code>cd Projects/co-deck/presentations/&lt;project-name&gt;/</code><br>
+          <code>ls</code>
+          <button type="button" class="copy-btn">Copiar</button>
+        </div>
+      </li>
+      <li>
+        <strong>Abrir el mazo de diapositivas HTML</strong><br>
+        Abre <code>lecture_v1.html</code> en el navegador. Prueba las transiciones, el TOC, el modo presentador y más.
+        <div class="prompt-box">
+          <code># macOS</code><br>
+          <code>open lecture_v1.html</code><br>
+          <code># Windows</code><br>
+          <code>start lecture_v1.html</code><br>
+          <code># Linux</code><br>
+          <code>xdg-open lecture_v1.html</code>
+          <button type="button" class="copy-btn">Copiar</button>
+        </div>
+      </li>
+      <li>
+        <strong>Abrir el PDF</strong><br>
+        Abre <code>&lt;project&gt;.pdf</code> en un visor de PDF y examina la maquetación de impresión. Compara si fuentes, márgenes y colores coinciden con la versión HTML.
+      </li>
+      <li>
+        <strong>Revisar los entregables intermedios</strong><br>
+        Abre <code>slide_deck.md</code> para estudiar la estructura de contenido de cada diapositiva. En <code>research_notes.md</code> puedes ver los materiales que reunió el agente de investigación.
+        <div class="prompt-box">
+          <code>cat slide_deck.md</code><br>
+          <code>cat research_notes.md</code>
+          <button type="button" class="copy-btn">Copiar</button>
+        </div>
+      </li>
+      <li>
+        <strong>Consultar project_state.json</strong><br>
+        Puedes ver el avance global del proyecto. Ahí quedan registrados el estado de finalización de cada etapa y las aprobaciones de los Gate.
+        <div class="prompt-box">
+          <code>cat project_state.json</code>
+          <button type="button" class="copy-btn">Copiar</button>
+        </div>
+      </li>
     </ol>
   </div>
 
-  <div class="tip-box"> 
-     <strong>Pro tip:</strong> La presentación HTML es el entregable principal. Es autónoma (no requiere servidor), soporta funciones interactivas como el modo presentador y la narración TTS, y funciona sin conexión. El PDF es mejor para imprimir o compartir con personas que prefieren un documento estático. Usa ambos: presenta desde el HTML, distribuye el PDF. 
-   </div>
-
-  <h3>File Structure Summary</h3>
+  <h3>Resumen de la estructura de archivos</h3>
 
   <div class="flow-box">
     <div class="code-block">
 <pre><code>co-deck/
-├── agents/                        # Agent definition files
+├── agents/                        # Archivos de definición de agentes
 │   ├── pm.md
 │   ├── research.md
 │   ├── storyline.md
@@ -837,35 +1058,39 @@
 │   ├── html-build.md
 │   ├── pdf-export.md
 │   └── ...
-├── docs/html-themes/               # Theme and style registry
+├── docs/html-themes/               # Registro de Themes y Styles
 │   ├── THEMES.md
 │   ├── themes/                    # pitch, pitch-enhanced, outline, vertical, zen, ...
 │   └── styles/                    # classic, minimal, premium-dark, academic, ...
 ├── presentations/
 │   └── &lt;project-name&gt;/
-│       ├── lecture-profile.md     # Stage 0: project configuration
-│       ├── project_state.json     # Pipeline progress tracker
-│       ├── research_notes.md      # Stage 1: research findings
-│       ├── storyline.md           # Stage 2-3: slide structure
-│       ├── slide_deck.md          # Stage 2-3: per-slide content
-│       ├── design_spec.md         # Stage 4: design spec
+│       ├── lecture-profile.md     # Stage 0: configuración del proyecto
+│       ├── project_state.json     # Estado de avance del proyecto
+│       ├── research_notes.md      # Stage 1: resultados de la investigación
+│       ├── storyline.md           # Stage 2-3: estructura de las diapositivas
+│       ├── slide_deck.md          # Stage 2-3: contenido por diapositiva
+│       ├── design_spec.md         # Stage 4: especificación de diseño
 │       ├── assets/
-│       │   ├── images/            # Stage 3.5: downloaded images
-│       │   └── diagrams/          # Stage 3.5: generated SVG diagrams
-│       ├── lecture_v1.html        # Stage 5-8: HTML slide deck
-│       └── &lt;project&gt;.pdf       # Stage 11: final PDF
-├── scripts/co-deck/               # Automation scripts
-└── memory/                        # Session records</code></pre>
+│       │   ├── images/            # Stage 3.5: imágenes descargadas
+│       │   └── diagrams/          # Stage 3.5: diagramas SVG generados
+│       ├── lecture_v1.html        # Stage 5-8: mazo de diapositivas HTML
+│       └── &lt;project&gt;.pdf       # Stage 11: PDF final
+├── scripts/co-deck/               # Scripts de automatización
+└── memory/                        # Registros de sesión</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
   </div>
 
-  <div class="note"> 
-     <strong>What's next?</strong> En el Capítulo 8 combinaremos los pipelines de <strong>co-consult</strong> (del Capítulo 6) y <strong>co-deck</strong> en un único flujo de trabajo integrado &mdash; produciendo primero un análisis de consultoría y convirtiendo luego los hallazgos clave en una presentación pulida. Aquí es donde brilla todo el poder del ecosistema multi-agent. 
-   </div>
+  <div class="note">
+    Los resultados también pueden revisarse en la propia ventana de chat de Claude Desktop App. Los archivos creados por Claude pueden previsualizarse durante la conversación. Además, con <code>project_state.json</code> puedes comprobar en tiempo real en qué Stage está el proyecto.
+  </div>
+
+  <div class="tip-box">
+    <strong>Cómo aprovechar los resultados:</strong> el mazo de diapositivas HTML terminado sirve tal cual en reuniones o clases. El PDF es perfecto para compartirlo con el equipo o distribuirlo como material docente. Combinado con el informe de análisis de co-consult (capítulo 6), incluso puedes construir una presentación basada en ese análisis.
+  </div>
 
   <!-- ============================================================ -->
-  <!-- CHAPTER NAVIGATION                                            -->
+  <!-- NAVEGACIÓN DEL CAPÍTULO                                         -->
   <!-- ============================================================ -->
   <div class="chapter-nav">
     <a href="../ch06/06_Co_Consult_Practice_es.html" class="prev">

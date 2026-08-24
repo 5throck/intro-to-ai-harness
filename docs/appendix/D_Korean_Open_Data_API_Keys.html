@@ -293,7 +293,7 @@
        ============================================================ -->
   <h2 id="env-config">환경 변수 설정</h2>
 
-  <p>발급받은 키는 프로젝트 루트의 <code>.env.sample</code>을 <code>.env</code>로 복사해 설정합니다. 한국 관련 키는 <code># &gt;&gt;&gt; country-scoped:KR</code> 마커 블록 안에 모여 있습니다. <code>DART_API_KEY</code>와 <code>LAW_API_OC</code>는 이미 목록에 있고, <strong><code>KOSIS_API_KEY</code>는 아직 <code>.env.sample</code>에 없으므로 줄을 직접 추가</strong>해야 합니다.</p>
+  <p>발급받은 키는 프로젝트 루트의 <code>.env.sample</code>을 <code>.env</code>로 복사해 설정합니다. 한국 관련 세 키(<code>DART_API_KEY</code>, <code>LAW_API_OC</code>, <code>KOSIS_API_KEY</code>)는 모두 <code># &gt;&gt;&gt; country-scoped:KR</code> 마커 블록 안에 미리 나열되어 있습니다 — <strong>값만 채우면 되며, 줄을 새로 추가하지 마세요</strong>(중복됩니다).</p>
 
   <div class="code-block">
 <pre><code>cp .env.sample .env

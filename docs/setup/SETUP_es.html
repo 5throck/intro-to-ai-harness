@@ -118,15 +118,15 @@ bash setup-linux.sh --wezterm --docker</pre>
   <h3>Windows</h3>
   <p><strong>Ejecuta PowerShell como Administrador</strong>, luego ingresa el siguiente comando.</p>
   <div style="position:relative">
-    <pre class="code-block"># Default run (the script sets the Execution Policy automatically)
-.\setup-windows.ps1
+    <pre class="code-block"># Default run (Bypass so the script itself is allowed to start)
+powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1
 
 # Options:
-.\setup-windows.ps1 -WSL2             # Also install WSL2 (restart required)
-.\setup-windows.ps1 -WezTerm          # Also install WezTerm
-.\setup-windows.ps1 -Docker           # Also install Docker Desktop
-.\setup-windows.ps1 -Force            # Reinstala todas las herramientas, incluso aquellas ya instaladas
-.\setup-windows.ps1 -WSL2 -WezTerm -Docker  # Install all optional extras</pre>
+powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 -WSL2             # Also install WSL2 (restart required)
+powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 -WezTerm          # Also install WezTerm
+powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 -Docker           # Also install Docker Desktop
+powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 -Force            # Reinstala todas las herramientas, incluso aquellas ya instaladas
+powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 -WSL2 -WezTerm -Docker  # Install all optional extras</pre>
     <button class="copy-btn">Copiar</button>
   </div>
   <div class="note"><strong>After running</strong>: cierra y vuelve a abrir tu terminal para aplicar los cambios del PATH.</div>
@@ -199,7 +199,7 @@ bash setup-linux.sh --wezterm --docker</pre>
   <p>El instalador CLI de Antigravity coloca el binario en <code>~/.local/bin</code> o <code>/usr/local/bin</code>. Ejecuta <code>source ~/.bashrc</code> o reinicia tu terminal.</p>
 
   <p><strong>Windows: "running scripts is disabled on this system"</strong></p>
-  <p>El script establece esto automáticamente en <code>RemoteSigned</code>. Para cambiarlo manualmente:</p>
+  <p>PowerShell bloquea los scripts antes de iniciarlos, así que ejecuta <code>powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1</code>. Para un cambio persistente por usuario:</p>
   <div style="position:relative">
   <pre class="code-block">Set-ExecutionPolicy RemoteSigned -Scope CurrentUser</pre>
   <button class="copy-btn">Copiar</button>

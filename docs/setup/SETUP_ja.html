@@ -118,15 +118,15 @@ bash setup-linux.sh --wezterm --docker</pre>
   <h3>Windows</h3>
   <p><strong>PowerShellを管理者として実行</strong>し、以下のコマンドを入力してください。</p>
   <div style="position:relative">
-    <pre class="code-block"># デフォルト実行（スクリプトが実行ポリシーを自動設定）
-.\setup-windows.ps1
+    <pre class="code-block"># デフォルト実行（スクリプトが起動できるよう Bypass で実行）
+powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1
 
 # オプション:
-.\setup-windows.ps1 -WSL2             # WSL2もインストール（再起動が必要）
-.\setup-windows.ps1 -WezTerm          # WezTermもインストール
-.\setup-windows.ps1 -Docker           # Docker Desktopもインストール
-.\setup-windows.ps1 -Force            # 既存インストール済みのツールも含め全て再インストール
-.\setup-windows.ps1 -WSL2 -WezTerm -Docker  # すべてのオプションをインストール</pre>
+powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 -WSL2             # WSL2もインストール（再起動が必要）
+powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 -WezTerm          # WezTermもインストール
+powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 -Docker           # Docker Desktopもインストール
+powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 -Force            # 既存インストール済みのツールも含め全て再インストール
+powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 -WSL2 -WezTerm -Docker  # すべてのオプションをインストール</pre>
     <button class="copy-btn">コピー</button>
   </div>
   <div class="note"><strong>実行後：</strong> PATHの変更を適用するため、ターミナルを閉じて再開してください。</div>
@@ -199,7 +199,7 @@ bash setup-linux.sh --wezterm --docker</pre>
   <p>Antigravity CLIインストーラーはバイナリを<code>~/.local/bin</code>または<code>/usr/local/bin</code>に配置します。<code>source ~/.bashrc</code>を実行するか、ターミナルを再起動してください。</p>
 
   <p><strong>Windows: 「このシステムではスクリプトの実行が無効になっています」</strong></p>
-  <p>スクリプトは自動的にこれを<code>RemoteSigned</code>に設定します。手動で変更する場合：</p>
+  <p>PowerShellはスクリプトの起動自体をブロックするため、<code>powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1</code>で実行してください。永続的に変更する場合：</p>
   <div style="position:relative">
   <pre class="code-block">Set-ExecutionPolicy RemoteSigned -Scope CurrentUser</pre>
   <button class="copy-btn">コピー</button>

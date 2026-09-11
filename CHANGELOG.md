@@ -2,6 +2,14 @@
 
 All notable changes to this handbook will be documented in this file.
 
+## [2026-09-11] — Upstream Sync: k-ecos & k-krx Skills, /sync Safety Gates
+
+### Changed
+- Synced with `ai-workspace-standards` main (2026-09): the KR country scope grew from four to **six skills** with the addition of **k-ecos** (Bank of Korea ECOS open API; public demo key `sample`, ≤10 rows per call; cycle codes `A/S/Q/M/SM/D` — the legacy `YY/QQ/MM/DD` forms return ERROR-100) and **k-krx** (KRX Data Marketplace; no demo key, requests without a key return `401 Unauthorized Key`; key passed via the `AUTH_KEY` header; errors come back as bare `{"respCode":"...","respMsg":"..."}`).
+- **Appendix D (ko/en/ja/es)** extended from three to five services: new ECOS and KRX rows in the key table (with `(2026-09 신규)` / localized markers), a new "What's new 2026-09" section covering both skills (issuance flow, curl examples, expected results, error shapes), `.env` snippets with `ECOS_API_KEY` / `KRX_API_KEY`, and license guidance scoped per service (KOGL still applies to the three public-sector services only). Free-of-charge claim now explicitly names DART · LAW(법제처) · KOSIS.
+- **ch05** (ko/en): Korea-scope skill injection list updated to six skills.
+- **ch12** (ko/en): the "Extra /sync safety gates" list gains the **Typecheck gate** (`dev-sync` step 3.95b → `scripts/typecheck.ts` vs the zero-error baseline in `scripts/helpers/typecheck-baseline.json`) and the **Upgrade coverage gate (ADR-0073)** (`audit.ts` runs `check-upgrade-coverage.ts --strict`).
+
 ## [2026-08-24] — Four-Language Content Parity & Workspace Accuracy
 
 ### Added

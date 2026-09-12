@@ -17,6 +17,7 @@
   <a href="#what-is">ai-workspace-standards란</a>
   <a href="#directory-structure">디렉토리 구조</a>
   <a href="#key-files">핵심 파일들</a>
+  <a href="#codex-md">CODEX.md</a>
   <a href="#hierarchy">4-레벨 레이어 구조</a>
   <a href="#variants">variant(변형) 개념</a>
   <a href="#contracts">공통 컨트랙트</a>
@@ -52,7 +53,7 @@
   <ul>
     <li><strong>GitHub 저장소</strong>: <code>github.com/5throck/ai-workspace-standards</code></li>
     <li><strong>라이선스</strong>: 오픈소스 (누구나 자유롭게 사용, 수정, 배포 가능)</li>
-    <li><strong>지원 플랫폼</strong>: Claude Code, Antigravity CLI (두 플랫폼 모두 동일한 구조 사용)</li>
+    <li><strong>지원 플랫폼</strong>: Claude Code, Gemini CLI/Antigravity, Codex CLI/Desktop App (세 플랫폼 모두 동일한 구조 사용, 각각 <code>CLAUDE.md</code>/<code>GEMINI.md</code>/<code>CODEX.md</code>로 지침 제공)</li>
   </ul>
 
   <h3>왜 표준이 필요한가?</h3>
@@ -271,11 +272,15 @@
 
   <p>초보자 비유: <strong>CLAUDE.md는 Claude에게 주는 "업무 지시서"입니다.</strong> 직원에게 "이런 작업이 들어오면 이 담당자에게 넘겨라", "이 단계에서는 반드시 관리자 승인을 받아라"라고 적어놓은 메뉴얼과 같습니다.</p>
 
-  <h3 id="gemini-md">GEMINI.md — Antigravity CLI용 행동 지침</h3>
+  <h3 id="gemini-md">GEMINI.md — Gemini CLI/Antigravity용 행동 지침</h3>
 
-  <p><strong>GEMINI.md</strong>는 Antigravity CLI(Google의 AI 코딩 도구)용 행동 지침입니다. 내용과 구조는 CLAUDE.md와 <em>동일한 역할</em>을 하며, 단지 Claude Code 대신 Antigravity CLI를 사용할 때 적용된다는 점이 다릅니다.</p>
+  <p><strong>GEMINI.md</strong>는 Gemini CLI와 Antigravity(Google의 AI 코딩 도구)용 행동 지침입니다. 내용과 구조는 CLAUDE.md와 <em>동일한 역할</em>을 하며, 단지 Claude Code 대신 Gemini CLI/Antigravity를 사용할 때 적용된다는 점이 다릅니다.</p>
 
-  <p>두 파일이 왜 따로 존재할까요? Claude Code와 Antigravity CLI는 각각 다른 회사에서 만든 도구이므로, <strong>모델 이름, 도구 호출 방식, 시스템 프롬프트 형식</strong>이 다릅니다. 하지만 <strong>에이전트 구조, 워크플로우, 게이트 규칙</strong>은 완전히 동일합니다. 따라서 CLAUDE.md와 GEMINI.md는 "같은 규칙, 다른 도구 설정"이라고 이해하면 됩니다.</p>
+  <p>두 파일이 왜 따로 존재할까요? Claude Code와 Antigravity는 각각 다른 회사에서 만든 도구이므로, <strong>모델 이름, 도구 호출 방식, 시스템 프롬프트 형식</strong>이 다릅니다. 하지만 <strong>에이전트 구조, 워크플로우, 게이트 규칙</strong>은 완전히 동일합니다. 따라서 CLAUDE.md와 GEMINI.md는 "같은 규칙, 다른 도구 설정"이라고 이해하면 됩니다.</p>
+
+  <h3 id="codex-md">CODEX.md — Codex CLI/Desktop App용 행동 지침</h3>
+
+  <p><strong>CODEX.md</strong>는 세 번째 플랫폼인 <strong>Codex</strong>(CLI와 Desktop App 모두 포함)용 행동 지침입니다. CLAUDE.md, GEMINI.md와 동일하게 PM Gateway 워크플로우, 에이전트 디스패치 규칙을 담고 있지만, 한 가지 중요한 차이가 있습니다 — Codex에는 <strong>네이티브 서브에이전트 도구가 없어서</strong>, PM이 각 전문 에이전트의 정의 파일(<code>agents/&lt;name&gt;.md</code>)을 역할 컨텍스트로 불러온 뒤 세션 안에서 순차적으로 단계를 직접 수행합니다. 또한 Codex는 워크스페이스의 훅(Hook) 스위트를 실행하지 않으므로, 거버넌스 규칙은 <strong>프롬프트로 자체 강제</strong>됩니다(Antigravity와 동일한 방식).</p>
 
   <h3>CHANGELOG.md — 변경 이력 기록</h3>
 
@@ -308,10 +313,10 @@
       </ul>
     </div>
     <div class="compare-col">
-      <h4>CLAUDE.md / GEMINI.md</h4>
+      <h4>CLAUDE.md / GEMINI.md / CODEX.md</h4>
       <ul>
         <li>역할: 플랫폼별 행동 지침</li>
-        <li>대상: Claude Code / Antigravity CLI</li>
+        <li>대상: Claude Code / Gemini CLI·Antigravity / Codex CLI·Desktop App</li>
         <li>내용: 디스패치 규칙, 3-Tier 전략, 게이트 프로토콜, 도구 권한</li>
         <li>비유: 업무 지시서</li>
         <li>위치: 프로젝트 루트</li>
@@ -368,7 +373,7 @@
     <li>L1의 공통 템플릿 상속 (<code>variant.json</code>의 <code>inherits_common: "templates/common"</code>)</li>
   </ul>
 
-  <p>현재 11개의 variant 템플릿이 존재합니다: co-abap, co-consult, co-deck, co-design, co-develop, co-export, co-game, co-hr, co-news, co-security, co-work.</p>
+  <p>현재 13개의 variant 템플릿이 존재합니다: co-abap, co-consult, co-deck, co-design, co-develop, co-export, co-game, co-hr, co-news, co-price, co-safety, co-security, co-work.</p>
 
   <h3>L3 (Project) — 실제 프로젝트 레이어</h3>
 
@@ -497,7 +502,7 @@
     <li><code>docs/context.md</code> 등 프로젝트별 설정 파일 생성</li>
   </ul>
 
-  <p><code>--variant</code>에는 co-consult, co-deck을 포함해 현재 존재하는 11개 variant 중 하나를 지정할 수 있습니다. 6장·7장의 실습에서 사용하는 co-consult, co-deck 예제는 별도의 저장소를 클론하는 것이 아니라, 공개 저장소 <code>ai-workspace-standards</code> 안의 <code>templates/co-consult/</code>, <code>templates/co-deck/</code>(L2)를 위 명령으로 직접 스캐폴딩한 결과물입니다.</p>
+  <p><code>--variant</code>에는 co-consult, co-deck을 포함해 현재 존재하는 13개 variant 중 하나를 지정할 수 있습니다. 6장·7장의 실습에서 사용하는 co-consult, co-deck 예제는 별도의 저장소를 클론하는 것이 아니라, 공개 저장소 <code>ai-workspace-standards</code> 안의 <code>templates/co-consult/</code>, <code>templates/co-deck/</code>(L2)를 위 명령으로 직접 스캐폴딩한 결과물입니다.</p>
 
   <h3>덮어쓰기 규칙</h3>
 
@@ -532,6 +537,9 @@
   <ul>
     <li><strong>co-consult</strong> — AI 컨설팅 실습용 variant. 기업 분석, 전략 수립, 보고서 작성을 자동화하는 에이전트 팀을 제공합니다. 이 핸드북 6장에서 실습합니다.</li>
     <li><strong>co-deck</strong> — 프레젠테이션 자동화용 variant. 연구 → 스토리라인 → 디자인 → HTML 빌드 → PDF 출력까지 전체 파이프라인을 자동화합니다. 11단계 워크플로우를 제공합니다.</li>
+    <li><strong>co-price</strong> — 🔶 Beta. 다업종 가격 관리·컨설팅 시뮬레이터. K-Beauty 샘플 데이터셋이 함께 제공됩니다.</li>
+    <li><strong>co-safety</strong> — 🔶 Beta. EHS/GxP 준수 플랫폼 워크플로우. 40개 이상의 전문 에이전트(비상대응, 컴플라이언스, 법무, 교육, PSM, 리스크, 감사 등)를 포함합니다.</li>
+    <li>그 외 co-abap, co-design, co-develop, co-export, co-game, co-hr, co-news, co-security, co-work 등 다양한 목적의 variant가 있습니다.</li>
   </ul>
 
   <h3>variant.json — variant의 메타데이터</h3>
@@ -591,14 +599,14 @@
   <p>이 명령은 <code>Projects/my-market-report/</code>를 독립된 새 Git 저장소로 생성하고, co-consult의 에이전트·스킬·설정을 복사한 뒤, 이 프로젝트만의 목표를 채워 넣을 수 있도록 비어 있는 <code>docs/context.md</code> 골격을 렌더링합니다. 전체 문법은 다음과 같습니다.</p>
 
   <div class="code-block">
-<pre><code>bun scripts/new-project.ts "&lt;프로젝트-이름&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|both] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
+<pre><code>bun scripts/new-project.ts "&lt;프로젝트-이름&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|codex|both] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
 
   <ul>
     <li><strong><code>&lt;프로젝트-이름&gt;</code></strong> — 필수. <code>Projects/</code> 아래 폴더 이름이 됩니다.</li>
     <li><strong><code>--variant &lt;variant&gt;</code></strong> — 필수. 어떤 L2 템플릿에서 스캐폴딩할지 지정합니다(<code>co-consult</code>, <code>co-deck</code>, <code>co-develop</code> 등).</li>
-    <li><strong><code>--platform</code></strong> — 선택. 어떤 플랫폼 설정(<code>.claude/</code>, <code>.gemini/</code>)을 복사할지 제한합니다. 기본값은 <code>both</code>입니다.</li>
+    <li><strong><code>--platform</code></strong> — 선택. 어떤 플랫폼 설정(<code>.claude/</code>, <code>.gemini/</code>, <code>.codex/</code>)을 복사할지 제한합니다(<code>claude</code>, <code>antigravity</code>, <code>codex</code>, <code>both</code>). 기본값은 <code>both</code>(Claude Code + Gemini/Antigravity)이며, Codex 지원은 <code>--platform codex</code>로 별도 지정합니다.</li>
     <li><strong><code>--version</code></strong> — 선택. 원본 variant의 현재 버전 대신 특정 템플릿 버전을 고정해서 사용합니다.</li>
     <li><strong><code>--country &lt;CODE&gt;</code></strong> — 선택. 한국 대상 프로젝트라면 <code>--country KR</code>을 지정하세요. 국가 프로파일이 한국 전용 스킬 여섯 개(k-dart·k-law·k-kosis·k-opendata, 그리고 2026-09부터 k-ecos·k-krx)와 KR API 키 설정을 프로젝트에 함께 넣어 줍니다 (자세한 내용은 <a href="../appendix/D_Korean_Open_Data_API_Keys.html">별첨 D</a> 참조).</li>
   </ul>
@@ -693,7 +701,7 @@
     </a>
   </div>
    <footer>
-    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) 기준 · 한국어 교육 자료<br>
+    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-12) 기준 · 한국어 교육 자료<br>
     공식 자료: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
     <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
     <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>

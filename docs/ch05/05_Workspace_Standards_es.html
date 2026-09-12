@@ -17,6 +17,7 @@
   <a href="#what-is">Qué es ai-workspace-standards</a>
   <a href="#directory-structure">Estructura de directorios</a>
   <a href="#key-files">Archivos clave</a>
+  <a href="#codex-md">CODEX.md</a>
   <a href="#hierarchy">Estructura de capas de 4 niveles</a>
   <a href="#variants">El concepto de variante</a>
   <a href="#contracts">Contratos comunes</a>
@@ -52,7 +53,7 @@
   <ul>
     <li><strong>Repositorio en GitHub</strong>: <code>github.com/5throck/ai-workspace-standards</code></li>
     <li><strong>Licencia</strong>: Código abierto (cualquiera puede usarlo, modificarlo y distribuirlo libremente)</li>
-    <li><strong>Plataformas soportadas</strong>: Claude Code y Antigravity CLI (ambas plataformas usan la misma estructura)</li>
+    <li><strong>Plataformas soportadas</strong>: Claude Code, Gemini CLI/Antigravity y Codex CLI/Desktop App (las tres usan la misma estructura, con instrucciones específicas en <code>CLAUDE.md</code>/<code>GEMINI.md</code>/<code>CODEX.md</code> respectivamente)</li>
   </ul>
 
   <h3>¿Por qué hace falta un estándar?</h3>
@@ -271,11 +272,15 @@
 
   <p>Analogía para principiantes: <strong>CLAUDE.md es la «hoja de instrucciones laborales» entregada a Claude.</strong> Es como un manual que anota cosas como «si entra un trabajo de este tipo, pásalo a este responsable» o «en esta etapa debes obtener obligatoriamente la aprobación del supervisor».</p>
 
-  <h3 id="gemini-md">GEMINI.md — Instrucciones de comportamiento para Antigravity CLI</h3>
+  <h3 id="gemini-md">GEMINI.md — Instrucciones de comportamiento para Gemini CLI/Antigravity</h3>
 
-  <p><strong>GEMINI.md</strong> contiene las instrucciones de comportamiento para Antigravity CLI (la herramienta de programación con IA de Google). Su contenido y estructura cumplen <em>exactamente el mismo papel</em> que CLAUDE.md; la única diferencia es que aplica cuando usas Antigravity CLI en lugar de Claude Code.</p>
+  <p><strong>GEMINI.md</strong> contiene las instrucciones de comportamiento para Gemini CLI y Antigravity (las herramientas de programación con IA de Google). Su contenido y estructura cumplen <em>exactamente el mismo papel</em> que CLAUDE.md; la única diferencia es que aplica cuando usas Gemini CLI/Antigravity en lugar de Claude Code.</p>
 
-  <p>¿Por qué existen dos archivos separados? Porque Claude Code y Antigravity CLI son herramientas hechas por empresas distintas, difieren en los <strong>nombres de modelos, la forma de invocar herramientas y el formato de los prompts de sistema</strong>. Sin embargo, la <strong>estructura de agentes, los flujos de trabajo y las reglas de gates</strong> son totalmente idénticos. Por eso conviene entender CLAUDE.md y GEMINI.md como «las mismas reglas, otra configuración de herramienta».</p>
+  <p>¿Por qué existen dos archivos separados? Porque Claude Code y Antigravity son herramientas hechas por empresas distintas, difieren en los <strong>nombres de modelos, la forma de invocar herramientas y el formato de los prompts de sistema</strong>. Sin embargo, la <strong>estructura de agentes, los flujos de trabajo y las reglas de gates</strong> son totalmente idénticos. Por eso conviene entender CLAUDE.md y GEMINI.md como «las mismas reglas, otra configuración de herramienta».</p>
+
+  <h3 id="codex-md">CODEX.md — Instrucciones de comportamiento para Codex CLI/Desktop App</h3>
+
+  <p><strong>CODEX.md</strong> recoge las instrucciones de comportamiento de la tercera plataforma, <strong>Codex</strong> (que abarca tanto la CLI como la Desktop App). Al igual que CLAUDE.md y GEMINI.md, define el flujo PM Gateway y las reglas de despacho de agentes, pero con una diferencia importante — Codex <strong>no tiene una herramienta nativa de subagentes</strong>, así que el PM carga el archivo de definición de cada especialista (<code>agents/&lt;name&gt;.md</code>) como contexto de rol y ejecuta los pasos secuencialmente dentro de la propia sesión. Codex tampoco ejecuta la suite de hooks del workspace, por lo que las reglas de gobernanza se <strong>autoaplican mediante el prompt</strong> (el mismo enfoque que en Antigravity).</p>
 
   <h3>CHANGELOG.md — Registro del historial de cambios</h3>
 
@@ -308,10 +313,10 @@
       </ul>
     </div>
     <div class="compare-col">
-      <h4>CLAUDE.md / GEMINI.md</h4>
+      <h4>CLAUDE.md / GEMINI.md / CODEX.md</h4>
       <ul>
         <li>Rol: instrucciones de comportamiento por plataforma</li>
-        <li>Audiencia: Claude Code / Antigravity CLI</li>
+        <li>Audiencia: Claude Code / Gemini CLI·Antigravity / Codex CLI·Desktop App</li>
         <li>Contenido: reglas de despacho, estrategia 3-Tier, protocolo de gates, permisos de herramientas</li>
         <li>Analogía: hoja de instrucciones laborales</li>
         <li>Ubicación: raíz del proyecto</li>
@@ -368,7 +373,7 @@
     <li>Herencia de la plantilla común L1 (<code>inherits_common: "templates/common"</code> en <code>variant.json</code>)</li>
   </ul>
 
-  <p>Actualmente existen 11 plantillas variant: co-abap, co-consult, co-deck, co-design, co-develop, co-export, co-game, co-hr, co-news, co-security y co-work.</p>
+  <p>Actualmente existen 13 plantillas variant: co-abap, co-consult, co-deck, co-design, co-develop, co-export, co-game, co-hr, co-news, co-price, co-safety, co-security y co-work.</p>
 
   <h3>L3 (Project) — Capa de proyectos reales</h3>
 
@@ -497,7 +502,7 @@
     <li>Crea archivos de configuración propios del proyecto, como <code>docs/context.md</code></li>
   </ul>
 
-  <p>En <code>--variant</code> puedes indicar cualquiera de las 11 variantes existentes hoy, incluidas co-consult y co-deck. Los ejemplos co-consult y co-deck que se usan en los ejercicios de los capítulos 6 y 7 no son repositorios aparte clonados, sino el resultado de generar directamente con el comando anterior las carpetas <code>templates/co-consult/</code> y <code>templates/co-deck/</code> (L2) dentro del repositorio público <code>ai-workspace-standards</code>.</p>
+  <p>En <code>--variant</code> puedes indicar cualquiera de las 13 variantes existentes hoy, incluidas co-consult y co-deck. Los ejemplos co-consult y co-deck que se usan en los ejercicios de los capítulos 6 y 7 no son repositorios aparte clonados, sino el resultado de generar directamente con el comando anterior las carpetas <code>templates/co-consult/</code> y <code>templates/co-deck/</code> (L2) dentro del repositorio público <code>ai-workspace-standards</code>.</p>
 
   <h3>Reglas de sobrescritura</h3>
 
@@ -532,6 +537,9 @@
   <ul>
     <li><strong>co-consult</strong> — Variante para practicar consultoría con IA. Aporta un equipo de agentes que automatiza el análisis de empresas, la formulación de estrategias y la redacción de informes. Se practica en el capítulo 6 de este manual.</li>
     <li><strong>co-deck</strong> — Variante para automatizar presentaciones. Automatiza todo el pipeline: investigación &rarr; storyline &rarr; diseño &rarr; construcción HTML &rarr; salida PDF. Ofrece un flujo de trabajo de 11 etapas.</li>
+    <li><strong>co-price</strong> — 🔶 Beta. Simulador de gestión de precios y consultoría multisectorial, con un dataset de ejemplo K-Beauty incluido.</li>
+    <li><strong>co-safety</strong> — 🔶 Beta. Flujo de trabajo de una plataforma de cumplimiento EHS/GxP con más de 40 agentes especializados (respuesta a emergencias, cumplimiento, legal, formación, PSM, riesgo, auditoría, y más).</li>
+    <li>Otras variantes incluyen co-abap, co-design, co-develop, co-export, co-game, co-hr, co-news, co-security y co-work, cada una con un propósito distinto.</li>
   </ul>
 
   <h3>variant.json — Los metadatos de la variante</h3>
@@ -591,14 +599,14 @@
   <p>Este comando crea <code>Projects/my-market-report/</code> como un nuevo repositorio Git independiente, copia los agentes, skills y configuraciones de co-consult, y renderiza un esqueleto vacío de <code>docs/context.md</code> listo para rellenarlo con los objetivos de este proyecto concreto. La sintaxis completa es:</p>
 
   <div class="code-block">
-<pre><code>bun scripts/new-project.ts "&lt;nombre-del-proyecto&gt;" --variant &lt;variante&gt; [--platform claude|antigravity|both] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
+<pre><code>bun scripts/new-project.ts "&lt;nombre-del-proyecto&gt;" --variant &lt;variante&gt; [--platform claude|antigravity|codex|both] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <ul>
     <li><strong><code>&lt;nombre-del-proyecto&gt;</code></strong> — Obligatorio. Será el nombre de la carpeta bajo <code>Projects/</code>.</li>
     <li><strong><code>--variant &lt;variante&gt;</code></strong> — Obligatorio. Indica desde qué plantilla L2 se hará el scaffolding (<code>co-consult</code>, <code>co-deck</code>, <code>co-develop</code>, etc.).</li>
-    <li><strong><code>--platform</code></strong> — Opcional. Limita qué configuraciones de plataforma (<code>.claude/</code>, <code>.gemini/</code>) se copian. Por defecto es <code>both</code>.</li>
+    <li><strong><code>--platform</code></strong> — Opcional. Limita qué configuraciones de plataforma (<code>.claude/</code>, <code>.gemini/</code>, <code>.codex/</code>) se copian (<code>claude</code>, <code>antigravity</code>, <code>codex</code> o <code>both</code>). Por defecto es <code>both</code> (Claude Code + Gemini/Antigravity); usa <code>--platform codex</code> para añadir soporte de Codex.</li>
     <li><strong><code>--version</code></strong> — Opcional. Fija una versión concreta de la plantilla en lugar de la versión actual de la variante origen.</li>
     <li><strong><code>--country &lt;CODE&gt;</code></strong> — Opcional. Para un proyecto centrado en Corea, pasa <code>--country KR</code>. El perfil país inyectará en tu proyecto skills exclusivos de Corea como k-dart, k-law y k-kosis junto con la configuración de claves API KR (consulta el <a href="../appendix/D_Korean_Open_Data_API_Keys_es.html">apéndice D</a> para más detalles).</li>
   </ul>
@@ -693,7 +701,7 @@
     </a>
   </div>
    <footer>
-    Basado en Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) · Material educativo en español<br>
+    Basado en Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-12) · Material educativo en español<br>
     Recursos oficiales: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
     <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
     <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>

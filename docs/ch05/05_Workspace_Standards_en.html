@@ -29,12 +29,12 @@
  <article class="reading">
   <div class="chapter-eyebrow">Chapter 5</div>
   <h1>Exploring ai-workspace-standards</h1>
-  <p class="lead">Learn the structure of the ai-workspace-standards repository and its core concepts: the 4-level layer structure (L0&rarr;L1&rarr;L2&rarr;L3), the variant concept, the roles of the key files (AGENTS.md, CLAUDE.md, GEMINI.md), and common contracts.</p>
+  <p class="lead">Learn the structure of the ai-workspace-standards repository and its core concepts: the 4-level layer structure (L0&rarr;L1&rarr;L2&rarr;L3), the variant concept, the roles of the key files (AGENTS.md, CLAUDE.md, GEMINI.md, CODEX.md), and common contracts.</p>
   <div class="keypoints">
     <div class="kp-title">What This Chapter Covers</div>
     <ul>
       <li>The structure of the ai-workspace-standards repository</li>
-      <li>Key files: the roles of AGENTS.md, CLAUDE.md, and GEMINI.md</li>
+      <li>Key files: the roles of AGENTS.md, CLAUDE.md, GEMINI.md, and CODEX.md</li>
       <li>The 4-level layer structure (L0 &rarr; L1 &rarr; L2 &rarr; L3)</li>
       <li>The variant concept</li>
       <li>Common contracts and template inheritance</li>
@@ -48,7 +48,7 @@
 
   <h3>Definition</h3>
 
-  <p><strong>ai-workspace-standards</strong> is an <strong>open-source standard template</strong> for building <em>projects in which multiple AI agents cooperate</em> using AI coding tools such as Claude Code and Antigravity CLI. It is publicly available on GitHub free of charge, and anyone can copy it and apply it to their own projects.</p>
+  <p><strong>ai-workspace-standards</strong> is an <strong>open-source standard template</strong> for building <em>projects in which multiple AI agents cooperate</em> using AI coding tools such as Claude Code, Gemini CLI/Antigravity, and Codex. It is publicly available on GitHub free of charge, and anyone can copy it and apply it to their own projects.</p>
 
   <ul>
     <li><strong>GitHub repository</strong>: <code>github.com/5throck/ai-workspace-standards</code></li>
@@ -229,7 +229,7 @@
 
   <h3>Root Files</h3>
 
-  <p>Besides folders, important files sit at the top level: <code>AGENTS.md</code> (the agent registry), <code>CLAUDE.md</code> (instructions for Claude Code), <code>GEMINI.md</code> (instructions for Antigravity CLI), and <code>CHANGELOG.md</code> (change history), all located in the project root. These files are covered in detail in the "Key Files" section of this chapter.</p>
+  <p>Besides folders, important files sit at the top level: <code>AGENTS.md</code> (the agent registry), <code>CLAUDE.md</code> (instructions for Claude Code), <code>GEMINI.md</code> (instructions for Gemini CLI/Antigravity), <code>CODEX.md</code> (instructions for Codex CLI/Desktop App), and <code>CHANGELOG.md</code> (change history), all located in the project root. These files are covered in detail in the "Key Files" section of this chapter.</p>
 
   <div class="tip-box">
     <strong>Tip:</strong> If you would like to explore it yourself, clone the repository in a terminal. After copying it to your computer with <code>git clone https://github.com/5throck/ai-workspace-standards.git</code>, opening each folder and file directly makes the understanding come much faster.
@@ -240,7 +240,7 @@
   <!-- ============================================================ -->
   <h2 id="key-files">Key Files</h2>
 
-  <p>The key files of ai-workspace-standards are located in the project root, and each has a clear role. This section explains the five most important files.</p>
+  <p>The key files of ai-workspace-standards are located in the project root, and each has a clear role. This section explains the six most important files.</p>
 
   <h3 id="agents-md">AGENTS.md — The Agent Registry</h3>
 
@@ -354,8 +354,9 @@
 
   <ul>
     <li>The <code>.claude/</code> directory — settings, commands, and skills for Claude Code</li>
-    <li>The <code>.gemini/</code> directory — settings, commands, and skills for Antigravity CLI</li>
-    <li>Platform-specific agent configurations (CLAUDE.md, GEMINI.md)</li>
+    <li>The <code>.gemini/</code> directory — settings, commands, and skills for Gemini CLI/Antigravity</li>
+    <li>The <code>.codex/</code> directory — settings, prompts, and skills for Codex CLI/Desktop App</li>
+    <li>Platform-specific agent configurations (CLAUDE.md, GEMINI.md, CODEX.md)</li>
     <li>Common agent templates, common skills, and scripts</li>
     <li><code>propagation-map.json</code> — Defines the L0&rarr;L1 distribution rules</li>
   </ul>

@@ -2,10 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Apéndice D · Claves de API de datos abiertos de Corea (DART · ECOS · KRX · KOSIS · Ley) - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="description" content="Apéndice D · Claves de API de datos abiertos de Corea (DART · ECOS · KRX · KOSIS · Ley · Portal de Datos Públicos) - Introduction to Claude Code and Multi-Agent Harness">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
-  <title>Apéndice D · Claves de API de datos abiertos de Corea (DART · ECOS · KRX · KOSIS · Ley)</title>
+  <title>Apéndice D · Claves de API de datos abiertos de Corea (DART · ECOS · KRX · KOSIS · Ley · Portal de Datos Públicos)</title>
   <link rel="stylesheet" href="../assets/css/handbook-variables.css">
   <link rel="stylesheet" href="../assets/css/handbook-components.css">
 </head>
@@ -16,10 +16,12 @@
   <div class="nav-title">Apéndice D &middot; Claves de API de datos abiertos de Corea</div>
   <a href="#overview">Descripción general</a>
   <a href="#keys-summary">Las claves de un vistazo</a>
-  <a href="#whats-new">Novedades 2026-09: ECOS y KRX</a>
   <a href="#k-dart">DART: divulgación electrónica</a>
+  <a href="#k-ecos">ECOS: sistema de estadísticas</a>
+  <a href="#k-krx">Data Marketplace de KRX</a>
   <a href="#k-law">Centro Nacional de Información Legal</a>
   <a href="#k-kosis">Portal estadístico KOSIS</a>
+  <a href="#k-opendata">Portal de Datos Públicos</a>
   <a href="#env-config">Configuración de variables de entorno</a>
   <a href="#verify">Verificación</a>
   <a href="#troubleshooting">Solución de problemas</a>
@@ -32,16 +34,18 @@
 <main>
  <article class="reading">
   <div class="chapter-eyebrow">Apéndice D</div>
-  <h1>Claves de API de datos abiertos de Corea (DART · ECOS · KRX · KOSIS · Ley)</h1>
-  <p class="lead">Este apéndice explica cómo obtener y configurar las credenciales de API de datos abiertos de Corea que usan los skills con alcance de país <strong>k-*</strong> &mdash; la divulgación electrónica DART del Servicio Financiero de Supervisión (금융감독원), el sistema de estadísticas ECOS del Banco de Corea, el Data Marketplace de KRX (Bolsa de Corea), el Centro Nacional de Información Legal (국가법령정보센터) y el portal de estadísticas nacionales KOSIS (KOSTAT).</p>
+  <h1>Claves de API de datos abiertos de Corea (DART · ECOS · KRX · KOSIS · Ley · Portal de Datos Públicos)</h1>
+  <p class="lead">Este apéndice explica cómo obtener y configurar las credenciales de API de datos abiertos de Corea que usan los skills con alcance de país <strong>k-*</strong> &mdash; la divulgación electrónica DART del Servicio Financiero de Supervisión (금융감독원), el sistema de estadísticas ECOS del Banco de Corea, el Data Marketplace de KRX (Bolsa de Corea), el Centro Nacional de Información Legal (국가법령정보센터), el portal de estadísticas nacionales KOSIS (KOSTAT) y el Portal de Datos Públicos (data.go.kr).</p>
   <div class="keypoints">
     <div class="kp-title">Lo que cubre este apéndice</div>
     <ul>
       <li>Panorama de los servicios públicos y sus portales</li>
-      <li>Novedades de 2026-09: los skills <strong>k-ecos</strong> y <strong>k-krx</strong></li>
       <li>Obtención de la clave de DART (emisión inmediata)</li>
+      <li>Obtención de la clave de ECOS y uso de la clave de demostración pública</li>
+      <li>El proceso de aprobación administrativa del Data Marketplace de KRX</li>
       <li>Solicitud del identificador OC del portal legal (1&ndash;2 días hábiles)</li>
       <li>Solicitud de la clave del portal estadístico KOSIS</li>
+      <li>Obtención de la clave de servicio del Portal de Datos Públicos (data.go.kr) y solicitudes por conjunto de datos</li>
       <li>Configuración de las claves en <code>.env</code> (Windows / macOS / Linux)</li>
       <li>Verificación con curl y solución de problemas</li>
     </ul>
@@ -52,7 +56,7 @@
        ============================================================ -->
   <h2 id="overview">1. Descripción general</h2>
 
-  <p>Este espacio de trabajo incluye seis skills con alcance de país (KR) que consultan datos públicos de Corea. <strong>k-dart</strong> llama a la Open API de DART, el sistema de divulgación electrónica del Servicio Financiero de Supervisión (금융감독원, FSS); <strong>k-law</strong> llama al Centro Nacional de Información Legal (국가법령정보센터) operado por el Ministerio de Legislación Gubernamental (법제처, MOLEG); <strong>k-kosis</strong> llama al portal de estadísticas nacionales KOSIS (국가통계포털) de Statistics Korea (통계청). Desde 2026-09 la familia incluye también <strong>k-ecos</strong> (estadísticas macrofinancieras del Banco de Corea) y <strong>k-krx</strong> (datos de mercado de KRX), además de <strong>k-opendata</strong> (el Portal de Datos Públicos data.go.kr). Todos los skills k-* <strong>leen sus credenciales de variables de entorno</strong> justo antes de cada petición, por lo que debes obtener y configurar una clave de cada servicio antes de usarlos.</p>
+  <p>Este espacio de trabajo incluye seis skills con alcance de país (KR) que consultan datos públicos de Corea. <strong>k-dart</strong> llama a la Open API de DART, el sistema de divulgación electrónica del Servicio Financiero de Supervisión (금융감독원, FSS); <strong>k-ecos</strong> llama al sistema de estadísticas macrofinancieras ECOS del Banco de Corea; <strong>k-krx</strong> llama al Data Marketplace de datos de mercado de KRX; <strong>k-law</strong> llama al Centro Nacional de Información Legal (국가법령정보센터) operado por el Ministerio de Legislación Gubernamental (법제처, MOLEG); <strong>k-kosis</strong> llama al portal de estadísticas nacionales KOSIS (국가통계포털) de Statistics Korea (통계청); <strong>k-opendata</strong> llama al Portal de Datos Públicos (data.go.kr). Todos los skills k-* <strong>leen sus credenciales de variables de entorno</strong> justo antes de cada petición, por lo que debes obtener y configurar una clave de cada servicio antes de usarlos.</p>
 
   <div class="flow-box">
     El flujo es idéntico en todos los servicios k-*: <strong>el skill lee una variable de entorno &rarr; curl envía la petición con la clave adjunta &rarr; vuelve una respuesta JSON</strong>. Una vez configuradas, las claves se reutilizan en todas las sesiones posteriores.
@@ -68,8 +72,8 @@
       <rect x="20" y="50" width="140" height="34" rx="8" fill="var(--accent)"/>
       <rect x="20" y="76" width="140" height="8" fill="var(--accent)"/>
       <text x="90" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text-inverse)">1. Llamada al skill</text>
-      <text x="90" y="112" text-anchor="middle" font-size="11" style="color:var(--text-dim);">k-dart &middot; k-law</text>
-      <text x="90" y="130" text-anchor="middle" font-size="11" style="color:var(--text-dim);">k-kosis</text>
+      <text x="90" y="112" text-anchor="middle" font-size="11" style="color:var(--text-dim);">k-dart &middot; k-ecos</text>
+      <text x="90" y="130" text-anchor="middle" font-size="11" style="color:var(--text-dim);">k-krx &middot; k-law etc.</text>
 
       <!-- Arrow 1→2 -->
       <line x1="160" y1="105" x2="178" y2="105" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrowKrDataEs)"/>
@@ -113,14 +117,14 @@
     </svg>
   </div>
 
-  <p>Los tres servicios del sector público (DART, Ley, KOSIS) son <strong>gratuitos</strong>; cualquier desarrollador individual puede usarlos tras completar el registro. Los tiempos de aprobación difieren: DART emite la clave de inmediato, el Centro Nacional de Información Legal tarda 1&ndash;2 días hábiles y KOSIS no tiene un plazo documentado oficialmente, así que consulta los avisos del portal.</p>
+  <p>Los seis servicios son <strong>gratuitos</strong>; cualquier desarrollador individual puede usarlos tras completar el registro. Los tiempos de aprobación difieren: DART y ECOS emiten la clave de inmediato, el Centro Nacional de Información Legal tarda 1&ndash;2 días hábiles, KRX y algunos conjuntos de datos del Portal de Datos Públicos requieren aprobación administrativa, y KOSIS no tiene un plazo documentado oficialmente, así que consulta los avisos del portal.</p>
 
   <!-- ============================================================
        Section 2: Las claves de un vistazo
        ============================================================ -->
   <h2 id="keys-summary">2. Las claves de un vistazo</h2>
 
-  <p>La tabla siguiente resume los servicios. Consulta la sección de cada servicio para los pasos detallados y la sección de <a href="#whats-new">novedades 2026-09</a> para los dos skills añadidos en 2026-09.</p>
+  <p>La tabla siguiente resume los servicios. Consulta la sección de cada servicio para los pasos detallados.</p>
 
   <table>
     <thead>
@@ -141,14 +145,14 @@
         <td><code>DART_API_KEY</code></td>
       </tr>
       <tr>
-        <td>Estadísticas macrofinancieras ECOS <span style="color:var(--accent-green);">(nuevo en 2026-09)</span></td>
+        <td>ECOS: sistema de estadísticas económicas</td>
         <td>Banco de Corea (BOK)</td>
         <td><a href="https://ecos.bok.or.kr" target="_blank">ecos.bok.or.kr</a></td>
         <td>Inmediata; la clave de demostración pública <code>sample</code> sirve para consultas de &le;10 filas</td>
         <td><code>ECOS_API_KEY</code></td>
       </tr>
       <tr>
-        <td>Data Marketplace de KRX <span style="color:var(--accent-green);">(nuevo en 2026-09)</span></td>
+        <td>Data Marketplace de KRX</td>
         <td>Bolsa de Corea (KRX)</td>
         <td><a href="https://openapi.krx.co.kr" target="_blank">openapi.krx.co.kr</a></td>
         <td>Aprobación de un administrador + solicitud de uso por servicio; sin clave de demostración</td>
@@ -168,39 +172,19 @@
         <td>Consultar avisos del portal</td>
         <td><code>KOSIS_API_KEY</code></td>
       </tr>
+      <tr>
+        <td>Portal de Datos Públicos (estadísticas de comercio del Servicio de Aduanas)</td>
+        <td>Ministerio del Interior y Seguridad / Servicio de Aduanas de Corea</td>
+        <td><a href="https://www.data.go.kr/" target="_blank">data.go.kr</a></td>
+        <td>La clave de servicio del portal es inmediata; las solicitudes por conjunto de datos varían según la agencia</td>
+        <td><code>DATA_GO_KR_API_KEY</code></td>
+      </tr>
     </tbody>
   </table>
 
   <div class="note">
     El portal legal no emite una cadena de clave: usa el <strong>ID de correo electrónico con el que te registraste</strong> como identificador OC. El proceso y el plazo de aprobación de KOSIS no están documentados oficialmente; tras solicitarlo, consulta los <strong>avisos del portal</strong>.
   </div>
-
-  <!-- ============================================================
-       Section 3: Novedades 2026-09 — k-ecos y k-krx
-       ============================================================ -->
-  <h2 id="whats-new">3. Novedades 2026-09: ECOS y KRX</h2>
-
-  <p>En septiembre de 2026 la familia k-* creció con dos skills de datos de mercado. Ambos siguen el mismo patrón de variables de entorno que los tres servicios anteriores; sus flujos de registro difieren lo suficiente como para mencionarlos aparte.</p>
-
-  <h3>k-ecos &mdash; ECOS del Banco de Corea</h3>
-  <p><strong>k-ecos</strong> consulta el Sistema de Estadísticas Económicas del Banco de Corea (한국은행 경제통계시스템, ECOS) &mdash; la fuente primaria autorizada de las estadísticas monetarias y financieras de Corea: tasa base, tipos de cambio, masa monetaria, PIB y la consulta rápida de <code>100대 통계지표</code> (100 indicadores clave).</p>
-  <ul>
-    <li><strong>Puedes probarlo sin registrarte</strong> &mdash; una clave de demostración pública (la cadena literal <code>sample</code>) funciona para pruebas limitadas a 10 filas por petición. Para uso real, solicita tu propia clave en <a href="https://ecos.bok.or.kr" target="_blank">ecos.bok.or.kr</a> (Mi Página &gt; 인증키 신청) y guárdala en <code>ECOS_API_KEY</code>.</li>
-    <li><strong>Los códigos de ciclo usan otro alfabeto</strong> &mdash; el segmento <code>주기</code> (ciclo) toma <code>A</code>/<code>S</code>/<code>Q</code>/<code>M</code>/<code>SM</code>/<code>D</code>, <em>no</em> la forma <code>YY</code>/<code>QQ</code>/<code>MM</code>/<code>DD</code> copiada a menudo de otras guías. El alfabeto equivocado es la causa más común de <code>ERROR-100</code>, y el formato de fecha debe coincidir exactamente con el ciclo (<code>2024</code> para <code>A</code>, <code>2024Q1</code> para <code>Q</code>, <code>202401</code> para <code>M</code>, <code>20240101</code> para <code>D</code>; semestral es <code>2024S1</code>, semimensual <code>202401S1</code>).</li>
-  </ul>
-
-  <h3>k-krx &mdash; Data Marketplace de KRX</h3>
-  <p><strong>k-krx</strong> consulta la OPEN API del Data Marketplace de KRX (한국거래소) &mdash; negociación diaria de KOSPI/KOSDAQ/KONEX, datos maestros de acciones, cotizaciones de ETF/ETN/ELW, series de índices, bonos, derivados y materias primas en un catálogo de 7 categorías / 31 servicios.</p>
-  <ul>
-    <li><strong>No existe clave de demostración pública</strong> &mdash; las claves de relleno se rechazan con <code>401 Unauthorized Key</code>. La emisión requiere registrarse en el portal <a href="https://openapi.krx.co.kr" target="_blank">openapi.krx.co.kr</a> además de la <strong>aprobación de un administrador</strong> y una <strong>solicitud de uso por servicio</strong>, así que solicítala con bastante antelación a cuando necesites los datos.</li>
-    <li><strong>La clave viaja en una cabecera, no en la cadena de consulta</strong> &mdash; cada petición la pasa como <code>AUTH_KEY</code>:</li>
-  </ul>
-  <div class="code-block">
-<pre><code>curl -fsS -H "AUTH_KEY: $KRX_API_KEY" \
-  'https://data-dbg.krx.co.kr/svc/apis/sto/stk_bydd_trd.json'</code></pre>
-<button type="button" class="copy-btn">Copiar</button>
-  </div>
-  <p>Un error vuelve como un objeto JSON desnudo <code>{"respCode":"...","respMsg":"..."}</code> &mdash; muestra ambos campos tal cual al depurar.</p>
 
   <!-- ============================================================
        Section: DART
@@ -278,9 +262,49 @@
   </div>
 
   <!-- ============================================================
-       Section 4: Centro Nacional de Información Legal
+       Section: ECOS
        ============================================================ -->
-  <h2 id="k-law">5. API del Centro Nacional de Información Legal</h2>
+  <h2 id="k-ecos">5. API del sistema de estadísticas ECOS</h2>
+
+  <p><strong>k-ecos</strong> consulta el Sistema de Estadísticas Económicas del Banco de Corea (한국은행 경제통계시스템, ECOS) &mdash; la fuente primaria autorizada de las estadísticas monetarias y financieras de Corea: tasa base, tipos de cambio, masa monetaria, PIB y la consulta rápida de <code>100대 통계지표</code> (100 indicadores clave).</p>
+
+  <h3>Cómo obtener la clave</h3>
+  <ul>
+    <li><strong>Puedes probarlo sin registrarte</strong> &mdash; una clave de demostración pública (la cadena literal <code>sample</code>) funciona para pruebas limitadas a 10 filas por petición. Para uso real, solicita tu propia clave en <a href="https://ecos.bok.or.kr" target="_blank">ecos.bok.or.kr</a> (Mi Página &gt; 인증키 신청) y guárdala en <code>ECOS_API_KEY</code>.</li>
+  </ul>
+
+  <h3>Cómo hacer peticiones</h3>
+  <ul>
+    <li><strong>Los códigos de ciclo usan otro alfabeto</strong> &mdash; el segmento <code>주기</code> (ciclo) toma <code>A</code>/<code>S</code>/<code>Q</code>/<code>M</code>/<code>SM</code>/<code>D</code>, <em>no</em> la forma <code>YY</code>/<code>QQ</code>/<code>MM</code>/<code>DD</code> copiada a menudo de otras guías. El alfabeto equivocado es la causa más común de <code>ERROR-100</code>, y el formato de fecha debe coincidir exactamente con el ciclo (<code>2024</code> para <code>A</code>, <code>2024Q1</code> para <code>Q</code>, <code>202401</code> para <code>M</code>, <code>20240101</code> para <code>D</code>; semestral es <code>2024S1</code>, semimensual <code>202401S1</code>).</li>
+  </ul>
+
+  <!-- ============================================================
+       Section: KRX
+       ============================================================ -->
+  <h2 id="k-krx">6. API del Data Marketplace de KRX</h2>
+
+  <p><strong>k-krx</strong> consulta la OPEN API del Data Marketplace de KRX (한국거래소) &mdash; negociación diaria de KOSPI/KOSDAQ/KONEX, datos maestros de acciones, cotizaciones de ETF/ETN/ELW, series de índices, bonos, derivados y materias primas en un catálogo de 7 categorías / 31 servicios.</p>
+
+  <h3>Cómo obtener la clave</h3>
+  <ul>
+    <li><strong>No existe clave de demostración pública</strong> &mdash; las claves de relleno se rechazan con <code>401 Unauthorized Key</code>. La emisión requiere registrarse en el portal <a href="https://openapi.krx.co.kr" target="_blank">openapi.krx.co.kr</a> además de la <strong>aprobación de un administrador</strong> y una <strong>solicitud de uso por servicio</strong>, así que solicítala con bastante antelación a cuando necesites los datos.</li>
+  </ul>
+
+  <h3>Cómo hacer peticiones</h3>
+  <ul>
+    <li><strong>La clave viaja en una cabecera, no en la cadena de consulta</strong> &mdash; cada petición la pasa como <code>AUTH_KEY</code>:</li>
+  </ul>
+  <div class="code-block">
+<pre><code>curl -fsS -H "AUTH_KEY: $KRX_API_KEY" \
+  'https://data-dbg.krx.co.kr/svc/apis/sto/stk_bydd_trd.json'</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+  </div>
+  <p>Un error vuelve como un objeto JSON desnudo <code>{"respCode":"...","respMsg":"..."}</code> &mdash; muestra ambos campos tal cual al depurar.</p>
+
+  <!-- ============================================================
+       Section: Centro Nacional de Información Legal
+       ============================================================ -->
+  <h2 id="k-law">7. API del Centro Nacional de Información Legal</h2>
 
   <p>El Centro Nacional de Información Legal (국가법령정보센터) es el portal legal integrado que opera el Ministerio de Legislación Gubernamental (법제처, MOLEG). Además de las leyes vigentes, expone jurisprudencia, normas administrativas y reglamentos autonómicos mediante su Open API, por lo que es la fuente de datos de los skills de búsqueda y resumen de leyes.</p>
 
@@ -305,7 +329,7 @@
   <!-- ============================================================
        Section 5: KOSIS
        ============================================================ -->
-  <h2 id="k-kosis">6. API del portal estadístico KOSIS</h2>
+  <h2 id="k-kosis">8. API del portal estadístico KOSIS</h2>
 
   <p>KOSIS (국가통계포털) es el portal de estadísticas nacionales que opera Statistics Korea (통계청, KOSTAT). Expone tablas estadísticas oficiales de población, economía y sociedad mediante su Open API, y sirve como fuente de datos de los skills de consulta de estadísticas y análisis de series temporales.</p>
 
@@ -332,21 +356,47 @@
   </ul>
 
   <!-- ============================================================
-       Section 6: Configuración de variables de entorno
+       Section: Portal de Datos Públicos
        ============================================================ -->
-  <h2 id="env-config">7. Configuración de variables de entorno</h2>
+  <h2 id="k-opendata">9. API del Portal de Datos Públicos (data.go.kr)</h2>
 
-  <p>Configura las claves copiando el <code>.env.sample</code> del proyecto a <code>.env</code>. Todas las claves coreanas &mdash; <code>DART_API_KEY</code>, <code>LAW_API_OC</code> y <code>KOSIS_API_KEY</code>, más las más recientes <code>ECOS_API_KEY</code> y <code>KRX_API_KEY</code> &mdash; ya vienen prelistadas dentro del bloque marcador <code># &gt;&gt;&gt; country-scoped:KR</code>; <strong>solo rellena sus valores y no añadas líneas duplicadas</strong>.</p>
+  <p><strong>k-opendata</strong> consulta el Portal de Datos Públicos (공공데이터포털, data.go.kr). Este portal es una puerta de enlace compartida que aloja las Open API de docenas de agencias gubernamentales coreanas bajo un único sistema de cuenta y clave de servicio. Una sola clave de servicio del portal autentica contra <strong>todos</strong> los conjuntos de datos publicados allí, pero cada conjunto de datos individual (agencia + API) requiere igualmente su propia <strong>solicitud de uso</strong> (활용신청) antes de que las llamadas reales funcionen. Este manual cubre la API de estadísticas de comercio del Servicio de Aduanas de Corea (관세청) como ejemplo representativo &mdash; úsala cuando necesites cifras de importación/exportación a nivel de código HS que KOSIS no puede ofrecer.</p>
+
+  <h3>Cómo obtener la clave</h3>
+  <ol>
+    <li>Regístrate en <a href="https://www.data.go.kr/" target="_blank">data.go.kr</a> y solicita una <strong>clave de autenticación general (codificación/decodificación)</strong> &mdash; se emite de inmediato, sin aprobación.</li>
+    <li>Esta clave de servicio se reutiliza en todo el portal, pero aún debes enviar una <strong>solicitud de uso</strong> por separado en la página de detalle de cada <strong>conjunto de datos</strong> individual antes de poder llamarlo.</li>
+    <li>Los plazos de aprobación varían según la agencia &mdash; consulta el estado de tu <strong>cuenta de desarrollo/producción</strong> en Mi Página para ver la aprobación.</li>
+  </ol>
+  <p>Guarda la clave de servicio emitida en <code>DATA_GO_KR_API_KEY</code>.</p>
+
+  <h3>Qué puedes consultar (estadísticas de comercio del Servicio de Aduanas)</h3>
+  <ul>
+    <li><strong>Rendimiento de importación/exportación por partida y país</strong> &mdash; valor y peso de importación/exportación a nivel de código HS por país y periodo</li>
+    <li><strong>Totales de comercio nacionales/regionales</strong> &mdash; tendencias de balanza comercial generales o por región</li>
+  </ul>
+
+  <div class="note">
+    La ventana de consulta <code>strtYymm</code>/<code>endYymm</code> de la API del Servicio de Aduanas está limitada a <strong>un año por petición</strong>. Para un rango más largo, repite la petición año por año.
+  </div>
+
+  <!-- ============================================================
+       Section: Configuración de variables de entorno
+       ============================================================ -->
+  <h2 id="env-config">10. Configuración de variables de entorno</h2>
+
+  <p>Configura las claves copiando el <code>.env.sample</code> del proyecto a <code>.env</code>. Todas las claves coreanas &mdash; <code>DART_API_KEY</code>, <code>ECOS_API_KEY</code>, <code>KRX_API_KEY</code>, <code>LAW_API_OC</code>, <code>KOSIS_API_KEY</code>, <code>DATA_GO_KR_API_KEY</code> &mdash; ya vienen prelistadas dentro del bloque marcador <code># &gt;&gt;&gt; country-scoped:KR</code>; <strong>solo rellena sus valores y no añadas líneas duplicadas</strong>.</p>
 
   <div class="code-block">
 <pre><code>cp .env.sample .env
 
 # bloque country-scoped:KR — rellena las claves que uses
 DART_API_KEY=tu-clave-dart-de-40-caracteres
+ECOS_API_KEY=tu-clave-ecos          # o la clave de demostración pública: sample
+KRX_API_KEY=tu-clave-krx
 LAW_API_OC=tu-id-de-correo-registrado@example.com
 KOSIS_API_KEY=tu-clave-kosis
-ECOS_API_KEY=tu-clave-ecos          # o la clave de demostración pública: sample
-KRX_API_KEY=tu-clave-krx</code></pre>
+DATA_GO_KR_API_KEY=tu-clave-de-servicio-del-portal-de-datos-publicos</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
 
@@ -354,10 +404,11 @@ KRX_API_KEY=tu-clave-krx</code></pre>
 
   <div class="code-block">
 <pre><code>$env:DART_API_KEY="tu-clave-dart-de-40-caracteres"
-$env:LAW_API_OC="tu-id-de-correo-registrado@example.com"
-$env:KOSIS_API_KEY="tu-clave-kosis"
 $env:ECOS_API_KEY="tu-clave-ecos"
 $env:KRX_API_KEY="tu-clave-krx"
+$env:LAW_API_OC="tu-id-de-correo-registrado@example.com"
+$env:KOSIS_API_KEY="tu-clave-kosis"
+$env:DATA_GO_KR_API_KEY="tu-clave-de-servicio-del-portal-de-datos-publicos"
 
 # Permanente (variable de usuario) — persiste en nuevas terminales
 [System.Environment]::SetEnvironmentVariable("DART_API_KEY", "tu-clave-dart-de-40-caracteres", "User")</code></pre>
@@ -368,10 +419,11 @@ $env:KRX_API_KEY="tu-clave-krx"
 
   <div class="code-block">
 <pre><code>export DART_API_KEY="tu-clave-dart-de-40-caracteres"
+export ECOS_API_KEY="tu-clave-ecos"
+export KRX_API_KEY="tu-clave-krx"
 export LAW_API_OC="tu-id-de-correo-registrado@example.com"
 export KOSIS_API_KEY="tu-clave-kosis"
-export ECOS_API_KEY="tu-clave-ecos"
-export KRX_API_KEY="tu-clave-krx"</code></pre>
+export DATA_GO_KR_API_KEY="tu-clave-de-servicio-del-portal-de-datos-publicos"</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
 
@@ -380,9 +432,9 @@ export KRX_API_KEY="tu-clave-krx"</code></pre>
   </div>
 
   <!-- ============================================================
-       Section 7: Verificación
+       Section: Verificación
        ============================================================ -->
-  <h2 id="verify">8. Verificación</h2>
+  <h2 id="verify">11. Verificación</h2>
 
   <p>Una llamada curl por servicio confirma que las claves están bien configuradas. Cada comando lee las variables de entorno, así que ejecútalos en la misma terminal donde las configuraste.</p>
 
@@ -433,7 +485,7 @@ curl -fsS --get 'https://kosis.kr/openapi/statisticsList.do' \
   <!-- ============================================================
        Section 8: Solución de problemas
        ============================================================ -->
-  <h2 id="troubleshooting">9. Solución de problemas</h2>
+  <h2 id="troubleshooting">12. Solución de problemas</h2>
 
   <p>La tabla siguiente recoge los síntomas habituales y cómo corregirlos.</p>
 
@@ -497,9 +549,9 @@ curl -fsS --get 'https://kosis.kr/openapi/statisticsList.do' \
   <!-- ============================================================
        Section 9: Licencias y atribución
        ============================================================ -->
-  <h2 id="license">10. Licencias y atribución</h2>
+  <h2 id="license">13. Licencias y atribución</h2>
 
-  <p>Los datos de los tres servicios del sector público (DART, Ley, KOSIS) se publican bajo la <strong>Licencia de Datos Abiertos del Gobierno de Corea (공공누리, KOGL)</strong>; las API de ECOS y KRX tienen sus propios términos (경제통계 Open API 이용약관 / términos del Data Marketplace de KRX). Al citar o re elaborar los datos en informes o entregables de agentes, debes atribuir la fuente (por ejemplo, <code>Fuente: DART, divulgación electrónica del Servicio Financiero de Supervisión</code>). El formato de atribución para cada tipo de obra está documentado en el <a href="https://www.kogl.or.kr/" target="_blank">sitio de KOGL</a>.</p>
+  <p>Los datos de los cuatro servicios del sector público (DART, Ley, KOSIS, Portal de Datos Públicos) se publican bajo la <strong>Licencia de Datos Abiertos del Gobierno de Corea (공공누리, KOGL)</strong>; las API de ECOS y KRX tienen sus propios términos (경제통계 Open API 이용약관 / términos del Data Marketplace de KRX). Al citar o re elaborar los datos en informes o entregables de agentes, debes atribuir la fuente (por ejemplo, <code>Fuente: DART, divulgación electrónica del Servicio Financiero de Supervisión</code>). El formato de atribución para cada tipo de obra está documentado en el <a href="https://www.kogl.or.kr/" target="_blank">sitio de KOGL</a>.</p>
 
   <div class="chapter-nav">
     <a href="C_Low_Cost_Backends_es.html" class="prev">
@@ -512,9 +564,10 @@ curl -fsS --get 'https://kosis.kr/openapi/statisticsList.do' \
     </a>
   </div>
    <footer>
-    Basado en Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) · Material educativo en español<br>
+    Basado en Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-12) · Material educativo en español<br>
     Recursos oficiales: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
     <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://developers.openai.com/codex" target="_blank">Codex</a> ·
     <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
     El contenido de este manual está bajo la licencia <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (Atribución-NoComercial-CompartirIgual 4.0 Internacional)</a>.
   </footer>

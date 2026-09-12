@@ -29,12 +29,12 @@
  <article class="reading">
   <div class="chapter-eyebrow">5장</div>
   <h1>ai-workspace-standards 살펴보기</h1>
-  <p class="lead">ai-workspace-standards 저장소의 구조와 핵심 개념을 배웁니다. 4-레벨 레이어 구조(L0→L1→L2→L3), variant 개념, 핵심 파일(AGENTS.md, CLAUDE.md, GEMINI.md)의 역할, 그리고 공통 컨트랙트를 이해합니다.</p>
+  <p class="lead">ai-workspace-standards 저장소의 구조와 핵심 개념을 배웁니다. 4-레벨 레이어 구조(L0→L1→L2→L3), variant 개념, 핵심 파일(AGENTS.md, CLAUDE.md, GEMINI.md, CODEX.md)의 역할, 그리고 공통 컨트랙트를 이해합니다.</p>
   <div class="keypoints">
     <div class="kp-title">이 장에서 다루는 것</div>
     <ul>
       <li>ai-workspace-standards 저장소의 구조</li>
-      <li>핵심 파일: AGENTS.md, CLAUDE.md, GEMINI.md의 역할</li>
+      <li>핵심 파일: AGENTS.md, CLAUDE.md, GEMINI.md, CODEX.md의 역할</li>
       <li>4-레벨 레이어 구조 (L0 → L1 → L2 → L3)</li>
       <li>variant(변형) 개념</li>
       <li>공통 컨트랙트와 템플릿 상속</li>
@@ -48,7 +48,7 @@
 
   <h3>정의</h3>
 
-  <p><strong>ai-workspace-standards</strong>는 Claude Code, Antigravity CLI 같은 AI 코딩 도구를 활용하여 <em>여러 AI 에이전트가 협력하는 프로젝트</em>를 만들 때 필요한 <strong>오픈소스 표준 템플릿</strong>입니다. GitHub에서 무료로 공개되어 있으며, 누구나 복사해서 자신의 프로젝트에 적용할 수 있습니다.</p>
+  <p><strong>ai-workspace-standards</strong>는 Claude Code, Gemini CLI/Antigravity, Codex 같은 AI 코딩 도구를 활용하여 <em>여러 AI 에이전트가 협력하는 프로젝트</em>를 만들 때 필요한 <strong>오픈소스 표준 템플릿</strong>입니다. GitHub에서 무료로 공개되어 있으며, 누구나 복사해서 자신의 프로젝트에 적용할 수 있습니다.</p>
 
   <ul>
     <li><strong>GitHub 저장소</strong>: <code>github.com/5throck/ai-workspace-standards</code></li>
@@ -229,7 +229,7 @@
 
   <h3>루트 파일들</h3>
 
-  <p>최상위 디렉토리에는 폴더 외에도 중요한 파일들이 있습니다. <code>AGENTS.md</code>(에이전트 레지스트리), <code>CLAUDE.md</code>(Claude Code용 지침), <code>GEMINI.md</code>(Antigravity CLI용 지침), <code>CHANGELOG.md</code>(변경 이력)가 모두 프로젝트 루트에 위치합니다. 이 파일들은 이 장의 "핵심 파일들" 섹션에서 자세히 다룹니다.</p>
+  <p>최상위 디렉토리에는 폴더 외에도 중요한 파일들이 있습니다. <code>AGENTS.md</code>(에이전트 레지스트리), <code>CLAUDE.md</code>(Claude Code용 지침), <code>GEMINI.md</code>(Gemini CLI/Antigravity용 지침), <code>CODEX.md</code>(Codex CLI/Desktop App용 지침), <code>CHANGELOG.md</code>(변경 이력)가 모두 프로젝트 루트에 위치합니다. 이 파일들은 이 장의 "핵심 파일들" 섹션에서 자세히 다룹니다.</p>
 
   <div class="tip-box">
     <strong>팁:</strong> 실제로 탐색해보고 싶다면 터미널에서 저장소를 클론하세요. <code>git clone https://github.com/5throck/ai-workspace-standards.git</code> 명령으로 내 컴퓨터에 복사한 뒤, 각 폴더와 파일을 직접 열어보면 훨씬 이해가 빠릅니다.
@@ -240,7 +240,7 @@
   <!-- ============================================================ -->
   <h2 id="key-files">핵심 파일들</h2>
 
-  <p>ai-workspace-standards의 핵심 파일들은 프로젝트 루트에 위치하며, 각각 명확한 역할을 수행합니다. 이 섹션에서는 가장 중요한 5개 파일을 설명합니다.</p>
+  <p>ai-workspace-standards의 핵심 파일들은 프로젝트 루트에 위치하며, 각각 명확한 역할을 수행합니다. 이 섹션에서는 가장 중요한 6개 파일을 설명합니다.</p>
 
   <h3 id="agents-md">AGENTS.md — 에이전트 레지스트리</h3>
 
@@ -354,8 +354,9 @@
 
   <ul>
     <li><code>.claude/</code> 디렉토리 — Claude Code용 설정, 명령어, 스킬</li>
-    <li><code>.gemini/</code> 디렉토리 — Antigravity CLI용 설정, 명령어, 스킬</li>
-    <li>플랫폼별 에이전트 설정 (CLAUDE.md, GEMINI.md)</li>
+    <li><code>.gemini/</code> 디렉토리 — Gemini CLI/Antigravity용 설정, 명령어, 스킬</li>
+    <li><code>.codex/</code> 디렉토리 — Codex CLI/Desktop App용 설정, 프롬프트, 스킬</li>
+    <li>플랫폼별 에이전트 설정 (CLAUDE.md, GEMINI.md, CODEX.md)</li>
     <li>공통 에이전트 템플릿, 공통 스킬, 스크립트</li>
     <li><code>propagation-map.json</code> — L0→L1 배포 규칙 정의</li>
   </ul>
@@ -701,9 +702,10 @@
     </a>
   </div>
    <footer>
-    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) 기준 · 한국어 교육 자료<br>
+    Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-12) 기준 · 한국어 교육 자료<br>
     공식 자료: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
     <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://developers.openai.com/codex" target="_blank">Codex</a> ·
     <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
     본 핸드북의 콘텐츠는 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (저작자표시-비영리-동일조건변경허락 4.0 국제)</a> 라이선스에 따라 이용할 수 있습니다.
   </footer>

@@ -29,12 +29,12 @@
  <article class="reading">
   <div class="chapter-eyebrow">第5章</div>
   <h1>ai-workspace-standardsを探索する</h1>
-  <p class="lead">ai-workspace-standardsリポジトリの構造と核心概念を学びます。4レベルレイヤー構造（L0&rarr;L1&rarr;L2&rarr;L3）、バリアント（variant）の概念、主要ファイル（AGENTS.md、CLAUDE.md、GEMINI.md）の役割、そして共通コントラクトを理解します。</p>
+  <p class="lead">ai-workspace-standardsリポジトリの構造と核心概念を学びます。4レベルレイヤー構造（L0&rarr;L1&rarr;L2&rarr;L3）、バリアント（variant）の概念、主要ファイル（AGENTS.md、CLAUDE.md、GEMINI.md、CODEX.md）の役割、そして共通コントラクトを理解します。</p>
   <div class="keypoints">
     <div class="kp-title">この章で扱うこと</div>
     <ul>
       <li>ai-workspace-standardsリポジトリの構造</li>
-      <li>主要ファイル：AGENTS.md、CLAUDE.md、GEMINI.mdの役割</li>
+      <li>主要ファイル：AGENTS.md、CLAUDE.md、GEMINI.md、CODEX.mdの役割</li>
       <li>4レベルレイヤー構造（L0 → L1 → L2 → L3）</li>
       <li>バリアント（variant）の概念</li>
       <li>共通コントラクトとテンプレート継承</li>
@@ -48,7 +48,7 @@
 
   <h3>定義</h3>
 
-  <p><strong>ai-workspace-standards</strong>は、Claude CodeやAntigravity CLIのようなAIコーディングツールを活用して<em>複数のAIエージェントが協力するプロジェクト</em>を作るときに必要な<strong>オープンソース標準テンプレート</strong>です。GitHubで無料公開されており、誰でもコピーして自分のプロジェクトに適用できます。</p>
+  <p><strong>ai-workspace-standards</strong>は、Claude Code、Gemini CLI/Antigravity、Codexのような AIコーディングツールを活用して<em>複数のAIエージェントが協力するプロジェクト</em>を作るときに必要な<strong>オープンソース標準テンプレート</strong>です。GitHubで無料公開されており、誰でもコピーして自分のプロジェクトに適用できます。</p>
 
   <ul>
     <li><strong>GitHubリポジトリ</strong>: <code>github.com/5throck/ai-workspace-standards</code></li>
@@ -229,7 +229,7 @@
 
   <h3>ルートファイル群</h3>
 
-  <p>最上位ディレクトリにはフォルダ以外にも重要なファイルがあります。<code>AGENTS.md</code>（エージェントレジストリ）、<code>CLAUDE.md</code>（Claude Code用の指示）、<code>GEMINI.md</code>（Antigravity CLI用の指示）、<code>CHANGELOG.md</code>（変更履歴）が、いずれもプロジェクトのルートに置かれています。これらのファイルは本章の「主要ファイル」セクションで詳しく扱います。</p>
+  <p>最上位ディレクトリにはフォルダ以外にも重要なファイルがあります。<code>AGENTS.md</code>（エージェントレジストリ）、<code>CLAUDE.md</code>（Claude Code用の指示）、<code>GEMINI.md</code>（Gemini CLI/Antigravity用の指示）、<code>CODEX.md</code>（Codex CLI/Desktop App用の指示）、<code>CHANGELOG.md</code>（変更履歴）が、いずれもプロジェクトのルートに置かれています。これらのファイルは本章の「主要ファイル」セクションで詳しく扱います。</p>
 
   <div class="tip-box">
     <strong>ヒント:</strong> 実際に探索してみたい方は、ターミナルでリポジトリをクローンしてください。<code>git clone https://github.com/5throck/ai-workspace-standards.git</code>コマンドで自分のPCにコピーしたあと、各フォルダとファイルを直接開いてみれば理解がぐっと速くなります。
@@ -240,7 +240,7 @@
   <!-- ============================================================ -->
   <h2 id="key-files">主要ファイル</h2>
 
-  <p>ai-workspace-standardsの主要ファイルはプロジェクトのルートに位置し、それぞれ明確な役割を果たします。このセクションでは最も重要な5つのファイルを説明します。</p>
+  <p>ai-workspace-standardsの主要ファイルはプロジェクトのルートに位置し、それぞれ明確な役割を果たします。このセクションでは最も重要な6つのファイルを説明します。</p>
 
   <h3 id="agents-md">AGENTS.md — エージェントレジストリ</h3>
 
@@ -354,8 +354,9 @@
 
   <ul>
     <li><code>.claude/</code> ディレクトリ — Claude Code用の設定、コマンド、スキル</li>
-    <li><code>.gemini/</code> ディレクトリ — Antigravity CLI用の設定、コマンド、スキル</li>
-    <li>プラットフォーム別エージェント設定（CLAUDE.md、GEMINI.md）</li>
+    <li><code>.gemini/</code> ディレクトリ — Gemini CLI/Antigravity用の設定、コマンド、スキル</li>
+    <li><code>.codex/</code> ディレクトリ — Codex CLI/Desktop App用の設定、プロンプト、スキル</li>
+    <li>プラットフォーム別エージェント設定（CLAUDE.md、GEMINI.md、CODEX.md）</li>
     <li>共通エージェントテンプレート、共通スキル、スクリプト</li>
     <li><code>propagation-map.json</code> — L0→L1配布ルールの定義</li>
   </ul>
@@ -701,9 +702,10 @@
     </a>
   </div>
    <footer>
-    Claude Code 2026-08 / Antigravity CLI 1.1.0+ / Antigravity 2.0 / ai-workspace-standards main (2026-08-15) 基準 · 日本語教材<br>
+    Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-12) 基準 · 日本語教材<br>
     公式リソース: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
     <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://developers.openai.com/codex" target="_blank">Codex</a> ·
     <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
     このハンドブックのコンテンツは <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (表示 - 非営利 - 継承 4.0 国際)</a> ライセンスの下で提供されています。
   </footer>

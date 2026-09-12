@@ -253,7 +253,7 @@ dispatch_triggers:
       <h4>Priority Order</h4>
       <ul>
         <li><strong>Priority 1</strong> &mdash; Workspace skills (<code>skills/</code>)</li>
-        <li><strong>Priority 2</strong> &mdash; Platform skills (<code>.claude/skills/</code>, <code>.gemini/skills/</code>)</li>
+        <li><strong>Priority 2</strong> &mdash; Platform skills (<code>.claude/skills/</code>, <code>.gemini/skills/</code>, <code>.codex/skills/</code>)</li>
         <li><strong>Priority 3</strong> &mdash; Global plugin skills</li>
       </ul>
     </div>
@@ -262,7 +262,7 @@ dispatch_triggers:
       <ul>
         <li>If the same skill exists in several locations, priority 1 wins</li>
         <li>Workspace skills live only in the <code>skills/</code> folder</li>
-        <li>Platform skills are Claude/Gemini-specific hooks</li>
+        <li>Platform skills are Claude/Gemini-specific hooks; Codex loads them via the prompt instead of a hook</li>
         <li>Duplicate definitions should be avoided as a principle</li>
       </ul>
     </div>
@@ -504,9 +504,9 @@ dispatch_triggers:
       </tr>
       <tr>
         <td style="padding:8px 12px;">Example models</td>
-        <td style="padding:8px 12px;">claude-opus-5-0, gemini-3.1-pro</td>
-        <td style="padding:8px 12px;">claude-sonnet-5-0, gemini-3.7-flash</td>
-        <td style="padding:8px 12px;">claude-haiku-4-5, gemini-3.7-flash</td>
+        <td style="padding:8px 12px;">claude-opus-5-0, gemini-3.1-pro, gpt-5.6-sol</td>
+        <td style="padding:8px 12px;">claude-sonnet-5-0, gemini-3.7-flash, gpt-5.6-terra</td>
+        <td style="padding:8px 12px;">claude-haiku-4-5, gemini-3.7-flash, gpt-5.6-luna</td>
       </tr>
     </tbody>
   </table>

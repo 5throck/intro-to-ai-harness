@@ -286,7 +286,9 @@
       <li><strong>언어 게이트</strong> &mdash; 커밋 메시지와 PR 제목이 영어 규칙에 맞는지 검사합니다. 2026-09부터는 마크다운뿐 아니라 <code>.yaml</code>/<code>.yml</code> 파일도 검사 대상에 포함됩니다(<code>validate-md-language.ts</code> v1.9.0).</li>
       <li><strong>스펙 레지스트리 검사</strong> &mdash; <code>audit.ts --spec-check</code>: 이번 작업이 <code>docs/specs/registry.json</code>에 등록된 설계 문서(스펙)와 연결돼 있는지 확인하고, 없으면 동기화가 중단됩니다(FATAL). 오타 수정 같은 사소한 변경은 예외 코드 E1~E5(<code>--spec-exempt</code> 또는 <code>SYNC_SPEC_EXEMPT</code>)로 면제할 수 있습니다.</li>
       <li><strong>거버넌스 반영 게이트(ADR-0059)</strong> &mdash; 변경 내용이 관련 ADR(설계 결정 기록)과 연결돼 있는지 검사합니다.</li>
+      <li><strong>타입 검사 게이트</strong> &mdash; dev-sync 3.95b 단계에서 <code>scripts/typecheck.ts</code>(<code>scripts/</code> 대상 <code>tsc --noEmit</code>)를 실행해 <code>scripts/helpers/typecheck-baseline.json</code>의 무오류 기준선과 비교합니다. 새 타입 오류가 생기면 동기화가 중단됩니다(FATAL).</li>
       <li><strong>스킬 그래프 게이트(ADR-0060)</strong> &mdash; 스킬 간 의존 관계 그래프를 만들고 검증해 순환 참조 같은 문제를 미리 잡아 냅니다. audit.ts v2.30.0(수정안 9)부터는 커밋된 <code>docs/skill-graph.json</code>을 원본과 다시 대조해 드리프트가 있으면 실패합니다 &mdash; 이때는 <code>bun scripts/generate-skill-graph.ts</code>를 실행하고 재생성된 프로젝션을 커밋하면 됩니다.</li>
+      <li><strong>업그레이드 커버리지 게이트(ADR-0073)</strong> &mdash; <code>audit.ts</code>가 <code>check-upgrade-coverage.ts --strict</code>를 실행합니다. 템플릿 트리의 모든 파일이 <code>lib/upgrade-policy.ts</code>에서 해석 가능한 업그레이드 분류를 유지하는지 검사해, 템플릿 변경이 프로젝트 업그레이드에서 조용히 빠지는 사례를 막습니다.</li>
       <li><strong>디자인 린트 게이트</strong> &mdash; 스키마가 허용한 곳(<code>docs/workspace-schema.json</code>의 <code>designLint:</code> 블록)에서는 UI 소스 파일이 디자인 토큰 대신 색상 값을 하드코딩하면 실패합니다. 루트를 지정하지 않은 프로젝트는 그대로 건너뜁니다.</li>
       <li><strong>세션 증거 스킬 리뷰</strong>(비차단) &mdash; 세션 로그 <code>memory/YYYY-MM-DD.md</code>의 <code>## Skills Used</code> 섹션을 읽어 관찰 기록을 <code>memory/skill-review/YYYY-MM-DD.md</code>에 쌓습니다. 실제 세션 증거에서 스킬 문제가 드러나도록 하는 장치입니다.</li>
       <li><strong>VERSION_MANIFEST 재생성</strong> &mdash; <code>docs/VERSION_MANIFEST.md</code> 버전 목록을 최신 상태로 다시 생성합니다.</li>

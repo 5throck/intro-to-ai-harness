@@ -2,10 +2,10 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="付録D · 韓国オープンデータAPIキーの取得と設定 - Claude Codeとマルチエージェントハーネス入門">
+  <meta name="description" content="付録D · 韓国オープンデータAPIキーの取得と設定 (DART · ECOS · KRX · KOSIS · 法制処) - Claude Codeとマルチエージェントハーネス入門">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
-  <title>付録D · 韓国オープンデータAPIキーの取得と設定</title>
+  <title>付録D · 韓国オープンデータAPIキーの取得と設定 (DART · ECOS · KRX · KOSIS · 法制処)</title>
   <link rel="stylesheet" href="../assets/css/handbook-variables.css">
   <link rel="stylesheet" href="../assets/css/handbook-components.css">
 </head>
@@ -16,6 +16,7 @@
   <div class="nav-title">付録D &middot; 韓国オープンデータAPIキーの取得と設定</div>
   <a href="#overview">概要</a>
   <a href="#keys-summary">APIキー一覧</a>
+  <a href="#whats-new">2026-09新規: ECOS · KRX</a>
   <a href="#k-dart">DART 電子公示</a>
   <a href="#k-law">国家法令情報センター</a>
   <a href="#k-kosis">KOSIS 国家統計</a>
@@ -31,12 +32,13 @@
 <main>
  <article class="reading">
   <div class="chapter-eyebrow">付録D</div>
-  <h1>韓国オープンデータAPIキーの取得と設定</h1>
-  <p class="lead">この付録では、<strong>k-dart</strong>・<strong>k-law</strong>・<strong>k-kosis</strong> スキルが利用する韓国の公共オープンデータAPI &mdash; 金融監督院のDART電子公示、法制処の国家法令情報センター、統計庁のKOSIS国家統計ポータル &mdash; のキーを取得し、環境変数として設定する方法を説明します。</p>
+  <h1>韓国オープンデータAPIキーの取得と設定 (DART · ECOS · KRX · KOSIS · 法制処)</h1>
+  <p class="lead">この付録では、国別スコープの <strong>k-*</strong> スキルが利用する韓国の公共オープンデータAPI &mdash; 金融監督院のDART電子公示、韓国銀行経済統計システム（ECOS）、韓国取引所（KRX）データマーケットプレイス、法制処の国家法令情報センター、統計庁のKOSIS国家統計ポータル &mdash; のキーを取得し、環境変数として設定する方法を説明します。</p>
   <div class="keypoints">
     <div class="kp-title">この付録で扱う内容</div>
     <ul>
-      <li>3つの公共APIサービスと発行ポータルの一覧</li>
+      <li>公共APIサービスと発行ポータルの一覧</li>
+      <li>2026-09の新規: <strong>k-ecos</strong>・<strong>k-krx</strong> スキル</li>
       <li>DART電子公示APIキーの取得（即時発行）</li>
       <li>国家法令情報センターOC識別子の申請（1&ndash;2営業日）</li>
       <li>KOSIS国家統計ポータルAPIキーの申請</li>
@@ -50,10 +52,10 @@
        ============================================================ -->
   <h2 id="overview">1. 概要</h2>
 
-  <p>このワークスペースには、韓国の公共データを照会するスキルが3つ含まれています。<strong>k-dart</strong>は韓国金融監督院（금융감독원、FSS）が運営する電子公示システムDARTの、<strong>k-law</strong>は法制処（법제처、MOLEG）の国家法令情報センター（국가법령정보센터）の、<strong>k-kosis</strong>は統計庁（통계청、KOSTAT）のKOSIS国家統計ポータル（국가통계포털）のOpen APIを呼び出します。3つのスキルはいずれもリクエスト直前に<strong>環境変数からキーを読み込む</strong>ため、利用前に各サービスのキーを取得して設定しておく必要があります。</p>
+  <p>このワークスペースには、韓国の公共データを照会する国別スコープ（KR）スキルが6つ含まれています。<strong>k-dart</strong>は韓国金融監督院（금융감독원、FSS）が運営する電子公示システムDARTの、<strong>k-law</strong>は法制処（법제처、MOLEG）の国家法令情報センター（국가법령정보센터）の、<strong>k-kosis</strong>は統計庁（통계청、KOSTAT）のKOSIS国家統計ポータル（국가통계포털）のOpen APIを呼び出します。2026-09からは <strong>k-ecos</strong>（韓国銀行ECOSのマクロ・金融統計）と <strong>k-krx</strong>（KRX取引所の時情データ）、さらに <strong>k-opendata</strong>（data.go.kr公共データポータル）も加わっています。すべてのk-*スキルはリクエスト直前に<strong>環境変数からキーを読み込む</strong>ため、利用前に各サービスのキーを取得して設定しておく必要があります。</p>
 
   <div class="flow-box">
-    流れは3サービスとも同じです。<strong>スキルが環境変数を読み &rarr; curlリクエストにキーを載せて送信 &rarr; JSONレスポンスが返る</strong>。一度設定すれば、以降のすべてのセッションで再利用できます。
+    流れはすべてのk-*サービスで同じです。<strong>スキルが環境変数を読み &rarr; curlリクエストにキーを載せて送信 &rarr; JSONレスポンスが返る</strong>。一度設定すれば、以降のすべてのセッションで再利用できます。
   </div>
 
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
@@ -111,14 +113,14 @@
     </svg>
   </div>
 
-  <p>3サービスとも<strong>無料</strong>で、個人開発者でも登録手続きを済ませればすぐに利用できます。ただし承認にかかる時間はサービスごとに異なります &mdash; DARTは即時発行、国家法令情報センターは1&ndash;2営業日、KOSISは公式な基準が文書化されていないためポータルの掲示板で確認します。</p>
+  <p>DART・法制処・KOSISの3サービスはいずれも<strong>無料</strong>で、個人開発者でも登録手続きを済ませればすぐに利用できます。ただし承認にかかる時間はサービスごとに異なります &mdash; DARTは即時発行、国家法令情報センターは1&ndash;2営業日、KOSISは公式な基準が文書化されていないためポータルの掲示板で確認します。</p>
 
   <!-- ============================================================
        Section 2: APIキー一覧
        ============================================================ -->
   <h2 id="keys-summary">2. APIキー一覧</h2>
 
-  <p>取得対象の3サービスを表にまとめます。詳細な手続きは各サービスのセクションを参照してください。</p>
+  <p>取得対象のサービスを表にまとめます。詳細な手続きは各サービスのセクションを、2026-09に追加された2つのスキルは<a href="#whats-new">2026-09新規</a>セクションを参照してください。</p>
 
   <table>
     <thead>
@@ -137,6 +139,20 @@
         <td><a href="https://opendart.fss.or.kr/intro/main.do" target="_blank">opendart.fss.or.kr</a></td>
         <td>即時</td>
         <td><code>DART_API_KEY</code></td>
+      </tr>
+      <tr>
+        <td>ECOSマクロ・金融統計 <span style="color:var(--accent-green);">(2026-09新規)</span></td>
+        <td>韓国銀行（BOK）</td>
+        <td><a href="https://ecos.bok.or.kr" target="_blank">ecos.bok.or.kr</a></td>
+        <td>即時。公開デモキー <code>sample</code> で10行以下の照会が可能</td>
+        <td><code>ECOS_API_KEY</code></td>
+      </tr>
+      <tr>
+        <td>KRXデータマーケットプレイス <span style="color:var(--accent-green);">(2026-09新規)</span></td>
+        <td>韓国取引所（KRX）</td>
+        <td><a href="https://openapi.krx.co.kr" target="_blank">openapi.krx.co.kr</a></td>
+        <td>管理者承認 + サービス別利用申請。デモキーなし</td>
+        <td><code>KRX_API_KEY</code></td>
       </tr>
       <tr>
         <td>国家法令情報センター</td>
@@ -160,9 +176,36 @@
   </div>
 
   <!-- ============================================================
-       Section 3: DART 電子公示
+       Section 3: 2026-09の新規 — k-ecos と k-krx
        ============================================================ -->
-  <h2 id="k-dart">3. DART電子公示API</h2>
+  <h2 id="whats-new">3. 2026-09の新規: ECOS · KRX</h2>
+
+  <p>2026年9月、k-*ファミリーに市場データ系スキルが2つ追加されました。どちらも前述の3サービスと同じ環境変数パターンに従いますが、発行手続きが異なるため別途取り上げます。</p>
+
+  <h3>k-ecos &mdash; 韓国銀行ECOS</h3>
+  <p><strong>k-ecos</strong> は韓国銀行経済統計システム（ECOS）を照会します。基準金利、為替レート、通貨量、GDP、<code>100대 통계지표</code>（主要100統計指標）のクイック照会まで、韓国のマクロ・金融統計の一次ソースです。</p>
+  <ul>
+    <li><strong>サインアップなしで試せます</strong> &mdash; 公開デモキー（文字どおり <code>sample</code>）が、リクエストあたり10行までのスモークテストとして動作します。実利用には <a href="https://ecos.bok.or.kr" target="_blank">ecos.bok.or.kr</a> で自分のキーを発行し（マイページ &gt; 認証キー申請）、<code>ECOS_API_KEY</code> に保存してください。</li>
+    <li><strong>周期コードは別のアルファベットを使います</strong> &mdash; <code>주기</code>（周期）セグメントには <code>A</code>/<code>S</code>/<code>Q</code>/<code>M</code>/<code>SM</code>/<code>D</code> を使います。他のガイドからよくコピーされる <code>YY</code>/<code>QQ</code>/<code>MM</code>/<code>DD</code> 形式ではありません。誤ったアルファベットは <code>ERROR-100</code> の最も多い原因で、日付形式も周期と正確に一致させる必要があります（<code>A</code> は <code>2024</code>、<code>Q</code> は <code>2024Q1</code>、<code>M</code> は <code>202401</code>、<code>D</code> は <code>20240101</code>、半年は <code>2024S1</code>、半月は <code>202401S1</code>）。</li>
+  </ul>
+
+  <h3>k-krx &mdash; KRXデータマーケットプレイス</h3>
+  <p><strong>k-krx</strong> は韓国取引所（KRX）データマーケットプレイスのOPEN APIを照会します。コスピ・コスダック・コネクスの日次取引、銘柄マスタ、ETF/ETN/ELW時情、指数、債券、デリバティブ、一般商品を7カテゴリ / 31サービスの規模で提供します。</p>
+  <ul>
+    <li><strong>公開デモキーは存在しません</strong> &mdash; プレースホルダーキーは <code>401 Unauthorized Key</code> で拒否されます。キー発行には <a href="https://openapi.krx.co.kr" target="_blank">openapi.krx.co.kr</a> のポータル登録に加え、<strong>管理者承認</strong>と<strong>サービス別利用申請</strong>が必要なため、データが必要になる時点より余裕を持って申請してください。</li>
+    <li><strong>キーはクエリ文字列ではなくヘッダーで渡します</strong> &mdash; すべてのリクエストが <code>AUTH_KEY</code> ヘッダーにキーを載せて送ります:</li>
+  </ul>
+  <div class="code-block">
+<pre><code>curl -fsS -H "AUTH_KEY: $KRX_API_KEY" \
+  'https://data-dbg.krx.co.kr/svc/apis/sto/stk_bydd_trd.json'</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+  </div>
+  <p>エラーは <code>{"respCode":"...","respMsg":"..."}</code> 形式のベアJSONで返ります &mdash; デバッグ時は両方のフィールドをそのまま確認してください。</p>
+
+  <!-- ============================================================
+       Section: DART 電子公示
+       ============================================================ -->
+  <h2 id="k-dart">4. DART電子公示API</h2>
 
   <p>DARTは韓国金融監督院（금융감독원）が運営する電子公示システムのOpen APIです。上場企業の公示リストから企業概況、財務諸表、主要事項報告までを<strong>機械可読な形式</strong>で提供するため、企業分析エージェントのデータソースとして利用できます。</p>
 
@@ -237,7 +280,7 @@
   <!-- ============================================================
        Section 4: 国家法令情報センター
        ============================================================ -->
-  <h2 id="k-law">4. 国家法令情報センターAPI</h2>
+  <h2 id="k-law">5. 国家法令情報センターAPI</h2>
 
   <p>国家法令情報センター（국가법령정보센터）は、韓国法制処（법제처）が運営する法令統合ポータルです。現行法令の本文に加え、判例・行政規則・自治法規までOpen APIで提供しており、法令検索・要約スキルのデータソースとして使います。</p>
 
@@ -262,7 +305,7 @@
   <!-- ============================================================
        Section 5: KOSIS 国家統計
        ============================================================ -->
-  <h2 id="k-kosis">5. KOSIS国家統計ポータルAPI</h2>
+  <h2 id="k-kosis">6. KOSIS国家統計ポータルAPI</h2>
 
   <p>KOSIS（국가통계포털）は韓国統計庁（통계청）が運営する国家統計ポータルです。人口・経済・社会全般の公式統計表をOpen APIで提供しており、統計照会・時系列分析スキルのデータソースとして使います。</p>
 
@@ -291,17 +334,19 @@
   <!-- ============================================================
        Section 6: 環境変数の設定
        ============================================================ -->
-  <h2 id="env-config">6. 環境変数の設定</h2>
+  <h2 id="env-config">7. 環境変数の設定</h2>
 
-  <p>発行されたキーは、プロジェクトルートの <code>.env.sample</code> を <code>.env</code> にコピーして設定します。韓国関連の3つのキー（<code>DART_API_KEY</code>、<code>LAW_API_OC</code>、<code>KOSIS_API_KEY</code>）は、いずれも <code># &gt;&gt;&gt; country-scoped:KR</code> マーカーブロックに最初から記載されています — <strong>値を埋めるだけで、行を重複して追加しないでください</strong>。</p>
+  <p>発行されたキーは、プロジェクトルートの <code>.env.sample</code> を <code>.env</code> にコピーして設定します。韓国関連のキー &mdash; <code>DART_API_KEY</code>、<code>LAW_API_OC</code>、<code>KOSIS_API_KEY</code>、そして2026-09に追加された <code>ECOS_API_KEY</code> と <code>KRX_API_KEY</code> &mdash; は、いずれも <code># &gt;&gt;&gt; country-scoped:KR</code> マーカーブロックに最初から記載されています — <strong>値を埋めるだけで、行を重複して追加しないでください</strong>。</p>
 
   <div class="code-block">
 <pre><code>cp .env.sample .env
 
-# country-scoped:KR ブロック — 3つのキーを実際の値に置き換えます
+# country-scoped:KR ブロック — 使うキーを実際の値に置き換えます
 DART_API_KEY=発行された-40文字-の認証キー
 LAW_API_OC=登録-メールID@example.com
-KOSIS_API_KEY=発行された-KOSIS-キー</code></pre>
+KOSIS_API_KEY=発行された-KOSIS-キー
+ECOS_API_KEY=発行された-ECOS-キー          # 公開デモキー: sample
+KRX_API_KEY=発行された-KRX-キー</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
@@ -311,6 +356,8 @@ KOSIS_API_KEY=発行された-KOSIS-キー</code></pre>
 <pre><code>$env:DART_API_KEY="発行された-40文字-の認証キー"
 $env:LAW_API_OC="登録-メールID@example.com"
 $env:KOSIS_API_KEY="発行された-KOSIS-キー"
+$env:ECOS_API_KEY="発行された-ECOS-キー"
+$env:KRX_API_KEY="発行された-KRX-キー"
 
 # 恒久保存（ユーザー変数）— 新しいターミナルでも保持されます
 [System.Environment]::SetEnvironmentVariable("DART_API_KEY", "発行された-40文字-の認証キー", "User")</code></pre>
@@ -322,7 +369,9 @@ $env:KOSIS_API_KEY="発行された-KOSIS-キー"
   <div class="code-block">
 <pre><code>export DART_API_KEY="発行された-40文字-の認証キー"
 export LAW_API_OC="登録-メールID@example.com"
-export KOSIS_API_KEY="発行された-KOSIS-キー"</code></pre>
+export KOSIS_API_KEY="発行された-KOSIS-キー"
+export ECOS_API_KEY="発行された-ECOS-キー"
+export KRX_API_KEY="発行された-KRX-キー"</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
@@ -333,9 +382,17 @@ export KOSIS_API_KEY="発行された-KOSIS-キー"</code></pre>
   <!-- ============================================================
        Section 7: 動作確認
        ============================================================ -->
-  <h2 id="verify">7. 動作確認</h2>
+  <h2 id="verify">8. 動作確認</h2>
 
-  <p>キーが正しく設定されたか、サービスごとに簡単なcurl呼び出しで確認します。3つのコマンドはいずれも環境変数を読むため、設定した同じターミナルで実行してください。</p>
+  <p>キーが正しく設定されたか、サービスごとに簡単なcurl呼び出しで確認します。各コマンドはいずれも環境変数を読むため、設定した同じターミナルで実行してください。</p>
+
+  <p><strong>ECOS &mdash; 主要100統計指標（公開 <code>sample</code> キーで動作、サインアップ不要）</strong></p>
+  <div class="code-block">
+<pre><code># ECOS — 100 key indicators (public demo key works)
+curl -fsS --get 'https://ecos.bok.or.kr/api/KeyStatisticList/sample/json/kr/0/10/'</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+  <p><strong>期待される結果:</strong> 為替レート・基準金利・成長率などの最新の主要指標を含むJSONが出力されます。自分のキーを発行したら、<code>sample</code> を <code>$ECOS_API_KEY</code> に置き換えてください。</p>
 
   <p><strong>DART &mdash; 企業概況（サムスン電子）</strong></p>
   <div class="code-block">
@@ -376,7 +433,7 @@ curl -fsS --get 'https://kosis.kr/openapi/statisticsList.do' \
   <!-- ============================================================
        Section 8: トラブルシューティング
        ============================================================ -->
-  <h2 id="troubleshooting">8. トラブルシューティング</h2>
+  <h2 id="troubleshooting">9. トラブルシューティング</h2>
 
   <p>よくある症状と対処方法をまとめます。</p>
 
@@ -440,9 +497,9 @@ curl -fsS --get 'https://kosis.kr/openapi/statisticsList.do' \
   <!-- ============================================================
        Section 9: ライセンスと出典表記
        ============================================================ -->
-  <h2 id="license">9. ライセンスと出典表記</h2>
+  <h2 id="license">10. ライセンスと出典表記</h2>
 
-  <p>3サービスが提供するデータはすべて、韓国の公共データ著作物利用許諾 <strong>コングヌリ（공공누리、KOGL）</strong>ライセンスで提供されます。レポートやエージェントの成果物にデータを引用・再構成する場合は、出典（例: <code>出典: 韓国金融監督院 DART電子公示</code>）を明記する必要があります。著作物タイプ別の表記方法は<a href="https://www.kogl.or.kr/" target="_blank">コングヌリ公式サイト</a>で確認してください。</p>
+  <p>DART・法制処・KOSISの3つの公共サービスが提供するデータは、韓国の公共データ著作物利用許諾 <strong>コングヌリ（공공누리、KOGL）</strong>ライセンスで提供されます。ECOSとKRXのAPIは、それぞれの利用規約（경제통계 Open API 이용약관 / KRXデータマーケットプレイス利用規約）に従います。レポートやエージェントの成果物にデータを引用・再構成する場合は、出典（例: <code>出典: 韓国金融監督院 DART電子公示</code>）を明記する必要があります。著作物タイプ別の表記方法は<a href="https://www.kogl.or.kr/" target="_blank">コングヌリ公式サイト</a>で確認してください。</p>
 
   <div class="chapter-nav">
     <a href="C_Low_Cost_Backends_ja.html" class="prev">

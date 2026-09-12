@@ -253,7 +253,7 @@ dispatch_triggers:
       <h4>우선순위 순서</h4>
       <ul>
         <li><strong>1순위</strong> — 워크스페이스 스킬 (<code>skills/</code>)</li>
-        <li><strong>2순위</strong> — 플랫폼 스킬 (<code>.claude/skills/</code>, <code>.gemini/skills/</code>)</li>
+        <li><strong>2순위</strong> — 플랫폼 스킬 (<code>.claude/skills/</code>, <code>.gemini/skills/</code>, <code>.codex/skills/</code>)</li>
         <li><strong>3순위</strong> — 글로벌 플러그인 스킬</li>
       </ul>
     </div>
@@ -262,7 +262,7 @@ dispatch_triggers:
       <ul>
         <li>같은 스킬이 여러 위치에 있으면 1순위를 사용</li>
         <li>워크스페이스 스킬은 <code>skills/</code> 폴더에만</li>
-        <li>플랫폼 스킬은 Claude/Gemini 전용 훅</li>
+        <li>플랫폼 스킬은 Claude/Gemini 전용 훅, Codex는 훅 대신 프롬프트로 로드</li>
         <li>중복 정의는 피하는 것이 원칙</li>
       </ul>
     </div>
@@ -504,9 +504,9 @@ dispatch_triggers:
       </tr>
       <tr>
         <td style="padding:8px 12px;">예시 모델</td>
-        <td style="padding:8px 12px;">claude-opus-5-0, gemini-3.1-pro</td>
-        <td style="padding:8px 12px;">claude-sonnet-5-0, gemini-3.7-flash</td>
-        <td style="padding:8px 12px;">claude-haiku-4-5, gemini-3.7-flash</td>
+        <td style="padding:8px 12px;">claude-opus-5-0, gemini-3.1-pro, gpt-5.6-sol</td>
+        <td style="padding:8px 12px;">claude-sonnet-5-0, gemini-3.7-flash, gpt-5.6-terra</td>
+        <td style="padding:8px 12px;">claude-haiku-4-5, gemini-3.7-flash, gpt-5.6-luna</td>
       </tr>
     </tbody>
   </table>

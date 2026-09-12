@@ -279,12 +279,14 @@
   </div>
 
   <div class="note">
-    <p><strong>Extra /sync safety gates</strong> (as of 2026-08-24) &mdash; beyond the five steps above, the following checks run automatically inside the pipeline. Users normally just answer the prompts as they appear.</p>
+    <p><strong>Extra /sync safety gates</strong> (as of 2026-09-09) &mdash; beyond the five steps above, the following checks run automatically inside the pipeline. Users normally just answer the prompts as they appear.</p>
     <ul>
-      <li><strong>Language gate</strong> &mdash; verifies that commit messages and PR titles follow the English-only rule.</li>
+      <li><strong>Language gate</strong> &mdash; verifies that commit messages and PR titles follow the English-only rule. Since 2026-09 it also scans <code>.yaml</code>/<code>.yml</code> files (<code>validate-md-language.ts</code> v1.9.0), not just Markdown.</li>
       <li><strong>Spec registry check</strong> &mdash; <code>audit.ts --spec-check</code>: confirms the work is linked to a design doc (spec) registered in <code>docs/specs/registry.json</code>; if not, the sync halts (FATAL). Trivial changes like typo fixes can be exempted with codes E1&ndash;E5 (<code>--spec-exempt</code> or the <code>SYNC_SPEC_EXEMPT</code> env var).</li>
       <li><strong>Governance reflection gate (ADR-0059)</strong> &mdash; checks that changes are linked to their related ADRs (design decision records).</li>
-      <li><strong>Skill graph gate (ADR-0060)</strong> &mdash; builds and verifies the skill dependency graph, catching issues such as circular references early.</li>
+      <li><strong>Skill graph gate (ADR-0060)</strong> &mdash; builds and verifies the skill dependency graph, catching issues such as circular references early. Since audit.ts v2.30.0 (Amendment 9) it also re-verifies the committed <code>docs/skill-graph.json</code> against its sources and fails on drift &mdash; if that fires, run <code>bun scripts/generate-skill-graph.ts</code> and commit the regenerated projection.</li>
+      <li><strong>Design-lint gate</strong> &mdash; where the schema enables it (the <code>designLint:</code> block in <code>docs/workspace-schema.json</code>), fails if UI source files hardcode raw colors instead of using the design tokens. Projects without configured roots are skipped.</li>
+      <li><strong>Session-evidence skill review</strong> (non-fatal) &mdash; reads the <code>## Skills Used</code> section of the session's <code>memory/YYYY-MM-DD.md</code> log and appends observations to <code>memory/skill-review/YYYY-MM-DD.md</code>, so skill problems surface from real session evidence.</li>
       <li><strong>VERSION_MANIFEST regeneration</strong> &mdash; regenerates the <code>docs/VERSION_MANIFEST.md</code> version list to reflect the latest state.</li>
     </ul>
   </div>

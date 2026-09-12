@@ -34,7 +34,7 @@
     <div class="kp-title">Lo que cubre este capítulo</div>
     <ul>
       <li>Pre-flight checklist (subscriptions, accounts, system requirements)</li>
-      <li>Preparing the <code>C:\git\project\setup</code> folder</li>
+      <li>Preparar la carpeta <code>C:\git\project\setup</code></li>
       <li>OS-specific installation (MacOS, Windows, Linux)</li>
       <li>Verification and troubleshooting</li>
     </ul>
@@ -238,56 +238,56 @@
 
   <div class="step-list">
     <div class="step">
-      <span class="step-label">Check if Homebrew is installed</span>
-      &mdash; Open <strong>Terminal.app</strong> and run the following command.
+      <span class="step-label">Comprobar si Homebrew está instalado</span>
+      &mdash; Abre <strong>Terminal.app</strong> y ejecuta el siguiente comando.
       <div class="code-block">
 <pre><code>brew --version</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
-      If a version number appears, Homebrew is already installed &mdash; skip to the next step.<br>
-      If you see <code>command not found</code>, you need to install Homebrew first.
+      Si aparece un número de versión, Homebrew ya está instalado &mdash; pasa al siguiente paso.<br>
+      Si ves <code>command not found</code>, primero debes instalar Homebrew.
     </div>
     <div class="step">
-      <span class="step-label">Install Homebrew (only if needed)</span>
-      &mdash; Run the official installation script from Homebrew's website. Copy and paste this command into your terminal.
+      <span class="step-label">Instalar Homebrew (solo si es necesario)</span>
+      &mdash; Ejecuta el script de instalación oficial del sitio web de Homebrew. Copia y pega este comando en tu terminal.
       <div class="code-block">
 <pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
-      Once installation completes, close and reopen the terminal.
+      Cuando termine la instalación, cierra y vuelve a abrir la terminal.
     </div>
     <div class="step">
-      <span class="step-label">Install Git</span>
-      &mdash; <code>Git</code> is a version control system. It tracks changes to your code and integrates with GitHub for project management. Git is a foundational tool for Claude Code and the sistema multi-agente.
+      <span class="step-label">Instalar Git</span>
+      &mdash; <code>Git</code> es un sistema de control de versiones. Registra los cambios de tu código y se integra con GitHub para la gestión de proyectos. Git es una herramienta fundamental para Claude Code y el sistema multiagente.
       <div class="code-block">
 <pre><code>brew install git</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
-      <span class="step-label">Install GitHub CLI</span>
-      &mdash; <code>GitHub CLI</code> (<code>gh</code>) lets you use GitHub directly from the terminal. Claude Code uses it to create and manage GitHub repositories.
+      <span class="step-label">Instalar GitHub CLI</span>
+      &mdash; <code>GitHub CLI</code> (<code>gh</code>) te permite usar GitHub directamente desde la terminal. Claude Code la utiliza para crear y gestionar repositorios de GitHub.
       <div class="code-block">
 <pre><code>brew install gh</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
-      <span class="step-label">Install Bun</span>
-      &mdash; <code>Bun</code> is a JavaScript/TypeScript runtime. It serves as an alternative to Node.js and is required to run the harness multi-agente's automation scripts and configuration validation tools. It is known for being fast and easy to install.
+      <span class="step-label">Instalar Bun</span>
+      &mdash; <code>Bun</code> es un runtime de JavaScript/TypeScript. Funciona como alternativa a Node.js y es necesario para ejecutar los scripts de automatización y las herramientas de validación de configuración del sistema multiagente. Se conoce por ser rápido y fácil de instalar.
       <div class="code-block">
 <pre><code>brew install oven-sh/bun/bun</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
-      <span class="step-label">Authenticate GitHub CLI</span>
-      &mdash; Link your GitHub account to <code>gh</code>. This step is required before Claude Code can use GitHub features.
+      <span class="step-label">Autenticar GitHub CLI</span>
+      &mdash; Vincula tu cuenta de GitHub a <code>gh</code>. Este paso es necesario antes de que Claude Code pueda usar las funciones de GitHub.
       <div class="code-block">
 <pre><code>gh auth login</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
-      Follow the prompts to select <strong>GitHub.com</strong>. When your browser opens, log in with your GitHub account to complete authentication.
+      Sigue las indicaciones para seleccionar <strong>GitHub.com</strong>. Cuando se abra tu navegador, inicia sesión con tu cuenta de GitHub para completar la autenticación.
     </div>
   </div>
 
@@ -303,57 +303,57 @@
   <p>En Windows, cada herramienta se instala individualmente. Usa <strong>PowerShell</strong> o <strong>Command Prompt (CMD)</strong> para continuar.</p>
 
   <div class="warn"> 
-     En Windows, es posible que necesites ejecutar PowerShell como administrador. Haz clic derecho en PowerShell en el Menú Inicio y selecciona <strong>"Run as Administrator"</strong>. 
+     En Windows, es posible que necesites ejecutar PowerShell como administrador. Haz clic derecho en PowerShell en el Menú Inicio y selecciona <strong>"Ejecutar como administrador"</strong>. 
    </div>
 
   <div class="step-list">
     <div class="step">
-      <span class="step-label">Install Git for Windows</span>
-      &mdash; Git is a version control system, essential for Claude Code and GitHub integration.<br><br>
+      <span class="step-label">Instalar Git para Windows</span>
+      &mdash; Git es un sistema de control de versiones, esencial para Claude Code y la integración con GitHub.<br><br>
       <strong>Opción 1: Instalar con winget</strong> (Windows 10+)
       <div class="code-block">
 <pre><code>winget install --id Git.Git -e --source winget</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
-      <strong>Option 2: Download directly</strong><br>
-      Download the installer from <a href="https://git-scm.com/download/win" target="_blank" rel="noopener noreferrer">git-scm.com/download/win</a> and run it. Default installation options are fine.
+      <strong>Opción 2: Descarga directa</strong><br>
+      Descarga el instalador desde <a href="https://git-scm.com/download/win" target="_blank" rel="noopener noreferrer">git-scm.com/download/win</a> y ejecútalo. Las opciones de instalación predeterminadas son suficientes.
     </div>
     <div class="step">
-      <span class="step-label">Install GitHub CLI</span>
-      &mdash; This tool lets you use GitHub from the terminal.<br><br>
+      <span class="step-label">Instalar GitHub CLI</span>
+      &mdash; Esta herramienta te permite usar GitHub desde la terminal.<br><br>
       <strong>Opción 1: Instalar con winget</strong>
       <div class="code-block">
 <pre><code>winget install --id GitHub.cli -e --source winget</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
-      <strong>Option 2: Download directly</strong><br>
-      Download the Windows installer from <a href="https://cli.github.com/" target="_blank" rel="noopener noreferrer">cli.github.com</a>.
+      <strong>Opción 2: Descarga directa</strong><br>
+      Descarga el instalador de Windows desde <a href="https://cli.github.com/" target="_blank" rel="noopener noreferrer">cli.github.com</a>.
     </div>
     <div class="step">
-      <span class="step-label">Install Bun</span>
-      &mdash; Run the following command in PowerShell to install Bun.
+      <span class="step-label">Instalar Bun</span>
+      &mdash; Ejecuta el siguiente comando en PowerShell para instalar Bun.
       <div class="code-block">
 <pre><code>powershell -c "irm bun.sh/install.ps1 | iex"</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
-      After installation, you must <strong>restart PowerShell</strong> for the <code>bun</code> command to be recognized.
+      Después de la instalación, debes <strong>reiniciar PowerShell</strong> para que se reconozca el comando <code>bun</code>.
     </div>
     <div class="step">
-      <span class="step-label">Authenticate GitHub CLI</span>
-      &mdash; Link your GitHub account to <code>gh</code>.
+      <span class="step-label">Autenticar GitHub CLI</span>
+      &mdash; Vincula tu cuenta de GitHub a <code>gh</code>.
       <div class="code-block">
 <pre><code>gh auth login</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
-      Follow the prompts to select <strong>GitHub.com</strong>. When your browser opens, log in with your GitHub account to complete authentication.
+      Sigue las indicaciones para seleccionar <strong>GitHub.com</strong>. Cuando se abra tu navegador, inicia sesión con tu cuenta de GitHub para completar la autenticación.
     </div>
   </div>
 
   <div class="platform-block claude">
-    <div class="platform-block-title">Windows-Specific Tips</div>
+    <div class="platform-block-title">Consejos específicos de Windows</div>
     <ul>
       <li><strong>PowerShell vs CMD:</strong> Claude Code y Bun funcionan de manera más confiable en PowerShell. Recomendamos establecer PowerShell como tu terminal predeterminada.</li>
-      <li><strong>Environment Variable PATH:</strong> Si un comando no se reconoce después de la instalación, reinicia la terminal. Si el problema persiste, verifica que la ruta de instalación se haya añadido a la variable de entorno <code>PATH</code> del sistema.</li>
+      <li><strong>Variable de entorno PATH:</strong> Si un comando no se reconoce después de la instalación, reinicia la terminal. Si el problema persiste, verifica que la ruta de instalación se haya añadido a la variable de entorno <code>PATH</code> del sistema.</li>
       <li><strong>Git Bash:</strong> Instalar Git for Windows también instala <code>Git Bash</code>, una terminal que proporciona un entorno de comandos similar a Linux/Mac. Si te sientes cómodo con él, siéntete libre de usar Git Bash en su lugar.</li>
     </ul>
   </div>
@@ -371,24 +371,24 @@
 
   <div class="step-list">
     <div class="step">
-      <span class="step-label">Update system packages</span>
-      &mdash; Before installing anything, update your system packages to the latest versions.
+      <span class="step-label">Actualizar los paquetes del sistema</span>
+      &mdash; Antes de instalar nada, actualiza los paquetes del sistema a las últimas versiones.
       <div class="code-block">
 <pre><code>sudo apt update &amp;&amp; sudo apt upgrade -y</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
-      <span class="step-label">Install Git</span>
-      &mdash; Git is pre-installed on most Ubuntu/Debian systems, but verify and install if needed.
+      <span class="step-label">Instalar Git</span>
+      &mdash; Git viene preinstalado en la mayoría de los sistemas Ubuntu/Debian, pero verifícalo e instálalo si es necesario.
       <div class="code-block">
 <pre><code>sudo apt install -y git</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
-      <span class="step-label">Install GitHub CLI</span>
-      &mdash; Add the official GitHub repository and install <code>gh</code>.
+      <span class="step-label">Instalar GitHub CLI</span>
+      &mdash; Añade el repositorio oficial de GitHub e instala <code>gh</code>.
       <div class="code-block">
 <pre><code>(type -p wget &gt;/dev/null || (sudo apt update &amp;&amp; sudo apt-get install wget -y)) \
 &amp;&amp; sudo mkdir -p -m 755 /etc/apt/keyrings \
@@ -402,26 +402,26 @@
 </div>
     </div>
     <div class="step">
-      <span class="step-label">Install Bun</span>
-      &mdash; Use the official installation script to install Bun.
+      <span class="step-label">Instalar Bun</span>
+      &mdash; Usa el script de instalación oficial para instalar Bun.
       <div class="code-block">
 <pre><code>curl -fsSL https://bun.sh/install | bash</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
-      After installation completes, restart the terminal or apply the PATH update with:
+      Cuando termine la instalación, reinicia la terminal o aplica la actualización del PATH con:
       <div class="code-block">
 <pre><code>source ~/.bashrc</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
     </div>
     <div class="step">
-      <span class="step-label">Authenticate GitHub CLI</span>
-      &mdash; Link your GitHub account to <code>gh</code>.
+      <span class="step-label">Autenticar GitHub CLI</span>
+      &mdash; Vincula tu cuenta de GitHub a <code>gh</code>.
       <div class="code-block">
 <pre><code>gh auth login</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
-      Follow the prompts to select <strong>GitHub.com</strong>. When your browser opens, log in with your GitHub account to complete authentication.
+      Sigue las indicaciones para seleccionar <strong>GitHub.com</strong>. Cuando se abra tu navegador, inicia sesión con tu cuenta de GitHub para completar la autenticación.
     </div>
   </div>
 
@@ -440,19 +440,19 @@
 <pre><code>git --version</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
-  <p>Expected result: <code>git version 2.45.0</code> (version number may vary)</p>
+  <p>Resultado esperado: <code>git version 2.45.0</code> (el número de versión puede variar)</p>
 
   <div class="code-block">
 <pre><code>gh --version</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
-  <p>Expected result: <code>gh version 2.62.0</code> (version number may vary)</p>
+  <p>Resultado esperado: <code>gh version 2.62.0</code> (el número de versión puede variar)</p>
 
   <div class="code-block">
 <pre><code>bun --version</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
-  <p>Expected result: <code>1.1.30</code> (version number may vary)</p>
+  <p>Resultado esperado: <code>1.1.30</code> (el número de versión puede variar)</p>
 
   <h3>Ejecución del script de verificación</h3>
 
@@ -461,7 +461,7 @@
   <div class="code-block">
 <pre><code>git clone https://github.com/5throck/setup.git
 cd setup
-bun setup-common.ts       # Run the installation verification script</code></pre>
+bun setup-common.ts       # Ejecutar el script de verificación de la instalación</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
 
@@ -553,7 +553,7 @@ bun setup-common.ts       # Run the installation verification script</code></pre
 
   <div class="step-list">
     <div class="step">
-      Close the terminal completely and reopen it.
+      Cierra la terminal por completo y vuelve a abrirla.
     </div>
     <div class="step">
       Si <code>bun</code> todavía no es reconocido, añade manualmente la ruta de instalación de Bun a PATH.
@@ -571,20 +571,20 @@ source ~/.bashrc</code></pre>
 <pre><code>$env:Path += ";$env:USERPROFILE\.bun\bin"</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
-        To apply this permanently, add <code>%USERPROFILE%\.bun\bin</code> to the PATH variable in the System Environment Variables editor.
+        Para aplicar esto de forma permanente, añade <code>%USERPROFILE%\.bun\bin</code> a la variable PATH en el editor de variables de entorno del sistema.
       </div>
     </div>
   </div>
 
   <h3>Error de autenticación de GitHub CLI: falla <code>gh auth status</code></h3>
 
-  <p><strong>Cause:</strong> La autenticación del navegador de GitHub CLI no se completó, o el token de autenticación ha expirado.</p>
+  <p><strong>Causa:</strong> La autenticación del navegador de GitHub CLI no se completó, o el token de autenticación ha expirado.</p>
 
   <p><strong>Solución:</strong></p>
 
   <div class="step-list">
     <div class="step">
-      Re-run the authentication process from the beginning.
+      Vuelve a ejecutar el proceso de autenticación desde el principio.
       <div class="code-block">
 <pre><code>gh auth logout
 gh auth login</code></pre>
@@ -592,11 +592,11 @@ gh auth login</code></pre>
 </div>
     </div>
     <div class="step">
-      After running <code>gh auth login</code>, select the following options:
+      Tras ejecutar <code>gh auth login</code>, selecciona las siguientes opciones:
       <ul style="margin-top:8px;">
-        <li><strong>What account?</strong> &rarr; <code>GitHub.com</code></li>
-        <li><strong>Preferred protocol?</strong> &rarr; <code>HTTPS</code></li>
-        <li><strong>Authenticate Git?</strong> &rarr; <code>Yes</code></li>
+        <li><strong>¿Qué cuenta?</strong> &rarr; <code>GitHub.com</code></li>
+        <li><strong>¿Protocolo preferido?</strong> &rarr; <code>HTTPS</code></li>
+        <li><strong>¿Autenticar Git?</strong> &rarr; <code>Sí</code></li>
       </ul>
     </div>
     <div class="step">
@@ -606,7 +606,7 @@ gh auth login</code></pre>
 
   <h3>Error de conexión de Claude Desktop App</h3>
 
-  <p><strong>Cause:</strong> Internet connectivity issues, Anthropic server outage, or an expired authentication token.</p>
+  <p><strong>Causa:</strong> Problemas de conectividad a internet, caída de los servidores de Anthropic o un token de autenticación expirado.</p>
 
   <p><strong>Solución:</strong></p>
 
@@ -615,10 +615,10 @@ gh auth login</code></pre>
       Verifica que tu conexión a internet esté funcionando. Intenta visitar otro sitio web (por ejemplo, <a href="https://claude.ai" target="_blank" rel="noopener noreferrer">claude.ai</a>) en tu navegador.
     </div>
     <div class="step">
-      Cierra la sesión de Claude Desktop App y vuelve a iniciarla. Desde el menú, selecciona <strong>File &rarr; Sign Out</strong> y luego inicia sesión nuevamente con tu cuenta de Anthropic.
+      Cierra la sesión de Claude Desktop App y vuelve a iniciarla. Desde el menú, selecciona <strong>Archivo &rarr; Cerrar sesión</strong> y luego inicia sesión nuevamente con tu cuenta de Anthropic.
     </div>
     <div class="step">
-      Cierra Claude Desktop App por completo y vuelve a ejecutarlo. En MacOS, presiona <code>Cmd+Q</code>. En Windows, haz clic derecho en el icono de la bandeja del sistema y selecciona <strong>Quit</strong>.
+      Cierra Claude Desktop App por completo y vuelve a ejecutarlo. En MacOS, presiona <code>Cmd+Q</code>. En Windows, haz clic derecho en el icono de la bandeja del sistema y selecciona <strong>Salir</strong>.
     </div>
     <div class="step">
       Si el problema persiste, consulta la página de estado de Anthropic en <a href="https://status.anthropic.com" target="_blank" rel="noopener noreferrer">status.anthropic.com</a> para ver si hay una interrupción del servicio conocida.
@@ -633,7 +633,7 @@ gh auth login</code></pre>
 
   <div class="step-list">
     <div class="step">
-      <strong>Windows:</strong> Verifica que la ruta de instalación de Git (generalmente <code>C:\Program Files\Git\cmd</code>) esté incluida en la variable de entorno <code>PATH</code> del sistema. Busca <strong>"environment variables"</strong> en la barra de búsqueda de Windows y abre <strong>"Editar las variables de entorno del sistema"</strong>.
+      <strong>Windows:</strong> Verifica que la ruta de instalación de Git (generalmente <code>C:\Program Files\Git\cmd</code>) esté incluida en la variable de entorno <code>PATH</code> del sistema. Busca <strong>"variables de entorno"</strong> en la barra de búsqueda de Windows y abre <strong>"Editar las variables de entorno del sistema"</strong>.
     </div>
     <div class="step">
       <strong>MacOS / Linux:</strong> Reinicia la terminal. Si el problema persiste, verifica el PATH con:
@@ -641,7 +641,7 @@ gh auth login</code></pre>
 <pre><code>echo $PATH</code></pre>
 <button class="copy-btn">Copiar</button>
 </div>
-      Check whether the Git installation path (usually <code>/usr/local/bin</code> or <code>/usr/bin</code>) is included.
+      Comprueba si la ruta de instalación de Git (generalmente <code>/usr/local/bin</code> o <code>/usr/bin</code>) está incluida.
     </div>
   </div>
 
@@ -657,24 +657,24 @@ gh auth login</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><code>brew</code> command errors</td>
-        <td>Homebrew installation is corrupted</td>
-        <td>Run <code>brew doctor</code> and follow the instructions</td>
+        <td>Errores del comando <code>brew</code></td>
+        <td>La instalación de Homebrew está dañada</td>
+        <td>Ejecuta <code>brew doctor</code> y sigue las instrucciones</td>
       </tr>
       <tr>
-        <td><code>winget</code> command not found</td>
-        <td>Windows App Installer not installed</td>
-        <td>Install "App Installer" from Microsoft Store</td>
+        <td>No se encuentra el comando <code>winget</code></td>
+        <td>El Instalador de aplicaciones de Windows no está instalado</td>
+        <td>Instala "Instalador de aplicaciones" desde Microsoft Store</td>
       </tr>
       <tr>
-        <td>Script execution errors</td>
-        <td>Bun version is outdated</td>
-        <td>Run <code>bun upgrade</code></td>
+        <td>Errores al ejecutar scripts</td>
+        <td>La versión de Bun está desactualizada</td>
+        <td>Ejecuta <code>bun upgrade</code></td>
       </tr>
       <tr>
-        <td>Network timeout</td>
-        <td>Firewall or proxy blocking</td>
-        <td>Contact your network administrator to check proxy settings</td>
+        <td>Tiempo de espera de red agotado</td>
+        <td>Bloqueo por firewall o proxy</td>
+        <td>Contacta a tu administrador de red para revisar la configuración del proxy</td>
       </tr>
     </tbody>
   </table>

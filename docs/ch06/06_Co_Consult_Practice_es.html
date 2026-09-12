@@ -13,14 +13,14 @@
 <div class="layout">
 <nav>
   <a href="../index_es.html" class="nav-home">&larr; Inicio del manual</a>
-  <div class="nav-title">Cap. 6 &middot; co-consult: AI Consulting in Practice</div>
-  <a href="#what-is-coconsult">What is co-consult</a>
-  <a href="#architecture">System Architecture</a>
-  <a href="#phases">How the PM Dispatches Specialists</a>
+  <div class="nav-title">Cap. 6 &middot; co-consult: consultoría con IA en la práctica</div>
+  <a href="#what-is-coconsult">Qué es co-consult</a>
+  <a href="#architecture">Arquitectura del sistema</a>
+  <a href="#phases">Cómo despacha especialistas el PM</a>
   <a href="#how-to-talk">Cómo hablar con el PM</a>
-  <a href="#team-patterns">Team Composition Patterns</a>
-  <a href="#practice">Practice: Simple Market Analysis</a>
-  <a href="#outputs">Reviewing Resultados</a>
+  <a href="#team-patterns">Patrones de composición de equipo</a>
+  <a href="#practice">Práctica: análisis de mercado simple</a>
+  <a href="#outputs">Revisión de los resultados</a>
   <div class="nav-section">Otros capítulos</div>
   <a href="../ch05/05_Workspace_Standards_es.html">Cap. 5 &middot; Exploring ai-workspace-standards</a>
   <a href="../ch07/07_Co_Deck_Practice_es.html">Cap. 7 &middot; co-deck: AI Presentation in Practice</a>
@@ -28,17 +28,17 @@
 <main>
  <article class="reading">
   <div class="chapter-eyebrow">Capítulo 6</div>
-  <h1>co-consult: AI Consulting in Practice</h1>
-  <p class="lead">co-consult is a system where AI agent teams execute consulting projects. En este capítulo, you'll understand co-consult's structure and run a simple market analysis project using Claude Desktop App.</p>
+  <h1>co-consult: consultoría con IA en la práctica</h1>
+  <p class="lead">co-consult es un sistema en el que equipos de agentes de IA ejecutan proyectos de consultoría. En este capítulo comprenderás la estructura de co-consult y ejecutarás un proyecto simple de análisis de mercado con Claude Desktop App.</p>
   <div class="keypoints">
     <div class="kp-title">Lo que cubre este capítulo</div>
     <ul>
-      <li>co-consult system introduction and architecture</li>
-      <li>How the PM dispatches specialists (7-phase Phase 0&ndash;6 workflow)</li>
-      <li>Cómo hacer solicitudes al agent PM</li>
-      <li>4 team composition patterns</li>
-      <li>Practice: simple market analysis project</li>
-      <li>Reviewing outputs</li>
+      <li>Introducción al sistema co-consult y su arquitectura</li>
+      <li>Cómo despacha especialistas el PM (flujo de trabajo de 7 fases, Fase 0&ndash;6)</li>
+      <li>Cómo hacer solicitudes al agente PM</li>
+      <li>4 patrones de composición de equipo</li>
+      <li>Práctica: proyecto simple de análisis de mercado</li>
+      <li>Revisión de los resultados</li>
     </ul>
   </div>
 
@@ -49,9 +49,9 @@
 
   <h3>Definición</h3>
 
-  <p><strong>co-consult</strong> es un sistema en el que <strong>AI agent teams carry out strategic consulting projects</strong>. Como una de las variantes de ai-workspace-standards que exploramos en el Capítulo 5, múltiples agents de IA colaboran para automatizar tareas de consultoría como análisis de mercado, análisis competitivo, desarrollo de estrategias de entrada y revisión de modelos de negocio.</p>
+  <p><strong>co-consult</strong> es un sistema en el que <strong>equipos de agentes de IA ejecutan proyectos de consultoría estratégica</strong>. Como una de las variantes de ai-workspace-standards que exploramos en el Capítulo 5, múltiples agentes de IA colaboran para automatizar tareas de consultoría como análisis de mercado, análisis competitivo, desarrollo de estrategias de entrada y revisión de modelos de negocio.</p>
 
-  <p>Location: <code>templates/co-consult/</code> inside <a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">ai-workspace-standards</a> &mdash; scaffold your own copy with <code>bun scripts/new-project.ts "&lt;name&gt;" --variant co-consult</code>.</p>
+  <p>Ubicación: <code>templates/co-consult/</code> dentro de <a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">ai-workspace-standards</a> &mdash; genera tu propia copia con <code>bun scripts/new-project.ts "&lt;nombre&gt;" --variant co-consult</code>.</p>
 
   <h3>¿Qué problema resuelve?</h3>
 
@@ -195,12 +195,12 @@
       <tr>
         <td><code>strategy-analyst</code></td>
         <td>Strategy Analyst</td>
-        <td>Market analysis, competitive research, and financial modeling</td>
+        <td>Análisis de mercado, investigación competitiva y modelado financiero</td>
       </tr>
       <tr>
         <td><code>industry-expert</code></td>
-        <td>Industry Expert</td>
-        <td>Industry-specific insights, competitive dynamics, and the regulatory landscape</td>
+        <td>Experto de industria</td>
+        <td>Percepciones específicas del sector, dinámica competitiva y el panorama regulatorio</td>
       </tr>
       <tr>
         <td><code>sme</code></td>
@@ -343,12 +343,12 @@
 
   <h3>Los 4 elementos clave de una buena solicitud</h3>
 
-  <p>A good request includes the following four elements.</p>
+  <p>Una buena solicitud incluye los siguientes cuatro elementos.</p>
 
   <div class="step-list">
     <ol>
-      <li><strong>Purpose</strong> &mdash; ¿Qué quieres analizar?</li>
-      <li><strong>Scope</strong> &mdash; Which market, which domain?</li>
+      <li><strong>Propósito</strong> &mdash; ¿Qué quieres analizar?</li>
+      <li><strong>Alcance</strong> &mdash; ¿Qué mercado, qué dominio?</li>
       <li><strong>Audiencia objetivo</strong> &mdash; ¿Para quién es este análisis? (tu empresa, competidores, etc.)</li>
       <li><strong>Cronograma</strong> &mdash; ¿Cuándo necesitas los resultados?</li>
     </ol>
@@ -357,19 +357,19 @@
   <h3>Ejemplos de solicitudes</h3>
 
   <div class="prompt-box">
-    <strong>Example 1: Market Analysis</strong><br>
+    <strong>Ejemplo 1: Análisis de mercado</strong><br>
     <code>"Analiza el mercado de apps de entrega de comida en Corea del Sur. Enfócate en la comparación de competidores y las oportunidades de entrada. Completa en 2 semanas."</code>
     <button type="button" class="copy-btn">Copiar</button>
   </div>
 
   <div class="prompt-box">
-    <strong>Example 2: Business Model Review</strong><br>
+    <strong>Ejemplo 2: Revisión del modelo de negocio</strong><br>
     <code>"Revisa el modelo de negocio SaaS de nuestra startup. El mercado objetivo son empresas B2B japonesas. Cubre la estrategia de precios y la escalabilidad."</code>
     <button type="button" class="copy-btn">Copiar</button>
   </div>
 
   <div class="prompt-box">
-    <strong>Example 3: Technology Adoption Assessment</strong><br>
+    <strong>Ejemplo 3: Evaluación de adopción tecnológica</strong><br>
     <code>"Evalúa la introducción de un chatbot de IA en nuestra empresa, dirigido a la industria educativa. Incluye análisis de costos, opciones de stack tecnológico y casos de estudio de competidores."</code>
     <button type="button" class="copy-btn">Copiar</button>
   </div>
@@ -378,23 +378,23 @@
 
   <div class="compare-grid">
     <div class="col">
-      <h4>Good Request</h4>
+      <h4>Solicitud buena</h4>
       <ul>
-        <li>Purpose is clear: "Analyze the market"</li>
-        <li>Scope is specific: "South Korean food delivery app market"</li>
-        <li>Focus areas are stated: "Competitor comparison and entry opportunities"</li>
-        <li>Timeline is set: "Within 2 weeks"</li>
-        <li>PM can dispatch agents immediately</li>
+        <li>El propósito es claro: "Analiza el mercado"</li>
+        <li>El alcance es específico: "mercado de apps de entrega de comida en Corea del Sur"</li>
+        <li>Las áreas de enfoque están indicadas: "comparación de competidores y oportunidades de entrada"</li>
+        <li>El cronograma está definido: "en 2 semanas"</li>
+        <li>El PM puede despachar agentes de inmediato</li>
       </ul>
     </div>
     <div class="col">
-      <h4>Poor Request</h4>
+      <h4>Solicitud deficiente</h4>
       <ul>
-        <li>Purpose is vague: "Analyze something for me"</li>
-        <li>No scope: Market? Technology? Competitors?</li>
-        <li>Focus areas unclear: "Everything"</li>
-        <li>No timeline: Deadline is undefined</li>
-        <li>PM must ask follow-up questions</li>
+        <li>El propósito es vago: "Analízame algo"</li>
+        <li>Sin alcance: ¿mercado? ¿tecnología? ¿competidores?</li>
+        <li>Áreas de enfoque poco claras: "todo"</li>
+        <li>Sin cronograma: fecha límite indefinida</li>
+        <li>El PM debe hacer preguntas de seguimiento</li>
       </ul>
     </div>
   </div>
@@ -541,9 +541,9 @@
   <ul>
     <li>Clona el repositorio de co-consult y configura el proyecto</li>
     <li>Envía una solicitud al agent PM en Claude Desktop App</li>
-    <li>Observe the PM dispatching specialists as needed</li>
-    <li>Review progress and give feedback along the way</li>
-    <li>Review the final deliverables</li>
+    <li>Observa al PM despachando especialistas según sea necesario</li>
+    <li>Revisa el progreso y da retroalimentación durante el proceso</li>
+    <li>Revisa los entregables finales</li>
   </ul>
 
   <h3>Requisitos previos</h3>
@@ -554,7 +554,7 @@
     <ol>
       <li><strong>Claude Desktop App</strong> &mdash; Debes poder tener una conversación con Claude AI</li>
       <li><strong>Git</strong> &mdash; Debes poder clonar un repositorio</li>
-      <li><strong>Text editor</strong> &mdash; VS Code o cualquier editor donde puedas abrir archivos</li>
+      <li><strong>Editor de texto</strong> &mdash; VS Code o cualquier editor donde puedas abrir archivos</li>
     </ol>
   </div>
 
@@ -564,56 +564,56 @@
     <ol>
       <li>
         <strong>Clona el workspace y genera el proyecto</strong><br>
-        If you haven't already cloned the workspace in an earlier chapter, do that first, then scaffold a new project from the co-consult variant using <code>new-project.ts</code>.
+        Si aún no has clonado el workspace en un capítulo anterior, hazlo primero, y luego genera un nuevo proyecto a partir de la variante co-consult con <code>new-project.ts</code>.
         <div class="prompt-box">
           <code>git clone https://github.com/5throck/ai-workspace-standards.git</code><br>
           <code>cd ai-workspace-standards</code><br>
           <code>bun scripts/new-project.ts "co-consult" --variant co-consult</code>
           <button type="button" class="copy-btn">Copiar</button>
         </div>
-        This creates <code>Proyectos/co-consult/</code> as its own independent Git repository, with the co-consult variant's agents, skills, and configuration already copied in.
+        Esto crea <code>Proyectos/co-consult/</code> como su propio repositorio Git independiente, con los agentes, las skills y la configuración de la variante co-consult ya copiados.
       </li>
       <li>
         <strong>Abre el proyecto en Claude Desktop App</strong><br>
-        Launch Claude Desktop App and open the <code>Proyectos/co-consult/</code> folder as the project. Tell Claude the following to start the PM.
+        Abre Claude Desktop App y abre la carpeta <code>Proyectos/co-consult/</code> como proyecto. Dile a Claude lo siguiente para iniciar el PM.
         <div class="prompt-box">
-          <code>"I'd like to start a new project."</code>
+          <code>"Quiero iniciar un proyecto nuevo."</code>
           <button type="button" class="copy-btn">Copiar</button>
         </div>
-        The PM starts the kickoff conversation and asks about the topic, scope, and timeline.
+        El PM inicia la conversación de arranque y pregunta por el tema, el alcance y el cronograma.
       </li>
       <li>
         <strong>Haz tu solicitud al PM</strong><br>
-        Answer the PM's questions to configure the engagement. Try responding like this.
+        Responde las preguntas del PM para configurar el engagement. Prueba a responder así.
         <div class="prompt-box">
           <code>"Analiza las tendencias clave del mercado de cafeterías de Corea del Sur. Enfócate en la comparación entre cafeterías de franquicia e independientes. Mantenlo como una evaluación rápida."</code>
           <button type="button" class="copy-btn">Copiar</button>
         </div>
-        The PM analyzes your request and decides which specialists to dispatch for a Quick Assessment-sized engagement.
+        El PM analiza tu solicitud y decide qué especialistas despachar para un engagement del tamaño de una evaluación rápida.
       </li>
       <li>
         <strong>Observa el despacho de especialistas</strong><br>
         El PM despacha especialistas en cada fase &mdash; el orden de los especialistas dentro de una fase se adapta con flexibilidad al engagement. Normalmente verás algo como lo siguiente.
         <ul>
-          <li>The <code>strategy-analyst</code> agent researches "South Korean coffee shop market trends" and produces a findings document with market size, growth, and competitive notes</li>
+          <li>El agente <code>strategy-analyst</code> investiga "tendencias del mercado de cafeterías en Corea del Sur" y produce un documento de hallazgos con tamaño de mercado, crecimiento y notas competitivas</li>
           <li>Si la solicitud lo requiere, el PM también incorpora a <code>industry-expert</code> para el contexto específico del sector</li>
-          <li>The <code>communications-lead</code> agent shapes the findings into a client-ready report</li>
+          <li>El agente <code>communications-lead</code> da forma a los hallazgos en un informe listo para el cliente</li>
         </ul>
-        The PM reports progress as each specialist finishes its piece. The <code>project_state.json</code> file is automatically updated throughout.
+        El PM informa del progreso a medida que cada especialista termina su parte. El archivo <code>project_state.json</code> se actualiza automáticamente durante todo el proceso.
       </li>
       <li>
-        <strong>Review progress and give feedback</strong><br>
+        <strong>Revisa el progreso y da retroalimentación</strong><br>
         El PM se pone en contacto contigo en los puntos de control del flujo de trabajo &mdash; normalmente después de la primera ronda de análisis (pasando por la validación cruzada y la puerta de aprobación del diseño), y otra vez antes de finalizar el informe.
         <ul>
           <li><strong>Después del análisis:</strong> Verifica que la dirección del análisis y las ideas sean apropiadas. Si se necesitan ajustes, este es el momento de cambiar de rumbo.</li>
-          <li><strong>Before finalizing:</strong> Revisa la calidad del informe final y aprueba convertirlo en un entregable terminado.</li>
+          <li><strong>Antes de finalizar:</strong> Revisa la calidad del informe final y aprueba convertirlo en un entregable terminado.</li>
         </ul>
-        At a checkpoint, you can respond like this.
+        En un punto de control, puedes responder así.
         <div class="prompt-box">
-          <code>"I've reviewed the analysis. Please proceed to the next step."</code>
+          <code>"He revisado el análisis. Continúa con el siguiente paso."</code>
           <button type="button" class="copy-btn">Copiar</button>
         </div>
-        Or if revisions are needed, provide specific feedback.
+        O si se necesitan revisiones, proporciona retroalimentación específica.
         <div class="prompt-box">
           <code>"Añade datos de cafeterías de entrega de Baemin a la sección de análisis competitivo."</code>
           <button type="button" class="copy-btn">Copiar</button>
@@ -695,7 +695,7 @@
     <ol>
       <li>
         <strong>Abre la carpeta del proyecto</strong><br>
-        Navigate to the <code>Proyectos/co-consult/deliverables/reports/</code> directory in your terminal.
+        Navega al directorio <code>Proyectos/co-consult/deliverables/reports/</code> en tu terminal.
         <div class="prompt-box">
           <code>cd Proyectos/co-consult/deliverables/reports/</code><br>
           <code>ls</code>
@@ -704,16 +704,16 @@
       </li>
       <li>
         <strong>Revisa el documento de hallazgos</strong><br>
-        Check the research results. It contains collected sources, key data points, and reference links.
+        Revisa los resultados de la investigación. Contiene las fuentes recopiladas, los datos clave y los enlaces de referencia.
         <div class="prompt-box">
           <code>cat findings_market.md</code>
           <button type="button" class="copy-btn">Copiar</button>
         </div>
-        Or open it in VS Code.
+        O ábrelo en VS Code.
       </li>
       <li>
         <strong>Revisa el informe HTML</strong><br>
-        Open the <code>report.html</code> file in a browser to view the completed report. It is an interactive format that includes charts, tables, and diagrams.
+        Abre el archivo <code>report.html</code> en un navegador para ver el informe completado. Es un formato interactivo que incluye gráficos, tablas y diagramas.
         <div class="prompt-box">
           <code>open report.html</code>
           <button type="button" class="copy-btn">Copiar</button>
@@ -724,8 +724,8 @@
          Abre el archivo <code>report.pdf</code> para ver el informe listo para imprimir. Este formato es adecuado para compartir o archivar. 
 </li>
       <li>
-        <strong>Check project_state.json</strong><br>
-        You can view the overall project progress. It records which specialists have been dispatched, what they've produced, and whether the PM has checked in with you at each review point.
+        <strong>Revisa project_state.json</strong><br>
+        Puedes ver el progreso general del proyecto. Registra qué especialistas se han despachado, qué han producido y si el PM se ha puesto en contacto contigo en cada punto de revisión.
         <div class="prompt-box">
           <code>cat project_state.json</code>
           <button type="button" class="copy-btn">Copiar</button>

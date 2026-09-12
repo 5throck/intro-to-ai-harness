@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="付録E・graftでリポジトリコンテキストを探索する - Claude Codeとマルチエージェントハーネス入門ハンドブック">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>付録E・graftでリポジトリコンテキストを探索する</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_ja.html" class="nav-home">&larr; ハンドブックホーム</a>
+  <div class="nav-title">付録E &middot; graftでリポジトリコンテキストを探索する</div>
+  <a href="#what-is-graft">graftとは何か</a>
+  <a href="#why">なぜgrepではなくgraftなのか</a>
+  <a href="#core-commands">主要コマンド</a>
+  <a href="#mcp-tools">MCPツールとして使う</a>
+  <a href="#workflow">実践ワークフロー</a>
+  <a href="#build">グラフの更新 (graft build)</a>
+  <div class="nav-section">他の章</div>
+  <a href="A_Remote_Access_ja.html">付録A &middot; リモートアクセス環境設定</a>
+  <a href="B_Claude_Code_CLI_ja.html">付録B &middot; Claude Code CLIの使い方</a>
+  <a href="C_Low_Cost_Backends_ja.html">付録C &middot; 低コストAIバックエンド連携</a>
+  <a href="D_Korean_Open_Data_API_Keys_ja.html">付録D &middot; 韓国オープンデータAPIキーの取得と設定</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">付録E</div>
+  <h1>graftでリポジトリコンテキストを探索する</h1>
+  <p class="lead">graftはリポジトリをあらかじめインデックス化したコンテキストグラフです。コードを理解したり、どこを修正すべきか探したり、変更の影響範囲を把握したりするとき、grepやファイルを直接開く代わりに先にgraftへ尋ねると、はるかに少ないトークンで正確なfile:line位置が得られます。</p>
+  <div class="keypoints">
+    <div class="kp-title">この付録で扱う内容</div>
+    <ul>
+      <li>graftとは何か、なぜ必要か</li>
+      <li>grep/ファイル直接読み込みより先にgraftを使うべき理由</li>
+      <li>主要コマンド5つ (ask, grep, skeleton, callers, map)</li>
+      <li>MCPツールとしてgraftを使う方法（対応環境）</li>
+      <li>実践ワークフローの例</li>
+      <li>コード変更後のグラフ更新</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================
+       SECTION 1: graftとは何か
+       ============================================================ -->
+  <h2 id="what-is-graft">1. graftとは何か</h2>
+
+  <p>graftはリポジトリをスキャンし、ファイルごとに「このファイルが何をするか、どのシンボルを定義しているか、誰が呼び出しているか」を整理した小さなMarkdownノードのグラフを作成します。このグラフは<code>graft/</code>ディレクトリに保存され、コードが変わるたびにgitと共に更新されます。</p>
+
+  <div class="flow-box">
+    grepは<strong>「この文字列がどこにあるか」</strong>だけを教えてくれます。graftは<strong>「この概念がどこで定義され、どう動作し、誰が使っているか」</strong>まであらかじめ整理された地図です。初めて訪れる街を路地ごとに歩き回るのと、すでに作られた地図を見るのとの違いです。
+  </div>
+
+  <p>graftは2つの方法で使えます：</p>
+  <ul>
+    <li><strong>CLI</strong> — ターミナルで<code>graft &lt;subcommand&gt;</code>の形式で直接実行</li>
+    <li><strong>MCPツール</strong> — ホスト（Claude Codeなど）が<code>graft_find_code</code>、<code>graft_find_all</code>、<code>graft_trace_calls</code>、<code>graft_file_api</code>、<code>graft_repo_map</code>のようなツールを公開している場合、同じグラフをツール呼び出しで照会</li>
+  </ul>
+
+  <div class="note">
+    このワークスペースでは、セッション開始時にSessionStartフックがgraftの利用を案内します。つまり、コードを理解したり修正したりする作業であれば、<strong>まずgraftを確認することがこのワークスペースの基本ルール</strong>です。
+  </div>
+
+  <!-- ============================================================
+       SECTION 2: なぜgrepではなくgraftなのか
+       ============================================================ -->
+  <h2 id="why">2. なぜgrepではなくgraftなのか</h2>
+
+  <div class="table-compare">
+    <table>
+      <thead>
+        <tr>
+          <th>状況</th>
+          <th>grep / ファイル直接読み込み</th>
+          <th>graft</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>「この機能はどう動作するか？」</td>
+          <td>関連ファイルを推測して複数開く必要がある</td>
+          <td><code>graft ask</code>がコードスニペット付きのランキング結果を即座に返す</td>
+        </tr>
+        <tr>
+          <td>「このシンボルを誰が呼び出しているか？」</td>
+          <td>文字列検索＋手動照合（誤検出が多い）</td>
+          <td><code>graft callers</code>が正確な呼び出し関係をグラフから直接照会</td>
+        </tr>
+        <tr>
+          <td>「このパターンが出現する箇所を全部探したい」</td>
+          <td>grep -rnで可能だが結果が整理されない</td>
+          <td><code>graft grep</code>が包含するシンボルごとにグループ化して表示</td>
+        </tr>
+        <tr>
+          <td>「このファイルのAPI全体をざっと確認したい」</td>
+          <td>ファイル全体を読む必要がある（トークン消費が大きい）</td>
+          <td><code>graft skeleton</code>がシグネチャだけを約10倍安く提供</td>
+        </tr>
+        <tr>
+          <td>「初めて見るリポジトリ、どこから始める？」</td>
+          <td>READMEを読んでフォルダを一つずつ開いていく</td>
+          <td><code>graft map</code>がディレクトリクラスター・ハブ・ホットスポットをトークン予算内で要約</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip-box">
+    核心原則は<strong>「作業の形に合ったツールを一つ選び、その答えで行動する」</strong>ことです。同じツールを繰り返し呼び出したり、質問を少し変えて再度尋ねたりするのは非効率です。一度で足りない場合は、次に必要な<em>別の</em>ツールに切り替えましょう。
+  </div>
+
+  <!-- ============================================================
+       SECTION 3: 主要コマンド
+       ============================================================ -->
+  <h2 id="core-commands">3. 主要コマンド</h2>
+
+  <h3>3.1 graft map — 初めてのリポジトリのオリエンテーション</h3>
+  <p>初めて見るリポジトリでまず実行します。LLM呼び出しなし（無料）で、ディレクトリ構造・ハブファイル・ホットスポットをトークン予算内で表示します。</p>
+  <div class="code-block">
+<pre><code>graft map</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+  <p><strong>注意：</strong>mapそのものがオリエンテーションの答えです。mapが言及したすべてのサブシステムをskeletonで追いかけるのは過剰使用です。</p>
+
+  <h3>3.2 graft ask — 理解・修正すべき場所を探す</h3>
+  <p>「これはどう動作するか？」「このコードはどこにあるか？」といった質問に、コードスニペット付きのランキング結果を返します。</p>
+  <div class="code-block">
+<pre><code>graft ask "ログイン失敗時のリトライロジックはどう動作するか" --source</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+  <ul>
+    <li><code>--source</code> — 各結果に核心コード（デフォルト8行）を一緒に表示</li>
+    <li><code>--full</code> — 8行で不十分な場合、定義全体を表示</li>
+    <li>理解・修正作業であれば、<strong>1位の結果がそのまま答え</strong>です。<code>covers:</code>に明記されたfile:lineを引用し、<code>--source</code>結果からそのまま修正します。</li>
+  </ul>
+
+  <div class="warn">
+    「このパターンが出現するすべての箇所」のような<strong>網羅的な調査</strong>にはaskを使わないでください。askはランキング上位N件に過ぎず、全体を保証しません。網羅的な調査にはgraft grepを使いましょう。
+  </div>
+
+  <h3>3.3 graft grep — 網羅的検索</h3>
+  <p>リテラル文字列やシンボルの<strong>すべての</strong>出現箇所を、それを包含するシンボル単位でグループ化して表示します。</p>
+  <div class="code-block">
+<pre><code>graft grep "processPayment"</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+  <p>インデックスされていないファイルまで確認が必要な場合のみ、生の<code>grep -rn</code>で補います。</p>
+
+  <h3>3.4 graft skeleton — ファイルAPIを一目で確認</h3>
+  <p>ファイル全体を読まずに、すべての定義のシグネチャと位置を約10倍安く確認できます。API全体をざっと見たいときに便利です。</p>
+  <div class="code-block">
+<pre><code>graft skeleton src/services/payment.ts</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <h3>3.5 graft callers — 正確な呼び出し関係を追跡</h3>
+  <p>あるシンボルを変更する前に、それを誰が呼び出しているか（またはそれが何を呼び出しているか）を正確に把握します。リファクタリングや名前変更の前には必ず実行しましょう。</p>
+  <div class="code-block">
+<pre><code># このシンボルを呼び出している箇所（デフォルト）
+graft callers formatCurrency
+
+# このシンボルが呼び出しているもの
+graft callers formatCurrency --direction out
+
+# 全体の影響範囲（つながっているすべてのファイル）
+graft callers formatCurrency --depth all</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <div class="note">
+    リファクタリング・名前変更・複数ファイル変更でよくあるミスは、<strong>主ファイルだけ修正して止まってしまうこと</strong>です。<code>graft callers &lt;symbol&gt; --depth all</code>でつながっているすべてのファイルを先に地図化してから修正しましょう。
+  </div>
+
+  <!-- ============================================================
+       SECTION 4: MCPツールとして使う
+       ============================================================ -->
+  <h2 id="mcp-tools">4. MCPツールとして使う</h2>
+
+  <p>Claude Codeのようなホスト環境では、同じグラフをCLIの代わりにMCPツール呼び出しで照会できます。対応関係は次の通りです：</p>
+
+  <div class="table-compare">
+    <table>
+      <thead>
+        <tr>
+          <th>CLIコマンド</th>
+          <th>MCPツール</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>graft ask</code></td><td><code>graft_find_code</code></td></tr>
+        <tr><td><code>graft grep</code></td><td><code>graft_find_all</code></td></tr>
+        <tr><td><code>graft callers</code></td><td><code>graft_trace_calls</code></td></tr>
+        <tr><td><code>graft skeleton</code></td><td><code>graft_file_api</code></td></tr>
+        <tr><td><code>graft map</code></td><td><code>graft_repo_map</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip-box">
+    呼び出し関係（誰が何を呼んでいるか）のようなエッジ情報は<strong>グラフにのみ存在</strong>します — ノードのMarkdownファイルを直接読んでもわかりません。<code>graft callers</code> / <code>graft_trace_calls</code>がこのエッジを読む唯一の方法です。
+  </div>
+
+  <!-- ============================================================
+       SECTION 5: 実践ワークフロー
+       ============================================================ -->
+  <h2 id="workflow">5. 実践ワークフロー</h2>
+
+  <div class="step-list">
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">ステップ1: 初めてのリポジトリならmapから</div>
+        <p>初めて触れるプロジェクトであれば、まず<code>graft map</code>で全体構造を把握します。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">ステップ2: 作業の形に合ったツールを選ぶ</div>
+        <p>理解・修正なら<code>ask --source</code>、網羅的調査なら<code>grep</code>、API確認なら<code>skeleton</code>、影響範囲の把握なら<code>callers</code>を使います。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">ステップ3: 結果からそのまま修正</div>
+        <p><code>ask --source</code>が返したfile:lineとコードスニペットをそのまま引用しながら修正します。結果が切り詰められている場合（<code>+N more lines</code>）は、その正確な範囲だけファイルで開いて確認します。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">ステップ4: 大きな変更後にグラフを更新</div>
+        <p>コードを大きく変更した後は、<code>graft build</code>でグラフを最新状態に合わせます。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SECTION 6: グラフの更新
+       ============================================================ -->
+  <h2 id="build">6. グラフの更新 (graft build)</h2>
+
+  <p>graftのグラフは決定論的に生成され、LLM APIキーなしで無料で更新できます。大規模なコード変更（新規ファイル追加、大規模リファクタリングなど）の後は、グラフを再ビルドして最新状態を保ちましょう。</p>
+
+  <div class="code-block">
+<pre><code>graft build</code></pre>
+<button type="button" class="copy-btn">コピー</button>
+</div>
+
+  <div class="warn">
+    小さな修正のたびにbuildを実行する必要はありません。グラフはgitと共にバージョン管理されており、意味のある単位の変更が終わった後に一度更新すれば十分です。
+  </div>
+
+  <div class="flow-box">
+    まとめると：<strong>理解・修正するとき → graft ask</strong>、<strong>すべて探すとき → graft grep</strong>、<strong>APIをざっと見るとき → graft skeleton</strong>、<strong>影響範囲を見るとき → graft callers</strong>、<strong>初めてのリポジトリを見るとき → graft map</strong>。この5つだけ覚えれば十分です。
+  </div>
+
+  <div class="chapter-nav">
+    <a href="D_Korean_Open_Data_API_Keys_ja.html" class="prev">
+      <div class="dir">&larr; 付録D</div>
+      <div class="ttl">韓国オープンデータAPIキーの取得と設定</div>
+    </a>
+  </div>
+   <footer>
+    Claude Code 2026-09 / graft (repo context graph) 基準 · 日本語版<br>
+    公式資料: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    本ハンドブックのコンテンツは<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a>ライセンスの下で利用できます。
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

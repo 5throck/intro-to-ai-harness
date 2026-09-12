@@ -88,6 +88,11 @@
       "lang": "ko"
     },
     {
+      "path": "appendix/E_Graft_Repo_Context.html",
+      "title": "별첨 E · graft로 저장소 컨텍스트 탐색하기",
+      "lang": "ko"
+    },
+    {
       "path": "lecture-guide/00_Course_Overview.html",
       "title": "강의 소개",
       "lang": "ko"
@@ -180,6 +185,11 @@
     {
       "path": "appendix/D_Korean_Open_Data_API_Keys_en.html",
       "title": "Appendix D · Korean Open-Data API Keys (DART · LAW · KOSIS)",
+      "lang": "en"
+    },
+    {
+      "path": "appendix/E_Graft_Repo_Context_en.html",
+      "title": "Appendix E · Exploring Repo Context with graft",
       "lang": "en"
     },
     {
@@ -280,6 +290,11 @@
     {
       "path": "appendix/D_Korean_Open_Data_API_Keys_ja.html",
       "title": "付録D · 韓国オープンデータAPIキーの取得と設定",
+      "lang": "ja"
+    },
+    {
+      "path": "appendix/E_Graft_Repo_Context_ja.html",
+      "title": "付録E · graftでリポジトリコンテキストを探索する",
       "lang": "ja"
     },
     {
@@ -390,6 +405,11 @@
     {
       "path": "appendix/D_Korean_Open_Data_API_Keys_es.html",
       "title": "Apéndice D · Claves de API de datos abiertos de Corea",
+      "lang": "es"
+    },
+    {
+      "path": "appendix/E_Graft_Repo_Context_es.html",
+      "title": "Apéndice E · Explorar el contexto del repositorio con graft",
       "lang": "es"
     },
     {

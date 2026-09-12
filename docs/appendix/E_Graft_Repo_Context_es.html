@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Apéndice E · Explorar el contexto del repositorio con graft - Introducción a Claude Code y al arnés multiagente">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Apéndice E · Explorar el contexto del repositorio con graft</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_es.html" class="nav-home">&larr; Inicio del manual</a>
+  <div class="nav-title">Apéndice E &middot; Explorar el contexto del repositorio con graft</div>
+  <a href="#what-is-graft">Qué es graft</a>
+  <a href="#why">Por qué graft en lugar de grep</a>
+  <a href="#core-commands">Comandos principales</a>
+  <a href="#mcp-tools">Usarlo como herramientas MCP</a>
+  <a href="#workflow">Flujo de trabajo real</a>
+  <a href="#build">Actualizar el grafo (graft build)</a>
+  <div class="nav-section">Otros capítulos</div>
+  <a href="A_Remote_Access_es.html">Apéndice A &middot; Configuración de acceso remoto</a>
+  <a href="B_Claude_Code_CLI_es.html">Apéndice B &middot; Guía de Claude Code CLI</a>
+  <a href="C_Low_Cost_Backends_es.html">Apéndice C &middot; Integración de backends de IA de bajo costo</a>
+  <a href="D_Korean_Open_Data_API_Keys_es.html">Apéndice D &middot; Claves de API de datos abiertos de Corea</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">Apéndice E</div>
+  <h1>Explorar el contexto del repositorio con graft</h1>
+  <p class="lead">graft es un grafo de contexto del repositorio construido de antemano. Cuando necesitas entender código, encontrar dónde hacer un cambio o rastrear el alcance de una edición, preguntarle primero a graft —en lugar de usar grep o abrir archivos a ciegas— te da una respuesta exacta con file:line usando muchos menos tokens.</p>
+  <div class="keypoints">
+    <div class="kp-title">Lo que cubre este apéndice</div>
+    <ul>
+      <li>Qué es graft y por qué existe</li>
+      <li>Por qué recurrir a graft antes que a grep o leer archivos directamente</li>
+      <li>Los cinco comandos principales (ask, grep, skeleton, callers, map)</li>
+      <li>Usar graft como herramientas MCP (en entornos compatibles)</li>
+      <li>Un ejemplo de flujo de trabajo real</li>
+      <li>Actualizar el grafo tras cambios de código</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================
+       SECTION 1: Qué es graft
+       ============================================================ -->
+  <h2 id="what-is-graft">1. Qué es graft</h2>
+
+  <p>graft analiza un repositorio y genera un grafo de pequeños nodos en markdown —uno por archivo— que explica qué hace cada archivo, qué símbolos define y quién los llama. Este grafo vive en un directorio <code>graft/</code> y se mantiene sincronizado con el código a través de git a medida que evoluciona el proyecto.</p>
+
+  <div class="flow-box">
+    grep solo te dice <strong>dónde aparece una cadena de texto</strong>. graft es un mapa ya construido que te dice <strong>dónde se define un concepto, cómo se comporta y quién lo usa</strong>. Es la diferencia entre recorrer una ciudad nueva calle por calle y que alguien ya te entregue el mapa.
+  </div>
+
+  <p>graft se puede usar de dos formas:</p>
+  <ul>
+    <li><strong>CLI</strong> — ejecutar <code>graft &lt;subcommand&gt;</code> directamente desde la terminal</li>
+    <li><strong>Herramientas MCP</strong> — cuando el host (p. ej. Claude Code) expone herramientas como <code>graft_find_code</code>, <code>graft_find_all</code>, <code>graft_trace_calls</code>, <code>graft_file_api</code> y <code>graft_repo_map</code>, se consulta el mismo grafo mediante llamadas a herramientas</li>
+  </ul>
+
+  <div class="note">
+    En este espacio de trabajo, un hook de SessionStart recuerda usar graft al inicio de cada sesión. En la práctica, eso significa: para cualquier tarea que implique entender o cambiar código, <strong>recurre primero a graft</strong> — esa es la regla base aquí.
+  </div>
+
+  <!-- ============================================================
+       SECTION 2: Por qué graft en lugar de grep
+       ============================================================ -->
+  <h2 id="why">2. Por qué graft en lugar de grep</h2>
+
+  <div class="table-compare">
+    <table>
+      <thead>
+        <tr>
+          <th>Situación</th>
+          <th>grep / leer archivos directamente</th>
+          <th>graft</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>"¿Cómo funciona esta función?"</td>
+          <td>Hay que adivinar qué archivos son relevantes y abrir varios</td>
+          <td><code>graft ask</code> devuelve resultados clasificados con fragmentos de código incluidos, al instante</td>
+        </tr>
+        <tr>
+          <td>"¿Quién llama a este símbolo?"</td>
+          <td>Búsqueda de texto más verificación manual (muchos falsos positivos)</td>
+          <td><code>graft callers</code> lee las conexiones exactas de llamada directamente del grafo</td>
+        </tr>
+        <tr>
+          <td>"Encontrar cada aparición de este patrón"</td>
+          <td>Posible con grep -rn, pero los resultados quedan desorganizados</td>
+          <td><code>graft grep</code> agrupa cada coincidencia por el símbolo que la contiene</td>
+        </tr>
+        <tr>
+          <td>"Quiero repasar toda la API de este archivo"</td>
+          <td>Hay que leer el archivo completo (costoso en tokens)</td>
+          <td><code>graft skeleton</code> da cada firma a un costo ~10 veces menor</td>
+        </tr>
+        <tr>
+          <td>"Nuevo en este repositorio, ¿por dónde empiezo?"</td>
+          <td>Leer el README y abrir carpetas una por una</td>
+          <td><code>graft map</code> resume clústeres de directorios, hubs y puntos calientes dentro de un presupuesto de tokens</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip-box">
+    El principio central: <strong>elige la única herramienta que se ajuste a la forma de la tarea y actúa según su respuesta</strong>. Llamar la misma herramienta una y otra vez, o repreguntar con palabras ligeramente distintas, desperdicia esfuerzo. Si una llamada no basta, cambia a la <em>otra</em> herramienta que se ajuste a la siguiente necesidad.
+  </div>
+
+  <!-- ============================================================
+       SECTION 3: Comandos principales
+       ============================================================ -->
+  <h2 id="core-commands">3. Comandos principales</h2>
+
+  <h3>3.1 graft map — orientación en un repositorio desconocido</h3>
+  <p>Ejecútalo primero cuando seas nuevo en un repositorio. Sin llamadas a LLM (gratis), muestra la estructura de directorios, archivos hub y puntos calientes dentro de un presupuesto de tokens.</p>
+  <div class="code-block">
+<pre><code>graft map</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+  <p><strong>Nota:</strong> map es la respuesta por sí sola. Seguir con skeleton en cada subsistema que menciona es un uso excesivo.</p>
+
+  <h3>3.2 graft ask — encuentra dónde entender o editar</h3>
+  <p>Para preguntas como "¿cómo funciona esto?" o "¿dónde está definido esto?", devuelve resultados clasificados con fragmentos de código incluidos.</p>
+  <div class="code-block">
+<pre><code>graft ask "cómo se comporta la lógica de reintento al fallar el inicio de sesión" --source</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+  <ul>
+    <li><code>--source</code> — muestra el código esencial de cada resultado (8 líneas por defecto)</li>
+    <li><code>--full</code> — cuando 8 líneas no bastan, muestra la definición completa</li>
+    <li>Para entender o editar, <strong>el primer resultado ES la respuesta</strong>. Cita el file:line de <code>covers:</code> y edita directamente desde la salida de <code>--source</code>.</li>
+  </ul>
+
+  <div class="warn">
+    No uses ask para tareas <strong>exhaustivas</strong> como "encontrar cada aparición de este patrón". ask está clasificado, solo top-N — no garantiza cobertura total. Para búsquedas exhaustivas usa graft grep.
+  </div>
+
+  <h3>3.3 graft grep — búsqueda exhaustiva</h3>
+  <p>Encuentra <strong>todas</strong> las apariciones de una cadena literal o símbolo, agrupadas por el símbolo que las contiene.</p>
+  <div class="code-block">
+<pre><code>graft grep "processPayment"</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+  <p>Recurre a <code>grep -rn</code> sin procesar solo cuando necesites cubrir archivos no indexados.</p>
+
+  <h3>3.4 graft skeleton — toda la API de un archivo de un vistazo</h3>
+  <p>Muestra la firma y ubicación de cada definición sin leer el archivo completo, a un costo ~10 veces menor. Útil para repasar una superficie de API.</p>
+  <div class="code-block">
+<pre><code>graft skeleton src/services/payment.ts</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+
+  <h3>3.5 graft callers — rastrea relaciones de llamada exactas</h3>
+  <p>Antes de cambiar un símbolo, averigua exactamente quién lo llama (o qué llama él). Ejecuta esto siempre antes de una refactorización o un cambio de nombre.</p>
+  <div class="code-block">
+<pre><code># Quién llama a este símbolo (por defecto)
+graft callers formatCurrency
+
+# Qué llama este símbolo
+graft callers formatCurrency --direction out
+
+# Alcance total (todos los archivos conectados)
+graft callers formatCurrency --depth all</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+
+  <div class="note">
+    El error clásico en refactorizaciones, cambios de nombre o modificaciones multiarchivo es <strong>editar solo el archivo principal y detenerse ahí</strong>. Ejecuta primero <code>graft callers &lt;symbol&gt; --depth all</code> para mapear todos los archivos conectados, y luego edita.
+  </div>
+
+  <!-- ============================================================
+       SECTION 4: Usarlo como herramientas MCP
+       ============================================================ -->
+  <h2 id="mcp-tools">4. Usarlo como herramientas MCP</h2>
+
+  <p>En entornos host como Claude Code, se puede consultar el mismo grafo mediante llamadas a herramientas MCP en lugar del CLI. La correspondencia es:</p>
+
+  <div class="table-compare">
+    <table>
+      <thead>
+        <tr>
+          <th>Comando CLI</th>
+          <th>Herramienta MCP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>graft ask</code></td><td><code>graft_find_code</code></td></tr>
+        <tr><td><code>graft grep</code></td><td><code>graft_find_all</code></td></tr>
+        <tr><td><code>graft callers</code></td><td><code>graft_trace_calls</code></td></tr>
+        <tr><td><code>graft skeleton</code></td><td><code>graft_file_api</code></td></tr>
+        <tr><td><code>graft map</code></td><td><code>graft_repo_map</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip-box">
+    Información de bordes —quién llama a qué— vive <strong>solo en el grafo</strong>, no en los archivos markdown de los nodos. <code>graft callers</code> / <code>graft_trace_calls</code> es la única forma de leerlos.
+  </div>
+
+  <!-- ============================================================
+       SECTION 5: Flujo de trabajo real
+       ============================================================ -->
+  <h2 id="workflow">5. Flujo de trabajo real</h2>
+
+  <div class="step-list">
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Paso 1: ¿Repositorio nuevo? Empieza con map</div>
+        <p>Si no conoces un proyecto, ejecuta <code>graft map</code> primero para obtener la visión general.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Paso 2: Elige la herramienta que se ajusta a la tarea</div>
+        <p>Entender o editar → <code>ask --source</code>. Búsqueda exhaustiva → <code>grep</code>. Repasar una API → <code>skeleton</code>. Mapear el alcance → <code>callers</code>.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Paso 3: Edita directamente desde el resultado</div>
+        <p>Cita el file:line y el fragmento devuelto por <code>ask --source</code> y edita directamente desde ahí. Si un tramo aparece truncado (<code>+N more lines</code>), abre el archivo en ese rango exacto para confirmarlo antes de finalizar.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <div class="step-label">Paso 4: Actualiza el grafo tras grandes cambios</div>
+        <p>Después de un cambio de código significativo, ejecuta <code>graft build</code> para poner el grafo al día.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SECTION 6: Actualizar el grafo
+       ============================================================ -->
+  <h2 id="build">6. Actualizar el grafo (graft build)</h2>
+
+  <p>El grafo de graft se genera de forma determinista y se puede actualizar de forma gratuita, sin necesidad de una clave de API de LLM. Después de un cambio de código grande —archivos nuevos, una refactorización mayor— reconstruye el grafo para mantenerlo al día.</p>
+
+  <div class="code-block">
+<pre><code>graft build</code></pre>
+<button type="button" class="copy-btn">Copiar</button>
+</div>
+
+  <div class="warn">
+    No es necesario ejecutar build después de cada pequeña edición. El grafo está bajo control de versiones junto con git; actualizarlo una vez tras un bloque de trabajo significativo es suficiente.
+  </div>
+
+  <div class="flow-box">
+    En resumen: <strong>entender o editar → graft ask</strong>, <strong>encontrar todo → graft grep</strong>, <strong>repasar una API → graft skeleton</strong>, <strong>rastrear el alcance → graft callers</strong>, <strong>repositorio nuevo → graft map</strong>. Solo necesitas recordar estos cinco.
+  </div>
+
+  <div class="chapter-nav">
+    <a href="D_Korean_Open_Data_API_Keys_es.html" class="prev">
+      <div class="dir">&larr; Apéndice D</div>
+      <div class="ttl">Claves de API de datos abiertos de Corea</div>
+    </a>
+  </div>
+   <footer>
+    Claude Code 2026-09 / graft (repo context graph) de referencia · Traducción al español<br>
+    Referencias oficiales: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    El contenido de este manual está disponible bajo licencia <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a>.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

@@ -629,6 +629,16 @@ finishing a document.</code></pre>
     </ol>
   </div>
 
+  <div class="note">
+    <p><strong>What's new (2026-09)</strong> &mdash; the lifecycle no longer ends at activation. Skills are now reviewed against how they actually perform in sessions (ADR-0067):</p>
+    <ul>
+      <li>Each session records the skills it loaded into <code>memory/YYYY-MM-DD.md</code> under <code>## Skills Used</code> &mdash; usage and outcome per skill.</li>
+      <li><code>scripts/skill-session-review.ts</code> classifies failures into <strong>Observed Symptoms</strong> (for example <code>description_trigger_mismatch</code>, <code>missing_procedure</code>) and files them in <code>memory/skill-review/YYYY-MM-DD.md</code>.</li>
+      <li>Revisions stay human-gated: candidates move through <code>proposed &rarr; triaged &rarr; approved/rejected &rarr; applied</code>. The script never edits a skill on its own.</li>
+    </ul>
+    <p>The roster keeps moving too, which the steps above are designed to absorb: <code>meeting</code> is now only a trigger alias of <code>meeting-facilitation</code> v1.4.1 (there is no separate <code>skills/meeting/</code> directory), <code>simulate-pipeline</code> v1.0.0 merged the two smoke-test skills, and <code>validate-docs-links</code> is <code>deprecated</code> with <code>removal-date: 2026-12-09</code> &mdash; its link-checking job moved to the <code>project-review</code> baseline. That last one is the <code>status</code> field table earlier in this chapter playing out in practice.</p>
+  </div>
+
   <!-- ============================================================ -->
   <!-- SECTION 6: skill-creator plugin                               -->
   <!-- ============================================================ -->

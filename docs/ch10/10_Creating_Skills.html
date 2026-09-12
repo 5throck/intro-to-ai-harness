@@ -622,6 +622,16 @@ PM이 자동으로 디스패치할 수 있습니다.</code></pre>
     </ol>
   </div>
 
+  <div class="note">
+    <p><strong>새 소식(2026-09)</strong> &mdash; 라이프사이클은 활성화에서 끝나지 않습니다. 이제 스킬은 세션에서 실제로 어떻게 동작했는지로 검토됩니다(ADR-0067).</p>
+    <ul>
+      <li>각 세션은 자신이 로드한 스킬을 <code>memory/YYYY-MM-DD.md</code>의 <code>## Skills Used</code> 섹션에 기록합니다 &mdash; 스킬별 사용 지위와 결과입니다.</li>
+      <li><code>scripts/skill-session-review.ts</code>가 실패를 <strong>관찰된 증상(Observed Symptoms)</strong>(예: <code>description_trigger_mismatch</code>, <code>missing_procedure</code>)으로 분류해 <code>memory/skill-review/YYYY-MM-DD.md</code>에 남깁니다.</li>
+      <li>수정은 사람이 관문을 통제합니다. 후보는 <code>proposed &rarr; triaged &rarr; approved/rejected &rarr; applied</code>로 진행되며, 스크립트가 스스로 스킬을 수정하는 일은 없습니다.</li>
+    </ul>
+    <p>로스터도 계속 움직입니다. 위의 단계들이 바로 이런 변화를 흡수하도록 설계되어 있습니다. <code>meeting</code>은 이제 <code>meeting-facilitation</code> v1.4.1의 트리거 별칭일 뿐이고(별도의 <code>skills/meeting/</code> 디렉터리는 없습니다), <code>simulate-pipeline</code> v1.0.0이 스모크 테스트 스킬 두 개를 하나로 합쳤으며, <code>validate-docs-links</code>는 <code>removal-date: 2026-12-09</code>와 함께 <code>deprecated</code>가 되었습니다 &mdash; 링크 검사 역할은 <code>project-review</code> 베이스라인으로 이동했습니다. 마지막 사례는 이 장 앞에서 본 <code>status</code> 필드 표가 실무에서 작동하는 모습입니다.</p>
+  </div>
+
   <!-- ============================================================ -->
   <!-- SECTION 6: skill-creator 플러그인                                -->
   <!-- ============================================================ -->

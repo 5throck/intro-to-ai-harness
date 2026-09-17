@@ -41,6 +41,12 @@ const SKIP_DOMAINS = new Set([
   // Korean FSS DART portal: ignores non-browser TLS clients (Node HEAD/GET times out; site is
   // healthy via browser/curl) — same JA3-style behavior as the entries above
   "opendart.fss.or.kr",
+  // Korean public open-data portals (.go.kr family): intermittently 403/timeout Node clients from
+  // overseas CI runners (geo/bot filtering) — flaky CI failures even though the sites are healthy
+  "open.law.go.kr",
+  "www.law.go.kr",
+  "kosis.kr",
+  "www.data.go.kr",
 ]);
 
 // ---------------------------------------------------------------------------

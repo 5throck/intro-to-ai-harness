@@ -2,6 +2,14 @@
 
 All notable changes to this handbook will be documented in this file.
 
+## [2026-09-20] — Upstream Sync: --platform all, Domain Operating Model Note, Graft-First Scaffolding
+
+### Changed
+- Synced with `ai-workspace-standards` main (2026-09-20).
+- **ch05** (ko/en/ja/es): the `new-project.ts` `--platform` flag now reads `claude|antigravity|codex|all` — the old `both` value was renamed to `all` upstream and expanded to cover all three platforms (Claude Code + Gemini/Antigravity + Codex); the default is `all` and naming a single platform keeps only that one. Also added a beginner-level note that official variant templates now carry the **Domain Operating Model** structure (workflow stages, RACI, decision gates declared as data per ADR-0083/0084), with a pointer to the advanced handbook's dedicated chapter.
+- **Appendix E · graft** (ko/en/ja/es): notes that `new-project.ts` now builds the graft graph automatically at scaffold time — graft-first with a `bunx` fallback — so freshly created projects can answer `graft ask` from day one (upstream spec `2026-09-20-graft-scaffold-resilience`).
+- Footer baseline date bumped to 2026-09-20; README Target Versions `ai-workspace-standards` main (2026-09).
+
 ## [2026-09-11] — Upstream Sync: k-ecos & k-krx Skills, /sync Safety Gates
 
 ### Changed

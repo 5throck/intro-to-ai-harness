@@ -27,7 +27,7 @@ Un manual multilingüe (coreano · inglés · japonés · español) para princip
 - **Resumen del curso y guía docente** — Objetivos de aprendizaje, calendario por día, notas para facilitadores
 
 ## 🎯 Versiones objetivo
-- Claude Code 2026-08 / Claude Desktop App (más reciente) / `ai-workspace-standards` main (2026-08)
+- Claude Code 2026-08 / Claude Desktop App (más reciente) / `ai-workspace-standards` main (2026-09)
 
 ## 📜 Licencia
 - **Contenido del manual**: [CC BY-NC-SA 4.0](LICENSE) (Atribución-NoComercial-CompartirIgual 4.0 Internacional)

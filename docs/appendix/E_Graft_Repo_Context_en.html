@@ -251,6 +251,10 @@ graft callers formatCurrency --depth all</code></pre>
     You don't need to run build after every small edit. The graph is version-controlled alongside git; refreshing it once after a meaningful chunk of work is enough.
   </div>
 
+  <div class="note">
+    <strong>As of 2026-09-20:</strong> when you create a new project (<code>new-project.ts</code>), the graft graph is built automatically during scaffolding. It first uses the globally installed <code>graft</code> command and falls back to <code>bunx</code> if that is missing. In other words, a freshly scaffolded project can answer <code>graft ask</code> questions from day one.
+  </div>
+
   <div class="flow-box">
     In short: <strong>understand or edit → graft ask</strong>, <strong>find everything → graft grep</strong>, <strong>skim an API → graft skeleton</strong>, <strong>trace blast radius → graft callers</strong>, <strong>new to a repo → graft map</strong>. Those five are all you need to remember.
   </div>
@@ -262,7 +266,7 @@ graft callers formatCurrency --depth all</code></pre>
     </a>
   </div>
    <footer>
-    Based on Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-12) · English Educational Materials<br>
+    Based on Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-20) · English Educational Materials<br>
     Official Docs: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
     <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
     <a href="https://developers.openai.com/codex" target="_blank">Codex</a> ·

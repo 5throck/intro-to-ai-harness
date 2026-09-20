@@ -27,7 +27,7 @@ A beginner-friendly multilingual handbook (Korean · English · Japanese · Espa
 - **Course Overview & Lecture Guide** — Learning objectives, day-by-day schedule, facilitator notes
 
 ## 🎯 Target Versions
-- Claude Code 2026-08 / Claude Desktop App (latest) / `ai-workspace-standards` main (2026-08)
+- Claude Code 2026-08 / Claude Desktop App (latest) / `ai-workspace-standards` main (2026-09)
 
 ## 📜 License
 - **Handbook content**: [CC BY-NC-SA 4.0](LICENSE) (Attribution-NonCommercial-ShareAlike 4.0 International)

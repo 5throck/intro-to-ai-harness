@@ -251,6 +251,10 @@ graft callers formatCurrency --depth all</code></pre>
     작은 수정 하나마다 build를 실행할 필요는 없습니다. 그래프는 git과 함께 버전 관리되며, 의미 있는 단위의 변경이 끝난 뒤 한 번 갱신하는 것으로 충분합니다.
   </div>
 
+  <div class="note">
+    <strong>2026-09-20부터:</strong> 새 프로젝트를 만들 때(<code>new-project.ts</code>)는 스캐폴딩 과정에서 graft 그래프가 자동으로 빌드됩니다. 전역 설치된 <code>graft</code> 명령을 먼저 사용하고, 없으면 <code>bunx</code>로 대체 실행합니다. 즉 새로 만든 프로젝트는 처음부터 <code>graft ask</code>로 질문할 수 있습니다.
+  </div>
+
   <div class="flow-box">
     요약하면: <strong>이해하거나 수정할 때 → graft ask</strong>, <strong>전부 찾을 때 → graft grep</strong>, <strong>API를 훑을 때 → graft skeleton</strong>, <strong>영향 범위를 볼 때 → graft callers</strong>, <strong>낯선 저장소를 처음 볼 때 → graft map</strong>. 이 다섯 가지만 기억하면 충분합니다.
   </div>
@@ -262,7 +266,7 @@ graft callers formatCurrency --depth all</code></pre>
     </a>
   </div>
    <footer>
-    Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-12) 기준 · 한국어 교육 자료<br>
+    Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-20) 기준 · 한국어 교육 자료<br>
     공식 자료: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
     <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
     <a href="https://developers.openai.com/codex" target="_blank">Codex</a> ·

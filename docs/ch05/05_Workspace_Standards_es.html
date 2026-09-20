@@ -531,6 +531,10 @@
 
   <p>Todas las variantes comparten el mismo «esqueleto» (L0 + L1), pero cada una añade agentes, skills y configuraciones distintos según su propósito. Es como si del mismo chasis de automóvil salieran sedanes, todoterrenos y deportivos.</p>
 
+  <div class="note">
+    <strong>Nota — las plantillas también evolucionan (2026-09):</strong> las plantillas variant oficiales ahora incorporan una estructura autosuficiente llamada <strong>Domain Operating Model</strong>, que declara como datos las etapas del flujo del dominio, la rendición de cuentas (RACI) y los puntos de veredicto (compuertas de decisión). A nivel introductorio basta con recordar que "una plantilla registra su orden de trabajo y sus responsabilidades en forma legible por máquina"; los detalles se tratan en un capítulo dedicado del curso avanzado (el Manual de Ingeniería de Arnes de Equipo Multiagente).
+  </div>
+
   <h3>Ejemplos de variantes</h3>
 
   <p>En el ecosistema actual de ai-workspace-standards existen variantes como estas.</p>
@@ -600,14 +604,14 @@
   <p>Este comando crea <code>Projects/my-market-report/</code> como un nuevo repositorio Git independiente, copia los agentes, skills y configuraciones de co-consult, y renderiza un esqueleto vacío de <code>docs/context.md</code> listo para rellenarlo con los objetivos de este proyecto concreto. La sintaxis completa es:</p>
 
   <div class="code-block">
-<pre><code>bun scripts/new-project.ts "&lt;nombre-del-proyecto&gt;" --variant &lt;variante&gt; [--platform claude|antigravity|codex|both] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
+<pre><code>bun scripts/new-project.ts "&lt;nombre-del-proyecto&gt;" --variant &lt;variante&gt; [--platform claude|antigravity|codex|all] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <ul>
     <li><strong><code>&lt;nombre-del-proyecto&gt;</code></strong> — Obligatorio. Será el nombre de la carpeta bajo <code>Projects/</code>.</li>
     <li><strong><code>--variant &lt;variante&gt;</code></strong> — Obligatorio. Indica desde qué plantilla L2 se hará el scaffolding (<code>co-consult</code>, <code>co-deck</code>, <code>co-develop</code>, etc.).</li>
-    <li><strong><code>--platform</code></strong> — Opcional. Limita qué configuraciones de plataforma (<code>.claude/</code>, <code>.gemini/</code>, <code>.codex/</code>) se copian (<code>claude</code>, <code>antigravity</code>, <code>codex</code> o <code>both</code>). Por defecto es <code>both</code> (Claude Code + Gemini/Antigravity); usa <code>--platform codex</code> para añadir soporte de Codex.</li>
+    <li><strong><code>--platform</code></strong> — Opcional. Limita qué configuraciones de plataforma (<code>.claude/</code>, <code>.gemini/</code>, <code>.codex/</code>) se copian (<code>claude</code>, <code>antigravity</code>, <code>codex</code> o <code>all</code>). Por defecto es <code>all</code>, que copia las tres plataformas (Claude Code + Gemini/Antigravity + Codex); al indicar una sola, se conserva únicamente esa. El antiguo <code>both</code> pasó a llamarse <code>all</code> el 2026-09-20 y ahora incluye Codex.</li>
     <li><strong><code>--version</code></strong> — Opcional. Fija una versión concreta de la plantilla en lugar de la versión actual de la variante origen.</li>
     <li><strong><code>--country &lt;CODE&gt;</code></strong> — Opcional. Para un proyecto centrado en Corea, pasa <code>--country KR</code>. El perfil país inyectará en tu proyecto skills exclusivos de Corea como k-dart, k-law y k-kosis junto con la configuración de claves API KR (consulta el <a href="../appendix/D_Korean_Open_Data_API_Keys_es.html">apéndice D</a> para más detalles).</li>
   </ul>
@@ -702,7 +706,7 @@
     </a>
   </div>
    <footer>
-    Basado en Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-12) · Material educativo en español<br>
+    Basado en Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-20) · Material educativo en español<br>
     Recursos oficiales: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
     <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
     <a href="https://developers.openai.com/codex" target="_blank">Codex</a> ·

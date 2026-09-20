@@ -531,6 +531,10 @@
 
   <p>All variants share the same "skeleton" (L0 + L1), but each adds different agents, skills, and settings according to its own purpose. It is like various models — sedans, SUVs, sports cars — being built on the same automobile platform.</p>
 
+  <div class="note">
+    <strong>Note — templates evolve too (2026-09):</strong> official variant templates now carry a self-contained structure called the <strong>Domain Operating Model</strong>, which declares the domain's workflow stages, accountability (RACI), and verdict points (decision gates) as data. At the beginner level it is enough to remember that "a template records its workflow order and responsibilities in machine-readable form"; the details are covered in a dedicated chapter of the advanced course (the Multi-Agent Harness Engineering Handbook).
+  </div>
+
   <h3>Examples of Variants</h3>
 
   <p>The ai-workspace-standards ecosystem currently includes the following variants.</p>
@@ -600,14 +604,14 @@
   <p>This command creates <code>Projects/my-market-report/</code> as an independent new Git repository, copies in co-consult's agents, skills, and settings, and renders an empty <code>docs/context.md</code> skeleton ready to be filled in with this project's goals. The full syntax is:</p>
 
   <div class="code-block">
-<pre><code>bun scripts/new-project.ts "&lt;project-name&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|codex|both] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
+<pre><code>bun scripts/new-project.ts "&lt;project-name&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|codex|all] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
 
   <ul>
     <li><strong><code>&lt;project-name&gt;</code></strong> — Required. Becomes the folder name under <code>Projects/</code>.</li>
     <li><strong><code>--variant &lt;variant&gt;</code></strong> — Required. Specifies which L2 template to scaffold from (<code>co-consult</code>, <code>co-deck</code>, <code>co-develop</code>, etc.).</li>
-    <li><strong><code>--platform</code></strong> — Optional. Restricts which platform configurations (<code>.claude/</code>, <code>.gemini/</code>, <code>.codex/</code>) get copied (<code>claude</code>, <code>antigravity</code>, <code>codex</code>, or <code>both</code>). Defaults to <code>both</code> (Claude Code + Gemini/Antigravity); pass <code>--platform codex</code> to add Codex support.</li>
+    <li><strong><code>--platform</code></strong> — Optional. Restricts which platform configurations (<code>.claude/</code>, <code>.gemini/</code>, <code>.codex/</code>) get copied (<code>claude</code>, <code>antigravity</code>, <code>codex</code>, or <code>all</code>). Defaults to <code>all</code>, which copies all three platforms (Claude Code + Gemini/Antigravity + Codex); naming a single one keeps only that platform. The old <code>both</code> value was renamed to <code>all</code> on 2026-09-20 and now includes Codex.</li>
     <li><strong><code>--version</code></strong> — Optional. Pins a specific template version instead of the source variant's current one.</li>
     <li><strong><code>--country &lt;CODE&gt;</code></strong> — Optional. For a Korea-focused project, pass <code>--country KR</code>. The country profile injects the six Korea-only skills (k-dart, k-law, k-kosis, k-opendata, plus k-ecos and k-krx as of 2026-09) together with KR API key setup into your project (see <a href="../appendix/D_Korean_Open_Data_API_Keys_en.html">Appendix D</a> for details).</li>
   </ul>
@@ -702,7 +706,7 @@
     </a>
   </div>
    <footer>
-    Based on Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-12) · English Educational Materials<br>
+    Based on Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-20) · English Educational Materials<br>
     Official Docs: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
     <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
     <a href="https://developers.openai.com/codex" target="_blank">Codex</a> ·

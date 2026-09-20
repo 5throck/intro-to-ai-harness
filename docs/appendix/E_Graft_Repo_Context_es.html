@@ -251,6 +251,10 @@ graft callers formatCurrency --depth all</code></pre>
     No es necesario ejecutar build después de cada pequeña edición. El grafo está bajo control de versiones junto con git; actualizarlo una vez tras un bloque de trabajo significativo es suficiente.
   </div>
 
+  <div class="note">
+    <strong>Desde el 2026-09-20:</strong> al crear un proyecto nuevo (<code>new-project.ts</code>), el grafo de graft se construye automáticamente durante el scaffolding. Primero usa el comando <code>graft</code> instalado globalmente y, si no está, recurra a <code>bunx</code>. Es decir, un proyecto recién creado puede responder preguntas con <code>graft ask</code> desde el primer día.
+  </div>
+
   <div class="flow-box">
     En resumen: <strong>entender o editar → graft ask</strong>, <strong>encontrar todo → graft grep</strong>, <strong>repasar una API → graft skeleton</strong>, <strong>rastrear el alcance → graft callers</strong>, <strong>repositorio nuevo → graft map</strong>. Solo necesitas recordar estos cinco.
   </div>
@@ -262,7 +266,7 @@ graft callers formatCurrency --depth all</code></pre>
     </a>
   </div>
    <footer>
-    Basado en Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-12) · Material educativo en español<br>
+    Basado en Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-20) · Material educativo en español<br>
     Recursos oficiales: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
     <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
     <a href="https://developers.openai.com/codex" target="_blank">Codex</a> ·

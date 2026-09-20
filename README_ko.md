@@ -27,7 +27,7 @@ AI 초보자를 위한 다국어(한국어·영어·일본어·스페인어) 핸
 - **강의 개요 & 강의 진행 가이드** — 학습 목표, 일자별 일정, 진행자 노트
 
 ## 🎯 대상 버전
-- Claude Code 2026-08 / Claude Desktop App (최신) / `ai-workspace-standards` main (2026-08)
+- Claude Code 2026-08 / Claude Desktop App (최신) / `ai-workspace-standards` main (2026-09)
 
 ## 📜 라이선스
 - **핸드북 콘텐츠**: [CC BY-NC-SA 4.0](LICENSE) (저작자표시-비영리-동일조건변경허락 4.0 국제)

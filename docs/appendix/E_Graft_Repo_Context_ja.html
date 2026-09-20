@@ -251,6 +251,10 @@ graft callers formatCurrency --depth all</code></pre>
     小さな修正のたびにbuildを実行する必要はありません。グラフはgitと共にバージョン管理されており、意味のある単位の変更が終わった後に一度更新すれば十分です。
   </div>
 
+  <div class="note">
+    <strong>2026-09-20から:</strong> 新しいプロジェクトを作るとき(<code>new-project.ts</code>)は、スキャフォールディングの過程でgraftグラフが自動的にビルドされます。グローバルにインストールされた<code>graft</code>コマンドをまず使い、なければ<code>bunx</code>で代替実行します。つまり、新しく作ったプロジェクトは最初から<code>graft ask</code>で質問できます。
+  </div>
+
   <div class="flow-box">
     まとめると：<strong>理解・修正するとき → graft ask</strong>、<strong>すべて探すとき → graft grep</strong>、<strong>APIをざっと見るとき → graft skeleton</strong>、<strong>影響範囲を見るとき → graft callers</strong>、<strong>初めてのリポジトリを見るとき → graft map</strong>。この5つだけ覚えれば十分です。
   </div>
@@ -262,7 +266,7 @@ graft callers formatCurrency --depth all</code></pre>
     </a>
   </div>
    <footer>
-    Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-12) 基準 · 日本語教材<br>
+    Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-20) 基準 · 日本語教材<br>
     公式リソース: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
     <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
     <a href="https://developers.openai.com/codex" target="_blank">Codex</a> ·

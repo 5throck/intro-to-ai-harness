@@ -531,6 +531,10 @@
 
   <p>모든 variant는 동일한 "뼈대"(L0 + L1)를 공유하지만, 각자의 목적에 따라 다른 에이전트, 스킬, 설정을 추가합니다. 마치 같은 자동차 플랫폼에서 세단, SUV, 스포츠카 등 다양한 변형 모델이 만들어지는 것과 같습니다.</p>
 
+  <div class="note">
+    <strong>참고 — 템플릿도 진화하고 있습니다(2026-09):</strong> 정식 variant 템플릿은 이제 <strong>Domain Operating Model(도메인 운영 모델)</strong>이라는 자체 완결 구조를 갖춥니다. 도메인 업무의 진행 단계(스테이지), 책임 체계(RACI), 판정 지점(결정 게이트)을 데이터로 선언하는 구조입니다. 입문 단계에서는 "템플릿 안에는 업무 순서와 책임이 기계가 읽는 형태로 기록된다"는 것만 기억해도 충분하며, 자세한 내용은 심화 과정(멀티 에이전트 하네스 엔지니어링 핸드북)의 전용 장에서 다룹니다.
+  </div>
+
   <h3>variant의 예시</h3>
 
   <p>현재 ai-workspace-standards 생태계에는 다음과 같은 variant들이 있습니다.</p>
@@ -600,14 +604,14 @@
   <p>이 명령은 <code>Projects/my-market-report/</code>를 독립된 새 Git 저장소로 생성하고, co-consult의 에이전트·스킬·설정을 복사한 뒤, 이 프로젝트만의 목표를 채워 넣을 수 있도록 비어 있는 <code>docs/context.md</code> 골격을 렌더링합니다. 전체 문법은 다음과 같습니다.</p>
 
   <div class="code-block">
-<pre><code>bun scripts/new-project.ts "&lt;프로젝트-이름&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|codex|both] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
+<pre><code>bun scripts/new-project.ts "&lt;프로젝트-이름&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|codex|all] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
 
   <ul>
     <li><strong><code>&lt;프로젝트-이름&gt;</code></strong> — 필수. <code>Projects/</code> 아래 폴더 이름이 됩니다.</li>
     <li><strong><code>--variant &lt;variant&gt;</code></strong> — 필수. 어떤 L2 템플릿에서 스캐폴딩할지 지정합니다(<code>co-consult</code>, <code>co-deck</code>, <code>co-develop</code> 등).</li>
-    <li><strong><code>--platform</code></strong> — 선택. 어떤 플랫폼 설정(<code>.claude/</code>, <code>.gemini/</code>, <code>.codex/</code>)을 복사할지 제한합니다(<code>claude</code>, <code>antigravity</code>, <code>codex</code>, <code>both</code>). 기본값은 <code>both</code>(Claude Code + Gemini/Antigravity)이며, Codex 지원은 <code>--platform codex</code>로 별도 지정합니다.</li>
+    <li><strong><code>--platform</code></strong> — 선택. 어떤 플랫폼 설정(<code>.claude/</code>, <code>.gemini/</code>, <code>.codex/</code>)을 복사할지 제한합니다(<code>claude</code>, <code>antigravity</code>, <code>codex</code>, <code>all</code>). 기본값은 <code>all</code>로 세 플랫폼(Claude Code + Gemini/Antigravity + Codex) 전부를 복사하며, 하나를 지정하면 그 플랫폼만 남습니다. 구버전의 <code>both</code>는 2026-09-20부로 <code>all</code>로 바뀌었고, 이제는 Codex까지 함께 포함합니다.</li>
     <li><strong><code>--version</code></strong> — 선택. 원본 variant의 현재 버전 대신 특정 템플릿 버전을 고정해서 사용합니다.</li>
     <li><strong><code>--country &lt;CODE&gt;</code></strong> — 선택. 한국 대상 프로젝트라면 <code>--country KR</code>을 지정하세요. 국가 프로파일이 한국 전용 스킬 여섯 개(k-dart·k-law·k-kosis·k-opendata, 그리고 2026-09부터 k-ecos·k-krx)와 KR API 키 설정을 프로젝트에 함께 넣어 줍니다 (자세한 내용은 <a href="../appendix/D_Korean_Open_Data_API_Keys.html">별첨 D</a> 참조).</li>
   </ul>
@@ -702,7 +706,7 @@
     </a>
   </div>
    <footer>
-    Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-12) 기준 · 한국어 교육 자료<br>
+    Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-20) 기준 · 한국어 교육 자료<br>
     공식 자료: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
     <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
     <a href="https://developers.openai.com/codex" target="_blank">Codex</a> ·

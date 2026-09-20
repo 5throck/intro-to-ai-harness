@@ -531,6 +531,10 @@
 
   <p>すべてのバリアントは同じ「骨格」（L0 + L1）を共有しますが、それぞれの目的に応じて異なるエージェント、スキル、設定を追加します。同じ自動車プラットフォームからセダン、SUV、スポーツカーなど多彩な派生モデルが作られるのと似ています。</p>
 
+  <div class="note">
+    <strong>メモ — テンプレートも進化しています（2026-09）:</strong> 正規のバリアントテンプレートは現在、<strong>Domain Operating Model（ドメイン運用モデル）</strong>という自己完結構造を備えています。ドメイン業務の進行段階（ステージ）、責任体系（RACI）、判断地点（判断ゲート）をデータとして宣言する構造です。入門段階では「テンプレートの中には業務の順序と責任が機械可読形式で記録されている」ことだけ覚えておけば十分で、詳細は上級コース（マルチエージェントチーム・ハーネスエンジニアリングハンドブック）の専用章で扱います。
+  </div>
+
   <h3>バリアントの例</h3>
 
   <p>現在のai-workspace-standardsエコシステムには、次のようなバリアントがあります。</p>
@@ -600,14 +604,14 @@
   <p>このコマンドは<code>Projects/my-market-report/</code>を独立した新しいGitリポジトリとして生成し、co-consultのエージェント・スキル・設定をコピーしたうえで、このプロジェクトだけの目標を書き込めるよう空の<code>docs/context.md</code>骨格をレンダリングします。全構文は次のとおりです。</p>
 
   <div class="code-block">
-<pre><code>bun scripts/new-project.ts "&lt;プロジェクト名&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|codex|both] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
+<pre><code>bun scripts/new-project.ts "&lt;プロジェクト名&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|codex|all] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
   <ul>
     <li><strong><code>&lt;プロジェクト名&gt;</code></strong> — 必須。<code>Projects/</code>以下のフォルダ名になります。</li>
     <li><strong><code>--variant &lt;variant&gt;</code></strong> — 必須。どのL2テンプレートからスキャフォールドするかを指定します（<code>co-consult</code>、<code>co-deck</code>、<code>co-develop</code>など）。</li>
-    <li><strong><code>--platform</code></strong> — 任意。どのプラットフォーム設定（<code>.claude/</code>、<code>.gemini/</code>、<code>.codex/</code>）をコピーするか制限します（<code>claude</code>、<code>antigravity</code>、<code>codex</code>、<code>both</code>）。デフォルトは<code>both</code>（Claude Code + Gemini/Antigravity）で、Codexサポートを追加するには<code>--platform codex</code>を指定します。</li>
+    <li><strong><code>--platform</code></strong> — 任意。どのプラットフォーム設定（<code>.claude/</code>、<code>.gemini/</code>、<code>.codex/</code>）をコピーするか制限します（<code>claude</code>、<code>antigravity</code>、<code>codex</code>、<code>all</code>）。デフォルトの<code>all</code>は3プラットフォーム（Claude Code + Gemini/Antigravity + Codex）すべてをコピーし、1つを指定するとそのプラットフォームだけが残ります。旧<code>both</code>は2026-09-20に<code>all</code>へ改名され、Codexも含むようになりました。</li>
     <li><strong><code>--version</code></strong> — 任意。元バリアントの現在バージョンの代わりに、特定のテンプレートバージョンを固定して使用します。</li>
     <li><strong><code>--country &lt;CODE&gt;</code></strong> — 任意。韓国向けプロジェクトなら<code>--country KR</code>を指定してください。国プロファイルがk-dart・k-law・k-kosisのような韓国専用スキルとKR APIキー設定をプロジェクトに一緒に入れてくれます（詳細は<a href="../appendix/D_Korean_Open_Data_API_Keys_ja.html">別冊D</a>を参照）。</li>
   </ul>
@@ -702,7 +706,7 @@
     </a>
   </div>
    <footer>
-    Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-12) 基準 · 日本語教材<br>
+    Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-20) 基準 · 日本語教材<br>
     公式リソース: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
     <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
     <a href="https://developers.openai.com/codex" target="_blank">Codex</a> ·

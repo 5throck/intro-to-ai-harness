@@ -27,7 +27,7 @@ AI初心者向けの多言語（韓国語・英語・日本語・スペイン語
 - **コース概要 & 講義ガイド** — 学習目標、日程別スケジュール、進行ノート
 
 ## 🎯 対象バージョン
-- Claude Code 2026-08 / Claude Desktop App (最新) / `ai-workspace-standards` main (2026-08)
+- Claude Code 2026-08 / Claude Desktop App (最新) / `ai-workspace-standards` main (2026-09)
 
 ## 📜 ライセンス
 - **ハンドブックコンテンツ**: [CC BY-NC-SA 4.0](LICENSE) (表示 - 非営利 - 継承 4.0 国際)

@@ -92,6 +92,8 @@
 
   <h3>Las capas de propiedad (ownership) de una skill</h3>
 
+  <div class="note">L0–L3 describe propiedad y alcance de entrega, no prioridad de ejecución. Para una solicitud coincidente, resuelve primero skills del workspace, luego skills de configuración de plataforma y después plugins globales. Los activos L1/L2 se entregan como instantáneas; evita duplicados.</div>
+
   <p>A diferencia de los agentes, las skills <strong>existen de forma independiente</strong>. Una skill puede definirse en varias capas, y cada capa tiene un alcance y una influencia distintos.</p>
 
   <div class="compare-grid">

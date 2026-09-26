@@ -66,17 +66,18 @@
       <tr><td>5장</td><td>ai-workspace-standards 구조, AGENTS.md/CLAUDE.md 역할, variant 개념</td><td>강의</td><td>30분</td></tr>
       <tr><td>6장</td><td>co-consult 시장 분석 실습, 7-Phase 워크플로우, 산출물 확인</td><td>실습(참가자 직접)</td><td>40분</td></tr>
       <tr><td>7장</td><td>co-deck 미니 발표자료 실습, 11-Stage 파이프라인, Gate 승인</td><td>실습(참가자 직접)</td><td>40분</td></tr>
-      <tr><td>8장</td><td>co-consult + co-deck 통합 파이프라인, 결과 공유</td><td>실습 + 공유</td><td>30분</td></tr>
+      <tr><td>8장</td><td>co-consult + co-deck 통합 파이프라인, 결과 공유</td><td>실습 + 공유</td><td>30분</td></tr><tr id="color-system-schedule-row"><td>핵심 장 · Design Foundation·Accessibility</td><td>Design Foundation·Accessibility — 토큰·색상 시스템·표준 화면·접근성 검토</td><td>Lecture + review</td><td>35분</td></tr>
+<tr><td>핵심 장 · i18n 설계와 콘텐츠 품질</td><td>i18n 설계 — locale·country profile·형식화·번역 동등성 검증</td><td>Lecture + exercise</td><td>25분</td></tr>
       <tr><td>9장</td><td>에이전트 파일 형식, frontmatter, agent-lifecycle-manager, 전문 에이전트 작성</td><td>실습(참가자 직접)</td><td>35분</td></tr>
       <tr><td>10장</td><td>스킬 파일 형식, trigger, skill-lifecycle-manager + skill-creator, 커스텀 스킬 작성</td><td>실습(참가자 직접)</td><td>35분</td></tr>
       <tr><td>11장</td><td>team-builder 5-step, 자기 분야 에이전트 팀 제안서</td><td>실습(참가자 직접)</td><td>30분</td></tr>
       <tr><td>12장</td><td>/sync, Git/GitHub PR, Hook, CI/CD, dev-sync.ts</td><td>강의</td><td>25분</td></tr>
       <tr><td>13장</td><td>학습 로드맵, 커뮤니티, 응용 시나리오, FAQ, 전체 회고</td><td>토론</td><td>20분</td></tr>
-      <tr class="schedule-total"><td colspan="3">하루 합계</td><td>약 6시간 40분 (휴식 제외)</td></tr>
+      <tr class="schedule-total"><td colspan="3">하루 합계</td><td>약 7시간 40분 (휴식 제외)</td></tr>
     </tbody>
   </table>
   </div>
-  <div class="note">휴식 2회(각 10~15분)를 포함하면 <strong>약 7시간~7시간 10분</strong>이다. 별첨 A/B/C는 강의 후 필요에 따라 학습하도록 안내한다.</div>
+  <div class="note">휴식 2회(각 10~15분)를 포함하면 <strong>약 8시간~8시간 10분</strong>이다. 별첨 A/B/C는 강의 후 필요에 따라 학습하도록 안내한다.</div>
 
   <h2 id="per-section">장별 강사 노트</h2>
 
@@ -114,7 +115,7 @@
   <p>6장의 보고서를 7장의 입력으로 넘기는 통합 실습이다. "주제 입력 → 30~45분 후 완성 발표자료"라는 전체 흐름을 보여주며, 두 시스템의 에이전트 구성 차이를 비교하게 한다.</p>
   <span class="badge badge-do">참가자 활동</span> 6장 실습 보고서를 7장 co-deck 입력으로 직접 넘겨보게 하여 "통합의 가치"를 체감하게 한다.
 
-  <h3>9장: 에이전트 만들기와 수정</h3>
+  <h3 id="color-system-instructor-note">핵심 장 · Design Foundation·Accessibility</h3><p>색상은 장식이 아니라 상태와 행동을 전달하는 계약으로 설명한다. 화면을 회색조로 보았을 때도 오류·선택·다음 행동을 이해할 수 있는지 확인하게 한다.</p><h3>핵심 장 · i18n 설계와 콘텐츠 품질</h3><p>번역의 자연스러움뿐 아니라 메시지 키, 긴 문자열, 날짜·통화 형식, 오류 상태가 모든 언어에서 같은 과업을 지원하는지 검토하게 한다.</p><h3>9장: 에이전트 만들기와 수정</h3>
   <p>에이전트 파일 형식(frontmatter, 역할 정의, Tier)을 다루고, agent-lifecycle-manager로 간단한 전문 에이전트를 작성·등록·검증한다. 초보자에게는 "이력서(프론트매터) + 업무 매뉴얼(본문)"이라는 비유가 효과적이다.</p>
   <span class="badge badge-do">참가자 활동</span> 실습에서 만든 <code>agents/my-analyst.md</code>를 AGENTS.md에 등록하고 <code>bun scripts/agent-lifecycle-audit.ts</code>로 검증하게 한다.
 

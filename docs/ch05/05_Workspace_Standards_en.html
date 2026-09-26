@@ -619,11 +619,11 @@
   </ul>
 
   <div class="note">
-    Do not confuse this with <strong>creating a new variant</strong>, covered next. <code>new-project.ts</code> is an everyday command you will run constantly — it scaffolds an L3 project from an already existing L2 template. Creating the L2 template itself (a brand-new variant like co-legal or co-hr) is a separate, far rarer job that uses <code>create-l3-scaffold.ts</code> — covered in Chapter 11.
+    Do not confuse this with <strong>creating a new variant</strong>, covered next. <code>new-project.ts</code> is an everyday command you will run constantly — it scaffolds an L3 project from an already existing L2 template. Creating the L2 template itself (a brand-new variant like co-legal or co-hr) is a separate, far rarer job that uses <code>create-l3-scaffold.ts</code> — covered in Chapter 13.
   </div>
 
   <div class="tip-box">
-    <strong>Tip:</strong> You can also make your own variant! Copy ai-workspace-standards' templates and add the agents and skills you need. Chapter 11 covers how to build a variant in detail.
+    <strong>Tip:</strong> You can also make your own variant! Copy ai-workspace-standards' templates and add the agents and skills you need. Chapter 13 covers how to build a variant in detail.
   </div>
 
   <!-- ============================================================ -->
@@ -697,6 +697,7 @@
   <!-- ============================================================ -->
   <!-- CHAPTER NAVIGATION                                             -->
   <!-- ============================================================ -->
+  <h2 id="standards-operations">Operating standards: thin instructions, clear ownership, PR-based change</h2><p>AGENTS.md is a thin dispatcher, not a duplicate of every rule. Keep only essential boundaries and pointers; keep detailed governance in its single-source documents. Separate skill ownership across L0 standards, L1 templates, and L2 projects, and treat L3 runtime snapshots as deployment outputs that do not synchronize automatically.</p><p>Create branches as <code>pr/&lt;timestamp&gt;-&lt;slug&gt;</code>. Changes produced by <code>/sync</code> still require PR review, CI verification, and merge.</p><div class="diagram-frame"><svg viewBox="0 0 640 100" width="100%" role="img" aria-label="AGENTS.md → pointers → L0/L1/L2 ownership → L3 snapshot → PR"><title>AGENTS.md → pointers → L0/L1/L2 ownership → L3 snapshot → PR</title><rect x="18" y="35" width="604" height="36" rx="9" fill="var(--bg-info)" stroke="var(--border)"/><text x="320" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text)">AGENTS.md → pointers → L0/L1/L2 ownership → L3 snapshot → PR</text></svg></div><div class="keypoints"><div class="kp-title">Checklist</div><ul><li>AGENTS.md is a pointer, not a second policy source.</li><li>L3 snapshots need an explicit refresh.</li><li>Every shared change lands through a reviewed PR.</li></ul></div>
   <div class="chapter-nav">
     <a href="../ch04/04_Harness_Concepts_en.html" class="prev">
       <div class="dir">&larr; Previous Chapter</div>

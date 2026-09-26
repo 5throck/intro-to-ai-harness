@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Ch 13 · Next Steps - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Ch 13 &middot; Next Steps</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_en.html" class="nav-home">&larr; Handbook Home</a>
+  <div class="nav-title">Ch 13 &middot; Next Steps</div>
+  <a href="#roadmap">Learning Roadmap</a>
+  <a href="#community">Community</a>
+  <a href="#resources">Additional Learning Resources</a>
+  <a href="#scenarios">Application Scenarios</a>
+  <a href="#faq">Frequently Asked Questions (FAQ)</a>
+  <a href="#closing">Closing</a>
+  <div class="nav-section">Other Chapters</div>
+  <a href="../ch14/14_Workflows_Automation_en.html">Ch 12 &middot; Understanding Workflows &amp; Automation</a>
+  <a href="../appendix/A_Remote_Access_en.html">Appendix A &middot; Remote Access Setup</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">Chapter 15</div>
+  <h1>Next Steps</h1>
+  <p class="lead">To wrap up the handbook, this chapter guides you through future learning directions, the community, additional resources, and application scenarios. Congratulations on making it this far &mdash; it is now time to apply what you have learned to real work.</p>
+
+  <div class="keypoints">
+    <div class="kp-title">What This Chapter Covers</div>
+    <ul>
+      <li>Learning roadmap (beginner &rarr; intermediate &rarr; advanced)</li>
+      <li>How to take part in the community</li>
+      <li>Additional learning resources</li>
+      <li>Application scenarios across various domains</li>
+      <li>Frequently asked questions</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: Learning Roadmap                                   -->
+  <!-- ============================================================ -->
+  <h2 id="roadmap">Learning Roadmap</h2>
+
+  <p>If you have read all 13 chapters and appendices of this handbook, you have already finished the <strong>beginner track</strong>. Here is a stage-by-stage roadmap for how you might go deeper from here.</p>
+
+  <h3>Beginner &mdash; Done!</h3>
+
+  <p>You have completed the beginner stage once you have finished all of the following.</p>
+
+  <div class="step-list">
+    <div class="step"><strong>Chapters 1&ndash;13</strong> — a complete read, from core concepts all the way to workflow automation</div>
+    <div class="step"><strong>Appendix A</strong> — remote access setup completed</div>
+    <div class="step"><strong>Appendix B</strong> — Claude Code CLI basics mastered</div>
+    <div class="step"><strong>Appendix C</strong> — low-cost backend integration understood</div>
+    <div class="step">Practice — at least one co-consult or co-deck project carried out yourself</div>
+  </div>
+
+  <div class="tip-box">
+    <strong>Tip:</strong> The goal of the beginner stage is a broad understanding of "which tools exist and how they work." You do not need to memorize everything perfectly. Just refer back to the handbook whenever you need it.
+  </div>
+
+  <h3>Recommended Intermediate Path</h3>
+
+  <p>After finishing the beginner track, work through these five paths in order.</p>
+
+  <div class="step-list">
+    <div class="step"><strong>1. Master the Claude Code CLI</strong> &mdash; building on Appendix B, carry out a project entirely within the CLI environment. Getting comfortable with terminal commands will greatly speed up your work.</div>
+    <div class="step"><strong>2. Integrate low-cost backends</strong> &mdash; using Ollama or LM Studio introduced in Appendix C, hook up local models. You can experiment with many models while cutting costs dramatically.</div>
+    <div class="step"><strong>3. Run a real co-consult project</strong> &mdash; using the consulting harness learned in Chapter 3, run a market analysis project on a topic of personal interest. The key is experiencing the full pipeline: research &rarr; storyline &rarr; slide production &rarr; PDF output.</div>
+    <div class="step"><strong>4. Produce real presentation material with co-deck</strong> &mdash; using the workflows covered in Chapter 14, build a slide deck you can actually use in academic talks, business presentations, or training materials.</div>
+    <div class="step"><strong>5. Write custom agents/skills</strong> &mdash; review agent authoring from Chapter 11 and skill authoring from Chapters 10&ndash;11, then create agents and skills tailored to your own work. Add files under the <code>agents/</code> directory and register them in <code>CLAUDE.md</code> to start using them immediately.</div>
+  </div>
+
+  <h3>Advanced Challenges</h3>
+
+  <p>If you have completed the intermediate path and want to push further, try these four challenges.</p>
+
+  <ol>
+    <li><strong>Create a custom variant for your field</strong> &mdash; understand ai-workspace-standards' L0 &rarr; L1 &rarr; L2 structure and build a variant project specialized in your domain (healthcare, law, education, etc.). This involves customizing agents, scripts, and skills on top of the common template.</li>
+    <li><strong>Set up CI/CD pipelines</strong> &mdash; use GitHub Actions to configure pipelines for agent configuration validation, documentation builds, and automated deployment. Integrating scripts like <code>audit.ts</code> and <code>validate-templates.ts</code> into CI keeps the whole team consistent.</li>
+    <li><strong>Build a multi-user collaboration environment</strong> &mdash; set up an environment where several people can work together in the same harness project. Include Git branch strategy, code review process, and version management of agent configuration files.</li>
+    <li><strong>Contribute to open source</strong> &mdash; contribute bug fixes, documentation improvements, or proposals for new agents/skills to the ai-workspace-standards repository. Open source contribution is one of the fastest ways to grow.</li>
+  </ol>
+
+  <!-- INLINE SVG: Learning Roadmap diagram -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg viewBox="0 0 700 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Learning roadmap: three-stage progression from beginner through intermediate to advanced">
+      <!-- Background -->
+      <rect x="0" y="0" width="700" height="360" rx="12" fill="var(--bg2)"/>
+
+      <!-- Title -->
+      <text x="350" y="32" text-anchor="middle" font-size="16" font-weight="bold" style="color:var(--text)">Learning Roadmap</text>
+
+      <!-- Beginner box -->
+      <rect x="30" y="60" width="190" height="230" rx="10" fill="var(--bg-success)" stroke="var(--border-success)" stroke-width="2"/>
+      <text x="125" y="90" text-anchor="middle" font-size="15" font-weight="bold" style="color:var(--accent-green)">Beginner</text>
+      <text x="125" y="112" text-anchor="middle" font-size="11" style="color:var(--text-dim)">Done!</text>
+      <line x1="55" y1="122" x2="195" y2="122" stroke="var(--border-success)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="125" y="145" text-anchor="middle" font-size="11" style="color:var(--text)">Chapters 1&ndash;13 + appendices read</text>
+      <text x="125" y="167" text-anchor="middle" font-size="11" style="color:var(--text)">Claude Desktop App basics</text>
+      <text x="125" y="189" text-anchor="middle" font-size="11" style="color:var(--text)">Agent team concepts understood</text>
+      <text x="125" y="211" text-anchor="middle" font-size="11" style="color:var(--text)">At least one hands-on project</text>
+      <!-- Completion check -->
+      <circle cx="125" cy="260" r="14" fill="var(--accent-green)"/>
+      <polyline points="117,260 123,266 135,254" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- Arrow 1 -->
+      <line x1="225" y1="175" x2="252" y2="175" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+      <defs><marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--accent)"/></marker></defs>
+
+      <!-- Intermediate box -->
+      <rect x="255" y="60" width="190" height="230" rx="10" fill="var(--bg-info)" stroke="var(--border-info)" stroke-width="2"/>
+      <text x="350" y="90" text-anchor="middle" font-size="15" font-weight="bold" style="color:var(--accent)">Intermediate</text>
+      <text x="350" y="112" text-anchor="middle" font-size="11" style="color:var(--text-dim)">Recommended path</text>
+      <line x1="280" y1="122" x2="420" y2="122" stroke="var(--border-info)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="350" y="145" text-anchor="middle" font-size="11" style="color:var(--text)">Master the Claude Code CLI</text>
+      <text x="350" y="167" text-anchor="middle" font-size="11" style="color:var(--text)">Integrate low-cost backends</text>
+      <text x="350" y="189" text-anchor="middle" font-size="11" style="color:var(--text)">Run real projects</text>
+      <text x="350" y="211" text-anchor="middle" font-size="11" style="color:var(--text)">Write custom agents</text>
+      <text x="350" y="233" text-anchor="middle" font-size="11" style="color:var(--text)">Presentation practice</text>
+      <!-- In-progress icon -->
+      <text x="350" y="268" text-anchor="middle" font-size="13" style="color:var(--accent)">&#x25B6;</text>
+
+      <!-- Arrow 2 -->
+      <line x1="450" y1="175" x2="477" y2="175" stroke="var(--accent-purple)" stroke-width="2.5" marker-end="url(#arrowhead-purple)"/>
+      <defs><marker id="arrowhead-purple" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--accent-purple)"/></marker></defs>
+
+      <!-- Advanced box -->
+      <rect x="480" y="60" width="190" height="230" rx="10" fill="var(--badge-purple-bg)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="575" y="90" text-anchor="middle" font-size="15" font-weight="bold" style="color:var(--accent-purple)">Advanced</text>
+      <text x="575" y="112" text-anchor="middle" font-size="11" style="color:var(--text-dim)">Challenges</text>
+      <line x1="505" y1="122" x2="645" y2="122" stroke="var(--accent-purple)" stroke-width="1" stroke-dasharray="4,3" opacity="0.4"/>
+      <text x="575" y="145" text-anchor="middle" font-size="11" style="color:var(--text)">Create a custom variant</text>
+      <text x="575" y="167" text-anchor="middle" font-size="11" style="color:var(--text)">Set up CI/CD pipelines</text>
+      <text x="575" y="189" text-anchor="middle" font-size="11" style="color:var(--text)">Multi-user collaboration</text>
+      <text x="575" y="211" text-anchor="middle" font-size="11" style="color:var(--text)">Open source contribution</text>
+      <!-- Star icon -->
+      <text x="575" y="268" text-anchor="middle" font-size="20" style="color:var(--accent-purple)">&#x2605;</text>
+
+      <!-- Bottom progress bar -->
+      <rect x="30" y="310" width="640" height="8" rx="4" fill="var(--bg3)"/>
+      <rect x="30" y="310" width="213" height="8" rx="4" fill="var(--accent-green)"/>
+      <rect x="243" y="310" width="214" height="8" rx="4" fill="var(--accent)"/>
+      <rect x="457" y="310" width="213" height="8" rx="4" fill="var(--accent-purple)" opacity="0.6"/>
+      <text x="30" y="340" font-size="11" style="color:var(--text-dim)">Beginner</text>
+      <text x="260" y="340" font-size="11" style="color:var(--text-dim)">Intermediate</text>
+      <text x="490" y="340" font-size="11" style="color:var(--text-dim)">Advanced</text>
+      <text x="640" y="340" text-anchor="end" font-size="11" font-weight="bold" style="color:var(--text)">Learning progress &#x2192;</text>
+    </svg>
+  </div>
+
+  <div class="note">
+    <strong>Note:</strong> Everyone learns at a different pace. At any step along the intermediate paths, feel free to reorder things based on your interests and needs, or linger longer on a particular step. What matters is <em>practicing consistently</em>.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: Community                                          -->
+  <!-- ============================================================ -->
+  <h2 id="community">Community</h2>
+
+  <p>Learning alone is fine, but learning alongside others gets you much further. Use the community channels below to ask questions, share experiences, and stay up to date.</p>
+
+  <h3>The ai-workspace-standards GitHub</h3>
+
+  <p>This is the project on which the handbook is based. GitHub offers several ways to get involved.</p>
+
+  <div class="compare-grid">
+    <div class="compare-without">
+      <strong>Issues</strong>
+      <p>Leave reports about problems you hit while using the system, improvement suggestions, and feature requests. If you find a bug, open an issue so the development team hears about it.</p>
+    </div>
+    <div class="compare-with">
+      <strong>Discussions</strong>
+      <p>Join free-form questions and debates. Read other users' stories and share your own know-how too.</p>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="compare-with">
+      <strong>Pull Requests (PR)</strong>
+      <p>You can contribute directly: fixing typos in docs, proposing new agents/skills, improving code, and more. Beginners are welcome!</p>
+    </div>
+    <div class="compare-without">
+      <strong>Wiki</strong>
+      <p>Tips, tutorials, and usage examples beyond the official docs are collected here. It is a knowledge storehouse written together by community members.</p>
+    </div>
+  </div>
+
+  <h3>Official Claude Community</h3>
+
+  <p>On Anthropic's official forum you can find Claude's latest feature updates, usage tips, and shared case studies. Visit the Community section of the official Anthropic website.</p>
+
+  <h3>Discord / Slack Channels</h3>
+
+  <p>If an ai-workspace-standards community channel exists, you can talk with other users in real time. Conversations there include:</p>
+
+  <ul>
+    <li><strong>Help requests</strong> &mdash; setup problems, agent-writing questions, error troubleshooting</li>
+    <li><strong>Project sharing</strong> &mdash; showing off your own agents, skills, and variants</li>
+    <li><strong>Study groups</strong> &mdash; recruiting groups that study the handbook together</li>
+    <li><strong>Latest news</strong> &mdash; updates, events, and new feature introductions</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>Tip:</strong> If you have a question, file it as a GitHub issue. When asking, include your Claude version, operating system, and the error message &mdash; you will get faster, more accurate answers. And be sure to post a follow-up on "how it got solved" &mdash; it helps other beginners enormously!
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: Additional Learning Resources                      -->
+  <!-- ============================================================ -->
+  <h2 id="resources">Additional Learning Resources</h2>
+
+  <p>Beyond this handbook, here are official documents and learning materials worth consulting.</p>
+
+  <h3>Official Documentation</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+        <th>Link</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Claude Desktop App official guide</strong></td>
+        <td>Anthropic's official documentation on installing, configuring, and using the Claude desktop app</td>
+        <td><a href="https://claude.ai" target="_blank" rel="noopener noreferrer">claude.ai</a></td>
+      </tr>
+      <tr>
+        <td><strong>Claude Code CLI official docs</strong></td>
+        <td>Using Claude from the command line, project setup, agent management</td>
+        <td><a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer">Anthropic Docs</a></td>
+      </tr>
+      <tr>
+        <td><strong>GitHub official guide</strong></td>
+        <td>Git basics, using GitHub, collaboration workflows, creating and reviewing PRs</td>
+        <td><a href="https://docs.github.com" target="_blank" rel="noopener noreferrer">docs.github.com</a></td>
+      </tr>
+      <tr>
+        <td><strong>Bun official docs</strong></td>
+        <td>Installing the JavaScript/TypeScript runtime Bun, running scripts, package management</td>
+        <td><a href="https://bun.sh/docs" target="_blank" rel="noopener noreferrer">bun.sh/docs</a></td>
+      </tr>
+      <tr>
+        <td><strong>ai-workspace-standards</strong></td>
+        <td>The core repository behind harness projects &mdash; agent definitions, scripts, templates</td>
+        <td><a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">GitHub</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Recommended Books and Courses</h3>
+
+  <ul>
+    <li><strong>AI agent fundamentals</strong> &mdash; searching "AI Agent" turns up a variety of recently published introductions. For beginners, books translated into your language are especially recommended.</li>
+    <li><strong>Prompt engineering</strong> &mdash; read the official prompt engineering guides offered by Anthropic, OpenAI, and others. Prompt writing skill is central to getting value out of AI agents.</li>
+    <li><strong>Git and GitHub</strong> &mdash; the free "Pro Git" e-book is our top recommendation for anyone learning Git from scratch. Translations are available in many languages.</li>
+    <li><strong>TypeScript fundamentals</strong> &mdash; if you want to customize agents and scripts, understanding basic TypeScript helps. MDN Web Docs offers free lessons.</li>
+  </ul>
+
+  <h3>Recommended YouTube Channels</h3>
+
+  <ul>
+    <li><strong>Official Anthropic channel</strong> &mdash; videos on Claude's new features, use cases, and developer guides.</li>
+    <li><strong>AI tool review channels</strong> &mdash; subscribe to channels covering reviews and tutorials for current AI dev tools such as Claude Code, Cursor, and GitHub Copilot.</li>
+    <li><strong>Git/GitHub tutorial channels</strong> &mdash; plenty of channels explain version control and collaboration workflows visually.</li>
+    <li><strong>TypeScript education channels</strong> &mdash; many active channels offer TypeScript courses for beginners.</li>
+  </ul>
+
+  <div class="note">
+    <strong>Caution:</strong> technology changes fast. UIs and features mentioned in this handbook and the recommended resources may change with updates. Always check <strong>official documentation</strong> for current information. When the handbook and official docs disagree, follow the official docs.
+  </div>
+  <!-- ============================================================ -->
+  <!-- SECTION 4: Application Scenarios                              -->
+  <!-- ============================================================ -->
+  <h2 id="scenarios">Application Scenarios</h2>
+
+  <p>The multi-agent harness you learned in this handbook can be applied across many fields. Here are five representative scenarios.</p>
+
+  <h3>1. Education</h3>
+
+  <div class="flow-box">
+    <p>In education, the harness lets you produce <strong>lecture materials and student guides</strong> efficiently.</p>
+  </div>
+
+  <ul>
+    <li><strong>Lecture material production (co-deck)</strong> &mdash; enter a topic and the pipeline runs automatically: research &rarr; storyline &rarr; slide production &rarr; PDF output. Instructors only review the final deliverable.</li>
+    <li><strong>Student guides (handbook)</strong> &mdash; automatically generate a handbook matching your lecture so students have reference material before and after class.</li>
+    <li><strong>Core agents</strong> &mdash; <code>research</code>, <code>storyline</code>, <code>html-build</code>, <code>pdf-export</code>, <code>handbook-writer</code></li>
+  </ul>
+
+  <h3>2. Consulting</h3>
+
+  <div class="flow-box">
+    <p>In consulting, you can automate the entire process <strong>from market analysis to presentation</strong>.</p>
+  </div>
+
+  <ul>
+    <li><strong>Market analysis (co-consult)</strong> &mdash; an agent team performs research on a specific industry or market &rarr; framework application &rarr; analytical report writing.</li>
+    <li><strong>Presentation (co-deck)</strong> &mdash; based on the analysis, build a client-facing slide deck. Data charts and visual diagrams are generated automatically too.</li>
+    <li><strong>Core agents</strong> &mdash; <code>research</code>, <code>storyline</code>, <code>design</code>, <code>image-curator</code>, <code>diagram-specialist</code>, <code>html-build</code>, <code>pdf-export</code></li>
+  </ul>
+
+  <h3>3. Research</h3>
+
+  <div class="flow-box">
+    <p>In research, you can systematically produce everything <strong>from literature search to conference presentations</strong>.</p>
+  </div>
+
+  <ul>
+    <li><strong>Literature search</strong> &mdash; the <code>research</code> agent collects related papers, reports, and articles from the web, and <code>source-verifier</code> validates source reliability.</li>
+    <li><strong>Research reports</strong> &mdash; from the collected material, the <code>storyline</code> agent writes a structured report.</li>
+    <li><strong>Conference talks</strong> &mdash; feed the report into the co-deck pipeline to build a conference slide deck.</li>
+    <li><strong>Core agents</strong> &mdash; <code>research</code>, <code>source-verifier</code>, <code>storyline</code>, <code>diagram-specialist</code>, <code>html-build</code></li>
+  </ul>
+
+  <h3>4. Marketing</h3>
+
+  <div class="flow-box">
+    <p>In marketing, you can streamline everything <strong>from market research to campaign presentations</strong>.</p>
+  </div>
+
+  <ul>
+    <li><strong>Market research</strong> &mdash; the research agent handles competitor analysis, trend identification, and target-audience insight extraction.</li>
+    <li><strong>Campaign planning</strong> &mdash; based on the findings, establish campaign strategy, messaging, and channel plans.</li>
+    <li><strong>Presentation</strong> &mdash; produce executive-report slide decks that convey the strategy alongside visuals.</li>
+    <li><strong>Core agents</strong> &mdash; <code>research</code>, <code>storyline</code>, <code>design</code>, <code>image-curator</code>, <code>html-build</code></li>
+  </ul>
+
+  <h3>5. Legal</h3>
+
+  <div class="flow-box">
+    <p>In legal work, you can build a systematic workflow <strong>from legal research to client reporting</strong>.</p>
+  </div>
+
+  <ul>
+    <li><strong>Legal research</strong> &mdash; collect relevant statutes, case law, and doctrine while source-verifier cross-checks sources.</li>
+    <li><strong>Opinion writing</strong> &mdash; based on the research results, write structured legal opinions.</li>
+    <li><strong>Client reporting</strong> &mdash; convert complex legal content into an easy-to-understand slide deck for clients.</li>
+    <li><strong>Core agents</strong> &mdash; <code>research</code>, <code>source-verifier</code>, <code>storyline</code>, <code>html-build</code>, <code>pdf-export</code></li>
+  </ul>
+
+  <!-- INLINE SVG: application scenarios diagram -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg viewBox="0 0 700 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Application scenarios: agent harness flows across education, consulting, research, marketing, and legal domains">
+      <!-- Background -->
+      <rect x="0" y="0" width="700" height="420" rx="12" fill="var(--bg2)"/>
+
+      <!-- Title -->
+      <text x="350" y="32" text-anchor="middle" font-size="15" font-weight="bold" style="color:var(--text)">Application Scenarios &mdash; 5 Domain Flows</text>
+
+      <!-- Shared input -->
+      <rect x="260" y="52" width="180" height="34" rx="17" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="350" y="74" text-anchor="middle" font-size="12" font-weight="bold" style="color:var(--accent)">User topic input</text>
+
+      <!-- Center arrow -->
+      <line x1="350" y1="86" x2="350" y2="110" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowdown)"/>
+      <defs><marker id="arrowdown" markerWidth="6" markerHeight="8" refX="3" refY="8" orient="auto"><polygon points="0 0, 6 0, 3 8" fill="var(--accent)"/></marker></defs>
+
+      <!-- Shared research stage -->
+      <rect x="245" y="112" width="210" height="30" rx="6" fill="var(--bg-info)" stroke="var(--border-info)" stroke-width="1"/>
+      <text x="350" y="132" text-anchor="middle" font-size="11" style="color:var(--accent)">Research Agent (research + verification)</text>
+
+      <!-- Split into 5 domains -->
+      <line x1="350" y1="142" x2="350" y2="170" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,3"/>
+      <!-- Horizontal connector -->
+      <line x1="70" y1="170" x2="630" y2="170" stroke="var(--border)" stroke-width="1"/>
+      <line x1="70" y1="170" x2="70" y2="190" stroke="var(--border)" stroke-width="1"/>
+      <line x1="210" y1="170" x2="210" y2="190" stroke="var(--border)" stroke-width="1"/>
+      <line x1="350" y1="170" x2="350" y2="190" stroke="var(--border)" stroke-width="1"/>
+      <line x1="490" y1="170" x2="490" y2="190" stroke="var(--border)" stroke-width="1"/>
+      <line x1="630" y1="170" x2="630" y2="190" stroke="var(--border)" stroke-width="1"/>
+
+      <!-- 1. Education -->
+      <rect x="18" y="192" width="104" height="28" rx="6" fill="var(--badge-green-bg)" stroke="var(--border-success)" stroke-width="1"/>
+      <text x="70" y="211" text-anchor="middle" font-size="12" font-weight="bold" style="color:var(--accent-green)">Education</text>
+      <rect x="25" y="228" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="70" y="243" text-anchor="middle" font-size="10" style="color:var(--text-dim)">storyline</text>
+      <rect x="25" y="256" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="70" y="271" text-anchor="middle" font-size="10" style="color:var(--text-dim)">html-build</text>
+      <rect x="25" y="284" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="70" y="299" text-anchor="middle" font-size="10" style="color:var(--text-dim)">pdf-export</text>
+      <rect x="25" y="312" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="70" y="327" text-anchor="middle" font-size="10" style="color:var(--text-dim)">handbook-writer</text>
+      <rect x="18" y="346" width="104" height="26" rx="13" fill="var(--accent-green)" opacity="0.15" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="70" y="363" text-anchor="middle" font-size="10" font-weight="bold" style="color:var(--accent-green)">Lecture deck + guide</text>
+
+      <!-- 2. Consulting -->
+      <rect x="158" y="192" width="104" height="28" rx="6" fill="var(--badge-blue-bg)" stroke="var(--border-info)" stroke-width="1"/>
+      <text x="210" y="211" text-anchor="middle" font-size="12" font-weight="bold" style="color:var(--accent)">Consulting</text>
+      <rect x="165" y="228" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="210" y="243" text-anchor="middle" font-size="10" style="color:var(--text-dim)">storyline</text>
+      <rect x="165" y="256" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="210" y="271" text-anchor="middle" font-size="10" style="color:var(--text-dim)">design + images</text>
+      <rect x="165" y="284" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="210" y="299" text-anchor="middle" font-size="10" style="color:var(--text-dim)">diagram-spec</text>
+      <rect x="165" y="312" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="210" y="327" text-anchor="middle" font-size="10" style="color:var(--text-dim)">html-build</text>
+      <rect x="158" y="346" width="104" height="26" rx="13" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="1"/>
+      <text x="210" y="363" text-anchor="middle" font-size="10" font-weight="bold" style="color:var(--accent)">Report + client deck</text>
+
+      <!-- 3. Research -->
+      <rect x="298" y="192" width="104" height="28" rx="6" fill="var(--badge-purple-bg)" stroke="var(--accent-purple)" stroke-width="1"/>
+      <text x="350" y="211" text-anchor="middle" font-size="12" font-weight="bold" style="color:var(--accent-purple)">Research</text>
+      <rect x="305" y="228" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="350" y="243" text-anchor="middle" font-size="10" style="color:var(--text-dim)">source-verifier</text>
+      <rect x="305" y="256" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="350" y="271" text-anchor="middle" font-size="10" style="color:var(--text-dim)">storyline</text>
+      <rect x="305" y="284" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="350" y="299" text-anchor="middle" font-size="10" style="color:var(--text-dim)">diagram-spec</text>
+      <rect x="305" y="312" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="350" y="327" text-anchor="middle" font-size="10" style="color:var(--text-dim)">html-build</text>
+      <rect x="298" y="346" width="104" height="26" rx="13" fill="var(--accent-purple)" opacity="0.15" stroke="var(--accent-purple)" stroke-width="1"/>
+      <text x="350" y="363" text-anchor="middle" font-size="10" font-weight="bold" style="color:var(--accent-purple)">Report + talk slides</text>
+
+      <!-- 4. Marketing -->
+      <rect x="438" y="192" width="104" height="28" rx="6" fill="var(--badge-amber-bg)" stroke="var(--accent-amber)" stroke-width="1"/>
+      <text x="490" y="211" text-anchor="middle" font-size="12" font-weight="bold" style="color:var(--accent-amber)">Marketing</text>
+      <rect x="445" y="228" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="490" y="243" text-anchor="middle" font-size="10" style="color:var(--text-dim)">research</text>
+      <rect x="445" y="256" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="490" y="271" text-anchor="middle" font-size="10" style="color:var(--text-dim)">storyline</text>
+      <rect x="445" y="284" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="490" y="299" text-anchor="middle" font-size="10" style="color:var(--text-dim)">image-curator</text>
+      <rect x="445" y="312" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="490" y="327" text-anchor="middle" font-size="10" style="color:var(--text-dim)">html-build</text>
+      <rect x="438" y="346" width="104" height="26" rx="13" fill="var(--accent-amber)" opacity="0.15" stroke="var(--accent-amber)" stroke-width="1"/>
+      <text x="490" y="363" text-anchor="middle" font-size="10" font-weight="bold" style="color:var(--accent-amber)">Campaign + report</text>
+
+      <!-- 5. Legal -->
+      <rect x="578" y="192" width="104" height="28" rx="6" fill="var(--badge-red-bg)" stroke="var(--accent-red)" stroke-width="1"/>
+      <text x="630" y="211" text-anchor="middle" font-size="12" font-weight="bold" style="color:var(--accent-red)">Legal</text>
+      <rect x="585" y="228" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="630" y="243" text-anchor="middle" font-size="10" style="color:var(--text-dim)">research</text>
+      <rect x="585" y="256" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="630" y="271" text-anchor="middle" font-size="10" style="color:var(--text-dim)">source-verifier</text>
+      <rect x="585" y="284" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="630" y="299" text-anchor="middle" font-size="10" style="color:var(--text-dim)">storyline</text>
+      <rect x="585" y="312" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="630" y="327" text-anchor="middle" font-size="10" style="color:var(--text-dim)">html + pdf</text>
+      <rect x="578" y="346" width="104" height="26" rx="13" fill="var(--accent-red)" opacity="0.15" stroke="var(--accent-red)" stroke-width="1"/>
+      <text x="630" y="363" text-anchor="middle" font-size="10" font-weight="bold" style="color:var(--accent-red)">Opinion + briefing</text>
+
+      <!-- Bottom caption -->
+      <text x="350" y="405" text-anchor="middle" font-size="11" style="color:var(--text-dim)">Every domain shares the common input &rarr; research stage, then runs its own agent pipeline to generate its outputs.</text>
+    </svg>
+  </div>
+
+  <div class="tip-box">
+    <strong>Tip:</strong> Try applying what you learned in this handbook to your own field. Start with a small project (say, a five-slide mini presentation) and scale up gradually. It does not need to be perfect &mdash; let the agents create drafts and refine them yourself.
+  </div>
+  <!-- ============================================================ -->
+  <!-- SECTION 5: Frequently Asked Questions (FAQ)                   -->
+  <!-- ============================================================ -->
+  <h2 id="faq">Frequently Asked Questions (FAQ)</h2>
+
+  <p>Here are the questions handbook readers ask most often, with answers.</p>
+
+  <!-- FAQ 1 -->
+  <h3 id="faq-1">Q1: Can I do this without the Claude Desktop App?</h3>
+  <p><strong>Yes.</strong> The Claude Code CLI alone gives you access to every feature of the harness. The Claude Desktop App is a convenient way to use Claude in a graphical environment, but it is not required. Appendix B covers installing and using the Claude Code CLI in detail.</p>
+
+  <div class="note">
+    <strong>Note:</strong> The Claude Code CLI offers more customization options than the Claude Desktop App. If you want to configure agents per project and run scripts, the CLI environment is the better fit.
+  </div>
+
+  <!-- FAQ 2 -->
+  <h3 id="faq-2">Q2: Is it free to use?</h3>
+  <p>Claude offers a <strong>Claude Free plan</strong> and a <strong>Claude Pro plan</strong>. The Free plan has usage limits; for complex projects we recommend Pro. In particular, when an agent team performs many stages of work, token consumption rises, so the generous allowance of the Pro plan helps.</p>
+
+  <div class="tip-box">
+    <strong>Saving tip:</strong> Using the low-cost backends introduced in Appendix C (Ollama, LM Studio, etc.), you can process simple tasks on local models and assign only the complex ones to Claude &mdash; cutting costs substantially.
+  </div>
+
+  <!-- FAQ 3 -->
+  <h3 id="faq-3">Q3: Can I converse in my own language?</h3>
+  <p><strong>Yes, it is fully supported.</strong> Claude understands and generates many languages fluently. This handbook itself was written in Korean, and you can give instructions in Korean and receive results in Korean. Note, however, that technical terms or error messages may appear in English, so basic English reading ability helps.</p>
+
+  <!-- FAQ 4 -->
+  <h3 id="faq-4">Q4: Can I use other AI models?</h3>
+  <p><strong>Yes, you can.</strong> Besides Claude, various AI models such as DeepSeek, GLM (ChatGLM), Gemini, and Llama can be integrated into the harness. Appendix C covers low-cost backend integration; with Ollama in particular you can run open-source models from Hugging Face locally.</p>
+
+  <div class="note">
+    <strong>Note:</strong> Each model has different strengths. Claude excels at complex reasoning and long-form generation, DeepSeek shines at coding, and GLM is especially strong at Chinese/Korean processing. Choose or combine models according to your purpose.
+  </div>
+
+  <!-- FAQ 5 -->
+  <h3 id="faq-5">Q5: How many agents can I create?</h3>
+  <p><strong>Technically, there is no limit.</strong> You can add as many agent definition files to the <code>agents/</code> directory as you like. For manageability, however, <strong>around 5&ndash;15</strong> is a good range. Too many agents cause role overlap and can confuse the PM agent about where to assign tasks. Create as many as you need, and tidy up unused agents.</p>
+
+  <!-- FAQ 6 -->
+  <h3 id="faq-6">Q6: Does it work without internet?</h3>
+  <p><strong>No. An internet connection is required to use Claude.</strong> Claude is cloud-based AI running on Anthropic's servers. Moreover, much of the harness needs the network: the <code>research</code> agent performing web searches, <code>source-verifier</code> checking URL accessibility, <code>image-curator</code> downloading images, and so on.</p>
+
+  <div class="warn">
+    <strong>Caution:</strong> You cannot use Claude itself offline. That said, local models such as Ollama (Appendix C) let you use some AI features without internet. Keep in mind downloading model files does require internet.
+  </div>
+
+  <!-- FAQ 7 -->
+  <h3 id="faq-7">Q7: Can I use it on mobile?</h3>
+  <p><strong>iOS and Android mobile apps</strong> are available for Claude. Simple conversations and basic tasks are possible on mobile. But complex projects run by agent teams (file creation, multi-agent coordination, Git integration, etc.) are best done in a desktop environment. Use mobile for quick questions and checking results.</p>
+
+  <!-- FAQ 8 -->
+  <h3 id="faq-8">Q8: Is my data safe?</h3>
+  <p>Anthropic operates industry-leading <strong>security and privacy policies</strong>. Conversation content is not used for AI model training without user consent, and API traffic is encrypted. Claude Pro and Team plans meet enterprise-grade security standards. For details, see the <strong>Privacy Policy</strong> and <strong>Security</strong> pages on Anthropic's official website.</p>
+
+  <div class="tip-box">
+    <strong>Security tip:</strong> Do not put sensitive personal information, passwords, API keys, and similar content into what you send Claude. If your project has a <code>.env</code> file, add it to <code>.gitignore</code> so it never reaches Git. For security-related matters, refer to Anthropic's latest security guidelines.
+  </div>
+
+  <!-- FAQ 9 -->
+  <h3 id="faq-9">Q9: Can I share it with others?</h3>
+  <p><strong>Yes &mdash; sharing via GitHub comes most highly recommended.</strong> Push the whole project to a GitHub repository and teammates can recreate the identical environment instantly with <code>git clone</code>. It includes everything: agent configurations, skills, storylines, slide decks, and all other deliverables. With a private repository you can share without exposing anything publicly.</p>
+
+  <div class="note">
+    <strong>Note:</strong> The Projects feature of the Claude Desktop App also lets you share conversation Artifacts with teammates. Export the chat history, generated files, and prompts used, then share them.
+  </div>
+
+  <!-- FAQ 10 -->
+  <h3 id="faq-10">Q10: Can I apply it directly to real work?</h3>
+  <p><strong>Yes &mdash; you can start right now with this handbook.</strong> This handbook was written with practical application as its goal. Once you understand Chapters 1&ndash;13 and the appendices, follow these steps to start a real project.</p>
+
+  <div class="step-list">
+    <div class="step"><strong>1.</strong> Create a new project repository on GitHub and apply the ai-workspace-standards template.</div>
+    <div class="step"><strong>2.</strong> Open the project in the Claude Desktop App or the Claude Code CLI.</div>
+    <div class="step"><strong>3.</strong> Run the co-consult or co-deck pipeline on a real work topic (e.g., Q3 market analysis, lecture materials, new product planning report).</div>
+    <div class="step"><strong>4.</strong> Review and revise the drafts the agents produced.</div>
+    <div class="step"><strong>5.</strong> Share the results with teammates and reflect their feedback.</div>
+  </div>
+
+  <div class="tip-box">
+    <strong>Tip:</strong> At first, do not expect "perfect output." Treating the agents' drafts as a starting point and adding your expertise and experience is the most effective approach. Quality improves steadily the more you use it.
+  </div>
+
+  <!-- FAQ 11 (bonus) -->
+  <h3 id="faq-11">Q11: What if I don't like the output the agents produce?</h3>
+  <p>You can improve output quality in several ways.</p>
+
+  <ol>
+    <li><strong>Make prompts more specific</strong> &mdash; instead of "analyze OOO," say something like "analyze the OOO industry's 2024 market size, its top three competitors, and growth outlook in three pages."</li>
+    <li><strong>Improve research_notes.md quality</strong> &mdash; collecting more sources and richer detail during Stage 1 research greatly improves the quality of every later stage.</li>
+    <li><strong>Tune agent settings</strong> &mdash; the agent definition files in <code>agents/</code> let you customize prompts, tone, output formats, and more.</li>
+    <li><strong>Review stage by stage</strong> &mdash; rather than running the whole pipeline at once, check and revise the result of each stage (research &rarr; storyline &rarr; slides &rarr; PDF).</li>
+  </ol>
+
+  <!-- FAQ 12 (bonus) -->
+  <h3 id="faq-12">Q12: Can I work on multiple projects at once?</h3>
+  <p><strong>Yes, absolutely.</strong> Each project has its own independent directory structure, so you can run several projects concurrently. The Projects feature of the Claude Desktop App keeps each project's context separated. In the Claude Code CLI, create multiple projects under the <code>presentations/</code> directory and manage them there.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: Closing                                            -->
+  <!-- ============================================================ -->
+  <h2 id="closing">Closing</h2>
+
+  <h3>Congratulations!</h3>
+
+  <p>Sincere congratulations on making it here. If you have read all 13 chapters and appendices, you already understand the <strong>core concepts and practical techniques</strong> of Claude Code and the multi-agent harness. You have moved beyond "using" AI tools to learning how to <strong>"run AI like a team"</strong>. That is a capability that opens a new dimension of productivity.</p>
+
+  <div class="tip-box">
+    <strong>Achievement check:</strong> Through this handbook you have achieved the following.
+    <ul>
+      <li>Understanding the concepts of AI agents and the harness</li>
+      <li>Commanding the Claude Desktop App and Claude Code CLI</li>
+      <li>The full experience of the co-consult pipeline</li>
+      <li>The full experience of the co-deck pipeline</li>
+      <li>How to write custom agents and skills</li>
+      <li>Workflow automation and efficiency methods</li>
+      <li>How to adapt the system across diverse domains</li>
+    </ul>
+  </div>
+
+  <h3>Key Takeaways</h3>
+
+  <p>Here is the chapter's core content at a glance.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Topic</th>
+        <th>Core content</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Learning roadmap</td>
+        <td>Beginner (full read) &rarr; Intermediate (CLI mastery + project practice + custom agents) &rarr; Advanced (variant creation + CI/CD + open source)</td>
+      </tr>
+      <tr>
+        <td>Community</td>
+        <td>Ask and contribute through GitHub issues, discussions, and PRs. The official Claude community also carries the latest news.</td>
+      </tr>
+      <tr>
+        <td>Additional resources</td>
+        <td>Rely on official documentation (Claude, GitHub, Bun) as primary references, and always watch for technology change.</td>
+      </tr>
+      <tr>
+        <td>Application scenarios</td>
+        <td>The agent harness applies across education, consulting, research, marketing, legal, and more.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Next Handbook Preview &mdash; Intermediate Edition</h3>
+
+  <p>After finishing this introductory handbook, a <strong>follow-up intermediate handbook</strong> will cover deeper material. Planned topics include:</p>
+
+  <ul>
+    <li><strong>Advanced prompt engineering</strong> &mdash; chain-of-thought, prompt chaining, context window optimization</li>
+    <li><strong>Agent performance tuning</strong> &mdash; model selection, token management, response quality improvement techniques</li>
+    <li><strong>Custom variants in depth</strong> &mdash; understanding L0 &rarr; L1 &rarr; L2 structure and building real variants</li>
+    <li><strong>Team collaboration workflows</strong> &mdash; multi-user environments, Git branch strategy, code review</li>
+    <li><strong>Real-world case studies</strong> &mdash; detailed analysis of actual applications across industries</li>
+  </ul>
+
+  <div class="note">
+    <strong>Notice:</strong> The publication schedule for the intermediate handbook will be announced on the <a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">ai-workspace-standards GitHub</a>. Star the repository to receive update notifications.
+  </div>
+
+  <h3>Thank You</h3>
+
+  <p>We hope this handbook helps your journey with AI. AI is only a tool. What creates real value is <strong>your creativity and expertise</strong>. Claude and agent teams will expand your abilities, reduce repetitive work, and free you to focus on higher-level pursuits.</p>
+
+  <p>Well begun is half done. Apply today's lessons to tomorrow's real work. Even a small project counts. <strong>Those who act stay ahead of those who only learn.</strong></p>
+
+  <p>We hope you build a more productive and creative working environment with an AI agent team. Thank you!</p>
+
+  <div class="chapter-nav">
+    <a href="../ch14/14_Workflows_Automation_en.html" class="prev">
+      <div class="dir">&larr; Previous Chapter</div>
+      <div class="ttl">Ch 12 &middot; Understanding Workflows &amp; Automation</div>
+    </a>
+    <a href="../appendix/A_Remote_Access_en.html" class="next" style="margin-left:auto;">
+      <div class="dir">Appendix A &rarr;</div>
+      <div class="ttl">Remote Access Setup</div>
+    </a>
+  </div>
+   <footer>
+    Based on Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-26) · English Educational Materials<br>
+    Official Docs: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://developers.openai.com/codex" target="_blank">Codex</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    Handbook content is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (Attribution-NonCommercial-ShareAlike 4.0 International)</a>.
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

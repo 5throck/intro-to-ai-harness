@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Ch 13 · 次のステップ - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>Ch 13 &middot; 次のステップ</title>
+  <link rel="stylesheet" href="../assets/css/handbook-variables.css">
+  <link rel="stylesheet" href="../assets/css/handbook-components.css">
+</head>
+<body>
+<div class="layout">
+<nav>
+  <a href="../index_ja.html" class="nav-home">&larr; ハンドブックホーム</a>
+  <div class="nav-title">Ch 13 &middot; 次のステップ</div>
+  <a href="#roadmap">学習ロードマップ</a>
+  <a href="#community">コミュニティ</a>
+  <a href="#resources">追加の学習リソース</a>
+  <a href="#scenarios">応用シナリオ</a>
+  <a href="#faq">よくある質問（FAQ）</a>
+  <a href="#closing">おわりに</a>
+  <div class="nav-section">その他の章</div>
+  <a href="../ch14/14_Workflows_Automation_ja.html">Ch 12 &middot; ワークフローと自動化</a>
+  <a href="../appendix/A_Remote_Access_ja.html">付録A &middot; リモートアクセス設定</a>
+</nav>
+<main>
+ <article class="reading">
+  <div class="chapter-eyebrow">第15章</div>
+  <h1>次のステップ</h1>
+  <p class="lead">ハンドブックの締めくくりとして、今後の学習の方向性、コミュニティ、追加リソース、応用シナリオをご案内します。ここまで来られたことを心からお祝いします。いよいよ学んだことを実務に活かす番です。</p>
+
+  <div class="keypoints">
+    <div class="kp-title">本章で学ぶこと</div>
+    <ul>
+      <li>学習ロードマップ（初級 → 中級 → 上級）</li>
+      <li>コミュニティへの参加方法</li>
+      <li>追加の学習リソース</li>
+      <li>さまざまな応用シナリオ</li>
+      <li>よくある質問</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: 学習ロードマップ                                    -->
+  <!-- ============================================================ -->
+  <h2 id="roadmap">学習ロードマップ</h2>
+
+  <p>本ハンドブックの全13章と別冊を読み終えたなら、あなたはすでに<strong>初級課程</strong>を修了しています。ここからさらに深く学ぶにはどうすればよいか、段階別のロードマップを提案します。</p>
+
+  <h3>初級 — もう完了！</h3>
+
+  <p>次の内容をすべて終えていれば、初級ステージは完了です。</p>
+
+  <div class="step-list">
+    <div class="step"><strong>第1章〜第15章</strong> — 基本概念からワークフロー自動化まで通読完了</div>
+    <div class="step"><strong>別冊A</strong> — リモートアクセス環境設定が完了</div>
+    <div class="step"><strong>別冊B</strong> — Claude Code CLIの基本操作を習得</div>
+    <div class="step"><strong>別冊C</strong> — 低コストバックエンド連携の概念を理解</div>
+    <div class="step">実習 — co-consultまたはco-deckプロジェクトを最低1件自力で実施</div>
+  </div>
+
+  <div class="tip-box">
+    <strong>ヒント:</strong> 初級ステージの目標は、「どんなツールがあり、どう動くのか」を全体として理解することです。すべてを完璧に暗記する必要はありません。必要なときにハンドブックを参照し直せば大丈夫です。
+  </div>
+
+  <h3>中級のおすすめルート</h3>
+
+  <p>初級を終えたら、次の5つのルートを順に進めてみましょう。</p>
+
+  <div class="step-list">
+    <div class="step"><strong>1. Claude Code CLIをマスター</strong> &mdash; 別冊Bの内容をもとに、CLI環境でプロジェクトを最初から最後まで実行してみましょう。ターミナルのコマンドに慣れると作業速度が大きく向上します。</div>
+    <div class="step"><strong>2. 低コストバックエンド連携</strong> &mdash; 別冊Cで紹介するOllamaやLM Studioなどを活用し、ローカルモデルを接続してみましょう。コストを大きく抑えながら多彩なモデルを試せます。</div>
+    <div class="step"><strong>3. 実際のco-consultプロジェクトを実行</strong> &mdash; 第3章で学んだコンサルティングハーネスを使って、自分の関心分野について市場分析プロジェクトを直接進めてみましょう。リサーチ → ストーリーライン → スライド作成 → PDF出力という一連のパイプラインを体験することが核心です。</div>
+    <div class="step"><strong>4. 実際のco-deckプレゼン資料を作成</strong> &mdash; 第14章で扱ったワークフローを活用して、学会発表、ビジネスプレゼン、教育教材など実際の場面で使えるスライドデッキを作ってみましょう。</div>
+    <div class="step"><strong>5. カスタムエージェント/スキルの執筆</strong> &mdash; 第11章のエージェント作成法と第10〜11章のスキル作成法を復習しながら、自分の業務に特化したエージェントとスキルを作ってみましょう。<code>agents/</code>ディレクトリにファイルを追加し、<code>CLAUDE.md</code>に登録すればすぐに使えます。</div>
+  </div>
+
+  <h3>上級チャレンジ</h3>
+
+  <p>中級まで終えて、より高いレベルに挑戦したい人は、次の4つの課題に取り組んでみましょう。</p>
+
+  <ol>
+    <li><strong>自分の分野に合ったカスタムvariantの作成</strong> &mdash; ai-workspace-standardsのL0 → L1 → L2構造を理解し、自分の分野（医療、法律、教育など）に特化したvariantプロジェクトを作りましょう。共通テンプレートをもとにエージェント・スクリプト・スキルをカスタマイズすることになります。</li>
+    <li><strong>CI/CDパイプラインの構築</strong> &mdash; GitHub Actionsを活用して、エージェント設定検証、文書ビルド、自動デプロイのパイプラインを作りましょう。<code>audit.ts</code>や<code>validate-templates.ts</code>などのスクリプトをCIに組み込むと、チーム全体の一貫性を保てます。</li>
+    <li><strong>多人数での協働環境の構築</strong> &mdash; 複数人が同じハーネスプロジェクトで一緒に作業できる環境を作りましょう。Gitブランチ戦略、コードレビューのプロセス、エージェント設定ファイルのバージョン管理を含みます。</li>
+    <li><strong>オープンソースへの貢献</strong> &mdash; ai-workspace-standardsリポジトリにバグ修正、文書改善、新しいエージェント/スキルの提案などの貢献をしてみましょう。オープンソースへの貢献は最速の成長手段のひとつです。</li>
+  </ol>
+
+  <!-- インラインSVG: 学習ロードマップ図 -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg viewBox="0 0 700 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="学習ロードマップ: 初級から中級を経て上級へ進む3段階ダイアグラム">
+      <!-- 背景 -->
+      <rect x="0" y="0" width="700" height="360" rx="12" fill="var(--bg2)"/>
+
+      <!-- タイトル -->
+      <text x="350" y="32" text-anchor="middle" font-size="16" font-weight="bold" style="color:var(--text)">学習ロードマップ</text>
+
+      <!-- 初級ボックス -->
+      <rect x="30" y="60" width="190" height="230" rx="10" fill="var(--bg-success)" stroke="var(--border-success)" stroke-width="2"/>
+      <text x="125" y="90" text-anchor="middle" font-size="15" font-weight="bold" style="color:var(--accent-green)">初級</text>
+      <text x="125" y="112" text-anchor="middle" font-size="11" style="color:var(--text-dim)">もう完了！</text>
+      <line x1="55" y1="122" x2="195" y2="122" stroke="var(--border-success)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="125" y="145" text-anchor="middle" font-size="11" style="color:var(--text)">1〜13章 + 別冊 通読完了</text>
+      <text x="125" y="167" text-anchor="middle" font-size="11" style="color:var(--text)">Claude Desktop App の基礎</text>
+      <text x="125" y="189" text-anchor="middle" font-size="11" style="color:var(--text)">エージェントチームの理解</text>
+      <text x="125" y="211" text-anchor="middle" font-size="11" style="color:var(--text)">最低1件のプロジェクト実習</text>
+      <!-- 完了チェック -->
+      <circle cx="125" cy="260" r="14" fill="var(--accent-green)"/>
+      <polyline points="117,260 123,266 135,254" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- 矢印1 -->
+      <line x1="225" y1="175" x2="252" y2="175" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+      <defs><marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--accent)"/></marker></defs>
+
+      <!-- 中級ボックス -->
+      <rect x="255" y="60" width="190" height="230" rx="10" fill="var(--bg-info)" stroke="var(--border-info)" stroke-width="2"/>
+      <text x="350" y="90" text-anchor="middle" font-size="15" font-weight="bold" style="color:var(--accent)">中級</text>
+      <text x="350" y="112" text-anchor="middle" font-size="11" style="color:var(--text-dim)">おすすめルート</text>
+      <line x1="280" y1="122" x2="420" y2="122" stroke="var(--border-info)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="350" y="145" text-anchor="middle" font-size="11" style="color:var(--text)">Claude Code CLI マスター</text>
+      <text x="350" y="167" text-anchor="middle" font-size="11" style="color:var(--text)">低コストバックエンド連携</text>
+      <text x="350" y="189" text-anchor="middle" font-size="11" style="color:var(--text)">実際のプロジェクト実行</text>
+      <text x="350" y="211" text-anchor="middle" font-size="11" style="color:var(--text)">カスタムエージェント執筆</text>
+      <text x="350" y="233" text-anchor="middle" font-size="11" style="color:var(--text)">プレゼン資料作成実習</text>
+      <!-- 進行アイコン -->
+      <text x="350" y="268" text-anchor="middle" font-size="13" style="color:var(--accent)">&#x25B6;</text>
+
+      <!-- 矢印2 -->
+      <line x1="450" y1="175" x2="477" y2="175" stroke="var(--accent-purple)" stroke-width="2.5" marker-end="url(#arrowhead-purple)"/>
+      <defs><marker id="arrowhead-purple" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--accent-purple)"/></marker></defs>
+
+      <!-- 上級ボックス -->
+      <rect x="480" y="60" width="190" height="230" rx="10" fill="var(--badge-purple-bg)" stroke="var(--accent-purple)" stroke-width="2"/>
+      <text x="575" y="90" text-anchor="middle" font-size="15" font-weight="bold" style="color:var(--accent-purple)">上級</text>
+      <text x="575" y="112" text-anchor="middle" font-size="11" style="color:var(--text-dim)">チャレンジ</text>
+      <line x1="505" y1="122" x2="645" y2="122" stroke="var(--accent-purple)" stroke-width="1" stroke-dasharray="4,3" opacity="0.4"/>
+      <text x="575" y="145" text-anchor="middle" font-size="11" style="color:var(--text)">カスタムvariant作成</text>
+      <text x="575" y="167" text-anchor="middle" font-size="11" style="color:var(--text)">CI/CDパイプライン構築</text>
+      <text x="575" y="189" text-anchor="middle" font-size="11" style="color:var(--text)">多人数での協働環境</text>
+      <text x="575" y="211" text-anchor="middle" font-size="11" style="color:var(--text)">オープンソース貢献</text>
+      <!-- 星アイコン -->
+      <text x="575" y="268" text-anchor="middle" font-size="20" style="color:var(--accent-purple)">&#x2605;</text>
+
+      <!-- 下部プログレスバー -->
+      <rect x="30" y="310" width="640" height="8" rx="4" fill="var(--bg3)"/>
+      <rect x="30" y="310" width="213" height="8" rx="4" fill="var(--accent-green)"/>
+      <rect x="243" y="310" width="214" height="8" rx="4" fill="var(--accent)"/>
+      <rect x="457" y="310" width="213" height="8" rx="4" fill="var(--accent-purple)" opacity="0.6"/>
+      <text x="30" y="340" font-size="11" style="color:var(--text-dim)">初級</text>
+      <text x="260" y="340" font-size="11" style="color:var(--text-dim)">中級</text>
+      <text x="490" y="340" font-size="11" style="color:var(--text-dim)">上級</text>
+      <text x="640" y="340" text-anchor="end" font-size="11" font-weight="bold" style="color:var(--text)">学習の進捗 &#x2192;</text>
+    </svg>
+  </div>
+
+  <div class="note">
+    <strong>参考:</strong> 学習のペースは人それぞれです。中級ルートのどの段階でも、興味と必要に合わせて順序を変えたり、特定のステップにもっと時間をかけたりしてかまいません。大切なのは<em>継続的に実習する</em>ことです。
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: コミュニティ                                       -->
+  <!-- ============================================================ -->
+  <h2 id="community">コミュニティ</h2>
+
+  <p>一人で学ぶのも良いですが、仲間と一緒に学ぶほうがはるかに多くを得られます。次のコミュニティチャンネルで質問したり、経験を共有したり、最新情報を得たりしましょう。</p>
+
+  <h3>ai-workspace-standards GitHub</h3>
+
+  <p>本ハンドブックの基盤となっているプロジェクトです。GitHubでは多様な形で参加できます。</p>
+
+  <div class="compare-grid">
+    <div class="compare-without">
+      <strong>イシュー（Issues）</strong>
+      <p>使用中に直面した問題、改善提案、機能要望を書き込みましょう。バグを見つけたらイシューを作成して開発チームに知らせてください。</p>
+    </div>
+    <div class="compare-with">
+      <strong>ディスカッション（Discussions）</strong>
+      <p>自由な質問と議論に参加しましょう。他のユーザーの経験談を読み、自分のノウハウも共有してみてください。</p>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="compare-with">
+      <strong>プルリクエスト（PR）</strong>
+      <p>文書の誤字修正、新しいエージェント/スキルの提案、コード改善などを直接貢献できます。初心者も歓迎です！</p>
+    </div>
+    <div class="compare-without">
+      <strong>ウィキ（Wiki）</strong>
+      <p>公式文書以外のTips、チュートリアル、使用例が整理されています。コミュニティメンバーが一緒に書き上げる知識倉庫です。</p>
+    </div>
+  </div>
+
+  <h3>Claude公式コミュニティ</h3>
+
+  <p>Anthropicが運営するClaude公式フォーラムでは、Claudeの最新機能アップデート、使用のコツ、事例共有を確認できます。Anthropic公式サイトのCommunityセクションを訪ねてみてください。</p>
+
+  <h3>Discord / Slackチャンネル</h3>
+
+  <p>ai-workspace-standardsのコミュニティチャンネルがあれば、リアルタイムで他のユーザーと交流できます。チャンネルでは次のようなやりとりが行われています。</p>
+
+  <ul>
+    <li><strong>ヘルプリクエスト</strong> &mdash; 設定の問題、エージェント作成の質問、エラー解決</li>
+    <li><strong>プロジェクト共有</strong> &mdash; 自分が作ったエージェント、スキル、variantの紹介</li>
+    <li><strong>勉強会グループ</strong> &mdash; 一緒にハンドブックを学ぶグループの募集</li>
+    <li><strong>最新ニュース</strong> &mdash; アップデート、イベント、新機能の紹介</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>ヒント:</strong> 質問があるときはGitHubイシューに投稿しましょう。質問するときは、使用中のClaudeバージョン、OS、エラーメッセージも一緒に書いてください。より速く正確な回答がもらえます。「どう解決したか」も必ず後日談として残してください — 他の初心者の大きな助けになります！
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: 追加の学習リソース                                  -->
+  <!-- ============================================================ -->
+  <h2 id="resources">追加の学習リソース</h2>
+
+  <p>本ハンドブック以外に参考になる公式文書と学習資料を紹介します。</p>
+
+  <h3>公式文書</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>資料</th>
+        <th>説明</th>
+        <th>リンク</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Claude Desktop App 公式ガイド</strong></td>
+        <td>Claudeデスクトップアプリのインストール、設定、使い方に関するAnthropic公式文書</td>
+        <td><a href="https://claude.ai" target="_blank" rel="noopener noreferrer">claude.ai</a></td>
+      </tr>
+      <tr>
+        <td><strong>Claude Code CLI 公式文書</strong></td>
+        <td>コマンドラインでClaudeを使う方法、プロジェクト設定、エージェント管理</td>
+        <td><a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer">Anthropic Docs</a></td>
+      </tr>
+      <tr>
+        <td><strong>GitHub 公式ガイド</strong></td>
+        <td>Gitの基本、GitHubの使い方、協業ワークフロー、PRの作成とレビュー</td>
+        <td><a href="https://docs.github.com" target="_blank" rel="noopener noreferrer">docs.github.com</a></td>
+      </tr>
+      <tr>
+        <td><strong>Bun 公式文書</strong></td>
+        <td>JavaScript/TypeScriptランタイムBunのインストール、スクリプト実行、パッケージ管理</td>
+        <td><a href="https://bun.sh/docs" target="_blank" rel="noopener noreferrer">bun.sh/docs</a></td>
+      </tr>
+      <tr>
+        <td><strong>ai-workspace-standards</strong></td>
+        <td>ハーネスプロジェクトの中核リポジトリ — エージェント定義、スクリプト、テンプレート</td>
+        <td><a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">GitHub</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>おすすめの書籍と講座</h3>
+
+  <ul>
+    <li><strong>AIエージェント入門</strong> &mdash; 「AI Agent」で検索すると最近出版された入門書がいろいろ見つかります。初心者には自国語に翻訳された書籍が特におすすめです。</li>
+    <li><strong>プロンプトエンジニアリング</strong> &mdash; AnthropicやOpenAIなどが提供する公式プロンプトエンジニアリングガイドを読んでみましょう。プロンプト作成能力はAIエージェント活用の核心です。</li>
+    <li><strong>GitとGitHub</strong> &mdash; 無料電子書籍「Pro Git」はGitを初めて学ぶ人に最もおすすめの資料です。日本語版も提供されています。</li>
+    <li><strong>TypeScript基礎</strong> &mdash; エージェントやスクリプトをカスタマイズするならTypeScriptの基本を理解しておくと役立ちます。MDN Web Docsで無料で学べます。</li>
+  </ul>
+
+  <h3>おすすめYouTubeチャンネル</h3>
+
+  <ul>
+    <li><strong>Anthropic公式チャンネル</strong> &mdash; Claudeの新機能、使用事例、開発者ガイド動画を提供しています。</li>
+    <li><strong>AIツール系レビューチャンネル</strong> &mdash; Claude Code、Cursor、GitHub Copilotなど最新AI開発ツールのレビューとチュートリアルを扱うチャンネルを購読してみましょう。</li>
+    <li><strong>Git/GitHubチュートリアルチャンネル</strong> &mdash; バージョン管理と協業ワークフローを視覚的に説明するチャンネルがたくさんあります。</li>
+    <li><strong>TypeScript教育チャンネル</strong> &mdash; 初心者向けTypeScript講座を提供する多彩なチャンネルが活発に活動しています。</li>
+  </ul>
+
+  <div class="note">
+    <strong>注意:</strong> 技術は急速に変わります。本ハンドブックや推薦資料に出てくるUIや機能はアップデートで変更されることがあります。常に最新情報は<strong>公式文書</strong>で確認してください。本ハンドブックの内容と公式文書が異なる場合は、公式文書を優先してください。
+  </div>
+  <!-- ============================================================ -->
+  <!-- SECTION 4: 応用シナリオ                                       -->
+  <!-- ============================================================ -->
+  <h2 id="scenarios">応用シナリオ</h2>
+
+  <p>本ハンドブックで学んだマルチエージェントハーネスは、さまざまな分野で活用できます。代表的な5つの応用シナリオを紹介します。</p>
+
+  <h3>1. 教育</h3>
+
+  <div class="flow-box">
+    <p>教育分野では、ハーネスを活用して<strong>講義資料と学習者ガイド</strong>を効率的に制作できます。</p>
+  </div>
+
+  <ul>
+    <li><strong>講義資料の制作（co-deck）</strong> &mdash; 主題を入力すると、リサーチ → ストーリーライン → スライド作成 → PDF出力まで自動で進みます。教員は最終成果物だけレビューすればよいのです。</li>
+    <li><strong>学習者ガイド（handbook）</strong> &mdash; 講義内容に合わせたハンドブックを自動生成し、受講者が授業の前後に参照できる資料を提供します。</li>
+    <li><strong>主要エージェント</strong> &mdash; <code>research</code>、<code>storyline</code>、<code>html-build</code>、<code>pdf-export</code>、<code>handbook-writer</code></li>
+  </ul>
+
+  <h3>2. コンサルティング</h3>
+
+  <div class="flow-box">
+    <p>コンサルティング分野では、<strong>市場分析からプレゼンテーションまで</strong>の一連のプロセスを自動化できます。</p>
+  </div>
+
+  <ul>
+    <li><strong>市場分析（co-consult）</strong> &mdash; 特定産業や市場についてのリサーチ → フレームワーク適用 → 分析レポート作成をエージェントチームが担います。</li>
+    <li><strong>プレゼンテーション（co-deck）</strong> &mdash; 分析結果をもとにクライアント向けスライドデッキを作成します。データチャートやビジュアルダイアグラムも自動生成されます。</li>
+    <li><strong>主要エージェント</strong> &mdash; <code>research</code>、<code>storyline</code>、<code>design</code>、<code>image-curator</code>、<code>diagram-specialist</code>、<code>html-build</code>、<code>pdf-export</code></li>
+  </ul>
+
+  <h3>3. 研究</h3>
+
+  <div class="flow-box">
+    <p>研究分野では、<strong>文献検索から学会発表資料まで</strong>を体系的に制作できます。</p>
+  </div>
+
+  <ul>
+    <li><strong>文献検索</strong> &mdash; <code>research</code>エージェントがWebから関連論文・報告書・記事を収集し、<code>source-verifier</code>が出典の信頼性を検証します。</li>
+    <li><strong>研究報告書</strong> &mdash; 収集した資料をもとに、<code>storyline</code>エージェントが構造化された報告書を作成します。</li>
+    <li><strong>学会発表</strong> &mdash; 報告書をco-deckパイプラインに入力して学会用スライドデッキを作ります。</li>
+    <li><strong>主要エージェント</strong> &mdash; <code>research</code>、<code>source-verifier</code>、<code>storyline</code>、<code>diagram-specialist</code>、<code>html-build</code></li>
+  </ul>
+
+  <h3>4. マーケティング</h3>
+
+  <div class="flow-box">
+    <p>マーケティング分野では、<strong>市場調査からキャンペーンプレゼンまで</strong>の一連の過程を効率化できます。</p>
+  </div>
+
+  <ul>
+    <li><strong>市場調査</strong> &mdash; 競合分析、トレンド把握、ターゲット顧客インサイト導出をresearchエージェントが行います。</li>
+    <li><strong>キャンペーン企画</strong> &mdash; 調査結果をもとにキャンペーン戦略、メッセージ、チャネル計画を立てます。</li>
+    <li><strong>プレゼンテーション</strong> &mdash; 経営陣報告用のスライドデッキを作り、ビジュアル資料とともに戦略を伝えます。</li>
+    <li><strong>主要エージェント</strong> &mdash; <code>research</code>、<code>storyline</code>、<code>design</code>、<code>image-curator</code>、<code>html-build</code></li>
+  </ul>
+
+  <h3>5. 法律</h3>
+
+  <div class="flow-box">
+    <p>法律分野では、<strong>法令検索からクライアント報告まで</strong>の体系的なワークフローを組めます。</p>
+  </div>
+
+  <ul>
+    <li><strong>法令リサーチ</strong> &mdash; 関連法令、判例、学説を収集し、source-verifierが交叉検証を行います。</li>
+    <li><strong>意見書作成</strong> &mdash; 検索結果をもとに構造化された法律意見書を作成します。</li>
+    <li><strong>クライアント報告</strong> &mdash; 複雑な法律内容を理解しやすいスライドデッキに変換してクライアントへ届けます。</li>
+    <li><strong>主要エージェント</strong> &mdash; <code>research</code>、<code>source-verifier</code>、<code>storyline</code>、<code>html-build</code>、<code>pdf-export</code></li>
+  </ul>
+
+  <!-- インラインSVG: 応用シナリオ図 -->
+  <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
+    <svg viewBox="0 0 700 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="応用シナリオ: 教育・コンサルティング・研究・マーケティング・法律の5ドメインにおけるエージェントハーネス活用フロー">
+      <!-- 背景 -->
+      <rect x="0" y="0" width="700" height="420" rx="12" fill="var(--bg2)"/>
+
+      <!-- タイトル -->
+      <text x="350" y="32" text-anchor="middle" font-size="15" font-weight="bold" style="color:var(--text)">応用シナリオ — 5ドメインのフロー</text>
+
+      <!-- 共通入力 -->
+      <rect x="260" y="52" width="180" height="34" rx="17" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="350" y="74" text-anchor="middle" font-size="12" font-weight="bold" style="color:var(--accent)">ユーザーが主題を入力</text>
+
+      <!-- 中央矢印 -->
+      <line x1="350" y1="86" x2="350" y2="110" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrowdown)"/>
+      <defs><marker id="arrowdown" markerWidth="6" markerHeight="8" refX="3" refY="8" orient="auto"><polygon points="0 0, 6 0, 3 8" fill="var(--accent)"/></marker></defs>
+
+      <!-- 共通研究段階 -->
+      <rect x="245" y="112" width="210" height="30" rx="6" fill="var(--bg-info)" stroke="var(--border-info)" stroke-width="1"/>
+      <text x="350" y="132" text-anchor="middle" font-size="11" style="color:var(--accent)">Research エージェント（研究 + 検証）</text>
+
+      <!-- 5ドメインへの分岐 -->
+      <line x1="350" y1="142" x2="350" y2="170" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,3"/>
+      <!-- 横連結線 -->
+      <line x1="70" y1="170" x2="630" y2="170" stroke="var(--border)" stroke-width="1"/>
+      <line x1="70" y1="170" x2="70" y2="190" stroke="var(--border)" stroke-width="1"/>
+      <line x1="210" y1="170" x2="210" y2="190" stroke="var(--border)" stroke-width="1"/>
+      <line x1="350" y1="170" x2="350" y2="190" stroke="var(--border)" stroke-width="1"/>
+      <line x1="490" y1="170" x2="490" y2="190" stroke="var(--border)" stroke-width="1"/>
+      <line x1="630" y1="170" x2="630" y2="190" stroke="var(--border)" stroke-width="1"/>
+
+      <!-- 1. 教育 -->
+      <rect x="18" y="192" width="104" height="28" rx="6" fill="var(--badge-green-bg)" stroke="var(--border-success)" stroke-width="1"/>
+      <text x="70" y="211" text-anchor="middle" font-size="12" font-weight="bold" style="color:var(--accent-green)">教育</text>
+      <rect x="25" y="228" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="70" y="243" text-anchor="middle" font-size="10" style="color:var(--text-dim)">storyline</text>
+      <rect x="25" y="256" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="70" y="271" text-anchor="middle" font-size="10" style="color:var(--text-dim)">html-build</text>
+      <rect x="25" y="284" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="70" y="299" text-anchor="middle" font-size="10" style="color:var(--text-dim)">pdf-export</text>
+      <rect x="25" y="312" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="70" y="327" text-anchor="middle" font-size="10" style="color:var(--text-dim)">handbook-writer</text>
+      <rect x="18" y="346" width="104" height="26" rx="13" fill="var(--accent-green)" opacity="0.15" stroke="var(--accent-green)" stroke-width="1"/>
+      <text x="70" y="363" text-anchor="middle" font-size="10" font-weight="bold" style="color:var(--accent-green)">講義資料 + ガイド</text>
+
+      <!-- 2. コンサルティング -->
+      <rect x="158" y="192" width="104" height="28" rx="6" fill="var(--badge-blue-bg)" stroke="var(--border-info)" stroke-width="1"/>
+      <text x="210" y="211" text-anchor="middle" font-size="12" font-weight="bold" style="color:var(--accent)">コンサル</text>
+      <rect x="165" y="228" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="210" y="243" text-anchor="middle" font-size="10" style="color:var(--text-dim)">storyline</text>
+      <rect x="165" y="256" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="210" y="271" text-anchor="middle" font-size="10" style="color:var(--text-dim)">design + images</text>
+      <rect x="165" y="284" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="210" y="299" text-anchor="middle" font-size="10" style="color:var(--text-dim)">diagram-spec</text>
+      <rect x="165" y="312" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="210" y="327" text-anchor="middle" font-size="10" style="color:var(--text-dim)">html-build</text>
+      <rect x="158" y="346" width="104" height="26" rx="13" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="1"/>
+      <text x="210" y="363" text-anchor="middle" font-size="10" font-weight="bold" style="color:var(--accent)">分析報告 + プレゼン</text>
+
+      <!-- 3. 研究 -->
+      <rect x="298" y="192" width="104" height="28" rx="6" fill="var(--badge-purple-bg)" stroke="var(--accent-purple)" stroke-width="1"/>
+      <text x="350" y="211" text-anchor="middle" font-size="12" font-weight="bold" style="color:var(--accent-purple)">研究</text>
+      <rect x="305" y="228" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="350" y="243" text-anchor="middle" font-size="10" style="color:var(--text-dim)">source-verifier</text>
+      <rect x="305" y="256" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="350" y="271" text-anchor="middle" font-size="10" style="color:var(--text-dim)">storyline</text>
+      <rect x="305" y="284" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="350" y="299" text-anchor="middle" font-size="10" style="color:var(--text-dim)">diagram-spec</text>
+      <rect x="305" y="312" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="350" y="327" text-anchor="middle" font-size="10" style="color:var(--text-dim)">html-build</text>
+      <rect x="298" y="346" width="104" height="26" rx="13" fill="var(--accent-purple)" opacity="0.15" stroke="var(--accent-purple)" stroke-width="1"/>
+      <text x="350" y="363" text-anchor="middle" font-size="10" font-weight="bold" style="color:var(--accent-purple)">研究報告 + 学会発表</text>
+
+      <!-- 4. マーケティング -->
+      <rect x="438" y="192" width="104" height="28" rx="6" fill="var(--badge-amber-bg)" stroke="var(--accent-amber)" stroke-width="1"/>
+      <text x="490" y="211" text-anchor="middle" font-size="12" font-weight="bold" style="color:var(--accent-amber)">マーケ</text>
+      <rect x="445" y="228" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="490" y="243" text-anchor="middle" font-size="10" style="color:var(--text-dim)">research</text>
+      <rect x="445" y="256" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="490" y="271" text-anchor="middle" font-size="10" style="color:var(--text-dim)">storyline</text>
+      <rect x="445" y="284" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="490" y="299" text-anchor="middle" font-size="10" style="color:var(--text-dim)">image-curator</text>
+      <rect x="445" y="312" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="490" y="327" text-anchor="middle" font-size="10" style="color:var(--text-dim)">html-build</text>
+      <rect x="438" y="346" width="104" height="26" rx="13" fill="var(--accent-amber)" opacity="0.15" stroke="var(--accent-amber)" stroke-width="1"/>
+      <text x="490" y="363" text-anchor="middle" font-size="10" font-weight="bold" style="color:var(--accent-amber)">キャンペーン + 報告書</text>
+
+      <!-- 5. 法律 -->
+      <rect x="578" y="192" width="104" height="28" rx="6" fill="var(--badge-red-bg)" stroke="var(--accent-red)" stroke-width="1"/>
+      <text x="630" y="211" text-anchor="middle" font-size="12" font-weight="bold" style="color:var(--accent-red)">法律</text>
+      <rect x="585" y="228" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="630" y="243" text-anchor="middle" font-size="10" style="color:var(--text-dim)">research</text>
+      <rect x="585" y="256" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="630" y="271" text-anchor="middle" font-size="10" style="color:var(--text-dim)">source-verifier</text>
+      <rect x="585" y="284" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="630" y="299" text-anchor="middle" font-size="10" style="color:var(--text-dim)">storyline</text>
+      <rect x="585" y="312" width="90" height="22" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="630" y="327" text-anchor="middle" font-size="10" style="color:var(--text-dim)">html + pdf</text>
+      <rect x="578" y="346" width="104" height="26" rx="13" fill="var(--accent-red)" opacity="0.15" stroke="var(--accent-red)" stroke-width="1"/>
+      <text x="630" y="363" text-anchor="middle" font-size="10" font-weight="bold" style="color:var(--accent-red)">法律意見書 + 報告</text>
+
+      <!-- 下部説明 -->
+      <text x="350" y="405" text-anchor="middle" font-size="11" style="color:var(--text-dim)">すべてのドメインは共通入力 → 研究段階を共有したうえで、各ドメインに合ったエージェントパイプラインを経て成果物を生成します。</text>
+    </svg>
+  </div>
+
+  <div class="tip-box">
+    <strong>ヒント:</strong> 本ハンドブックで学んだことを自分の分野に応用してみましょう。最初は小さなプロジェクト（例: 5枚のミニプレゼン資料）から始めて、徐々に規模を広げるのが良い方法です。完璧でなくても大丈夫です — エージェントが草案を作り、あなたが修正する方式で進めましょう。
+  </div>
+  <!-- ============================================================ -->
+  <!-- SECTION 5: よくある質問（FAQ）                                 -->
+  <!-- ============================================================ -->
+  <h2 id="faq">よくある質問（FAQ）</h2>
+
+  <p>本ハンドブックの読者からよく寄せられる質問と回答をまとめました。</p>
+
+  <!-- FAQ 1 -->
+  <h3 id="faq-1">Q1: Claude Desktop Appがなければ使えませんか？</h3>
+  <p><strong>いいえ、使えます。</strong>Claude Code CLI（コマンドラインインターフェース）だけでハーネスのすべての機能を利用できます。Claude Desktop Appはグラフィック環境でClaudeを便利に使えるツールですが、必須ではありません。別冊BでClaude Code CLIのインストールと使い方を詳しく扱っています。</p>
+
+  <div class="note">
+    <strong>参考:</strong> Claude Code CLIはClaude Desktop Appより多くのカスタマイズオプションを提供します。プロジェクト単位でエージェントを設定しスクリプトを実行するなら、CLI環境がより適しています。
+  </div>
+
+  <!-- FAQ 2 -->
+  <h3 id="faq-2">Q2: 無料で使えますか？</h3>
+  <p>Claudeには<strong>Claude Freeプラン</strong>と<strong>Claude Proプラン</strong>があります。Freeプランは使用量に制限があり、複雑なプロジェクトを進めるならProプランをおすすめします。特にエージェントチームが複数段階の作業を行うときはトークン使用量が増えるため、Proプランの十分な使用量が役立ちます。</p>
+
+  <div class="tip-box">
+    <strong>節約のコツ:</strong> 別冊Cで紹介する低コストバックエンド（OllamaやLM Studioなど）を活用すれば、簡単な作業はローカルモデルで処理し、複雑な作業だけClaudeに割り当てることでコストを大きく節約できます。
+  </div>
+
+  <!-- FAQ 3 -->
+  <h3 id="faq-3">Q3: 自国語で会話できますか？</h3>
+  <p><strong>はい、完全に対応しています。</strong>Claudeは日本語をはじめ多様な言語を流暢に理解し生成できます。本ハンドブック自体も韓国語で書かれており、日本語で指示し日本語で結果を受け取ることができます。ただし、技術用語やエラーメッセージは英語で出力されることがあるので、基本的な英語読解力があると役立ちます。</p>
+
+  <!-- FAQ 4 -->
+  <h3 id="faq-4">Q4: 他のAIモデルを使えますか？</h3>
+  <p><strong>はい、可能です。</strong>Claude以外にもDeepSeek、GLM(ChatGLM)、Gemini、Llamaなど多彩なAIモデルをハーネスに連携できます。別冊Cでは低コストバックエンド連携の方法を扱っており、特にOllamaを使えばHugging Faceのオープンソースモデルをローカルで実行できます。</p>
+
+  <div class="note">
+    <strong>参考:</strong> モデルごとに強みと弱みが異なります。Claudeは複雑な推論と長文生成に強く、DeepSeekはコーディングに強く、GLMは中国語/韓国語処理に特に優れています。用途に合わせてモデルを選ぶか組み合わせて使いましょう。
+  </div>
+
+  <!-- FAQ 5 -->
+  <h3 id="faq-5">Q5: エージェントはいくつまで作れますか？</h3>
+  <p><strong>技術的には制限がありません。</strong><code>agents/</code>ディレクトリに好きなだけエージェント定義ファイルを追加できます。ただし管理の面では<strong>5〜15個程度</strong>が適当です。エージェントが多すぎると役割の重複が起き、PMエージェントがどのエージェントに作業を割り当てるべきか混乱しかねません。必要な分だけ作り、使わないエージェントは整理しましょう。</p>
+
+  <!-- FAQ 6 -->
+  <h3 id="faq-6">Q6: インターネットなしで使えますか？</h3>
+  <p><strong>いいえ。Claudeを使うにはインターネット接続が必須です。</strong>ClaudeはAnthropicのサーバー上で動くクラウドベースAIです。さらに、<code>research</code>エージェントによるWeb検索、<code>source-verifier</code>によるURLアクセス確認、<code>image-curator</code>による画像ダウンロードなど、ハーネスの多くの機能がネットを必要とします。</p>
+
+  <div class="warn">
+    <strong>注意:</strong> オフラインではClaude自体を使用できません。ただしOllamaのようなローカルモデル（別冊C）なら、インターネットなしでも一部のAI機能を活用できます。もっとも、モデルファイルのダウンロード時にはインターネットが必要です。
+  </div>
+
+  <!-- FAQ 7 -->
+  <h3 id="faq-7">Q7: モバイルで使えますか？</h3>
+  <p>Claudeには<strong>iOS・Androidモバイルアプリ</strong>があります。簡単な対話と基本的な作業はモバイルでも可能です。しかし、エージェントチームが遂行する複雑なプロジェクト（ファイル生成、マルチエージェント調整、Git連携など）はデスクトップ環境での進行をおすすめします。モバイルは簡単な質問応答や成果物の確認用途に向いています。</p>
+
+  <!-- FAQ 8 -->
+  <h3 id="faq-8">Q8: データは安全ですか？</h3>
+  <p>Anthropicは業界最高水準の<strong>セキュリティおよびプライバシーポリシー</strong>を運営しています。対話内容はユーザーの同意なくAIモデル学習に使われることはなく、API通信は暗号化されます。Claude ProおよびTeamプランはエンタープライズ級のセキュリティ基準を満たします。詳しくはAnthropic公式サイトの<strong>Privacy Policy</strong>と<strong>Security</strong>ページをご確認ください。</p>
+
+  <div class="tip-box">
+    <strong>セキュリティのコツ:</strong> Claudeへ渡す内容に機密性の高い個人情報、パスワード、APIキーなどを含めないでください。プロジェクトに<code>.env</code>ファイルがあれば<code>.gitignore</code>に追加して、Gitに上がらないよう注意しましょう。本ハンドブックのセキュリティ関連内容はAnthropicの最新セキュリティガイドラインを参照してください。
+  </div>
+
+  <!-- FAQ 9 -->
+  <h3 id="faq-9">Q9: 他の人と共有できますか？</h3>
+  <p><strong>はい、GitHub経由での共有が最もおすすめです。</strong>プロジェクト全体をGitHubリポジトリにpushすれば、チームメイトや同僚が<code>git clone</code>で即座に同じ環境を再現できます。エージェント設定、スキル、ストーリーライン、スライドデッキなどすべての成果物が含まれます。プライベートリポジトリを使えば外部に露出せず共有できます。</p>
+
+  <div class="note">
+    <strong>参考:</strong> Claude Desktop AppのProjects機能を使えば、Claude対話のArtifactsをチームメイトと共有することもできます。対話履歴、生成ファイル、使用したプロンプトなどを書き出し（Export）て共有しましょう。
+  </div>
+
+  <!-- FAQ 10 -->
+  <h3 id="faq-10">Q10: 実務ですぐに活用できますか？</h3>
+  <p><strong>はい、本ハンドブックですぐに始められます。</strong>本ハンドブックは実務への適用を目標に執筆されました。第1〜13章と別冊の内容を理解していれば、次のステップに沿って実務プロジェクトを始めてみてください。</p>
+
+  <div class="step-list">
+    <div class="step"><strong>1.</strong> GitHubに新しいプロジェクトリポジトリを作り、ai-workspace-standardsテンプレートを適用します。</div>
+    <div class="step"><strong>2.</strong> Claude Desktop AppまたはClaude Code CLIでプロジェクトを開きます。</div>
+    <div class="step"><strong>3.</strong> 実際の業務主題（例: 第3四半期市場分析、講義資料、新製品企画報告書）でco-consultまたはco-deckパイプラインを実行します。</div>
+    <div class="step"><strong>4.</strong> エージェントが生成した草案を検討し修正します。</div>
+    <div class="step"><strong>5.</strong> 成果物をチームメイトと共有しフィードバックを反映します。</div>
+  </div>
+
+  <div class="tip-box">
+    <strong>ヒント:</strong> 最初から「完璧な成果物」を期待しないでください。エージェントの草案を出発点とし、あなたの専門知識と経験を加えて完成度を高めていく方式が最も効果的です。使い込むほど成果物の品質は着実に向上します。
+  </div>
+
+  <!-- FAQ 11 (bonus) -->
+  <h3 id="faq-11">Q11: エージェントの成果物に満足できないときは？</h3>
+  <p>いくつかの方法で成果物の品質を高められます。</p>
+
+  <ol>
+    <li><strong>プロンプトを具体化</strong> &mdash; 「OOOについて分析して」ではなく「OOO産業の2024年市場規模、主要競合3社、成長見通しを3ページ分量で分析して」のように具体的に指示します。</li>
+    <li><strong>research_notes.mdの質向上</strong> &mdash; Stage 1の研究段階でより多くの出典と詳細な情報を収集すると、以降の段階の成果物品質も大きく向上します。</li>
+    <li><strong>エージェント設定の調整</strong> &mdash; <code>agents/</code>ディレクトリのエージェント定義ファイルで、プロンプト・トーン・出力形式などをカスタマイズできます。</li>
+    <li><strong>段階ごとのレビュー</strong> &mdash; パイプライン全体を一気に実行せず、各段階（研究 → ストーリーライン → スライド → PDF）ごとに結果を確認し修正するのが良い方法です。</li>
+  </ol>
+
+  <!-- FAQ 12 (bonus) -->
+  <h3 id="faq-12">Q12: 複数のプロジェクトを同時に進められますか？</h3>
+  <p><strong>はい、可能です。</strong>各プロジェクトは独立したディレクトリ構造を持つため、複数のプロジェクトを同時に進められます。Claude Desktop AppのProjects機能を使えば、各プロジェクトのコンテキストを分けて管理できます。Claude Code CLIでは<code>presentations/</code>ディレクトリの下に複数のプロジェクトを作って管理しましょう。</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: おわりに                                           -->
+  <!-- ============================================================ -->
+  <h2 id="closing">おわりに</h2>
+
+  <h3>おめでとうございます！</h3>
+
+  <p>ここまで来られたことを心からお祝いします。全13章と別冊を読み終えたなら、あなたはすでにClaude Codeとマルチエージェントハーネスの<strong>核心概念と実務活用法</strong>を理解しています。AIツールを「使う」ことを超え、AIを<strong>「チームのように運営する」</strong>ことを学びました。これは業務効率の新次元を切り開く能力です。</p>
+
+  <div class="tip-box">
+    <strong>達成チェック:</strong> 本ハンドブックを通じてあなたは次を達成しました。
+    <ul>
+      <li>AIエージェントとハーネスの概念理解</li>
+      <li>Claude Desktop AppとClaude Code CLIの操作習得</li>
+      <li>co-consultパイプラインの全体験</li>
+      <li>co-deck（プレゼン資料）パイプラインの全体験</li>
+      <li>カスタムエージェントとスキルの作成法の理解</li>
+      <li>ワークフロー自動化と効率化手法の習得</li>
+      <li>多様な分野での応用方法の把握</li>
+    </ul>
+  </div>
+
+  <h3>核心まとめ</h3>
+
+  <p>本章で学んだ核心内容を一目で整理します。</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>テーマ</th>
+        <th>核心内容</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>学習ロードマップ</td>
+        <td>初級（通読） → 中級（CLIマスター + プロジェクト実習 + カスタムエージェント） → 上級（variant作成 + CI/CD + オープンソース）</td>
+      </tr>
+      <tr>
+        <td>コミュニティ</td>
+        <td>GitHubイシュー、ディスカッション、PRを通じて質問し貢献しましょう。Claude公式コミュニティでも最新情報を得られます。</td>
+      </tr>
+      <tr>
+        <td>追加資料</td>
+        <td>公式文書（Claude、GitHub、Bun）を主な参考資料として活用し、技術変化に常に注意しましょう。</td>
+      </tr>
+      <tr>
+        <td>応用シナリオ</td>
+        <td>教育、コンサルティング、研究、マーケティング、法律など多様な分野でエージェントハーネスを活用できます。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>次巻の予告 — 中級編</h3>
+
+  <p>この入門ハンドブックを終えたあとは、<strong>中級ハンドブック</strong>でより深い内容を扱う予定です。中級編では次のようなテーマを取り上げます。</p>
+
+  <ul>
+    <li><strong>高度なプロンプトエンジニアリング</strong> &mdash; 思考の連鎖、プロンプトチェイニング、コンテキストウィンドウ最適化</li>
+    <li><strong>エージェント性能チューニング</strong> &mdash; モデル選択、トークン管理、応用品質向上技法</li>
+    <li><strong>カスタムvariant徹底ガイド</strong> &mdash; L0 → L1 → L2構造の理解と実際のvariant制作</li>
+    <li><strong>チーム協業ワークフロー</strong> &mdash; 多人数環境、Gitブランチ戦略、コードレビュー</li>
+    <li><strong>実戦プロジェクト事例</strong> &mdash; 多彩な産業分野での実際の適用事例の詳細分析</li>
+  </ul>
+
+  <div class="note">
+    <strong>案内:</strong> 中級ハンドブックの刊行予定は<a href="https://github.com/5throck/ai-workspace-standards" target="_blank" rel="noopener noreferrer">ai-workspace-standards GitHub</a>で告知されます。スター（Star)を付けておけばアップデート通知を受け取れます。
+  </div>
+
+  <h3>感謝を込めて</h3>
+
+  <p>本ハンドブックが皆さんのAI活用の旅に役立つことを願っています。AIは道具にすぎません。本当の価値を生み出すのは<strong>皆さんの創意と専門性</strong>です。Claudeとエージェントチームは皆さんの力を拡張し、反復作業を減らし、より高度な業務に集中できるように支えてくれるでしょう。</p>
+
+  <p>始めたことが半分です。今日学んだことを明日の実務に適用してみてください。小さなプロジェクトでもかまいません。<strong>実行する人は学ぶ人より一歩先を行きます。</strong></p>
+
+  <p>AIエージェントチームとともに、より生産的で創造的な業務環境をつくっていかれることを願います。ありがとうございました！</p>
+
+  <div class="chapter-nav">
+    <a href="../ch14/14_Workflows_Automation_ja.html" class="prev">
+      <div class="dir">&larr; 前の章</div>
+      <div class="ttl">Ch 12 &middot; ワークフローと自動化</div>
+    </a>
+    <a href="../appendix/A_Remote_Access_ja.html" class="next" style="margin-left:auto;">
+      <div class="dir">付録A &rarr;</div>
+      <div class="ttl">リモートアクセス設定</div>
+    </a>
+  </div>
+   <footer>
+    Claude Code 2026-09 / Gemini CLI·Antigravity 2.0 / Codex CLI·Desktop App / ai-workspace-standards main (2026-09-26) 基準 · 日本語教材<br>
+    公式リソース: <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> ·
+    <a href="https://antigravity.google/docs/home" target="_blank">Antigravity</a> ·
+    <a href="https://developers.openai.com/codex" target="_blank">Codex</a> ·
+    <a href="https://github.com/5throck/ai-workspace-standards" target="_blank">ai-workspace-standards</a><br>
+    このハンドブックのコンテンツは <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0 (表示 - 非営利 - 継承 4.0 国際)</a> ライセンスの下で提供されています。
+  </footer>
+ </article>
+</main>
+</div>
+<script src="../assets/inpage-search.js" defer></script>
+<script src="../assets/copy-code.js"></script>
+<script src="../assets/dark-mode-toggle.js"></script>
+<script src="../assets/lang-switcher.js"></script>
+</body>
+</html>

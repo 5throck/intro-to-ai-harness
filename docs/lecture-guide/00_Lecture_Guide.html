@@ -36,7 +36,7 @@
 <main>
  <article class="reading">
   <h1>강의 진행 가이드</h1>
-  <p class="lead">이 핸드북 전체(1~13장 + 별첨 A/B/C)를 사용해 강의를 진행할 강사를 위한 자료이다.</p>
+  <p class="lead">이 핸드북 전체(1~15장 + 별첨 A/B/C)를 사용해 강의를 진행할 강사를 위한 자료이다.</p>
 
   <div class="note">이 문서는 핸드북 본문이 아니라 강사 전용 운영 자료이다. 학습자에게는 공유하지 않아도 된다.</div>
   <div class="warn">탈고 전에 전체 문장을 다시 읽으며 <strong>오탈자, 문맥에 어울리지 않는 표현, 장/절 번호 불일치</strong>가 없는지 반드시 확인하라. AI가 생성한 초안에 오자나 어색한 문맥이 남아 있을 수 있다.</div>
@@ -50,7 +50,7 @@
   <div class="chk">☐ Claude Desktop App 설치 완료 (2장에서 상세 안내, 미리 설치해 오면 더 원활)</div>
   <div class="chk">☐ <code>C:\git\project\setup</code> 사전 설치 스크립트 폴더 준비 (권장)</div>
   <div class="chk">☐ (6~8장 실습용) ai-workspace-standards 저장소 클론: <code>git clone https://github.com/5throck/ai-workspace-standards.git</code></div>
-  <div class="warn">11장 team-builder 실습은 자기 업무 도메인(예: 마케팅, 교육, 연구)을 미리 생각해 오게 하면 인터뷰 시간이 크게 단축된다. 참가자에게 "자신의 반복 업무 1개"를 생각해 오도록 사전 공지하라.</div>
+  <div class="warn">13장 team-builder 실습은 자기 업무 도메인(예: 마케팅, 교육, 연구)을 미리 생각해 오게 하면 인터뷰 시간이 크게 단축된다. 참가자에게 "자신의 반복 업무 1개"를 생각해 오도록 사전 공지하라.</div>
 
   <h2 id="agenda">전체 시간 배분표</h2>
   <p>모든 절을 꼼꼼히 다루고, 실습은 참가자가 직접 타이핑(또는 복붙)할 시간을 포함해 산정했다. 휴식 시간은 별도이다.</p>
@@ -66,18 +66,18 @@
       <tr><td>5장</td><td>ai-workspace-standards 구조, AGENTS.md/CLAUDE.md 역할, variant 개념</td><td>강의</td><td>30분</td></tr>
       <tr><td>6장</td><td>co-consult 시장 분석 실습, 7-Phase 워크플로우, 산출물 확인</td><td>실습(참가자 직접)</td><td>40분</td></tr>
       <tr><td>7장</td><td>co-deck 미니 발표자료 실습, 11-Stage 파이프라인, Gate 승인</td><td>실습(참가자 직접)</td><td>40분</td></tr>
-      <tr><td>8장</td><td>co-consult + co-deck 통합 파이프라인, 결과 공유</td><td>실습 + 공유</td><td>30분</td></tr><tr id="color-system-schedule-row"><td>핵심 장 · Design Foundation·Accessibility</td><td>Design Foundation·Accessibility — 토큰·색상 시스템·표준 화면·접근성 검토</td><td>Lecture + review</td><td>35분</td></tr>
-<tr><td>핵심 장 · i18n 설계와 콘텐츠 품질</td><td>i18n 설계 — locale·country profile·형식화·번역 동등성 검증</td><td>Lecture + exercise</td><td>25분</td></tr>
-      <tr><td>9장</td><td>에이전트 파일 형식, frontmatter, agent-lifecycle-manager, 전문 에이전트 작성</td><td>실습(참가자 직접)</td><td>35분</td></tr>
-      <tr><td>10장</td><td>스킬 파일 형식, trigger, skill-lifecycle-manager + skill-creator, 커스텀 스킬 작성</td><td>실습(참가자 직접)</td><td>35분</td></tr>
-      <tr><td>11장</td><td>team-builder 5-step, 자기 분야 에이전트 팀 제안서</td><td>실습(참가자 직접)</td><td>30분</td></tr>
-      <tr><td>12장</td><td>/sync, Git/GitHub PR, Hook, CI/CD, dev-sync.ts</td><td>강의</td><td>25분</td></tr>
-      <tr><td>13장</td><td>학습 로드맵, 커뮤니티, 응용 시나리오, FAQ, 전체 회고</td><td>토론</td><td>20분</td></tr>
-      <tr class="schedule-total"><td colspan="3">하루 합계</td><td>약 7시간 40분 (휴식 제외)</td></tr>
+      <tr><td>8장</td><td>co-consult + co-deck 통합 파이프라인, 결과 공유</td><td>실습 + 공유</td><td>30분</td></tr><tr id="color-system-schedule-row"><td>9장 · 디자인 기반과 접근성</td><td>Design Foundation·Accessibility — 토큰·색상 시스템·표준 화면·접근성 검토</td><td>Lecture + review</td><td>35분</td></tr>
+<tr><td>10장 · i18n 설계와 콘텐츠 품질</td><td>i18n 설계 — locale·country profile·형식화·번역 동등성 검증</td><td>Lecture + exercise</td><td>25분</td></tr>
+      <tr><td>11장</td><td>에이전트 파일 형식, frontmatter, agent-lifecycle-manager, 전문 에이전트 작성</td><td>실습(참가자 직접)</td><td>35분</td></tr>
+      <tr><td>12장</td><td>스킬 파일 형식, trigger, skill-lifecycle-manager + skill-creator, 커스텀 스킬 작성</td><td>실습(참가자 직접)</td><td>35분</td></tr>
+      <tr><td>13장</td><td>team-builder 5-step, 자기 분야 에이전트 팀 제안서</td><td>실습(참가자 직접)</td><td>30분</td></tr>
+      <tr><td>14장</td><td>/sync, Git/GitHub PR, Hook, CI/CD, dev-sync.ts</td><td>강의</td><td>25분</td></tr>
+      <tr><td>15장</td><td>학습 로드맵, 커뮤니티, 응용 시나리오, FAQ, 전체 회고</td><td>토론</td><td>20분</td></tr>
+      <tr class="schedule-total"><td colspan="3">하루 합계</td><td>약 8시간 (휴식 제외)</td></tr>
     </tbody>
   </table>
   </div>
-  <div class="note">휴식 2회(각 10~15분)를 포함하면 <strong>약 8시간~8시간 10분</strong>이다. 별첨 A/B/C는 강의 후 필요에 따라 학습하도록 안내한다.</div>
+  <div class="note">휴식 2회(각 10~15분)를 포함하면 <strong>약 8시간 20분~8시간 30분</strong>이다. 별첨 A/B/C는 강의 후 필요에 따라 학습하도록 안내한다.</div>
 
   <h2 id="per-section">장별 강사 노트</h2>
 
@@ -115,26 +115,26 @@
   <p>6장의 보고서를 7장의 입력으로 넘기는 통합 실습이다. "주제 입력 → 30~45분 후 완성 발표자료"라는 전체 흐름을 보여주며, 두 시스템의 에이전트 구성 차이를 비교하게 한다.</p>
   <span class="badge badge-do">참가자 활동</span> 6장 실습 보고서를 7장 co-deck 입력으로 직접 넘겨보게 하여 "통합의 가치"를 체감하게 한다.
 
-  <h3 id="color-system-instructor-note">핵심 장 · Design Foundation·Accessibility</h3><p>색상은 장식이 아니라 상태와 행동을 전달하는 계약으로 설명한다. 화면을 회색조로 보았을 때도 오류·선택·다음 행동을 이해할 수 있는지 확인하게 한다.</p><h3>핵심 장 · i18n 설계와 콘텐츠 품질</h3><p>번역의 자연스러움뿐 아니라 메시지 키, 긴 문자열, 날짜·통화 형식, 오류 상태가 모든 언어에서 같은 과업을 지원하는지 검토하게 한다.</p><h3>9장: 에이전트 만들기와 수정</h3>
+  <h3 id="color-system-instructor-note">9장 · 디자인 기반과 접근성</h3><p>색상은 장식이 아니라 상태와 행동을 전달하는 계약으로 설명한다. 화면을 회색조로 보았을 때도 오류·선택·다음 행동을 이해할 수 있는지 확인하게 한다.</p><h3>10장 · i18n 설계와 콘텐츠 품질</h3><p>번역의 자연스러움뿐 아니라 메시지 키, 긴 문자열, 날짜·통화 형식, 오류 상태가 모든 언어에서 같은 과업을 지원하는지 검토하게 한다.</p><h3>11장: 에이전트 만들기와 수정</h3>
   <p>에이전트 파일 형식(frontmatter, 역할 정의, Tier)을 다루고, agent-lifecycle-manager로 간단한 전문 에이전트를 작성·등록·검증한다. 초보자에게는 "이력서(프론트매터) + 업무 매뉴얼(본문)"이라는 비유가 효과적이다.</p>
   <span class="badge badge-do">참가자 활동</span> 실습에서 만든 <code>agents/my-analyst.md</code>를 AGENTS.md에 등록하고 <code>bun scripts/agent-lifecycle-audit.ts</code>로 검증하게 한다.
 
-  <h3>10장: 스킬 만들기와 수정</h3>
+  <h3>12장: 스킬 만들기와 수정</h3>
   <p>스킬 파일 형식(프론트매터, trigger, steps)을 다루고, skill-lifecycle-manager + skill-creator로 커스텀 스킬을 작성·테스트한다. "요리사의 레시피"라는 비유로 에이전트와 스킬의 관계를 설명한다.</p>
   <span class="badge badge-do">참가자 활동</span> 실습에서 만든 <code>skills/my-reviewer/SKILL.md</code>를 등록하고 실제로 호출해 동작을 확인하게 한다.
 
-  <h3>11장: 나만의 에이전트 팀 구성하기</h3>
+  <h3>13장: 나만의 에이전트 팀 구성하기</h3>
   <p>team-builder 스킬의 AI 레이어 5-step(요구사항 인터뷰 → 벤치마킹 → 현재 팀 진단 → 제안서 생성 → 승인)과 스크립트 레이어(<code>bun scripts/team-builder.ts</code>)를 다룬다.</p>
   <p>참가자가 미리 자기 도메인을 정해 오면 인터뷰가 빠르다. 제안서를 검토하고 승인(MANDATORY GATE)까지 완료하게 한다.</p>
   <span class="badge badge-do">참가자 활동</span> 자기 관심 분야(마케팅, 교육, 연구 등)에 맞는 커스텀 에이전트 팀 제안서를 받고 승인까지 진행하게 한다.
 
-  <h3>12장: 워크플로우와 자동화 이해</h3>
+  <h3>14장: 워크플로우와 자동화 이해</h3>
   <p>/sync 명령, Git/GitHub PR 자동화, Hook, CI/CD 기초, dev-sync.ts 동작 원리를 설명한다. 초보자에게는 "자동화 = 반복 업무를 시스템에 위임"이라는 비유로 시작한다.</p>
   <p>이 장은 <strong>개념 인지(awareness) 목적의 심화·후속 학습 모듈</strong>로 프레이밍한다. 실습보다 개념 설명 중심으로 진행하고, CLI에 익숙한 참가자에게는 별첨 B로 심화를 안내한다. 관심 있는 참가자에게는 수업 후 선택적 실습 과제(/sync로 가상 프로젝트 커밋, Hook 동작 확인)를 제안하고, 자동화가 다음 단계의 자기주도 학습 영역임을 강조한다.</p>
 
-  <h3>13장: 다음 단계 + 마무리</h3>
-  <p>학습 로드맵, 커뮤니티, 응용 시나리오, FAQ로 마무리한다. 하루 전체를 회고하며, 1~12장에서 만든 것(프로젝트, 실습 산출물, 에이전트, 스킬, 팀 제안서)을 연결해 정리한다.</p>
-  <span class="badge badge-do">참가자 활동</span> 11장에서 받은 팀 제안서를 발표하게 하고, "다음에 이 팀을 실제로 만들고 싶은가?"를 물어 다음 학습 의지를 다진다.
+  <h3>15장: 다음 단계 + 마무리</h3>
+  <p>학습 로드맵, 커뮤니티, 응용 시나리오, FAQ로 마무리한다. 하루 전체를 회고하며, 1~14장에서 만든 것(프로젝트, 실습 산출물, 에이전트, 스킬, 팀 제안서)을 연결해 정리한다.</p>
+  <span class="badge badge-do">참가자 활동</span> 13장에서 받은 팀 제안서를 발표하게 하고, "다음에 이 팀을 실제로 만들고 싶은가?"를 물어 다음 학습 의지를 다진다.
 
   <h2 id="recap">장별 확인 질문</h2>
   <p>각 장을 마칠 때 아래 질문을 던져 이해도를 확인하라. 정답을 맞히는 것이 목적이 아니라, 참가자가 스스로 설명해보게 하는 것이 목적이다.</p>
@@ -212,7 +212,7 @@
   </div>
 
   <div class="quiz">
-    <div class="quiz-title">9장 확인 질문</div>
+    <div class="quiz-title">11장 확인 질문</div>
     <ol>
       <li>에이전트 파일의 frontmatter에는 무엇이 들어가나요?</li>
       <li>Tier(High/Medium/Low)는 무엇을 결정하나요?</li>
@@ -221,7 +221,7 @@
   </div>
 
   <div class="quiz">
-    <div class="quiz-title">10장 확인 질문</div>
+    <div class="quiz-title">12장 확인 질문</div>
     <ol>
       <li>스킬 파일의 metadata.triggers는 어떤 역할을 하나요?</li>
       <li>에이전트와 스킬의 관계는 무엇인가요?</li>
@@ -230,7 +230,7 @@
   </div>
 
   <div class="quiz">
-    <div class="quiz-title">11장 확인 질문</div>
+    <div class="quiz-title">13장 확인 질문</div>
     <ol>
       <li>team-builder의 AI 레이어 5-step을 순서대로 말해 보세요.</li>
       <li>제안서 승인이 왜 MANDATORY GATE인가요?</li>
@@ -239,7 +239,7 @@
   </div>
 
   <div class="quiz">
-    <div class="quiz-title">12장 확인 질문</div>
+    <div class="quiz-title">14장 확인 질문</div>
     <ol>
       <li>/sync 명령은 무엇을 한 번에 처리하나요?</li>
       <li>Git/GitHub에서 PR(Pull Request)은 왜 필요한가요?</li>
@@ -248,7 +248,7 @@
   </div>
 
   <div class="quiz">
-    <div class="quiz-title">13장 확인 질문</div>
+    <div class="quiz-title">15장 확인 질문</div>
     <ol>
       <li>오늘 만든 것(프로젝트, 산출물, 에이전트, 스킬, 팀 제안서)을 한 문장씩 정리해 보세요.</li>
       <li>다음에 학습할 내용은 무엇인가요?</li>

@@ -28,8 +28,8 @@ var SEARCH_DATA = {
     { path: 'index.html', title: 'Claude Code와 멀티 에이전트 하네스', lang: 'ko' },
     { path: 'setup/SETUP.html', title: '워크숍 환경 설치 가이드 · Claude Code와 멀티 에이전트 하네스', lang: 'ko' },
     { path: 'setup/SETUP_CHECKLIST.html', title: '워크숍 사전 설치 체크리스트 · Claude Code와 멀티 에이전트 하네스', lang: 'ko' },
-    { path: 'ch09/09_Design_Foundation.html', title: '핵심 장 · 디자인 기반과 표준 UI 패턴', lang: 'ko' },
-    { path: 'ch10/10_I18n_Operations.html', title: '핵심 장 · i18n 설계와 콘텐츠 품질', lang: 'ko' },
+    { path: 'ch09/09_Design_Foundation.html', title: '9장 · 디자인 기반과 표준 UI 패턴', lang: 'ko' },
+    { path: 'ch10/10_I18n_Operations.html', title: '10장 · i18n 설계와 콘텐츠 품질', lang: 'ko' },
     { path: 'appendix/F_Hermes_Agents.html', title: '별첨 F · Hermes Agents 사용 가이드', lang: 'ko' },
 
     /* ── EN ── */
@@ -56,8 +56,8 @@ var SEARCH_DATA = {
     { path: 'index_en.html', title: 'Claude Code & Multi-Agent Harness', lang: 'en' },
     { path: 'setup/SETUP_en.html', title: 'Workshop Environment Setup Guide · Claude Code & Multi-Agent Harness', lang: 'en' },
     { path: 'setup/SETUP_CHECKLIST_en.html', title: 'Workshop Pre-Installation Checklist · Claude Code & Multi-Agent Harness', lang: 'en' },
-    { path: 'ch09/09_Design_Foundation_en.html', title: 'Core chapter · Design Foundations and Standard UI Patterns', lang: 'en' },
-    { path: 'ch10/10_I18n_Operations_en.html', title: 'Core chapter · i18n Design and Content Quality', lang: 'en' },
+    { path: 'ch09/09_Design_Foundation_en.html', title: 'Chapter 9 · Design Foundations and Standard UI Patterns', lang: 'en' },
+    { path: 'ch10/10_I18n_Operations_en.html', title: 'Chapter 10 · i18n Design and Content Quality', lang: 'en' },
     { path: 'appendix/F_Hermes_Agents_en.html', title: 'Appendix F · Hermes Agents Guide', lang: 'en' },
 
     /* ── JA ── */
@@ -84,8 +84,8 @@ var SEARCH_DATA = {
     { path: 'lecture-guide/00_Lecture_Guide_ja.html', title: '講義ガイド · Claude Code & Multi-Agent Harness', lang: 'ja' },
     { path: 'setup/SETUP_ja.html', title: 'ワークショップ環境セットアップガイド', lang: 'ja' },
     { path: 'setup/SETUP_CHECKLIST_ja.html', title: 'ワークショップ事前インストールチェックリスト', lang: 'ja' },
-    { path: 'ch09/09_Design_Foundation_ja.html', title: 'コア章 · デザイン基盤と標準UIパターン', lang: 'ja' },
-    { path: 'ch10/10_I18n_Operations_ja.html', title: 'コア章 · i18n設計とコンテンツ品質', lang: 'ja' },
+    { path: 'ch09/09_Design_Foundation_ja.html', title: '第9章 · デザイン基盤と標準UIパターン', lang: 'ja' },
+    { path: 'ch10/10_I18n_Operations_ja.html', title: '第10章 · i18n設計とコンテンツ品質', lang: 'ja' },
     { path: 'appendix/F_Hermes_Agents_ja.html', title: '別添 F · Hermes Agentsガイド', lang: 'ja' },
 
     /* ── ES ── */
@@ -112,8 +112,8 @@ var SEARCH_DATA = {
     { path: 'lecture-guide/00_Lecture_Guide_es.html', title: 'Guía del Instructor · Claude Code & Multi-Agent Harness', lang: 'es' },
     { path: 'setup/SETUP_es.html', title: 'Guía de Configuración del Entorno de Workshop', lang: 'es' },
     { path: 'setup/SETUP_CHECKLIST_es.html', title: 'Lista de Verificación Previa a la Instalación', lang: 'es' },
-    { path: 'ch09/09_Design_Foundation_es.html', title: 'Capítulo central · Fundamentos de diseño y patrones de UI estándar', lang: 'es' },
-    { path: 'ch10/10_I18n_Operations_es.html', title: 'Capítulo central · Diseño de i18n y calidad de contenido', lang: 'es' },
+    { path: 'ch09/09_Design_Foundation_es.html', title: 'Capítulo 9 · Fundamentos de diseño y patrones de UI estándar', lang: 'es' },
+    { path: 'ch10/10_I18n_Operations_es.html', title: 'Capítulo 10 · Diseño de i18n y calidad de contenido', lang: 'es' },
     { path: 'appendix/F_Hermes_Agents_es.html', title: 'Apéndice F · Guía de Hermes Agents', lang: 'es' }
   ],
 

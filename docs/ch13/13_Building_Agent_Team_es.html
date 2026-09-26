@@ -230,8 +230,8 @@
   <div class="step-list">
     <ol>
       <li><strong>Quick Assessment</strong> &mdash; equipo ligero de evaluación formado por 3 agentes. Adecuado para proyectos pequeños o diagnósticos rápidos.</li>
-      <li><strong>Standard</strong> &mdash; equipo estándar de 5 agentes. Adecuado para la mayoría de los proyectos generales.</li>
-      <li><strong>Complex Transformation</strong> &mdash; equipo de gran escala formado por 8 agentes. Adecuado para cambios organizativos complejos o proyectos de gran tamaño.</li>
+      <li><strong>Standard</strong> &mdash; equipo estándar de 6 agentes. Adecuado para la mayoría de los proyectos generales.</li>
+      <li><strong>Complex Transformation</strong> &mdash; equipo de gran escala formado por 11 agentes. Adecuado para cambios organizativos complejos o proyectos de gran tamaño.</li>
       <li><strong>Specialized Expert</strong> &mdash; equipo de expertos formado por 4 agentes. Adecuado para análisis profundo de un campo concreto.</li>
     </ol>
   </div>
@@ -813,20 +813,22 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
       <p><strong>Número de agentes:</strong> 3 &nbsp;|&nbsp; <strong>Adecuado para:</strong> evaluaciones rápidas y focalizadas</p>
       <ul>
         <li>Engagement Leader (orquestador)</li>
-        <li>Industry Expert (conocimiento del dominio)</li>
         <li>Strategy Analyst (investigación y análisis)</li>
+        <li>Communications Lead (entregables)</li>
       </ul>
       <p><strong>Cuándo usarlo:</strong> cuando necesitas un barrido rápido de mercado, una visión del panorama competitivo o una evaluación inicial en una sola sesión.</p>
     </div>
     <div class="col">
       <h4>Standard</h4>
-      <p><strong>Número de agentes:</strong> 5 &nbsp;|&nbsp; <strong>Adecuado para:</strong> encargos de consultoría habituales</p>
+      <p><strong>Número de agentes:</strong> 6 &nbsp;|&nbsp; <strong>Adecuado para:</strong> encargos de consultoría habituales</p>
       <ul>
         <li>Engagement Leader (orquestador)</li>
         <li>Strategy Analyst (investigación)</li>
-        <li>Industry Expert (dominio)</li>
+        <li>Change Management Partner (gestión del cambio)</li>
         <li>Communications Lead (entregables)</li>
+        <li>Solutions Architect (diseño técnico)</li>
         <li>Delivery Manager (operaciones)</li>
+        <li>Industry Expert / Subject Matter Expert (según sea necesario)</li>
       </ul>
       <p><strong>Cuándo usarlo:</strong> la mayoría de los encargos estándar que requieren investigación, redacción de entregables y coordinación del proyecto.</p>
     </div>
@@ -835,7 +837,7 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
   <div class="compare-grid">
     <div class="col">
       <h4>Complex Transformation</h4>
-      <p><strong>Número de agentes:</strong> 8 &nbsp;|&nbsp; <strong>Adecuado para:</strong> cambio organizativo a gran escala</p>
+      <p><strong>Número de agentes:</strong> 11 &nbsp;|&nbsp; <strong>Adecuado para:</strong> cambio organizativo a gran escala</p>
       <ul>
         <li>Engagement Leader (orquestador)</li>
         <li>Change Management Partner (gestión del cambio)</li>
@@ -845,6 +847,9 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
         <li>Communications Lead (entregables)</li>
         <li>Workstream Lead (coordinación)</li>
         <li>Delivery Manager (operaciones)</li>
+        <li>Subject Matter Expert (profundidad funcional)</li>
+        <li>Technology Specialist (implementación de plataformas)</li>
+        <li>Data Analyst (métricas y modelado)</li>
       </ul>
       <p><strong>Cuándo usarlo:</strong> programas de transformación multifase donde se entrelazan cambios de tecnología, personas y procesos.</p>
     </div>
@@ -853,9 +858,10 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
       <p><strong>Número de agentes:</strong> 4 &nbsp;|&nbsp; <strong>Adecuado para:</strong> trabajo técnico de dominio profundo</p>
       <ul>
         <li>Engagement Leader (orquestador)</li>
-        <li>Subject Matter Expert (profundidad funcional)</li>
-        <li>Technology Specialist (herramientas y automatización)</li>
-        <li>Data Analyst (métricas y modelado)</li>
+        <li>Industry Expert (profundidad de dominio)</li>
+        <li>Strategy Analyst (investigación)</li>
+        <li>Communications Lead (entregables)</li>
+        <li>Data Analyst / Subject Matter Expert (según el foco funcional)</li>
       </ul>
       <p><strong>Cuándo usarlo:</strong> encargos altamente especializados como modelado financiero, analítica de RR. HH. o evaluación de stacks tecnológicos.</p>
     </div>
@@ -908,7 +914,7 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
   </div>
 
   <div class="tip-box">
-    <strong>Guía de selección de patrón:</strong> si es la primera vez que compones un equipo, se recomienda tomar el patrón <strong>Standard (5 agentes)</strong> como punto de partida. Este patrón ofrece la estructura básica de PM, investigador, redactor, revisor y responsable de automatización, y puedes personalizarlo añadiendo o eliminando agentes según necesites.
+    <strong>Guía de selección de patrón:</strong> si es la primera vez que compones un equipo, se recomienda tomar el patrón <strong>Standard (6 agentes)</strong> como punto de partida. Este patrón ofrece la estructura básica de Engagement Leader, Strategy Analyst, Change Management Partner, Communications Lead, Solutions Architect y Delivery Manager, y puedes personalizarlo añadiendo o eliminando agentes según necesites.
   </div>
 
   <!-- ============================================================ -->
@@ -966,7 +972,7 @@ elaboración de cuestionarios y revisión de calidad
   </div>
 
   <div class="tip-box">
-    <strong>Consejo de práctica:</strong> empieza con el patrón Standard (5 agentes) y, cuando te familiarices con la composición de equipos, añade o elimina agentes según necesites. team-builder reutiliza al máximo los agentes existentes, así que si ya tienes agentes creados pueden conservarse sin eliminarlos ni convertirlos.
+    <strong>Consejo de práctica:</strong> empieza con el patrón Standard (6 agentes) y, cuando te familiarices con la composición de equipos, añade o elimina agentes según necesites. team-builder reutiliza al máximo los agentes existentes, así que si ya tienes agentes creados pueden conservarse sin eliminarlos ni convertirlos.
   </div>
 
   <!-- ============================================================ -->

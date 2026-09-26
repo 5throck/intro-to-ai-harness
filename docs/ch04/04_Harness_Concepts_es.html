@@ -571,25 +571,6 @@ dispatch_triggers:
 
   <h3>Los cuatro niveles de aplicación</h3>
 
-  <p>El PM Gateway se aplica en cuatro niveles. Si se viola cualquiera de ellos, el agente especialista no llega a ejecutarse.</p>
-
-  <div class="step-list">
-    <ol>
-      <li>
-        <strong>Nivel de herramienta (Tool-Level)</strong> &mdash; La propia herramienta de agentes rechaza las llamadas que no provienen del PM. Técnicamente, es el nivel de aplicación más fuerte.
-      </li>
-      <li>
-        <strong>Nivel de sistema (System-Level)</strong> &mdash; Archivos de configuración del sistema como CLAUDE.md, GEMINI.md y CODEX.md declaran explícitamente la regla del PM Gateway, de modo que el modelo de IA la conoce desde el principio.
-      </li>
-      <li>
-        <strong>Nivel de agente (Agent-Level)</strong> &mdash; Cada archivo de definición de agente especialista incluye una sección «PM-ONLY INVOCATION», de modo que el propio agente rechaza las invocaciones directas.
-      </li>
-      <li>
-        <strong>Nivel de QA (QA-Level)</strong> &mdash; La revisión de calidad final audita si ha habido casos de saltarse el PM Gateway.
-      </li>
-    </ol>
-  </div>
-
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
     <svg width="100%" viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de los cuatro niveles de aplicación del PM Gateway">
       <!-- Usuario -->

@@ -230,8 +230,8 @@
   <div class="step-list">
     <ol>
       <li><strong>Quick Assessment</strong> &mdash; a lightweight evaluation team of 3 agents. Suited to small projects and quick diagnostics.</li>
-      <li><strong>Standard</strong> &mdash; a standard team of 5 agents. Suited to most general projects.</li>
-      <li><strong>Complex Transformation</strong> &mdash; a large-scale team of 8 agents. Suited to complex organizational change and large projects.</li>
+      <li><strong>Standard</strong> &mdash; a standard team of 6 agents. Suited to most general projects.</li>
+      <li><strong>Complex Transformation</strong> &mdash; a large-scale team of 11 agents. Suited to complex organizational change and large projects.</li>
       <li><strong>Specialized Expert</strong> &mdash; an expert team of 4 agents. Suited to deep analysis in a specific domain.</li>
     </ol>
   </div>
@@ -813,20 +813,22 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
       <p><strong>Agents:</strong> 3 &nbsp;|&nbsp; <strong>Best for:</strong> Rapid, focused evaluations</p>
       <ul>
         <li>Engagement Leader (orchestrator)</li>
-        <li>Industry Expert (domain knowledge)</li>
         <li>Strategy Analyst (research and analysis)</li>
+        <li>Communications Lead (deliverables)</li>
       </ul>
       <p><strong>When to use:</strong> You need a quick market scan, competitive overview, or initial assessment within a single session.</p>
     </div>
     <div class="col">
       <h4>Standard</h4>
-      <p><strong>Agents:</strong> 5 &nbsp;|&nbsp; <strong>Best for:</strong> Typical consulting engagements</p>
+      <p><strong>Agents:</strong> 6 &nbsp;|&nbsp; <strong>Best for:</strong> Typical consulting engagements</p>
       <ul>
         <li>Engagement Leader (orchestrator)</li>
         <li>Strategy Analyst (research)</li>
-        <li>Industry Expert (domain)</li>
+        <li>Change Management Partner (change management)</li>
         <li>Communications Lead (deliverables)</li>
+        <li>Solutions Architect (technical design)</li>
         <li>Delivery Manager (operations)</li>
+        <li>Industry Expert / Subject Matter Expert (when needed)</li>
       </ul>
       <p><strong>When to use:</strong> Most standard engagements that require research, deliverable creation, and project coordination.</p>
     </div>
@@ -835,7 +837,7 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
   <div class="compare-grid">
     <div class="col">
       <h4>Complex Transformation</h4>
-      <p><strong>Agents:</strong> 8 &nbsp;|&nbsp; <strong>Best for:</strong> Large-scale organizational change</p>
+      <p><strong>Agents:</strong> 11 &nbsp;|&nbsp; <strong>Best for:</strong> Large-scale organizational change</p>
       <ul>
         <li>Engagement Leader (orchestrator)</li>
         <li>Change Management Partner (change management)</li>
@@ -845,6 +847,9 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
         <li>Communications Lead (deliverables)</li>
         <li>Workstream Lead (coordination)</li>
         <li>Delivery Manager (operations)</li>
+        <li>Subject Matter Expert (functional depth)</li>
+        <li>Technology Specialist (platform implementation)</li>
+        <li>Data Analyst (metrics and modeling)</li>
       </ul>
       <p><strong>When to use:</strong> Multi-phase transformation programs involving technology, people, and process changes.</p>
     </div>
@@ -853,9 +858,10 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
       <p><strong>Agents:</strong> 4 &nbsp;|&nbsp; <strong>Best for:</strong> Deep-domain technical work</p>
       <ul>
         <li>Engagement Leader (orchestrator)</li>
-        <li>Subject Matter Expert (functional depth)</li>
-        <li>Technology Specialist (tools and automation)</li>
-        <li>Data Analyst (metrics and modeling)</li>
+        <li>Industry Expert (domain expertise)</li>
+        <li>Strategy Analyst (research)</li>
+        <li>Communications Lead (deliverables)</li>
+        <li>Data Analyst / Subject Matter Expert (for functional focus)</li>
       </ul>
       <p><strong>When to use:</strong> Highly specialized tasks such as financial modeling, HR analytics, or technology stack evaluation.</p>
     </div>
@@ -908,7 +914,7 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
   </div>
 
   <div class="tip-box">
-    <strong>Pattern Selection Guide:</strong> If you are building a team for the first time, we recommend starting from the <strong>Standard (5 agents)</strong> pattern. It provides the basic structure of a PM, researcher, writer, reviewer, and automation lead, and you can customize it by adding or removing agents as needed.
+    <strong>Pattern Selection Guide:</strong> If you are building a team for the first time, we recommend starting from the <strong>Standard (6 agents)</strong> pattern. It provides the basic structure of an Engagement Leader, Strategy Analyst, Change Management Partner, Communications Lead, Solutions Architect, and Delivery Manager, and you can customize it by adding or removing agents as needed.
   </div>
 
   <!-- ============================================================ -->
@@ -965,7 +971,7 @@ I want to build an agent team for educational content production.
   </div>
 
   <div class="tip-box">
-    <strong>Practice Tip:</strong> Start with the Standard (5 agents) pattern, then add or remove agents as needed once you are comfortable with team composition. team-builder reuses existing agents wherever possible, so any agents you have already created can be kept without deletion or conversion.
+    <strong>Practice Tip:</strong> Start with the Standard (6 agents) pattern, then add or remove agents as needed once you are comfortable with team composition. team-builder reuses existing agents wherever possible, so any agents you have already created can be kept without deletion or conversion.
   </div>
 
   <!-- ============================================================ -->

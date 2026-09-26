@@ -571,25 +571,6 @@ dispatch_triggers:
 
   <h3>Four Enforcement Layers</h3>
 
-  <p>The PM Gateway is enforced at four levels. If any one of them is violated, the specialist agent does not run.</p>
-
-  <div class="step-list">
-    <ol>
-      <li>
-        <strong>Tool-Level</strong> &mdash; The agent tool itself rejects calls not made by the PM. Technically the strongest enforcement level.
-      </li>
-      <li>
-        <strong>System-Level</strong> &mdash; System configuration files such as CLAUDE.md, GEMINI.md, and CODEX.md state the PM Gateway rule explicitly, so the AI model is aware of it from the start.
-      </li>
-      <li>
-        <strong>Agent-Level</strong> &mdash; Each specialist agent's definition file contains a "PM-ONLY INVOCATION" section, so the agent itself refuses direct invocation.
-      </li>
-      <li>
-        <strong>QA-Level</strong> &mdash; Final-stage quality review audits for instances of bypassing the PM Gateway.
-      </li>
-    </ol>
-  </div>
-
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
     <svg width="100%" viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram of the four enforcement layers of the PM Gateway">
       <!-- User -->

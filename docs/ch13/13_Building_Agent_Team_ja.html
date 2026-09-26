@@ -230,8 +230,8 @@
   <div class="step-list">
     <ol>
       <li><strong>Quick Assessment</strong> &mdash; 3エージェントで構成される軽量な評価チーム。小規模プロジェクトや迅速な診断に適しています。</li>
-      <li><strong>Standard</strong> &mdash; 5エージェントで構成される標準チーム。ほとんどの一般的なプロジェクトに適しています。</li>
-      <li><strong>Complex Transformation</strong> &mdash; 8エージェントで構成される大規模チーム。複雑な組織変革や大型プロジェクトに適しています。</li>
+      <li><strong>Standard</strong> &mdash; 6エージェントで構成される標準チーム。ほとんどの一般的なプロジェクトに適しています。</li>
+      <li><strong>Complex Transformation</strong> &mdash; 11エージェントで構成される大規模チーム。複雑な組織変革や大型プロジェクトに適しています。</li>
       <li><strong>Specialized Expert</strong> &mdash; 4エージェントで構成される専門家チーム。特定分野の深掘り分析に適しています。</li>
     </ol>
   </div>
@@ -813,20 +813,22 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
       <p><strong>エージェント数:</strong> 3個 &nbsp;|&nbsp; <strong>適する場合:</strong> 迅速で集中的な評価</p>
       <ul>
         <li>Engagement Leader (オーケストレーター)</li>
-        <li>Industry Expert (ドメイン知識)</li>
         <li>Strategy Analyst (調査および分析)</li>
+        <li>Communications Lead (成果物)</li>
       </ul>
       <p><strong>使用時期:</strong> 一度のセッションの中で迅速な市場スキャン、競合環境の概観、初期評価が必要なとき。</p>
     </div>
     <div class="col">
       <h4>Standard</h4>
-      <p><strong>エージェント数:</strong> 5個 &nbsp;|&nbsp; <strong>適する場合:</strong> 一般的なコンサルティング案件</p>
+      <p><strong>エージェント数:</strong> 6個 &nbsp;|&nbsp; <strong>適する場合:</strong> 一般的なコンサルティング案件</p>
       <ul>
         <li>Engagement Leader (オーケストレーター)</li>
         <li>Strategy Analyst (リサーチ)</li>
-        <li>Industry Expert (ドメイン)</li>
+        <li>Change Management Partner (変革管理)</li>
         <li>Communications Lead (成果物)</li>
+        <li>Solutions Architect (技術設計)</li>
         <li>Delivery Manager (運営)</li>
+        <li>Industry Expert / Subject Matter Expert (必要時)</li>
       </ul>
       <p><strong>使用時期:</strong> リサーチ、成果物の作成、プロジェクト調整のすべてが必要な、ほとんどの標準的な案件。</p>
     </div>
@@ -835,7 +837,7 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
   <div class="compare-grid">
     <div class="col">
       <h4>Complex Transformation</h4>
-      <p><strong>エージェント数:</strong> 8個 &nbsp;|&nbsp; <strong>適する場合:</strong> 大規模な組織変革</p>
+      <p><strong>エージェント数:</strong> 11個 &nbsp;|&nbsp; <strong>適する場合:</strong> 大規模な組織変革</p>
       <ul>
         <li>Engagement Leader (オーケストレーター)</li>
         <li>Change Management Partner (変革管理)</li>
@@ -845,6 +847,9 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
         <li>Communications Lead (成果物)</li>
         <li>Workstream Lead (調整)</li>
         <li>Delivery Manager (運営)</li>
+        <li>Subject Matter Expert (機能の専門性)</li>
+        <li>Technology Specialist (プラットフォーム実装)</li>
+        <li>Data Analyst (指標とモデリング)</li>
       </ul>
       <p><strong>使用時期:</strong> 技術・人・プロセスの変化が絡み合う多段階の変革プログラム。</p>
     </div>
@@ -853,9 +858,10 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
       <p><strong>エージェント数:</strong> 4個 &nbsp;|&nbsp; <strong>適する場合:</strong> 深いドメインの技術的作業</p>
       <ul>
         <li>Engagement Leader (オーケストレーター)</li>
-        <li>Subject Matter Expert (機能の専門性)</li>
-        <li>Technology Specialist (ツールと自動化)</li>
-        <li>Data Analyst (指標とモデリング)</li>
+        <li>Industry Expert (ドメインの専門性)</li>
+        <li>Strategy Analyst (調査)</li>
+        <li>Communications Lead (成果物)</li>
+        <li>Data Analyst / Subject Matter Expert (機能中心の場合に必要)</li>
       </ul>
       <p><strong>使用時期:</strong> 財務モデリング、HR分析、技術スタック評価のような高度に専門化したタスク。</p>
     </div>
@@ -908,7 +914,7 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
   </div>
 
   <div class="tip-box">
-    <strong>パターン選択ガイド:</strong> 初めてチームを構成するなら、<strong>Standard(5エージェント)</strong>パターンを出発点にすることをお勧めします。このパターンはPM、リサーチ担当、執筆担当、レビュー担当、自動化担当という基本構造を提供しており、必要に応じてエージェントを追加・削除してカスタマイズできます。
+    <strong>パターン選択ガイド:</strong> 初めてチームを構成するなら、<strong>Standard(6エージェント)</strong>パターンを出発点にすることをお勧めします。このパターンはEngagement Leader、Strategy Analyst、Change Management Partner、Communications Lead、Solutions Architect、Delivery Managerという基本構造を提供しており、必要に応じてエージェントを追加・削除してカスタマイズできます。
   </div>
 
   <!-- ============================================================ -->

@@ -571,25 +571,6 @@ dispatch_triggers:
 
   <h3>4段階強制レイヤー</h3>
 
-  <p>PM Gatewayは4つの水準で強制されます。このうちどれか1つでも違反されれば、スペシャリストエージェントは実行されません。</p>
-
-  <div class="step-list">
-    <ol>
-      <li>
-        <strong>Tool-Level（ツールレベル）</strong> &mdash; エージェントツール自体がPM以外の呼び出しを拒否します。技術的に最も強力な強制水準です。
-      </li>
-      <li>
-        <strong>System-Level（システムプロンプトレベル）</strong> &mdash; CLAUDE.md、GEMINI.md、CODEX.mdなどのシステム設定ファイルにPM Gatewayルールが明記されており、AIモデルは最初からこのルールを認識します。
-      </li>
-      <li>
-        <strong>Agent-Level（エージェントファイルレベル）</strong> &mdash; 各スペシャリストエージェントの定義ファイルに「PM-ONLY INVOCATION」セクションが含まれ、エージェント自身も直接呼び出しを拒否します。
-      </li>
-      <li>
-        <strong>QA-Level（品質レビューレベル）</strong> &mdash; 最終段階の品質レビューで、PM Gateway迂回の事例がないか監査します。
-      </li>
-    </ol>
-  </div>
-
   <div class="diagram-frame" style="max-width:700px;margin:24px auto;">
     <svg width="100%" viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PM Gatewayの4段階強制レイヤーのダイアグラム">
       <!-- ユーザー -->

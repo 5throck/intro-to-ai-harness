@@ -461,6 +461,66 @@
       "path": "setup/SETUP_CHECKLIST_en.html",
       "title": "Workshop Pre-Installation Checklist · Claude Code & Multi-Agent Harness",
       "lang": "en"
+    },
+    {
+      "path": "core/Design_Foundation.html",
+      "title": "핵심 장 · 디자인 기반과 표준 UI 패턴",
+      "lang": "ko"
+    },
+    {
+      "path": "core/Design_Foundation_en.html",
+      "title": "Core chapter · Design Foundations and Standard UI Patterns",
+      "lang": "en"
+    },
+    {
+      "path": "core/Design_Foundation_es.html",
+      "title": "Capítulo central · Fundamentos de diseño y patrones de UI estándar",
+      "lang": "es"
+    },
+    {
+      "path": "core/Design_Foundation_ja.html",
+      "title": "コア章 · デザイン基盤と標準UIパターン",
+      "lang": "ja"
+    },
+    {
+      "path": "core/I18n_Operations.html",
+      "title": "핵심 장 · i18n 설계와 콘텐츠 품질",
+      "lang": "ko"
+    },
+    {
+      "path": "core/I18n_Operations_en.html",
+      "title": "Core chapter · i18n Design and Content Quality",
+      "lang": "en"
+    },
+    {
+      "path": "core/I18n_Operations_es.html",
+      "title": "Capítulo central · Diseño de i18n y calidad de contenido",
+      "lang": "es"
+    },
+    {
+      "path": "core/I18n_Operations_ja.html",
+      "title": "コア章 · i18n設計とコンテンツ品質",
+      "lang": "ja"
+    },
+    {
+      "path": "appendix/Hermes_Agents.html",
+      "title": "별첨 F · Hermes Agents 사용 가이드",
+      "lang": "ko"
+    },
+    {
+      "path": "appendix/Hermes_Agents_en.html",
+      "title": "Appendix F · Hermes Agents Guide",
+      "lang": "en"
+    },
+    {
+      "path": "appendix/Hermes_Agents_es.html",
+      "title": "Apéndice F · Guía de Hermes Agents",
+      "lang": "es"
+    },
+    {
+      "path": "appendix/Hermes_Agents_ja.html",
+      "title": "別添 F · Hermes Agentsガイド",
+      "lang": "ja"
     }
   ]
 }

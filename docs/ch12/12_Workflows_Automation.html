@@ -308,7 +308,7 @@
   </ul>
 
   <div class="note">
-    <strong>모든 작은 변경마다 <code>/sync</code>를 실행할 필요는 없습니다.</strong> 라이프사이클 추적 아티팩트에 영향을 주지 않는 문서 전용 변경(본문 텍스트 업데이트, 메모리 로그 항목 등)은 단순히 수동으로 커밋하고 푸시하면 됩니다. <code>/sync</code> 파이프라인은 프로젝트의 구조적 무결성에 영향을 미치는 변경을 위해 설계되었습니다.
+    <strong>모든 작은 변경마다 별도의 sync를 실행할 필요는 없습니다.</strong> 그러나 문서 전용 변경을 포함한 모든 변경은 브랜치와 Pull Request를 통해 <code>main</code>에 반영합니다. lifecycle 대상이 아닌 변경은 필요한 검증을 실행한 뒤 PR로 제출하고, 직접 push로 <code>main</code>을 우회하지 않습니다.
   </div>
 
   <!-- ============================================================ -->
@@ -769,7 +769,7 @@ jobs:
   </div>
 
   <div class="note">
-    <strong>본사가 지사에 업데이트를 보내는 것과 같습니다.</strong> 본사(L0)에서 직원 안내서를 업데이트하면 모든 지사(L1, L2)가 수동으로 새 안내서를 복사할 것으로 기대하지 않습니다. 대신 배포 시스템(<code>dev-sync.ts</code>)을 통해 업데이트가 모든 지사에 자동으로 전송됩니다. 각 지사는 업데이트를 받으면서 자체 로컬 사용자 정의를 그대로 유지합니다.
+    <strong>템플릿 배포와 프로젝트 스냅샷을 구분해야 합니다.</strong> <code>dev-sync.ts</code>는 L0에서 L1·L2 템플릿으로의 배포를 검증하고 수행합니다. 반면 L3 프로젝트는 생성 시점의 스냅샷이므로 자동으로 갱신되지 않습니다. 기존 프로젝트에 변경이 필요하면 업그레이드 절차를 명시적으로 실행하고 결과를 검토합니다.
   </div>
 
   <div class="tip-box">
@@ -817,7 +817,7 @@ bun scripts/dev-sync.ts --help</code></pre>
       <li>
         <strong>feature 브랜치를 생성합니다.</strong> 작업용 새 브랜치를 만들어 변경 사항을 메인 브랜치에서 격리하고, 병합 전 리뷰를 가능하게 합니다.
 <div class="code-block">
-<pre><code>git checkout -b feature/update-agent-tier</code></pre>
+<pre><code>git checkout -b pr/20260926-120000-update-agent-tier</code></pre>
 <button type="button" class="copy-btn">복사</button>
 </div>
       </li>

@@ -50,7 +50,7 @@
   <div class="chk">☐ Claude Desktop App installed (detailed in Cap. 2; installing in advance makes class smoother)</div>
   <div class="chk">☐ The <code>C:\git\project\setup</code> pre-installation script folder ready (recommended)</div>
   <div class="chk">☐ (For Cap. 6–8 labs) ai-workspace-standards clone: <code>git clone https://github.com/5throck/ai-workspace-standards.git</code></div>
- <div class="warn">Para el ejercicio de team-builder del Cap. 11, pide a los participantes que piensen en su propio dominio de trabajo (por ejemplo, marketing, educacion, investigacion) con antelacion. Esto acorta enormemente la entrevista. Indica a los participantes que preparen "una tarea recurrente propia".</div>
+ <div class="warn">Para el ejercicio de team-builder del Cap. 13, pide a los participantes que piensen en su propio dominio de trabajo (por ejemplo, marketing, educacion, investigacion) con antelacion. Esto acorta enormemente la entrevista. Indica a los participantes que preparen "una tarea recurrente propia".</div>
 
   <h2 id="agenda">Full Time Allocation Table</h2>
  <p>El tiempo incluye el trabajo practico para que los participantes escriban (o copien y peguen) comandos. Los descansos son aparte.</p>
@@ -67,11 +67,11 @@
       <tr><td>Cap. 6</td><td>co-consult market analysis lab, 7-phase workflow, deliverables check</td><td>Hands-on</td><td>40m</td></tr>
       <tr><td>Cap. 7</td><td>co-deck mini deck lab, 11-stage pipeline, gate approval</td><td>Hands-on</td><td>40m</td></tr>
       <tr><td>Cap. 8</td><td>co-consult + co-deck integrated pipeline, result sharing</td><td>Hands-on + Share</td><td>30m</td></tr>
-      <tr><td>Cap. 9</td><td>Agent file format, frontmatter, agent-lifecycle-manager, create a specialist agent</td><td>Hands-on</td><td>35m</td></tr>
-      <tr><td>Cap. 10</td><td>Formato de archivos de skill, triggers, skill-lifecycle-manager + skill-creator, crear una skill personalizada</td><td>Práctica</td><td>35m</td></tr>
-      <tr><td>Cap. 11</td><td>team-builder de 5 pasos, propuesta de equipo de agentes para tu dominio</td><td>Práctica</td><td>30m</td></tr>
-      <tr><td>Cap. 12</td><td>/sync, Git/GitHub PR, hooks, CI/CD, dev-sync.ts</td><td>Clase</td><td>25m</td></tr>
-      <tr><td>Cap. 13</td><td>Learning roadmap, community, application scenarios, FAQ, full review</td><td>Discussion</td><td>20m</td></tr>
+      <tr><td>Cap. 11</td><td>Agent file format, frontmatter, agent-lifecycle-manager, create a specialist agent</td><td>Hands-on</td><td>35m</td></tr>
+      <tr><td>Cap. 12</td><td>Formato de archivos de skill, triggers, skill-lifecycle-manager + skill-creator, crear una skill personalizada</td><td>Práctica</td><td>35m</td></tr>
+      <tr><td>Cap. 13</td><td>team-builder de 5 pasos, propuesta de equipo de agentes para tu dominio</td><td>Práctica</td><td>30m</td></tr>
+      <tr><td>Cap. 14</td><td>/sync, Git/GitHub PR, hooks, CI/CD, dev-sync.ts</td><td>Clase</td><td>25m</td></tr>
+      <tr><td>Cap. 15</td><td>Learning roadmap, community, application scenarios, FAQ, full review</td><td>Discussion</td><td>20m</td></tr>
       <tr class="schedule-total"><td colspan="3">One-day total</td><td>about 6h 40m (excl. breaks)</td></tr>
     </tbody>
   </table>
@@ -114,26 +114,26 @@
  <p>Un laboratorio de integracion que pasa el informe del Cap. 6 como entrada al Cap. 7. Muestra el flujo completo: "tema entra, presentación terminada en 30-45 minutos" —y haz que los participantes comparen las composiciones de agentes de los dos sistemas.</p>
   <span class="badge badge-do">Actividad del participante</span> Deja que los participantes alimenten su informe del Cap. 6 directamente en co-deck en el Cap. 7 para experimentar el valor de la integracion de primera mano.
 
-  <h3 id="color-system-instructor-note">Capítulo central · Design Foundation y accesibilidad</h3><p>Explica el color como contrato de estado y acción, no como decoración. Comprueba que error, selección y siguiente acción se entienden en escala de grises.</p><h3>Capítulo central · Diseño de i18n y calidad de contenido</h3><p>Revisa claves, texto largo, formato de fecha y moneda, y estados de error además de la naturalidad del texto.</p><h3>Cap. 9: Creación y modificación de agentes</h3>
+  <h3 id="color-system-instructor-note">Capítulo central · Design Foundation y accesibilidad</h3><p>Explica el color como contrato de estado y acción, no como decoración. Comprueba que error, selección y siguiente acción se entienden en escala de grises.</p><h3>Capítulo central · Diseño de i18n y calidad de contenido</h3><p>Revisa claves, texto largo, formato de fecha y moneda, y estados de error además de la naturalidad del texto.</p><h3>Cap. 11: Creación y modificación de agentes</h3>
  <p>Cubre el formato del archivo del agente (frontmatter, definicion de rol, Nivel) y utiliza agent-lifecycle-manager para escribir, registrar y validar un agente especialista simple. Para los principiantes, la analogia "curriculum (frontmatter) + manual de trabajo (cuerpo)" funciona bien.</p>
   <span class="badge badge-do">Actividad del participante</span> Haz que los participantes registren el <code>agents/my-analyst.md</code> que crearon en el laboratorio en AGENTS.md y lo validen con <code>bun scripts/agent-lifecycle-audit.ts</code>.
 
-  <h3>Cap. 10: Creación y modificación de skills</h3>
+  <h3>Cap. 12: Creación y modificación de skills</h3>
  <p>Cubre el formato del archivo de habilidad (frontmatter, triggers, pasos) y utiliza skill-lifecycle-manager + skill-creator para escribir y probar una habilidad personalizada. Usa la analogia de la "receta del cocinero" para la relacion entre agentes y habilidades.</p>
   <span class="badge badge-do">Actividad del participante</span> Haz que los participantes registren el <code>skills/my-reviewer/SKILL.md</code> que crearon en el laboratorio e invoquenlo para verificar que funciona.
 
-  <h3>Cap. 11: Construyendo tu propio equipo de agentes</h3>
+  <h3>Cap. 13: Construyendo tu propio equipo de agentes</h3>
   <p>Cubre el flujo de 5 pasos de la capa de IA de team-builder (entrevista de requisitos → benchmarking → diagnóstico del equipo actual → generación de la propuesta → aprobación) y la capa de scripts (<code>bun scripts/team-builder.ts</code>).</p>
  <p>Si los participantes deciden su dominio con antelacion, la entrevista es rapida. Haz que revisen la propuesta y completen la aprobacion (PUERTA OBLIGATORIA).</p>
   <span class="badge badge-do">Actividad del participante</span> Haz que los participantes obtengan una propuesta de equipo de agentes personalizada para su dominio (marketing, educacion, investigacion, etc.) y completen el paso de aprobacion.
 
-  <h3>Cap. 12: Comprendiendo flujos de trabajo y automatización</h3>
+  <h3>Cap. 14: Comprendiendo flujos de trabajo y automatización</h3>
  <p>Explica /sync, la automatización de PR en Git/GitHub, los hooks y los conceptos básicos de CI/CD, y como funciona dev-sync.ts. Comienza a los principiantes con la analogia "automatización = delegar trabajo repetitivo a un sistema".</p>
  <p>Enmarca este capitulo como un modulo de <strong>conciencia del concepto / estudio de seguimiento</strong> en lugar de un laboratorio practico. Mantenlo centrado en el concepto y dirige a los participantes con conocimientos de CLI al Apéndice B para material mas profundo. Para los interesados, ofrece un ejercicio opcional posterior a la clase (confirmar un proyecto de muestra con /sync, verificar el comportamiento del hook) y enfatiza la automatización como un siguiente paso autodirigido.</p>
 
-  <h3>Cap. 13: Próximos pasos + Wrap-Up</h3>
+  <h3>Cap. 15: Próximos pasos + Wrap-Up</h3>
  <p>Cierra con la hoja de ruta de aprendizaje, la comunidad, los escenarios de aplicación y las preguntas frecuentes. Repasa el dia completo y conecta todo lo construido en el Cap. 1-12 (proyectos, entregables de laboratorio, agentes, habilidades, propuesta de equipo).</p>
-  <span class="badge badge-do">Actividad del participante</span> Haz que los participantes presenten la propuesta de equipo del Cap. 11 y pregunten: "Quieren construir este equipo realmente ahora?" para reforzar la motivacion de seguir aprendiendo.
+  <span class="badge badge-do">Actividad del participante</span> Haz que los participantes presenten la propuesta de equipo del Cap. 13 y pregunten: "Quieren construir este equipo realmente ahora?" para reforzar la motivacion de seguir aprendiendo.
 
   <h2 id="recap">Chapter Comprehension Questions</h2>
  <p>Haz las siguientes preguntas al final de cada capitulo para comprobar la comprension. El objetivo no es obtener la respuesta correcta, sino que los participantes expliquen con sus propias palabras.</p>
@@ -211,7 +211,7 @@
   </div>
 
   <div class="quiz">
-    <div class="quiz-title">Cap. 9 Comprehension Check</div>
+    <div class="quiz-title">Cap. 11 Comprehension Check</div>
     <ol>
       <li>¿Qué va en el frontmatter de un archivo agent?</li>
       <li>What does Tier (High/Medium/Low) determine?</li>
@@ -220,7 +220,7 @@
   </div>
 
   <div class="quiz">
-    <div class="quiz-title">Cap. 10 Comprehension Check</div>
+    <div class="quiz-title">Cap. 12 Comprehension Check</div>
     <ol>
       <li>What role does a skill file's metadata.triggers play?</li>
       <li>¿Cuál es la relacion entre agentes y habilidades?</li>
@@ -229,7 +229,7 @@
   </div>
 
   <div class="quiz">
-    <div class="quiz-title">Cap. 11 Comprehension Check</div>
+    <div class="quiz-title">Cap. 13 Comprehension Check</div>
     <ol>
       <li>Recita los 5 pasos de la capa AI del team-builder en orden.</li>
       <li>Why is proposal approval a MANDATORY GATE?</li>
@@ -238,7 +238,7 @@
   </div>
 
   <div class="quiz">
-    <div class="quiz-title">Cap. 12 Comprehension Check</div>
+    <div class="quiz-title">Cap. 14 Comprehension Check</div>
     <ol>
       <li>¿Qué maneja el comando /sync en una sola vez?</li>
       <li>¿Por qué necesitas un PR (Pull Request) en Git/GitHub?</li>
@@ -247,7 +247,7 @@
   </div>
 
   <div class="quiz">
-    <div class="quiz-title">Cap. 13 Comprehension Check</div>
+    <div class="quiz-title">Cap. 15 Comprehension Check</div>
     <ol>
       <li>Resume lo que construiste hoy (proyecto, entregables, agentes, habilidades, propuesta de equipo) en una oracion cada uno.</li>
       <li>¿Qué aprenderas ahora?</li>

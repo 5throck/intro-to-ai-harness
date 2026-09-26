@@ -18,11 +18,11 @@ AI 초보자를 위한 다국어(한국어·영어·일본어·스페인어) 핸
 - **6장 · co-consult: AI 컨설팅 실습** — 7단계(Phase) 워크플로우, 팀 구성 시나리오
 - **7장 · co-deck: AI 프레젠테이션 실습** — 11단계(Stage) 파이프라인, theme/style, Gate 승인
 - **8장 · co-consult + co-deck 통합 파이프라인** — 보고서 + 발표자료 통합 실습
-- **9장 · 에이전트 만들기와 수정** — 에이전트 파일 형식, agent-lifecycle-manager
-- **10장 · 스킬 만들기와 수정** — 스킬 파일 형식, skill-lifecycle-manager
-- **11장 · 나만의 에이전트 팀 구성하기** — team-builder 5단계 워크플로우
-- **12장 · 워크플로우와 자동화 이해** — /sync 명령, Git/GitHub, Hook, CI/CD
-- **13장 · 다음 단계** — 커뮤니티, 학습 자료, 응용 시나리오, FAQ
+- **11장 · 에이전트 만들기와 수정** — 에이전트 파일 형식, agent-lifecycle-manager
+- **12장 · 스킬 만들기와 수정** — 스킬 파일 형식, skill-lifecycle-manager
+- **13장 · 나만의 에이전트 팀 구성하기** — team-builder 5단계 워크플로우
+- **14장 · 워크플로우와 자동화 이해** — /sync 명령, Git/GitHub, Hook, CI/CD
+- **15장 · 다음 단계** — 커뮤니티, 학습 자료, 응용 시나리오, FAQ
 - **별첨** — 원격 접속 환경 설정, Claude Code CLI 사용법, 저비용 AI 백엔드 연동
 - **강의 개요 & 강의 진행 가이드** — 학습 목표, 일자별 일정, 진행자 노트
 

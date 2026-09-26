@@ -1,3 +1,10 @@
+
+## 2026-09-26
+
+### Changed
+- Promoted Design and i18n into numbered chapters; added Hermes Appendix F and operational standards updates.
+- Synced with `ai-workspace-standards` main (2026-09-26).
+
 # Changelog
 
 All notable changes to this handbook will be documented in this file.

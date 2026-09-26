@@ -18,11 +18,11 @@ A beginner-friendly multilingual handbook (Korean · English · Japanese · Espa
 - **Ch. 6 · co-consult: AI Consulting in Practice** — 7-Phase workflow, team composition scenarios
 - **Ch. 7 · co-deck: AI Presentation in Practice** — 11-Stage pipeline, theme/style, Gate approval
 - **Ch. 8 · Combined co-consult + co-deck Pipeline** — Report + presentation integration exercise
-- **Ch. 9 · Creating & Modifying Agents** — Agent file format, agent-lifecycle-manager
-- **Ch. 10 · Creating & Modifying Skills** — Skill file format, skill-lifecycle-manager
-- **Ch. 11 · Building Your Own Agent Team** — team-builder 5-step workflow
-- **Ch. 12 · Understanding Workflows & Automation** — /sync command, Git/GitHub, Hook, CI/CD
-- **Ch. 13 · Next Steps** — Community, learning resources, use cases, FAQ
+- **Ch. 11 · Creating & Modifying Agents** — Agent file format, agent-lifecycle-manager
+- **Ch. 12 · Creating & Modifying Skills** — Skill file format, skill-lifecycle-manager
+- **Ch. 13 · Building Your Own Agent Team** — team-builder 5-step workflow
+- **Ch. 14 · Understanding Workflows & Automation** — /sync command, Git/GitHub, Hook, CI/CD
+- **Ch. 15 · Next Steps** — Community, learning resources, use cases, FAQ
 - **Appendices** — Remote Access Setup, Claude Code CLI Guide, Low-Cost AI Backend Integration
 - **Course Overview & Lecture Guide** — Learning objectives, day-by-day schedule, facilitator notes
 

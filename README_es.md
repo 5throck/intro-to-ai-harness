@@ -18,11 +18,11 @@ Un manual multilingüe (coreano · inglés · japonés · español) para princip
 - **Cap. 6 · co-consult: práctica de consultoría con IA** — Flujo de trabajo de 7 fases, escenarios de composición de equipo
 - **Cap. 7 · co-deck: presentaciones con IA en la práctica** — Pipeline de 11 etapas, theme/style, aprobaciones Gate
 - **Cap. 8 · Pipeline combinado co-consult + co-deck** — Ejercicio integrado de informe + presentación
-- **Cap. 9 · Crear y modificar agentes** — Formato del archivo de agente, agent-lifecycle-manager
-- **Cap. 10 · Crear y modificar skills** — Formato del archivo de skill, skill-lifecycle-manager
-- **Cap. 11 · Construir tu propio equipo de agentes** — Flujo de trabajo de 5 pasos de team-builder
-- **Cap. 12 · Entender los flujos de trabajo y la automatización** — Comando /sync, Git/GitHub, Hook, CI/CD
-- **Cap. 13 · Próximos pasos** — Comunidad, recursos de aprendizaje, casos de uso, FAQ
+- **Cap. 11 · Crear y modificar agentes** — Formato del archivo de agente, agent-lifecycle-manager
+- **Cap. 12 · Crear y modificar skills** — Formato del archivo de skill, skill-lifecycle-manager
+- **Cap. 13 · Construir tu propio equipo de agentes** — Flujo de trabajo de 5 pasos de team-builder
+- **Cap. 14 · Entender los flujos de trabajo y la automatización** — Comando /sync, Git/GitHub, Hook, CI/CD
+- **Cap. 15 · Próximos pasos** — Comunidad, recursos de aprendizaje, casos de uso, FAQ
 - **Apéndices** — Configuración de acceso remoto, Guía de Claude Code CLI, Integración de backends de IA de bajo costo
 - **Resumen del curso y guía docente** — Objetivos de aprendizaje, calendario por día, notas para facilitadores
 

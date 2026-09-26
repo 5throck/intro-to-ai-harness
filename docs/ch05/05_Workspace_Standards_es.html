@@ -619,11 +619,11 @@
   </ul>
 
   <div class="note">
-    No confundas esto con <strong>crear una variante nueva</strong>, que viene justo después. <code>new-project.ts</code> es un comando cotidiano que ejecutarás constantemente — genera un proyecto L3 a partir de una plantilla L2 que ya existe. Crear la propia plantilla L2 (una variante totalmente nueva tipo co-legal o co-hr) es un trabajo aparte y mucho más raro que usa <code>create-l3-scaffold.ts</code> — se trata en el capítulo 11.
+    No confundas esto con <strong>crear una variante nueva</strong>, que viene justo después. <code>new-project.ts</code> es un comando cotidiano que ejecutarás constantemente — genera un proyecto L3 a partir de una plantilla L2 que ya existe. Crear la propia plantilla L2 (una variante totalmente nueva tipo co-legal o co-hr) es un trabajo aparte y mucho más raro que usa <code>create-l3-scaffold.ts</code> — se trata en el capítulo 13.
   </div>
 
   <div class="tip-box">
-    <strong>Consejo:</strong> ¡También puedes crear tu propia variante! Copia las plantillas de ai-workspace-standards y añade los agentes y skills que necesites. El capítulo 11 explica en detalle cómo fabricar una variante.
+    <strong>Consejo:</strong> ¡También puedes crear tu propia variante! Copia las plantillas de ai-workspace-standards y añade los agentes y skills que necesites. El capítulo 13 explica en detalle cómo fabricar una variante.
   </div>
 
   <!-- ============================================================ -->
@@ -697,6 +697,7 @@
   <!-- ============================================================ -->
   <!-- NAVEGACIÓN DEL CAPÍTULO                                         -->
   <!-- ============================================================ -->
+  <h2 id="standards-operations">Estándares operativos: instrucciones ligeras, propiedad clara y cambios mediante PR</h2><p>AGENTS.md es un despachador ligero, no una copia de todas las reglas. Conserva solo límites esenciales y enlaces; mantén la gobernanza detallada en documentos de fuente única. Distingue la propiedad de skills entre estándares L0, plantillas L1 y proyectos L2, y trata las instantáneas de ejecución L3 como resultados de despliegue que no se sincronizan automáticamente.</p><p>Crea ramas con <code>pr/&lt;timestamp&gt;-&lt;slug&gt;</code>. Los cambios generados por <code>/sync</code> también requieren revisión por PR, verificación de CI y fusión.</p><div class="diagram-frame"><svg viewBox="0 0 640 100" width="100%" role="img" aria-label="AGENTS.md → documentos enlazados → propiedad L0/L1/L2 → instantánea L3 → PR"><title>AGENTS.md → documentos enlazados → propiedad L0/L1/L2 → instantánea L3 → PR</title><rect x="18" y="35" width="604" height="36" rx="9" fill="var(--bg-info)" stroke="var(--border)"/><text x="320" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text)">AGENTS.md → documentos enlazados → propiedad L0/L1/L2 → instantánea L3 → PR</text></svg></div><div class="keypoints"><div class="kp-title">Checklist</div><ul><li>AGENTS.md is a pointer, not a second policy source.</li><li>L3 snapshots need an explicit refresh.</li><li>Every shared change lands through a reviewed PR.</li></ul></div>
   <div class="chapter-nav">
     <a href="../ch04/04_Harness_Concepts_es.html" class="prev">
       <div class="dir">&larr; Capítulo anterior</div>

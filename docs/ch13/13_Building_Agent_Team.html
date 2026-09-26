@@ -813,20 +813,22 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
       <p><strong>에이전트 수:</strong> 3개 &nbsp;|&nbsp; <strong>적합한 경우:</strong> 빠르고 집중적인 평가</p>
       <ul>
         <li>Engagement Leader (오케스트레이터)</li>
-        <li>Industry Expert (도메인 지식)</li>
         <li>Strategy Analyst (조사 및 분석)</li>
+        <li>Communications Lead (산출물)</li>
       </ul>
       <p><strong>사용 시기:</strong> 한 번의 세션 안에서 빠른 시장 스캔, 경쟁 환경 개요, 초기 평가가 필요할 때.</p>
     </div>
     <div class="col">
       <h4>Standard</h4>
-      <p><strong>에이전트 수:</strong> 5개 &nbsp;|&nbsp; <strong>적합한 경우:</strong> 일반적인 컨설팅 과제</p>
+      <p><strong>에이전트 수:</strong> 6개 &nbsp;|&nbsp; <strong>적합한 경우:</strong> 일반적인 컨설팅 과제</p>
       <ul>
         <li>Engagement Leader (오케스트레이터)</li>
         <li>Strategy Analyst (리서치)</li>
-        <li>Industry Expert (도메인)</li>
+        <li>Change Management Partner (변화 관리)</li>
         <li>Communications Lead (산출물)</li>
+        <li>Solutions Architect (기술 설계)</li>
         <li>Delivery Manager (운영)</li>
+        <li>Industry Expert / Subject Matter Expert (필요 시)</li>
       </ul>
       <p><strong>사용 시기:</strong> 리서치, 산출물 작성, 프로젝트 조율이 모두 필요한 대부분의 표준 과제.</p>
     </div>
@@ -835,7 +837,7 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
   <div class="compare-grid">
     <div class="col">
       <h4>Complex Transformation</h4>
-      <p><strong>에이전트 수:</strong> 8개 &nbsp;|&nbsp; <strong>적합한 경우:</strong> 대규모 조직 변화</p>
+      <p><strong>에이전트 수:</strong> 11개 &nbsp;|&nbsp; <strong>적합한 경우:</strong> 대규모 조직 변화</p>
       <ul>
         <li>Engagement Leader (오케스트레이터)</li>
         <li>Change Management Partner (전환 관리)</li>
@@ -845,6 +847,9 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
         <li>Communications Lead (산출물)</li>
         <li>Workstream Lead (조율)</li>
         <li>Delivery Manager (운영)</li>
+        <li>Subject Matter Expert (기능 전문성)</li>
+        <li>Technology Specialist (플랫폼 구현)</li>
+        <li>Data Analyst (지표 및 모델링)</li>
       </ul>
       <p><strong>사용 시기:</strong> 기술, 사람, 프로세스의 변화가 얽힌 다단계 전환 프로그램.</p>
     </div>
@@ -853,9 +858,10 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
       <p><strong>에이전트 수:</strong> 4개 &nbsp;|&nbsp; <strong>적합한 경우:</strong> 심층 도메인 기술 작업</p>
       <ul>
         <li>Engagement Leader (오케스트레이터)</li>
-        <li>Subject Matter Expert (기능 전문성)</li>
-        <li>Technology Specialist (도구 및 자동화)</li>
-        <li>Data Analyst (지표 및 모델링)</li>
+        <li>Industry Expert (도메인 전문성)</li>
+        <li>Strategy Analyst (조사)</li>
+        <li>Communications Lead (산출물)</li>
+        <li>Data Analyst / Subject Matter Expert (기능 중심 시 필요)</li>
       </ul>
       <p><strong>사용 시기:</strong> 재무 모델링, HR 분석, 기술 스택 평가처럼 고도로 전문화된 과제.</p>
     </div>
@@ -908,7 +914,7 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
   </div>
 
   <div class="tip-box">
-    <strong>패턴 선택 가이드:</strong> 처음 팀을 구성한다면 <strong>Standard(5 에이전트)</strong> 패턴을 시작점으로 삼는 것을 권장합니다. 이 패턴은 PM, 연구원, 작성자, 검토자, 자동화 담당자의 기본 구조를 제공하며, 필요에 따라 에이전트를 추가하거나 제거하여 커스터마이징할 수 있습니다.
+    <strong>패턴 선택 가이드:</strong> 처음 팀을 구성한다면 <strong>Standard(5 에이전트)</strong> 패턴을 시작점으로 삼는 것을 권장합니다. 이 패턴은 Engagement Leader, Strategy Analyst, Change Management Partner, Communications Lead, Solutions Architect, Delivery Manager의 기본 구조를 제공하며, 필요에 따라 에이전트를 추가하거나 제거하여 커스터마이징할 수 있습니다.
   </div>
 
   <!-- ============================================================ -->
@@ -977,7 +983,7 @@ bun scripts/team-builder.ts memory/team-builder-proposal-2026-08-10.json</code><
     <h3>이 장의 핵심 정리</h3>
     <ul>
       <li><strong>에이전트 팀</strong>은 여러 전문 에이전트가 협력하는 시스템입니다. 단일 AI의 한계(역할 분리 부족, 편향, 순차 처리)를 극복하고, 높은 품질의 산출물을 생산할 수 있습니다.</li>
-      <li><strong>team-builder</strong> 스킬은 AI 레이어(Clude가 수행)와 스크립트 레이어(자동 스크립트가 수행)의 두 레이어로 구성됩니다. 안전을 위해 사용자 승인 없이는 파일이 생성되지 않습니다.</li>
+      <li><strong>team-builder</strong> 스킬은 AI 레이어(Claude가 수행)와 스크립트 레이어(자동 스크립트가 수행)의 두 레이어로 구성됩니다. 안전을 위해 사용자 승인 없이는 파일이 생성되지 않습니다.</li>
       <li><strong>5-step 워크플로우:</strong> 요구사항 인터뷰(6개 필수 질문) &rarr; 벤치마킹(웹 검색) &rarr; 현재 팀 진단(에이전트/스킬/종속성) &rarr; 제안서 생성(JSON) &rarr; 사용자 승인(필수 게이트).</li>
       <li><strong>제안서 JSON</strong>은 생성/전환/삭제할 에이전트, 생성할 스킬, 워크플로우 단계 등의 정보를 담습니다. Claude가 자동으로 생성하므로 사용자가 직접 작성할 필요는 없습니다.</li>
       <li><strong>스크립트 레이어</strong>는 <code>bun scripts/team-builder.ts</code>가 제안서 JSON을 읽어 에이전트 파일 생성, AGENTS.md 등록, 스킬 설치, 워크플로우 설정, 검증을 자동 수행합니다.</li>

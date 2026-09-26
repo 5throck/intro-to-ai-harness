@@ -631,6 +631,16 @@ tras terminar un documento.</code></pre>
     </ol>
   </div>
 
+  <div class="note">
+    <p><strong>Novedades (2026-09)</strong> &mdash; el ciclo de vida ya no termina con la activación. Las skills ahora también se revisan según cómo se comportan realmente en las sesiones (ADR-0067).</p>
+    <ul>
+      <li>Cada sesión registra las skills que cargó en la sección <code>## Skills Used</code> de <code>memory/YYYY-MM-DD.md</code>: el uso y el resultado de cada skill.</li>
+      <li><code>scripts/skill-session-review.ts</code> clasifica los fallos como <strong>síntomas observados (Observed Symptoms)</strong> (por ejemplo, <code>description_trigger_mismatch</code> o <code>missing_procedure</code>) y los registra en <code>memory/skill-review/YYYY-MM-DD.md</code>.</li>
+      <li>Las revisiones permanecen bajo una compuerta humana: los candidatos pasan por <code>proposed &rarr; triaged &rarr; approved/rejected &rarr; applied</code>. El script nunca modifica una skill por sí solo.</li>
+    </ul>
+    <p>El roster también sigue cambiando, y los pasos anteriores están diseñados para absorber esos cambios. <code>meeting</code> ahora es solo un alias de activación de <code>meeting-facilitation</code> v1.4.1 (no existe un directorio independiente <code>skills/meeting/</code>); <code>simulate-pipeline</code> v1.0.0 fusionó las dos skills de pruebas de humo; y <code>validate-docs-links</code> quedó <code>deprecated</code> con <code>removal-date: 2026-12-09</code>: su función de comprobar enlaces se trasladó a la línea base de <code>project-review</code>. Este último caso muestra en la práctica la tabla del campo <code>status</code> vista antes en este capítulo.</p>
+  </div>
+
   <!-- ============================================================ -->
   <!-- SECTION 6: plugin skill-creator                               -->
   <!-- ============================================================ -->

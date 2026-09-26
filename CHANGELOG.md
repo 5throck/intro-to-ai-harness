@@ -2,6 +2,10 @@
 ## 2026-09-26
 
 ### Fixed
+- Restored the missing September skill-lifecycle and `/sync` safety-gate guidance in the Japanese and Spanish editions, and aligned the related operational dates and validation details.
+- Resolved the graft `$0` numeric-token parity warnings and the Korean mid-word emphasis warning.
+
+### Fixed
 - Reordered Design and i18n chapter check questions to match the teaching sequence.
 
 ### Fixed

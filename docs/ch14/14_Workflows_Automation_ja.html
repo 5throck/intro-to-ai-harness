@@ -279,12 +279,16 @@
   </div>
 
   <div class="note">
-    <p><strong>/syncの追加安全ゲート</strong>（2026-08-24時点）&mdash; 上記の5ステップに加えて、パイプライン内で以下のチェックが自動的に実行されます。ユーザーは通常、プロンプトが表示されたら答えるだけで大丈夫です。</p>
+    <p><strong>/syncの追加安全ゲート</strong>（2026-09-09時点）&mdash; 上記の5ステップに加えて、パイプライン内で以下のチェックが自動的に実行されます。ユーザーは通常、プロンプトが表示されたら答えるだけで大丈夫です。</p>
     <ul>
-      <li><strong>言語ゲート</strong> &mdash; コミットメッセージとPRタイトルが英語ルールに合っているか検査します。</li>
+      <li><strong>言語ゲート</strong> &mdash; コミットメッセージとPRタイトルが英語ルールに合っているか検査します。2026-09からは、Markdownだけでなく<code>.yaml</code>/<code>.yml</code>ファイルも検査対象です（<code>validate-md-language.ts</code> v1.9.0）。</li>
       <li><strong>スペックレジストリチェック</strong> &mdash; <code>audit.ts --spec-check</code>: 今回の作業が<code>docs/specs/registry.json</code>に登録された設計ドキュメント（スペック）と紐付いているか確認し、なければ同期を中断します（FATAL）。タイポ修正などの軽微な変更は、例外コードE1〜E5（<code>--spec-exempt</code>または<code>SYNC_SPEC_EXEMPT</code>）で免除できます。</li>
       <li><strong>ガバナンス反映ゲート（ADR-0059）</strong> &mdash; 変更内容が関連するADR（設計決定記録）と紐付いているか検査します。</li>
-      <li><strong>スキルグラフゲート（ADR-0060）</strong> &mdash; スキル間の依存関係グラフを作成・検証し、循環参照などの問題を早期に発見します。</li>
+      <li><strong>型チェックゲート</strong> &mdash; <code>dev-sync</code> の3.95bステップで、<code>scripts/</code> を対象とする <code>tsc --noEmit</code> を実行する <code>scripts/typecheck.ts</code> を動かし、<code>scripts/helpers/typecheck-baseline.json</code> のエラーゼロ基準と比較します。新しい型エラーがあれば同期は中断されます（FATAL）。</li>
+      <li><strong>スキルグラフゲート（ADR-0060）</strong> &mdash; スキル間の依存関係グラフを作成・検証し、循環参照などの問題を早期に発見します。audit.ts v2.30.0（改正9）以降は、コミット済みの <code>docs/skill-graph.json</code> もソースと再照合し、ドリフトがあれば失敗します。その場合は <code>bun scripts/generate-skill-graph.ts</code> を実行し、再生成したプロジェクションをコミットしてください。</li>
+      <li><strong>アップグレード網羅性ゲート（ADR-0073）</strong> &mdash; <code>audit.ts</code> が <code>check-upgrade-coverage.ts --strict</code> を実行します。有効なテンプレートツリーのすべてのファイルが <code>lib/upgrade-policy.ts</code> で解決可能なアップグレード分類を維持しているかを検査し、テンプレートの変更がプロジェクトアップグレードから静かに漏れることを防ぎます。</li>
+      <li><strong>デザインlintゲート</strong> &mdash; スキーマが有効化した場所（<code>docs/workspace-schema.json</code> の <code>designLint:</code> ブロック）では、UIソースファイルがデザイントークンではなく生の色値をハードコードすると失敗します。ルートを設定していないプロジェクトはスキップされます。</li>
+      <li><strong>セッション証拠スキルレビュー</strong>（非致命的）&mdash; セッションログ <code>memory/YYYY-MM-DD.md</code> の <code>## Skills Used</code> セクションを読み、観測結果を <code>memory/skill-review/YYYY-MM-DD.md</code> に追記します。実際のセッション証拠からスキルの問題を見つけるための仕組みです。</li>
       <li><strong>VERSION_MANIFEST再生成</strong> &mdash; <code>docs/VERSION_MANIFEST.md</code>のバージョン一覧を最新状態で作り直します。</li>
     </ul>
   </div>

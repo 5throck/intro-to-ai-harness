@@ -630,6 +630,16 @@ metadata:
     </ol>
   </div>
 
+  <div class="note">
+    <p><strong>新着情報（2026-09）</strong> &mdash; ライフサイクルは有効化で終わりません。スキルは、セッションで実際にどのように動作したかによってもレビューされるようになりました（ADR-0067）。</p>
+    <ul>
+      <li>各セッションは、読み込んだスキルを <code>memory/YYYY-MM-DD.md</code> の <code>## Skills Used</code> セクションに記録します。スキルごとの利用状況と結果を残すためです。</li>
+      <li><code>scripts/skill-session-review.ts</code> は失敗を<strong>観測された症状（Observed Symptoms）</strong>（例: <code>description_trigger_mismatch</code>、<code>missing_procedure</code>）に分類し、<code>memory/skill-review/YYYY-MM-DD.md</code> に記録します。</li>
+      <li>修正は人のゲートで管理します。候補は <code>proposed &rarr; triaged &rarr; approved/rejected &rarr; applied</code> と進み、スクリプトがスキルを自動修正することはありません。</li>
+    </ul>
+    <p>ロスターも変化し続けます。上の手順は、そのような変化を取り込めるように設計されています。<code>meeting</code> は現在 <code>meeting-facilitation</code> v1.4.1 のトリガー別名にすぎず（独立した <code>skills/meeting/</code> ディレクトリはありません）、<code>simulate-pipeline</code> v1.0.0 は2つのスモークテストスキルを1つに統合しました。また、<code>validate-docs-links</code> は <code>removal-date: 2026-12-09</code> とともに <code>deprecated</code> となり、リンク検査の役割は <code>project-review</code> ベースラインに移りました。最後の例は、この章の前半で見た <code>status</code> フィールド表が実務で機能する姿です。</p>
+  </div>
+
   <!-- ============================================================ -->
   <!-- SECTION 6: skill-creator plugin                               -->
   <!-- ============================================================ -->

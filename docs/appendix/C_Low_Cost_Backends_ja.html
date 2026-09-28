@@ -249,7 +249,7 @@ $env:ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
   <h2 id="glm">3. GLM/ZhipuAIバックエンド</h2>
 
   <h3>GLM/ZhipuAIとは？</h3>
-  <p>ZhipuAIは中国のAI研究企業で、GLM（General Language Model）シリーズを開発しています。最新モデルのGLM-4は多言語処理能力に優れ、特に<strong>韓国語処理能力が高い</strong>ため韓国語プロジェクトに適しています。DeepSeekと同じくClaude互換APIを提供します。ZhipuAIはグローバルな英語開発者プラットフォーム<strong>Z.ai</strong>も一緒に運営しています。</p>
+  <p>ZhipuAIは中国のAI研究企業で、GLM（General Language Model）シリーズを開発しています。GLMシリーズは多言語処理能力に優れ、特に<strong>韓国語処理能力が高い</strong>ため韓国語プロジェクトに適しています。DeepSeekと同じくClaude互換APIを提供します。ZhipuAIはグローバルな英語開発者プラットフォーム<strong>Z.ai</strong>も一緒に運営しています。</p>
 
   <h3>主な特徴</h3>
   <ul>
@@ -257,7 +257,7 @@ $env:ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"</code></pre>
     <li><strong>多言語対応</strong> — 韓国語・日本語・中国語などアジア言語の処理能力に優れる</li>
     <li><strong>韓国語に最適化</strong> — 韓国語のコマンドと応答で高い品質を提供</li>
     <li><strong>従量課金</strong> — 使用量に応じた課金でコスト効率が良い</li>
-    <li><strong>無料ティアあり</strong> — GLM-4-Flashは無料ティアがあり、有料でも100万入力トークンあたり約$0.10水準の競争力ある価格</li>
+    <li><strong>無料ティアあり</strong> — 軽量モデル（GLM-4-Flashなど）は無料ティアがあり、有料でも100万入力トークンあたり約$0.10水準の競争力ある価格</li>
   </ul>
 
   <h3>設定方法</h3>
@@ -355,6 +355,7 @@ $env:ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"</code></pre>
 
   <h3>モデル選択ガイド</h3>
 
+  <p>以下は軽量/高性能モデルを選ぶ一般的な基準です。Coding Plan基準の現在提供モデルは<strong>GLM-5.3、GLM-5-Turbo、GLM-4.7</strong>です（GLM-4系の名称は一部の旧ドキュメントに残るレガシー表記です）。詳細な仕様とコンテキストウィンドウはZ.ai公式ドキュメントを確認してください。</p>
   <div class="compare-grid">
     <div class="compare-col">
       <h4>GLM-4-Flash</h4>

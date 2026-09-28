@@ -1,17 +1,54 @@
+
+## 2026-09-26
+
+### Fixed
+- Restored the missing September skill-lifecycle and `/sync` safety-gate guidance in the Japanese and Spanish editions, and aligned the related operational dates and validation details.
+- Resolved the graft `$0` numeric-token parity warnings and the Korean mid-word emphasis warning.
+
+### Fixed
+- Reordered Design and i18n chapter check questions to match the teaching sequence.
+
+### Fixed
+- Added visible Hermes Agents appendix cards to every localized home page.
+
+### Changed
+- Promoted Design and i18n into numbered chapters; added Hermes Appendix F and operational standards updates.
+- Synced with `ai-workspace-standards` main (2026-09-26).
+
 # Changelog
 
 All notable changes to this handbook will be documented in this file.
 
-## [2026-09-28] — Upstream Sync: Agent Counts, Model Names, Hermes Appendix
+## [2026-09-28] — Upstream Sync: Agent Counts, Model Names, Hermes.md
 
 ### Fixed
 - **ch06** (ko/en/ja/es): co-consult is PM + **11** specialists, not 10 — the diagram's 10 domain specialists plus the shared `i18n-specialist`.
 - **ch07** (ko/en/ja/es): co-deck is PM + **13** specialists, not 10 — the 10 pipeline agents plus `i18n-specialist`, `handbook-writer`, `handbook-reviewer`.
 - **ch02** (ko/en/ja/es): plan table model names updated from Sonnet 4 / Opus 4 to Sonnet 5 / Opus 5.5.
+- **Appendix F · Hermes Agents** (ko/en/ja/es): the "why no HERMES.md" section contradicted ADR-0093 (2026-09-27), which introduced a thin `Hermes.md` instruction file (<19,000 chars) at L0/L1/L2. Rewrote that section and the matching checklist item, self-check question, setup comment, and troubleshooting row.
 
 ### Changed
-- **Appendix · Hermes Agents** (ko/en/ja/es): replaced the placeholder stub with eight sections — fifth platform directory (ADR-0088), `Hermes.md` (ADR-0093), `.hermes/skills` mirror, `trusted_project_dirs`, AGENTS.md thin dispatcher (ADR-0090), the co-workspace service (ADR-0092), other same-period changes (`new-project` skill, `skill-graph-analyst`, ADR-0091 KR profile, `/meeting` retirement), and upgrade delivery.
+- **Appendix F** (ko/en/ja/es): added sections on the co-workspace service (ADR-0092) and same-period changes (`new-project` skill, `skill-graph-analyst`, ADR-0091 KR profile / LLM config standard, `/meeting` retirement).
 - Footer baseline bumped to `ai-workspace-standards` main (2026-09-28) and now lists Hermes Agent; search index rebuilt.
+
+## [2026-09-26] — Design Foundation Structure
+
+### Changed
+- Reorganized Design Foundation into design philosophy, principles, guides, color system, typography and font system, standard components and screens, accessibility, and AI-output review.
+- Added four-language guide and typography visuals, decision tables, and implementation rules for spacing, responsive behavior, glyph fallback, code type, and readable text.
+
+## [2026-09-26] — Design Color System and Accessibility Expansion
+
+### Changed
+- Added a dedicated Design color-system section in all language editions: raw palette, semantic and component token tiers, state colors, dark-mode review, contrast, non-color cues, and keyboard focus.
+- Extended the course schedule with Design Foundation·Accessibility (35 minutes) and i18n Design·Content Quality (25 minutes). The single-day core program is now 7 hours 40 minutes excluding breaks.
+
+## [2026-09-26] — Substantive Design, i18n, and Hermes Revision
+
+### Changed
+- Rewrote the Design Foundation and i18n Operations core chapters in all four language editions with beginner-oriented concept explanations, decision tables, practical contracts, self-checks, and inline SVG flow diagrams that remain readable in light and dark modes.
+- Rewrote the Hermes Agents appendix from a placeholder into an operations guide covering the `.hermes/skills/` mirror, native `AGENTS.md` loading, the deliberate absence of `HERMES.md` and registration manifests, user-owned trust configuration, context-size risks, and verification evidence.
+- Synced the handbook footer baseline with `ai-workspace-standards` main (2026-09-26), rebuilt the search index, and preserved four-language structural parity.
 
 ## [2026-09-20] — Upstream Sync: --platform all, Domain Operating Model Note, Graft-First Scaffolding
 

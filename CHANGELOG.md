@@ -19,6 +19,11 @@
 
 All notable changes to this handbook will be documented in this file.
 
+## [2026-09-28] — HERMES.md File Name
+
+### Fixed
+- **Appendix F · Hermes Agents** (ko/en/ja/es): the instruction file is `HERMES.md`, not `Hermes.md`. Hermes discovers only the exact names `.hermes.md` / `HERMES.md`, so the mixed-case name is skipped on case-sensitive Linux/Docker hosts (upstream ADR-0093 Amendment 2, ai-workspace-standards#1204). Added a note explaining the casing requirement; search index rebuilt.
+
 ## [2026-09-28] — Upstream Sync: Agent Counts, Model Names, Hermes.md
 
 ### Fixed

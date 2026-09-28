@@ -19,6 +19,18 @@
 
 All notable changes to this handbook will be documented in this file.
 
+## [2026-09-28] — Upstream Sync: Agent Counts, Model Names, Hermes.md
+
+### Fixed
+- **ch06** (ko/en/ja/es): co-consult is PM + **11** specialists, not 10 — the diagram's 10 domain specialists plus the shared `i18n-specialist`.
+- **ch07** (ko/en/ja/es): co-deck is PM + **13** specialists, not 10 — the 10 pipeline agents plus `i18n-specialist`, `handbook-writer`, `handbook-reviewer`.
+- **ch02** (ko/en/ja/es): plan table model names updated from Sonnet 4 / Opus 4 to Sonnet 5 / Opus 5.5.
+- **Appendix F · Hermes Agents** (ko/en/ja/es): the "why no HERMES.md" section contradicted ADR-0093 (2026-09-27), which introduced a thin `Hermes.md` instruction file (<19,000 chars) at L0/L1/L2. Rewrote that section and the matching checklist item, self-check question, setup comment, and troubleshooting row.
+
+### Changed
+- **Appendix F** (ko/en/ja/es): added sections on the co-workspace service (ADR-0092) and same-period changes (`new-project` skill, `skill-graph-analyst`, ADR-0091 KR profile / LLM config standard, `/meeting` retirement).
+- Footer baseline bumped to `ai-workspace-standards` main (2026-09-28) and now lists Hermes Agent; search index rebuilt.
+
 ## [2026-09-26] — Design Foundation Structure
 
 ### Changed

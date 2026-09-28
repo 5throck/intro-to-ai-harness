@@ -86,7 +86,7 @@ var SEARCH_DATA = {
     { path: 'setup/SETUP_CHECKLIST_ja.html', title: 'ワークショップ事前インストールチェックリスト', lang: 'ja' },
     { path: 'ch09/09_Design_Foundation_ja.html', title: '第9章 · デザイン基盤と標準UIパターン', lang: 'ja' },
     { path: 'ch10/10_I18n_Operations_ja.html', title: '第10章 · i18n設計とコンテンツ品質', lang: 'ja' },
-    { path: 'appendix/F_Hermes_Agents_ja.html', title: '別添 F · Hermes Agentsガイド', lang: 'ja' },
+    { path: 'appendix/F_Hermes_Agents_ja.html', title: '付録F · Hermes Agentsガイド', lang: 'ja' },
 
     /* ── ES ── */
     { path: 'index_es.html', title: 'Claude Code & Multi-Agent Harness', lang: 'es' },

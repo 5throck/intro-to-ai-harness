@@ -521,6 +521,26 @@
       "path": "appendix/F_Hermes_Agents_ja.html",
       "title": "付録F · Hermes Agentsガイド",
       "lang": "ja"
+    },
+    {
+      "path": "appendix/G_Workspace_Architecture.html",
+      "title": "별첨 G · 통합 아키텍처 지도",
+      "lang": "ko"
+    },
+    {
+      "path": "appendix/G_Workspace_Architecture_en.html",
+      "title": "Appendix G · Integrated Architecture Map",
+      "lang": "en"
+    },
+    {
+      "path": "appendix/G_Workspace_Architecture_es.html",
+      "title": "Apéndice G · Mapa de arquitectura integrada",
+      "lang": "es"
+    },
+    {
+      "path": "appendix/G_Workspace_Architecture_ja.html",
+      "title": "付録G · 統合アーキテクチャ地図",
+      "lang": "ja"
     }
   ]
 }

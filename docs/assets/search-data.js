@@ -31,6 +31,7 @@ var SEARCH_DATA = {
     { path: 'ch09/09_Design_Foundation.html', title: '9장 · 디자인 기반과 표준 UI 패턴', lang: 'ko' },
     { path: 'ch10/10_I18n_Operations.html', title: '10장 · i18n 설계와 콘텐츠 품질', lang: 'ko' },
     { path: 'appendix/F_Hermes_Agents.html', title: '별첨 F · Hermes Agents 사용 가이드', lang: 'ko' },
+    { path: 'appendix/G_Workspace_Architecture.html', title: '별첨 G · 통합 아키텍처 지도', lang: 'ko' },
 
     /* ── EN ── */
     { path: 'ch01/01_Why_AI_Agents_en.html', title: 'Ch 1 · Why AI Agent Teams?', lang: 'en' },
@@ -59,6 +60,7 @@ var SEARCH_DATA = {
     { path: 'ch09/09_Design_Foundation_en.html', title: 'Chapter 9 · Design Foundations and Standard UI Patterns', lang: 'en' },
     { path: 'ch10/10_I18n_Operations_en.html', title: 'Chapter 10 · i18n Design and Content Quality', lang: 'en' },
     { path: 'appendix/F_Hermes_Agents_en.html', title: 'Appendix F · Hermes Agents Guide', lang: 'en' },
+    { path: 'appendix/G_Workspace_Architecture_en.html', title: 'Appendix G · Integrated Architecture Map', lang: 'en' },
 
     /* ── JA ── */
     { path: 'index_ja.html', title: 'Claude Code & マルチエージェントハーネス', lang: 'ja' },
@@ -87,6 +89,7 @@ var SEARCH_DATA = {
     { path: 'ch09/09_Design_Foundation_ja.html', title: '第9章 · デザイン基盤と標準UIパターン', lang: 'ja' },
     { path: 'ch10/10_I18n_Operations_ja.html', title: '第10章 · i18n設計とコンテンツ品質', lang: 'ja' },
     { path: 'appendix/F_Hermes_Agents_ja.html', title: '付録F · Hermes Agentsガイド', lang: 'ja' },
+    { path: 'appendix/G_Workspace_Architecture_ja.html', title: '付録G · 統合アーキテクチャ地図', lang: 'ja' },
 
     /* ── ES ── */
     { path: 'index_es.html', title: 'Claude Code & Multi-Agent Harness', lang: 'es' },
@@ -114,7 +117,8 @@ var SEARCH_DATA = {
     { path: 'setup/SETUP_CHECKLIST_es.html', title: 'Lista de Verificación Previa a la Instalación', lang: 'es' },
     { path: 'ch09/09_Design_Foundation_es.html', title: 'Capítulo 9 · Fundamentos de diseño y patrones de UI estándar', lang: 'es' },
     { path: 'ch10/10_I18n_Operations_es.html', title: 'Capítulo 10 · Diseño de i18n y calidad de contenido', lang: 'es' },
-    { path: 'appendix/F_Hermes_Agents_es.html', title: 'Apéndice F · Guía de Hermes Agents', lang: 'es' }
+    { path: 'appendix/F_Hermes_Agents_es.html', title: 'Apéndice F · Guía de Hermes Agents', lang: 'es' },
+    { path: 'appendix/G_Workspace_Architecture_es.html', title: 'Apéndice G · Mapa de arquitectura integrada', lang: 'es' }
   ],
 
   LABELS: {

@@ -284,6 +284,10 @@
 
   <p><strong>CODEX.md</strong> recoge las instrucciones de comportamiento de la tercera plataforma, <strong>Codex</strong> (que abarca tanto la CLI como la Desktop App). Al igual que CLAUDE.md y GEMINI.md, define el flujo PM Gateway y las reglas de despacho de agentes, pero con una diferencia importante — Codex <strong>no tiene una herramienta nativa de subagentes</strong>, así que el PM carga el archivo de definición de cada especialista (<code>agents/&lt;name&gt;.md</code>) como contexto de rol y ejecuta los pasos secuencialmente dentro de la propia sesión. Codex tampoco ejecuta la suite de hooks del workspace, por lo que las reglas de gobernanza se <strong>autoaplican mediante el prompt</strong> (el mismo enfoque que en Antigravity).</p>
 
+  <h3 id="hermes-md">HERMES.md — Instrucciones de comportamiento para Hermes Agents</h3>
+
+  <p><strong>HERMES.md</strong> es el miembro más reciente de la familia de archivos de instrucciones de plataforma (ADR-0088/0093). Recoge los requisitos de comportamiento de la plataforma <strong>Hermes Agents</strong> (hermes-agent de NousResearch). Hermes lee exactamente un archivo de contexto del proyecto (first-found-wins: <code>HERMES.md</code> &rarr; <code>AGENTS.md</code> &rarr; <code>CLAUDE.md</code>) y limita ese archivo de contexto a 20.000 caracteres. Por eso <code>HERMES.md</code> se mantiene deliberadamente por debajo de los 19.000 caracteres, y el contenido de tipo registro — el roster, los cuerpos de flujo de trabajo, el registro de skills — se delega en <code>AGENTS.md</code> y en los documentos de gobernanza. Las skills del proyecto viven en el espejo <code>.hermes/skills/</code>, que se sincroniza con el SSOT <code>skills/</code> igual que los demás directorios de plataforma.</p>
+
   <h3>CHANGELOG.md — Registro del historial de cambios</h3>
 
   <p><strong>CHANGELOG.md</strong> registra cronológicamente todos los cambios del proyecto. Cada vez que se añade un agente nuevo, se modifica un skill o cambia una regla, queda anotado aquí. A diferencia del log de commits del control de versiones (Git), el CHANGELOG resume los cambios en <strong>una forma legible por humanos</strong>.</p>

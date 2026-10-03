@@ -284,6 +284,10 @@
 
   <p><strong>CODEX.md</strong>は3つ目のプラットフォームである<strong>Codex</strong>（CLIとDesktop Appの両方を含む）用の行動指針です。CLAUDE.md、GEMINI.mdと同様にPM Gatewayワークフローとエージェントディスパッチルールを定めていますが、一つ重要な違いがあります — Codexには<strong>ネイティブなサブエージェントツールがない</strong>ため、PMが各専門エージェントの定義ファイル（<code>agents/&lt;name&gt;.md</code>）を役割コンテキストとして読み込み、セッション内で順番に各ステップを直接実行します。またCodexはワークスペースのフックスイートを実行しないため、ガバナンスルールは<strong>プロンプトによる自己強制</strong>で守られます（Antigravityと同じ方式です）。</p>
 
+  <h3 id="hermes-md">HERMES.md — Hermes Agents用の行動指針</h3>
+
+  <p><strong>HERMES.md</strong>はプラットフォーム指示ファイルファミリーの最新メンバーです（ADR-0088/0093）。<strong>Hermes Agents</strong>プラットフォーム（NousResearch hermes-agent）のための行動要件を収めています。Hermesはプロジェクトコンテキストファイルを正確に1つだけ読み（first-found-wins: <code>HERMES.md</code> &rarr; <code>AGENTS.md</code> &rarr; <code>CLAUDE.md</code>）、コンテキストファイルを20,000文字に制限します。そのため<code>HERMES.md</code>は意図的に19,000文字未満に保たれ、ロスター、ワークフロー本文、スキルレジストリといったレジストリ的な内容 — は<code>AGENTS.md</code>とガバナンス文書に委ねられます。プロジェクトスキルは<code>.hermes/skills/</code>ミラーに置かれ、他のプラットフォームディレクトリと同じく<code>skills/</code> SSOTと同期されます。</p>
+
   <h3>CHANGELOG.md — 変更履歴の記録</h3>
 
   <p><strong>CHANGELOG.md</strong>はプロジェクトのすべての変更を時系列で記録するファイルです。新しいエージェントが追加されたり、スキルが修正されたり、ルールが変わったりするたびにここに記録されます。バージョン管理システム（Git）のコミットログと違い、CHANGELOGは<strong>人が読める形</strong>で変更内容を要約します。</p>

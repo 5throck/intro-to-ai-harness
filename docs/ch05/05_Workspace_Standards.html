@@ -18,6 +18,7 @@
   <a href="#directory-structure">디렉토리 구조</a>
   <a href="#key-files">핵심 파일들</a>
   <a href="#codex-md">CODEX.md</a>
+  <a href="#hermes-md">HERMES.md</a>
   <a href="#hierarchy">4-레벨 레이어 구조</a>
   <a href="#variants">variant(변형) 개념</a>
   <a href="#contracts">공통 컨트랙트</a>
@@ -29,12 +30,12 @@
  <article class="reading">
   <div class="chapter-eyebrow">5장</div>
   <h1>ai-workspace-standards 살펴보기</h1>
-  <p class="lead">ai-workspace-standards 저장소의 구조와 핵심 개념을 배웁니다. 4-레벨 레이어 구조(L0→L1→L2→L3), variant 개념, 핵심 파일(AGENTS.md, CLAUDE.md, GEMINI.md, CODEX.md)의 역할, 그리고 공통 컨트랙트를 이해합니다.</p>
+  <p class="lead">ai-workspace-standards 저장소의 구조와 핵심 개념을 배웁니다. 4-레벨 레이어 구조(L0→L1→L2→L3), variant 개념, 핵심 파일(AGENTS.md, CLAUDE.md, GEMINI.md, CODEX.md, HERMES.md)의 역할, 그리고 공통 컨트랙트를 이해합니다.</p>
   <div class="keypoints">
     <div class="kp-title">이 장에서 다루는 것</div>
     <ul>
       <li>ai-workspace-standards 저장소의 구조</li>
-      <li>핵심 파일: AGENTS.md, CLAUDE.md, GEMINI.md, CODEX.md의 역할</li>
+      <li>핵심 파일: AGENTS.md, CLAUDE.md, GEMINI.md, CODEX.md, HERMES.md의 역할</li>
       <li>4-레벨 레이어 구조 (L0 → L1 → L2 → L3)</li>
       <li>variant(변형) 개념</li>
       <li>공통 컨트랙트와 템플릿 상속</li>
@@ -53,7 +54,7 @@
   <ul>
     <li><strong>GitHub 저장소</strong>: <code>github.com/5throck/ai-workspace-standards</code></li>
     <li><strong>라이선스</strong>: 오픈소스 (누구나 자유롭게 사용, 수정, 배포 가능)</li>
-    <li><strong>지원 플랫폼</strong>: Claude Code, Gemini CLI/Antigravity, Codex CLI/Desktop App (세 플랫폼 모두 동일한 구조 사용, 각각 <code>CLAUDE.md</code>/<code>GEMINI.md</code>/<code>CODEX.md</code>로 지침 제공)</li>
+    <li><strong>지원 플랫폼</strong>: Claude Code, Gemini CLI/Antigravity, Codex CLI/Desktop App, Hermes Agents (모두 동일한 구조 사용, 각각 <code>CLAUDE.md</code>/<code>GEMINI.md</code>/<code>CODEX.md</code>/<code>HERMES.md</code>로 지침 제공)</li>
   </ul>
 
   <h3>왜 표준이 필요한가?</h3>
@@ -229,7 +230,7 @@
 
   <h3>루트 파일들</h3>
 
-  <p>최상위 디렉토리에는 폴더 외에도 중요한 파일들이 있습니다. <code>AGENTS.md</code>(에이전트 레지스트리), <code>CLAUDE.md</code>(Claude Code용 지침), <code>GEMINI.md</code>(Gemini CLI/Antigravity용 지침), <code>CODEX.md</code>(Codex CLI/Desktop App용 지침), <code>CHANGELOG.md</code>(변경 이력)가 모두 프로젝트 루트에 위치합니다. 이 파일들은 이 장의 "핵심 파일들" 섹션에서 자세히 다룹니다.</p>
+  <p>최상위 디렉토리에는 폴더 외에도 중요한 파일들이 있습니다. <code>AGENTS.md</code>(에이전트 레지스트리), <code>CLAUDE.md</code>(Claude Code용 지침), <code>GEMINI.md</code>(Gemini CLI/Antigravity용 지침), <code>CODEX.md</code>(Codex CLI/Desktop App용 지침), <code>HERMES.md</code>(Hermes 에이전트용 지침), <code>CHANGELOG.md</code>(변경 이력)가 모두 프로젝트 루트에 위치합니다. 이 파일들은 이 장의 "핵심 파일들" 섹션에서 자세히 다룹니다.</p>
 
   <div class="tip-box">
     <strong>팁:</strong> 실제로 탐색해보고 싶다면 터미널에서 저장소를 클론하세요. <code>git clone https://github.com/5throck/ai-workspace-standards.git</code> 명령으로 내 컴퓨터에 복사한 뒤, 각 폴더와 파일을 직접 열어보면 훨씬 이해가 빠릅니다.
@@ -240,7 +241,7 @@
   <!-- ============================================================ -->
   <h2 id="key-files">핵심 파일들</h2>
 
-  <p>ai-workspace-standards의 핵심 파일들은 프로젝트 루트에 위치하며, 각각 명확한 역할을 수행합니다. 이 섹션에서는 가장 중요한 6개 파일을 설명합니다.</p>
+  <p>ai-workspace-standards의 핵심 파일들은 프로젝트 루트에 위치하며, 각각 명확한 역할을 수행합니다. 이 섹션에서는 가장 중요한 7개 파일을 설명합니다.</p>
 
   <h3 id="agents-md">AGENTS.md — 에이전트 레지스트리</h3>
 
@@ -283,6 +284,10 @@
   <h3 id="codex-md">CODEX.md — Codex CLI/Desktop App용 행동 지침</h3>
 
   <p><strong>CODEX.md</strong>는 세 번째 플랫폼인 <strong>Codex</strong>(CLI와 Desktop App 모두 포함)용 행동 지침입니다. CLAUDE.md, GEMINI.md와 동일하게 PM Gateway 워크플로우, 에이전트 디스패치 규칙을 담고 있지만, 한 가지 중요한 차이가 있습니다 — Codex에는 <strong>네이티브 서브에이전트 도구가 없어서</strong>, PM이 각 전문 에이전트의 정의 파일(<code>agents/&lt;name&gt;.md</code>)을 역할 컨텍스트로 불러온 뒤 세션 안에서 순차적으로 단계를 직접 수행합니다. 또한 Codex는 워크스페이스의 훅(Hook) 스위트를 실행하지 않으므로, 거버넌스 규칙은 <strong>프롬프트로 자체 강제</strong>됩니다(Antigravity와 동일한 방식).</p>
+
+  <h3 id="hermes-md">HERMES.md — Hermes Agents용 행동 지침</h3>
+
+  <p><strong>HERMES.md</strong>는 플랫폼 지침 파일 가족의 가장 최근 멤버입니다(ADR-0088/0093). <strong>Hermes Agents</strong> 플랫폼(NousResearch hermes-agent)을 위한 행동 필수 항목을 담습니다. Hermes는 프로젝트 컨텍스트 파일을 정확히 하나만 읽고(first-found-wins: <code>HERMES.md</code> &rarr; <code>AGENTS.md</code> &rarr; <code>CLAUDE.md</code>), 컨텍스트 파일을 20,000자로 제한합니다. 그래서 <code>HERMES.md</code>는 의도적으로 19,000자 미만으로 유지되며, 레지스트리 성격의 내용 &mdash; 로스터, 워크플로우 본문, 스킬 레지스트리 &mdash; 는 <code>AGENTS.md</code>와 거버넌스 문서에 위임합니다. 프로젝트 스킬은 <code>.hermes/skills/</code> 미러에 두며, 다른 플랫폼 디렉터리와 마찬가지로 <code>skills/</code> SSOT와 동기화됩니다.</p>
 
   <h3>CHANGELOG.md — 변경 이력 기록</h3>
 

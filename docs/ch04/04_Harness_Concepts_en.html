@@ -504,12 +504,14 @@ dispatch_triggers:
       </tr>
       <tr>
         <td style="padding:8px 12px;">Example models</td>
-        <td style="padding:8px 12px;">claude-opus-5-0, gemini-3.1-pro, gpt-5.6-sol</td>
-        <td style="padding:8px 12px;">claude-sonnet-5-0, gemini-3.7-flash, gpt-5.6-terra</td>
-        <td style="padding:8px 12px;">claude-haiku-4-5, gemini-3.7-flash, gpt-5.6-luna</td>
+        <td style="padding:8px 12px;">claude-opus-5-5, gemini-3.1-pro, gpt-5.6-sol</td>
+        <td style="padding:8px 12px;">claude-sonnet-5-5, gemini-3.8-flash, gpt-5.6-terra</td>
+        <td style="padding:8px 12px;">claude-haiku-4-5, gemini-3.8-flash, gpt-5.6-luna</td>
       </tr>
     </tbody>
   </table>
+
+  <p><strong>What's new (2026-09)</strong> &mdash; the table tracks the upstream registry (<code>AGENTS.md</code> &sect;3.6): High and Medium moved to <code>claude-opus-5-5</code> and <code>claude-sonnet-5-5</code>, and both Gemini rows now read <code>gemini-3.8-flash</code>. Agent files also stopped hardcoding model IDs on their tier lines &mdash; a tier such as <code>high</code> is translated to the platform's concrete model at dispatch time.</p>
 
   <h3 id="tier-key-rules">Key Rules</h3>
 

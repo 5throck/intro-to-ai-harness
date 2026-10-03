@@ -18,6 +18,7 @@
   <a href="#directory-structure">Directory Structure</a>
   <a href="#key-files">Key Files</a>
   <a href="#codex-md">CODEX.md</a>
+  <a href="#hermes-md">HERMES.md</a>
   <a href="#hierarchy">4-Level Layer Structure</a>
   <a href="#variants">The Variant Concept</a>
   <a href="#contracts">Common Contracts</a>
@@ -29,12 +30,12 @@
  <article class="reading">
   <div class="chapter-eyebrow">Chapter 5</div>
   <h1>Exploring ai-workspace-standards</h1>
-  <p class="lead">Learn the structure of the ai-workspace-standards repository and its core concepts: the 4-level layer structure (L0&rarr;L1&rarr;L2&rarr;L3), the variant concept, the roles of the key files (AGENTS.md, CLAUDE.md, GEMINI.md, CODEX.md), and common contracts.</p>
+  <p class="lead">Learn the structure of the ai-workspace-standards repository and its core concepts: the 4-level layer structure (L0&rarr;L1&rarr;L2&rarr;L3), the variant concept, the roles of the key files (AGENTS.md, CLAUDE.md, GEMINI.md, CODEX.md, HERMES.md), and common contracts.</p>
   <div class="keypoints">
     <div class="kp-title">What This Chapter Covers</div>
     <ul>
       <li>The structure of the ai-workspace-standards repository</li>
-      <li>Key files: the roles of AGENTS.md, CLAUDE.md, GEMINI.md, and CODEX.md</li>
+      <li>Key files: the roles of AGENTS.md, CLAUDE.md, GEMINI.md, CODEX.md, and HERMES.md</li>
       <li>The 4-level layer structure (L0 &rarr; L1 &rarr; L2 &rarr; L3)</li>
       <li>The variant concept</li>
       <li>Common contracts and template inheritance</li>
@@ -53,7 +54,7 @@
   <ul>
     <li><strong>GitHub repository</strong>: <code>github.com/5throck/ai-workspace-standards</code></li>
     <li><strong>License</strong>: Open source (anyone is free to use, modify, and distribute it)</li>
-    <li><strong>Supported platforms</strong>: Claude Code, Gemini CLI/Antigravity, Codex CLI/Desktop App (all three use the same structure, with instructions provided via <code>CLAUDE.md</code>/<code>GEMINI.md</code>/<code>CODEX.md</code> respectively)</li>
+    <li><strong>Supported platforms</strong>: Claude Code, Gemini CLI/Antigravity, Codex CLI/Desktop App, and Hermes Agents (each uses the same structure, with instructions provided via <code>CLAUDE.md</code>/<code>GEMINI.md</code>/<code>CODEX.md</code>/<code>HERMES.md</code> respectively)</li>
   </ul>
 
   <h3>Why Is a Standard Needed?</h3>
@@ -229,7 +230,7 @@
 
   <h3>Root Files</h3>
 
-  <p>Besides folders, important files sit at the top level: <code>AGENTS.md</code> (the agent registry), <code>CLAUDE.md</code> (instructions for Claude Code), <code>GEMINI.md</code> (instructions for Gemini CLI/Antigravity), <code>CODEX.md</code> (instructions for Codex CLI/Desktop App), and <code>CHANGELOG.md</code> (change history), all located in the project root. These files are covered in detail in the "Key Files" section of this chapter.</p>
+  <p>Besides folders, important files sit at the top level: <code>AGENTS.md</code> (the agent registry), <code>CLAUDE.md</code> (instructions for Claude Code), <code>GEMINI.md</code> (instructions for Gemini CLI/Antigravity), <code>CODEX.md</code> (instructions for Codex CLI/Desktop App), <code>HERMES.md</code> (instructions for Hermes agents), and <code>CHANGELOG.md</code> (change history), all located in the project root. These files are covered in detail in the "Key Files" section of this chapter.</p>
 
   <div class="tip-box">
     <strong>Tip:</strong> If you would like to explore it yourself, clone the repository in a terminal. After copying it to your computer with <code>git clone https://github.com/5throck/ai-workspace-standards.git</code>, opening each folder and file directly makes the understanding come much faster.
@@ -240,7 +241,7 @@
   <!-- ============================================================ -->
   <h2 id="key-files">Key Files</h2>
 
-  <p>The key files of ai-workspace-standards are located in the project root, and each has a clear role. This section explains the six most important files.</p>
+  <p>The key files of ai-workspace-standards are located in the project root, and each has a clear role. This section explains the seven most important files.</p>
 
   <h3 id="agents-md">AGENTS.md — The Agent Registry</h3>
 
@@ -283,6 +284,10 @@
   <h3 id="codex-md">CODEX.md — Behavioral Instructions for Codex CLI/Desktop App</h3>
 
   <p><strong>CODEX.md</strong> holds the behavioral instructions for the third platform, <strong>Codex</strong> (covering both the CLI and the Desktop App). Like CLAUDE.md and GEMINI.md, it defines the PM Gateway workflow and agent dispatch rules, but with one important difference — Codex has <strong>no native subagent tool</strong>, so the PM loads each specialist's definition file (<code>agents/&lt;name&gt;.md</code>) as role context and carries out the steps sequentially within the session itself. Codex also does not run the workspace's hook suite, so governance rules are <strong>self-enforced via the prompt</strong> (the same approach used for Antigravity).</p>
+
+  <h3 id="hermes-md">HERMES.md — Behavioral Instructions for Hermes Agents</h3>
+
+  <p><strong>HERMES.md</strong> is the newest member of the platform instruction family (ADR-0088/0093). It carries the behavioral essentials for the <strong>Hermes Agents</strong> platform (NousResearch hermes-agent). Hermes loads exactly one project context file (first-found-wins: <code>HERMES.md</code> &rarr; <code>AGENTS.md</code> &rarr; <code>CLAUDE.md</code>) and caps context files at 20,000 characters, so <code>HERMES.md</code> is deliberately kept under 19,000 characters and delegates everything registry-shaped &mdash; the roster, workflow bodies, and the skill registry &mdash; to <code>AGENTS.md</code> and the governance documents. Its project skills live in the <code>.hermes/skills/</code> mirror, kept in sync with the <code>skills/</code> SSOT like every other platform directory.</p>
 
   <h3>CHANGELOG.md — Recording Change History</h3>
 

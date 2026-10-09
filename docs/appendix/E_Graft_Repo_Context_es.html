@@ -254,6 +254,7 @@ graft callers formatCurrency --depth all</code></pre>
   <div class="note">
     <strong>Desde el 2026-09-20:</strong> al crear un proyecto nuevo (<code>new-project.ts</code>), el grafo de graft se construye automáticamente durante el scaffolding. Primero usa el comando <code>graft</code> instalado globalmente y, si no está, recurra a <code>bunx</code>. Es decir, un proyecto recién creado puede responder preguntas con <code>graft ask</code> desde el primer día.
   </div>
+    <p><strong>Actualización (2026-10):</strong> el workspace ya no distribuye los archivos de integración de graft como plantillas. La skill <code>skills/graft</code> lleva <code>mirror: false</code> y <code>l2_propagate: false</code> en su frontmatter, y los <code>AGENTS.md</code> generados ya no incluyen un bloque de graft prerenderizado &mdash; las superficies de graft son propiedad de la herramienta: ejecute <code>graft init</code> una vez en el checkout para materializarlas. La construcción del grafo durante el scaffolding descrita arriba funciona igual que antes.</p>
 
   <div class="flow-box">
     En resumen: <strong>entender o editar → graft ask</strong>, <strong>encontrar todo → graft grep</strong>, <strong>repasar una API → graft skeleton</strong>, <strong>rastrear el alcance → graft callers</strong>, <strong>repositorio nuevo → graft map</strong>. Solo necesitas recordar estos cinco.

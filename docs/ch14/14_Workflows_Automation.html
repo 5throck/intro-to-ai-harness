@@ -292,6 +292,10 @@
       <li><strong>디자인 린트 게이트</strong> &mdash; 스키마가 허용한 곳(<code>docs/workspace-schema.json</code>의 <code>designLint:</code> 블록)에서는 UI 소스 파일이 디자인 토큰 대신 색상 값을 하드코딩하면 실패합니다. 루트를 지정하지 않은 프로젝트는 그대로 건너뜁니다.</li>
       <li><strong>세션 증거 스킬 리뷰</strong>(비차단) &mdash; 세션 로그 <code>memory/YYYY-MM-DD.md</code>의 <code>## Skills Used</code> 섹션을 읽어 관찰 기록을 <code>memory/skill-review/YYYY-MM-DD.md</code>에 쌓습니다. 실제 세션 증거에서 스킬 문제가 드러나도록 하는 장치입니다.</li>
       <li><strong>VERSION_MANIFEST 재생성</strong> &mdash; <code>docs/VERSION_MANIFEST.md</code> 버전 목록을 최신 상태로 다시 생성합니다.</li>
+      <li><strong>의존성 감사 게이트</strong> &mdash; <code>scripts/dependency-audit.ts</code>가 CI의 인라인 <code>bun audit</code> 심각도 필터를 대체하며, high/critical 권고가 하나라도 있으면 실패합니다. 검토된 예외는 <code>.github/dependency-waivers.toml</code>의 <code>[[waiver]]</code> 항목으로 남깁니다(advisory, package, version, scope, reason, decided_by, revisit_by &mdash; 7개 필드가 모두 필수). <code>revisit_by</code> 날짜가 지났거나 해당 권고가 더 이상 감사 결과에 없는 와이버는 실행을 실패시킵니다.</li>
+      <li><strong>docs 폴더 매니페스트 게이트(audit.ts v2.48.0)</strong> &mdash; <code>validate-doc-folder.ts --workspace</code>가 <code>docs/</code> 최상위 항목이 모두 <code>docs/README.md</code> 매니페스트에 등록되어 있는지 검사합니다. 폴더가 무분별하게 늘어나면 감사가 실패합니다(워크스페이스 루트 전용).</li>
+      <li><strong>docs 심층 링크 게이트(audit.ts v2.48.2)</strong> &mdash; 상대 링크 게이트가 이제 <code>validate-docs-links.ts --all</code>을 강제합니다. <code>docs/</code>의 모든 하위 디렉터리(adr/, designs/, architecture/, governance/)를 검사하며, 끊어진 심층 링크가 있으면 감사가 실패합니다.</li>
+      <li><strong>스킬 그래프 스키마 v2</strong> &mdash; 2026-10부터 커밋된 그래프(<code>docs/skill-graph.json</code>)는 스키마 v2를 사용합니다. 노드 id에 스코프가 포함되고(<code>skill:&lt;scope&gt;/&lt;name&gt;</code>, 예: <code>skill:co-abap/abap-dev</code>) 드리프트 게이트가 그래프를 다시 유도해 불일치를 잡습니다.</li>
     </ul>
   </div>
 

@@ -254,6 +254,7 @@ graft callers formatCurrency --depth all</code></pre>
   <div class="note">
     <strong>2026-09-20から:</strong> 新しいプロジェクトを作るとき(<code>new-project.ts</code>)は、スキャフォールディングの過程でgraftグラフが自動的にビルドされます。グローバルにインストールされた<code>graft</code>コマンドをまず使い、なければ<code>bunx</code>で代替実行します。つまり、新しく作ったプロジェクトは最初から<code>graft ask</code>で質問できます。
   </div>
+    <p><strong>2026-10アップデート：</strong>ワークスペース自体はgraftの統合ファイルをテンプレートとして同梱しなくなりました。<code>skills/graft</code>スキルはfrontmatterに<code>mirror: false</code>と<code>l2_propagate: false</code>を持ち、スキャフォールドされた<code>AGENTS.md</code>には事前レンダリングされたgraftブロックが入らなくなっています &mdash; graftのサーフェスはツール所有のため、チェックアウトで一度<code>graft init</code>を実行すれば生成されます。上記のスキャフォールディング時のグラフビルドは以前と同じく動作します。</p>
 
   <div class="flow-box">
     まとめると：<strong>理解・修正するとき → graft ask</strong>、<strong>すべて探すとき → graft grep</strong>、<strong>APIをざっと見るとき → graft skeleton</strong>、<strong>影響範囲を見るとき → graft callers</strong>、<strong>初めてのリポジトリを見るとき → graft map</strong>。この5つだけ覚えれば十分です。

@@ -254,6 +254,7 @@ graft callers formatCurrency --depth all</code></pre>
   <div class="note">
     <strong>As of 2026-09-20:</strong> when you create a new project (<code>new-project.ts</code>), the graft graph is built automatically during scaffolding. It first uses the globally installed <code>graft</code> command and falls back to <code>bunx</code> if that is missing. In other words, a freshly scaffolded project can answer <code>graft ask</code> questions from day one.
   </div>
+    <p><strong>Update (2026-10):</strong> the workspace itself no longer carries graft’s integration files. The <code>skills/graft</code> skill is marked <code>mirror: false</code> and <code>l2_propagate: false</code> in its frontmatter, and scaffolded <code>AGENTS.md</code> files no longer receive a pre-rendered graft block &mdash; graft surfaces are tool-owned, so run <code>graft init</code> once in a checkout to materialize them. The scaffold-time graph build described above still works the same way.</p>
 
   <div class="flow-box">
     In short: <strong>understand or edit → graft ask</strong>, <strong>find everything → graft grep</strong>, <strong>skim an API → graft skeleton</strong>, <strong>trace blast radius → graft callers</strong>, <strong>new to a repo → graft map</strong>. Those five are all you need to remember.

@@ -611,17 +611,19 @@
   <p>This command creates <code>Projects/my-market-report/</code> as an independent new Git repository, copies in co-consult's agents, skills, and settings, and renders an empty <code>docs/context.md</code> skeleton ready to be filled in with this project's goals. The full syntax is:</p>
 
   <div class="code-block">
-<pre><code>bun scripts/new-project.ts "&lt;project-name&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|codex|all] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
+<pre><code>bun scripts/new-project.ts "&lt;project-name&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|codex|hermes|all] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
 
   <ul>
     <li><strong><code>&lt;project-name&gt;</code></strong> — Required. Becomes the folder name under <code>Projects/</code>.</li>
     <li><strong><code>--variant &lt;variant&gt;</code></strong> — Required. Specifies which L2 template to scaffold from (<code>co-consult</code>, <code>co-deck</code>, <code>co-develop</code>, etc.).</li>
-    <li><strong><code>--platform</code></strong> — Optional. Restricts which platform configurations (<code>.claude/</code>, <code>.gemini/</code>, <code>.codex/</code>) get copied (<code>claude</code>, <code>antigravity</code>, <code>codex</code>, or <code>all</code>). Defaults to <code>all</code>, which copies all three platforms (Claude Code + Gemini/Antigravity + Codex); naming a single one keeps only that platform. The old <code>both</code> value was renamed to <code>all</code> on 2026-09-20 and now includes Codex.</li>
+    <li><strong><code>--platform</code></strong> — Optional. Restricts which platform configurations (<code>.claude/</code>, <code>.gemini/</code>, <code>.codex/</code>, <code>.hermes/</code>) get copied. Accepts <code>all</code> (default), a single profile (<code>claude</code>, <code>antigravity</code>, <code>codex</code>, <code>hermes</code>), or a comma-separated list such as <code>claude,codex</code> — a list keeps the union of its profiles' files. Since ADR-0100 (2026-10-10) pruning is symmetric: a single <code>codex</code> now drops <code>CLAUDE.md</code> and <code>GEMINI.md</code> as well (pass <code>codex,claude,antigravity</code> to keep them), and the legacy <code>both</code> value is treated as <code>all</code> with a warning.</li>
     <li><strong><code>--version</code></strong> — Optional. Pins a specific template version instead of the source variant's current one.</li>
     <li><strong><code>--country &lt;CODE&gt;</code></strong> — Optional. For a Korea-focused project, pass <code>--country KR</code>. The country profile injects the six Korea-only skills (k-dart, k-law, k-kosis, k-opendata, plus k-ecos and k-krx as of 2026-09) together with KR API key setup into your project (see <a href="../appendix/D_Korean_Open_Data_API_Keys_en.html">Appendix D</a> for details).</li>
   </ul>
+
+  <p><strong>What's new (2026-10)</strong> &mdash; <code>--platform</code> now follows ADR-0100: the eight tools map onto four profiles (<code>claude</code>, <code>antigravity</code>, <code>codex</code>, <code>hermes</code>), the flag accepts a comma-separated list with union pruning, and <code>.claude/template-version.txt</code> records the canonical list (<code>platform=claude,codex</code> or <code>platform=all</code>).</p>
 
   <div class="note">
     Do not confuse this with <strong>creating a new variant</strong>, covered next. <code>new-project.ts</code> is an everyday command you will run constantly — it scaffolds an L3 project from an already existing L2 template. Creating the L2 template itself (a brand-new variant like co-legal or co-hr) is a separate, far rarer job that uses <code>create-l3-scaffold.ts</code> — covered in Chapter 13.

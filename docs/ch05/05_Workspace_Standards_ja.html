@@ -610,17 +610,19 @@
   <p>このコマンドは<code>Projects/my-market-report/</code>を独立した新しいGitリポジトリとして生成し、co-consultのエージェント・スキル・設定をコピーしたうえで、このプロジェクトだけの目標を書き込めるよう空の<code>docs/context.md</code>骨格をレンダリングします。全構文は次のとおりです。</p>
 
   <div class="code-block">
-<pre><code>bun scripts/new-project.ts "&lt;プロジェクト名&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|codex|all] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
+<pre><code>bun scripts/new-project.ts "&lt;プロジェクト名&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|codex|hermes|all] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
   <ul>
     <li><strong><code>&lt;プロジェクト名&gt;</code></strong> — 必須。<code>Projects/</code>以下のフォルダ名になります。</li>
     <li><strong><code>--variant &lt;variant&gt;</code></strong> — 必須。どのL2テンプレートからスキャフォールドするかを指定します（<code>co-consult</code>、<code>co-deck</code>、<code>co-develop</code>など）。</li>
-    <li><strong><code>--platform</code></strong> — 任意。どのプラットフォーム設定（<code>.claude/</code>、<code>.gemini/</code>、<code>.codex/</code>）をコピーするか制限します（<code>claude</code>、<code>antigravity</code>、<code>codex</code>、<code>all</code>）。デフォルトの<code>all</code>は3プラットフォーム（Claude Code + Gemini/Antigravity + Codex）すべてをコピーし、1つを指定するとそのプラットフォームだけが残ります。旧<code>both</code>は2026-09-20に<code>all</code>へ改名され、Codexも含むようになりました。</li>
+    <li><strong><code>--platform</code></strong> — 任意。どのプラットフォーム設定（<code>.claude/</code>、<code>.gemini/</code>、<code>.codex/</code>、<code>.hermes/</code>）をコピーするか制限します。<code>all</code>（デフォルト）、プロファイル1つ（<code>claude</code>、<code>antigravity</code>、<code>codex</code>、<code>hermes</code>）、または <code>claude,codex</code> のようなカンマ区切りリストを受け付け、リストは選択したプロファイルのファイルの和集合を保持します。ADR-0100（2026-10-10）からは除去が対称になり、<code>codex</code> だけを指定すると <code>CLAUDE.md</code> と <code>GEMINI.md</code> も一緒に削除されます（残すには <code>codex,claude,antigravity</code> を指定）。旧<code>both</code>は警告付きで<code>all</code>として扱われます。</li>
     <li><strong><code>--version</code></strong> — 任意。元バリアントの現在バージョンの代わりに、特定のテンプレートバージョンを固定して使用します。</li>
     <li><strong><code>--country &lt;CODE&gt;</code></strong> — 任意。韓国向けプロジェクトなら<code>--country KR</code>を指定してください。国プロファイルがk-dart・k-law・k-kosisのような韓国専用スキルとKR APIキー設定をプロジェクトに一緒に入れてくれます（詳細は<a href="../appendix/D_Korean_Open_Data_API_Keys_ja.html">別冊D</a>を参照）。</li>
   </ul>
+
+  <p><strong>最新情報（2026-10）</strong> &mdash; <code>--platform</code> は ADR-0100 に従います。8つのツールが4つのプロファイル（<code>claude</code>、<code>antigravity</code>、<code>codex</code>、<code>hermes</code>）に対応し、フラグはカンマ区切りリスト（和集合を保持）も受け付け、<code>.claude/template-version.txt</code> には正規化されたリスト（<code>platform=claude,codex</code> または <code>platform=all</code>）が記録されます。</p>
 
   <div class="note">
     次に扱う<strong>新しいバリアントの作成</strong>と混同しないでください。<code>new-project.ts</code>は常に実行することになる日常的なコマンドで、すでに存在するL2テンプレートからL3プロジェクトをスキャフォールドします。L2テンプレートそのものを新しく作ること（co-legal、co-hrのようなまったく新しいバリアント）は別の、はるかに稀な作業で、<code>create-l3-scaffold.ts</code>を使用します — 第13章で扱います。

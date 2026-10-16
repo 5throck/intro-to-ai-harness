@@ -611,17 +611,19 @@
   <p>이 명령은 <code>Projects/my-market-report/</code>를 독립된 새 Git 저장소로 생성하고, co-consult의 에이전트·스킬·설정을 복사한 뒤, 이 프로젝트만의 목표를 채워 넣을 수 있도록 비어 있는 <code>docs/context.md</code> 골격을 렌더링합니다. 전체 문법은 다음과 같습니다.</p>
 
   <div class="code-block">
-<pre><code>bun scripts/new-project.ts "&lt;프로젝트-이름&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|codex|all] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
+<pre><code>bun scripts/new-project.ts "&lt;프로젝트-이름&gt;" --variant &lt;variant&gt; [--platform claude|antigravity|codex|hermes|all] [--version X.Y.Z] [--country &lt;CODE&gt;]</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
 
   <ul>
     <li><strong><code>&lt;프로젝트-이름&gt;</code></strong> — 필수. <code>Projects/</code> 아래 폴더 이름이 됩니다.</li>
     <li><strong><code>--variant &lt;variant&gt;</code></strong> — 필수. 어떤 L2 템플릿에서 스캐폴딩할지 지정합니다(<code>co-consult</code>, <code>co-deck</code>, <code>co-develop</code> 등).</li>
-    <li><strong><code>--platform</code></strong> — 선택. 어떤 플랫폼 설정(<code>.claude/</code>, <code>.gemini/</code>, <code>.codex/</code>)을 복사할지 제한합니다(<code>claude</code>, <code>antigravity</code>, <code>codex</code>, <code>all</code>). 기본값은 <code>all</code>로 세 플랫폼(Claude Code + Gemini/Antigravity + Codex) 전부를 복사하며, 하나를 지정하면 그 플랫폼만 남습니다. 구버전의 <code>both</code>는 2026-09-20부로 <code>all</code>로 바뀌었고, 이제는 Codex까지 함께 포함합니다.</li>
+    <li><strong><code>--platform</code></strong> — 선택. 어떤 플랫폼 설정(<code>.claude/</code>, <code>.gemini/</code>, <code>.codex/</code>, <code>.hermes/</code>)을 복사할지 제한합니다. <code>all</code>(기본값), 프로필 하나(<code>claude</code>, <code>antigravity</code>, <code>codex</code>, <code>hermes</code>), 또는 <code>claude,codex</code> 같은 쉼표 목록을 받으며, 목록은 선택한 프로필들의 파일 합집합을 유지합니다. ADR-0100(2026-10-10)부터 프루닝이 대칭으로 바뀌어 <code>codex</code> 하나만 지정하면 <code>CLAUDE.md</code>와 <code>GEMINI.md</code>도 같이 제거됩니다(유지하려면 <code>codex,claude,antigravity</code>를 전달). 구버전의 <code>both</code>는 경고와 함께 <code>all</code>로 처리됩니다.</li>
     <li><strong><code>--version</code></strong> — 선택. 원본 variant의 현재 버전 대신 특정 템플릿 버전을 고정해서 사용합니다.</li>
     <li><strong><code>--country &lt;CODE&gt;</code></strong> — 선택. 한국 대상 프로젝트라면 <code>--country KR</code>을 지정하세요. 국가 프로파일이 한국 전용 스킬 여섯 개(k-dart·k-law·k-kosis·k-opendata, 그리고 2026-09부터 k-ecos·k-krx)와 KR API 키 설정을 프로젝트에 함께 넣어 줍니다 (자세한 내용은 <a href="../appendix/D_Korean_Open_Data_API_Keys.html">별첨 D</a> 참조).</li>
   </ul>
+
+  <p><strong>새 소식(2026-10)</strong> &mdash; <code>--platform</code>은 ADR-0100을 따릅니다. 여덟 도구가 네 프로필(<code>claude</code>, <code>antigravity</code>, <code>codex</code>, <code>hermes</code>)로 대응되고, <code>--platform</code>은 쉼표 목록(합집합 유지)도 받으며, <code>.claude/template-version.txt</code>에는 정규화된 목록(<code>platform=claude,codex</code> 또는 <code>platform=all</code>)이 기록됩니다.</p>
 
   <div class="note">
     바로 다음에 다룰 <strong>새 variant 만들기</strong>와 혼동하지 마세요. <code>new-project.ts</code>는 항상 실행하게 될 일상적인 명령어로, 이미 존재하는 L2 템플릿으로부터 L3 프로젝트를 스캐폴딩합니다. L2 템플릿 자체를 새로 만드는 것(co-legal, co-hr 같은 완전히 새로운 variant)은 별개의, 훨씬 드물게 쓰이는 작업이며 <code>create-l3-scaffold.ts</code>를 사용합니다 — 13장에서 다룹니다.

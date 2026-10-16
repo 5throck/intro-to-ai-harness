@@ -380,7 +380,7 @@
     <li>L1共通テンプレートの継承（<code>variant.json</code>の<code>inherits_common: "templates/common"</code>）</li>
   </ul>
 
-  <p>現在13個のバリアントテンプレートが存在します：co-abap、co-consult、co-deck、co-design、co-develop、co-export、co-game、co-hr、co-news、co-price、co-safety、co-security、co-work。</p>
+  <p>現在14個のバリアントテンプレートが存在します：co-abap、co-consult、co-deck、co-design、co-develop、co-export、co-game、co-hr、co-learning、co-news、co-price、co-safety、co-security、co-work。</p>
 
   <h3>L3 (Project) — 実プロジェクト層</h3>
 
@@ -509,7 +509,7 @@
     <li><code>docs/context.md</code>などプロジェクト固有の設定ファイルを生成</li>
   </ul>
 
-  <p><code>--variant</code>には、co-consultやco-deckを含む現在存在する13個のバリアントのうち1つを指定できます。第6章・第7章の実習で使うco-consult、co-deckの例は、別のリポジトリをクローンするのではなく、公開リポジトリ<code>ai-workspace-standards</code>の中の<code>templates/co-consult/</code>、<code>templates/co-deck/</code>（L2）を上記のコマンドで直接スキャフォールドした結果物です。</p>
+  <p><code>--variant</code>には、co-consultやco-deckを含む現在存在する14個のバリアントのうち1つを指定できます。第6章・第7章の実習で使うco-consult、co-deckの例は、別のリポジトリをクローンするのではなく、公開リポジトリ<code>ai-workspace-standards</code>の中の<code>templates/co-consult/</code>、<code>templates/co-deck/</code>（L2）を上記のコマンドで直接スキャフォールドした結果物です。</p>
 
   <h3>上書きルール</h3>
 
@@ -550,6 +550,7 @@
     <li><strong>co-deck</strong> — プレゼンテーション自動化用バリアント。リサーチ → ストーリーライン → デザイン → HTMLビルド → PDF出力までの全パイプラインを自動化します。11段階のワークフローを提供します。</li>
     <li><strong>co-price</strong> — 🔶 Beta。多業種向けの価格管理・コンサルティングシミュレーター。K-Beautyのサンプルデータセットが付属します。</li>
     <li><strong>co-safety</strong> — 🔶 Beta。EHS/GxPコンプライアンスプラットフォームのワークフロー。40以上の専門エージェント（緊急対応、コンプライアンス、法務、教育、PSM、リスク、監査など）を含みます。</li>
+    <li><strong>co-learning</strong> — 🔶 Beta。個人向けAI教育コースの運用のための学習バリアントです。最小3エージェント構成（pm、exam-bank-steward、i18n-specialist）と<code>exam-bank-operations</code>スキルを備えます。</li>
     <li>他にもco-abap、co-design、co-develop、co-export、co-game、co-hr、co-news、co-security、co-workなど、それぞれ異なる目的のバリアントがあります。</li>
   </ul>
 
@@ -701,7 +702,7 @@
   <!-- ============================================================ -->
   <!-- CHAPTER NAVIGATION                                              -->
   <!-- ============================================================ -->
-  <h2 id="standards-operations">運用標準：薄い指示、明確な所有権、PR による変更</h2><p>AGENTS.md はすべての規則を複製するファイルではなく、薄いディスパッチャである。重要な境界と参照先だけを置き、詳細なガバナンスは単一の正本に分ける。スキルは L0 標準、L1 テンプレート、L2 プロジェクトの所有権を区別し、L3 実行スナップショットは自動同期されない配布結果として扱う。</p><p>ブランチは <code>pr/&lt;timestamp&gt;-&lt;slug&gt;</code> 形式で作成する。<code>/sync</code> による変更も必ず PR、CI 検証、マージを経る。</p><div class="diagram-frame"><svg viewBox="0 0 640 100" width="100%" role="img" aria-label="AGENTS.md → 参照文書 → L0/L1/L2 所有権 → L3 スナップショット → PR"><title>AGENTS.md → 参照文書 → L0/L1/L2 所有権 → L3 スナップショット → PR</title><rect x="18" y="35" width="604" height="36" rx="9" fill="var(--bg-info)" stroke="var(--border)"/><text x="320" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text)">AGENTS.md → 参照文書 → L0/L1/L2 所有権 → L3 スナップショット → PR</text></svg></div><div class="keypoints"><div class="kp-title">Checklist</div><ul><li>AGENTS.md is a pointer, not a second policy source.</li><li>L3 snapshots need an explicit refresh.</li><li>Every shared change lands through a reviewed PR.</li></ul></div>
+  <h2 id="standards-operations">運用標準：薄い指示、明確な所有権、PR による変更</h2><p>AGENTS.md はすべての規則を複製するファイルではなく、薄いディスパッチャである。重要な境界と参照先だけを置き、詳細なガバナンスは単一の正本に分ける。スキルは L0 標準、L1 テンプレート、L2 プロジェクトの所有権を区別し、L3 実行スナップショットは自動同期されない配布結果として扱う。</p><p>ブランチは <code>pr/&lt;timestamp&gt;-&lt;slug&gt;</code> 形式で作成する。<code>/sync</code> による変更も必ず PR、CI 検証、マージを経る。</p><div class="diagram-frame"><svg viewBox="0 0 640 100" width="100%" role="img" aria-label="AGENTS.md → 参照文書 → L0/L1/L2 所有権 → L3 スナップショット → PR"><title>AGENTS.md → 参照文書 → L0/L1/L2 所有権 → L3 スナップショット → PR</title><rect x="18" y="35" width="604" height="36" rx="9" fill="var(--bg-info)" stroke="var(--border)"/><text x="320" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text)">AGENTS.md → 参照文書 → L0/L1/L2 所有権 → L3 スナップショット → PR</text></svg></div><div class="keypoints"><div class="kp-title">Checklist</div><ul><li>AGENTS.md is a pointer, not a second policy source.</li><li>L3 snapshots need an explicit refresh.</li><li>Every shared change lands through a reviewed PR.</li></ul></div><h3 id="llm-interaction-standard">LLMインタラクション標準（ADR-0098）</h3><p>2026年10月から、ワークスペースは<em>指示がモデルにどう届くか</em>まで標準化しました。<code>docs/standards/llm-interaction-standard.md</code>（v1.1.0）は<strong>「Precision In, Intuition Out」（正確に入力し、直感的に出力する）</strong>という原則に集約されます。入力側（&sect;2.8）では、1文に1つの指示・能動態・現在時制を求め、手順文は20語以内、説明文は25語以内で書きます。出力側（&sect;6）では、モデルが各主張をKNOWN・INFERRED・ASSUMED・UNKNOWNのいずれかで明示します。この標準は全レイヤーにそのまま配布され、スキャフォールドされたプロジェクトも自身の<code>docs/standards/</code>ディレクトリで同じバイト列を受け取り、自動化サーフェスには短縮形（INPUT / PROCESS / OUTPUT / EXPLAIN / TRUST）が注入されます。上記の運用標準と同様にアドバイザリであり、機械ゲートはありませんが、エージェントのロール定義はこれに従うことが期待されます。</p>
   <div class="chapter-nav">
     <a href="../ch04/04_Harness_Concepts_ja.html" class="prev">
       <div class="dir">&larr; 前の章</div>

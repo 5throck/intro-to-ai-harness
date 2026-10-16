@@ -381,7 +381,7 @@
     <li>L1의 공통 템플릿 상속 (<code>variant.json</code>의 <code>inherits_common: "templates/common"</code>)</li>
   </ul>
 
-  <p>현재 13개의 variant 템플릿이 존재합니다: co-abap, co-consult, co-deck, co-design, co-develop, co-export, co-game, co-hr, co-news, co-price, co-safety, co-security, co-work.</p>
+  <p>현재 14개의 variant 템플릿이 존재합니다: co-abap, co-consult, co-deck, co-design, co-develop, co-export, co-game, co-hr, co-learning, co-news, co-price, co-safety, co-security, co-work.</p>
 
   <h3>L3 (Project) — 실제 프로젝트 레이어</h3>
 
@@ -510,7 +510,7 @@
     <li><code>docs/context.md</code> 등 프로젝트별 설정 파일 생성</li>
   </ul>
 
-  <p><code>--variant</code>에는 co-consult, co-deck을 포함해 현재 존재하는 13개 variant 중 하나를 지정할 수 있습니다. 6장·7장의 실습에서 사용하는 co-consult, co-deck 예제는 별도의 저장소를 클론하는 것이 아니라, 공개 저장소 <code>ai-workspace-standards</code> 안의 <code>templates/co-consult/</code>, <code>templates/co-deck/</code>(L2)를 위 명령으로 직접 스캐폴딩한 결과물입니다.</p>
+  <p><code>--variant</code>에는 co-consult, co-deck을 포함해 현재 존재하는 14개 variant 중 하나를 지정할 수 있습니다. 6장·7장의 실습에서 사용하는 co-consult, co-deck 예제는 별도의 저장소를 클론하는 것이 아니라, 공개 저장소 <code>ai-workspace-standards</code> 안의 <code>templates/co-consult/</code>, <code>templates/co-deck/</code>(L2)를 위 명령으로 직접 스캐폴딩한 결과물입니다.</p>
 
   <h3>덮어쓰기 규칙</h3>
 
@@ -551,6 +551,7 @@
     <li><strong>co-deck</strong> — 프레젠테이션 자동화용 variant. 연구 → 스토리라인 → 디자인 → HTML 빌드 → PDF 출력까지 전체 파이프라인을 자동화합니다. 11단계 워크플로우를 제공합니다.</li>
     <li><strong>co-price</strong> — 🔶 Beta. 다업종 가격 관리·컨설팅 시뮬레이터. K-Beauty 샘플 데이터셋이 함께 제공됩니다.</li>
     <li><strong>co-safety</strong> — 🔶 Beta. EHS/GxP 준수 플랫폼 워크플로우. 40개 이상의 전문 에이전트(비상대응, 컴플라이언스, 법무, 교육, PSM, 리스크, 감사 등)를 포함합니다.</li>
+    <li><strong>co-learning</strong> — 🔶 Beta. 개인 AI 교육 과정을 운영하기 위한 학습 variant입니다. 최소 3개 에이전트 구성(pm, exam-bank-steward, i18n-specialist)과 <code>exam-bank-operations</code> 스킬을 제공합니다.</li>
     <li>그 외 co-abap, co-design, co-develop, co-export, co-game, co-hr, co-news, co-security, co-work 등 다양한 목적의 variant가 있습니다.</li>
   </ul>
 
@@ -702,7 +703,7 @@
   <!-- ============================================================ -->
   <!-- CHAPTER NAVIGATION                                            -->
   <!-- ============================================================ -->
-  <h2 id="standards-operations">표준 운영 원칙: 얇은 지시, 명확한 소유권, PR 기반 변경</h2><p>AGENTS.md는 전체 규칙을 복제하는 파일이 아니라 얇은 디스패처다. 핵심 금지 사항과 읽을 문서의 포인터만 두고, 상세 거버넌스는 단일 출처 문서로 분리한다. 스킬은 L0 표준, L1 템플릿, L2 프로젝트 소유권을 구분해 관리하며, L3 실행 스냅샷은 자동 동기화되지 않는 배포 결과로 취급한다.</p><p>브랜치는 <code>pr/&lt;timestamp&gt;-&lt;slug&gt;</code> 형식으로 만들고, <code>/sync</code>가 만든 변경도 반드시 PR로 검토·CI 검증·병합한다.</p><div class="diagram-frame"><svg viewBox="0 0 640 100" width="100%" role="img" aria-label="AGENTS.md → 포인터 문서 → L0/L1/L2 소유권 → L3 스냅샷 → PR"><title>AGENTS.md → 포인터 문서 → L0/L1/L2 소유권 → L3 스냅샷 → PR</title><rect x="18" y="35" width="604" height="36" rx="9" fill="var(--bg-info)" stroke="var(--border)"/><text x="320" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text)">AGENTS.md → 포인터 문서 → L0/L1/L2 소유권 → L3 스냅샷 → PR</text></svg></div><div class="keypoints"><div class="kp-title">Checklist</div><ul><li>AGENTS.md is a pointer, not a second policy source.</li><li>L3 snapshots need an explicit refresh.</li><li>Every shared change lands through a reviewed PR.</li></ul></div>
+  <h2 id="standards-operations">표준 운영 원칙: 얇은 지시, 명확한 소유권, PR 기반 변경</h2><p>AGENTS.md는 전체 규칙을 복제하는 파일이 아니라 얇은 디스패처다. 핵심 금지 사항과 읽을 문서의 포인터만 두고, 상세 거버넌스는 단일 출처 문서로 분리한다. 스킬은 L0 표준, L1 템플릿, L2 프로젝트 소유권을 구분해 관리하며, L3 실행 스냅샷은 자동 동기화되지 않는 배포 결과로 취급한다.</p><p>브랜치는 <code>pr/&lt;timestamp&gt;-&lt;slug&gt;</code> 형식으로 만들고, <code>/sync</code>가 만든 변경도 반드시 PR로 검토·CI 검증·병합한다.</p><div class="diagram-frame"><svg viewBox="0 0 640 100" width="100%" role="img" aria-label="AGENTS.md → 포인터 문서 → L0/L1/L2 소유권 → L3 스냅샷 → PR"><title>AGENTS.md → 포인터 문서 → L0/L1/L2 소유권 → L3 스냅샷 → PR</title><rect x="18" y="35" width="604" height="36" rx="9" fill="var(--bg-info)" stroke="var(--border)"/><text x="320" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text)">AGENTS.md → 포인터 문서 → L0/L1/L2 소유권 → L3 스냅샷 → PR</text></svg></div><div class="keypoints"><div class="kp-title">Checklist</div><ul><li>AGENTS.md is a pointer, not a second policy source.</li><li>L3 snapshots need an explicit refresh.</li><li>Every shared change lands through a reviewed PR.</li></ul></div><h3 id="llm-interaction-standard">LLM 상호작용 표준(ADR-0098)</h3><p>2026년 10월부터 워크스페이스는 <em>지시가 모델에 도달하는 방식</em>까지 표준화합니다. <code>docs/standards/llm-interaction-standard.md</code>(v1.1.0)는 <strong>"정밀한 입력, 직관적인 출력(Precision In, Intuition Out)"</strong> 원칙으로 요약됩니다. 입력 측(&sect;2.8)에서는 한 문장에 하나의 지시, 능동태, 현재 시제를 요구하며 절차문은 20단어 이하, 설명문은 25단어 이하로 씁니다. 출력 측(&sect;6)에서는 모델이 각 주장을 KNOWN, INFERRED, ASSUMED, UNKNOWN으로 구분해 밝히도록 합니다. 이 표준은 모든 계층에 그대로 전파되어 스캐폴딩된 프로젝트도 자체 <code>docs/standards/</code> 디렉터리에서 동일한 파일을 받고, 자동화 표면에는 압축된 요약형(INPUT / PROCESS / OUTPUT / EXPLAIN / TRUST)이 주입됩니다. 위의 운영 표준과 마찬가지로 권고 사항이며 기계 게이트는 없지만, 에이전트 역할 정의는 이 표준을 따르는 것이 기대됩니다.</p>
   <div class="chapter-nav">
     <a href="../ch04/04_Harness_Concepts.html" class="prev">
       <div class="dir">← 이전 장</div>

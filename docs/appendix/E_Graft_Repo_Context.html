@@ -254,6 +254,7 @@ graft callers formatCurrency --depth all</code></pre>
   <div class="note">
     <strong>2026-09-20부터:</strong> 새 프로젝트를 만들 때(<code>new-project.ts</code>)는 스캐폴딩 과정에서 graft 그래프가 자동으로 빌드됩니다. 전역 설치된 <code>graft</code> 명령을 먼저 사용하고, 없으면 <code>bunx</code>로 대체 실행합니다. 즉 새로 만든 프로젝트는 처음부터 <code>graft ask</code>로 질문할 수 있습니다.
   </div>
+    <p><strong>2026-10 업데이트:</strong> 워크스페이스 자체는 더 이상 graft 통합 파일을 템플릿으로 배포하지 않습니다. <code>skills/graft</code> 스킬은 frontmatter에 <code>mirror: false</code>, <code>l2_propagate: false</code>로 표시되고, 스캐폴딩된 <code>AGENTS.md</code>에는 미리 렌더링된 graft 블록이 들어가지 않습니다 &mdash; graft 표면은 도구 소유이므로 체크아웃에서 <code>graft init</code>을 한 번 실행하면 생성됩니다. 위의 스캐폴딩 시점 그래프 빌드는 이전과 동일하게 동작합니다.</p>
 
   <div class="flow-box">
     요약하면: <strong>이해하거나 수정할 때 → graft ask</strong>, <strong>전부 찾을 때 → graft grep</strong>, <strong>API를 훑을 때 → graft skeleton</strong>, <strong>영향 범위를 볼 때 → graft callers</strong>, <strong>낯선 저장소를 처음 볼 때 → graft map</strong>. 이 다섯 가지만 기억하면 충분합니다.

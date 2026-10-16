@@ -381,7 +381,7 @@
     <li>Inheritance of the L1 common template (<code>inherits_common: "templates/common"</code> in <code>variant.json</code>)</li>
   </ul>
 
-  <p>There are currently 13 variant templates: co-abap, co-consult, co-deck, co-design, co-develop, co-export, co-game, co-hr, co-news, co-price, co-safety, co-security, and co-work.</p>
+  <p>There are currently 14 variant templates: co-abap, co-consult, co-deck, co-design, co-develop, co-export, co-game, co-hr, co-learning, co-news, co-price, co-safety, co-security, and co-work.</p>
 
   <h3>L3 (Project) — Actual Project Layer</h3>
 
@@ -510,7 +510,7 @@
     <li>Creates project-specific setting files such as <code>docs/context.md</code></li>
   </ul>
 
-  <p>For <code>--variant</code> you can specify any of the 13 variants that exist today, including co-consult and co-deck. The co-consult and co-deck examples used in the exercises of Chapters 6 and 7 are not separate cloned repositories but the result of scaffolding <code>templates/co-consult/</code> and <code>templates/co-deck/</code> (L2) directly from the public <code>ai-workspace-standards</code> repository with the command above.</p>
+  <p>For <code>--variant</code> you can specify any of the 14 variants that exist today, including co-consult and co-deck. The co-consult and co-deck examples used in the exercises of Chapters 6 and 7 are not separate cloned repositories but the result of scaffolding <code>templates/co-consult/</code> and <code>templates/co-deck/</code> (L2) directly from the public <code>ai-workspace-standards</code> repository with the command above.</p>
 
   <h3>Override Rules</h3>
 
@@ -551,6 +551,7 @@
     <li><strong>co-deck</strong> — A variant for presentation automation. It automates the entire pipeline, from research &rarr; storyline &rarr; design &rarr; HTML build &rarr; PDF output. Provides an 11-stage workflow.</li>
     <li><strong>co-price</strong> — 🔶 Beta. A multi-industry pricing management and consulting simulator, bundled with a K-Beauty sample dataset.</li>
     <li><strong>co-safety</strong> — 🔶 Beta. An EHS/GxP compliance platform workflow with 40+ specialist agents (emergency response, compliance, legal, training, PSM, risk, audit, and more).</li>
+    <li><strong>co-learning</strong> — 🔶 Beta. A learning variant for running personal AI-education courses. Ships a minimal three-agent roster (pm, exam-bank-steward, i18n-specialist) and an <code>exam-bank-operations</code> skill.</li>
     <li>Other variants include co-abap, co-design, co-develop, co-export, co-game, co-hr, co-news, co-security, and co-work, each serving a different purpose.</li>
   </ul>
 
@@ -702,7 +703,7 @@
   <!-- ============================================================ -->
   <!-- CHAPTER NAVIGATION                                             -->
   <!-- ============================================================ -->
-  <h2 id="standards-operations">Operating standards: thin instructions, clear ownership, PR-based change</h2><p>AGENTS.md is a thin dispatcher, not a duplicate of every rule. Keep only essential boundaries and pointers; keep detailed governance in its single-source documents. Separate skill ownership across L0 standards, L1 templates, and L2 projects, and treat L3 runtime snapshots as deployment outputs that do not synchronize automatically.</p><p>Create branches as <code>pr/&lt;timestamp&gt;-&lt;slug&gt;</code>. Changes produced by <code>/sync</code> still require PR review, CI verification, and merge.</p><div class="diagram-frame"><svg viewBox="0 0 640 100" width="100%" role="img" aria-label="AGENTS.md → pointers → L0/L1/L2 ownership → L3 snapshot → PR"><title>AGENTS.md → pointers → L0/L1/L2 ownership → L3 snapshot → PR</title><rect x="18" y="35" width="604" height="36" rx="9" fill="var(--bg-info)" stroke="var(--border)"/><text x="320" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text)">AGENTS.md → pointers → L0/L1/L2 ownership → L3 snapshot → PR</text></svg></div><div class="keypoints"><div class="kp-title">Checklist</div><ul><li>AGENTS.md is a pointer, not a second policy source.</li><li>L3 snapshots need an explicit refresh.</li><li>Every shared change lands through a reviewed PR.</li></ul></div>
+  <h2 id="standards-operations">Operating standards: thin instructions, clear ownership, PR-based change</h2><p>AGENTS.md is a thin dispatcher, not a duplicate of every rule. Keep only essential boundaries and pointers; keep detailed governance in its single-source documents. Separate skill ownership across L0 standards, L1 templates, and L2 projects, and treat L3 runtime snapshots as deployment outputs that do not synchronize automatically.</p><p>Create branches as <code>pr/&lt;timestamp&gt;-&lt;slug&gt;</code>. Changes produced by <code>/sync</code> still require PR review, CI verification, and merge.</p><div class="diagram-frame"><svg viewBox="0 0 640 100" width="100%" role="img" aria-label="AGENTS.md → pointers → L0/L1/L2 ownership → L3 snapshot → PR"><title>AGENTS.md → pointers → L0/L1/L2 ownership → L3 snapshot → PR</title><rect x="18" y="35" width="604" height="36" rx="9" fill="var(--bg-info)" stroke="var(--border)"/><text x="320" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text)">AGENTS.md → pointers → L0/L1/L2 ownership → L3 snapshot → PR</text></svg></div><div class="keypoints"><div class="kp-title">Checklist</div><ul><li>AGENTS.md is a pointer, not a second policy source.</li><li>L3 snapshots need an explicit refresh.</li><li>Every shared change lands through a reviewed PR.</li></ul></div><h3 id="llm-interaction-standard">LLM Interaction Standard (ADR-0098)</h3><p>Since October 2026 the workspace also standardizes <em>how instructions reach the model</em>. <code>docs/standards/llm-interaction-standard.md</code> (v1.1.0) condenses the principle <strong>"Precision In, Intuition Out"</strong>: on the input side, one instruction per sentence, active voice, present tense &mdash; procedures at most 20 words, descriptions at most 25 (&sect;2.8); on the output side, the model labels each claim as KNOWN, INFERRED, ASSUMED, or UNKNOWN (&sect;6). The standard ships verbatim to every layer &mdash; a scaffolded project receives the same bytes in its own <code>docs/standards/</code> directory &mdash; and automation surfaces inject a compact short form (INPUT / PROCESS / OUTPUT / EXPLAIN / TRUST). Like the operating standards above, it is advisory: no machine gate fails your PR, but agent role definitions are expected to conform.</p>
   <div class="chapter-nav">
     <a href="../ch04/04_Harness_Concepts_en.html" class="prev">
       <div class="dir">&larr; Previous Chapter</div>

@@ -290,6 +290,10 @@
       <li><strong>デザインlintゲート</strong> &mdash; スキーマが有効化した場所（<code>docs/workspace-schema.json</code> の <code>designLint:</code> ブロック）では、UIソースファイルがデザイントークンではなく生の色値をハードコードすると失敗します。ルートを設定していないプロジェクトはスキップされます。</li>
       <li><strong>セッション証拠スキルレビュー</strong>（非致命的）&mdash; セッションログ <code>memory/YYYY-MM-DD.md</code> の <code>## Skills Used</code> セクションを読み、観測結果を <code>memory/skill-review/YYYY-MM-DD.md</code> に追記します。実際のセッション証拠からスキルの問題を見つけるための仕組みです。</li>
       <li><strong>VERSION_MANIFEST再生成</strong> &mdash; <code>docs/VERSION_MANIFEST.md</code>のバージョン一覧を最新状態で作り直します。</li>
+      <li><strong>依存関係監査ゲート</strong> &mdash; <code>scripts/dependency-audit.ts</code> がCIのインライン <code>bun audit</code> 重大度フィルタを置き換え、high/criticalのアドザーリが1つでもあれば失敗します。レビュー済みの例外は <code>.github/dependency-waivers.toml</code> の <code>[[waiver]]</code> エントリとして記録します（advisory、package、version、scope、reason、decided_by、revisit_by &mdash; 7フィールドすべて必須）。<code>revisit_by</code> の日付が過ぎている場合や、対象アドザーリが監査結果に現れないワイバーは実行を失敗させます。</li>
+      <li><strong>docsフォルダマニフェストゲート（audit.ts v2.48.0）</strong> &mdash; <code>validate-doc-folder.ts --workspace</code> が、<code>docs/</code> のトップレベル項目がすべて <code>docs/README.md</code> のマニフェストに登録済みか検査します。フォルダの乱造は監査失敗になります（ワークスペースルートのみ）。</li>
+      <li><strong>docsディープリンクゲート（audit.ts v2.48.2）</strong> &mdash; 相対リンクゲートは <code>validate-docs-links.ts --all</code> を強制するようになりました。<code>docs/</code> の全サブディレクトリ（adr/、designs/、architecture/、governance/）を走査し、壊れたディープリンクがあれば監査が失敗します。</li>
+      <li><strong>スキルグラフスキーマv2</strong> &mdash; 2026-10からコミットされるグラフ（<code>docs/skill-graph.json</code>）はスキーマv2を使用します。ノードidはスコープ込み（<code>skill:&lt;scope&gt;/&lt;name&gt;</code>、例: <code>skill:co-abap/abap-dev</code>）で、ドリフトゲートがグラフを再導出して不一致を検出します。</li>
     </ul>
   </div>
 

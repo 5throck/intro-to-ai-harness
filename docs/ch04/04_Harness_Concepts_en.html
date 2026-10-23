@@ -504,14 +504,14 @@ dispatch_triggers:
       </tr>
       <tr>
         <td style="padding:8px 12px;">Example models</td>
-        <td style="padding:8px 12px;">claude-opus-5-5, gemini-3.1-pro, gpt-5.6-sol</td>
-        <td style="padding:8px 12px;">claude-sonnet-5-5, gemini-3.8-flash, gpt-5.6-terra</td>
-        <td style="padding:8px 12px;">claude-haiku-5-5, gemini-3.8-flash, gpt-5.6-luna</td>
+        <td style="padding:8px 12px;">claude-opus-5-5, gemini-3.1-pro, gpt-5.6-sol, glm-5.3</td>
+        <td style="padding:8px 12px;">claude-sonnet-5-5, gemini-3.8-flash, gpt-5.6-terra, glm-5.3-flash</td>
+        <td style="padding:8px 12px;">claude-haiku-5-5, gemini-3.8-flash, gpt-5.6-luna, glm-5.3-flash</td>
       </tr>
     </tbody>
   </table>
 
-  <p><strong>What's new (2026-09)</strong> &mdash; the table tracks the upstream registry (<code>AGENTS.md</code> &sect;3.6): High and Medium moved to <code>claude-opus-5-5</code> and <code>claude-sonnet-5-5</code>, and both Gemini rows now read <code>gemini-3.8-flash</code>. Agent files also stopped hardcoding model IDs on their tier lines &mdash; a tier such as <code>high</code> is translated to the platform's concrete model at dispatch time. As of 2026-10 the Low tier's example is <code>claude-haiku-5-5</code> (the <code>haiku</code> alias is unchanged), and skills are barred from hardcoding literal model IDs altogether &mdash; registry IDs live only in <code>docs/workspace-schema.json</code> (<code>models.*</code>), and model changes route through the <code>model-migration</code> skill.</p>
+  <p><strong>What's new (2026-09)</strong> &mdash; the table tracks the upstream registry (<code>AGENTS.md</code> &sect;3.6): High and Medium moved to <code>claude-opus-5-5</code> and <code>claude-sonnet-5-5</code>, and both Gemini rows now read <code>gemini-3.8-flash</code>. Agent files also stopped hardcoding model IDs on their tier lines &mdash; a tier such as <code>high</code> is translated to the platform's concrete model at dispatch time. As of 2026-10 the Low tier's example is <code>claude-haiku-5-5</code> (the <code>haiku</code> alias is unchanged), and skills are barred from hardcoding literal model IDs altogether &mdash; registry IDs live only in <code>docs/workspace-schema.json</code> (<code>models.*</code>), and model changes route through the <code>model-migration</code> skill. As of 2026-10-23 the registry spans seven platforms &mdash; Z.AI joined under the <code>zai</code> key (<code>glm-5.3</code> on High; <code>glm-5.3-flash</code> on Medium and Low; GLM models expose reasoning levels low/high/max), and <code>hermes</code> was promoted from schema-only to fully validated (it maps to the same claude model IDs).</p>
 
   <h3 id="tier-key-rules">Key Rules</h3>
 
@@ -555,7 +555,7 @@ dispatch_triggers:
   <div class="step-list">
     <ol>
       <li>
-        <strong>Tool-Level</strong> &mdash; The agent tool itself rejects calls that bypass the PM. This is the strongest enforcement layer, like a locked door that opens only with the right key.
+        <strong>Tool-Level</strong> &mdash; The agent tool itself rejects calls that bypass the PM. This is the strongest enforcement layer, like a locked door that opens only with the right key. As of 2026-10 this layer is enforced by code: the <code>scripts/hooks/pm-dispatch-gate.ts</code> hook intercepts specialist dispatches (the <code>Agent</code> tool on Claude Code, <code>invoke_subagent</code> on Gemini CLI) and, unless the session holds a fresh PM-role marker (written by <code>scripts/hooks/pm-role-bootstrap.ts</code> at SessionStart, valid for 24 hours), routes the call to a human confirmation prompt on Claude Code or rejects it with a reason on Gemini CLI. The gate is fail-open: unexpected payloads pass through unblocked.
       </li>
       <li>
         <strong>System Prompt-Level</strong> &mdash; The platform (Claude Code or Antigravity CLI) loads the PM's rules first, so the AI knows from the very beginning that requests must route through the PM.

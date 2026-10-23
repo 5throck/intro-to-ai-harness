@@ -504,9 +504,9 @@ dispatch_triggers:
       </tr>
       <tr>
         <td style="padding:8px 12px;">Modelos de ejemplo</td>
-        <td style="padding:8px 12px;">claude-opus-5-5, gemini-3.1-pro, gpt-5.6-sol</td>
-        <td style="padding:8px 12px;">claude-sonnet-5-5, gemini-3.8-flash, gpt-5.6-terra</td>
-        <td style="padding:8px 12px;">claude-haiku-5-5, gemini-3.8-flash, gpt-5.6-luna</td>
+        <td style="padding:8px 12px;">claude-opus-5-5, gemini-3.1-pro, gpt-5.6-sol, glm-5.3</td>
+        <td style="padding:8px 12px;">claude-sonnet-5-5, gemini-3.8-flash, gpt-5.6-terra, glm-5.3-flash</td>
+        <td style="padding:8px 12px;">claude-haiku-5-5, gemini-3.8-flash, gpt-5.6-luna, glm-5.3-flash</td>
       </tr>
     </tbody>
   </table>
@@ -553,7 +553,7 @@ dispatch_triggers:
   <div class="step-list">
     <ol>
       <li>
-        <strong>Nivel de herramienta (Tool-Level)</strong> &mdash; La propia herramienta de agentes rechaza las llamadas que se saltan al PM. Es la capa de aplicación más potente, como una puerta cerrada que solo se abre con la llave correcta.
+        <strong>Nivel de herramienta (Tool-Level)</strong> &mdash; La propia herramienta de agentes rechaza las llamadas que se saltan al PM. Es la capa de aplicación más potente, como una puerta cerrada que solo se abre con la llave correcta. Desde octubre de 2026 esta capa se aplica en código: el hook <code>scripts/hooks/pm-dispatch-gate.ts</code> intercepta los despachos de especialistas (la herramienta <code>Agent</code> en Claude Code, <code>invoke_subagent</code> en Gemini CLI) y, si la sesión no conserva un marcador de rol PM vigente (escrito por <code>scripts/hooks/pm-role-bootstrap.ts</code> al arrancar la sesión, válido 24 horas), lo deriva a una confirmación humana en Claude Code o lo rechaza con un motivo en Gemini CLI. La compuerta es fail-open: los payloads inesperados pasan sin bloqueo.
       </li>
       <li>
         <strong>Nivel de prompt de sistema (System Prompt-Level)</strong> &mdash; La plataforma (Claude Code o Antigravity CLI) carga primero las reglas del PM, de modo que la IA sabe desde el principio que las solicitudes deben pasar por el PM.

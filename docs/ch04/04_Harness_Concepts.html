@@ -504,14 +504,14 @@ dispatch_triggers:
       </tr>
       <tr>
         <td style="padding:8px 12px;">예시 모델</td>
-        <td style="padding:8px 12px;">claude-opus-5-5, gemini-3.1-pro, gpt-5.6-sol</td>
-        <td style="padding:8px 12px;">claude-sonnet-5-5, gemini-3.8-flash, gpt-5.6-terra</td>
-        <td style="padding:8px 12px;">claude-haiku-5-5, gemini-3.8-flash, gpt-5.6-luna</td>
+        <td style="padding:8px 12px;">claude-opus-5-5, gemini-3.1-pro, gpt-5.6-sol, glm-5.3</td>
+        <td style="padding:8px 12px;">claude-sonnet-5-5, gemini-3.8-flash, gpt-5.6-terra, glm-5.3-flash</td>
+        <td style="padding:8px 12px;">claude-haiku-5-5, gemini-3.8-flash, gpt-5.6-luna, glm-5.3-flash</td>
       </tr>
     </tbody>
   </table>
 
-  <p><strong>새 소식(2026-09)</strong> &mdash; 위 표는 업스트림 레지스트리(<code>AGENTS.md</code> &sect;3.6)를 따라 갱신했습니다. High와 Medium은 <code>claude-opus-5-5</code>, <code>claude-sonnet-5-5</code>로 옮겨졌고, Gemini 두 행은 모두 <code>gemini-3.8-flash</code>가 되었습니다. 에이전트 파일의 티어 라인도 더 이상 모델 ID를 하드코딩하지 않습니다 &mdash; <code>high</code> 같은 티어는 디스패치 시점에 플랫폼의 구체적 모델로 번역됩니다. 2026-10에는 Low 티어 예시가 <code>claude-haiku-5-5</code>로 바뀌었고(디스패치 별칭 <code>haiku</code>는 그대로), 스킬은 모델 ID 리터럴을 아예 하드코딩할 수 없게 되었습니다 &mdash; 레지스트리 ID는 <code>docs/workspace-schema.json</code>(<code>models.*</code>)에만 두며, 모델 변경은 <code>model-migration</code> 스킬로 진행합니다.</p>
+  <p><strong>새 소식(2026-09)</strong> &mdash; 위 표는 업스트림 레지스트리(<code>AGENTS.md</code> &sect;3.6)를 따라 갱신했습니다. High와 Medium은 <code>claude-opus-5-5</code>, <code>claude-sonnet-5-5</code>로 옮겨졌고, Gemini 두 행은 모두 <code>gemini-3.8-flash</code>가 되었습니다. 에이전트 파일의 티어 라인도 더 이상 모델 ID를 하드코딩하지 않습니다 &mdash; <code>high</code> 같은 티어는 디스패치 시점에 플랫폼의 구체적 모델로 번역됩니다. 2026-10에는 Low 티어 예시가 <code>claude-haiku-5-5</code>로 바뀌었고(디스패치 별칭 <code>haiku</code>는 그대로), 스킬은 모델 ID 리터럴을 아예 하드코딩할 수 없게 되었습니다 &mdash; 레지스트리 ID는 <code>docs/workspace-schema.json</code>(<code>models.*</code>)에만 두며, 모델 변경은 <code>model-migration</code> 스킬로 진행합니다. 2026-10-23부터 레지스트리는 7개 플랫폼을 다룹니다 &mdash; Z.AI가 <code>zai</code> 키로 합류했고(High는 <code>glm-5.3</code>, Medium·Low는 <code>glm-5.3-flash</code>, GLM 모델은 low/high/max 추론 레벨을 제공), <code>hermes</code>는 스키마 전용에서 완전 검증 대상으로 승격되었습니다(claude 모델 ID를 그대로 매핑합니다).</p>
 
   <h3 id="tier-key-rules">핵심 규칙</h3>
 
@@ -555,7 +555,7 @@ dispatch_triggers:
   <div class="step-list">
     <ol>
       <li>
-        <strong>Tool-Level (도구 수준)</strong> &mdash; 에이전트 도구 자체가 PM을 우회하는 호출을 거부합니다. 가장 강력한 강제 계층으로, 올바른 키로만 열리는 잠긴 문과 같습니다.
+        <strong>Tool-Level (도구 수준)</strong> &mdash; 에이전트 도구 자체가 PM을 우회하는 호출을 거부합니다. 가장 강력한 강제 계층으로, 올바른 키로만 열리는 잠긴 문과 같습니다. 2026-10부터 이 계층은 코드로 강제됩니다. <code>scripts/hooks/pm-dispatch-gate.ts</code> 훅이 전문가 디스패치(Claude Code의 <code>Agent</code> 도구, Gemini CLI의 <code>invoke_subagent</code>)를 가로채서, 세션에 신선한 PM 역할 마커(<code>scripts/hooks/pm-role-bootstrap.ts</code>가 SessionStart에 기록, 24시간 유효)가 없으면 Claude Code에서는 사람에게 확인을 요청하고 Gemini CLI에서는 사유와 함께 거부합니다. 이 게이트는 fail-open입니다. 예상치 못한 페이로드는 차단 없이 통과합니다.
       </li>
       <li>
         <strong>System Prompt-Level (시스템 프롬프트 수준)</strong> &mdash; 플랫폼(Claude Code 또는 Antigravity CLI)이 PM의 규칙을 가장 먼저 로드하므로, AI는 처음부터 요청을 PM으로 경유해야 한다는 사실을 인지합니다.

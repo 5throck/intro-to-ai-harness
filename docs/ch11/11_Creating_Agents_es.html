@@ -211,7 +211,7 @@
           </tr>
           <tr>
             <td><code>tier</code></td>
-            <td>Mapa de complejidad por plataforma (estructura anidada). Asigna valores en minúsculas <code>high</code>/<code>medium</code>/<code>low</code> a las claves <code>claude</code>, <code>gemini</code>, <code>antigravity</code>, <code>gemini-cli</code> y <code>codex</code>.</td>
+            <td>Un único valor escalar &mdash; la declaración de techo de coste del autor del agente: uno de <code>high</code>/<code>medium</code>/<code>low</code> en minúsculas (ADR-0102). El mapeo de modelos por plataforma no se declara aquí; el registro <code>models</code> de <code>docs/workspace-schema.json</code> resuelve tier&rarr;modelo en el momento del despacho.</td>
           </tr>
         </tbody>
       </table>
@@ -277,12 +277,7 @@ version: "1.0.0"
 last_updated: "2026-08-24"
 role: Performs data analysis and produces structured reports
 status: active
-tier:
-  claude: medium
-  gemini: medium
-  antigravity: medium
-  gemini-cli: medium
-  codex: medium
+tier: medium
 model: inherit
 color: blue
 description: >
@@ -328,7 +323,7 @@ lifecycle:
   <p>Se recomienda empezar con <code>draft</code>y cambiar a <code>active</code> cuando la verificación pase.</p>
 
   <h4>tier (nivel)</h4>
-  <p>Asigna el modelo de IA adecuado según la complejidad del agente. Es un ajuste para equilibrar coste y calidad. tier no es un valor único, sino un <strong>mapa anidado por plataforma</strong>, y sus valores deben escribirse siempre en minúsculas.</p>
+  <p>Asigna el modelo de IA adecuado según la complejidad del agente. Es un ajuste para equilibrar coste y calidad. tier es un <strong>único valor escalar</strong> que debe escribirse en minúsculas. A qué modelo concreto se mapea un tier en cada plataforma no se declara en el archivo del agente &mdash; el registro <code>models</code> de <code>docs/workspace-schema.json</code> resuelve tier&rarr;modelo en el momento del despacho (ADR-0102).</p>
   <ul>
     <li><code>high</code> &mdash; agentes que requieren razonamiento complejo, diseño de arquitectura o planificación estratégica (por ejemplo: PM)</li>
     <li><code>medium</code> &mdash; agentes que requieren revisión de código, controles de calidad o trabajo especializado general (por ejemplo: research, design)</li>
@@ -338,6 +333,8 @@ lifecycle:
   <div class="tip-box">
     <strong>Consejo para elegir tier:</strong> elige según la complejidad del agente. Tareas simples, <code>low</code>; razonamiento complejo, <code>high</code>. La mayoría de los agentes especialistas conviene iniciarlos en <code>medium</code>. Configura primero <code>medium</code>, comprueba que funciona y ajústalo según lo necesites.
   </div>
+
+  <p><strong>Novedades (2026-10)</strong> &mdash; el tier del agente es ahora una declaración <em>escalar</em> (ADR-0102, 2026-10-26): escribe una sola línea <code>tier: high|medium|low</code> en lugar de un mapa por plataforma. El roster <code>agent_tiers</code> del esquema se eliminó &mdash; el bloque <code>models</code> de <code>docs/workspace-schema.json</code> es el único mapeo plataforma&rarr;tier&rarr;modelo, y <code>validate-model-registry.ts</code> v2 avisa sobre los bloques <code>tier:</code> heredados en forma de mapa por plataforma (y luego falla sobre ellos cuando la flota converja).</p>
 
   <h4>phases (fases activas)</h4>
   <p>Especifica en qué fases del flujo de trabajo se activa el agente. Por ejemplo, el agente de investigación solo se activa en <code>[1]</code> (Stage 1), mientras que el agente de versiones se activa en <code>[0, 1, 2, 3, 4, 5, 6]</code> (todas las fases).</p>
@@ -720,7 +717,7 @@ bun scripts/agent-verify.ts &lt;agent-name&gt;</code></pre>
       </li>
       <li>
         <strong>Escribe el frontmatter</strong><br>
-        Con el ejemplo de abajo como referencia, escribe el frontmatter. Incluye name, role, status, tier (mapa anidado por plataforma), description, examples, phases, handoff_to y handoff_from, además del bloque lifecycle obligatorio.
+        Con el ejemplo de abajo como referencia, escribe el frontmatter. Incluye name, role, status, tier (un único valor escalar), description, examples, phases, handoff_to y handoff_from, además del bloque lifecycle obligatorio.
       </li>
       <li>
         <strong>Escribe el cuerpo</strong><br>
@@ -756,12 +753,7 @@ version: "1.0.0"
 last_updated: "2026-08-24"
 role: Summarizes long documents and produces concise briefs
 status: draft
-tier:
-  claude: medium
-  gemini: medium
-  antigravity: medium
-  gemini-cli: medium
-  codex: medium
+tier: medium
 model: inherit
 color: teal
 description: >
@@ -889,7 +881,7 @@ Output structure:
     <ul>
       <li>Un agente es "un empleado de IA con rol definido", creado como archivo markdown</li>
       <li>Archivo de agente = frontmatter YAML (metadatos) + cuerpo markdown (prompt de sistema)</li>
-      <li>El frontmatter lleva name, role, status, tier (mapa anidado por plataforma, valores en minúsculas), description, examples, phases, handoff_to/from y el bloque lifecycle obligatorio</li>
+      <li>El frontmatter lleva name, role, status, tier (un único valor escalar en minúsculas), description, examples, phases, handoff_to/from y el bloque lifecycle obligatorio</li>
       <li>El cuerpo incluye identidad, pautas de comportamiento, reglas de dominio, uso de herramientas y contrato de entrega</li>
       <li>Sigue el proceso de 5 pasos de la skill agent-lifecycle-manager para crear agentes de forma sistemática</li>
       <li>Regístralo en los tres lugares de AGENTS.md (Roster, Definitions, Subagent Roster) para que el PM lo reconozca</li>

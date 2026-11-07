@@ -2,10 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Apéndice E · Explorar el contexto del repositorio con graft - Introducción a Claude Code y al arnés multiagente">
+  <meta name="description" content="Apéndice E · Explorar el contexto del repositorio con trail - Introducción a Claude Code y al arnés multiagente">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
-  <title>Apéndice E · Explorar el contexto del repositorio con graft</title>
+  <title>Apéndice E · Explorar el contexto del repositorio con trail</title>
   <link rel="stylesheet" href="../assets/css/handbook-variables.css">
   <link rel="stylesheet" href="../assets/css/handbook-components.css">
 </head>
@@ -13,13 +13,13 @@
 <div class="layout">
 <nav>
   <a href="../index_es.html" class="nav-home">&larr; Inicio del manual</a>
-  <div class="nav-title">Apéndice E &middot; Explorar el contexto del repositorio con graft</div>
-  <a href="#what-is-graft">Qué es graft</a>
-  <a href="#why">Por qué graft en lugar de grep</a>
+  <div class="nav-title">Apéndice E &middot; Explorar el contexto del repositorio con trail</div>
+  <a href="#what-is-graft">Qué es trail</a>
+  <a href="#why">Por qué trail en lugar de grep</a>
   <a href="#core-commands">Comandos principales</a>
   <a href="#mcp-tools">Usarlo como herramientas MCP</a>
   <a href="#workflow">Flujo de trabajo real</a>
-  <a href="#build">Actualizar el grafo (graft build)</a>
+  <a href="#build">Actualizar el grafo (trail build)</a>
   <div class="nav-section">Otros capítulos</div>
   <a href="A_Remote_Access_es.html">Apéndice A &middot; Configuración de acceso remoto</a>
   <a href="B_Claude_Code_CLI_es.html">Apéndice B &middot; Guía de Claude Code CLI</a>
@@ -29,45 +29,49 @@
 <main>
  <article class="reading">
   <div class="chapter-eyebrow">Apéndice E</div>
-  <h1>Explorar el contexto del repositorio con graft</h1>
-  <p class="lead">graft es un grafo de contexto del repositorio construido de antemano. Cuando necesitas entender código, encontrar dónde hacer un cambio o rastrear el alcance de una edición, preguntarle primero a graft —en lugar de usar grep o abrir archivos a ciegas— te da una respuesta exacta con file:line usando muchos menos tokens.</p>
+  <h1>Explorar el contexto del repositorio con trail</h1>
+  <p class="lead">trail es un grafo de contexto del repositorio construido de antemano. Cuando necesitas entender código, encontrar dónde hacer un cambio o rastrear el alcance de una edición, preguntarle primero a trail —en lugar de usar grep o abrir archivos a ciegas— te da una respuesta exacta con file:line usando muchos menos tokens.</p>
   <div class="keypoints">
     <div class="kp-title">Lo que cubre este apéndice</div>
     <ul>
-      <li>Qué es graft y por qué existe</li>
-      <li>Por qué recurrir a graft antes que a grep o leer archivos directamente</li>
+      <li>Qué es trail y por qué existe</li>
+      <li>Por qué recurrir a trail antes que a grep o leer archivos directamente</li>
       <li>Los cinco comandos principales (ask, grep, skeleton, callers, map)</li>
-      <li>Usar graft como herramientas MCP (en entornos compatibles)</li>
+      <li>Usar trail como herramientas MCP (en entornos compatibles)</li>
       <li>Un ejemplo de flujo de trabajo real</li>
       <li>Actualizar el grafo tras cambios de código</li>
     </ul>
   </div>
 
+  <div class="note">
+    <strong>Novedades (2026-11):</strong> la herramienta cambió de nombre. trail es el cambio de nombre del proveedor para graft 0.28 (instalación: <code>npm i -g @trailhq/trail-code</code>; el paquete de la era graft <code>@nanonets/graft</code> sigue resolviéndose). Todo lo que enseña este apéndice sigue vigente — los comandos solo dicen <code>trail</code> ahora: <code>trail map</code>, <code>trail ask</code>, <code>trail grep</code>, <code>trail skeleton</code>, <code>trail callers</code>, <code>trail build</code>. Los nombres de las herramientas MCP conservan la ortografía graft del proveedor (<code>graft_find_code</code>, <code>graft_find_all</code>, <code>graft_trace_calls</code>, <code>graft_file_api</code>, <code>graft_repo_map</code>) — superficie interna del proveedor, no debemos renombrarla. Política: ADR-0076; diseño de migración: <code>docs/designs/2026-10-31-graft-trail-migration-design.md</code> en el workspace upstream.
+  </div>
+
   <!-- ============================================================
        SECTION 1: Qué es graft
        ============================================================ -->
-  <h2 id="what-is-graft">1. Qué es graft</h2>
+  <h2 id="what-is-graft">1. Qué es trail</h2>
 
-  <p>graft analiza un repositorio y genera un grafo de pequeños nodos en markdown —uno por archivo— que explica qué hace cada archivo, qué símbolos define y quién los llama. Este grafo vive en un directorio <code>graft/</code> y se mantiene sincronizado con el código a través de git a medida que evoluciona el proyecto.</p>
+  <p>trail analiza un repositorio y genera un grafo de pequeños nodos en markdown —uno por archivo— que explica qué hace cada archivo, qué símbolos define y quién los llama. Este grafo vive en un directorio <code>.trail/cache/</code> (los checkouts de la era graft que aún no han ejecutado <code>trail init</code> siguen usando <code>graft/</code>) y se mantiene sincronizado con el código a través de git a medida que evoluciona el proyecto.</p>
 
   <div class="flow-box">
-    grep solo te dice <strong>dónde aparece una cadena de texto</strong>. graft es un mapa ya construido que te dice <strong>dónde se define un concepto, cómo se comporta y quién lo usa</strong>. Es la diferencia entre recorrer una ciudad nueva calle por calle y que alguien ya te entregue el mapa.
+    grep solo te dice <strong>dónde aparece una cadena de texto</strong>. trail es un mapa ya construido que te dice <strong>dónde se define un concepto, cómo se comporta y quién lo usa</strong>. Es la diferencia entre recorrer una ciudad nueva calle por calle y que alguien ya te entregue el mapa.
   </div>
 
-  <p>graft se puede usar de dos formas:</p>
+  <p>trail se puede usar de dos formas:</p>
   <ul>
-    <li><strong>CLI</strong> — ejecutar <code>graft &lt;subcommand&gt;</code> directamente desde la terminal</li>
-    <li><strong>Herramientas MCP</strong> — cuando el host (p. ej. Claude Code) expone herramientas como <code>graft_find_code</code>, <code>graft_find_all</code>, <code>graft_trace_calls</code>, <code>graft_file_api</code> y <code>graft_repo_map</code>, se consulta el mismo grafo mediante llamadas a herramientas</li>
+    <li><strong>CLI</strong> — ejecutar <code>trail &lt;subcommand&gt;</code> directamente desde la terminal</li>
+    <li><strong>Herramientas MCP</strong> — cuando el host (p. ej. Claude Code) expone herramientas como <code>graft_find_code</code>, <code>graft_find_all</code>, <code>graft_trace_calls</code>, <code>graft_file_api</code> y <code>graft_repo_map</code>, se consulta el mismo grafo mediante llamadas a herramientas (los nombres conservan la ortografía graft del proveedor)</li>
   </ul>
 
   <div class="note">
-    En este espacio de trabajo, un hook de SessionStart recuerda usar graft al inicio de cada sesión. En la práctica, eso significa: para cualquier tarea que implique entender o cambiar código, <strong>recurre primero a graft</strong> — esa es la regla base aquí.
+    En este espacio de trabajo, un hook de SessionStart recuerda usar trail al inicio de cada sesión. En la práctica, eso significa: para cualquier tarea que implique entender o cambiar código, <strong>recurre primero a trail</strong> — esa es la regla base aquí.
   </div>
 
   <!-- ============================================================
-       SECTION 2: Por qué graft en lugar de grep
+       SECTION 2: Por qué trail en lugar de grep
        ============================================================ -->
-  <h2 id="why">2. Por qué graft en lugar de grep</h2>
+  <h2 id="why">2. Por qué trail en lugar de grep</h2>
 
   <div class="table-compare">
     <table>
@@ -75,34 +79,34 @@
         <tr>
           <th>Situación</th>
           <th>grep / leer archivos directamente</th>
-          <th>graft</th>
+          <th>trail</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>"¿Cómo funciona esta función?"</td>
           <td>Hay que adivinar qué archivos son relevantes y abrir varios</td>
-          <td><code>graft ask</code> devuelve resultados clasificados con fragmentos de código incluidos, al instante</td>
+          <td><code>trail ask</code> devuelve resultados clasificados con fragmentos de código incluidos, al instante</td>
         </tr>
         <tr>
           <td>"¿Quién llama a este símbolo?"</td>
           <td>Búsqueda de texto más verificación manual (muchos falsos positivos)</td>
-          <td><code>graft callers</code> lee las conexiones exactas de llamada directamente del grafo</td>
+          <td><code>trail callers</code> lee las conexiones exactas de llamada directamente del grafo</td>
         </tr>
         <tr>
           <td>"Encontrar cada aparición de este patrón"</td>
           <td>Posible con grep -rn, pero los resultados quedan desorganizados</td>
-          <td><code>graft grep</code> agrupa cada coincidencia por el símbolo que la contiene</td>
+          <td><code>trail grep</code> agrupa cada coincidencia por el símbolo que la contiene</td>
         </tr>
         <tr>
           <td>"Quiero repasar toda la API de este archivo"</td>
           <td>Hay que leer el archivo completo (costoso en tokens)</td>
-          <td><code>graft skeleton</code> da cada firma a un costo ~10 veces menor</td>
+          <td><code>trail skeleton</code> da cada firma a un costo ~10 veces menor</td>
         </tr>
         <tr>
           <td>"Nuevo en este repositorio, ¿por dónde empiezo?"</td>
           <td>Leer el README y abrir carpetas una por una</td>
-          <td><code>graft map</code> resume clústeres de directorios, hubs y puntos calientes dentro de un presupuesto de tokens</td>
+          <td><code>trail map</code> resume clústeres de directorios, hubs y puntos calientes dentro de un presupuesto de tokens</td>
         </tr>
       </tbody>
     </table>
@@ -117,18 +121,18 @@
        ============================================================ -->
   <h2 id="core-commands">3. Comandos principales</h2>
 
-  <h3>3.1 graft map — orientación en un repositorio desconocido</h3>
+  <h3>3.1 trail map — orientación en un repositorio desconocido</h3>
   <p>Ejecútalo primero cuando seas nuevo en un repositorio. Sin llamadas a LLM (gratis, $0), muestra la estructura de directorios, archivos hub y puntos calientes dentro de un presupuesto de tokens.</p>
   <div class="code-block">
-<pre><code>graft map</code></pre>
+<pre><code>trail map</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
   <p><strong>Nota:</strong> map es la respuesta por sí sola. Seguir con skeleton en cada subsistema que menciona es un uso excesivo.</p>
 
-  <h3>3.2 graft ask — encuentra dónde entender o editar</h3>
+  <h3>3.2 trail ask — encuentra dónde entender o editar</h3>
   <p>Para preguntas como "¿cómo funciona esto?" o "¿dónde está definido esto?", devuelve resultados clasificados con fragmentos de código incluidos.</p>
   <div class="code-block">
-<pre><code>graft ask "cómo se comporta la lógica de reintento al fallar el inicio de sesión" --source</code></pre>
+<pre><code>trail ask "cómo se comporta la lógica de reintento al fallar el inicio de sesión" --source</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
   <ul>
@@ -138,40 +142,40 @@
   </ul>
 
   <div class="warn">
-    No uses ask para tareas <strong>exhaustivas</strong> como "encontrar cada aparición de este patrón". ask está clasificado, solo top-N — no garantiza cobertura total. Para búsquedas exhaustivas usa graft grep.
+    No uses ask para tareas <strong>exhaustivas</strong> como "encontrar cada aparición de este patrón". ask está clasificado, solo top-N — no garantiza cobertura total. Para búsquedas exhaustivas usa trail grep.
   </div>
 
-  <h3>3.3 graft grep — búsqueda exhaustiva</h3>
+  <h3>3.3 trail grep — búsqueda exhaustiva</h3>
   <p>Encuentra <strong>todas</strong> las apariciones de una cadena literal o símbolo, agrupadas por el símbolo que las contiene.</p>
   <div class="code-block">
-<pre><code>graft grep "processPayment"</code></pre>
+<pre><code>trail grep "processPayment"</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
   <p>Recurre a <code>grep -rn</code> sin procesar solo cuando necesites cubrir archivos no indexados.</p>
 
-  <h3>3.4 graft skeleton — toda la API de un archivo de un vistazo</h3>
+  <h3>3.4 trail skeleton — toda la API de un archivo de un vistazo</h3>
   <p>Muestra la firma y ubicación de cada definición sin leer el archivo completo, a un costo ~10 veces menor. Útil para repasar una superficie de API.</p>
   <div class="code-block">
-<pre><code>graft skeleton src/services/payment.ts</code></pre>
+<pre><code>trail skeleton src/services/payment.ts</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
 
-  <h3>3.5 graft callers — rastrea relaciones de llamada exactas</h3>
+  <h3>3.5 trail callers — rastrea relaciones de llamada exactas</h3>
   <p>Antes de cambiar un símbolo, averigua exactamente quién lo llama (o qué llama él). Ejecuta esto siempre antes de una refactorización o un cambio de nombre.</p>
   <div class="code-block">
 <pre><code># Quién llama a este símbolo (por defecto)
-graft callers formatCurrency
+trail callers formatCurrency
 
 # Qué llama este símbolo
-graft callers formatCurrency --direction out
+trail callers formatCurrency --direction out
 
 # Alcance total (todos los archivos conectados)
-graft callers formatCurrency --depth all</code></pre>
+trail callers formatCurrency --depth all</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <div class="note">
-    El error clásico en refactorizaciones, cambios de nombre o modificaciones multiarchivo es <strong>editar solo el archivo principal y detenerse ahí</strong>. Ejecuta primero <code>graft callers &lt;symbol&gt; --depth all</code> para mapear todos los archivos conectados, y luego edita.
+    El error clásico en refactorizaciones, cambios de nombre o modificaciones multiarchivo es <strong>editar solo el archivo principal y detenerse ahí</strong>. Ejecuta primero <code>trail callers &lt;symbol&gt; --depth all</code> para mapear todos los archivos conectados, y luego edita.
   </div>
 
   <!-- ============================================================
@@ -190,17 +194,17 @@ graft callers formatCurrency --depth all</code></pre>
         </tr>
       </thead>
       <tbody>
-        <tr><td><code>graft ask</code></td><td><code>graft_find_code</code></td></tr>
-        <tr><td><code>graft grep</code></td><td><code>graft_find_all</code></td></tr>
-        <tr><td><code>graft callers</code></td><td><code>graft_trace_calls</code></td></tr>
-        <tr><td><code>graft skeleton</code></td><td><code>graft_file_api</code></td></tr>
-        <tr><td><code>graft map</code></td><td><code>graft_repo_map</code></td></tr>
+        <tr><td><code>trail ask</code></td><td><code>graft_find_code</code></td></tr>
+        <tr><td><code>trail grep</code></td><td><code>graft_find_all</code></td></tr>
+        <tr><td><code>trail callers</code></td><td><code>graft_trace_calls</code></td></tr>
+        <tr><td><code>trail skeleton</code></td><td><code>graft_file_api</code></td></tr>
+        <tr><td><code>trail map</code></td><td><code>graft_repo_map</code></td></tr>
       </tbody>
     </table>
   </div>
 
   <div class="tip-box">
-    Información de bordes —quién llama a qué— vive <strong>solo en el grafo</strong>, no en los archivos markdown de los nodos. <code>graft callers</code> / <code>graft_trace_calls</code> es la única forma de leerlos.
+    Información de bordes —quién llama a qué— vive <strong>solo en el grafo</strong>, no en los archivos markdown de los nodos. <code>trail callers</code> / <code>graft_trace_calls</code> es la única forma de leerlos.
   </div>
 
   <!-- ============================================================
@@ -212,7 +216,7 @@ graft callers formatCurrency --depth all</code></pre>
     <div class="step">
       <div class="step-content">
         <div class="step-label">Paso 1: ¿Repositorio nuevo? Empieza con map</div>
-        <p>Si no conoces un proyecto, ejecuta <code>graft map</code> primero para obtener la visión general.</p>
+        <p>Si no conoces un proyecto, ejecuta <code>trail map</code> primero para obtener la visión general.</p>
       </div>
     </div>
     <div class="step">
@@ -230,7 +234,7 @@ graft callers formatCurrency --depth all</code></pre>
     <div class="step">
       <div class="step-content">
         <div class="step-label">Paso 4: Actualiza el grafo tras grandes cambios</div>
-        <p>Después de un cambio de código significativo, ejecuta <code>graft build</code> para poner el grafo al día.</p>
+        <p>Después de un cambio de código significativo, ejecuta <code>trail build</code> para poner el grafo al día.</p>
       </div>
     </div>
   </div>
@@ -238,26 +242,27 @@ graft callers formatCurrency --depth all</code></pre>
   <!-- ============================================================
        SECTION 6: Actualizar el grafo
        ============================================================ -->
-  <h2 id="build">6. Actualizar el grafo (graft build)</h2>
+  <h2 id="build">6. Actualizar el grafo (trail build)</h2>
 
-  <p>El grafo de graft se genera de forma determinista y se puede actualizar de forma gratuita, sin necesidad de una clave de API de LLM. Después de un cambio de código grande —archivos nuevos, una refactorización mayor— reconstruye el grafo para mantenerlo al día.</p>
+  <p>El grafo de trail se genera de forma determinista y se puede actualizar de forma gratuita, sin necesidad de una clave de API de LLM. Después de un cambio de código grande —archivos nuevos, una refactorización mayor— reconstruye el grafo para mantenerlo al día.</p>
 
   <div class="code-block">
-<pre><code>graft build</code></pre>
+<pre><code>trail build</code></pre>
 <button type="button" class="copy-btn">Copiar</button>
 </div>
 
   <div class="warn">
-    No es necesario ejecutar build después de cada pequeña edición. El grafo está bajo control de versiones junto con git; actualizarlo una vez tras un bloque de trabajo significativo es suficiente.
+    No es necesario ejecutar build después de cada pequeña edición. El grafo está bajo control de versiones junto con git; actualizarlo una vez tras un bloque de trabajo significativo es suficiente. Dos comandos relacionados: <code>trail check</code> informa la frescura del índice, y en un repositorio migrado con <code>trail init</code> hay que pasar <code>--dir .trail/cache</code> a <code>trail build</code> — el binario todavía usa el directorio por defecto de la era graft, <code>&lt;repo&gt;/graft</code>.
   </div>
 
   <div class="note">
-    <strong>Desde el 2026-09-20:</strong> al crear un proyecto nuevo (<code>new-project.ts</code>), el grafo de graft se construye automáticamente durante el scaffolding. Primero usa el comando <code>graft</code> instalado globalmente y, si no está, recurra a <code>bunx</code>. Es decir, un proyecto recién creado puede responder preguntas con <code>graft ask</code> desde el primer día.
+    <strong>Desde el 2026-09-20:</strong> al crear un proyecto nuevo (<code>new-project.ts</code>), el grafo se construye automáticamente durante el scaffolding. Primero usa el comando instalado globalmente y, si no está, recurra a <code>bunx</code>. Es decir, un proyecto recién creado puede responder preguntas con <code>trail ask</code> desde el primer día.
   </div>
-    <p><strong>Actualización (2026-10):</strong> el workspace ya no distribuye los archivos de integración de graft como plantillas. La skill <code>skills/graft</code> lleva <code>mirror: false</code> y <code>l2_propagate: false</code> en su frontmatter, y los <code>AGENTS.md</code> generados ya no incluyen un bloque de graft prerenderizado &mdash; las superficies de graft son propiedad de la herramienta: ejecute <code>graft init</code> una vez en el checkout para materializarlas. La construcción del grafo durante el scaffolding descrita arriba funciona igual que antes.</p>
+    <p><strong>Actualización (2026-10):</strong> el workspace ya no distribuye los archivos de integración de graft como plantillas. La skill lleva <code>mirror: false</code> y <code>l2_propagate: false</code> en su frontmatter, y los <code>AGENTS.md</code> generados ya no incluyen un bloque de graft prerenderizado &mdash; las superficies del grafo son propiedad de la herramienta: ejecute <code>trail init</code> una vez en el checkout para materializarlas. La construcción del grafo durante el scaffolding descrita arriba funciona igual que antes.</p>
+    <p><strong>Actualización (2026-11):</strong> la skill también adoptó el nuevo nombre del proveedor: <code>skills/graft</code> pasó a ser <code>skills/trail</code> upstream, y <code>trail init</code> (que también se ejecuta dentro de <code>trail upgrade</code>) completa la migración por repositorio — intercambia los marcadores del bloque de instrucciones, mueve el índice del grafo a <code>.trail/cache/</code>, reemplaza los hooks auxiliares por <code>.trail/hook.cjs</code> y borra la semilla <code>.mcp.json</code> bajo control de versiones. Verifica un checkout con <code>trail check</code> y <code>ls .trail/cache/INDEX.md</code>.</p>
 
   <div class="flow-box">
-    En resumen: <strong>entender o editar → graft ask</strong>, <strong>encontrar todo → graft grep</strong>, <strong>repasar una API → graft skeleton</strong>, <strong>rastrear el alcance → graft callers</strong>, <strong>repositorio nuevo → graft map</strong>. Solo necesitas recordar estos cinco.
+    En resumen: <strong>entender o editar → trail ask</strong>, <strong>encontrar todo → trail grep</strong>, <strong>repasar una API → trail skeleton</strong>, <strong>rastrear el alcance → trail callers</strong>, <strong>repositorio nuevo → trail map</strong>. Solo necesitas recordar estos cinco.
   </div>
 
   <div class="chapter-nav">

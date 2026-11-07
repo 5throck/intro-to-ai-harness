@@ -257,6 +257,8 @@
     <li><strong>Plantillas de plan de ejecución</strong> — Formato estándar usado al planificar tareas</li>
   </ul>
 
+  <div class="note"><strong>Novedades (2026-11):</strong> la regla de la fila del PM en los planes de ejecución se volvió más estricta. Toda tabla de plan de ejecución debe incluir una fila por cada paso propiedad del PM — la decisión de la puerta de diseño, la verificación, <code>/sync</code> — y cada columna de una fila del PM debe estar completa: Agent <code>pm</code>, Tier <code>Medium</code>, Model <code>inherit (&lt;alias del modelo de la sesión&gt;)</code> que coincida con la línea de cabecera <code>PM running on:</code> (p. ej. <code>inherit (sonnet)</code>), y Platform completa. Una fila del PM con <code>—</code>, una celda Tier/Model vacía o un paso del PM ausente invalida el plan; solo las filas de exención E1&ndash;E5 pueden dejar Agent/Tier/Model en blanco.</div>
+
   <p>Analogía para principiantes: <strong>AGENTS.md es la «nómina de empleados» de la empresa.</strong> Una nómina de empleados recoge el nombre, el cargo (Tier) y las tareas asignadas de cada persona. Igualmente, AGENTS.md define con claridad el nombre, el grado y el rol de cada agente de IA.</p>
 
   <h3 id="claude-md">CLAUDE.md — Instrucciones de comportamiento para Claude Code</h3>

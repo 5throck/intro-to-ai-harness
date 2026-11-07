@@ -313,6 +313,31 @@
     <strong>You do not need to run /sync for every tiny change.</strong> For documentation-only changes (body text updates, memory log entries) that do not affect lifecycle-tracked artifacts, you can simply commit and push manually. The /sync pipeline is designed for changes that affect the project's structural integrity.
   </div>
 
+  <h3 id="worktree-convention">Per-session worktree convention (2026-11)</h3>
+
+  <p>When several sessions work in the same repository at once, the shared checkout becomes shared mutable state: a branch flip by one session can drop another session's files in the wrong place. The workspace therefore isolates concurrent write sessions with <code>git worktree</code> &mdash; each write session gets its own branch pointer and its own working tree (design: <code>2026-11-07-session-worktree-convention-design.md</code>; enforced by procedure, not by a hook).</p>
+
+  <p><strong>When isolation is required</strong> &mdash; any one of these counts as concurrency evidence: the shared tree is dirty (<code>git status --porcelain</code> non-empty), the shared checkout is not on <code>main</code>, or any PR is open. The PM checks this at dispatch time and states the result in the task brief; the specialist re-checks at start and notes it in the task report.</p>
+
+  <table><thead><tr><th>Task shape</th><th>Rule</th></tr></thead><tbody>
+    <tr><td>Multi-file write batch with concurrency evidence</td><td><strong>Worktree required</strong> &mdash; branch <code>pr/&lt;YYYYMMDD&gt;-&lt;slug&gt;</code> from <code>origin/main</code></td></tr>
+    <tr><td>Read-only task</td><td>Worktree recommended</td></tr>
+    <tr><td>Single-file write with concurrency evidence</td><td>Worktree recommended; staying on the shared checkout requires verify-branch-before-mutate before every mutating command</td></tr>
+    <tr><td>PM bookkeeping (tickets, memory logs, CHANGELOG)</td><td><strong>Never isolate</strong> &mdash; stays on the shared checkout</td></tr>
+    <tr><td>Trivial single-file change, no concurrency evidence</td><td>Shared checkout with the existing discipline</td></tr>
+  </tbody></table>
+
+  <p><strong>The landing variant (sync skill v1.9.0)</strong> works like this: create the worktree as a sibling directory outside the repository (<code>git worktree add ../&lt;repo-name&gt;-worktrees/&lt;slug&gt; -b pr/&lt;YYYYMMDD&gt;-&lt;slug&gt; origin/main</code>), run <code>bun install</code> there, do all writes inside it, and write the PR body to <code>$(git rev-parse --git-dir)/sync-pr-body.md</code> &mdash; inside a worktree that resolves to the worktree's private git dir, so concurrent sessions never collide. Run <code>bun scripts/dev-sync.ts</code> from the worktree root (the CWD guard anchors to the script's own copy, which every worktree owns in full), and remove the worktree after the PR opens. The shared checkout is never touched during the session.</p>
+
+  <p><strong>Recovery when a foreign session flips the checkout mid-flight</strong> &mdash; five steps:</p>
+  <ol>
+    <li>Do not force-restore: no <code>git checkout -f</code>, no <code>git reset --hard</code>, no repointing another session's branch, no deleting foreign untracked files.</li>
+    <li>Stash foreign dirt only if it blocks a required checkout &mdash; scoped and named (<code>git stash push -m "foreign-&lt;session&gt;-&lt;date&gt;" -- &lt;paths&gt;</code>); leave it untouched otherwise.</li>
+    <li>Leave foreign commits alone: another session's branch and commits are not ours to rebase, reset, or delete.</li>
+    <li>Re-branch from <code>origin/main</code>: <code>git fetch origin &amp;&amp; git checkout -b pr/&lt;YYYYMMDD&gt;-&lt;slug&gt;-retry origin/main</code>, then re-apply your own staged work.</li>
+    <li>Report the collision in the task report and the session memory block (who flipped, when detected, what was stashed).</li>
+  </ol>
+
   <!-- ============================================================ -->
   <!-- SECTION 3: Git & GitHub PR                                     -->
   <!-- ============================================================ -->

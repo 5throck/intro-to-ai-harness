@@ -313,6 +313,31 @@
     <strong>すべての小さな変更に/syncを実行する必要はありません。</strong>ライフサイクル追跡成果物に影響しないドキュメントのみの変更（本文テキストの更新、メモリログのエントリ）の場合は、手動でコミット・プッシュすれば十分です。/syncパイプラインはプロジェクトの構造的完全性に影響する変更向けに設計されています。
   </div>
 
+  <h3 id="worktree-convention">セッションごとのworktree規約（2026-11）</h3>
+
+  <p>複数のセッションが同じリポジトリで同時に作業すると、共有チェックアウトは共有の可変状態になります。あるセッションがブランチを切り替えると、別のセッションのファイルが違う場所に置かれることがあります。そこでワークスペースは、同時に書き込むセッションを<code>git worktree</code>で分離します &mdash; 書き込みセッションごとに自分のブランチポインタと自分の作業ツリーを持ちます（設計: <code>2026-11-07-session-worktree-convention-design.md</code>。フックではなく手順で強制します）。</p>
+
+  <p><strong>分離が必要な場合</strong> &mdash; 次のいずれか一つでも当てはまれば同時性の証拠です。共有ツリーがdirty（<code>git status --porcelain</code>が空でない）、共有チェックアウトが<code>main</code>にない、開いているPRが存在する。PMはディスパッチ時に確認して結果をタスクブリーフに記し、スペシャリストは開始時に再確認してタスク報告に記します。</p>
+
+  <table><thead><tr><th>タスクの形</th><th>ルール</th></tr></thead><tbody>
+    <tr><td>同時性の証拠がある複数ファイルの書き込みバッチ</td><td><strong>worktree必須</strong> &mdash; <code>origin/main</code>から<code>pr/&lt;YYYYMMDD&gt;-&lt;slug&gt;</code>ブランチを作成</td></tr>
+    <tr><td>読み取り専用タスク</td><td>worktree推奨</td></tr>
+    <tr><td>同時性の証拠がある単一ファイルの書き込み</td><td>worktree推奨。共有チェックアウトに留まる場合は、変更を伴うコマンドの前に必ずverify-branch-before-mutateが必要</td></tr>
+    <tr><td>PMの事務作業（チケット移動、メモリログ、CHANGELOG）</td><td><strong>決して分離しない</strong> &mdash; 共有チェックアウトにそのまま</td></tr>
+    <tr><td>自明な単一ファイル変更、同時性の証拠なし</td><td>既存の規律とともに共有チェックアウトを使用</td></tr>
+  </tbody></table>
+
+  <p><strong>ランディング変種（syncスキル v1.9.0）</strong>は次のように動きます。リポジトリの外の兄弟ディレクトリとしてworktreeを作り（<code>git worktree add ../&lt;repo-name&gt;-worktrees/&lt;slug&gt; -b pr/&lt;YYYYMMDD&gt;-&lt;slug&gt; origin/main</code>）、そこで<code>bun install</code>を実行し、すべての書き込みをその中で行い、PR本文は<code>$(git rev-parse --git-dir)/sync-pr-body.md</code>に書きます。worktreeの中ではこれはworktree専用のgit dirに解決されるため、同時セッションどうしが衝突することはありません。<code>bun scripts/dev-sync.ts</code>はworktreeルートから実行し（CWDガードはスクリプト自身のコピーを基準に合わせ、すべてのworktreeがそのコピーを完全に所有します）、PRが開かれた後にworktreeを削除します。セッション中、共有チェックアウトには決して触れません。</p>
+
+  <p><strong>別セッションが実行中にチェックアウトを切り替えたときの復旧</strong> &mdash; 5ステップ:</p>
+  <ol>
+    <li>強制復元をしない: <code>git checkout -f</code>、<code>git reset --hard</code>、別セッションのブランチの付け替え、他人のuntrackedファイルの削除を行いません。</li>
+    <li>他人のdirty状態は、必要なチェックアウトを妨げるときだけstashします。範囲を限定して名前を付け（<code>git stash push -m "foreign-&lt;session&gt;-&lt;date&gt;" -- &lt;paths&gt;</code>）、それ以外では触れません。</li>
+    <li>他人のコミットはそのままにします。別セッションのブランチとコミットは、こちらがrebase・reset・deleteする対象ではありません。</li>
+    <li><code>origin/main</code>からブランチを作り直します。<code>git fetch origin &amp;&amp; git checkout -b pr/&lt;YYYYMMDD&gt;-&lt;slug&gt;-retry origin/main</code>を実行し、自分のstaged作業を再適用します。</li>
+    <li>衝突をタスク報告とセッションメモリブロックに記録します（誰が切り替えたか、いつ検知したか、何をstashしたか）。</li>
+  </ol>
+
   <!-- ============================================================ -->
   <!-- SECTION 3: Git & GitHub PR                                     -->
   <!-- ============================================================ -->

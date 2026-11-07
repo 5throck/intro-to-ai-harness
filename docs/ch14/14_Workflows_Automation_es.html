@@ -313,6 +313,31 @@
     <strong>No necesitas ejecutar /sync por cada pequeño cambio.</strong> Para los cambios solo de documentación (actualizaciones del cuerpo del texto, entradas de registro de memoria) que no afectan a los artefactos rastreados por el ciclo de vida, simplemente puedes hacer commit y push manualmente. La tubería /sync está diseñada para cambios que afectan la integridad estructural del proyecto.
   </div>
 
+  <h3 id="worktree-convention">Convención de worktree por sesión (2026-11)</h3>
+
+  <p>Cuando varias sesiones trabajan a la vez en el mismo repositorio, el checkout compartido se convierte en estado mutable compartido: un cambio de rama por una sesión puede dejar los archivos de otra sesión en el lugar equivocado. Por eso el workspace aísla con <code>git worktree</code> las sesiones de escritura concurrentes &mdash; cada sesión de escritura obtiene su propio puntero de rama y su propio árbol de trabajo (diseño: <code>2026-11-07-session-worktree-convention-design.md</code>; se aplica por procedimiento, no por un hook).</p>
+
+  <p><strong>Cuándo se requiere aislamiento</strong> &mdash; cualquiera de estas señales cuenta como evidencia de concurrencia: el árbol compartido está sucio (<code>git status --porcelain</code> no vacío), el checkout compartido no está en <code>main</code>, o hay algún PR abierto. El PM lo comprueba al despachar y declara el resultado en el brief de la tarea; el especialista lo vuelve a comprobar al empezar y lo anota en el informe.</p>
+
+  <table><thead><tr><th>Forma de tarea</th><th>Regla</th></tr></thead><tbody>
+    <tr><td>Lote de escritura multi-archivo con evidencia de concurrencia</td><td><strong>Worktree obligatorio</strong> &mdash; rama <code>pr/&lt;YYYYMMDD&gt;-&lt;slug&gt;</code> desde <code>origin/main</code></td></tr>
+    <tr><td>Tarea de solo lectura</td><td>Worktree recomendado</td></tr>
+    <tr><td>Escritura de un solo archivo con evidencia de concurrencia</td><td>Worktree recomendado; quedarse en el checkout compartido exige verify-branch-before-mutate antes de cada comando que modifica</td></tr>
+    <tr><td>Trámites del PM (tickets, registros de memoria, CHANGELOG)</td><td><strong>Nunca aislar</strong> &mdash; permanece en el checkout compartido</td></tr>
+    <tr><td>Cambio trivial de un solo archivo, sin evidencia de concurrencia</td><td>Checkout compartido con la disciplina existente</td></tr>
+  </tbody></table>
+
+  <p><strong>La variante de aterrizaje (sync skill v1.9.0)</strong> funciona así: crea el worktree como un directorio hermano fuera del repositorio (<code>git worktree add ../&lt;repo-name&gt;-worktrees/&lt;slug&gt; -b pr/&lt;YYYYMMDD&gt;-&lt;slug&gt; origin/main</code>), ejecuta <code>bun install</code> allí, hace todas las escrituras dentro, y escribe el cuerpo del PR en <code>$(git rev-parse --git-dir)/sync-pr-body.md</code> &mdash; dentro de un worktree eso resuelve al directorio git privado del worktree, así que las sesiones concurrentes nunca colisionan. Ejecuta <code>bun scripts/dev-sync.ts</code> desde la raíz del worktree (el guarda de CWD se ancla a la copia propia del script, que cada worktree posee completa) y elimina el worktree después de abrir el PR. El checkout compartido no se toca durante la sesión.</p>
+
+  <p><strong>Recuperación cuando una sesión ajena voltea el checkout en pleno vuelo</strong> &mdash; cinco pasos:</p>
+  <ol>
+    <li>No restaures por la fuerza: nada de <code>git checkout -f</code>, nada de <code>git reset --hard</code>, no repunteres la rama de otra sesión, no borres archivos untracked ajenos.</li>
+    <li>Guarda en stash la suciedad ajena solo si bloquea un checkout necesario &mdash; acotado y con nombre (<code>git stash push -m "foreign-&lt;session&gt;-&lt;date&gt;" -- &lt;paths&gt;</code>); de lo contrario déjala intacta.</li>
+    <li>Deja los commits ajenos en paz: la rama y los commits de otra sesión no son nuestro rebase, reset ni delete.</li>
+    <li>Vuelve a crear la rama desde <code>origin/main</code>: <code>git fetch origin &amp;&amp; git checkout -b pr/&lt;YYYYMMDD&gt;-&lt;slug&gt;-retry origin/main</code>, y reaplica tu propio trabajo en staging.</li>
+    <li>Reporta la colisión en el informe de tarea y en el bloque de memoria de la sesión (quién volteó, cuándo se detectó, qué se guardó en stash).</li>
+  </ol>
+
   <!-- ============================================================ -->
   <!-- SECTION 3: Git & GitHub PR                                     -->
   <!-- ============================================================ -->

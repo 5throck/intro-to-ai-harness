@@ -315,6 +315,31 @@
     <strong>모든 작은 변경마다 별도의 sync를 실행할 필요는 없습니다.</strong> 그러나 문서 전용 변경을 포함한 모든 변경은 브랜치와 Pull Request를 통해 <code>main</code>에 반영합니다. lifecycle 대상이 아닌 변경은 필요한 검증을 실행한 뒤 PR로 제출하고, 직접 push로 <code>main</code>을 우회하지 않습니다.
   </div>
 
+  <h3 id="worktree-convention">세션별 worktree 규칙(2026-11)</h3>
+
+  <p>여러 세션이 같은 저장소에서 동시에 작업하면 공유 체크아웃은 공유 가변 상태가 됩니다. 한 세션이 브랜치를 뒤집으면 다른 세션의 파일이 엉뚱한 곳에 놓일 수 있습니다. 그래서 워크스페이스는 동시에 쓰는 세션을 <code>git worktree</code>로 격리합니다 &mdash; 쓰기 세션마다 자기 브랜치 포인터와 자기 작업 트리를 갖습니다(설계: <code>2026-11-07-session-worktree-convention-design.md</code>, 훅이 아니라 절차로 강제).</p>
+
+  <p><strong>격리가 필요한 경우</strong> &mdash; 다음 중 하나라도 해당하면 동시성 증거입니다. 공유 트리가 dirty(<code>git status --porcelain</code> 결과가 비어 있지 않음), 공유 체크아웃이 <code>main</code>에 있지 않음, 열려 있는 PR이 존재. PM은 디스패치 시점에 확인해 결과를 작업 브리프에 적고, 담당 에이전트는 시작 시점에 다시 확인해 작업 보고서에 적습니다.</p>
+
+  <table><thead><tr><th>작업 형태</th><th>규칙</th></tr></thead><tbody>
+    <tr><td>동시성 증거가 있는 여러 파일 쓰기 배치</td><td><strong>worktree 필수</strong> &mdash; <code>origin/main</code>에서 <code>pr/&lt;YYYYMMDD&gt;-&lt;slug&gt;</code> 브랜치 생성</td></tr>
+    <tr><td>읽기 전용 작업</td><td>worktree 권장</td></tr>
+    <tr><td>동시성 증거가 있는 단일 파일 쓰기</td><td>worktree 권장. 공유 체크아웃에 남을 경우 모든 변경 명령 전에 verify-branch-before-mutate 필요</td></tr>
+    <tr><td>PM 북키핑(티켓 이동, 메모리 로그, CHANGELOG)</td><td><strong>절대 격리하지 않음</strong> &mdash; 공유 체크아웃에 그대로</td></tr>
+    <tr><td>사소한 단일 파일 변경, 동시성 증거 없음</td><td>기존 규율을 지키며 공유 체크아웃 사용</td></tr>
+  </tbody></table>
+
+  <p><strong>랜딩 변형(sync 스킬 v1.9.0)</strong>은 이렇게 동작합니다. 저장소 밖의 형제 디렉터리로 worktree를 만들고(<code>git worktree add ../&lt;repo-name&gt;-worktrees/&lt;slug&gt; -b pr/&lt;YYYYMMDD&gt;-&lt;slug&gt; origin/main</code>), 그 안에서 <code>bun install</code>을 실행하고, 모든 쓰기를 그 안에서 하며, PR 본문은 <code>$(git rev-parse --git-dir)/sync-pr-body.md</code>에 씁니다. worktree 안에서는 worktree의 전용 git dir로 해석되므로 동시 세션끼리 절대 충돌하지 않습니다. <code>bun scripts/dev-sync.ts</code>는 worktree 루트에서 실행하고(CWD 가드는 스크립트 자신의 사본을 기준으로 잡으며 모든 worktree가 그 사본을 온전히 소유합니다), PR이 열린 뒤 worktree를 제거합니다. 세션 내내 공유 체크아웃은 건드리지 않습니다.</p>
+
+  <p><strong>다른 세션이 실행 중에 체크아웃을 뒤집었을 때의 복구</strong> &mdash; 5단계:</p>
+  <ol>
+    <li>강제 복원 금지: <code>git checkout -f</code>, <code>git reset --hard</code>, 다른 세션의 브랜치 재지정, 외래 untracked 파일 삭제를 하지 않습니다.</li>
+    <li>외래 dirty 상태는 필수 체크아웃을 막을 때만 stash합니다. 범위를 한정하고 이름을 붙여(<code>git stash push -m "foreign-&lt;session&gt;-&lt;date&gt;" -- &lt;paths&gt;</code>) 저장하며, 그 외에는 건드리지 않습니다.</li>
+    <li>외래 커밋은 그대로 둡니다. 다른 세션의 브랜치와 커밋은 우리가 rebase·reset·delete할 대상이 아닙니다.</li>
+    <li><code>origin/main</code>에서 브랜치를 다시 만듭니다. <code>git fetch origin &amp;&amp; git checkout -b pr/&lt;YYYYMMDD&gt;-&lt;slug&gt;-retry origin/main</code> 실행 후 자신의 staged 작업을 다시 적용합니다.</li>
+    <li>충돌을 작업 보고서와 세션 메모리 블록에 기록합니다(누가 뒤집었는지, 언제 감지했는지, 무엇을 stash했는지).</li>
+  </ol>
+
   <!-- ============================================================ -->
   <!-- SECTION 3: Git & GitHub PR                                     -->
   <!-- ============================================================ -->

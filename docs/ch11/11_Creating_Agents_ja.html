@@ -211,7 +211,7 @@
           </tr>
           <tr>
             <td><code>tier</code></td>
-            <td>プラットフォーム別の複雑度マップ（ネスト構造）。<code>claude</code>、<code>gemini</code>、<code>antigravity</code>、<code>gemini-cli</code>、<code>codex</code>のキーに小文字の<code>high</code>/<code>medium</code>/<code>low</code>を指定します。</td>
+            <td>単一のスカラー値 &mdash; エージェント作成者が宣言するコスト上限です。小文字の<code>high</code>/<code>medium</code>/<code>low</code>のいずれかを指定します（ADR-0102）。プラットフォーム別のモデルマッピングはここには宣言せず、<code>docs/workspace-schema.json</code>の<code>models</code>レジストリがディスパッチ時にtier&rarr;モデルを解決します。</td>
           </tr>
         </tbody>
       </table>
@@ -277,12 +277,7 @@ version: "1.0.0"
 last_updated: "2026-08-24"
 role: Performs data analysis and produces structured reports
 status: active
-tier:
-  claude: medium
-  gemini: medium
-  antigravity: medium
-  gemini-cli: medium
-  codex: medium
+tier: medium
 model: inherit
 color: blue
 description: >
@@ -328,7 +323,7 @@ lifecycle:
   <p>作り始めは<code>draft</code>にし、検証を通過してから<code>active</code>に変更することをおすすめします。</p>
 
   <h4>tier（階層）</h4>
-  <p>エージェントの複雑度に応じて適切なAIモデルを割り当てます。コストと品質のバランスを取るための設定です。tierは単一の値ではなく<strong>プラットフォーム別のネストされたマップ</strong>であり、値は必ず小文字で書きます。</p>
+  <p>エージェントの複雑度に応じて適切なAIモデルを割り当てます。コストと品質のバランスを取るための設定です。tierは<strong>単一のスカラー値</strong>であり、値は必ず小文字で書きます。ティアがプラットフォームごとにどのモデルへマッピングされるかはエージェントファイルには宣言せず、<code>docs/workspace-schema.json</code>の<code>models</code>レジストリがディスパッチ時にtier&rarr;モデルを解決します（ADR-0102）。</p>
   <ul>
     <li><code>high</code> &mdash; 複雑な推論、アーキテクチャ設計、戦略立案が必要なエージェント（例: PM）</li>
     <li><code>medium</code> &mdash; コードレビュー、品質検査、一般的な専門作業が必要なエージェント（例: research、design）</li>
@@ -338,6 +333,8 @@ lifecycle:
   <div class="tip-box">
     <strong>tier選択のコツ:</strong> エージェントの複雑度に応じて選びましょう。単純作業は<code>low</code>、複雑な推論が必要なら<code>high</code>です。ほとんどのスペシャリストエージェントは<code>medium</code>から始めるのが適切です。まず<code>medium</code>に設定し、動作を確認してから必要に応じて調整してください。
   </div>
+
+  <p><strong>最新情報（2026-10）</strong> &mdash; エージェントのtierは現在<em>スカラー</em>宣言です（ADR-0102、2026-10-26）。プラットフォーム別マップの代わりに<code>tier: high|medium|low</code>の1行だけを書きます。スキーマの<code>agent_tiers</code>ロスターは削除され、<code>docs/workspace-schema.json</code>の<code>models</code>ブロックが唯一のプラットフォーム&rarr;ティア&rarr;モデルマッピングです。<code>validate-model-registry.ts</code> v2は従来形式のプラットフォーム別<code>tier:</code>マップブロックに警告を出し、フリートが収束した後は失敗に変わります。</p>
 
   <h4>phases（有効ステップ）</h4>
   <p>エージェントがワークフローのどの段階で有効になるかを指定します。たとえばリサーチエージェントは<code>[1]</code>（Stage 1）でのみ有効になり、バージョンエージェントは<code>[0, 1, 2, 3, 4, 5, 6]</code>（全段階）で有効になります。</p>
@@ -720,7 +717,7 @@ bun scripts/agent-verify.ts &lt;agent-name&gt;</code></pre>
       </li>
       <li>
         <strong>フロントマターの記述</strong><br>
-        下の例を参考にフロントマターを書きます。name、role、status、tier（プラットフォーム別ネストマップ）、description、examples、phases、handoff_to、handoff_fromの各フィールドと、必須のlifecycleブロックをすべて含めます。
+        下の例を参考にフロントマターを書きます。name、role、status、tier（単一のスカラー値）、description、examples、phases、handoff_to、handoff_fromの各フィールドと、必須のlifecycleブロックをすべて含めます。
       </li>
       <li>
         <strong>ボディの記述</strong><br>
@@ -756,12 +753,7 @@ version: "1.0.0"
 last_updated: "2026-08-24"
 role: Summarizes long documents and produces concise briefs
 status: draft
-tier:
-  claude: medium
-  gemini: medium
-  antigravity: medium
-  gemini-cli: medium
-  codex: medium
+tier: medium
 model: inherit
 color: teal
 description: >
@@ -889,7 +881,7 @@ Output structure:
     <ul>
       <li>エージェントは「役割が決まったAI社員」であり、マークダウンファイル形式で作ります</li>
       <li>エージェントファイル = YAMLフロントマター（メタデータ）+ マークダウンボディ（システムプロンプト）</li>
-      <li>フロントマターにはname、role、status、tier（プラットフォーム別ネストマップ、小文字の値）、description、examples、phases、handoff_to/fromと必須のlifecycleブロックを記述</li>
+      <li>フロントマターにはname、role、status、tier（単一の小文字スカラー値）、description、examples、phases、handoff_to/fromと必須のlifecycleブロックを記述</li>
       <li>ボディにはアイデンティティ、行動指針、ドメインルール、ツール使用法、ハンドオフ契約を含めます</li>
       <li>agent-lifecycle-managerスキルの5ステッププロセスに従って体系的に作成</li>
       <li>AGENTS.mdの3か所（Roster、Definitions、Subagent Roster）に登録して初めてPMが認識</li>

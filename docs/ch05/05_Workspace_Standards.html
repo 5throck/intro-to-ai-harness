@@ -245,7 +245,7 @@
 
   <h3 id="agents-md">AGENTS.md — 에이전트 레지스트리</h3>
 
-  <div class="note">현재 표준에서 AGENTS.md는 상세 절차를 모두 담는 문서가 아니라 얇은 디스패처(thin dispatcher)입니다. 로스터와 핵심 PM 정책을 제공하고, 상세 워크플로우와 전체 스킬 레지스트리는 연결된 거버넌스 문서를 참조합니다.</div>
+  <div class="note">현재 표준에서 AGENTS.md는 상세 절차를 모두 담는 문서가 아니라 얇은 디스패처(thin dispatcher)입니다. 로스터와 핵심 PM 정책을 제공하고, 상세 워크플로우와 전체 스킬 레지스트리는 연결된 거버넌스 문서를 참조합니다. 하나의 의도된 예외: 2026-10-22부터 파일 상단의 "&sect;0: PM Role Bootstrap" 섹션은 구속력 있는 행동 지침입니다. AGENTS.md만 자동으로 로드하는 도구(Codex CLI가 그렇습니다)에 매 세션을 PM 역할로 시작하라고 알려 주어, CLAUDE.md/GEMINI.md를 읽지 않는 환경에서도 게이트웨이가 유지됩니다.</div>
 
   <p><strong>AGENTS.md</strong>는 프로젝트에 속한 모든 AI 에이전트의 정의, 역할, Tier, 파견 트리거를 등록하는 "공식 명부"입니다. 이 파일을 열면 표 형태로 모든 에이전트가 나열되어 있고, 각 에이전트의 세부 정의 파일(<code>agents/pm.md</code>, <code>agents/research.md</code> 등)로 연결되는 링크가 있습니다.</p>
 
@@ -283,7 +283,7 @@
 
   <h3 id="codex-md">CODEX.md — Codex CLI/Desktop App용 행동 지침</h3>
 
-  <p><strong>CODEX.md</strong>는 세 번째 플랫폼인 <strong>Codex</strong>(CLI와 Desktop App 모두 포함)용 행동 지침입니다. CLAUDE.md, GEMINI.md와 동일하게 PM Gateway 워크플로우, 에이전트 디스패치 규칙을 담고 있지만, 한 가지 중요한 차이가 있습니다 — Codex에는 <strong>네이티브 서브에이전트 도구가 없어서</strong>, PM이 각 전문 에이전트의 정의 파일(<code>agents/&lt;name&gt;.md</code>)을 역할 컨텍스트로 불러온 뒤 세션 안에서 순차적으로 단계를 직접 수행합니다. 또한 Codex는 워크스페이스의 훅(Hook) 스위트를 실행하지 않으므로, 거버넌스 규칙은 <strong>프롬프트로 자체 강제</strong>됩니다(Antigravity와 동일한 방식).</p>
+  <p><strong>CODEX.md</strong>는 세 번째 플랫폼인 <strong>Codex</strong>(CLI와 Desktop App 모두 포함)용 행동 지침입니다. CLAUDE.md, GEMINI.md와 동일하게 PM Gateway 워크플로우, 에이전트 디스패치 규칙을 담고 있지만, 한 가지 중요한 차이가 있습니다 — Codex에는 <strong>네이티브 서브에이전트 도구가 없어서</strong>, PM이 각 전문 에이전트의 정의 파일(<code>agents/&lt;name&gt;.md</code>)을 역할 컨텍스트로 불러온 뒤 세션 안에서 순차적으로 단계를 직접 수행합니다. Codex는 과거에는 워크스페이스의 훅(Hook)을 전혀 실행하지 않아 거버넌스가 <strong>프롬프트로 자체 강제</strong>되었지만, 2026-10부터 훅 인터페이스를 갖췄습니다 — <code>.codex/hooks.json</code>이 SessionStart에는 <code>pm-role-bootstrap.ts</code>를, UserPromptSubmit에는 <code>codex-user-prompt-gate.ts</code>를 연결하여, 신선한 PM 역할 마커가 없는 세션의 슬래시 스타일 전문 에이전트 호출을 차단합니다. Codex 훅은 신뢰 게이트(trust-gated) 방식입니다(해시 고정, <code>/hooks</code>로 검토하기 전까지는 건너뜀). 사후 검증/QA 훅 스위트는 여전히 Claude/Gemini 전용이므로, 그곳에서는 프롬프트 강제가 여전히 폴백입니다(Antigravity와 동일).</p>
 
   <h3 id="hermes-md">HERMES.md — Hermes Agents용 행동 지침</h3>
 

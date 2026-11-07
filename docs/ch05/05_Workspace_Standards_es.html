@@ -244,7 +244,7 @@
 
   <h3 id="agents-md">AGENTS.md — El registro de agentes</h3>
 
-  <div class="note">En el estándar actual, AGENTS.md es un thin dispatcher: contiene el roster y la política principal del PM; los flujos detallados y el registro completo de skills viven en documentos de gobierno enlazados.</div>
+  <div class="note">En el estándar actual, AGENTS.md es un thin dispatcher: contiene el roster y la política principal del PM; los flujos detallados y el registro completo de skills viven en documentos de gobierno enlazados. Una excepción deliberada: desde el 2026-10-22, la sección «&sect;0: PM Role Bootstrap» de la cabecera es una instrucción de comportamiento vinculante: indica a cualquier herramienta que solo cargue AGENTS.md automáticamente (Codex CLI lo hace) que empiece cada sesión en el rol de PM, de modo que la puerta de enlace se mantiene incluso donde nunca se leen CLAUDE.md/GEMINI.md.</div>
 
   <p><strong>AGENTS.md</strong> es la «lista oficial» donde se registran todos los agentes de IA del proyecto: definiciones, roles, Tiers y disparadores de despacho. Al abrir el archivo encuentras una tabla con todos los agentes y enlaces al archivo de definición detallada de cada uno (<code>agents/pm.md</code>, <code>agents/research.md</code>, etc.).</p>
 
@@ -282,7 +282,7 @@
 
   <h3 id="codex-md">CODEX.md — Instrucciones de comportamiento para Codex CLI/Desktop App</h3>
 
-  <p><strong>CODEX.md</strong> recoge las instrucciones de comportamiento de la tercera plataforma, <strong>Codex</strong> (que abarca tanto la CLI como la Desktop App). Al igual que CLAUDE.md y GEMINI.md, define el flujo PM Gateway y las reglas de despacho de agentes, pero con una diferencia importante — Codex <strong>no tiene una herramienta nativa de subagentes</strong>, así que el PM carga el archivo de definición de cada especialista (<code>agents/&lt;name&gt;.md</code>) como contexto de rol y ejecuta los pasos secuencialmente dentro de la propia sesión. Codex tampoco ejecuta la suite de hooks del workspace, por lo que las reglas de gobernanza se <strong>autoaplican mediante el prompt</strong> (el mismo enfoque que en Antigravity).</p>
+  <p><strong>CODEX.md</strong> recoge las instrucciones de comportamiento de la tercera plataforma, <strong>Codex</strong> (que abarca tanto la CLI como la Desktop App). Al igual que CLAUDE.md y GEMINI.md, define el flujo PM Gateway y las reglas de despacho de agentes, pero con una diferencia importante — Codex <strong>no tiene una herramienta nativa de subagentes</strong>, así que el PM carga el archivo de definición de cada especialista (<code>agents/&lt;name&gt;.md</code>) como contexto de rol y ejecuta los pasos secuencialmente dentro de la propia sesión. Codex históricamente no ejecutaba ningún hook del workspace, dejando la gobernanza <strong>autoaplicada mediante el prompt</strong>; desde 2026-10 cuenta con una superficie de hooks — <code>.codex/hooks.json</code> conecta <code>pm-role-bootstrap.ts</code> en SessionStart y <code>codex-user-prompt-gate.ts</code> en UserPromptSubmit, que bloquea las invocaciones estilo slash de especialistas del roster desde sesiones sin un marcador fresco de rol de PM. Los hooks de Codex están trust-gated (hash fijado y omitidos hasta revisarlos vía <code>/hooks</code>), y la suite de hooks post-write/QA sigue siendo exclusiva de Claude/Gemini, así que la aplicación vía prompt sigue siendo el respaldo allí (como en Antigravity).</p>
 
   <h3 id="hermes-md">HERMES.md — Instrucciones de comportamiento para Hermes Agents</h3>
 

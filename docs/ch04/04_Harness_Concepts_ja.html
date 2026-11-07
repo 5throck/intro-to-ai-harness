@@ -504,9 +504,9 @@ dispatch_triggers:
       </tr>
       <tr>
         <td style="padding:8px 12px;">モデル例</td>
-        <td style="padding:8px 12px;">claude-opus-5-5、gemini-3.1-pro、gpt-5.6-sol</td>
-        <td style="padding:8px 12px;">claude-sonnet-5-5、gemini-3.8-flash、gpt-5.6-terra</td>
-        <td style="padding:8px 12px;">claude-haiku-5-5、gemini-3.8-flash、gpt-5.6-luna</td>
+        <td style="padding:8px 12px;">claude-opus-5-5、gemini-3.1-pro、gpt-5.6-sol、glm-5.3</td>
+        <td style="padding:8px 12px;">claude-sonnet-5-5、gemini-3.8-flash、gpt-5.6-terra、glm-5.3-flash</td>
+        <td style="padding:8px 12px;">claude-haiku-5-5、gemini-3.8-flash、gpt-5.6-luna、glm-5.3-flash</td>
       </tr>
     </tbody>
   </table>
@@ -553,7 +553,7 @@ dispatch_triggers:
   <div class="step-list">
     <ol>
       <li>
-        <strong>Tool-Level（ツールレベル）</strong> &mdash; エージェントツール自体がPMを迂回する呼び出しを拒否します。最も強力な強制層で、正しい鍵でのみ開く施錠された扉のようなものです。
+        <strong>Tool-Level（ツールレベル）</strong> &mdash; エージェントツール自体がPMを迂回する呼び出しを拒否します。最も強力な強制層で、正しい鍵でのみ開く施錠された扉のようなものです。2026年10月から、この層はコードで強制されます。<code>scripts/hooks/pm-dispatch-gate.ts</code> フックがスペシャリストのディスパッチ（Claude Codeの <code>Agent</code> ツール、Gemini CLIの <code>invoke_subagent</code>）を横取りし、セッションに新しいPMロールマーカー（<code>scripts/hooks/pm-role-bootstrap.ts</code> がSessionStart時に記録、24時間有効）がなければ、Claude Codeでは人間の確認へ回し、Gemini CLIでは理由付きで拒否します。ゲートはfail-openです。想定外のペイロードはブロックせずに通します。
       </li>
       <li>
         <strong>System Prompt-Level（システムプロンプトレベル）</strong> &mdash; プラットフォーム（Claude CodeまたはAntigravity CLI）がPMのルールを最初に読み込むため、AIは最初からリクエストをPM経由にすべきだと認識します。

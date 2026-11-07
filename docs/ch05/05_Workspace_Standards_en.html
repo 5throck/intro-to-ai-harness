@@ -245,7 +245,7 @@
 
   <h3 id="agents-md">AGENTS.md — The Agent Registry</h3>
 
-  <div class="note">In the current standard, AGENTS.md is a thin dispatcher: it carries the roster and core PM policy, while detailed workflows and the complete skill registry live in linked governance documents.</div>
+  <div class="note">In the current standard, AGENTS.md is a thin dispatcher: it carries the roster and core PM policy, while detailed workflows and the complete skill registry live in linked governance documents. One deliberate exception: since 2026-10-22 a "&sect;0: PM Role Bootstrap" section at the top is binding behavioral instruction &mdash; it tells any tool that auto-loads only AGENTS.md (Codex CLI does) to start every session in the PM role, so the gateway holds even where CLAUDE.md/GEMINI.md are never read.</div>
 
   <p><strong>AGENTS.md</strong> is the "official roster" that registers every AI agent belonging to the project: definitions, roles, Tiers, and dispatch triggers. When you open the file you find a table listing all the agents, with links to each agent's detailed definition file (<code>agents/pm.md</code>, <code>agents/research.md</code>, etc.).</p>
 
@@ -283,7 +283,7 @@
 
   <h3 id="codex-md">CODEX.md — Behavioral Instructions for Codex CLI/Desktop App</h3>
 
-  <p><strong>CODEX.md</strong> holds the behavioral instructions for the third platform, <strong>Codex</strong> (covering both the CLI and the Desktop App). Like CLAUDE.md and GEMINI.md, it defines the PM Gateway workflow and agent dispatch rules, but with one important difference — Codex has <strong>no native subagent tool</strong>, so the PM loads each specialist's definition file (<code>agents/&lt;name&gt;.md</code>) as role context and carries out the steps sequentially within the session itself. Codex also does not run the workspace's hook suite, so governance rules are <strong>self-enforced via the prompt</strong> (the same approach used for Antigravity).</p>
+  <p><strong>CODEX.md</strong> holds the behavioral instructions for the third platform, <strong>Codex</strong> (covering both the CLI and the Desktop App). Like CLAUDE.md and GEMINI.md, it defines the PM Gateway workflow and agent dispatch rules, but with one important difference — Codex has <strong>no native subagent tool</strong>, so the PM loads each specialist's definition file (<code>agents/&lt;name&gt;.md</code>) as role context and carries out the steps sequentially within the session itself. Codex historically ran none of the workspace's hooks, leaving governance self-enforced via the prompt; as of 2026-10 it gained a hooks surface — <code>.codex/hooks.json</code> wires <code>pm-role-bootstrap.ts</code> on SessionStart and <code>codex-user-prompt-gate.ts</code> on UserPromptSubmit, which blocks slash-style invocations of rostered specialists from sessions without a fresh PM-role marker. Codex hooks are trust-gated (hash-pinned and skipped until reviewed via <code>/hooks</code>), and the post-write/QA hook suite remains Claude/Gemini-only, so prompt enforcement is still the fallback there (as on Antigravity).</p>
 
   <h3 id="hermes-md">HERMES.md — Behavioral Instructions for Hermes Agents</h3>
 

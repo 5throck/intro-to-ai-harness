@@ -244,7 +244,7 @@
 
   <h3 id="agents-md">AGENTS.md — エージェントレジストリ</h3>
 
-  <div class="note">現在の標準では、AGENTS.mdは詳細をすべて載せる文書ではなくthin dispatcherです。ロスターとPMの主要方針を示し、詳細なワークフローと完全なスキルレジストリはリンク先のガバナンス文書を参照します。</div>
+  <div class="note">現在の標準では、AGENTS.mdは詳細をすべて載せる文書ではなくthin dispatcherです。ロスターとPMの主要方針を示し、詳細なワークフローと完全なスキルレジストリはリンク先のガバナンス文書を参照します。意図的な例外が一つあります。2026-10-22から、ファイル先頭の「&sect;0: PM Role Bootstrap」セクションは拘束力のある行動指示です。AGENTS.mdだけを自動読み込みするツール（Codex CLIが該当）に対して、毎セッションをPMロールで開始するよう伝えるため、CLAUDE.md/GEMINI.mdが読まれない環境でもゲートウェイが保たれます。</div>
 
   <p><strong>AGENTS.md</strong>は、プロジェクトに属するすべてのAIエージェントの定義、役割、Tier、ディスパッチトリガーを登録する「公式名簿」です。このファイルを開くと表形式ですべてのエージェントが並んでおり、各エージェントの詳細定義ファイル（<code>agents/pm.md</code>、<code>agents/research.md</code>など）へのリンクが付いています。</p>
 
@@ -282,7 +282,7 @@
 
   <h3 id="codex-md">CODEX.md — Codex CLI/Desktop App用の行動指針</h3>
 
-  <p><strong>CODEX.md</strong>は3つ目のプラットフォームである<strong>Codex</strong>（CLIとDesktop Appの両方を含む）用の行動指針です。CLAUDE.md、GEMINI.mdと同様にPM Gatewayワークフローとエージェントディスパッチルールを定めていますが、一つ重要な違いがあります — Codexには<strong>ネイティブなサブエージェントツールがない</strong>ため、PMが各専門エージェントの定義ファイル（<code>agents/&lt;name&gt;.md</code>）を役割コンテキストとして読み込み、セッション内で順番に各ステップを直接実行します。またCodexはワークスペースのフックスイートを実行しないため、ガバナンスルールは<strong>プロンプトによる自己強制</strong>で守られます（Antigravityと同じ方式です）。</p>
+  <p><strong>CODEX.md</strong>は3つ目のプラットフォームである<strong>Codex</strong>（CLIとDesktop Appの両方を含む）用の行動指針です。CLAUDE.md、GEMINI.mdと同様にPM Gatewayワークフローとエージェントディスパッチルールを定めていますが、一つ重要な違いがあります — Codexには<strong>ネイティブなサブエージェントツールがない</strong>ため、PMが各専門エージェントの定義ファイル（<code>agents/&lt;name&gt;.md</code>）を役割コンテキストとして読み込み、セッション内で順番に各ステップを直接実行します。Codexはかつてワークスペースのフック（Hook）を一切実行せず、ガバナンスルールは<strong>プロンプトによる自己強制</strong>で守られていましたが、2026-10からフックの仕組みを備えました — <code>.codex/hooks.json</code>がSessionStartに<code>pm-role-bootstrap.ts</code>を、UserPromptSubmitに<code>codex-user-prompt-gate.ts</code>を接続し、新しいPMロールマーカーのないセッションによるスラッシュ形式の専門エージェント呼び出しをブロックします。Codexのフックはトラストゲート方式です（ハッシュ固定、<code>/hooks</code>で確認するまでスキップ）。書き込み後/QAフックスイートは引き続きClaude/Gemini専用のため、そこではプロンプトによる強制が依然フォールバックです（Antigravityと同じ方式です）。</p>
 
   <h3 id="hermes-md">HERMES.md — Hermes Agents用の行動指針</h3>
 

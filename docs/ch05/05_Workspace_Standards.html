@@ -258,6 +258,8 @@
     <li><strong>실행 계획 템플릿</strong> — 작업을 계획할 때 사용하는 표준 형식</li>
   </ul>
 
+  <div class="note"><strong>새 소식(2026-11):</strong> 실행 계획의 PM 행 규칙이 더 엄격해졌습니다. 모든 실행 계획 표에는 PM이 소유한 단계(설계 게이트 결정, 검증, <code>/sync</code> 등)마다 행이 있어야 하고, PM 행의 모든 열을 채워야 합니다: Agent는 <code>pm</code>, Tier는 <code>Medium</code>, Model은 <code>PM running on:</code> 헤더 줄과 일치하는 <code>inherit (&lt;세션 모델 별칭&gt;)</code>(예: <code>inherit (sonnet)</code>), Platform도 채웁니다. PM 행에 <code>—</code>가 있거나 Tier/Model 셀이 비었거나 PM 소유 행이 아예 없으면 실행 계획은 무효입니다. Agent/Tier/Model을 비워 둘 수 있는 행은 E1&ndash;E5 면제 표시 행뿐입니다.</div>
+
   <p>초보자 비유: <strong>AGENTS.md는 회사의 "직원 명부"입니다.</strong> 직원 명부에는 각 직원의 이름, 직급(Tier), 담당 업무가 적혀 있습니다. 마찬가지로 AGENTS.md에는 각 AI 에이전트의 이름, 등급, 역할이 명확하게 정의되어 있습니다.</p>
 
   <h3 id="claude-md">CLAUDE.md — Claude Code용 행동 지침</h3>

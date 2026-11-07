@@ -258,6 +258,8 @@
     <li><strong>Execution plan templates</strong> — The standard format used when planning tasks</li>
   </ul>
 
+  <div class="note"><strong>What's new (2026-11):</strong> execution plans got a stricter PM-row rule. Every execution-plan table must include a row for every PM-owned step — the design-gate decision, verification, <code>/sync</code> — and every column of a PM row must be filled: Agent <code>pm</code>, Tier <code>Medium</code>, Model <code>inherit (&lt;session model alias&gt;)</code> matching the <code>PM running on:</code> header line (e.g. <code>inherit (sonnet)</code>), Platform filled. A PM row with <code>—</code>, a blank Tier/Model cell, or a missing PM-owned row makes the plan invalid; only E1&ndash;E5 exemption marker rows may leave Agent/Tier/Model blank.</div>
+
   <p>Beginner's analogy: <strong>AGENTS.md is the company's "employee roster."</strong> An employee roster lists each person's name, rank (Tier), and duties. Likewise, AGENTS.md clearly defines each AI agent's name, grade, and role.</p>
 
   <h3 id="claude-md">CLAUDE.md — Behavioral Instructions for Claude Code</h3>

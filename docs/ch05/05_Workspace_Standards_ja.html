@@ -257,6 +257,8 @@
     <li><strong>実行計画テンプレート</strong> — 作業を計画するときに使う標準形式</li>
   </ul>
 
+  <div class="note"><strong>2026-11の新情報：</strong>実行計画のPM行ルールがより厳格になりました。すべての実行計画テーブルには、PMが所有するステップ（デザインゲートの決定、検証、<code>/sync</code>など）ごとに行がなければならず、PM行の全列を埋める必要があります：Agentは<code>pm</code>、Tierは<code>Medium</code>、Modelは<code>PM running on:</code>ヘッダー行と一致する<code>inherit (&lt;セッションモデル別名&gt;)</code>（例：<code>inherit (sonnet)</code>）、Platformも記入します。PM行に<code>—</code>がある、Tier/Modelセルが空、またはPM所有行が欠けている場合、実行計画は無効です。Agent/Tier/Modelを空にできるのはE1&ndash;E5免除マーカー行だけです。</div>
+
   <p>初心者向けの例え：<strong>AGENTS.mdは会社の「社員名簿」です。</strong>社員名簿には各社員の名前、職級（Tier）、担当業務が書かれています。同様にAGENTS.mdには各AIエージェントの名前、等級、役割が明確に定義されています。</p>
 
   <h3 id="claude-md">CLAUDE.md — Claude Code用の行動指針</h3>

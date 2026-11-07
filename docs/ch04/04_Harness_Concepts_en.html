@@ -504,14 +504,14 @@ dispatch_triggers:
       </tr>
       <tr>
         <td style="padding:8px 12px;">Example models</td>
-        <td style="padding:8px 12px;">claude-opus-5-5, gemini-3.1-pro, gpt-5.6-sol</td>
-        <td style="padding:8px 12px;">claude-sonnet-5-5, gemini-3.8-flash, gpt-5.6-terra</td>
-        <td style="padding:8px 12px;">claude-haiku-5-5, gemini-3.8-flash, gpt-5.6-luna</td>
+        <td style="padding:8px 12px;">claude-opus-5-5, gemini-3.1-pro, gpt-6.1-sol</td>
+        <td style="padding:8px 12px;">claude-sonnet-5-5, gemini-3.8-flash, gpt-6.1-terra</td>
+        <td style="padding:8px 12px;">claude-haiku-5-5, gemini-3.8-flash, gpt-6-luna</td>
       </tr>
     </tbody>
   </table>
 
-  <p><strong>What's new (2026-09)</strong> &mdash; the table tracks the upstream registry (<code>AGENTS.md</code> &sect;3.6): High and Medium moved to <code>claude-opus-5-5</code> and <code>claude-sonnet-5-5</code>, and both Gemini rows now read <code>gemini-3.8-flash</code>. Agent files also stopped hardcoding model IDs on their tier lines &mdash; a tier such as <code>high</code> is translated to the platform's concrete model at dispatch time. As of 2026-10 the Low tier's example is <code>claude-haiku-5-5</code> (the <code>haiku</code> alias is unchanged), and skills are barred from hardcoding literal model IDs altogether &mdash; registry IDs live only in <code>docs/workspace-schema.json</code> (<code>models.*</code>), and model changes route through the <code>model-migration</code> skill.</p>
+  <p><strong>What's new (2026-09)</strong> &mdash; the table tracks the upstream registry (<code>AGENTS.md</code> &sect;3.6): High and Medium moved to <code>claude-opus-5-5</code> and <code>claude-sonnet-5-5</code>, and both Gemini rows now read <code>gemini-3.8-flash</code>. Agent files also stopped hardcoding model IDs on their tier lines &mdash; a tier such as <code>high</code> is translated to the platform's concrete model at dispatch time. As of 2026-10 the Low tier's example is <code>claude-haiku-5-5</code> (the <code>haiku</code> alias is unchanged), and skills are barred from hardcoding literal model IDs altogether &mdash; registry IDs live only in <code>docs/workspace-schema.json</code> (<code>models.*</code>), and model changes route through the <code>model-migration</code> skill. As of 2026-11 the codex column moved to the GPT-6.x generation: <code>gpt-5.6-sol</code> became <code>gpt-6.1-sol</code>, <code>gpt-5.6-terra</code> became <code>gpt-6.1-terra</code>, and <code>gpt-5.6-luna</code> became <code>gpt-6-luna</code> &mdash; mind the Low tier, which lands on <code>gpt-6-luna</code>, not 6.1 (verified against the OpenAI model docs on 2026-10-31; the sol/terra/luna tier pattern is kept, and <code>gpt-6-astra</code> was deliberately not adopted). The same registry batch also declared the zai reasoning posture uniform &mdash; workspace dispatch runs at reasoning level <code>high</code> for all tiers &mdash; and registered <code>zcode</code> as a registry-only platform that resolves models via the zai column.</p>
 
   <h3 id="tier-key-rules">Key Rules</h3>
 

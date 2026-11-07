@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Appendix E · Exploring Repo Context with graft - Introduction to Claude Code and Multi-Agent Harness">
+  <meta name="description" content="Appendix E · Exploring Repo Context with trail - Introduction to Claude Code and Multi-Agent Harness">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
-  <title>Appendix E · Exploring Repo Context with graft</title>
+  <title>Appendix E · Exploring Repo Context with trail</title>
   <link rel="stylesheet" href="../assets/css/handbook-variables.css">
   <link rel="stylesheet" href="../assets/css/handbook-components.css">
 </head>
@@ -13,13 +13,13 @@
 <div class="layout">
 <nav>
   <a href="../index_en.html" class="nav-home">&larr; Handbook Home</a>
-  <div class="nav-title">Appendix E &middot; Exploring Repo Context with graft</div>
-  <a href="#what-is-graft">What is graft</a>
-  <a href="#why">Why graft instead of grep</a>
+  <div class="nav-title">Appendix E &middot; Exploring Repo Context with trail</div>
+  <a href="#what-is-graft">What is trail</a>
+  <a href="#why">Why trail instead of grep</a>
   <a href="#core-commands">Core Commands</a>
   <a href="#mcp-tools">Using It as MCP Tools</a>
   <a href="#workflow">Real-World Workflow</a>
-  <a href="#build">Refreshing the Graph (graft build)</a>
+  <a href="#build">Refreshing the Graph (trail build)</a>
   <div class="nav-section">Other Chapters</div>
   <a href="A_Remote_Access_en.html">Appendix A &middot; Remote Access Setup</a>
   <a href="B_Claude_Code_CLI_en.html">Appendix B &middot; Claude Code CLI Guide</a>
@@ -29,45 +29,49 @@
 <main>
  <article class="reading">
   <div class="chapter-eyebrow">Appendix E</div>
-  <h1>Exploring Repo Context with graft</h1>
-  <p class="lead">graft is a pre-built context graph of your repository. When you need to understand code, find where to make a change, or trace the blast radius of an edit, asking graft first — instead of grepping or opening files blind — gets you an exact file:line answer for far fewer tokens.</p>
+  <h1>Exploring Repo Context with trail</h1>
+  <p class="lead">trail is a pre-built context graph of your repository. When you need to understand code, find where to make a change, or trace the blast radius of an edit, asking trail first — instead of grepping or opening files blind — gets you an exact file:line answer for far fewer tokens.</p>
   <div class="keypoints">
     <div class="kp-title">What this appendix covers</div>
     <ul>
-      <li>What graft is and why it exists</li>
-      <li>Why reach for graft before grep or reading files directly</li>
+      <li>What trail is and why it exists</li>
+      <li>Why reach for trail before grep or reading files directly</li>
       <li>The five core commands (ask, grep, skeleton, callers, map)</li>
-      <li>Using graft as MCP tools (in supported environments)</li>
+      <li>Using trail as MCP tools (in supported environments)</li>
       <li>A real-world workflow example</li>
       <li>Refreshing the graph after code changes</li>
     </ul>
   </div>
 
+  <div class="note">
+    <strong>What's new (2026-11):</strong> the tool was renamed. trail is the vendor rename of graft 0.28 (install: <code>npm i -g @trailhq/trail-code</code>; the graft-era package <code>@nanonets/graft</code> still resolves). Everything this appendix teaches carries over — the commands just say <code>trail</code> now: <code>trail map</code>, <code>trail ask</code>, <code>trail grep</code>, <code>trail skeleton</code>, <code>trail callers</code>, <code>trail build</code>. The MCP tool names keep the vendor's graft spelling (<code>graft_find_code</code>, <code>graft_find_all</code>, <code>graft_trace_calls</code>, <code>graft_file_api</code>, <code>graft_repo_map</code>) — vendor-internal surface, not ours to rename. Policy: ADR-0076; migration design: <code>docs/designs/2026-10-31-graft-trail-migration-design.md</code> in the upstream workspace.
+  </div>
+
   <!-- ============================================================
        SECTION 1: What is graft
        ============================================================ -->
-  <h2 id="what-is-graft">1. What is graft</h2>
+  <h2 id="what-is-graft">1. What is trail</h2>
 
-  <p>graft scans a repository and produces a graph of small markdown nodes — one per file, each explaining what the file does, what symbols it defines, and who calls it. This graph lives in a <code>graft/</code> directory and is kept in sync with the code through git as the codebase evolves.</p>
+  <p>trail scans a repository and produces a graph of small markdown nodes — one per file, each explaining what the file does, what symbols it defines, and who calls it. This graph lives in a <code>.trail/cache/</code> directory (graft-era checkouts that haven't run <code>trail init</code> yet still use <code>graft/</code>) and is kept in sync with the code through git as the codebase evolves.</p>
 
   <div class="flow-box">
-    grep only tells you <strong>where a string appears</strong>. graft is a pre-built map that already tells you <strong>where a concept is defined, how it behaves, and who uses it</strong>. It's the difference between wandering a new city block by block and being handed a map someone already drew.
+    grep only tells you <strong>where a string appears</strong>. trail is a pre-built map that already tells you <strong>where a concept is defined, how it behaves, and who uses it</strong>. It's the difference between wandering a new city block by block and being handed a map someone already drew.
   </div>
 
-  <p>graft can be used two ways:</p>
+  <p>trail can be used two ways:</p>
   <ul>
-    <li><strong>CLI</strong> — run <code>graft &lt;subcommand&gt;</code> directly from the terminal</li>
-    <li><strong>MCP tools</strong> — when the host (e.g. Claude Code) exposes tools like <code>graft_find_code</code>, <code>graft_find_all</code>, <code>graft_trace_calls</code>, <code>graft_file_api</code>, and <code>graft_repo_map</code>, the same graph is queried through tool calls instead</li>
+    <li><strong>CLI</strong> — run <code>trail &lt;subcommand&gt;</code> directly from the terminal</li>
+    <li><strong>MCP tools</strong> — when the host (e.g. Claude Code) exposes tools like <code>graft_find_code</code>, <code>graft_find_all</code>, <code>graft_trace_calls</code>, <code>graft_file_api</code>, and <code>graft_repo_map</code>, the same graph is queried through tool calls instead (the tool names keep the vendor's graft spelling)</li>
   </ul>
 
   <div class="note">
-    In this workspace, a SessionStart hook reminds you to use graft at the start of every session. In practice, that means: for any task involving understanding or changing code, <strong>reach for graft first</strong> — that is the baseline rule here.
+    In this workspace, a SessionStart hook reminds you to use trail at the start of every session. In practice, that means: for any task involving understanding or changing code, <strong>reach for trail first</strong> — that is the baseline rule here.
   </div>
 
   <!-- ============================================================
-       SECTION 2: Why graft instead of grep
+       SECTION 2: Why trail instead of grep
        ============================================================ -->
-  <h2 id="why">2. Why graft instead of grep</h2>
+  <h2 id="why">2. Why trail instead of grep</h2>
 
   <div class="table-compare">
     <table>
@@ -75,34 +79,34 @@
         <tr>
           <th>Situation</th>
           <th>grep / reading files directly</th>
-          <th>graft</th>
+          <th>trail</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>"How does this feature work?"</td>
           <td>Have to guess which files are relevant and open several</td>
-          <td><code>graft ask</code> returns ranked results with code snippets inline, immediately</td>
+          <td><code>trail ask</code> returns ranked results with code snippets inline, immediately</td>
         </tr>
         <tr>
           <td>"Who calls this symbol?"</td>
           <td>String search plus manual cross-checking (lots of false positives)</td>
-          <td><code>graft callers</code> reads the exact call edges straight from the graph</td>
+          <td><code>trail callers</code> reads the exact call edges straight from the graph</td>
         </tr>
         <tr>
           <td>"Find every occurrence of this pattern"</td>
           <td>Possible with grep -rn, but results are unorganized</td>
-          <td><code>graft grep</code> groups every hit by its enclosing symbol</td>
+          <td><code>trail grep</code> groups every hit by its enclosing symbol</td>
         </tr>
         <tr>
           <td>"I want to skim this file's whole API"</td>
           <td>Have to read the entire file (expensive in tokens)</td>
-          <td><code>graft skeleton</code> gives every signature at roughly 10x lower cost</td>
+          <td><code>trail skeleton</code> gives every signature at roughly 10x lower cost</td>
         </tr>
         <tr>
           <td>"New to this repo, where do I start?"</td>
           <td>Read the README and open folders one by one</td>
-          <td><code>graft map</code> summarizes directory clusters, hubs, and hotspots within a token budget</td>
+          <td><code>trail map</code> summarizes directory clusters, hubs, and hotspots within a token budget</td>
         </tr>
       </tbody>
     </table>
@@ -117,18 +121,18 @@
        ============================================================ -->
   <h2 id="core-commands">3. Core Commands</h2>
 
-  <h3>3.1 graft map — orientation for an unfamiliar repo</h3>
+  <h3>3.1 trail map — orientation for an unfamiliar repo</h3>
   <p>Run this first when you're new to a repository. No LLM call involved (free, $0), it shows directory structure, hub files, and hotspots within a token budget.</p>
   <div class="code-block">
-<pre><code>graft map</code></pre>
+<pre><code>trail map</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
   <p><strong>Note:</strong> map is the answer on its own. Following up by running skeleton on every subsystem it names is overuse.</p>
 
-  <h3>3.2 graft ask — find where to understand or edit</h3>
+  <h3>3.2 trail ask — find where to understand or edit</h3>
   <p>For questions like "how does this work?" or "where is this defined?", it returns ranked results with code snippets inlined.</p>
   <div class="code-block">
-<pre><code>graft ask "how does the retry logic behave on login failure" --source</code></pre>
+<pre><code>trail ask "how does the retry logic behave on login failure" --source</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
   <ul>
@@ -138,40 +142,40 @@
   </ul>
 
   <div class="warn">
-    Don't use ask for <strong>exhaustive</strong> tasks like "find every occurrence of this pattern." ask is ranked, top-N only — it does not guarantee completeness. Use graft grep for exhaustive searches.
+    Don't use ask for <strong>exhaustive</strong> tasks like "find every occurrence of this pattern." ask is ranked, top-N only — it does not guarantee completeness. Use trail grep for exhaustive searches.
   </div>
 
-  <h3>3.3 graft grep — exhaustive search</h3>
+  <h3>3.3 trail grep — exhaustive search</h3>
   <p>Finds <strong>every</strong> occurrence of a literal string or symbol, grouped by the symbol that encloses each hit.</p>
   <div class="code-block">
-<pre><code>graft grep "processPayment"</code></pre>
+<pre><code>trail grep "processPayment"</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
   <p>Fall back to raw <code>grep -rn</code> only when you need to cover files that aren't indexed.</p>
 
-  <h3>3.4 graft skeleton — a file's whole API at a glance</h3>
+  <h3>3.4 trail skeleton — a file's whole API at a glance</h3>
   <p>Shows every definition's signature and location without reading the whole file, at roughly 10x lower cost. Useful for skimming an API surface.</p>
   <div class="code-block">
-<pre><code>graft skeleton src/services/payment.ts</code></pre>
+<pre><code>trail skeleton src/services/payment.ts</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
 
-  <h3>3.5 graft callers — trace exact call relationships</h3>
+  <h3>3.5 trail callers — trace exact call relationships</h3>
   <p>Before changing a symbol, find out exactly who calls it (or what it calls). Always run this before a refactor or rename.</p>
   <div class="code-block">
 <pre><code># Who calls this symbol (default)
-graft callers formatCurrency
+trail callers formatCurrency
 
 # What this symbol calls
-graft callers formatCurrency --direction out
+trail callers formatCurrency --direction out
 
 # Full blast radius (every connected file)
-graft callers formatCurrency --depth all</code></pre>
+trail callers formatCurrency --depth all</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
 
   <div class="note">
-    The classic mistake in refactors, renames, or multi-file changes is <strong>editing only the primary file and stopping there</strong>. Run <code>graft callers &lt;symbol&gt; --depth all</code> first to map every connected file, then edit.
+    The classic mistake in refactors, renames, or multi-file changes is <strong>editing only the primary file and stopping there</strong>. Run <code>trail callers &lt;symbol&gt; --depth all</code> first to map every connected file, then edit.
   </div>
 
   <!-- ============================================================
@@ -190,17 +194,17 @@ graft callers formatCurrency --depth all</code></pre>
         </tr>
       </thead>
       <tbody>
-        <tr><td><code>graft ask</code></td><td><code>graft_find_code</code></td></tr>
-        <tr><td><code>graft grep</code></td><td><code>graft_find_all</code></td></tr>
-        <tr><td><code>graft callers</code></td><td><code>graft_trace_calls</code></td></tr>
-        <tr><td><code>graft skeleton</code></td><td><code>graft_file_api</code></td></tr>
-        <tr><td><code>graft map</code></td><td><code>graft_repo_map</code></td></tr>
+        <tr><td><code>trail ask</code></td><td><code>graft_find_code</code></td></tr>
+        <tr><td><code>trail grep</code></td><td><code>graft_find_all</code></td></tr>
+        <tr><td><code>trail callers</code></td><td><code>graft_trace_calls</code></td></tr>
+        <tr><td><code>trail skeleton</code></td><td><code>graft_file_api</code></td></tr>
+        <tr><td><code>trail map</code></td><td><code>graft_repo_map</code></td></tr>
       </tbody>
     </table>
   </div>
 
   <div class="tip-box">
-    Call edges — who calls what — live <strong>only in the graph</strong>, not in the node markdown files themselves. <code>graft callers</code> / <code>graft_trace_calls</code> is the only way to read them.
+    Call edges — who calls what — live <strong>only in the graph</strong>, not in the node markdown files themselves. <code>trail callers</code> / <code>graft_trace_calls</code> is the only way to read them.
   </div>
 
   <!-- ============================================================
@@ -212,7 +216,7 @@ graft callers formatCurrency --depth all</code></pre>
     <div class="step">
       <div class="step-content">
         <div class="step-label">Step 1: New repo? Start with map</div>
-        <p>If you're unfamiliar with a project, run <code>graft map</code> first to get the overall lay of the land.</p>
+        <p>If you're unfamiliar with a project, run <code>trail map</code> first to get the overall lay of the land.</p>
       </div>
     </div>
     <div class="step">
@@ -230,7 +234,7 @@ graft callers formatCurrency --depth all</code></pre>
     <div class="step">
       <div class="step-content">
         <div class="step-label">Step 4: Refresh the graph after big changes</div>
-        <p>After a significant code change, run <code>graft build</code> to bring the graph back up to date.</p>
+        <p>After a significant code change, run <code>trail build</code> to bring the graph back up to date.</p>
       </div>
     </div>
   </div>
@@ -238,26 +242,27 @@ graft callers formatCurrency --depth all</code></pre>
   <!-- ============================================================
        SECTION 6: Refreshing the Graph
        ============================================================ -->
-  <h2 id="build">6. Refreshing the Graph (graft build)</h2>
+  <h2 id="build">6. Refreshing the Graph (trail build)</h2>
 
-  <p>The graft graph is generated deterministically and can be refreshed for free, with no LLM API key required. After a large code change — new files, a major refactor — rebuild the graph to keep it current.</p>
+  <p>The trail graph is generated deterministically and can be refreshed for free, with no LLM API key required. After a large code change — new files, a major refactor — rebuild the graph to keep it current.</p>
 
   <div class="code-block">
-<pre><code>graft build</code></pre>
+<pre><code>trail build</code></pre>
 <button type="button" class="copy-btn">Copy</button>
 </div>
 
   <div class="warn">
-    You don't need to run build after every small edit. The graph is version-controlled alongside git; refreshing it once after a meaningful chunk of work is enough.
+    You don't need to run build after every small edit. The graph is version-controlled alongside git; refreshing it once after a meaningful chunk of work is enough. Two related commands: <code>trail check</code> reports index freshness, and on a repo migrated by <code>trail init</code> pass <code>--dir .trail/cache</code> to <code>trail build</code> — the binary still defaults its graph directory to the graft-era <code>&lt;repo&gt;/graft</code>.
   </div>
 
   <div class="note">
-    <strong>As of 2026-09-20:</strong> when you create a new project (<code>new-project.ts</code>), the graft graph is built automatically during scaffolding. It first uses the globally installed <code>graft</code> command and falls back to <code>bunx</code> if that is missing. In other words, a freshly scaffolded project can answer <code>graft ask</code> questions from day one.
+    <strong>As of 2026-09-20:</strong> when you create a new project (<code>new-project.ts</code>), the graph is built automatically during scaffolding. It first uses the globally installed command and falls back to <code>bunx</code> if that is missing. In other words, a freshly scaffolded project can answer <code>trail ask</code> questions from day one.
   </div>
-    <p><strong>Update (2026-10):</strong> the workspace itself no longer carries graft’s integration files. The <code>skills/graft</code> skill is marked <code>mirror: false</code> and <code>l2_propagate: false</code> in its frontmatter, and scaffolded <code>AGENTS.md</code> files no longer receive a pre-rendered graft block &mdash; graft surfaces are tool-owned, so run <code>graft init</code> once in a checkout to materialize them. The scaffold-time graph build described above still works the same way.</p>
+    <p><strong>Update (2026-10):</strong> the workspace itself no longer carries graft’s integration files. The skill is marked <code>mirror: false</code> and <code>l2_propagate: false</code> in its frontmatter, and scaffolded <code>AGENTS.md</code> files no longer receive a pre-rendered graft block &mdash; graph surfaces are tool-owned, so run <code>trail init</code> once in a checkout to materialize them. The scaffold-time graph build described above still works the same way.</p>
+    <p><strong>Update (2026-11):</strong> the skill itself was renamed with the vendor: <code>skills/graft</code> became <code>skills/trail</code> upstream, and <code>trail init</code> (which also runs inside <code>trail upgrade</code>) finishes the per-repo migration — it swaps the instruction-block markers, moves the graph index to <code>.trail/cache/</code>, replaces helper hooks with <code>.trail/hook.cjs</code>, and deletes the tracked <code>.mcp.json</code> seed. Verify a checkout with <code>trail check</code> and <code>ls .trail/cache/INDEX.md</code>.</p>
 
   <div class="flow-box">
-    In short: <strong>understand or edit → graft ask</strong>, <strong>find everything → graft grep</strong>, <strong>skim an API → graft skeleton</strong>, <strong>trace blast radius → graft callers</strong>, <strong>new to a repo → graft map</strong>. Those five are all you need to remember.
+    In short: <strong>understand or edit → trail ask</strong>, <strong>find everything → trail grep</strong>, <strong>skim an API → trail skeleton</strong>, <strong>trace blast radius → trail callers</strong>, <strong>new to a repo → trail map</strong>. Those five are all you need to remember.
   </div>
 
   <div class="chapter-nav">

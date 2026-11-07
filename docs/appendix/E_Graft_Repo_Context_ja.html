@@ -2,10 +2,10 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="付録E・graftでリポジトリコンテキストを探索する - Claude Codeとマルチエージェントハーネス入門ハンドブック">
+  <meta name="description" content="付録E・trailでリポジトリコンテキストを探索する - Claude Codeとマルチエージェントハーネス入門ハンドブック">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
-  <title>付録E・graftでリポジトリコンテキストを探索する</title>
+  <title>付録E・trailでリポジトリコンテキストを探索する</title>
   <link rel="stylesheet" href="../assets/css/handbook-variables.css">
   <link rel="stylesheet" href="../assets/css/handbook-components.css">
 </head>
@@ -13,13 +13,13 @@
 <div class="layout">
 <nav>
   <a href="../index_ja.html" class="nav-home">&larr; ハンドブックホーム</a>
-  <div class="nav-title">付録E &middot; graftでリポジトリコンテキストを探索する</div>
-  <a href="#what-is-graft">graftとは何か</a>
-  <a href="#why">なぜgrepではなくgraftなのか</a>
+  <div class="nav-title">付録E &middot; trailでリポジトリコンテキストを探索する</div>
+  <a href="#what-is-graft">trailとは何か</a>
+  <a href="#why">なぜgrepではなくtrailなのか</a>
   <a href="#core-commands">主要コマンド</a>
   <a href="#mcp-tools">MCPツールとして使う</a>
   <a href="#workflow">実践ワークフロー</a>
-  <a href="#build">グラフの更新 (graft build)</a>
+  <a href="#build">グラフの更新 (trail build)</a>
   <div class="nav-section">他の章</div>
   <a href="A_Remote_Access_ja.html">付録A &middot; リモートアクセス環境設定</a>
   <a href="B_Claude_Code_CLI_ja.html">付録B &middot; Claude Code CLIの使い方</a>
@@ -29,45 +29,49 @@
 <main>
  <article class="reading">
   <div class="chapter-eyebrow">付録E</div>
-  <h1>graftでリポジトリコンテキストを探索する</h1>
-  <p class="lead">graftはリポジトリをあらかじめインデックス化したコンテキストグラフです。コードを理解したり、どこを修正すべきか探したり、変更の影響範囲を把握したりするとき、grepやファイルを直接開く代わりに先にgraftへ尋ねると、はるかに少ないトークンで正確なfile:line位置が得られます。</p>
+  <h1>trailでリポジトリコンテキストを探索する</h1>
+  <p class="lead">trailはリポジトリをあらかじめインデックス化したコンテキストグラフです。コードを理解したり、どこを修正すべきか探したり、変更の影響範囲を把握したりするとき、grepやファイルを直接開く代わりに先にtrailへ尋ねると、はるかに少ないトークンで正確なfile:line位置が得られます。</p>
   <div class="keypoints">
     <div class="kp-title">この付録で扱う内容</div>
     <ul>
-      <li>graftとは何か、なぜ必要か</li>
-      <li>grep/ファイル直接読み込みより先にgraftを使うべき理由</li>
+      <li>trailとは何か、なぜ必要か</li>
+      <li>grep/ファイル直接読み込みより先にtrailを使うべき理由</li>
       <li>主要コマンド5つ (ask, grep, skeleton, callers, map)</li>
-      <li>MCPツールとしてgraftを使う方法（対応環境）</li>
+      <li>MCPツールとしてtrailを使う方法（対応環境）</li>
       <li>実践ワークフローの例</li>
       <li>コード変更後のグラフ更新</li>
     </ul>
   </div>
 
+  <div class="note">
+    <strong>2026-11の新情報：</strong>ツールの名前が変わりました。trailはgraft 0.28のベンダーによるリネームです（インストール: <code>npm i -g @trailhq/trail-code</code>。graft時代のパッケージ<code>@nanonets/graft</code>も引き続き解決されます）。この付録の内容はそのまま有効で、コマンドの接頭辞が<code>trail</code>に変わるだけです: <code>trail map</code>、<code>trail ask</code>、<code>trail grep</code>、<code>trail skeleton</code>、<code>trail callers</code>、<code>trail build</code>。MCPツール名はベンダーのgraft表記をそのまま維持します（<code>graft_find_code</code>、<code>graft_find_all</code>、<code>graft_trace_calls</code>、<code>graft_file_api</code>、<code>graft_repo_map</code>）— ベンダー内部のサーフェスであり、こちらでは改名しません。ポリシー: ADR-0076、移行設計: 上流ワークスペースの<code>docs/designs/2026-10-31-graft-trail-migration-design.md</code>。
+  </div>
+
   <!-- ============================================================
        SECTION 1: graftとは何か
        ============================================================ -->
-  <h2 id="what-is-graft">1. graftとは何か</h2>
+  <h2 id="what-is-graft">1. trailとは何か</h2>
 
-  <p>graftはリポジトリをスキャンし、ファイルごとに「このファイルが何をするか、どのシンボルを定義しているか、誰が呼び出しているか」を整理した小さなMarkdownノードのグラフを作成します。このグラフは<code>graft/</code>ディレクトリに保存され、コードが変わるたびにgitと共に更新されます。</p>
+  <p>trailはリポジトリをスキャンし、ファイルごとに「このファイルが何をするか、どのシンボルを定義しているか、誰が呼び出しているか」を整理した小さなMarkdownノードのグラフを作成します。このグラフは<code>.trail/cache/</code>ディレクトリに保存され（<code>trail init</code>をまだ実行していないgraft時代のチェックアウトは<code>graft/</code>をそのまま使います）、コードが変わるたびにgitと共に更新されます。</p>
 
   <div class="flow-box">
-    grepは<strong>「この文字列がどこにあるか」</strong>だけを教えてくれます。graftは<strong>「この概念がどこで定義され、どう動作し、誰が使っているか」</strong>まであらかじめ整理された地図です。初めて訪れる街を路地ごとに歩き回るのと、すでに作られた地図を見るのとの違いです。
+    grepは<strong>「この文字列がどこにあるか」</strong>だけを教えてくれます。trailは<strong>「この概念がどこで定義され、どう動作し、誰が使っているか」</strong>まであらかじめ整理された地図です。初めて訪れる街を路地ごとに歩き回るのと、すでに作られた地図を見るのとの違いです。
   </div>
 
-  <p>graftは2つの方法で使えます：</p>
+  <p>trailは2つの方法で使えます：</p>
   <ul>
-    <li><strong>CLI</strong> — ターミナルで<code>graft &lt;subcommand&gt;</code>の形式で直接実行</li>
-    <li><strong>MCPツール</strong> — ホスト（Claude Codeなど）が<code>graft_find_code</code>、<code>graft_find_all</code>、<code>graft_trace_calls</code>、<code>graft_file_api</code>、<code>graft_repo_map</code>のようなツールを公開している場合、同じグラフをツール呼び出しで照会</li>
+    <li><strong>CLI</strong> — ターミナルで<code>trail &lt;subcommand&gt;</code>の形式で直接実行</li>
+    <li><strong>MCPツール</strong> — ホスト（Claude Codeなど）が<code>graft_find_code</code>、<code>graft_find_all</code>、<code>graft_trace_calls</code>、<code>graft_file_api</code>、<code>graft_repo_map</code>のようなツールを公開している場合、同じグラフをツール呼び出しで照会（ツール名はベンダーのgraft表記を維持）</li>
   </ul>
 
   <div class="note">
-    このワークスペースでは、セッション開始時にSessionStartフックがgraftの利用を案内します。つまり、コードを理解したり修正したりする作業であれば、<strong>まずgraftを確認することがこのワークスペースの基本ルール</strong>です。
+    このワークスペースでは、セッション開始時にSessionStartフックがtrailの利用を案内します。つまり、コードを理解したり修正したりする作業であれば、<strong>まずtrailを確認することがこのワークスペースの基本ルール</strong>です。
   </div>
 
   <!-- ============================================================
-       SECTION 2: なぜgrepではなくgraftなのか
+       SECTION 2: なぜgrepではなくtrailなのか
        ============================================================ -->
-  <h2 id="why">2. なぜgrepではなくgraftなのか</h2>
+  <h2 id="why">2. なぜgrepではなくtrailなのか</h2>
 
   <div class="table-compare">
     <table>
@@ -75,34 +79,34 @@
         <tr>
           <th>状況</th>
           <th>grep / ファイル直接読み込み</th>
-          <th>graft</th>
+          <th>trail</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>「この機能はどう動作するか？」</td>
           <td>関連ファイルを推測して複数開く必要がある</td>
-          <td><code>graft ask</code>がコードスニペット付きのランキング結果を即座に返す</td>
+          <td><code>trail ask</code>がコードスニペット付きのランキング結果を即座に返す</td>
         </tr>
         <tr>
           <td>「このシンボルを誰が呼び出しているか？」</td>
           <td>文字列検索＋手動照合（誤検出が多い）</td>
-          <td><code>graft callers</code>が正確な呼び出し関係をグラフから直接照会</td>
+          <td><code>trail callers</code>が正確な呼び出し関係をグラフから直接照会</td>
         </tr>
         <tr>
           <td>「このパターンが出現する箇所を全部探したい」</td>
           <td>grep -rnで可能だが結果が整理されない</td>
-          <td><code>graft grep</code>が包含するシンボルごとにグループ化して表示</td>
+          <td><code>trail grep</code>が包含するシンボルごとにグループ化して表示</td>
         </tr>
         <tr>
           <td>「このファイルのAPI全体をざっと確認したい」</td>
           <td>ファイル全体を読む必要がある（トークン消費が大きい）</td>
-          <td><code>graft skeleton</code>がシグネチャだけを約10倍安く提供</td>
+          <td><code>trail skeleton</code>がシグネチャだけを約10倍安く提供</td>
         </tr>
         <tr>
           <td>「初めて見るリポジトリ、どこから始める？」</td>
           <td>READMEを読んでフォルダを一つずつ開いていく</td>
-          <td><code>graft map</code>がディレクトリクラスター・ハブ・ホットスポットをトークン予算内で要約</td>
+          <td><code>trail map</code>がディレクトリクラスター・ハブ・ホットスポットをトークン予算内で要約</td>
         </tr>
       </tbody>
     </table>
@@ -117,18 +121,18 @@
        ============================================================ -->
   <h2 id="core-commands">3. 主要コマンド</h2>
 
-  <h3>3.1 graft map — 初めてのリポジトリのオリエンテーション</h3>
+  <h3>3.1 trail map — 初めてのリポジトリのオリエンテーション</h3>
   <p>初めて見るリポジトリでまず実行します。LLM呼び出しなし（無料、$0）で、ディレクトリ構造・ハブファイル・ホットスポットをトークン予算内で表示します。</p>
   <div class="code-block">
-<pre><code>graft map</code></pre>
+<pre><code>trail map</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
   <p><strong>注意：</strong>mapそのものがオリエンテーションの答えです。mapが言及したすべてのサブシステムをskeletonで追いかけるのは過剰使用です。</p>
 
-  <h3>3.2 graft ask — 理解・修正すべき場所を探す</h3>
+  <h3>3.2 trail ask — 理解・修正すべき場所を探す</h3>
   <p>「これはどう動作するか？」「このコードはどこにあるか？」といった質問に、コードスニペット付きのランキング結果を返します。</p>
   <div class="code-block">
-<pre><code>graft ask "ログイン失敗時のリトライロジックはどう動作するか" --source</code></pre>
+<pre><code>trail ask "ログイン失敗時のリトライロジックはどう動作するか" --source</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
   <ul>
@@ -138,40 +142,40 @@
   </ul>
 
   <div class="warn">
-    「このパターンが出現するすべての箇所」のような<strong>網羅的な調査</strong>にはaskを使わないでください。askはランキング上位N件に過ぎず、全体を保証しません。網羅的な調査にはgraft grepを使いましょう。
+    「このパターンが出現するすべての箇所」のような<strong>網羅的な調査</strong>にはaskを使わないでください。askはランキング上位N件に過ぎず、全体を保証しません。網羅的な調査にはtrail grepを使いましょう。
   </div>
 
-  <h3>3.3 graft grep — 網羅的検索</h3>
+  <h3>3.3 trail grep — 網羅的検索</h3>
   <p>リテラル文字列やシンボルの<strong>すべての</strong>出現箇所を、それを包含するシンボル単位でグループ化して表示します。</p>
   <div class="code-block">
-<pre><code>graft grep "processPayment"</code></pre>
+<pre><code>trail grep "processPayment"</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
   <p>インデックスされていないファイルまで確認が必要な場合のみ、生の<code>grep -rn</code>で補います。</p>
 
-  <h3>3.4 graft skeleton — ファイルAPIを一目で確認</h3>
+  <h3>3.4 trail skeleton — ファイルAPIを一目で確認</h3>
   <p>ファイル全体を読まずに、すべての定義のシグネチャと位置を約10倍安く確認できます。API全体をざっと見たいときに便利です。</p>
   <div class="code-block">
-<pre><code>graft skeleton src/services/payment.ts</code></pre>
+<pre><code>trail skeleton src/services/payment.ts</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
-  <h3>3.5 graft callers — 正確な呼び出し関係を追跡</h3>
+  <h3>3.5 trail callers — 正確な呼び出し関係を追跡</h3>
   <p>あるシンボルを変更する前に、それを誰が呼び出しているか（またはそれが何を呼び出しているか）を正確に把握します。リファクタリングや名前変更の前には必ず実行しましょう。</p>
   <div class="code-block">
 <pre><code># このシンボルを呼び出している箇所（デフォルト）
-graft callers formatCurrency
+trail callers formatCurrency
 
 # このシンボルが呼び出しているもの
-graft callers formatCurrency --direction out
+trail callers formatCurrency --direction out
 
 # 全体の影響範囲（つながっているすべてのファイル）
-graft callers formatCurrency --depth all</code></pre>
+trail callers formatCurrency --depth all</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
   <div class="note">
-    リファクタリング・名前変更・複数ファイル変更でよくあるミスは、<strong>主ファイルだけ修正して止まってしまうこと</strong>です。<code>graft callers &lt;symbol&gt; --depth all</code>でつながっているすべてのファイルを先に地図化してから修正しましょう。
+    リファクタリング・名前変更・複数ファイル変更でよくあるミスは、<strong>主ファイルだけ修正して止まってしまうこと</strong>です。<code>trail callers &lt;symbol&gt; --depth all</code>でつながっているすべてのファイルを先に地図化してから修正しましょう。
   </div>
 
   <!-- ============================================================
@@ -190,17 +194,17 @@ graft callers formatCurrency --depth all</code></pre>
         </tr>
       </thead>
       <tbody>
-        <tr><td><code>graft ask</code></td><td><code>graft_find_code</code></td></tr>
-        <tr><td><code>graft grep</code></td><td><code>graft_find_all</code></td></tr>
-        <tr><td><code>graft callers</code></td><td><code>graft_trace_calls</code></td></tr>
-        <tr><td><code>graft skeleton</code></td><td><code>graft_file_api</code></td></tr>
-        <tr><td><code>graft map</code></td><td><code>graft_repo_map</code></td></tr>
+        <tr><td><code>trail ask</code></td><td><code>graft_find_code</code></td></tr>
+        <tr><td><code>trail grep</code></td><td><code>graft_find_all</code></td></tr>
+        <tr><td><code>trail callers</code></td><td><code>graft_trace_calls</code></td></tr>
+        <tr><td><code>trail skeleton</code></td><td><code>graft_file_api</code></td></tr>
+        <tr><td><code>trail map</code></td><td><code>graft_repo_map</code></td></tr>
       </tbody>
     </table>
   </div>
 
   <div class="tip-box">
-    呼び出し関係（誰が何を呼んでいるか）のようなエッジ情報は<strong>グラフにのみ存在</strong>します — ノードのMarkdownファイルを直接読んでもわかりません。<code>graft callers</code> / <code>graft_trace_calls</code>がこのエッジを読む唯一の方法です。
+    呼び出し関係（誰が何を呼んでいるか）のようなエッジ情報は<strong>グラフにのみ存在</strong>します — ノードのMarkdownファイルを直接読んでもわかりません。<code>trail callers</code> / <code>graft_trace_calls</code>がこのエッジを読む唯一の方法です。
   </div>
 
   <!-- ============================================================
@@ -212,7 +216,7 @@ graft callers formatCurrency --depth all</code></pre>
     <div class="step">
       <div class="step-content">
         <div class="step-label">ステップ1: 初めてのリポジトリならmapから</div>
-        <p>初めて触れるプロジェクトであれば、まず<code>graft map</code>で全体構造を把握します。</p>
+        <p>初めて触れるプロジェクトであれば、まず<code>trail map</code>で全体構造を把握します。</p>
       </div>
     </div>
     <div class="step">
@@ -230,7 +234,7 @@ graft callers formatCurrency --depth all</code></pre>
     <div class="step">
       <div class="step-content">
         <div class="step-label">ステップ4: 大きな変更後にグラフを更新</div>
-        <p>コードを大きく変更した後は、<code>graft build</code>でグラフを最新状態に合わせます。</p>
+        <p>コードを大きく変更した後は、<code>trail build</code>でグラフを最新状態に合わせます。</p>
       </div>
     </div>
   </div>
@@ -238,26 +242,27 @@ graft callers formatCurrency --depth all</code></pre>
   <!-- ============================================================
        SECTION 6: グラフの更新
        ============================================================ -->
-  <h2 id="build">6. グラフの更新 (graft build)</h2>
+  <h2 id="build">6. グラフの更新 (trail build)</h2>
 
-  <p>graftのグラフは決定論的に生成され、LLM APIキーなしで無料で更新できます。大規模なコード変更（新規ファイル追加、大規模リファクタリングなど）の後は、グラフを再ビルドして最新状態を保ちましょう。</p>
+  <p>trailのグラフは決定論的に生成され、LLM APIキーなしで無料で更新できます。大規模なコード変更（新規ファイル追加、大規模リファクタリングなど）の後は、グラフを再ビルドして最新状態を保ちましょう。</p>
 
   <div class="code-block">
-<pre><code>graft build</code></pre>
+<pre><code>trail build</code></pre>
 <button type="button" class="copy-btn">コピー</button>
 </div>
 
   <div class="warn">
-    小さな修正のたびにbuildを実行する必要はありません。グラフはgitと共にバージョン管理されており、意味のある単位の変更が終わった後に一度更新すれば十分です。
+    小さな修正のたびにbuildを実行する必要はありません。グラフはgitと共にバージョン管理されており、意味のある単位の変更が終わった後に一度更新すれば十分です。一緒に覚えておくべきコマンド：<code>trail check</code>はインデックスの鮮度を表示し、<code>trail init</code>で移行されたリポジトリでは<code>trail build</code>に<code>--dir .trail/cache</code>を渡す必要があります — バイナリは依然としてgraft時代のデフォルト<code>&lt;repo&gt;/graft</code>をグラフディレクトリとして使います。
   </div>
 
   <div class="note">
-    <strong>2026-09-20から:</strong> 新しいプロジェクトを作るとき(<code>new-project.ts</code>)は、スキャフォールディングの過程でgraftグラフが自動的にビルドされます。グローバルにインストールされた<code>graft</code>コマンドをまず使い、なければ<code>bunx</code>で代替実行します。つまり、新しく作ったプロジェクトは最初から<code>graft ask</code>で質問できます。
+    <strong>2026-09-20から:</strong> 新しいプロジェクトを作るとき(<code>new-project.ts</code>)は、スキャフォールディングの過程でグラフが自動的にビルドされます。グローバルにインストールされたコマンドをまず使い、なければ<code>bunx</code>で代替実行します。つまり、新しく作ったプロジェクトは最初から<code>trail ask</code>で質問できます。
   </div>
-    <p><strong>2026-10アップデート：</strong>ワークスペース自体はgraftの統合ファイルをテンプレートとして同梱しなくなりました。<code>skills/graft</code>スキルはfrontmatterに<code>mirror: false</code>と<code>l2_propagate: false</code>を持ち、スキャフォールドされた<code>AGENTS.md</code>には事前レンダリングされたgraftブロックが入らなくなっています &mdash; graftのサーフェスはツール所有のため、チェックアウトで一度<code>graft init</code>を実行すれば生成されます。上記のスキャフォールディング時のグラフビルドは以前と同じく動作します。</p>
+    <p><strong>2026-10アップデート：</strong>ワークスペース自体はgraftの統合ファイルをテンプレートとして同梱しなくなりました。スキルはfrontmatterに<code>mirror: false</code>と<code>l2_propagate: false</code>を持ち、スキャフォールドされた<code>AGENTS.md</code>には事前レンダリングされたgraftブロックが入らなくなっています &mdash; グラフのサーフェスはツール所有のため、チェックアウトで一度<code>trail init</code>を実行すれば生成されます。上記のスキャフォールディング時のグラフビルドは以前と同じく動作します。</p>
+    <p><strong>2026-11アップデート：</strong>スキルもベンダーのリネームに従い、<code>skills/graft</code>が<code>skills/trail</code>に変わりました。<code>trail init</code>（<code>trail upgrade</code>の中でも実行されます）がリポジトリ単位のマイグレーションを仕上げます — 命令ブロックのマーカー交換、グラフインデックスの<code>.trail/cache/</code>への移動、ヘルパーフックの<code>.trail/hook.cjs</code>への置き換え、バージョン管理されていた<code>.mcp.json</code>シードの削除。チェックアウトの状態は<code>trail check</code>と<code>ls .trail/cache/INDEX.md</code>で確認できます。</p>
 
   <div class="flow-box">
-    まとめると：<strong>理解・修正するとき → graft ask</strong>、<strong>すべて探すとき → graft grep</strong>、<strong>APIをざっと見るとき → graft skeleton</strong>、<strong>影響範囲を見るとき → graft callers</strong>、<strong>初めてのリポジトリを見るとき → graft map</strong>。この5つだけ覚えれば十分です。
+    まとめると：<strong>理解・修正するとき → trail ask</strong>、<strong>すべて探すとき → trail grep</strong>、<strong>APIをざっと見るとき → trail skeleton</strong>、<strong>影響範囲を見るとき → trail callers</strong>、<strong>初めてのリポジトリを見るとき → trail map</strong>。この5つだけ覚えれば十分です。
   </div>
 
   <div class="chapter-nav">

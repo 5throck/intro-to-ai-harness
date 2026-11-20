@@ -362,6 +362,15 @@ const ALIASES = {
   "--accent6": "var(--accent-dark)",
 };
 
+const JA_FONT_BLOCK = `/* Japanese pages: Meiryo-first stack */
+:root:lang(ja) {
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Meiryo, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  --line-height-body: 1.55;
+  --line-height-compact: 1.5;
+}
+
+`;
+
 function generateCss(theme: ThemePalette): string {
   let css = `/* handbook-variables.css — ${theme.name} theme */\n`;
   css += `/* ${theme.desc} */\n`;
@@ -379,6 +388,9 @@ function generateCss(theme: ThemePalette): string {
     css += `  ${key}: ${value};\n`;
   }
   css += `}\n\n`;
+
+  // Japanese pages: Meiryo-first stack (theme-independent; must survive regeneration)
+  css += JA_FONT_BLOCK;
 
   // Dark mode (.dark class — JS-managed toggle)
   css += `.dark {\n`;

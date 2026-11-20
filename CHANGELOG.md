@@ -2,6 +2,7 @@
 
 ### Changed
 - Japanese pages and the Japanese architecture SVG now default to Meiryo (`:root:lang(ja)` font stack, line-height 1.55/1.5); ko/en/es unchanged.
+- `apply-handbook-theme.ts` now emits the `:root:lang(ja)` Meiryo block, so applying a theme no longer drops the Japanese font rule.
 
 ## 2026-10-02
 

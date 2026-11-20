@@ -1,3 +1,8 @@
+## [Unreleased]
+
+### Changed
+- Japanese pages and the Japanese architecture SVG now default to Meiryo (`:root:lang(ja)` font stack, line-height 1.55/1.5); ko/en/es unchanged.
+
 ## 2026-10-02
 
 ### Added

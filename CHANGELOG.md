@@ -8,6 +8,9 @@
 - Japanese pages and the Japanese architecture SVG now default to Meiryo (`:root:lang(ja)` font stack, line-height 1.55/1.5); ko/en/es unchanged.
 - `apply-handbook-theme.ts` now emits the `:root:lang(ja)` Meiryo block (plus the ja SVG font override), so applying a theme no longer drops the Japanese font rule.
 
+### Fixed
+- Regenerated `docs/assets/css/handbook-variables.css` with `bun run scripts/apply-handbook-theme.ts --project . --theme native`: the committed copy predated template 1.2.0 and was missing the `:root:lang(ja)` SVG font override, with the ja Meiryo block ordered before `.dark`; regeneration restores the SVG override and the correct ja-block ordering after `.dark`. No palette or visual change.
+
 ## 2026-10-02
 
 ### Added

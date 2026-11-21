@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 ### Changed
+- CI: the `deploy-pages` checks job and the `validate-handbook` workflow now run `bun run check-generated-content`, so generated-content defects block publishing and PR validation.
 - Japanese pages and the Japanese architecture SVG now default to Meiryo (`:root:lang(ja)` font stack, line-height 1.55/1.5); ko/en/es unchanged.
 - `apply-handbook-theme.ts` now emits the `:root:lang(ja)` Meiryo block, so applying a theme no longer drops the Japanese font rule.
 

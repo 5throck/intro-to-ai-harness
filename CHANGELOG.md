@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 ### Changed
+- CI: the `deploy-pages` checks job and the `validate-handbook` workflow now run `bun run check-generated-content`, so generated-content defects block publishing and PR validation.
 - Re-vendored the handbook toolkit scripts from the ai-workspace-standards template (ai-workspace-standards main at b71b42ec0, which includes #2135; the template is the canonical source); translation scripts are unchanged. `check-generated-content.ts` is now the generalized version that reads `<html lang>`, and the `doctor` / `apply-theme` npm scripts use `--project .` per the template CLI. No page, CSS, or JS output changed.
 
 ### Changed

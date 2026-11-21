@@ -1,11 +1,11 @@
 ## [Unreleased]
 
 ### Changed
-- Re-vendored the handbook toolkit scripts from the ai-workspace-standards template (ai-workspace-standards#2135, canonical source); translation scripts are unchanged. `check-generated-content.ts` is now the generalized version that reads `<html lang>`, and the `doctor` / `apply-theme` npm scripts use `--project .` per the template CLI. No page, CSS, or JS output changed.
+- Re-vendored the handbook toolkit scripts from the ai-workspace-standards template (ai-workspace-standards main at b71b42ec0, which includes #2135; the template is the canonical source); translation scripts are unchanged. `check-generated-content.ts` is now the generalized version that reads `<html lang>`, and the `doctor` / `apply-theme` npm scripts use `--project .` per the template CLI. No page, CSS, or JS output changed.
 
 ### Changed
 - Japanese pages and the Japanese architecture SVG now default to Meiryo (`:root:lang(ja)` font stack, line-height 1.55/1.5); ko/en/es unchanged.
-- `apply-handbook-theme.ts` now emits the `:root:lang(ja)` Meiryo block, so applying a theme no longer drops the Japanese font rule.
+- `apply-handbook-theme.ts` now emits the `:root:lang(ja)` Meiryo block (plus the ja SVG font override), so applying a theme no longer drops the Japanese font rule.
 
 ## 2026-10-02
 
